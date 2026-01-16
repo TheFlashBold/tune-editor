@@ -162,7 +162,9 @@ function TableEditor({ parameter, binData, originalBinData, onModify }: Props) {
   const hasChanged = useMemo(() => {
     if (!originalTableData || tableData.length === 0) return false;
     for (let r = 0; r < tableData.length; r++) {
+      if (!originalTableData[r] || !tableData[r]) continue;
       for (let c = 0; c < tableData[r].length; c++) {
+        if (originalTableData[r][c] === undefined || tableData[r][c] === undefined) continue;
         if (Math.abs(originalTableData[r][c] - tableData[r][c]) > 0.0001) {
           return true;
         }
@@ -171,11 +173,13 @@ function TableEditor({ parameter, binData, originalBinData, onModify }: Props) {
     // Check axis changes
     if (originalXAxis) {
       for (let i = 0; i < xAxisData.length; i++) {
+        if (originalXAxis[i] === undefined || xAxisData[i] === undefined) continue;
         if (Math.abs(originalXAxis[i] - xAxisData[i]) > 0.0001) return true;
       }
     }
     if (originalYAxis) {
       for (let i = 0; i < yAxisData.length; i++) {
+        if (originalYAxis[i] === undefined || yAxisData[i] === undefined) continue;
         if (Math.abs(originalYAxis[i] - yAxisData[i]) > 0.0001) return true;
       }
     }
@@ -291,18 +295,20 @@ function TableEditor({ parameter, binData, originalBinData, onModify }: Props) {
 
   // Check if axis value has changed
   const xAxisChanged = (index: number): boolean => {
-    if (!originalXAxis) return false;
+    if (!originalXAxis || originalXAxis[index] === undefined || xAxisData[index] === undefined) return false;
     return Math.abs(originalXAxis[index] - xAxisData[index]) > 0.0001;
   };
 
   const yAxisChanged = (index: number): boolean => {
-    if (!originalYAxis) return false;
+    if (!originalYAxis || originalYAxis[index] === undefined || yAxisData[index] === undefined) return false;
     return Math.abs(originalYAxis[index] - yAxisData[index]) > 0.0001;
   };
 
   // Check if a specific cell has changed
   const cellChanged = (row: number, col: number): boolean => {
     if (!originalTableData || tableData.length === 0) return false;
+    if (!originalTableData[row] || !tableData[row]) return false;
+    if (originalTableData[row][col] === undefined || tableData[row][col] === undefined) return false;
     return Math.abs(originalTableData[row][col] - tableData[row][col]) > 0.0001;
   };
 
