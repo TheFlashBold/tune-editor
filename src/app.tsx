@@ -59,7 +59,7 @@ export function App() {
   const handleSaveBin = useCallback(() => {
     if (!binData || !binFileName) return;
 
-    const blob = new Blob([binData], { type: 'application/octet-stream' });
+    const blob = new Blob([binData.buffer as ArrayBuffer], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
