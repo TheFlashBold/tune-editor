@@ -26,6 +26,14 @@ interface Props {
   selectedParam: Parameter | null;
 }
 
+function countAllParameters(node: TreeNode): number {
+  let count = node.parameters.length;
+  for (const child of node.children.values()) {
+    count += countAllParameters(child);
+  }
+  return count;
+}
+
 function buildTree(parameters: Parameter[]): TreeNode {
   const root: TreeNode = { name: 'Root', path: '', children: new Map(), parameters: [] };
 
@@ -64,6 +72,7 @@ function TreeNodeView({
 }) {
   const isExpanded = expanded.has(node.path);
   const hasChildren = node.children.size > 0 || node.parameters.length > 0;
+  const totalCount = countAllParameters(node);
 
   return (
     <div style={{ paddingLeft: depth * 16 }}>
@@ -76,8 +85,8 @@ function TreeNodeView({
             <span class="w-3 text-[10px] text-zinc-500">{isExpanded ? '▼' : '▶'}</span>
           )}
           <span class="flex-1">{node.name}</span>
-          {node.parameters.length > 0 && (
-            <span class="text-xs text-zinc-500">({node.parameters.length})</span>
+          {totalCount > 0 && (
+            <span class="text-xs text-zinc-500">({totalCount})</span>
           )}
         </div>
       )}
