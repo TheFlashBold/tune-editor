@@ -26,6 +26,9 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      - uses: actions/configure-pages@v5
+
       - run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
