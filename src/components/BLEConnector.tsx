@@ -99,12 +99,6 @@ function NumberToArrayBuffer(n: number): ArrayBuffer {
     return buffer;
 }
 
-function chunkArray<T>(input: T[], size: number): T[][] {
-    return Array.from({ length: Math.ceil(input.length / size) }, (_, i) =>
-        input.slice(i * size, i * size + size)
-    );
-}
-
 function ConcatArrayBuffer(...values: (ArrayBuffer | Uint8Array | number)[]): ArrayBuffer {
     const totalLength = values.reduce<number>((total, value) => {
         if (value instanceof ArrayBuffer) return total + value.byteLength;
