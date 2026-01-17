@@ -6,7 +6,7 @@ const BLE_SERVICE_UUID = "0000abf0-0000-1000-8000-00805f9b34fb";
 const BLE_DATA_TX_UUID = "0000abf1-0000-1000-8000-00805f9b34fb";
 const BLE_DATA_RX_UUID = "0000abf2-0000-1000-8000-00805f9b34fb";
 
-const LOGGING_RATE = 20; // hz
+const DEFAULT_LOGGING_RATE = 20; // hz
 
 const DEFAULT_MTU_SIZE = 23;
 const BLE_HEADER_ID = 0xF1;
@@ -168,6 +168,12 @@ interface GPSData {
     altitude: number | null; // meters
 }
 
+interface AccelerometerData {
+    x: number; // G-force lateral (+ = right)
+    y: number; // G-force longitudinal (+ = forward/accel, - = braking)
+    z: number; // G-force vertical
+}
+
 interface CalculatedData {
     acceleration?: number; // m/s²
     force?: number; // N
@@ -186,7 +192,9 @@ interface LogFrame {
     time: number;
     data: Record<string, number>;
     gps?: GPSData;
+    accelerometer?: AccelerometerData;
     calculated?: CalculatedData;
+    queryTime?: number; // ms to query all PIDs
 }
 
 class BLEService {
@@ -201,11 +209,16 @@ class BLEService {
     onPacketListeners: ((packet: DataView) => void)[] = [];
     startTime = 0;
     mtuSize: number;
+    loggingRate: number = DEFAULT_LOGGING_RATE;
     gpsEnabled = false;
     gpsWatchId: number | null = null;
     currentGPS: GPSData | null = null;
+    accelerometerEnabled = false;
+    currentAccelerometer: AccelerometerData | null = null;
+    accelerometerSensor: DeviceMotionEvent | null = null;
     previousGPS: { speed: number; time: number } | null = null;
     vehicleSettings: VehicleSettings | null = null;
+    lastQueryTime: number = 0;
 
     constructor(device: BluetoothDevice, mtuSize: number = DEFAULT_MTU_SIZE) {
         this.device = device;
@@ -224,7 +237,7 @@ class BLEService {
         });
 
         this.writer = await this.service.getCharacteristic(BLE_DATA_TX_UUID);
-        this.interval = setInterval(this.run.bind(this), 1000 / (LOGGING_RATE * 2));
+        this.interval = setInterval(this.run.bind(this), 1000 / (this.loggingRate * 2));
     }
 
     async run() {
@@ -373,26 +386,70 @@ class BLEService {
         this.currentGPS = null;
     }
 
-    async startLogging(withGPS = false, vehicleSettings?: VehicleSettings) {
-        await this.setBridgePersistDelay(1000 / LOGGING_RATE);
+    startAccelerometer() {
+        if (!window.DeviceMotionEvent) {
+            console.warn('DeviceMotion not supported');
+            return;
+        }
+
+        this.accelerometerEnabled = true;
+        const handler = (event: DeviceMotionEvent) => {
+            if (event.accelerationIncludingGravity) {
+                // Convert to G-force (divide by 9.81)
+                // Note: orientation depends on device position
+                this.currentAccelerometer = {
+                    x: (event.accelerationIncludingGravity.x || 0) / 9.81,
+                    y: (event.accelerationIncludingGravity.y || 0) / 9.81,
+                    z: (event.accelerationIncludingGravity.z || 0) / 9.81
+                };
+            }
+        };
+        window.addEventListener('devicemotion', handler);
+        (this as any)._accelHandler = handler;
+    }
+
+    stopAccelerometer() {
+        this.accelerometerEnabled = false;
+        if ((this as any)._accelHandler) {
+            window.removeEventListener('devicemotion', (this as any)._accelHandler);
+            (this as any)._accelHandler = null;
+        }
+        this.currentAccelerometer = null;
+    }
+
+    async startLogging(withGPS = false, withAccelerometer = false, vehicleSettings?: VehicleSettings) {
+        this.vehicleSettings = vehicleSettings || null;
+        this.loggingRate = vehicleSettings?.loggingRate || DEFAULT_LOGGING_RATE;
+        await this.setBridgePersistDelay(1000 / this.loggingRate);
         this.logging = true;
         this.startTime = performance.now();
-        this.vehicleSettings = vehicleSettings || null;
         this.previousGPS = null;
 
         if (withGPS) {
             this.startGPS();
         }
 
+        if (withAccelerometer) {
+            this.startAccelerometer();
+        }
+
         const log = async () => {
             if (!this.logging) return;
 
             try {
+                const queryStart = performance.now();
                 const frame = await this.getLoggingFrame();
+                frame.queryTime = Math.round(performance.now() - queryStart);
+                this.lastQueryTime = frame.queryTime;
 
                 // Add GPS data if enabled (for position tracking)
                 if (this.gpsEnabled && this.currentGPS) {
                     frame.gps = { ...this.currentGPS };
+                }
+
+                // Add accelerometer data if enabled
+                if (this.accelerometerEnabled && this.currentAccelerometer) {
+                    frame.accelerometer = { ...this.currentAccelerometer };
                 }
 
                 // Initialize calculated data
@@ -496,7 +553,7 @@ class BLEService {
             }
 
             if (this.logging) {
-                setTimeout(log, 1000 / LOGGING_RATE);
+                setTimeout(log, 1000 / this.loggingRate);
             }
         };
 
@@ -506,6 +563,7 @@ class BLEService {
     stopLogging() {
         this.logging = false;
         this.stopGPS();
+        this.stopAccelerometer();
     }
 
     async getLoggingFrame(): Promise<LogFrame> {
@@ -573,7 +631,9 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
     const [mtu, setMtu] = useState(512); // Expected MTU after firmware fix
     const [currentFrame, setCurrentFrame] = useState<LogFrame | null>(null);
     const [gpsEnabled, setGpsEnabled] = useState(false);
+    const [accelEnabled, setAccelEnabled] = useState(false);
     const gpsAvailable = !!navigator.geolocation;
+    const accelAvailable = !!window.DeviceMotionEvent;
     const serviceRef = useRef<BLEService | null>(null);
 
     async function connect() {
@@ -619,7 +679,7 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                 setCurrentFrame(frame);
                 setFrames(prev => [...prev, frame]);
             };
-            await serviceRef.current.startLogging(gpsEnabled, vehicleSettings);
+            await serviceRef.current.startLogging(gpsEnabled, accelEnabled, vehicleSettings);
             setLogging(true);
         }
     }
@@ -628,14 +688,16 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
         if (frames.length === 0) return '';
 
         const hasGPS = frames.some(f => f.gps);
+        const hasAccel = frames.some(f => f.accelerometer);
         const hasCalculated = frames.some(f => f.calculated);
         const gpsFields = hasGPS ? ['GPS_lat', 'GPS_lon', 'GPS_speed_ms', 'GPS_speed_kmh', 'GPS_heading', 'GPS_altitude', 'GPS_accuracy'] : [];
+        const accelFields = hasAccel ? ['G_lateral', 'G_longitudinal', 'G_vertical'] : [];
         const calcFields = hasCalculated ? ['Airmass_mg', 'Boost_bar', 'BoostError_bar', 'KnockAvg_deg', 'EnginePower_kW', 'Accel_ms2', 'Force_N', 'WheelTorque_Nm', 'CalcTorque_Nm', 'TorqueDiff_Nm', 'WheelPower_kW'] : [];
-        const fields = ['time', ...Object.keys(frames[0].data), ...gpsFields, ...calcFields];
+        const fields = ['time', 'queryTime_ms', ...Object.keys(frames[0].data), ...gpsFields, ...accelFields, ...calcFields];
         const header = fields.join(',');
 
         const rows = frames.map(f => {
-            const baseData: string[] = [f.time.toFixed(3), ...Object.values(f.data).map(v => String(v))];
+            const baseData: string[] = [f.time.toFixed(3), String(f.queryTime ?? ''), ...Object.values(f.data).map(v => String(v))];
             if (hasGPS) {
                 if (f.gps) {
                     const speedKmh = f.gps.speed !== null ? (f.gps.speed * 3.6).toFixed(2) : '';
@@ -650,6 +712,17 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                     );
                 } else {
                     baseData.push('', '', '', '', '', '', '');
+                }
+            }
+            if (hasAccel) {
+                if (f.accelerometer) {
+                    baseData.push(
+                        f.accelerometer.x.toFixed(3),
+                        f.accelerometer.y.toFixed(3),
+                        f.accelerometer.z.toFixed(3)
+                    );
+                } else {
+                    baseData.push('', '', '');
                 }
             }
             if (hasCalculated) {
@@ -792,13 +865,35 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                                                 onChange={(e) => setGpsEnabled((e.target as HTMLInputElement).checked)}
                                                 class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
                                             />
-                                            <span>+ GPS Position</span>
+                                            <span>GPS</span>
+                                        </label>
+                                    )}
+
+                                    {!logging && accelAvailable && (
+                                        <label class="flex items-center gap-2 text-sm cursor-pointer select-none">
+                                            <input
+                                                type="checkbox"
+                                                checked={accelEnabled}
+                                                onChange={(e) => setAccelEnabled((e.target as HTMLInputElement).checked)}
+                                                class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
+                                            />
+                                            <span>G-Force</span>
                                         </label>
                                     )}
 
                                     {!logging && vehicleSettings && (
-                                        <span class="text-xs text-zinc-500" title={`Wheel: ${vehicleSettings.wheelCircumference}mm`}>
-                                            Torque calc: {vehicleSettings.weight}kg
+                                        <span class="text-xs text-zinc-500">
+                                            {vehicleSettings.loggingRate}Hz
+                                        </span>
+                                    )}
+
+                                    {logging && currentFrame?.queryTime !== undefined && (
+                                        <span class={`text-xs font-mono ${
+                                            currentFrame.queryTime > (1000 / (vehicleSettings?.loggingRate || 20))
+                                                ? 'text-red-400'
+                                                : 'text-green-400'
+                                        }`}>
+                                            Query: {currentFrame.queryTime}ms
                                         </span>
                                     )}
                                 </div>
@@ -817,7 +912,7 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                                 {frames.length > 0 && (
                                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                                         <span class="text-sm text-zinc-400 text-center sm:text-left">
-                                            {frames.length} frames ({(frames.length / LOGGING_RATE).toFixed(1)}s)
+                                            {frames.length} frames ({(frames.length / (vehicleSettings?.loggingRate || 20)).toFixed(1)}s)
                                         </span>
                                         <div class="flex gap-2">
                                             <button
@@ -895,6 +990,36 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                                             <span class="text-zinc-400">Position</span>
                                             <span class="text-zinc-100 text-[10px] sm:text-xs">
                                                 {currentFrame.gps.latitude.toFixed(5)}, {currentFrame.gps.longitude.toFixed(5)}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* Accelerometer Data */}
+                            {accelEnabled && currentFrame.accelerometer && (
+                                <>
+                                    <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">G-Force</div>
+                                    <div class="grid grid-cols-3 gap-1.5 sm:gap-2 text-xs font-mono">
+                                        <div class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                            <span class="text-zinc-400">Lateral</span>
+                                            <span class="text-amber-300">
+                                                {currentFrame.accelerometer.x >= 0 ? '+' : ''}{currentFrame.accelerometer.x.toFixed(2)}
+                                                <span class="text-zinc-500 ml-1">G</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                            <span class="text-zinc-400">Accel</span>
+                                            <span class="text-amber-300">
+                                                {currentFrame.accelerometer.y >= 0 ? '+' : ''}{currentFrame.accelerometer.y.toFixed(2)}
+                                                <span class="text-zinc-500 ml-1">G</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                            <span class="text-zinc-400">Vertical</span>
+                                            <span class="text-amber-300">
+                                                {currentFrame.accelerometer.z >= 0 ? '+' : ''}{currentFrame.accelerometer.z.toFixed(2)}
+                                                <span class="text-zinc-500 ml-1">G</span>
                                             </span>
                                         </div>
                                     </div>

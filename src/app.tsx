@@ -20,6 +20,7 @@ export interface VehicleSettings {
   useManualCircumference: boolean;
   gearRatios: number[]; // gear ratio for each gear (index 0 = neutral, 1-7 = gears)
   finalDrive: number; // final drive ratio (Achsübersetzung)
+  loggingRate: number; // Hz
 }
 
 const DEFAULT_VEHICLE_SETTINGS: VehicleSettings = {
@@ -32,6 +33,7 @@ const DEFAULT_VEHICLE_SETTINGS: VehicleSettings = {
   // Total ratios (gear × final drive) - set finalDrive to 1 when using total ratios
   gearRatios: [0, 13.24, 8.23, 5.79, 4.33, 3.40, 2.87, 0],
   finalDrive: 1,
+  loggingRate: 20,
 };
 
 const STORAGE_KEY = 'vehicleSettings';
@@ -721,12 +723,47 @@ export function App() {
 
       {/* Settings Modal */}
       {showSettings && (
-        <Modal title="Vehicle Settings" onClose={() => setShowSettings(false)} width="lg">
+        <Modal title="Settings" onClose={() => setShowSettings(false)} width="lg">
           <div class="space-y-5 sm:space-y-6">
+            {/* Logging Section */}
+            <div class="border-b border-zinc-700 pb-1">
+              <h3 class="text-sm font-semibold text-zinc-200">Logging</h3>
+            </div>
+
+            {/* Logging Rate */}
+            <div>
+              <label class="block text-sm font-medium text-zinc-300 mb-2">
+                Logging Rate
+              </label>
+              <div class="flex items-center gap-2">
+                <input
+                  type="number"
+                  value={vehicleSettings.loggingRate}
+                  onChange={(e) => updateVehicleSettings({ loggingRate: Number((e.target as HTMLInputElement).value) })}
+                  class="w-20 px-3 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm"
+                  min={1}
+                  max={100}
+                  step={1}
+                />
+                <span class="text-sm text-zinc-400">Hz</span>
+                <span class="text-xs text-zinc-500 ml-2">
+                  ({(1000 / vehicleSettings.loggingRate).toFixed(0)}ms per frame)
+                </span>
+              </div>
+              <p class="text-xs text-zinc-500 mt-1">
+                Higher rates need faster ECU response. Check query time in datalogger.
+              </p>
+            </div>
+
+            {/* Vehicle Section */}
+            <div class="border-b border-zinc-700 pb-1 mt-2">
+              <h3 class="text-sm font-semibold text-zinc-200">Vehicle</h3>
+            </div>
+
             {/* Vehicle Weight */}
             <div>
               <label class="block text-sm font-medium text-zinc-300 mb-2">
-                Vehicle Weight
+                Weight
               </label>
               <div class="flex items-center gap-2">
                 <input
@@ -838,10 +875,15 @@ export function App() {
               )}
             </div>
 
+            {/* Drivetrain Section */}
+            <div class="border-b border-zinc-700 pb-1 mt-2">
+              <h3 class="text-sm font-semibold text-zinc-200">Drivetrain</h3>
+            </div>
+
             {/* Gear Ratios */}
             <div>
               <label class="block text-sm font-medium text-zinc-300 mb-2">
-                Gear Ratios
+                Gear Ratios (Total)
               </label>
               <div class="grid grid-cols-4 sm:grid-cols-7 gap-2">
                 {[1, 2, 3, 4, 5, 6, 7].map((gear) => (
