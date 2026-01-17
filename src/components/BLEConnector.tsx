@@ -62,6 +62,8 @@ interface IPid {
 
 const PIDs: Map<number, IPid> = new Map([
     [0xf40c, { address: 0xf40c, name: "Engine Speed", length: 2, signed: false, equation: "x / 4", fractional: 0, unit: "rpm" }],
+    [0x2033, { address: 0x2033, name: "Vehicle Speed", length: 2, signed: false, equation: "x / 100", fractional: 1, unit: "km/h" }],
+    [0x210f, { address: 0x210f, name: "Gear", length: 2, signed: false, equation: "x + 1", fractional: 0, unit: "" }],
     [0x2032, { address: 0x2032, name: "Airflow", length: 2, signed: false, equation: "x", fractional: 0, unit: "kg/h" }],
     [0x13ca, { address: 0x13ca, name: "Ambient Pressure", length: 2, signed: false, equation: "x / 12060.176665439", fractional: 2, unit: "bar" }],
     [0x1004, { address: 0x1004, name: "Ambient Temp", length: 2, signed: true, equation: "x / 128", fractional: 1, unit: "C" }],
@@ -167,10 +169,17 @@ interface GPSData {
 }
 
 interface CalculatedData {
-    acceleration: number; // m/s²
-    force: number; // N
-    wheelTorque: number; // Nm
-    power: number; // kW
+    acceleration?: number; // m/s²
+    force?: number; // N
+    wheelTorque?: number; // Nm
+    power?: number; // kW (calculated from wheel)
+    airmass?: number; // mg/stk
+    boost?: number; // bar
+    boostError?: number; // bar (MAP SP - MAP)
+    knockAvg?: number; // deg
+    enginePower?: number; // kW (from ECU torque)
+    calculatedTorque?: number; // Nm (engine torque from wheel torque / gear ratio)
+    torqueDiff?: number; // Nm (ECU torque - calculated torque = drivetrain loss)
 }
 
 interface LogFrame {
@@ -380,44 +389,107 @@ class BLEService {
 
             try {
                 const frame = await this.getLoggingFrame();
+
+                // Add GPS data if enabled (for position tracking)
                 if (this.gpsEnabled && this.currentGPS) {
                     frame.gps = { ...this.currentGPS };
+                }
 
-                    // Calculate derived values if we have vehicle settings and valid GPS speed
-                    if (this.vehicleSettings && this.currentGPS.speed !== null) {
-                        const currentTime = performance.now();
-                        const currentSpeed = this.currentGPS.speed; // m/s
+                // Initialize calculated data
+                const calc: CalculatedData = {};
 
-                        if (this.previousGPS) {
-                            const dt = (currentTime - this.previousGPS.time) / 1000; // seconds
-                            if (dt > 0.01) { // Avoid division by zero
-                                const dv = currentSpeed - this.previousGPS.speed; // m/s
-                                const acceleration = dv / dt; // m/s²
+                // Airmass: Airflow / RPM * 8333.33 (mg/stk)
+                const airflow = frame.data["Airflow"];
+                const rpm = frame.data["Engine Speed"];
+                if (airflow !== undefined && rpm !== undefined && rpm > 0) {
+                    calc.airmass = Math.round(airflow / rpm * 8333.33333333 * 10) / 10;
+                }
 
-                                // F = m * a
-                                const force = this.vehicleSettings.weight * acceleration; // N
+                // Boost: MAP - Ambient Pressure (bar)
+                const map = frame.data["MAP"];
+                const ambientPressure = frame.data["Ambient Pressure"];
+                if (map !== undefined && ambientPressure !== undefined) {
+                    calc.boost = Math.round((map - ambientPressure) * 100) / 100;
+                }
 
-                                // Wheel radius from circumference: r = C / (2 * π)
-                                const wheelRadius = this.vehicleSettings.wheelCircumference / (2 * Math.PI) / 1000; // meters
+                // Knock Avg: Average of Knock Cyl 1-4 (deg)
+                const knock1 = frame.data["Knock Cyl 1"];
+                const knock2 = frame.data["Knock Cyl 2"];
+                const knock3 = frame.data["Knock Cyl 3"];
+                const knock4 = frame.data["Knock Cyl 4"];
+                if (knock1 !== undefined && knock2 !== undefined && knock3 !== undefined && knock4 !== undefined) {
+                    calc.knockAvg = Math.round((knock1 + knock2 + knock3 + knock4) / 4 * 100) / 100;
+                }
 
-                                // τ = F * r
-                                const wheelTorque = force * wheelRadius; // Nm
+                // Boost Error: MAP SP - MAP (bar)
+                const mapSP = frame.data["MAP SP"];
+                if (map !== undefined && mapSP !== undefined) {
+                    calc.boostError = Math.round((mapSP - map) * 1000) / 1000;
+                }
 
-                                // P = F * v (convert to kW)
-                                const power = (force * currentSpeed) / 1000; // kW
+                // Engine Power from ECU Torque: P = Torque × RPM / 9549 (kW)
+                const torque = frame.data["Torque"];
+                if (torque !== undefined && rpm !== undefined && rpm > 0) {
+                    calc.enginePower = Math.round(torque * rpm / 9549 * 10) / 10;
+                }
 
-                                frame.calculated = {
-                                    acceleration: Math.round(acceleration * 100) / 100,
-                                    force: Math.round(force),
-                                    wheelTorque: Math.round(wheelTorque * 10) / 10,
-                                    power: Math.round(power * 10) / 10
-                                };
+                // Calculate torque/power from ECU Vehicle Speed
+                const vehicleSpeedKmh = frame.data["Vehicle Speed"];
+                if (this.vehicleSettings && vehicleSpeedKmh !== undefined) {
+                    const currentTime = performance.now();
+                    const currentSpeed = vehicleSpeedKmh / 3.6; // Convert km/h to m/s
+
+                    if (this.previousGPS) {
+                        const dt = (currentTime - this.previousGPS.time) / 1000; // seconds
+                        if (dt > 0.01) { // Avoid division by zero
+                            const dv = currentSpeed - this.previousGPS.speed; // m/s
+                            const acceleration = dv / dt; // m/s²
+
+                            // F = m * a
+                            const force = this.vehicleSettings.weight * acceleration; // N
+
+                            // Wheel radius from circumference: r = C / (2 * π)
+                            const wheelRadius = this.vehicleSettings.wheelCircumference / (2 * Math.PI) / 1000; // meters
+
+                            // τ = F * r
+                            const wheelTorque = force * wheelRadius; // Nm
+
+                            // P = F * v (convert to kW)
+                            const power = (force * currentSpeed) / 1000; // kW
+
+                            calc.acceleration = Math.round(acceleration * 100) / 100;
+                            calc.force = Math.round(force);
+                            calc.wheelTorque = Math.round(wheelTorque * 10) / 10;
+                            calc.power = Math.round(power * 10) / 10;
+
+                            // Calculate engine torque from wheel torque using gear ratio
+                            const gear = frame.data["Gear"];
+                            if (gear !== undefined && gear >= 1 && gear <= 7) {
+                                const gearRatio = this.vehicleSettings!.gearRatios[gear] || 0;
+                                const finalDrive = this.vehicleSettings!.finalDrive || 1;
+                                if (gearRatio > 0 && finalDrive > 0) {
+                                    // Total Ratio = Gear Ratio × Final Drive
+                                    const totalRatio = gearRatio * finalDrive;
+                                    const calculatedTorque = wheelTorque / totalRatio;
+                                    calc.calculatedTorque = Math.round(calculatedTorque * 10) / 10;
+
+                                    // Compare with ECU torque (difference = drivetrain loss)
+                                    if (torque !== undefined) {
+                                        calc.torqueDiff = Math.round((torque - calculatedTorque) * 10) / 10;
+                                    }
+                                }
                             }
                         }
-
-                        this.previousGPS = { speed: currentSpeed, time: currentTime };
                     }
+
+                    this.previousGPS = { speed: currentSpeed, time: currentTime };
                 }
+
+                // Only set calculated if we have any values
+                if (Object.keys(calc).length > 0) {
+                    frame.calculated = calc;
+                }
+
                 this.onFrame?.(frame);
             } catch (e) {
                 console.error(e);
@@ -558,7 +630,7 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
         const hasGPS = frames.some(f => f.gps);
         const hasCalculated = frames.some(f => f.calculated);
         const gpsFields = hasGPS ? ['GPS_lat', 'GPS_lon', 'GPS_speed_ms', 'GPS_speed_kmh', 'GPS_heading', 'GPS_altitude', 'GPS_accuracy'] : [];
-        const calcFields = hasCalculated ? ['Calc_acceleration_ms2', 'Calc_force_N', 'Calc_wheelTorque_Nm', 'Calc_power_kW'] : [];
+        const calcFields = hasCalculated ? ['Airmass_mg', 'Boost_bar', 'BoostError_bar', 'KnockAvg_deg', 'EnginePower_kW', 'Accel_ms2', 'Force_N', 'WheelTorque_Nm', 'CalcTorque_Nm', 'TorqueDiff_Nm', 'WheelPower_kW'] : [];
         const fields = ['time', ...Object.keys(frames[0].data), ...gpsFields, ...calcFields];
         const header = fields.join(',');
 
@@ -583,13 +655,20 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
             if (hasCalculated) {
                 if (f.calculated) {
                     baseData.push(
-                        f.calculated.acceleration.toFixed(2),
-                        f.calculated.force.toFixed(0),
-                        f.calculated.wheelTorque.toFixed(1),
-                        f.calculated.power.toFixed(1)
+                        f.calculated.airmass?.toFixed(1) ?? '',
+                        f.calculated.boost?.toFixed(2) ?? '',
+                        f.calculated.boostError?.toFixed(3) ?? '',
+                        f.calculated.knockAvg?.toFixed(2) ?? '',
+                        f.calculated.enginePower?.toFixed(1) ?? '',
+                        f.calculated.acceleration?.toFixed(2) ?? '',
+                        f.calculated.force?.toFixed(0) ?? '',
+                        f.calculated.wheelTorque?.toFixed(1) ?? '',
+                        f.calculated.calculatedTorque?.toFixed(1) ?? '',
+                        f.calculated.torqueDiff?.toFixed(1) ?? '',
+                        f.calculated.power?.toFixed(1) ?? ''
                     );
                 } else {
-                    baseData.push('', '', '', '');
+                    baseData.push('', '', '', '', '', '', '', '', '', '', '');
                 }
             }
             return baseData.join(',');
@@ -612,8 +691,14 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
         const a = document.createElement('a');
         a.href = url;
         a.download = `log_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.csv`;
+        a.style.display = 'none';
+        document.body.appendChild(a);
         a.click();
-        URL.revokeObjectURL(url);
+        // Delay cleanup for mobile browsers
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
     }
 
     useEffect(() => {
@@ -700,18 +785,21 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                                     </button>
 
                                     {!logging && gpsAvailable && (
-                                        <label class="flex items-center gap-2 text-sm cursor-pointer select-none" title={vehicleSettings ? `Weight: ${vehicleSettings.weight}kg, Wheel: ${vehicleSettings.wheelCircumference}mm` : 'Configure in Settings'}>
+                                        <label class="flex items-center gap-2 text-sm cursor-pointer select-none">
                                             <input
                                                 type="checkbox"
                                                 checked={gpsEnabled}
                                                 onChange={(e) => setGpsEnabled((e.target as HTMLInputElement).checked)}
                                                 class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
                                             />
-                                            <span>GPS + Torque</span>
-                                            {vehicleSettings && (
-                                                <span class="text-xs text-zinc-500">({vehicleSettings.weight}kg)</span>
-                                            )}
+                                            <span>+ GPS Position</span>
                                         </label>
+                                    )}
+
+                                    {!logging && vehicleSettings && (
+                                        <span class="text-xs text-zinc-500" title={`Wheel: ${vehicleSettings.wheelCircumference}mm`}>
+                                            Torque calc: {vehicleSettings.weight}kg
+                                        </span>
                                     )}
                                 </div>
 
@@ -814,38 +902,121 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                             )}
 
                             {/* Calculated Data */}
-                            {gpsEnabled && currentFrame.calculated && (
+                            {currentFrame.calculated && (
                                 <>
-                                    <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">Calculated (from GPS)</div>
+                                    <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">Calculated</div>
                                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 text-xs font-mono">
-                                        <div class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400">Accel</span>
-                                            <span class="text-blue-300">
-                                                {currentFrame.calculated.acceleration.toFixed(2)}
-                                                <span class="text-zinc-500 ml-1">m/s²</span>
-                                            </span>
-                                        </div>
-                                        <div class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400">Force</span>
-                                            <span class="text-blue-300">
-                                                {currentFrame.calculated.force.toFixed(0)}
-                                                <span class="text-zinc-500 ml-1">N</span>
-                                            </span>
-                                        </div>
-                                        <div class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400">Torque</span>
-                                            <span class="text-green-300">
-                                                {currentFrame.calculated.wheelTorque.toFixed(1)}
-                                                <span class="text-zinc-500 ml-1">Nm</span>
-                                            </span>
-                                        </div>
-                                        <div class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400">Power</span>
-                                            <span class="text-green-300">
-                                                {currentFrame.calculated.power.toFixed(1)}
-                                                <span class="text-zinc-500 ml-1">kW</span>
-                                            </span>
-                                        </div>
+                                        {currentFrame.calculated.airmass !== undefined && (
+                                            <div class="flex justify-between bg-purple-900/30 border border-purple-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                                <span class="text-zinc-400">Airmass</span>
+                                                <span class="text-purple-300">
+                                                    {currentFrame.calculated.airmass.toFixed(1)}
+                                                    <span class="text-zinc-500 ml-1">mg</span>
+                                                </span>
+                                            </div>
+                                        )}
+                                        {currentFrame.calculated.boost !== undefined && (
+                                            <div class="flex justify-between bg-purple-900/30 border border-purple-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                                <span class="text-zinc-400">Boost</span>
+                                                <span class="text-purple-300">
+                                                    {currentFrame.calculated.boost.toFixed(2)}
+                                                    <span class="text-zinc-500 ml-1">bar</span>
+                                                </span>
+                                            </div>
+                                        )}
+                                        {currentFrame.calculated.boostError !== undefined && (
+                                            <div class={`flex justify-between px-2 py-1.5 sm:py-1 rounded ${
+                                                Math.abs(currentFrame.calculated.boostError) > 0.1
+                                                    ? 'bg-yellow-900/30 border border-yellow-800/50'
+                                                    : 'bg-purple-900/30 border border-purple-800/50'
+                                            }`}>
+                                                <span class="text-zinc-400">Boost Err</span>
+                                                <span class={Math.abs(currentFrame.calculated.boostError) > 0.1 ? 'text-yellow-300' : 'text-purple-300'}>
+                                                    {currentFrame.calculated.boostError >= 0 ? '+' : ''}{currentFrame.calculated.boostError.toFixed(3)}
+                                                    <span class="text-zinc-500 ml-1">bar</span>
+                                                </span>
+                                            </div>
+                                        )}
+                                        {currentFrame.calculated.knockAvg !== undefined && (
+                                            <div class={`flex justify-between px-2 py-1.5 sm:py-1 rounded ${
+                                                currentFrame.calculated.knockAvg < -1
+                                                    ? 'bg-red-900/30 border border-red-800/50'
+                                                    : 'bg-purple-900/30 border border-purple-800/50'
+                                            }`}>
+                                                <span class="text-zinc-400">Knock</span>
+                                                <span class={currentFrame.calculated.knockAvg < -1 ? 'text-red-300' : 'text-purple-300'}>
+                                                    {currentFrame.calculated.knockAvg.toFixed(2)}
+                                                    <span class="text-zinc-500 ml-1">°</span>
+                                                </span>
+                                            </div>
+                                        )}
+                                        {currentFrame.calculated.acceleration !== undefined && (
+                                            <div class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                                <span class="text-zinc-400">Accel</span>
+                                                <span class="text-blue-300">
+                                                    {currentFrame.calculated.acceleration.toFixed(2)}
+                                                    <span class="text-zinc-500 ml-1">m/s²</span>
+                                                </span>
+                                            </div>
+                                        )}
+                                        {currentFrame.calculated.force !== undefined && (
+                                            <div class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                                <span class="text-zinc-400">Force</span>
+                                                <span class="text-blue-300">
+                                                    {currentFrame.calculated.force.toFixed(0)}
+                                                    <span class="text-zinc-500 ml-1">N</span>
+                                                </span>
+                                            </div>
+                                        )}
+                                        {currentFrame.calculated.wheelTorque !== undefined && (
+                                            <div class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                                <span class="text-zinc-400">Wheel Tq</span>
+                                                <span class="text-green-300">
+                                                    {currentFrame.calculated.wheelTorque.toFixed(1)}
+                                                    <span class="text-zinc-500 ml-1">Nm</span>
+                                                </span>
+                                            </div>
+                                        )}
+                                        {currentFrame.calculated.calculatedTorque !== undefined && (
+                                            <div class="flex justify-between bg-cyan-900/30 border border-cyan-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                                <span class="text-zinc-400">Calc Tq</span>
+                                                <span class="text-cyan-300">
+                                                    {currentFrame.calculated.calculatedTorque.toFixed(1)}
+                                                    <span class="text-zinc-500 ml-1">Nm</span>
+                                                </span>
+                                            </div>
+                                        )}
+                                        {currentFrame.calculated.torqueDiff !== undefined && (
+                                            <div class={`flex justify-between px-2 py-1.5 sm:py-1 rounded ${
+                                                Math.abs(currentFrame.calculated.torqueDiff) > 30
+                                                    ? 'bg-yellow-900/30 border border-yellow-800/50'
+                                                    : 'bg-cyan-900/30 border border-cyan-800/50'
+                                            }`}>
+                                                <span class="text-zinc-400">Tq Diff</span>
+                                                <span class={Math.abs(currentFrame.calculated.torqueDiff) > 30 ? 'text-yellow-300' : 'text-cyan-300'}>
+                                                    {currentFrame.calculated.torqueDiff >= 0 ? '+' : ''}{currentFrame.calculated.torqueDiff.toFixed(1)}
+                                                    <span class="text-zinc-500 ml-1">Nm</span>
+                                                </span>
+                                            </div>
+                                        )}
+                                        {currentFrame.calculated.enginePower !== undefined && (
+                                            <div class="flex justify-between bg-orange-900/30 border border-orange-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                                <span class="text-zinc-400">ECU Power</span>
+                                                <span class="text-orange-300">
+                                                    {currentFrame.calculated.enginePower.toFixed(1)}
+                                                    <span class="text-zinc-500 ml-1">kW</span>
+                                                </span>
+                                            </div>
+                                        )}
+                                        {currentFrame.calculated.power !== undefined && (
+                                            <div class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                                <span class="text-zinc-400">Wheel Power</span>
+                                                <span class="text-green-300">
+                                                    {currentFrame.calculated.power.toFixed(1)}
+                                                    <span class="text-zinc-500 ml-1">kW</span>
+                                                </span>
+                                            </div>
+                                        )}
                                     </div>
                                 </>
                             )}

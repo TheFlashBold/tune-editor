@@ -18,6 +18,8 @@ export interface VehicleSettings {
   rimDiameter: number; // inches (e.g., 17)
   wheelCircumference: number; // mm (calculated or manual)
   useManualCircumference: boolean;
+  gearRatios: number[]; // gear ratio for each gear (index 0 = neutral, 1-7 = gears)
+  finalDrive: number; // final drive ratio (Achsübersetzung)
 }
 
 const DEFAULT_VEHICLE_SETTINGS: VehicleSettings = {
@@ -27,6 +29,9 @@ const DEFAULT_VEHICLE_SETTINGS: VehicleSettings = {
   rimDiameter: 17,
   wheelCircumference: 1987,
   useManualCircumference: false,
+  // Total ratios (gear × final drive) - set finalDrive to 1 when using total ratios
+  gearRatios: [0, 13.24, 8.23, 5.79, 4.33, 3.40, 2.87, 0],
+  finalDrive: 1,
 };
 
 const STORAGE_KEY = 'vehicleSettings';
@@ -716,7 +721,7 @@ export function App() {
 
       {/* Settings Modal */}
       {showSettings && (
-        <Modal title="Vehicle Settings" onClose={() => setShowSettings(false)} width="md">
+        <Modal title="Vehicle Settings" onClose={() => setShowSettings(false)} width="lg">
           <div class="space-y-5 sm:space-y-6">
             {/* Vehicle Weight */}
             <div>
@@ -833,15 +838,64 @@ export function App() {
               )}
             </div>
 
+            {/* Gear Ratios */}
+            <div>
+              <label class="block text-sm font-medium text-zinc-300 mb-2">
+                Gear Ratios
+              </label>
+              <div class="grid grid-cols-4 sm:grid-cols-7 gap-2">
+                {[1, 2, 3, 4, 5, 6, 7].map((gear) => (
+                  <div key={gear} class="flex flex-col items-center">
+                    <span class="text-xs text-zinc-500 mb-1">Gear {gear}</span>
+                    <input
+                      type="number"
+                      value={vehicleSettings.gearRatios[gear] || 0}
+                      onChange={(e) => {
+                        const newRatios = [...vehicleSettings.gearRatios];
+                        newRatios[gear] = Number((e.target as HTMLInputElement).value);
+                        updateVehicleSettings({ gearRatios: newRatios });
+                      }}
+                      class="w-full px-2 py-2 sm:py-1.5 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
+                      min={0}
+                      max={10}
+                      step={0.01}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Final Drive */}
+            <div>
+              <label class="block text-sm font-medium text-zinc-300 mb-2">
+                Final Drive Ratio
+              </label>
+              <div class="flex items-center gap-2">
+                <input
+                  type="number"
+                  value={vehicleSettings.finalDrive}
+                  onChange={(e) => updateVehicleSettings({ finalDrive: Number((e.target as HTMLInputElement).value) })}
+                  class="w-24 px-3 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm"
+                  min={1}
+                  max={6}
+                  step={0.01}
+                />
+                <span class="text-sm text-zinc-400">:1</span>
+              </div>
+            </div>
+
             {/* Info Box */}
             <div class="p-3 bg-zinc-900 rounded border border-zinc-700 text-xs text-zinc-400">
-              <p class="font-medium text-zinc-300 mb-1">Torque Calculation</p>
-              <p>These values are used to calculate actual wheel torque from GPS data:</p>
+              <p class="font-medium text-zinc-300 mb-1">Dyno Light Calculation</p>
+              <p>These values are used for torque comparison:</p>
               <ul class="mt-2 space-y-1 ml-3">
-                <li>• Force = Mass × Acceleration</li>
-                <li>• Torque = Force × Wheel Radius</li>
-                <li>• Power = Force × Velocity</li>
+                <li>• Total Ratio = Gear Ratio × Final Drive</li>
+                <li>• Calculated Engine Torque = Wheel Torque / Total Ratio</li>
+                <li>• Difference shows drivetrain losses</li>
               </ul>
+              <p class="mt-2 text-zinc-500">
+                Tip: Enter total ratios directly and set Final Drive to 1
+              </p>
             </div>
           </div>
         </Modal>
