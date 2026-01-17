@@ -6,7 +6,7 @@ const BLE_DATA_RX_UUID = "0000abf2-0000-1000-8000-00805f9b34fb";
 
 const LOGGING_RATE = 20; // hz
 
-const BLE_GATT_MTU_SIZE = 23;
+const DEFAULT_MTU_SIZE = 23;
 const BLE_HEADER_ID = 0xF1;
 const BLE_HEADER_PT = 0xF2;
 const BLE_HEADER_RX = 0x7E8;
@@ -171,9 +171,11 @@ class BLEService {
     onFrame?: (frame: LogFrame) => void;
     onPacketListeners: ((packet: DataView) => void)[] = [];
     startTime = 0;
+    mtuSize: number;
 
-    constructor(device: BluetoothDevice) {
+    constructor(device: BluetoothDevice, mtuSize: number = DEFAULT_MTU_SIZE) {
         this.device = device;
+        this.mtuSize = mtuSize;
     }
 
     async setup() {
@@ -216,7 +218,7 @@ class BLEService {
     async writePacket(data: ArrayBuffer) {
         if (data.byteLength < 8) return;
 
-        const packetSize = BLE_GATT_MTU_SIZE - 3;
+        const packetSize = this.mtuSize - 3;
 
         if (data.byteLength <= packetSize) {
             this.writeQueue.push(data);
@@ -387,6 +389,7 @@ export function BLEConnector({ onLogData, onClose }: BLEConnectorProps) {
     const [info, setInfo] = useState<Record<string, string> | null>(null);
     const [logging, setLogging] = useState(false);
     const [frames, setFrames] = useState<LogFrame[]>([]);
+    const [mtu, setMtu] = useState(512); // Expected MTU after firmware fix
     const [currentFrame, setCurrentFrame] = useState<LogFrame | null>(null);
     const serviceRef = useRef<BLEService | null>(null);
 
@@ -398,7 +401,7 @@ export function BLEConnector({ onLogData, onClose }: BLEConnectorProps) {
                 filters: [{ services: [BLE_SERVICE_UUID] }]
             });
 
-            const service = new BLEService(device);
+            const service = new BLEService(device, mtu);
             await service.setup();
             serviceRef.current = service;
 
@@ -500,18 +503,31 @@ export function BLEConnector({ onLogData, onClose }: BLEConnectorProps) {
                             'bg-zinc-500'
                         }`} />
                         <span class="text-sm">
-                            {status === 'connected' ? 'Connected' :
+                            {status === 'connected' ? `Connected (MTU: ${mtu})` :
                              status === 'connecting' ? 'Connecting...' :
                              'Disconnected'}
                         </span>
 
                         {status === 'disconnected' && (
-                            <button
-                                onClick={connect}
-                                class="ml-auto px-3 py-1.5 text-sm bg-blue-600 hover:bg-blue-500 rounded"
-                            >
-                                Connect
-                            </button>
+                            <>
+                                <div class="flex items-center gap-2 ml-auto">
+                                    <label class="text-xs text-zinc-400">MTU:</label>
+                                    <input
+                                        type="number"
+                                        value={mtu}
+                                        onChange={(e) => setMtu(Number((e.target as HTMLInputElement).value))}
+                                        class="w-20 px-2 py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
+                                        min={23}
+                                        max={517}
+                                    />
+                                </div>
+                                <button
+                                    onClick={connect}
+                                    class="px-3 py-1.5 text-sm bg-blue-600 hover:bg-blue-500 rounded"
+                                >
+                                    Connect
+                                </button>
+                            </>
                         )}
                         {status === 'connected' && (
                             <button
