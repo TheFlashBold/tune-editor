@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'preact/hooks';
+import type { VehicleSettings } from '../app';
 
 const BLE_SERVICE_UUID = "0000abf0-0000-1000-8000-00805f9b34fb";
 const BLE_DATA_TX_UUID = "0000abf1-0000-1000-8000-00805f9b34fb";
@@ -155,9 +156,27 @@ class BLEHeader {
     }
 }
 
+interface GPSData {
+    latitude: number;
+    longitude: number;
+    speed: number | null; // m/s
+    heading: number | null; // degrees
+    accuracy: number; // meters
+    altitude: number | null; // meters
+}
+
+interface CalculatedData {
+    acceleration: number; // m/s²
+    force: number; // N
+    wheelTorque: number; // Nm
+    power: number; // kW
+}
+
 interface LogFrame {
     time: number;
     data: Record<string, number>;
+    gps?: GPSData;
+    calculated?: CalculatedData;
 }
 
 class BLEService {
@@ -172,6 +191,11 @@ class BLEService {
     onPacketListeners: ((packet: DataView) => void)[] = [];
     startTime = 0;
     mtuSize: number;
+    gpsEnabled = false;
+    gpsWatchId: number | null = null;
+    currentGPS: GPSData | null = null;
+    previousGPS: { speed: number; time: number } | null = null;
+    vehicleSettings: VehicleSettings | null = null;
 
     constructor(device: BluetoothDevice, mtuSize: number = DEFAULT_MTU_SIZE) {
         this.device = device;
@@ -301,16 +325,98 @@ class BLEService {
         return info;
     }
 
-    async startLogging() {
+    startGPS() {
+        if (!navigator.geolocation) {
+            console.warn('Geolocation not supported');
+            return;
+        }
+
+        this.gpsEnabled = true;
+        this.gpsWatchId = navigator.geolocation.watchPosition(
+            (position) => {
+                this.currentGPS = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    speed: position.coords.speed,
+                    heading: position.coords.heading,
+                    accuracy: position.coords.accuracy,
+                    altitude: position.coords.altitude
+                };
+            },
+            (error) => {
+                console.error('GPS error:', error);
+            },
+            {
+                enableHighAccuracy: true,
+                maximumAge: 100,
+                timeout: 5000
+            }
+        );
+    }
+
+    stopGPS() {
+        this.gpsEnabled = false;
+        if (this.gpsWatchId !== null) {
+            navigator.geolocation.clearWatch(this.gpsWatchId);
+            this.gpsWatchId = null;
+        }
+        this.currentGPS = null;
+    }
+
+    async startLogging(withGPS = false, vehicleSettings?: VehicleSettings) {
         await this.setBridgePersistDelay(1000 / LOGGING_RATE);
         this.logging = true;
         this.startTime = performance.now();
+        this.vehicleSettings = vehicleSettings || null;
+        this.previousGPS = null;
+
+        if (withGPS) {
+            this.startGPS();
+        }
 
         const log = async () => {
             if (!this.logging) return;
 
             try {
                 const frame = await this.getLoggingFrame();
+                if (this.gpsEnabled && this.currentGPS) {
+                    frame.gps = { ...this.currentGPS };
+
+                    // Calculate derived values if we have vehicle settings and valid GPS speed
+                    if (this.vehicleSettings && this.currentGPS.speed !== null) {
+                        const currentTime = performance.now();
+                        const currentSpeed = this.currentGPS.speed; // m/s
+
+                        if (this.previousGPS) {
+                            const dt = (currentTime - this.previousGPS.time) / 1000; // seconds
+                            if (dt > 0.01) { // Avoid division by zero
+                                const dv = currentSpeed - this.previousGPS.speed; // m/s
+                                const acceleration = dv / dt; // m/s²
+
+                                // F = m * a
+                                const force = this.vehicleSettings.weight * acceleration; // N
+
+                                // Wheel radius from circumference: r = C / (2 * π)
+                                const wheelRadius = this.vehicleSettings.wheelCircumference / (2 * Math.PI) / 1000; // meters
+
+                                // τ = F * r
+                                const wheelTorque = force * wheelRadius; // Nm
+
+                                // P = F * v (convert to kW)
+                                const power = (force * currentSpeed) / 1000; // kW
+
+                                frame.calculated = {
+                                    acceleration: Math.round(acceleration * 100) / 100,
+                                    force: Math.round(force),
+                                    wheelTorque: Math.round(wheelTorque * 10) / 10,
+                                    power: Math.round(power * 10) / 10
+                                };
+                            }
+                        }
+
+                        this.previousGPS = { speed: currentSpeed, time: currentTime };
+                    }
+                }
                 this.onFrame?.(frame);
             } catch (e) {
                 console.error(e);
@@ -326,6 +432,7 @@ class BLEService {
 
     stopLogging() {
         this.logging = false;
+        this.stopGPS();
     }
 
     async getLoggingFrame(): Promise<LogFrame> {
@@ -382,15 +489,18 @@ class BLEService {
 interface BLEConnectorProps {
     onLogData?: (csv: string) => void;
     onClose: () => void;
+    vehicleSettings?: VehicleSettings;
 }
 
-export function BLEConnector({ onLogData, onClose }: BLEConnectorProps) {
+export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnectorProps) {
     const [status, setStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
     const [info, setInfo] = useState<Record<string, string> | null>(null);
     const [logging, setLogging] = useState(false);
     const [frames, setFrames] = useState<LogFrame[]>([]);
     const [mtu, setMtu] = useState(512); // Expected MTU after firmware fix
     const [currentFrame, setCurrentFrame] = useState<LogFrame | null>(null);
+    const [gpsEnabled, setGpsEnabled] = useState(false);
+    const [gpsAvailable, setGpsAvailable] = useState(!!navigator.geolocation);
     const serviceRef = useRef<BLEService | null>(null);
 
     async function connect() {
@@ -436,34 +546,66 @@ export function BLEConnector({ onLogData, onClose }: BLEConnectorProps) {
                 setCurrentFrame(frame);
                 setFrames(prev => [...prev, frame]);
             };
-            await serviceRef.current.startLogging();
+            await serviceRef.current.startLogging(gpsEnabled, vehicleSettings);
             setLogging(true);
         }
     }
 
-    function exportCSV() {
-        if (frames.length === 0) return;
+    function buildCSV(): string {
+        if (frames.length === 0) return '';
 
-        const fields = ['time', ...Object.keys(frames[0].data)];
+        const hasGPS = frames.some(f => f.gps);
+        const hasCalculated = frames.some(f => f.calculated);
+        const gpsFields = hasGPS ? ['GPS_lat', 'GPS_lon', 'GPS_speed_ms', 'GPS_speed_kmh', 'GPS_heading', 'GPS_altitude', 'GPS_accuracy'] : [];
+        const calcFields = hasCalculated ? ['Calc_acceleration_ms2', 'Calc_force_N', 'Calc_wheelTorque_Nm', 'Calc_power_kW'] : [];
+        const fields = ['time', ...Object.keys(frames[0].data), ...gpsFields, ...calcFields];
         const header = fields.join(',');
+
         const rows = frames.map(f => {
-            return [f.time.toFixed(3), ...Object.values(f.data)].join(',');
+            const baseData: string[] = [f.time.toFixed(3), ...Object.values(f.data).map(v => String(v))];
+            if (hasGPS) {
+                if (f.gps) {
+                    const speedKmh = f.gps.speed !== null ? (f.gps.speed * 3.6).toFixed(2) : '';
+                    baseData.push(
+                        f.gps.latitude.toFixed(7),
+                        f.gps.longitude.toFixed(7),
+                        f.gps.speed?.toFixed(2) ?? '',
+                        speedKmh,
+                        f.gps.heading?.toFixed(1) ?? '',
+                        f.gps.altitude?.toFixed(1) ?? '',
+                        f.gps.accuracy.toFixed(1)
+                    );
+                } else {
+                    baseData.push('', '', '', '', '', '', '');
+                }
+            }
+            if (hasCalculated) {
+                if (f.calculated) {
+                    baseData.push(
+                        f.calculated.acceleration.toFixed(2),
+                        f.calculated.force.toFixed(0),
+                        f.calculated.wheelTorque.toFixed(1),
+                        f.calculated.power.toFixed(1)
+                    );
+                } else {
+                    baseData.push('', '', '', '');
+                }
+            }
+            return baseData.join(',');
         });
 
-        const csv = [header, ...rows].join('\n');
-        onLogData?.(csv);
+        return [header, ...rows].join('\n');
+    }
+
+    function exportCSV() {
+        const csv = buildCSV();
+        if (csv) onLogData?.(csv);
     }
 
     function downloadCSV() {
-        if (frames.length === 0) return;
+        const csv = buildCSV();
+        if (!csv) return;
 
-        const fields = ['time', ...Object.keys(frames[0].data)];
-        const header = fields.join(',');
-        const rows = frames.map(f => {
-            return [f.time.toFixed(3), ...Object.values(f.data)].join(',');
-        });
-
-        const csv = [header, ...rows].join('\n');
         const blob = new Blob([csv], { type: 'text/csv' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -557,7 +699,7 @@ export function BLEConnector({ onLogData, onClose }: BLEConnectorProps) {
                     {/* Logging controls */}
                     {status === 'connected' && (
                         <div class="mb-4">
-                            <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-3 flex-wrap">
                                 <button
                                     onClick={toggleLogging}
                                     class={`px-4 py-2 text-sm rounded font-medium ${
@@ -568,6 +710,32 @@ export function BLEConnector({ onLogData, onClose }: BLEConnectorProps) {
                                 >
                                     {logging ? 'Stop Logging' : 'Start Logging'}
                                 </button>
+
+                                {!logging && gpsAvailable && (
+                                    <label class="flex items-center gap-2 text-sm cursor-pointer" title={vehicleSettings ? `Weight: ${vehicleSettings.weight}kg, Wheel: ${vehicleSettings.wheelCircumference}mm` : 'Configure in Settings'}>
+                                        <input
+                                            type="checkbox"
+                                            checked={gpsEnabled}
+                                            onChange={(e) => setGpsEnabled((e.target as HTMLInputElement).checked)}
+                                            class="w-4 h-4 rounded bg-zinc-700 border-zinc-600"
+                                        />
+                                        <span>GPS + Torque</span>
+                                        {vehicleSettings && (
+                                            <span class="text-xs text-zinc-500">({vehicleSettings.weight}kg)</span>
+                                        )}
+                                    </label>
+                                )}
+
+                                {logging && gpsEnabled && currentFrame?.gps && (
+                                    <span class="text-xs text-zinc-400 font-mono">
+                                        GPS: {(currentFrame.gps.speed !== null ? (currentFrame.gps.speed * 3.6).toFixed(1) : '?')} km/h
+                                        {currentFrame.gps.accuracy > 10 && (
+                                            <span class="text-yellow-500 ml-1" title={`Accuracy: ${currentFrame.gps.accuracy.toFixed(0)}m`}>
+                                                (±{currentFrame.gps.accuracy.toFixed(0)}m)
+                                            </span>
+                                        )}
+                                    </span>
+                                )}
 
                                 {frames.length > 0 && (
                                     <>
@@ -603,13 +771,93 @@ export function BLEConnector({ onLogData, onClose }: BLEConnectorProps) {
                                         <div key={name} class="flex justify-between bg-zinc-800 px-2 py-1 rounded">
                                             <span class="text-zinc-400">{name}</span>
                                             <span class="text-zinc-100">
-                                                {typeof value === 'number' ? value.toFixed(pid?.fractional ?? 1) : value}
+                                                {value.toFixed(pid?.fractional ?? 1)}
                                                 {pid?.unit && <span class="text-zinc-500 ml-1">{pid.unit}</span>}
                                             </span>
                                         </div>
                                     );
                                 })}
                             </div>
+
+                            {/* GPS Data */}
+                            {gpsEnabled && currentFrame.gps && (
+                                <>
+                                    <div class="text-xs text-zinc-400 mb-2 mt-4">GPS Data</div>
+                                    <div class="grid grid-cols-3 gap-2 text-xs font-mono">
+                                        <div class="flex justify-between bg-zinc-800 px-2 py-1 rounded">
+                                            <span class="text-zinc-400">Speed</span>
+                                            <span class="text-zinc-100">
+                                                {currentFrame.gps.speed !== null ? (currentFrame.gps.speed * 3.6).toFixed(1) : '-'}
+                                                <span class="text-zinc-500 ml-1">km/h</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between bg-zinc-800 px-2 py-1 rounded">
+                                            <span class="text-zinc-400">Heading</span>
+                                            <span class="text-zinc-100">
+                                                {currentFrame.gps.heading !== null ? currentFrame.gps.heading.toFixed(0) : '-'}
+                                                <span class="text-zinc-500 ml-1">°</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between bg-zinc-800 px-2 py-1 rounded">
+                                            <span class="text-zinc-400">Altitude</span>
+                                            <span class="text-zinc-100">
+                                                {currentFrame.gps.altitude !== null ? currentFrame.gps.altitude.toFixed(0) : '-'}
+                                                <span class="text-zinc-500 ml-1">m</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between bg-zinc-800 px-2 py-1 rounded">
+                                            <span class="text-zinc-400">Accuracy</span>
+                                            <span class={`text-zinc-100 ${currentFrame.gps.accuracy > 10 ? 'text-yellow-400' : ''}`}>
+                                                {currentFrame.gps.accuracy.toFixed(0)}
+                                                <span class="text-zinc-500 ml-1">m</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between bg-zinc-800 px-2 py-1 rounded col-span-2">
+                                            <span class="text-zinc-400">Position</span>
+                                            <span class="text-zinc-100">
+                                                {currentFrame.gps.latitude.toFixed(5)}, {currentFrame.gps.longitude.toFixed(5)}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+
+                            {/* Calculated Data */}
+                            {gpsEnabled && currentFrame.calculated && (
+                                <>
+                                    <div class="text-xs text-zinc-400 mb-2 mt-4">Calculated (from GPS)</div>
+                                    <div class="grid grid-cols-4 gap-2 text-xs font-mono">
+                                        <div class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1 rounded">
+                                            <span class="text-zinc-400">Accel</span>
+                                            <span class="text-blue-300">
+                                                {currentFrame.calculated.acceleration.toFixed(2)}
+                                                <span class="text-zinc-500 ml-1">m/s²</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1 rounded">
+                                            <span class="text-zinc-400">Force</span>
+                                            <span class="text-blue-300">
+                                                {currentFrame.calculated.force.toFixed(0)}
+                                                <span class="text-zinc-500 ml-1">N</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1 rounded">
+                                            <span class="text-zinc-400">Wheel Torque</span>
+                                            <span class="text-green-300">
+                                                {currentFrame.calculated.wheelTorque.toFixed(1)}
+                                                <span class="text-zinc-500 ml-1">Nm</span>
+                                            </span>
+                                        </div>
+                                        <div class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1 rounded">
+                                            <span class="text-zinc-400">Power</span>
+                                            <span class="text-green-300">
+                                                {currentFrame.calculated.power.toFixed(1)}
+                                                <span class="text-zinc-500 ml-1">kW</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     )}
 

@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useMemo } from 'preact/hooks';
+import { useState, useCallback, useRef, useMemo, useEffect } from 'preact/hooks';
 import type { Definition, Parameter } from './types';
 import { FileLoader } from './components/FileLoader';
 import { XdfLoader } from './components/XdfLoader';
@@ -8,6 +8,57 @@ import { LogViewer } from './components/LogViewer';
 import { BLEConnector } from './components/BLEConnector';
 import { readParameterValue, readTableData, readAxisData, formatValue } from './lib/binUtils';
 import './app.css';
+
+// Vehicle settings interface
+export interface VehicleSettings {
+  weight: number; // kg
+  tireWidth: number; // mm (e.g., 225)
+  tireAspect: number; // % (e.g., 45)
+  rimDiameter: number; // inches (e.g., 17)
+  wheelCircumference: number; // mm (calculated or manual)
+  useManualCircumference: boolean;
+}
+
+const DEFAULT_VEHICLE_SETTINGS: VehicleSettings = {
+  weight: 1500,
+  tireWidth: 225,
+  tireAspect: 45,
+  rimDiameter: 17,
+  wheelCircumference: 1987,
+  useManualCircumference: false,
+};
+
+const STORAGE_KEY = 'vehicleSettings';
+
+function loadSettings(): VehicleSettings {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      return { ...DEFAULT_VEHICLE_SETTINGS, ...JSON.parse(stored) };
+    }
+  } catch (e) {
+    console.error('Failed to load settings:', e);
+  }
+  return DEFAULT_VEHICLE_SETTINGS;
+}
+
+function saveSettings(settings: VehicleSettings) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+  } catch (e) {
+    console.error('Failed to save settings:', e);
+  }
+}
+
+function calculateWheelCircumference(width: number, aspect: number, rimDiameter: number): number {
+  // Tire sidewall height = width * (aspect / 100)
+  const sidewallHeight = width * (aspect / 100);
+  // Total diameter = rim diameter (in mm) + 2 * sidewall height
+  const rimDiameterMm = rimDiameter * 25.4;
+  const totalDiameter = rimDiameterMm + 2 * sidewallHeight;
+  // Circumference = π * diameter
+  return Math.round(Math.PI * totalDiameter);
+}
 
 interface CellDiff {
   row: number;
@@ -38,6 +89,7 @@ export function App() {
   const [showXdfConverter, setShowXdfConverter] = useState(false);
   const [showFileMenu, setShowFileMenu] = useState(false);
   const [showToolsMenu, setShowToolsMenu] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [showLogViewer, setShowLogViewer] = useState(false);
   const [showBLEConnector, setShowBLEConnector] = useState(false);
   const [logViewerData, setLogViewerData] = useState<string | null>(null);
@@ -49,10 +101,24 @@ export function App() {
   const [originalBinFileName, setOriginalBinFileName] = useState<string | null>(null);
   const [selectedParam, setSelectedParam] = useState<Parameter | null>(null);
   const [modified, setModified] = useState(false);
+  const [vehicleSettings, setVehicleSettings] = useState<VehicleSettings>(loadSettings);
 
   const jsonInputRef = useRef<HTMLInputElement>(null);
   const binInputRef = useRef<HTMLInputElement>(null);
   const originalBinInputRef = useRef<HTMLInputElement>(null);
+
+  // Update circumference when tire dimensions change
+  const updateVehicleSettings = useCallback((updates: Partial<VehicleSettings>) => {
+    setVehicleSettings(prev => {
+      const next = { ...prev, ...updates };
+      // Auto-calculate circumference if not using manual
+      if (!next.useManualCircumference && ('tireWidth' in updates || 'tireAspect' in updates || 'rimDiameter' in updates)) {
+        next.wheelCircumference = calculateWheelCircumference(next.tireWidth, next.tireAspect, next.rimDiameter);
+      }
+      saveSettings(next);
+      return next;
+    });
+  }, []);
 
   const handleDefinitionLoad = useCallback((def: Definition) => {
     setDefinition(def);
@@ -295,6 +361,14 @@ export function App() {
           )}
         </div>
 
+        {/* Settings Button */}
+        <button
+          onClick={() => setShowSettings(true)}
+          class="px-3 py-1 text-sm rounded hover:bg-zinc-700"
+        >
+          Settings
+        </button>
+
         {originalBinData && binData && (
           <button
             onClick={() => setShowChanges(true)}
@@ -469,6 +543,7 @@ export function App() {
             setLogViewerData(csv);
             setShowLogViewer(true);
           }}
+          vehicleSettings={vehicleSettings}
         />
       )}
 
@@ -633,6 +708,151 @@ export function App() {
                   ))}
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Settings Modal */}
+      {showSettings && (
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl w-[500px] max-h-[80vh] flex flex-col">
+            <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
+              <h2 class="text-lg font-semibold">Vehicle Settings</h2>
+              <button
+                onClick={() => setShowSettings(false)}
+                class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
+              >
+                ✕
+              </button>
+            </div>
+            <div class="flex-1 p-4 overflow-y-auto space-y-6">
+              {/* Vehicle Weight */}
+              <div>
+                <label class="block text-sm font-medium text-zinc-300 mb-2">
+                  Vehicle Weight
+                </label>
+                <div class="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={vehicleSettings.weight}
+                    onChange={(e) => updateVehicleSettings({ weight: Number((e.target as HTMLInputElement).value) })}
+                    class="flex-1 px-3 py-2 bg-zinc-700 border border-zinc-600 rounded text-sm"
+                    min={500}
+                    max={5000}
+                    step={10}
+                  />
+                  <span class="text-sm text-zinc-400 w-8">kg</span>
+                </div>
+                <p class="text-xs text-zinc-500 mt-1">
+                  Including driver, fuel, and typical load
+                </p>
+              </div>
+
+              {/* Tire Size */}
+              <div>
+                <label class="block text-sm font-medium text-zinc-300 mb-2">
+                  Tire Size
+                </label>
+                <div class="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={vehicleSettings.tireWidth}
+                    onChange={(e) => updateVehicleSettings({ tireWidth: Number((e.target as HTMLInputElement).value) })}
+                    class="w-20 px-2 py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
+                    min={135}
+                    max={355}
+                    step={5}
+                  />
+                  <span class="text-zinc-500">/</span>
+                  <input
+                    type="number"
+                    value={vehicleSettings.tireAspect}
+                    onChange={(e) => updateVehicleSettings({ tireAspect: Number((e.target as HTMLInputElement).value) })}
+                    class="w-16 px-2 py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
+                    min={20}
+                    max={80}
+                    step={5}
+                  />
+                  <span class="text-zinc-400 text-sm">R</span>
+                  <input
+                    type="number"
+                    value={vehicleSettings.rimDiameter}
+                    onChange={(e) => updateVehicleSettings({ rimDiameter: Number((e.target as HTMLInputElement).value) })}
+                    class="w-16 px-2 py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
+                    min={13}
+                    max={24}
+                    step={1}
+                  />
+                </div>
+                <p class="text-xs text-zinc-500 mt-1">
+                  Example: 225/45 R17
+                </p>
+              </div>
+
+              {/* Wheel Circumference */}
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <label class="text-sm font-medium text-zinc-300">
+                    Wheel Circumference
+                  </label>
+                  <label class="flex items-center gap-2 text-xs cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={vehicleSettings.useManualCircumference}
+                      onChange={(e) => {
+                        const useManual = (e.target as HTMLInputElement).checked;
+                        if (!useManual) {
+                          // Recalculate when switching back to auto
+                          updateVehicleSettings({
+                            useManualCircumference: false,
+                            wheelCircumference: calculateWheelCircumference(
+                              vehicleSettings.tireWidth,
+                              vehicleSettings.tireAspect,
+                              vehicleSettings.rimDiameter
+                            )
+                          });
+                        } else {
+                          updateVehicleSettings({ useManualCircumference: true });
+                        }
+                      }}
+                      class="w-3.5 h-3.5 rounded bg-zinc-700 border-zinc-600"
+                    />
+                    <span class="text-zinc-400">Manual override</span>
+                  </label>
+                </div>
+                <div class="flex items-center gap-2">
+                  <input
+                    type="number"
+                    value={vehicleSettings.wheelCircumference}
+                    onChange={(e) => updateVehicleSettings({ wheelCircumference: Number((e.target as HTMLInputElement).value) })}
+                    disabled={!vehicleSettings.useManualCircumference}
+                    class={`flex-1 px-3 py-2 bg-zinc-700 border border-zinc-600 rounded text-sm ${
+                      !vehicleSettings.useManualCircumference ? 'opacity-60' : ''
+                    }`}
+                    min={1000}
+                    max={3000}
+                    step={1}
+                  />
+                  <span class="text-sm text-zinc-400 w-8">mm</span>
+                </div>
+                {!vehicleSettings.useManualCircumference && (
+                  <p class="text-xs text-zinc-500 mt-1">
+                    Calculated from tire size
+                  </p>
+                )}
+              </div>
+
+              {/* Info Box */}
+              <div class="p-3 bg-zinc-900 rounded border border-zinc-700 text-xs text-zinc-400">
+                <p class="font-medium text-zinc-300 mb-1">Torque Calculation</p>
+                <p>These values are used to calculate actual wheel torque from GPS data:</p>
+                <ul class="mt-2 space-y-1 ml-3">
+                  <li>• Force = Mass × Acceleration</li>
+                  <li>• Torque = Force × Wheel Radius</li>
+                  <li>• Power = Force × Velocity</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
