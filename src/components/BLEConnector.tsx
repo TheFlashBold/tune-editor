@@ -500,7 +500,7 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
     const [mtu, setMtu] = useState(512); // Expected MTU after firmware fix
     const [currentFrame, setCurrentFrame] = useState<LogFrame | null>(null);
     const [gpsEnabled, setGpsEnabled] = useState(false);
-    const [gpsAvailable, setGpsAvailable] = useState(!!navigator.geolocation);
+    const gpsAvailable = !!navigator.geolocation;
     const serviceRef = useRef<BLEService | null>(null);
 
     async function connect() {

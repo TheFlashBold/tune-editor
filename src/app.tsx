@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useMemo, useEffect } from 'preact/hooks';
+import { useState, useCallback, useRef, useMemo } from 'preact/hooks';
 import type { Definition, Parameter } from './types';
 import { FileLoader } from './components/FileLoader';
 import { XdfLoader } from './components/XdfLoader';
