@@ -6,6 +6,7 @@ import { CategoryTree } from './components/CategoryTree';
 import { ValueEditor } from './components/ValueEditor';
 import { LogViewer } from './components/LogViewer';
 import { BLEConnector } from './components/BLEConnector';
+import { Modal } from './components/Modal';
 import { readParameterValue, readTableData, readAxisData, formatValue } from './lib/binUtils';
 import './app.css';
 
@@ -715,147 +716,135 @@ export function App() {
 
       {/* Settings Modal */}
       {showSettings && (
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl w-[500px] max-h-[80vh] flex flex-col">
-            <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
-              <h2 class="text-lg font-semibold">Vehicle Settings</h2>
-              <button
-                onClick={() => setShowSettings(false)}
-                class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
-              >
-                ✕
-              </button>
+        <Modal title="Vehicle Settings" onClose={() => setShowSettings(false)} width="md">
+          <div class="space-y-5 sm:space-y-6">
+            {/* Vehicle Weight */}
+            <div>
+              <label class="block text-sm font-medium text-zinc-300 mb-2">
+                Vehicle Weight
+              </label>
+              <div class="flex items-center gap-2">
+                <input
+                  type="number"
+                  value={vehicleSettings.weight}
+                  onChange={(e) => updateVehicleSettings({ weight: Number((e.target as HTMLInputElement).value) })}
+                  class="flex-1 px-3 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm"
+                  min={500}
+                  max={5000}
+                  step={10}
+                />
+                <span class="text-sm text-zinc-400 w-8">kg</span>
+              </div>
+              <p class="text-xs text-zinc-500 mt-1">
+                Including driver, fuel, and typical load
+              </p>
             </div>
-            <div class="flex-1 p-4 overflow-y-auto space-y-6">
-              {/* Vehicle Weight */}
-              <div>
-                <label class="block text-sm font-medium text-zinc-300 mb-2">
-                  Vehicle Weight
+
+            {/* Tire Size */}
+            <div>
+              <label class="block text-sm font-medium text-zinc-300 mb-2">
+                Tire Size
+              </label>
+              <div class="flex items-center gap-1.5 sm:gap-2">
+                <input
+                  type="number"
+                  value={vehicleSettings.tireWidth}
+                  onChange={(e) => updateVehicleSettings({ tireWidth: Number((e.target as HTMLInputElement).value) })}
+                  class="w-16 sm:w-20 px-2 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
+                  min={135}
+                  max={355}
+                  step={5}
+                />
+                <span class="text-zinc-500">/</span>
+                <input
+                  type="number"
+                  value={vehicleSettings.tireAspect}
+                  onChange={(e) => updateVehicleSettings({ tireAspect: Number((e.target as HTMLInputElement).value) })}
+                  class="w-14 sm:w-16 px-2 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
+                  min={20}
+                  max={80}
+                  step={5}
+                />
+                <span class="text-zinc-400 text-sm">R</span>
+                <input
+                  type="number"
+                  value={vehicleSettings.rimDiameter}
+                  onChange={(e) => updateVehicleSettings({ rimDiameter: Number((e.target as HTMLInputElement).value) })}
+                  class="w-14 sm:w-16 px-2 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
+                  min={13}
+                  max={24}
+                  step={1}
+                />
+              </div>
+              <p class="text-xs text-zinc-500 mt-1">
+                Example: 225/45 R17
+              </p>
+            </div>
+
+            {/* Wheel Circumference */}
+            <div>
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                <label class="text-sm font-medium text-zinc-300">
+                  Wheel Circumference
                 </label>
-                <div class="flex items-center gap-2">
+                <label class="flex items-center gap-2 text-xs cursor-pointer select-none">
                   <input
-                    type="number"
-                    value={vehicleSettings.weight}
-                    onChange={(e) => updateVehicleSettings({ weight: Number((e.target as HTMLInputElement).value) })}
-                    class="flex-1 px-3 py-2 bg-zinc-700 border border-zinc-600 rounded text-sm"
-                    min={500}
-                    max={5000}
-                    step={10}
+                    type="checkbox"
+                    checked={vehicleSettings.useManualCircumference}
+                    onChange={(e) => {
+                      const useManual = (e.target as HTMLInputElement).checked;
+                      if (!useManual) {
+                        updateVehicleSettings({
+                          useManualCircumference: false,
+                          wheelCircumference: calculateWheelCircumference(
+                            vehicleSettings.tireWidth,
+                            vehicleSettings.tireAspect,
+                            vehicleSettings.rimDiameter
+                          )
+                        });
+                      } else {
+                        updateVehicleSettings({ useManualCircumference: true });
+                      }
+                    }}
+                    class="w-4 h-4 sm:w-3.5 sm:h-3.5 rounded bg-zinc-700 border-zinc-600"
                   />
-                  <span class="text-sm text-zinc-400 w-8">kg</span>
-                </div>
-                <p class="text-xs text-zinc-500 mt-1">
-                  Including driver, fuel, and typical load
-                </p>
-              </div>
-
-              {/* Tire Size */}
-              <div>
-                <label class="block text-sm font-medium text-zinc-300 mb-2">
-                  Tire Size
+                  <span class="text-zinc-400">Manual override</span>
                 </label>
-                <div class="flex items-center gap-2">
-                  <input
-                    type="number"
-                    value={vehicleSettings.tireWidth}
-                    onChange={(e) => updateVehicleSettings({ tireWidth: Number((e.target as HTMLInputElement).value) })}
-                    class="w-20 px-2 py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
-                    min={135}
-                    max={355}
-                    step={5}
-                  />
-                  <span class="text-zinc-500">/</span>
-                  <input
-                    type="number"
-                    value={vehicleSettings.tireAspect}
-                    onChange={(e) => updateVehicleSettings({ tireAspect: Number((e.target as HTMLInputElement).value) })}
-                    class="w-16 px-2 py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
-                    min={20}
-                    max={80}
-                    step={5}
-                  />
-                  <span class="text-zinc-400 text-sm">R</span>
-                  <input
-                    type="number"
-                    value={vehicleSettings.rimDiameter}
-                    onChange={(e) => updateVehicleSettings({ rimDiameter: Number((e.target as HTMLInputElement).value) })}
-                    class="w-16 px-2 py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
-                    min={13}
-                    max={24}
-                    step={1}
-                  />
-                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <input
+                  type="number"
+                  value={vehicleSettings.wheelCircumference}
+                  onChange={(e) => updateVehicleSettings({ wheelCircumference: Number((e.target as HTMLInputElement).value) })}
+                  disabled={!vehicleSettings.useManualCircumference}
+                  class={`flex-1 px-3 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm ${
+                    !vehicleSettings.useManualCircumference ? 'opacity-60' : ''
+                  }`}
+                  min={1000}
+                  max={3000}
+                  step={1}
+                />
+                <span class="text-sm text-zinc-400 w-8">mm</span>
+              </div>
+              {!vehicleSettings.useManualCircumference && (
                 <p class="text-xs text-zinc-500 mt-1">
-                  Example: 225/45 R17
+                  Calculated from tire size
                 </p>
-              </div>
+              )}
+            </div>
 
-              {/* Wheel Circumference */}
-              <div>
-                <div class="flex items-center justify-between mb-2">
-                  <label class="text-sm font-medium text-zinc-300">
-                    Wheel Circumference
-                  </label>
-                  <label class="flex items-center gap-2 text-xs cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={vehicleSettings.useManualCircumference}
-                      onChange={(e) => {
-                        const useManual = (e.target as HTMLInputElement).checked;
-                        if (!useManual) {
-                          // Recalculate when switching back to auto
-                          updateVehicleSettings({
-                            useManualCircumference: false,
-                            wheelCircumference: calculateWheelCircumference(
-                              vehicleSettings.tireWidth,
-                              vehicleSettings.tireAspect,
-                              vehicleSettings.rimDiameter
-                            )
-                          });
-                        } else {
-                          updateVehicleSettings({ useManualCircumference: true });
-                        }
-                      }}
-                      class="w-3.5 h-3.5 rounded bg-zinc-700 border-zinc-600"
-                    />
-                    <span class="text-zinc-400">Manual override</span>
-                  </label>
-                </div>
-                <div class="flex items-center gap-2">
-                  <input
-                    type="number"
-                    value={vehicleSettings.wheelCircumference}
-                    onChange={(e) => updateVehicleSettings({ wheelCircumference: Number((e.target as HTMLInputElement).value) })}
-                    disabled={!vehicleSettings.useManualCircumference}
-                    class={`flex-1 px-3 py-2 bg-zinc-700 border border-zinc-600 rounded text-sm ${
-                      !vehicleSettings.useManualCircumference ? 'opacity-60' : ''
-                    }`}
-                    min={1000}
-                    max={3000}
-                    step={1}
-                  />
-                  <span class="text-sm text-zinc-400 w-8">mm</span>
-                </div>
-                {!vehicleSettings.useManualCircumference && (
-                  <p class="text-xs text-zinc-500 mt-1">
-                    Calculated from tire size
-                  </p>
-                )}
-              </div>
-
-              {/* Info Box */}
-              <div class="p-3 bg-zinc-900 rounded border border-zinc-700 text-xs text-zinc-400">
-                <p class="font-medium text-zinc-300 mb-1">Torque Calculation</p>
-                <p>These values are used to calculate actual wheel torque from GPS data:</p>
-                <ul class="mt-2 space-y-1 ml-3">
-                  <li>• Force = Mass × Acceleration</li>
-                  <li>• Torque = Force × Wheel Radius</li>
-                  <li>• Power = Force × Velocity</li>
-                </ul>
-              </div>
+            {/* Info Box */}
+            <div class="p-3 bg-zinc-900 rounded border border-zinc-700 text-xs text-zinc-400">
+              <p class="font-medium text-zinc-300 mb-1">Torque Calculation</p>
+              <p>These values are used to calculate actual wheel torque from GPS data:</p>
+              <ul class="mt-2 space-y-1 ml-3">
+                <li>• Force = Mass × Acceleration</li>
+                <li>• Torque = Force × Wheel Radius</li>
+                <li>• Power = Force × Velocity</li>
+              </ul>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
     </div>
   );
