@@ -5,6 +5,7 @@ import { XdfLoader } from './components/XdfLoader';
 import { CategoryTree } from './components/CategoryTree';
 import { ValueEditor } from './components/ValueEditor';
 import { LogViewer } from './components/LogViewer';
+import { BLEConnector } from './components/BLEConnector';
 import { readParameterValue, readTableData, readAxisData, formatValue } from './lib/binUtils';
 import './app.css';
 
@@ -38,6 +39,8 @@ export function App() {
   const [showFileMenu, setShowFileMenu] = useState(false);
   const [showToolsMenu, setShowToolsMenu] = useState(false);
   const [showLogViewer, setShowLogViewer] = useState(false);
+  const [showBLEConnector, setShowBLEConnector] = useState(false);
+  const [logViewerData, setLogViewerData] = useState<string | null>(null);
   const [showChanges, setShowChanges] = useState(false);
   const [definition, setDefinition] = useState<Definition | null>(null);
   const [binData, setBinData] = useState<Uint8Array | null>(null);
@@ -281,6 +284,12 @@ export function App() {
                 >
                   Log Viewer
                 </button>
+                <button
+                  onClick={() => { setShowBLEConnector(true); setShowToolsMenu(false); }}
+                  class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
+                >
+                  BLE Datalogger
+                </button>
               </div>
             </>
           )}
@@ -445,7 +454,22 @@ export function App() {
 
       {/* Log Viewer Modal */}
       {showLogViewer && (
-        <LogViewer onClose={() => setShowLogViewer(false)} />
+        <LogViewer
+          onClose={() => { setShowLogViewer(false); setLogViewerData(null); }}
+          initialData={logViewerData}
+        />
+      )}
+
+      {/* BLE Connector Modal */}
+      {showBLEConnector && (
+        <BLEConnector
+          onClose={() => setShowBLEConnector(false)}
+          onLogData={(csv) => {
+            setShowBLEConnector(false);
+            setLogViewerData(csv);
+            setShowLogViewer(true);
+          }}
+        />
       )}
 
       {/* Changes Modal */}

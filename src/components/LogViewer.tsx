@@ -637,10 +637,16 @@ function CSVViewer({ text }: CSVViewerProps) {
 
 interface LogViewerProps {
     onClose: () => void;
+    initialData?: string | null;
 }
 
-export function LogViewer({ onClose }: LogViewerProps) {
-    const [files, setFiles] = useState<{ name: string; content: string }[]>([]);
+export function LogViewer({ onClose, initialData }: LogViewerProps) {
+    const [files, setFiles] = useState<{ name: string; content: string }[]>(() => {
+        if (initialData) {
+            return [{ name: 'BLE Log', content: initialData }];
+        }
+        return [];
+    });
     const [activeIndex, setActiveIndex] = useState<number>(0);
 
     async function onFiles(e: Event) {
