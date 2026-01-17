@@ -1,8 +1,10 @@
 import { useState, useCallback, useRef, useMemo } from 'preact/hooks';
 import type { Definition, Parameter } from './types';
 import { FileLoader } from './components/FileLoader';
+import { XdfLoader } from './components/XdfLoader';
 import { CategoryTree } from './components/CategoryTree';
 import { ValueEditor } from './components/ValueEditor';
+import { LogViewer } from './components/LogViewer';
 import { readParameterValue, readTableData, readAxisData, formatValue } from './lib/binUtils';
 import './app.css';
 
@@ -32,7 +34,10 @@ interface ParamDiff {
 
 export function App() {
   const [showConverter, setShowConverter] = useState(false);
+  const [showXdfConverter, setShowXdfConverter] = useState(false);
   const [showFileMenu, setShowFileMenu] = useState(false);
+  const [showToolsMenu, setShowToolsMenu] = useState(false);
+  const [showLogViewer, setShowLogViewer] = useState(false);
   const [showChanges, setShowChanges] = useState(false);
   const [definition, setDefinition] = useState<Definition | null>(null);
   const [binData, setBinData] = useState<Uint8Array | null>(null);
@@ -50,6 +55,7 @@ export function App() {
     setDefinition(def);
     setSelectedParam(null);
     setShowConverter(false);
+    setShowXdfConverter(false);
   }, []);
 
   const handleModify = useCallback(() => {
@@ -244,12 +250,41 @@ export function App() {
           )}
         </div>
 
-        <button
-          onClick={() => setShowConverter(true)}
-          class="px-3 py-1 text-sm rounded hover:bg-zinc-700"
-        >
-          A2L Converter
-        </button>
+        {/* Tools Menu */}
+        <div class="relative">
+          <button
+            onClick={() => setShowToolsMenu(!showToolsMenu)}
+            class={`px-3 py-1 text-sm rounded hover:bg-zinc-700 ${showToolsMenu ? 'bg-zinc-700' : ''}`}
+          >
+            Tools
+          </button>
+          {showToolsMenu && (
+            <>
+              <div class="fixed inset-0 z-10" onClick={() => setShowToolsMenu(false)} />
+              <div class="absolute left-0 top-full mt-1 w-48 bg-zinc-800 border border-zinc-600 rounded shadow-lg z-20">
+                <button
+                  onClick={() => { setShowConverter(true); setShowToolsMenu(false); }}
+                  class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
+                >
+                  A2L Converter
+                </button>
+                <button
+                  onClick={() => { setShowXdfConverter(true); setShowToolsMenu(false); }}
+                  class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
+                >
+                  XDF Converter
+                </button>
+                <div class="border-t border-zinc-600 my-1" />
+                <button
+                  onClick={() => { setShowLogViewer(true); setShowToolsMenu(false); }}
+                  class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
+                >
+                  Log Viewer
+                </button>
+              </div>
+            </>
+          )}
+        </div>
 
         {originalBinData && binData && (
           <button
@@ -318,7 +353,16 @@ export function App() {
           )}
         </aside>
 
-        <main class="flex-1 overflow-auto p-4">
+        <main class="flex-1 overflow-auto p-4 relative">
+          <div
+            class="absolute inset-0 pointer-events-none opacity-[0.10]"
+            style={{
+              backgroundImage: 'url(/tune-editor/logo.svg)',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              backgroundSize: '40%',
+            }}
+          />
           {!binData && (
             <label class="flex justify-center items-center h-full text-zinc-500 cursor-pointer hover:bg-zinc-700/30 transition-colors">
               <div class="text-center">
@@ -359,7 +403,7 @@ export function App() {
         </main>
       </div>
 
-      {/* Converter Modal */}
+      {/* A2L Converter Modal */}
       {showConverter && (
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-auto">
@@ -377,6 +421,31 @@ export function App() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* XDF Converter Modal */}
+      {showXdfConverter && (
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-auto">
+            <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
+              <h2 class="text-lg font-semibold">XDF to JSON Converter</h2>
+              <button
+                onClick={() => setShowXdfConverter(false)}
+                class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
+              >
+                ✕
+              </button>
+            </div>
+            <div class="p-4">
+              <XdfLoader onDefinitionLoad={handleDefinitionLoad} />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Log Viewer Modal */}
+      {showLogViewer && (
+        <LogViewer onClose={() => setShowLogViewer(false)} />
       )}
 
       {/* Changes Modal */}

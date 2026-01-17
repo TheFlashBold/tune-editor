@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Laptop base -->
+  <rect x="8" y="38" width="48" height="4" rx="1" fill="#52525b"/>
+
+  <!-- Laptop screen frame -->
+  <rect x="12" y="12" width="40" height="26" rx="2" fill="#3f3f46"/>
+
+  <!-- Laptop screen -->
+  <rect x="14" y="14" width="36" height="22" rx="1" fill="#18181b"/>
+
+  <!-- Lightning bolt -->
+  <path d="M36 8L22 32h10l-4 18 18-26H34l2-16z" fill="#d4a855" opacity="0.95"/>
+  <path d="M35 10L23 30h9l-3.5 15 15-22H33l2-13z" fill="#e8c468"/>
+</svg>
