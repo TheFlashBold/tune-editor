@@ -572,39 +572,37 @@ class BLEService {
             data: {}
         };
 
-        const chunkedPids = chunkArray([...PIDs.values()], 5);
+        // Query all PIDs in one request (no chunking needed with 512 MTU)
+        const pids = [...PIDs.values()];
+        const addresses = pids.map(({ address }) => NumberToArrayBuffer2(address));
+        await this.sendUDSCommand(NumberToArrayBuffer(0x22), ...addresses);
 
-        for (const pids of chunkedPids) {
-            const addresses = pids.map(({ address }) => NumberToArrayBuffer2(address));
-            await this.sendUDSCommand(NumberToArrayBuffer(0x22), ...addresses);
+        const packet = await this.waitForPacket();
+        if (packet.getUint8(8) !== UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED) {
+            throw new Error("Invalid response");
+        }
 
-            const packet = await this.waitForPacket();
-            if (packet.getUint8(8) !== UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED) {
-                throw new Error("Invalid response");
+        let index = 9;
+        while (index < packet.byteLength) {
+            const address = packet.getUint16(index);
+            index += 2;
+
+            const pid = PIDs.get(address);
+            if (!pid) continue;
+
+            let value = 0;
+            if (pid.length === 1) {
+                value = pid.signed ? packet.getInt8(index) : packet.getUint8(index);
+            } else if (pid.length === 2) {
+                value = pid.signed ? packet.getInt16(index) : packet.getUint16(index);
             }
 
-            let index = 9;
-            while (index < packet.byteLength) {
-                const address = packet.getUint16(index);
-                index += 2;
+            value = eval(pid.equation.replaceAll("x", String(value)));
+            const roundingFactor = Math.pow(10, pid.fractional + 1);
+            value = Math.round(value * roundingFactor) / roundingFactor;
+            frame.data[pid.name] = value;
 
-                const pid = PIDs.get(address);
-                if (!pid) continue;
-
-                let value = 0;
-                if (pid.length === 1) {
-                    value = pid.signed ? packet.getInt8(index) : packet.getUint8(index);
-                } else if (pid.length === 2) {
-                    value = pid.signed ? packet.getInt16(index) : packet.getUint16(index);
-                }
-
-                value = eval(pid.equation.replaceAll("x", String(value)));
-                const roundingFactor = Math.pow(10, pid.fractional + 1);
-                value = Math.round(value * roundingFactor) / roundingFactor;
-                frame.data[pid.name] = value;
-
-                index += pid.length;
-            }
+            index += pid.length;
         }
 
         return frame;
@@ -755,23 +753,53 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
         if (csv) onLogData?.(csv);
     }
 
-    function downloadCSV() {
+    async function downloadCSV() {
         const csv = buildCSV();
         if (!csv) return;
 
+        const filename = `log_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.csv`;
         const blob = new Blob([csv], { type: 'text/csv' });
+
+        // Try Web Share API first (works better on iOS)
+        if (navigator.share && navigator.canShare?.({ files: [new File([blob], filename, { type: 'text/csv' })] })) {
+            try {
+                await navigator.share({
+                    files: [new File([blob], filename, { type: 'text/csv' })],
+                    title: 'Log Data',
+                });
+                return;
+            } catch (e) {
+                // User cancelled or share failed, fall through to other methods
+                if ((e as Error).name === 'AbortError') return;
+            }
+        }
+
+        // Try download with anchor element
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `log_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.csv`;
+        a.download = filename;
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
+
         // Delay cleanup for mobile browsers
         setTimeout(() => {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-        }, 100);
+        }, 500);
+    }
+
+    async function copyCSV() {
+        const csv = buildCSV();
+        if (!csv) return;
+        try {
+            await navigator.clipboard.writeText(csv);
+            alert('CSV copied to clipboard!');
+        } catch {
+            // Fallback: show in prompt for manual copy
+            prompt('Copy this CSV data:', csv.slice(0, 1000) + '...');
+        }
     }
 
     useEffect(() => {
@@ -893,7 +921,12 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                                                 ? 'text-red-400'
                                                 : 'text-green-400'
                                         }`}>
-                                            Query: {currentFrame.queryTime}ms
+                                            {currentFrame.queryTime}ms
+                                            {currentFrame.queryTime > (1000 / (vehicleSettings?.loggingRate || 20)) && (
+                                                <span class="text-zinc-500 ml-1">
+                                                    (max {Math.floor(1000 / currentFrame.queryTime)}Hz)
+                                                </span>
+                                            )}
                                         </span>
                                     )}
                                 </div>
@@ -919,13 +952,19 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                                                 onClick={downloadCSV}
                                                 class="flex-1 px-3 py-2.5 sm:py-1.5 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
                                             >
-                                                Download CSV
+                                                Save
+                                            </button>
+                                            <button
+                                                onClick={copyCSV}
+                                                class="flex-1 px-3 py-2.5 sm:py-1.5 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
+                                            >
+                                                Copy
                                             </button>
                                             <button
                                                 onClick={exportCSV}
                                                 class="flex-1 px-3 py-2.5 sm:py-1.5 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
                                             >
-                                                Log Viewer
+                                                View
                                             </button>
                                         </div>
                                     </div>
