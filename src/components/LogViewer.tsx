@@ -393,6 +393,80 @@ function CSVViewer({ text }: CSVViewerProps) {
         };
     }, [isDraggingPreview, visibleDataPoints, data.length]);
 
+    // Touch handling for chart zoom/pan
+    const touchRef = useRef<{ startX: number; startY: number; startZoom: number; startScroll: number; startDist: number; isTwoFinger: boolean } | null>(null);
+
+    function onTouchStart(e: TouchEvent) {
+        if (e.touches.length === 1) {
+            // Single finger - pan
+            touchRef.current = {
+                startX: e.touches[0].clientX,
+                startY: e.touches[0].clientY,
+                startZoom: zoom,
+                startScroll: scrollOffset,
+                startDist: 0,
+                isTwoFinger: false
+            };
+        } else if (e.touches.length === 2) {
+            // Two fingers - zoom
+            const dist = Math.hypot(
+                e.touches[1].clientX - e.touches[0].clientX,
+                e.touches[1].clientY - e.touches[0].clientY
+            );
+            const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+            touchRef.current = {
+                startX: centerX,
+                startY: 0,
+                startZoom: zoom,
+                startScroll: scrollOffset,
+                startDist: dist,
+                isTwoFinger: true
+            };
+            e.preventDefault();
+        }
+    }
+
+    function onTouchMove(e: TouchEvent) {
+        if (!touchRef.current || !containerRef.current) return;
+
+        const rect = containerRef.current.getBoundingClientRect();
+
+        if (e.touches.length === 1 && !touchRef.current.isTwoFinger) {
+            // Single finger pan
+            const deltaX = e.touches[0].clientX - touchRef.current.startX;
+            const scrollAmount = -deltaX * (data.length / zoom) / rect.width;
+            const maxScroll = data.length - (data.length / zoom);
+            setScrollOffset(Math.max(0, Math.min(touchRef.current.startScroll + scrollAmount, maxScroll)));
+        } else if (e.touches.length === 2) {
+            e.preventDefault();
+            // Two finger zoom
+            const dist = Math.hypot(
+                e.touches[1].clientX - e.touches[0].clientX,
+                e.touches[1].clientY - e.touches[0].clientY
+            );
+            const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+            const mouseXRatio = (centerX - rect.left) / rect.width;
+
+            const scale = dist / touchRef.current.startDist;
+            const newZoom = Math.max(1, Math.min(touchRef.current.startZoom * scale, 50));
+
+            if (newZoom !== zoom) {
+                const oldVisibleWidth = data.length / touchRef.current.startZoom;
+                const mouseDataPos = touchRef.current.startScroll + mouseXRatio * oldVisibleWidth;
+                const newVisibleWidth = data.length / newZoom;
+                const newScrollOffset = mouseDataPos - mouseXRatio * newVisibleWidth;
+                const maxScroll = data.length - newVisibleWidth;
+
+                setZoom(newZoom);
+                setScrollOffset(Math.max(0, Math.min(newScrollOffset, maxScroll)));
+            }
+        }
+    }
+
+    function onTouchEnd() {
+        touchRef.current = null;
+    }
+
     const yAxisLabelsLeft = useMemo(() => {
         const range = leftAxis.max - leftAxis.min;
         const step = range / 8;
@@ -462,7 +536,11 @@ function CSVViewer({ text }: CSVViewerProps) {
                     <div
                         ref={containerRef}
                         class="flex-1 overflow-x-auto overflow-y-hidden border border-zinc-600 bg-zinc-900 rounded"
+                        style={{ touchAction: 'none' }}
                         onWheel={onWheel}
+                        onTouchStart={onTouchStart}
+                        onTouchMove={onTouchMove}
+                        onTouchEnd={onTouchEnd}
                     >
                         <svg
                             viewBox={`${viewBoxX} ${leftAxis.min} ${viewBoxWidth} ${leftAxis.max - leftAxis.min}`}

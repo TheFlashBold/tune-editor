@@ -191,6 +191,126 @@ interface LogFrame {
     queryTime?: number; // ms to query all PIDs
 }
 
+const IS_LOCALHOST = typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+// Mock BLE Service for localhost testing
+class MockBLEService {
+    logging = false;
+    onFrame?: (frame: LogFrame) => void;
+    startTime = 0;
+    loggingRate: number = DEFAULT_LOGGING_RATE;
+    vehicleSettings: VehicleSettings | null = null;
+    private loopTimeout: ReturnType<typeof setTimeout> | null = null;
+    private mockRPM = 800;
+    private mockSpeed = 0;
+    private mockThrottle = 0;
+    private mockGear = 1;
+    private mockBoost = 0;
+
+    async setup() {
+        console.log('[MockBLE] Setup complete (fake device)');
+    }
+
+    async getInfo(): Promise<Record<string, string>> {
+        return {
+            VIN: 'WVWZZZ3CZWE123456',
+            ODX_IDENTIFIER: 'EV_ECM20TFS0',
+            ODX_VERSION: '001003',
+            CAL_NUMBER: 'SC8F830',
+            PART_NUMBER: '8V0906259H',
+            ASW_VERSION: '0003',
+            HW_NUMBER: '8V0906259',
+            HW_VERSION: 'H13',
+            ENGINE_CODE: 'DKZA',
+        };
+    }
+
+    async startLogging(_withGPS = false, _withAccel = false, vehicleSettings?: VehicleSettings) {
+        this.vehicleSettings = vehicleSettings || null;
+        this.loggingRate = vehicleSettings?.loggingRate || DEFAULT_LOGGING_RATE;
+        this.logging = true;
+        this.startTime = performance.now();
+        console.log('[MockBLE] Starting fake logging at', this.loggingRate, 'Hz');
+
+        const log = () => {
+            if (!this.logging) return;
+
+            // Simulate driving - random acceleration/deceleration
+            const throttleChange = (Math.random() - 0.4) * 10;
+            this.mockThrottle = Math.max(0, Math.min(100, this.mockThrottle + throttleChange));
+
+            // RPM follows throttle with some lag
+            const targetRPM = 800 + this.mockThrottle * 60;
+            this.mockRPM += (targetRPM - this.mockRPM) * 0.1;
+            this.mockRPM = Math.max(800, Math.min(7000, this.mockRPM + (Math.random() - 0.5) * 100));
+
+            // Speed based on RPM and gear
+            const gearRatios = [0, 3.5, 2.1, 1.4, 1.0, 0.8, 0.65, 0.55];
+            this.mockSpeed = Math.max(0, (this.mockRPM / gearRatios[this.mockGear]) * 0.006);
+
+            // Auto shift
+            if (this.mockRPM > 6500 && this.mockGear < 7) this.mockGear++;
+            if (this.mockRPM < 1500 && this.mockGear > 1) this.mockGear--;
+
+            // Boost based on throttle and RPM
+            this.mockBoost = this.mockThrottle > 50 && this.mockRPM > 2000
+                ? Math.min(1.8, (this.mockThrottle - 50) / 50 * 1.5 + (Math.random() - 0.5) * 0.1)
+                : 0;
+
+            const frame: LogFrame = {
+                time: (performance.now() - this.startTime) / 1000,
+                queryTime: Math.floor(Math.random() * 20) + 30,
+                data: {
+                    'Engine Speed': Math.round(this.mockRPM),
+                    'Vehicle Speed': Math.round(this.mockSpeed * 10) / 10,
+                    'Gear': this.mockGear,
+                    'Airflow': Math.round(this.mockRPM * this.mockThrottle / 100 * 0.5),
+                    'Ambient Pressure': 1.01,
+                    'Ambient Temp': 22,
+                    'MAP': Math.round((1.0 + this.mockBoost) * 1000) / 1000,
+                    'MAP SP': Math.round((1.0 + this.mockBoost + 0.05) * 1000) / 1000,
+                    'PUT': Math.round((1.0 + this.mockBoost * 0.9) * 1000) / 1000,
+                    'PUT SP': Math.round((1.0 + this.mockBoost) * 1000) / 1000,
+                    'Coolant Temp': 90,
+                    'Torque': Math.round(this.mockThrottle * 3 + (Math.random() - 0.5) * 10),
+                    'Torque Req': Math.round(this.mockThrottle * 3.2),
+                    'Misfires': 0,
+                    'Lambda': 1.0 + (Math.random() - 0.5) * 0.02,
+                    'Lambda SP': 1.0,
+                    'IAT': 35 + Math.random() * 5,
+                    'Knock Cyl 1': (Math.random() - 0.8) * 2,
+                    'Knock Cyl 2': (Math.random() - 0.8) * 2,
+                    'Knock Cyl 3': (Math.random() - 0.8) * 2,
+                    'Knock Cyl 4': (Math.random() - 0.8) * 2,
+                }
+            };
+
+            this.onFrame?.(frame);
+
+            if (this.logging) {
+                this.loopTimeout = setTimeout(log, 1000 / this.loggingRate);
+            }
+        };
+
+        log();
+    }
+
+    stopLogging() {
+        console.log('[MockBLE] Stopping fake logging');
+        this.logging = false;
+        if (this.loopTimeout) {
+            clearTimeout(this.loopTimeout);
+            this.loopTimeout = null;
+        }
+    }
+
+    disconnect() {
+        this.stopLogging();
+        console.log('[MockBLE] Disconnected');
+    }
+}
+
 class BLEService {
     device: BluetoothDevice;
     service: BluetoothRemoteGATTService | null = null;
@@ -624,13 +744,27 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
     const [currentFrame, setCurrentFrame] = useState<LogFrame | null>(null);
     const [gpsEnabled, setGpsEnabled] = useState(false);
     const [accelEnabled, setAccelEnabled] = useState(false);
+    const [logStopped, setLogStopped] = useState(false);
     const gpsAvailable = !!navigator.geolocation;
     const accelAvailable = !!window.DeviceMotionEvent;
-    const serviceRef = useRef<BLEService | null>(null);
+    const serviceRef = useRef<BLEService | MockBLEService | null>(null);
 
     async function connect() {
         try {
             setStatus('connecting');
+
+            if (IS_LOCALHOST) {
+                // Use mock service on localhost for testing
+                console.log('[BLE] Using mock service (localhost)');
+                const service = new MockBLEService();
+                await service.setup();
+                serviceRef.current = service;
+
+                setStatus('connected');
+                const ecuInfo = await service.getInfo();
+                setInfo(ecuInfo);
+                return;
+            }
 
             const device = await navigator.bluetooth.requestDevice({
                 filters: [{ services: [BLE_SERVICE_UUID] }]
@@ -665,8 +799,11 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
         if (logging) {
             serviceRef.current.stopLogging();
             setLogging(false);
+            setLogStopped(true);
         } else {
             setFrames([]);
+            setLogStopped(false);
+            setCurrentFrame(null);
             serviceRef.current.onFrame = (frame) => {
                 setCurrentFrame(frame);
                 setFrames(prev => [...prev, frame]);
@@ -830,7 +967,7 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                                 'bg-zinc-500'
                             }`} />
                             <span class="text-sm">
-                                {status === 'connected' ? `Connected (MTU: ${mtu})` :
+                                {status === 'connected' ? (IS_LOCALHOST ? 'Connected (Mock)' : `Connected (MTU: ${mtu})`) :
                                  status === 'connecting' ? 'Connecting...' :
                                  'Disconnected'}
                             </span>
@@ -838,20 +975,24 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
 
                         {status === 'disconnected' && (
                             <div class="flex items-center gap-2 sm:ml-auto">
-                                <label class="text-xs text-zinc-400">MTU:</label>
-                                <input
-                                    type="number"
-                                    value={mtu}
-                                    onChange={(e) => setMtu(Number((e.target as HTMLInputElement).value))}
-                                    class="w-20 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
-                                    min={23}
-                                    max={517}
-                                />
+                                {!IS_LOCALHOST && (
+                                    <>
+                                        <label class="text-xs text-zinc-400">MTU:</label>
+                                        <input
+                                            type="number"
+                                            value={mtu}
+                                            onChange={(e) => setMtu(Number((e.target as HTMLInputElement).value))}
+                                            class="w-20 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
+                                            min={23}
+                                            max={517}
+                                        />
+                                    </>
+                                )}
                                 <button
                                     onClick={connect}
                                     class="flex-1 sm:flex-none px-4 py-2.5 sm:py-1.5 text-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded font-medium"
                                 >
-                                    Connect
+                                    {IS_LOCALHOST ? 'Connect (Mock)' : 'Connect'}
                                 </button>
                             </div>
                         )}
@@ -962,48 +1103,63 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                         </div>
                     )}
 
-                    {/* Log captured summary (shown when stopped with data) */}
-                    {!logging && frames.length > 0 && (
-                        <div class="mb-4 p-4 bg-green-900/30 border border-green-700 rounded">
+                    {/* Log captured summary (shown when stopped) */}
+                    {!logging && logStopped && (
+                        <div class={`mb-4 p-4 rounded border ${frames.length > 0 ? 'bg-green-900/30 border-green-700' : 'bg-yellow-900/30 border-yellow-700'}`}>
                             <div class="flex flex-col sm:flex-row sm:items-center gap-3">
                                 <div class="flex-1">
-                                    <div class="text-green-300 font-medium">
-                                        Log captured: {frames.length} frames
-                                    </div>
-                                    <div class="text-sm text-green-400/70">
-                                        Duration: {(frames[frames.length - 1]?.time ?? 0).toFixed(1)}s
-                                        {frames[0]?.gps && ' • GPS recorded'}
-                                        {frames[0]?.accelerometer && ' • G-force recorded'}
-                                    </div>
-                                </div>
-                                <div class="flex gap-2">
-                                    {canShare && (
-                                        <button
-                                            onClick={shareCSV}
-                                            class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded font-medium"
-                                        >
-                                            Share
-                                        </button>
+                                    {frames.length > 0 ? (
+                                        <>
+                                            <div class="text-green-300 font-medium">
+                                                Log captured: {frames.length} frames
+                                            </div>
+                                            <div class="text-sm text-green-400/70">
+                                                Duration: {(frames[frames.length - 1]?.time ?? 0).toFixed(1)}s
+                                                {frames[0]?.gps && ' • GPS recorded'}
+                                                {frames[0]?.accelerometer && ' • G-force recorded'}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div class="text-yellow-300 font-medium">
+                                                No data captured
+                                            </div>
+                                            <div class="text-sm text-yellow-400/70">
+                                                Check ECU connection and try again
+                                            </div>
+                                        </>
                                     )}
-                                    <button
-                                        onClick={downloadCSV}
-                                        class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-green-600 hover:bg-green-500 active:bg-green-700 rounded font-medium"
-                                    >
-                                        Save
-                                    </button>
-                                    <button
-                                        onClick={copyCSV}
-                                        class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
-                                    >
-                                        Copy
-                                    </button>
-                                    <button
-                                        onClick={exportCSV}
-                                        class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
-                                    >
-                                        View
-                                    </button>
                                 </div>
+                                {frames.length > 0 && (
+                                    <div class="flex gap-2">
+                                        {canShare && (
+                                            <button
+                                                onClick={shareCSV}
+                                                class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded font-medium"
+                                            >
+                                                Share
+                                            </button>
+                                        )}
+                                        <button
+                                            onClick={downloadCSV}
+                                            class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-green-600 hover:bg-green-500 active:bg-green-700 rounded font-medium"
+                                        >
+                                            Save
+                                        </button>
+                                        <button
+                                            onClick={copyCSV}
+                                            class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
+                                        >
+                                            Copy
+                                        </button>
+                                        <button
+                                            onClick={exportCSV}
+                                            class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
+                                        >
+                                            View
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}
