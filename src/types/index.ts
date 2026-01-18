@@ -33,11 +33,20 @@ export interface Parameter {
   customName?: string;
 }
 
+export interface DefinitionVerification {
+  calOffset: number;     // Offset in full bin where CAL block starts (e.g. 0x340000)
+  expected: string;      // Expected string at start of CAL block (e.g. "SC8LB4")
+  length?: number;       // Length to check (default: expected.length)
+}
+
 export interface Definition {
   name: string;
   version: string;
+  verification?: DefinitionVerification;  // Check to verify definition matches file
   parameters: Parameter[];
 }
+
+export type BinaryMode = 'full' | 'cal';  // full bin or just CAL block
 
 export const DATA_TYPE_INFO: Record<DataType, { size: number; signed: boolean; float: boolean }> = {
   UBYTE: { size: 1, signed: false, float: false },

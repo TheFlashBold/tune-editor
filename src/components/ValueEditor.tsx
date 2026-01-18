@@ -16,32 +16,33 @@ interface Props {
   parameter: Parameter;
   binData: Uint8Array;
   originalBinData?: Uint8Array | null;
+  calOffset?: number;
   onModify: () => void;
 }
 
-export function ValueEditor({ parameter, binData, originalBinData, onModify }: Props) {
+export function ValueEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
   if (parameter.type === 'VALUE') {
-    return <ScalarEditor parameter={parameter} binData={binData} originalBinData={originalBinData} onModify={onModify} />;
+    return <ScalarEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} onModify={onModify} />;
   }
-  return <TableEditor parameter={parameter} binData={binData} originalBinData={originalBinData} onModify={onModify} />;
+  return <TableEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} onModify={onModify} />;
 }
 
-function ScalarEditor({ parameter, binData, originalBinData, onModify }: Props) {
-  const [value, setValue] = useState(() => readParameterValue(binData, parameter));
+function ScalarEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
+  const [value, setValue] = useState(() => readParameterValue(binData, parameter, calOffset));
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [showOriginal, setShowOriginal] = useState(false);
 
   const originalValue = useMemo(
-    () => originalBinData ? readParameterValue(originalBinData, parameter) : null,
-    [originalBinData, parameter]
+    () => originalBinData ? readParameterValue(originalBinData, parameter, calOffset) : null,
+    [originalBinData, parameter, calOffset]
   );
 
   const hasChanged = originalValue !== null && Math.abs(originalValue - value) > 0.0001;
 
   useEffect(() => {
-    setValue(readParameterValue(binData, parameter));
-  }, [parameter, binData]);
+    setValue(readParameterValue(binData, parameter, calOffset));
+  }, [parameter, binData, calOffset]);
 
   const handleDoubleClick = () => {
     setInputValue(formatValue(value, 4));
@@ -51,7 +52,7 @@ function ScalarEditor({ parameter, binData, originalBinData, onModify }: Props) 
   const handleConfirm = () => {
     const newValue = parseFloat(inputValue);
     if (!isNaN(newValue)) {
-      writeParameterValue(binData, parameter, newValue);
+      writeParameterValue(binData, parameter, newValue, calOffset);
       setValue(newValue);
       onModify();
     }
@@ -135,7 +136,7 @@ function getCellColor(value: number, min: number, max: number): string {
   return `hsl(${hue}, 65%, 70%)`;
 }
 
-function TableEditor({ parameter, binData, originalBinData, onModify }: Props) {
+function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
   const [tableData, setTableData] = useState<number[][]>([]);
   const [editCell, setEditCell] = useState<{ row: number; col: number } | null>(null);
   const [editAxisCell, setEditAxisCell] = useState<{ axis: 'x' | 'y'; index: number } | null>(null);
@@ -145,18 +146,18 @@ function TableEditor({ parameter, binData, originalBinData, onModify }: Props) {
   const [yAxisData, setYAxisData] = useState<number[]>([]);
 
   const originalTableData = useMemo(
-    () => originalBinData ? readTableData(originalBinData, parameter) : null,
-    [originalBinData, parameter]
+    () => originalBinData ? readTableData(originalBinData, parameter, calOffset) : null,
+    [originalBinData, parameter, calOffset]
   );
 
   const originalXAxis = useMemo(
-    () => originalBinData && parameter.xAxis ? readAxisData(originalBinData, parameter.xAxis) : null,
-    [originalBinData, parameter]
+    () => originalBinData && parameter.xAxis ? readAxisData(originalBinData, parameter.xAxis, calOffset) : null,
+    [originalBinData, parameter, calOffset]
   );
 
   const originalYAxis = useMemo(
-    () => originalBinData && parameter.yAxis ? readAxisData(originalBinData, parameter.yAxis) : null,
-    [originalBinData, parameter]
+    () => originalBinData && parameter.yAxis ? readAxisData(originalBinData, parameter.yAxis, calOffset) : null,
+    [originalBinData, parameter, calOffset]
   );
 
   const hasChanged = useMemo(() => {
@@ -188,13 +189,13 @@ function TableEditor({ parameter, binData, originalBinData, onModify }: Props) {
 
   // These are used for initial loading only
   const xAxis = useMemo(
-    () => (parameter.xAxis ? readAxisData(binData, parameter.xAxis) : []),
-    [parameter, binData]
+    () => (parameter.xAxis ? readAxisData(binData, parameter.xAxis, calOffset) : []),
+    [parameter, binData, calOffset]
   );
 
   const yAxis = useMemo(
-    () => (parameter.yAxis ? readAxisData(binData, parameter.yAxis) : []),
-    [parameter, binData]
+    () => (parameter.yAxis ? readAxisData(binData, parameter.yAxis, calOffset) : []),
+    [parameter, binData, calOffset]
   );
 
   // Initialize axis data state
@@ -221,8 +222,8 @@ function TableEditor({ parameter, binData, originalBinData, onModify }: Props) {
   const dataDecimals = useMemo(() => getConsistentDecimals(tableData.flat(), 2), [tableData]);
 
   useEffect(() => {
-    setTableData(readTableData(binData, parameter));
-  }, [parameter, binData]);
+    setTableData(readTableData(binData, parameter, calOffset));
+  }, [parameter, binData, calOffset]);
 
   const handleCellDoubleClick = (row: number, col: number) => {
     setInputValue(formatValue(tableData[row][col], 4));
@@ -241,7 +242,7 @@ function TableEditor({ parameter, binData, originalBinData, onModify }: Props) {
     if (editCell) {
       const newValue = parseFloat(inputValue);
       if (!isNaN(newValue)) {
-        writeTableCell(binData, parameter, editCell.row, editCell.col, newValue);
+        writeTableCell(binData, parameter, editCell.row, editCell.col, newValue, calOffset);
         const newData = [...tableData];
         newData[editCell.row] = [...newData[editCell.row]];
         newData[editCell.row][editCell.col] = newValue;
@@ -254,7 +255,7 @@ function TableEditor({ parameter, binData, originalBinData, onModify }: Props) {
       if (!isNaN(newValue)) {
         const axisDef = editAxisCell.axis === 'x' ? parameter.xAxis : parameter.yAxis;
         if (axisDef) {
-          writeAxisValue(binData, axisDef, editAxisCell.index, newValue);
+          writeAxisValue(binData, axisDef, editAxisCell.index, newValue, calOffset);
           if (editAxisCell.axis === 'x') {
             const newAxisData = [...xAxisData];
             newAxisData[editAxisCell.index] = newValue;

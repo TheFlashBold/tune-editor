@@ -8,6 +8,8 @@ import { LogViewer } from './components/LogViewer';
 import { BLEConnector } from './components/BLEConnector';
 import { Modal } from './components/Modal';
 import { readParameterValue, readTableData, readAxisData, formatValue } from './lib/binUtils';
+import { loadDefinitionIndex, loadDefinition, findMatchingDefinitions, type DefinitionIndexEntry } from './lib/definitionLoader';
+import { s19ToBinary, isS19File } from './lib/s19Parser';
 import './app.css';
 
 // Vehicle settings interface
@@ -102,6 +104,11 @@ export function App() {
   const [showBLEConnector, setShowBLEConnector] = useState(false);
   const [logViewerData, setLogViewerData] = useState<string | null>(null);
   const [showChanges, setShowChanges] = useState(false);
+  const [showDefinitionPicker, setShowDefinitionPicker] = useState(false);
+  const [definitionMatches, setDefinitionMatches] = useState<{ entry: DefinitionIndexEntry; mode: 'full' | 'cal' }[]>([]);
+  const [allDefinitions, setAllDefinitions] = useState<DefinitionIndexEntry[]>([]);
+  const [detectedMode, setDetectedMode] = useState<'full' | 'cal' | null>(null);
+  const [calOffset, setCalOffset] = useState<number>(0);
   const [definition, setDefinition] = useState<Definition | null>(null);
   const [binData, setBinData] = useState<Uint8Array | null>(null);
   const [binFileName, setBinFileName] = useState<string | null>(null);
@@ -110,6 +117,8 @@ export function App() {
   const [selectedParam, setSelectedParam] = useState<Parameter | null>(null);
   const [modified, setModified] = useState(false);
   const [vehicleSettings, setVehicleSettings] = useState<VehicleSettings>(loadSettings);
+  const [dragOverDef, setDragOverDef] = useState(false);
+  const [dragOverBin, setDragOverBin] = useState(false);
 
   const jsonInputRef = useRef<HTMLInputElement>(null);
   const binInputRef = useRef<HTMLInputElement>(null);
@@ -167,12 +176,140 @@ export function App() {
   const handleOpenBin = useCallback(async () => {
     const file = binInputRef.current?.files?.[0];
     if (!file) return;
-    const buffer = await file.arrayBuffer();
-    setBinData(new Uint8Array(buffer));
-    setBinFileName(file.name);
+
+    let data: Uint8Array;
+    let displayName = file.name;
+
+    // Parse S19 files, otherwise load as binary
+    if (isS19File(file.name)) {
+      const text = await file.text();
+      data = s19ToBinary(text);
+      displayName = file.name.replace(/\.(s19|srec|mot)$/i, '.bin');
+    } else {
+      const buffer = await file.arrayBuffer();
+      data = new Uint8Array(buffer);
+    }
+
+    setBinData(data);
+    setBinFileName(displayName);
     setModified(false);
     setShowFileMenu(false);
     if (binInputRef.current) binInputRef.current.value = '';
+
+    // Auto-detect and load matching definition
+    try {
+      const matches = await findMatchingDefinitions(data);
+      if (matches.length === 1) {
+        const match = matches[0];
+        const def = await loadDefinition(match.entry.file);
+        setDefinition(def);
+        setDetectedMode(match.mode);
+        setCalOffset(match.mode === 'cal' ? (match.entry.verification?.calOffset || 0) : 0);
+        setSelectedParam(null);
+      } else if (matches.length > 1) {
+        setDefinitionMatches(matches);
+        setShowDefinitionPicker(true);
+      }
+    } catch (err) {
+      console.error('Definition auto-detect failed:', err);
+    }
+  }, []);
+
+  const handleSelectDefinition = useCallback(async (entry: DefinitionIndexEntry, mode: 'full' | 'cal') => {
+    try {
+      const def = await loadDefinition(entry.file);
+      setDefinition(def);
+      setDetectedMode(mode);
+      // For CAL-only files, subtract calOffset to get file offset; for full BIN, addresses map directly
+      setCalOffset(mode === 'cal' ? (entry.verification?.calOffset || 0) : 0);
+      setSelectedParam(null);
+      setShowDefinitionPicker(false);
+      setDefinitionMatches([]); // Clear notification after loading
+    } catch (err) {
+      console.error('Failed to load definition:', err);
+    }
+  }, []);
+
+  const handleSearchDefinitions = useCallback(async () => {
+    if (!binData) return;
+    try {
+      const matches = await findMatchingDefinitions(binData);
+      const all = await loadDefinitionIndex();
+      setDefinitionMatches(matches);
+      setAllDefinitions(all);
+      setShowDefinitionPicker(true);
+      setShowFileMenu(false);
+    } catch (err) {
+      console.error('Definition search failed:', err);
+    }
+  }, [binData]);
+
+  // Drag and drop handlers
+  const handleDefDrop = useCallback(async (e: DragEvent) => {
+    e.preventDefault();
+    setDragOverDef(false);
+    const file = e.dataTransfer?.files[0];
+    if (!file || !file.name.endsWith('.json')) return;
+    try {
+      const text = await file.text();
+      const def = JSON.parse(text) as Definition;
+      setDefinition(def);
+      setSelectedParam(null);
+    } catch (err) {
+      console.error('Failed to load definition:', err);
+    }
+  }, []);
+
+  const handleBinDrop = useCallback(async (e: DragEvent) => {
+    e.preventDefault();
+    setDragOverBin(false);
+    const file = e.dataTransfer?.files[0];
+    if (!file) return;
+
+    const ext = file.name.toLowerCase();
+    const isBinFile = ext.endsWith('.bin') || ext.endsWith('.ori') || ext.endsWith('.mod');
+    const isS19 = isS19File(file.name);
+    if (!isBinFile && !isS19) return;
+
+    let data: Uint8Array;
+    let displayName = file.name;
+
+    // Parse S19 files, otherwise load as binary
+    if (isS19) {
+      const text = await file.text();
+      data = s19ToBinary(text);
+      displayName = file.name.replace(/\.(s19|srec|mot)$/i, '.bin');
+    } else {
+      const buffer = await file.arrayBuffer();
+      data = new Uint8Array(buffer);
+    }
+
+    setBinData(data);
+    setBinFileName(displayName);
+    setModified(false);
+
+    // Auto-detect and load matching definition
+    try {
+      const matches = await findMatchingDefinitions(data);
+      if (matches.length === 1) {
+        const match = matches[0];
+        const def = await loadDefinition(match.entry.file);
+        setDefinition(def);
+        setDetectedMode(match.mode);
+        setCalOffset(match.mode === 'cal' ? (match.entry.verification?.calOffset || 0) : 0);
+        setSelectedParam(null);
+      } else if (matches.length > 1) {
+        setDefinitionMatches(matches);
+        setShowDefinitionPicker(true);
+      }
+    } catch (err) {
+      console.error('Definition auto-detect failed:', err);
+    }
+  }, []);
+
+  const preventDefaults = useCallback((e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
   }, []);
 
   const handleOpenOriginalBin = useCallback(async () => {
@@ -193,14 +330,14 @@ export function App() {
 
     for (const param of definition.parameters) {
       if (param.type === 'VALUE') {
-        const originalValue = readParameterValue(originalBinData, param);
-        const currentValue = readParameterValue(binData, param);
+        const originalValue = readParameterValue(originalBinData, param, calOffset);
+        const currentValue = readParameterValue(binData, param, calOffset);
         if (Math.abs(originalValue - currentValue) > 0.0001) {
           diffs.push({ param, originalValue, currentValue });
         }
       } else {
-        const originalTable = readTableData(originalBinData, param);
-        const currentTable = readTableData(binData, param);
+        const originalTable = readTableData(originalBinData, param, calOffset);
+        const currentTable = readTableData(binData, param, calOffset);
         const cellDiffs: CellDiff[] = [];
 
         for (let r = 0; r < originalTable.length; r++) {
@@ -220,8 +357,8 @@ export function App() {
         const axisDiffs: AxisDiff[] = [];
 
         if (param.xAxis?.address) {
-          const originalXAxis = readAxisData(originalBinData, param.xAxis);
-          const currentXAxis = readAxisData(binData, param.xAxis);
+          const originalXAxis = readAxisData(originalBinData, param.xAxis, calOffset);
+          const currentXAxis = readAxisData(binData, param.xAxis, calOffset);
           const changedIndices: number[] = [];
           for (let i = 0; i < originalXAxis.length; i++) {
             if (Math.abs(originalXAxis[i] - currentXAxis[i]) > 0.0001) {
@@ -234,8 +371,8 @@ export function App() {
         }
 
         if (param.yAxis?.address) {
-          const originalYAxis = readAxisData(originalBinData, param.yAxis);
-          const currentYAxis = readAxisData(binData, param.yAxis);
+          const originalYAxis = readAxisData(originalBinData, param.yAxis, calOffset);
+          const currentYAxis = readAxisData(binData, param.yAxis, calOffset);
           const changedIndices: number[] = [];
           for (let i = 0; i < originalYAxis.length; i++) {
             if (Math.abs(originalYAxis[i] - currentYAxis[i]) > 0.0001) {
@@ -249,8 +386,8 @@ export function App() {
 
         if (cellDiffs.length > 0 || axisDiffs.length > 0) {
           // Read current axis data for display
-          const xAxis = param.xAxis ? readAxisData(binData, param.xAxis) : undefined;
-          const yAxis = param.yAxis ? readAxisData(binData, param.yAxis) : undefined;
+          const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset) : undefined;
+          const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset) : undefined;
 
           diffs.push({
             param,
@@ -266,7 +403,7 @@ export function App() {
     }
 
     return diffs;
-  }, [definition, binData, originalBinData]);
+  }, [definition, binData, originalBinData, calOffset]);
 
   return (
     <div class="flex flex-col h-screen bg-zinc-900 text-zinc-100">
@@ -295,10 +432,10 @@ export function App() {
                   />
                 </label>
                 <label class="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
-                  Open BIN...
+                  Open BIN/S19...
                   <input
                     type="file"
-                    accept=".bin,.ori,.mod"
+                    accept=".bin,.ori,.mod,.s19,.srec,.mot"
                     ref={binInputRef}
                     onChange={handleOpenBin}
                     class="hidden"
@@ -314,6 +451,14 @@ export function App() {
                     class="hidden"
                   />
                 </label>
+                <div class="border-t border-zinc-600 my-1" />
+                <button
+                  onClick={handleSearchDefinitions}
+                  disabled={!binData}
+                  class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 disabled:text-zinc-500 disabled:hover:bg-transparent"
+                >
+                  Find Definition...
+                </button>
                 <div class="border-t border-zinc-600 my-1" />
                 <button
                   onClick={handleSaveBin}
@@ -397,6 +542,13 @@ export function App() {
         {binFileName && (
           <div class="flex items-center gap-2 mr-2">
             <span class="font-mono text-sm text-zinc-400">{binFileName}</span>
+            {detectedMode && (
+              <span class={`px-2 py-0.5 rounded text-xs font-medium ${
+                detectedMode === 'cal' ? 'bg-blue-900 text-blue-300' : 'bg-purple-900 text-purple-300'
+              }`}>
+                {detectedMode === 'cal' ? 'CAL' : 'Full'}
+              </span>
+            )}
             {modified && (
               <span class="px-2 py-0.5 bg-amber-500 text-black rounded text-xs font-semibold">
                 Modified
@@ -408,7 +560,15 @@ export function App() {
 
       {/* Main Content */}
       <div class="flex flex-1 overflow-hidden">
-        <aside class="w-80 flex flex-col bg-zinc-800 border-r border-zinc-700">
+        <aside
+          class={`w-80 flex flex-col bg-zinc-800 border-r border-zinc-700 transition-colors ${
+            dragOverDef ? 'bg-blue-900/30 border-blue-500' : ''
+          }`}
+          onDragOver={(e) => { preventDefaults(e); setDragOverDef(true); }}
+          onDragEnter={(e) => { preventDefaults(e); setDragOverDef(true); }}
+          onDragLeave={() => setDragOverDef(false)}
+          onDrop={handleDefDrop}
+        >
           {definition ? (
             <>
               <div class="flex justify-between px-4 py-3 border-b border-zinc-700 font-semibold">
@@ -423,9 +583,15 @@ export function App() {
             </>
           ) : (
             <label class="flex-1 flex flex-col justify-center items-center p-4 text-zinc-500 text-sm text-center cursor-pointer hover:bg-zinc-700/50 transition-colors">
-              <p>No definition loaded</p>
-              <p class="mt-2">Click to open Definition</p>
-              <p class="mt-1 text-xs">or use A2L Converter</p>
+              {dragOverDef ? (
+                <p class="text-blue-400">Drop .json file here</p>
+              ) : (
+                <>
+                  <p>No definition loaded</p>
+                  <p class="mt-2">Click or drop Definition</p>
+                  <p class="mt-1 text-xs">or use A2L Converter</p>
+                </>
+              )}
               <input
                 type="file"
                 accept=".json"
@@ -444,7 +610,15 @@ export function App() {
           )}
         </aside>
 
-        <main class="flex-1 overflow-auto p-4 relative">
+        <main
+          class={`flex-1 overflow-auto p-4 relative transition-colors ${
+            dragOverBin ? 'bg-green-900/20' : ''
+          }`}
+          onDragOver={(e) => { preventDefaults(e); setDragOverBin(true); }}
+          onDragEnter={(e) => { preventDefaults(e); setDragOverBin(true); }}
+          onDragLeave={() => setDragOverBin(false)}
+          onDrop={handleBinDrop}
+        >
           <div
             class="absolute inset-0 pointer-events-none opacity-[0.10]"
             style={{
@@ -457,18 +631,36 @@ export function App() {
           {!binData && (
             <label class="flex justify-center items-center h-full text-zinc-500 cursor-pointer hover:bg-zinc-700/30 transition-colors">
               <div class="text-center">
-                <p>Click to open BIN file</p>
-                <p class="text-xs mt-1">or use File → Open BIN</p>
+                {dragOverBin ? (
+                  <p class="text-green-400">Drop .bin or .s19 file here</p>
+                ) : (
+                  <>
+                    <p>Click or drop BIN/S19 file</p>
+                    <p class="text-xs mt-1">or use File → Open BIN/S19</p>
+                  </>
+                )}
               </div>
               <input
                 type="file"
-                accept=".bin,.ori,.mod"
+                accept=".bin,.ori,.mod,.s19,.srec,.mot"
                 onChange={async (e) => {
                   const file = (e.target as HTMLInputElement).files?.[0];
                   if (!file) return;
-                  const buffer = await file.arrayBuffer();
-                  setBinData(new Uint8Array(buffer));
-                  setBinFileName(file.name);
+
+                  let data: Uint8Array;
+                  let displayName = file.name;
+
+                  if (isS19File(file.name)) {
+                    const text = await file.text();
+                    data = s19ToBinary(text);
+                    displayName = file.name.replace(/\.(s19|srec|mot)$/i, '.bin');
+                  } else {
+                    const buffer = await file.arrayBuffer();
+                    data = new Uint8Array(buffer);
+                  }
+
+                  setBinData(data);
+                  setBinFileName(displayName);
                   setModified(false);
                   (e.target as HTMLInputElement).value = '';
                 }}
@@ -488,6 +680,7 @@ export function App() {
               parameter={selectedParam}
               binData={binData}
               originalBinData={originalBinData}
+              calOffset={calOffset}
               onModify={handleModify}
             />
           )}
@@ -939,6 +1132,68 @@ export function App() {
                 Tip: Enter total ratios directly and set Final Drive to 1
               </p>
             </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* Definition Picker Modal */}
+      {showDefinitionPicker && (
+        <Modal title="Select Definition" onClose={() => setShowDefinitionPicker(false)} width="lg">
+          <div class="space-y-4">
+            {definitionMatches.length > 0 && (
+              <div>
+                <h3 class="text-sm font-semibold text-green-400 mb-2">
+                  Matching Definitions ({definitionMatches.length})
+                </h3>
+                <div class="space-y-2">
+                  {definitionMatches.map(({ entry, mode }) => (
+                    <button
+                      key={entry.file}
+                      onClick={() => handleSelectDefinition(entry, mode)}
+                      class="w-full text-left p-3 bg-zinc-700 hover:bg-zinc-600 rounded border border-zinc-600 transition-colors"
+                    >
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <div class="font-medium">{entry.name}</div>
+                          <div class="text-xs text-zinc-400 mt-1">
+                            {entry.paramCount} parameters · {entry.verification.expected}
+                          </div>
+                        </div>
+                        <div class="text-xs px-2 py-1 rounded bg-green-900 text-green-300">
+                          {mode === 'cal' ? 'CAL Block' : 'Full BIN'}
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {definitionMatches.length === 0 && (
+              <div class="text-center py-4 text-zinc-500">
+                No matching definitions found for this binary.
+              </div>
+            )}
+
+            {allDefinitions.length > 0 && (
+              <div>
+                <h3 class="text-sm font-semibold text-zinc-400 mb-2 mt-4">
+                  All Definitions ({allDefinitions.length})
+                </h3>
+                <div class="max-h-60 overflow-y-auto space-y-1">
+                  {allDefinitions.map((entry) => (
+                    <button
+                      key={entry.file}
+                      onClick={() => handleSelectDefinition(entry, 'cal')}
+                      class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 rounded transition-colors"
+                    >
+                      <span class="font-medium">{entry.name}</span>
+                      <span class="text-zinc-500 ml-2">({entry.paramCount})</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </Modal>
       )}

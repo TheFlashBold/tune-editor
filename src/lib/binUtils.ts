@@ -1,9 +1,76 @@
-import { DataType, DATA_TYPE_INFO, Parameter, AxisDefinition } from '../types';
+import { DataType, DATA_TYPE_INFO, Parameter, AxisDefinition, DefinitionVerification, BinaryMode } from '../types';
 
 const BASE_OFFSET = 0xa0000000; // Simos ECU flash base address
 
-export function readValue(data: Uint8Array, address: number, dataType: DataType): number {
-  const offset = address - BASE_OFFSET;
+/**
+ * Read ASCII string from binary at given offset
+ */
+export function readString(data: Uint8Array, offset: number, length: number): string {
+  if (offset < 0 || offset + length > data.length) return '';
+  return String.fromCharCode(...data.slice(offset, offset + length));
+}
+
+// Simos CAL block header: "CAS" + 5-char ID, then EPK string starts at offset 8
+const SIMOS_EPK_OFFSET = 8;
+
+/**
+ * Detect binary mode (full bin or CAL block only) and verify definition matches
+ * Returns the detected mode and base offset to use for address calculations
+ */
+export function detectBinaryMode(
+  data: Uint8Array,
+  verification: DefinitionVerification
+): { mode: BinaryMode; baseOffset: number; valid: boolean; found: string } {
+  const { calOffset, expected, length = expected.length } = verification;
+
+  // First check at offset 8 (CAL block only - after CAS header)
+  const foundAtCal = readString(data, SIMOS_EPK_OFFSET, length);
+  if (foundAtCal === expected) {
+    return { mode: 'cal', baseOffset: 0, valid: true, found: foundAtCal };
+  }
+
+  // Then check at calOffset + 8 (full bin)
+  const foundAtFull = readString(data, calOffset + SIMOS_EPK_OFFSET, length);
+  if (foundAtFull === expected) {
+    return { mode: 'full', baseOffset: calOffset, valid: true, found: foundAtFull };
+  }
+
+  // Not found at either location
+  return {
+    mode: 'full',
+    baseOffset: calOffset,
+    valid: false,
+    found: foundAtCal || foundAtFull || ''
+  };
+}
+
+/**
+ * Read CAL version string from binary (typically at start of CAL block for Simos 12/18)
+ */
+export function readCalVersion(data: Uint8Array, offset: number, maxLength: number = 20): string {
+  const bytes: number[] = [];
+  for (let i = 0; i < maxLength && offset + i < data.length; i++) {
+    const b = data[offset + i];
+    // Stop at null or non-printable character
+    if (b === 0 || b < 0x20 || b > 0x7e) break;
+    bytes.push(b);
+  }
+  return String.fromCharCode(...bytes);
+}
+
+/**
+ * Calculate file offset from memory address
+ * @param address - Memory address (e.g. 0xa0340000)
+ * @param calOffset - Where CAL block starts in full bin (e.g. 0x340000), 0 for CAL-only files
+ */
+export function addressToOffset(address: number, calOffset: number = 0): number {
+  // Memory address → flash offset → file offset
+  // e.g. 0xa0340100 → 0x340100 → 0x100 (if calOffset = 0x340000)
+  return (address - BASE_OFFSET) - calOffset;
+}
+
+export function readValue(data: Uint8Array, address: number, dataType: DataType, calOffset: number = 0): number {
+  const offset = addressToOffset(address, calOffset);
   if (offset < 0 || offset >= data.length) return 0;
 
   const info = DATA_TYPE_INFO[dataType];
@@ -21,8 +88,8 @@ export function readValue(data: Uint8Array, address: number, dataType: DataType)
   }
 }
 
-export function writeValue(data: Uint8Array, address: number, dataType: DataType, value: number): void {
-  const offset = address - BASE_OFFSET;
+export function writeValue(data: Uint8Array, address: number, dataType: DataType, value: number, calOffset: number = 0): void {
+  const offset = addressToOffset(address, calOffset);
   if (offset < 0 || offset >= data.length) return;
 
   const info = DATA_TYPE_INFO[dataType];
@@ -47,17 +114,17 @@ export function reverseConversion(phys: number, factor: number, offset: number):
   return (phys - offset) / factor;
 }
 
-export function readParameterValue(data: Uint8Array, param: Parameter): number {
-  const raw = readValue(data, param.address, param.dataType);
+export function readParameterValue(data: Uint8Array, param: Parameter, calOffset: number = 0): number {
+  const raw = readValue(data, param.address, param.dataType, calOffset);
   return applyConversion(raw, param.factor, param.offset);
 }
 
-export function writeParameterValue(data: Uint8Array, param: Parameter, physValue: number): void {
+export function writeParameterValue(data: Uint8Array, param: Parameter, physValue: number, calOffset: number = 0): void {
   const raw = reverseConversion(physValue, param.factor, param.offset);
-  writeValue(data, param.address, param.dataType, raw);
+  writeValue(data, param.address, param.dataType, raw, calOffset);
 }
 
-export function readTableData(data: Uint8Array, param: Parameter): number[][] {
+export function readTableData(data: Uint8Array, param: Parameter, calOffset: number = 0): number[][] {
   const rows = param.rows || 1;
   const cols = param.cols || 1;
   const typeSize = DATA_TYPE_INFO[param.dataType].size;
@@ -70,7 +137,7 @@ export function readTableData(data: Uint8Array, param: Parameter): number[][] {
       // ROW_DIR: data stored row-wise (r * cols + c)
       const idx = param.columnDir ? (c * rows + r) : (r * cols + c);
       const addr = param.address + idx * typeSize;
-      const raw = readValue(data, addr, param.dataType);
+      const raw = readValue(data, addr, param.dataType, calOffset);
       row.push(applyConversion(raw, param.factor, param.offset));
     }
     result.push(row);
@@ -83,7 +150,8 @@ export function writeTableCell(
   param: Parameter,
   row: number,
   col: number,
-  physValue: number
+  physValue: number,
+  calOffset: number = 0
 ): void {
   const rows = param.rows || 1;
   const cols = param.cols || 1;
@@ -91,10 +159,10 @@ export function writeTableCell(
   const idx = param.columnDir ? (col * rows + row) : (row * cols + col);
   const addr = param.address + idx * typeSize;
   const raw = reverseConversion(physValue, param.factor, param.offset);
-  writeValue(data, addr, param.dataType, raw);
+  writeValue(data, addr, param.dataType, raw, calOffset);
 }
 
-export function readAxisData(data: Uint8Array, axis: AxisDefinition): number[] {
+export function readAxisData(data: Uint8Array, axis: AxisDefinition, calOffset: number = 0): number[] {
   if (!axis.address || !axis.dataType) {
     // Generate index-based axis
     return Array.from({ length: axis.points }, (_, i) => i);
@@ -108,7 +176,7 @@ export function readAxisData(data: Uint8Array, axis: AxisDefinition): number[] {
 
   for (let i = 0; i < axis.points; i++) {
     const addr = axis.address + dataOffset + i * typeSize;
-    const raw = readValue(data, addr, axis.dataType);
+    const raw = readValue(data, addr, axis.dataType, calOffset);
     result.push(applyConversion(raw, factor, offset));
   }
   return result;
@@ -118,7 +186,8 @@ export function writeAxisValue(
   data: Uint8Array,
   axis: AxisDefinition,
   index: number,
-  physValue: number
+  physValue: number,
+  calOffset: number = 0
 ): void {
   if (!axis.address || !axis.dataType) return;
 
@@ -129,7 +198,7 @@ export function writeAxisValue(
 
   const addr = axis.address + dataOffset + index * typeSize;
   const raw = reverseConversion(physValue, factor, offset);
-  writeValue(data, addr, axis.dataType, raw);
+  writeValue(data, addr, axis.dataType, raw, calOffset);
 }
 
 export function formatValue(value: number, decimals: number = 2): string {

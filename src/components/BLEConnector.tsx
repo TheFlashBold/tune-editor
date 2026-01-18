@@ -747,28 +747,34 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
         if (csv) onLogData?.(csv);
     }
 
-    async function downloadCSV() {
+    async function shareCSV() {
+        const csv = buildCSV();
+        if (!csv) return;
+
+        const filename = `log_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.csv`;
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const file = new File([blob], filename, { type: 'text/csv' });
+
+        try {
+            await navigator.share({
+                files: [file],
+                title: 'Log Data',
+            });
+        } catch (e) {
+            // User cancelled or share failed
+            if ((e as Error).name !== 'AbortError') {
+                console.error('Share failed:', e);
+            }
+        }
+    }
+
+    function downloadCSV() {
         const csv = buildCSV();
         if (!csv) return;
 
         const filename = `log_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.csv`;
         const blob = new Blob([csv], { type: 'text/csv' });
 
-        // Try Web Share API first (works better on iOS)
-        if (navigator.share && navigator.canShare?.({ files: [new File([blob], filename, { type: 'text/csv' })] })) {
-            try {
-                await navigator.share({
-                    files: [new File([blob], filename, { type: 'text/csv' })],
-                    title: 'Log Data',
-                });
-                return;
-            } catch (e) {
-                // User cancelled or share failed, fall through to other methods
-                if ((e as Error).name === 'AbortError') return;
-            }
-        }
-
-        // Try download with anchor element
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -783,6 +789,17 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
             URL.revokeObjectURL(url);
         }, 500);
     }
+
+    const canShare = (() => {
+        try {
+            return typeof navigator !== 'undefined' &&
+                !!navigator.share &&
+                !!navigator.canShare &&
+                navigator.canShare({ files: [new File([''], 'test.csv', { type: 'text/csv' })] });
+        } catch {
+            return false;
+        }
+    })();
 
     async function copyCSV() {
         const csv = buildCSV();
@@ -936,33 +953,57 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                                     </span>
                                 )}
 
-                                {frames.length > 0 && (
-                                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-                                        <span class="text-sm text-zinc-400 text-center sm:text-left">
-                                            {frames.length} frames ({(frames.length / (vehicleSettings?.loggingRate || 20)).toFixed(1)}s)
-                                        </span>
-                                        <div class="flex gap-2">
-                                            <button
-                                                onClick={downloadCSV}
-                                                class="flex-1 px-3 py-2.5 sm:py-1.5 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
-                                            >
-                                                Save
-                                            </button>
-                                            <button
-                                                onClick={copyCSV}
-                                                class="flex-1 px-3 py-2.5 sm:py-1.5 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
-                                            >
-                                                Copy
-                                            </button>
-                                            <button
-                                                onClick={exportCSV}
-                                                class="flex-1 px-3 py-2.5 sm:py-1.5 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
-                                            >
-                                                View
-                                            </button>
-                                        </div>
-                                    </div>
+                                {logging && frames.length > 0 && (
+                                    <span class="text-sm text-zinc-400 text-center sm:text-left">
+                                        {frames.length} frames ({(frames.length / (vehicleSettings?.loggingRate || 20)).toFixed(1)}s)
+                                    </span>
                                 )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Log captured summary (shown when stopped with data) */}
+                    {!logging && frames.length > 0 && (
+                        <div class="mb-4 p-4 bg-green-900/30 border border-green-700 rounded">
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                                <div class="flex-1">
+                                    <div class="text-green-300 font-medium">
+                                        Log captured: {frames.length} frames
+                                    </div>
+                                    <div class="text-sm text-green-400/70">
+                                        Duration: {(frames[frames.length - 1]?.time ?? 0).toFixed(1)}s
+                                        {frames[0]?.gps && ' • GPS recorded'}
+                                        {frames[0]?.accelerometer && ' • G-force recorded'}
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    {canShare && (
+                                        <button
+                                            onClick={shareCSV}
+                                            class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded font-medium"
+                                        >
+                                            Share
+                                        </button>
+                                    )}
+                                    <button
+                                        onClick={downloadCSV}
+                                        class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-green-600 hover:bg-green-500 active:bg-green-700 rounded font-medium"
+                                    >
+                                        Save
+                                    </button>
+                                    <button
+                                        onClick={copyCSV}
+                                        class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
+                                    >
+                                        Copy
+                                    </button>
+                                    <button
+                                        onClick={exportCSV}
+                                        class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
+                                    >
+                                        View
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     )}
