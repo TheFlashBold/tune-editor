@@ -226,7 +226,7 @@ class MockBLEService {
         };
     }
 
-    async startLogging(_withGPS = false, _withAccel = false, vehicleSettings?: VehicleSettings) {
+    async startLogging(_withGPS = false, _withAccel = false, vehicleSettings?: VehicleSettings, _persistMode = true, _chunkSize = 0) {
         this.vehicleSettings = vehicleSettings || null;
         this.loggingRate = vehicleSettings?.loggingRate || DEFAULT_LOGGING_RATE;
         this.logging = true;
@@ -296,7 +296,7 @@ class MockBLEService {
         log();
     }
 
-    stopLogging() {
+    async stopLogging() {
         console.log('[MockBLE] Stopping fake logging');
         this.logging = false;
         if (this.loopTimeout) {
@@ -333,6 +333,8 @@ class BLEService {
     previousGPS: { speed: number; time: number } | null = null;
     vehicleSettings: VehicleSettings | null = null;
     lastQueryTime: number = 0;
+    persistModeEnabled = true;
+    chunkSize = 0; // 0 = all at once
 
     constructor(device: BluetoothDevice, mtuSize: number = DEFAULT_MTU_SIZE) {
         this.device = device;
@@ -417,6 +419,27 @@ class BLEService {
         const header = new BLEHeader();
         header.cmdSize = command.reduce((total, ab) => total + ab.byteLength, 0);
         header.cmdFlags = BLECommandFlags.PER_CLEAR;
+        await this.writePacket(ConcatArrayBuffer(header.toArrayBuffer(), ...command));
+    }
+
+    async clearPersist() {
+        const header = new BLEHeader();
+        header.cmdSize = 0;
+        header.cmdFlags = BLECommandFlags.PER_CLEAR;
+        await this.writePacket(header.toArrayBuffer());
+    }
+
+    async enablePersist() {
+        const header = new BLEHeader();
+        header.cmdSize = 0;
+        header.cmdFlags = BLECommandFlags.PER_ENABLE;
+        await this.writePacket(header.toArrayBuffer());
+    }
+
+    async addPersistCommand(...command: ArrayBuffer[]) {
+        const header = new BLEHeader();
+        header.cmdSize = command.reduce((total, ab) => total + ab.byteLength, 0);
+        header.cmdFlags = BLECommandFlags.PER_ADD;
         await this.writePacket(ConcatArrayBuffer(header.toArrayBuffer(), ...command));
     }
 
@@ -531,10 +554,33 @@ class BLEService {
         this.currentAccelerometer = null;
     }
 
-    async startLogging(withGPS = false, withAccelerometer = false, vehicleSettings?: VehicleSettings) {
+    async startLogging(withGPS = false, withAccelerometer = false, vehicleSettings?: VehicleSettings, persistMode = true, chunkSize = 0) {
         this.vehicleSettings = vehicleSettings || null;
         this.loggingRate = vehicleSettings?.loggingRate || DEFAULT_LOGGING_RATE;
-        await this.setBridgePersistDelay(1000 / this.loggingRate);
+        this.persistModeEnabled = persistMode;
+        this.chunkSize = chunkSize;
+
+        // Clear any existing persist commands
+        await this.clearPersist();
+
+        if (persistMode) {
+            // Set up persist mode with all PIDs
+            await this.setBridgePersistDelay(1000 / this.loggingRate);
+
+            const pids = [...PIDs.values()];
+            const effectiveChunkSize = chunkSize > 0 ? chunkSize : pids.length;
+
+            // Add PIDs in chunks
+            for (let i = 0; i < pids.length; i += effectiveChunkSize) {
+                const chunk = pids.slice(i, i + effectiveChunkSize);
+                const addresses = chunk.map(({ address }) => NumberToArrayBuffer2(address));
+                await this.addPersistCommand(NumberToArrayBuffer(0x22), ...addresses);
+            }
+
+            // Enable persist mode
+            await this.enablePersist();
+        }
+
         this.logging = true;
         this.startTime = performance.now();
         this.previousGPS = null;
@@ -674,10 +720,12 @@ class BLEService {
         log();
     }
 
-    stopLogging() {
+    async stopLogging() {
         this.logging = false;
         this.stopGPS();
         this.stopAccelerometer();
+        // Clear persist queue
+        await this.clearPersist();
     }
 
     async getLoggingFrame(): Promise<LogFrame> {
@@ -686,16 +734,41 @@ class BLEService {
             data: {}
         };
 
-        // Query all PIDs in one request (no chunking needed with 512 MTU)
         const pids = [...PIDs.values()];
-        const addresses = pids.map(({ address }) => NumberToArrayBuffer2(address));
-        await this.sendUDSCommand(NumberToArrayBuffer(0x22), ...addresses);
 
-        const packet = await this.waitForPacket();
-        if (packet.getUint8(8) !== UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED) {
-            throw new Error("Invalid response");
+        if (this.persistModeEnabled) {
+            // Persist mode: bridge sends data automatically, just wait for packets
+            const effectiveChunkSize = this.chunkSize > 0 ? this.chunkSize : pids.length;
+            const numChunks = Math.ceil(pids.length / effectiveChunkSize);
+
+            for (let c = 0; c < numChunks; c++) {
+                const packet = await this.waitForPacket(
+                    (data) => data.getUint8(8) === UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED,
+                    2000
+                );
+                this.parsePacketData(packet, frame);
+            }
+        } else {
+            // Non-persist mode: send commands manually
+            const effectiveChunkSize = this.chunkSize > 0 ? this.chunkSize : pids.length;
+
+            for (let i = 0; i < pids.length; i += effectiveChunkSize) {
+                const chunk = pids.slice(i, i + effectiveChunkSize);
+                const addresses = chunk.map(({ address }) => NumberToArrayBuffer2(address));
+                await this.sendUDSCommand(NumberToArrayBuffer(0x22), ...addresses);
+
+                const packet = await this.waitForPacket(
+                    (data) => data.getUint8(8) === UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED,
+                    2000
+                );
+                this.parsePacketData(packet, frame);
+            }
         }
 
+        return frame;
+    }
+
+    parsePacketData(packet: DataView, frame: LogFrame) {
         let index = 9;
         while (index < packet.byteLength) {
             const address = packet.getUint16(index);
@@ -718,8 +791,6 @@ class BLEService {
 
             index += pid.length;
         }
-
-        return frame;
     }
 
     disconnect() {
@@ -745,6 +816,8 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
     const [gpsEnabled, setGpsEnabled] = useState(false);
     const [accelEnabled, setAccelEnabled] = useState(false);
     const [logStopped, setLogStopped] = useState(false);
+    const [chunkSize, setChunkSize] = useState(0); // 0 = all at once
+    const [persistMode, setPersistMode] = useState(true);
     const gpsAvailable = !!navigator.geolocation;
     const accelAvailable = !!window.DeviceMotionEvent;
     const serviceRef = useRef<BLEService | MockBLEService | null>(null);
@@ -797,7 +870,7 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
         if (!serviceRef.current) return;
 
         if (logging) {
-            serviceRef.current.stopLogging();
+            await serviceRef.current.stopLogging();
             setLogging(false);
             setLogStopped(true);
         } else {
@@ -808,7 +881,7 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                 setCurrentFrame(frame);
                 setFrames(prev => [...prev, frame]);
             };
-            await serviceRef.current.startLogging(gpsEnabled, accelEnabled, vehicleSettings);
+            await serviceRef.current.startLogging(gpsEnabled, accelEnabled, vehicleSettings, persistMode, chunkSize);
             setLogging(true);
         }
     }
@@ -974,7 +1047,7 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                         </div>
 
                         {status === 'disconnected' && (
-                            <div class="flex items-center gap-2 sm:ml-auto">
+                            <div class="flex flex-wrap items-center gap-2 sm:ml-auto">
                                 {!IS_LOCALHOST && (
                                     <>
                                         <label class="text-xs text-zinc-400">MTU:</label>
@@ -1017,6 +1090,40 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                                         <span class="text-zinc-300 truncate">{value}</span>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Connection Parameters */}
+                    {status === 'connected' && !logging && (
+                        <div class="mb-4 p-3 bg-zinc-900 rounded border border-zinc-700">
+                            <div class="text-xs text-zinc-400 mb-2">Connection Parameters</div>
+                            <div class="flex flex-wrap items-center gap-4">
+                                <label class="flex items-center gap-2 text-sm cursor-pointer select-none">
+                                    <input
+                                        type="checkbox"
+                                        checked={persistMode}
+                                        onChange={(e) => setPersistMode((e.target as HTMLInputElement).checked)}
+                                        class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
+                                    />
+                                    <span>Persist Mode</span>
+                                    <span class="text-xs text-zinc-500">(bridge auto-queries)</span>
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <label class="text-xs text-zinc-400">Chunk Size:</label>
+                                    <input
+                                        type="number"
+                                        value={chunkSize}
+                                        onChange={(e) => setChunkSize(Number((e.target as HTMLInputElement).value))}
+                                        class="w-16 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
+                                        min={0}
+                                        max={PIDs.size}
+                                        placeholder="0"
+                                    />
+                                    <span class="text-xs text-zinc-500">
+                                        {chunkSize === 0 ? `(all ${PIDs.size})` : `(${Math.ceil(PIDs.size / chunkSize)} chunks)`}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     )}
