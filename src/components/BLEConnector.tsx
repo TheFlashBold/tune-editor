@@ -198,6 +198,7 @@ const IS_LOCALHOST = typeof window !== 'undefined' &&
 class MockBLEService {
     logging = false;
     onFrame?: (frame: LogFrame) => void;
+    onLog?: (message: string) => void;
     startTime = 0;
     loggingRate: number = DEFAULT_LOGGING_RATE;
     vehicleSettings: VehicleSettings | null = null;
@@ -208,12 +209,22 @@ class MockBLEService {
     private mockGear = 1;
     private mockBoost = 0;
 
+    log(message: string) {
+        console.log(`[MockBLE] ${message}`);
+        this.onLog?.(message);
+    }
+
     async setup() {
-        console.log('[MockBLE] Setup complete (fake device)');
+        this.log('Connecting to mock device...');
+        await new Promise(r => setTimeout(r, 100));
+        this.log('Mock GATT connected');
+        this.log('Mock BLE setup complete');
     }
 
     async getInfo(): Promise<Record<string, string>> {
-        return {
+        this.log('Querying ECU info...');
+        await new Promise(r => setTimeout(r, 50));
+        const info = {
             VIN: 'WVWZZZ3CZWE123456',
             ODX_IDENTIFIER: 'EV_ECM20TFS0',
             ODX_VERSION: '001003',
@@ -224,17 +235,62 @@ class MockBLEService {
             HW_VERSION: 'H13',
             ENGINE_CODE: 'DKZA',
         };
+        for (const [key, value] of Object.entries(info)) {
+            this.log(`  ${key}: ${value}`);
+            await new Promise(r => setTimeout(r, 20));
+        }
+        this.log('ECU info query complete');
+        return info;
     }
 
-    async startLogging(_withGPS = false, _withAccel = false, vehicleSettings?: VehicleSettings, _persistMode = true, _chunkSize = 0) {
+    async startLogging(_withGPS = false, _withAccel = false, vehicleSettings?: VehicleSettings, persistMode = true, chunkSize = 0) {
         this.vehicleSettings = vehicleSettings || null;
         this.loggingRate = vehicleSettings?.loggingRate || DEFAULT_LOGGING_RATE;
+
+        this.log(`Starting logging: persistMode=${persistMode}, rate=${this.loggingRate}Hz, chunkSize=${chunkSize}`);
+
+        // Simulate persist mode setup
+        if (persistMode) {
+            this.log('Clearing persist queue...');
+            await new Promise(r => setTimeout(r, 10));
+            this.log('Persist queue cleared');
+
+            this.log(`Setting persist delay to ${Math.round(1000 / this.loggingRate)}ms...`);
+            await new Promise(r => setTimeout(r, 10));
+            this.log(`Persist delay set to ${Math.round(1000 / this.loggingRate)}ms`);
+
+            const numPids = PIDs.size;
+            const effectiveChunkSize = chunkSize > 0 ? chunkSize : numPids;
+            const numChunks = Math.ceil(numPids / effectiveChunkSize);
+            this.log(`Adding ${numPids} PIDs in ${numChunks} chunk(s)...`);
+
+            for (let i = 0; i < numChunks; i++) {
+                const start = i * effectiveChunkSize;
+                const end = Math.min(start + effectiveChunkSize, numPids);
+                const size = (end - start) * 2 + 1; // 2 bytes per PID + 1 for service ID
+                this.log(`Adding persist command (${size} bytes, rxID=7e8, txID=7e0)...`);
+                await new Promise(r => setTimeout(r, 10));
+                this.log('Persist command added');
+            }
+
+            this.log('Enabling persist mode...');
+            await new Promise(r => setTimeout(r, 10));
+            this.log('Persist mode enabled');
+            this.log('Persist mode setup complete, waiting for packets...');
+        }
+
         this.logging = true;
         this.startTime = performance.now();
-        console.log('[MockBLE] Starting fake logging at', this.loggingRate, 'Hz');
 
+        let frameCount = 0;
         const log = () => {
             if (!this.logging) return;
+            frameCount++;
+
+            // Log every 10th frame to avoid spam
+            if (frameCount % 10 === 1) {
+                this.log(`Received packet (mock frame #${frameCount})`);
+            }
 
             // Simulate driving - random acceleration/deceleration
             const throttleChange = (Math.random() - 0.4) * 10;
@@ -297,17 +353,18 @@ class MockBLEService {
     }
 
     async stopLogging() {
-        console.log('[MockBLE] Stopping fake logging');
+        this.log('Stopping logging...');
         this.logging = false;
         if (this.loopTimeout) {
             clearTimeout(this.loopTimeout);
             this.loopTimeout = null;
         }
+        this.log('Logging stopped');
     }
 
     disconnect() {
         this.stopLogging();
-        console.log('[MockBLE] Disconnected');
+        this.log('Disconnected');
     }
 }
 
@@ -320,6 +377,7 @@ class BLEService {
     interval: ReturnType<typeof setInterval> | null = null;
     logging = false;
     onFrame?: (frame: LogFrame) => void;
+    onLog?: (message: string) => void;
     onPacketListeners: ((packet: DataView) => void)[] = [];
     startTime = 0;
     mtuSize: number;
@@ -341,10 +399,17 @@ class BLEService {
         this.mtuSize = mtuSize;
     }
 
+    log(message: string) {
+        console.log(`[BLE] ${message}`);
+        this.onLog?.(message);
+    }
+
     async setup() {
         if (!this.device.gatt) throw new Error("No GATT");
+        this.log('Connecting to GATT server...');
         await this.device.gatt.connect();
 
+        this.log('Getting BLE service...');
         this.service = await this.device.gatt.getPrimaryService(BLE_SERVICE_UUID);
         this.reader = await this.service.getCharacteristic(BLE_DATA_RX_UUID);
         await this.reader.startNotifications();
@@ -354,6 +419,7 @@ class BLEService {
 
         this.writer = await this.service.getCharacteristic(BLE_DATA_TX_UUID);
         this.interval = setInterval(this.run.bind(this), 1000 / (this.loggingRate * 2));
+        this.log('BLE setup complete');
     }
 
     async run() {
@@ -408,11 +474,13 @@ class BLEService {
     }
 
     async setBridgePersistDelay(delay: number) {
+        this.log(`Setting persist delay to ${delay}ms...`);
         const header = new BLEHeader();
         header.cmdSize = 2;
         header.cmdFlags = BLECommandFlags.SETTINGS | BLESettings.PERSIST_DELAY;
         const packet = ConcatArrayBuffer(header.toArrayBuffer(), delay & 0xFF, (delay & 0xFF00) >> 8);
         await this.writePacket(packet);
+        this.log(`Persist delay set to ${delay}ms`);
     }
 
     async sendUDSCommand(...command: ArrayBuffer[]) {
@@ -423,30 +491,38 @@ class BLEService {
     }
 
     async clearPersist() {
+        this.log('Clearing persist queue...');
         const header = new BLEHeader();
         header.cmdSize = 0;
         header.cmdFlags = BLECommandFlags.PER_CLEAR;
         await this.writePacket(header.toArrayBuffer());
+        this.log('Persist queue cleared');
     }
 
     async enablePersist() {
+        this.log('Enabling persist mode...');
         const header = new BLEHeader();
         header.cmdSize = 0;
         header.cmdFlags = BLECommandFlags.PER_ENABLE;
         await this.writePacket(header.toArrayBuffer());
+        this.log('Persist mode enabled');
     }
 
     async addPersistCommand(...command: ArrayBuffer[]) {
+        const totalSize = command.reduce((total, ab) => total + ab.byteLength, 0);
+        this.log(`Adding persist command (${totalSize} bytes, rxID=${BLE_HEADER_RX.toString(16)}, txID=${BLE_HEADER_TX.toString(16)})...`);
         const header = new BLEHeader();
-        header.cmdSize = command.reduce((total, ab) => total + ab.byteLength, 0);
+        header.cmdSize = totalSize;
         header.cmdFlags = BLECommandFlags.PER_ADD;
         await this.writePacket(ConcatArrayBuffer(header.toArrayBuffer(), ...command));
+        this.log('Persist command added');
     }
 
     async waitForPacket(matchFn?: (data: DataView) => boolean, timeoutMs = 500): Promise<DataView> {
         return new Promise((resolve, reject) => {
             const timeout = setTimeout(() => {
                 this.offPacket(listener);
+                this.log(`Timeout waiting for packet (${timeoutMs}ms)`);
                 reject(new Error("Timeout"));
             }, timeoutMs);
 
@@ -456,6 +532,7 @@ class BLEService {
 
                 clearTimeout(timeout);
                 this.offPacket(listener);
+                this.log(`Received packet (${packet.byteLength} bytes)`);
                 resolve(packet);
             };
 
@@ -464,6 +541,7 @@ class BLEService {
     }
 
     async getInfo(): Promise<Record<string, string>> {
+        this.log('Querying ECU info...');
         const info: Record<string, string> = {};
 
         for (const [key, address] of Object.entries(ECU_INFO_FIELDS)) {
@@ -477,11 +555,14 @@ class BLEService {
                 const response = await this.waitForPacket((data) => data.getUint8(8) === UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED);
                 const buffer = response.buffer.slice(11, response.byteLength);
                 info[key] = new TextDecoder().decode(buffer);
+                this.log(`  ${key}: ${info[key]}`);
             } catch {
                 info[key] = "N/A";
+                this.log(`  ${key}: N/A (timeout)`);
             }
         }
 
+        this.log('ECU info query complete');
         return info;
     }
 
@@ -560,6 +641,8 @@ class BLEService {
         this.persistModeEnabled = persistMode;
         this.chunkSize = chunkSize;
 
+        this.log(`Starting logging: persistMode=${persistMode}, rate=${this.loggingRate}Hz, chunkSize=${chunkSize}`);
+
         // Clear any existing persist commands
         await this.clearPersist();
 
@@ -569,6 +652,9 @@ class BLEService {
 
             const pids = [...PIDs.values()];
             const effectiveChunkSize = chunkSize > 0 ? chunkSize : pids.length;
+            const numChunks = Math.ceil(pids.length / effectiveChunkSize);
+
+            this.log(`Adding ${pids.length} PIDs in ${numChunks} chunk(s)...`);
 
             // Add PIDs in chunks
             for (let i = 0; i < pids.length; i += effectiveChunkSize) {
@@ -579,6 +665,7 @@ class BLEService {
 
             // Enable persist mode
             await this.enablePersist();
+            this.log('Persist mode setup complete, waiting for packets...');
         }
 
         this.logging = true;
@@ -818,18 +905,26 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
     const [logStopped, setLogStopped] = useState(false);
     const [chunkSize, setChunkSize] = useState(0); // 0 = all at once
     const [persistMode, setPersistMode] = useState(true);
+    const [debugLogs, setDebugLogs] = useState<string[]>([]);
+    const [showDebugLogs, setShowDebugLogs] = useState(false);
     const gpsAvailable = !!navigator.geolocation;
     const accelAvailable = !!window.DeviceMotionEvent;
     const serviceRef = useRef<BLEService | MockBLEService | null>(null);
+    const debugLogRef = useRef<HTMLDivElement | null>(null);
 
     async function connect() {
         try {
             setStatus('connecting');
+            setDebugLogs([]);
+            setShowDebugLogs(true);
 
             if (IS_LOCALHOST) {
                 // Use mock service on localhost for testing
-                console.log('[BLE] Using mock service (localhost)');
                 const service = new MockBLEService();
+                service.onLog = (message) => {
+                    const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 });
+                    setDebugLogs(prev => [...prev.slice(-99), `${timestamp} ${message}`]);
+                };
                 await service.setup();
                 serviceRef.current = service;
 
@@ -844,6 +939,10 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
             });
 
             const service = new BLEService(device, mtu);
+            service.onLog = (message) => {
+                const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 });
+                setDebugLogs(prev => [...prev.slice(-99), `${timestamp} ${message}`]);
+            };
             await service.setup();
             serviceRef.current = service;
 
@@ -1028,6 +1127,13 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
             serviceRef.current?.disconnect();
         };
     }, []);
+
+    // Auto-scroll debug logs
+    useEffect(() => {
+        if (debugLogRef.current) {
+            debugLogRef.current.scrollTop = debugLogRef.current.scrollHeight;
+        }
+    }, [debugLogs]);
 
     return (
         <Modal title="BLE ISO-TP Bridge" onClose={onClose} width="lg">
@@ -1491,6 +1597,45 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                     Web Bluetooth is not supported in this browser.
                     <br />
                     <span class="text-xs text-red-400">Use Chrome or Edge on Desktop/Android</span>
+                </div>
+            )}
+
+            {/* Debug Log Panel */}
+            {status !== 'disconnected' && (
+                <div class="mt-4 border-t border-zinc-700 pt-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <button
+                            onClick={() => setShowDebugLogs(!showDebugLogs)}
+                            class="text-xs text-zinc-400 hover:text-zinc-300 flex items-center gap-1"
+                        >
+                            <span>{showDebugLogs ? '▼' : '▶'}</span>
+                            <span>Debug Log ({debugLogs.length})</span>
+                        </button>
+                        {showDebugLogs && debugLogs.length > 0 && (
+                            <button
+                                onClick={() => setDebugLogs([])}
+                                class="text-xs text-zinc-500 hover:text-zinc-400"
+                            >
+                                Clear
+                            </button>
+                        )}
+                    </div>
+                    {showDebugLogs && (
+                        <div
+                            ref={debugLogRef}
+                            class="h-32 overflow-y-auto bg-zinc-900 border border-zinc-700 rounded p-2 font-mono text-xs"
+                        >
+                            {debugLogs.length === 0 ? (
+                                <div class="text-zinc-500 italic">No log entries yet...</div>
+                            ) : (
+                                debugLogs.map((log, i) => (
+                                    <div key={i} class="text-zinc-400 whitespace-pre-wrap">
+                                        {log}
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    )}
                 </div>
             )}
         </Modal>
