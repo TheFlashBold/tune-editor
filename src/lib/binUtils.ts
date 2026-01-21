@@ -260,69 +260,11 @@ export function addressToOffset(address: number, calOffset: number = 0): number 
   return (address - BASE_OFFSET) - calOffset;
 }
 
-/**
- * Check if a file offset lands on an ECC position
- * ECC bytes are at positions 30-31 and 62-63 within each 64-byte block
- */
-function isOnEccPosition(offset: number): boolean {
-  const posInBlock = offset % ECC_BLOCK_SIZE;
-  return posInBlock >= 30 && posInBlock <= 31 || posInBlock >= 62 && posInBlock <= 63;
-}
-
-/**
- * Check if reading a value of given size at offset would touch ECC positions
- */
-function touchesEcc(offset: number, size: number): boolean {
-  for (let i = 0; i < size; i++) {
-    if (isOnEccPosition(offset + i)) return true;
-  }
-  return false;
-}
-
-/**
- * Read bytes from data, skipping ECC positions
- * Returns a Uint8Array with the requested number of data bytes
- */
-function readBytesSkippingEcc(data: Uint8Array, startOffset: number, numBytes: number): Uint8Array {
-  const result = new Uint8Array(numBytes);
-  let srcOffset = startOffset;
-
-  for (let i = 0; i < numBytes; i++) {
-    srcOffset = skipEccBytes(srcOffset);
-    if (srcOffset >= data.length) {
-      result[i] = 0;
-    } else {
-      result[i] = data[srcOffset];
-    }
-    srcOffset++;
-  }
-
-  return result;
-}
-
-export function readValue(data: Uint8Array, address: number, dataType: DataType, calOffset: number = 0, skipEcc: boolean = false): number {
+export function readValue(data: Uint8Array, address: number, dataType: DataType, calOffset: number = 0): number {
   const offset = addressToOffset(address, calOffset);
   if (offset < 0 || offset >= data.length) return 0;
 
   const info = DATA_TYPE_INFO[dataType];
-
-  if (skipEcc) {
-    // Read bytes while skipping ECC positions
-    const bytes = readBytesSkippingEcc(data, offset, info.size);
-    const view = new DataView(bytes.buffer);
-
-    switch (dataType) {
-      case 'UBYTE': return view.getUint8(0);
-      case 'SBYTE': return view.getInt8(0);
-      case 'UWORD': return view.getUint16(0, true);
-      case 'SWORD': return view.getInt16(0, true);
-      case 'ULONG': return view.getUint32(0, true);
-      case 'SLONG': return view.getInt32(0, true);
-      case 'FLOAT32': return view.getFloat32(0, true);
-      default: return 0;
-    }
-  }
-
   const view = new DataView(data.buffer, data.byteOffset + offset, info.size);
 
   switch (dataType) {
@@ -363,8 +305,8 @@ export function reverseConversion(phys: number, factor: number, offset: number):
   return (phys - offset) / factor;
 }
 
-export function readParameterValue(data: Uint8Array, param: Parameter, calOffset: number = 0, skipEcc: boolean = false): number {
-  const raw = readValue(data, param.address, param.dataType, calOffset, skipEcc);
+export function readParameterValue(data: Uint8Array, param: Parameter, calOffset: number = 0): number {
+  const raw = readValue(data, param.address, param.dataType, calOffset);
   return applyConversion(raw, param.factor, param.offset);
 }
 
@@ -373,7 +315,7 @@ export function writeParameterValue(data: Uint8Array, param: Parameter, physValu
   writeValue(data, param.address, param.dataType, raw, calOffset);
 }
 
-export function readTableData(data: Uint8Array, param: Parameter, calOffset: number = 0, skipEcc: boolean = false, debug: boolean = false): number[][] {
+export function readTableData(data: Uint8Array, param: Parameter, calOffset: number = 0, debug: boolean = false): number[][] {
   const rows = param.rows || 1;
   const cols = param.cols || 1;
   const typeSize = DATA_TYPE_INFO[param.dataType].size;
@@ -391,7 +333,6 @@ export function readTableData(data: Uint8Array, param: Parameter, calOffset: num
       factor: param.factor,
       offset: param.offset,
       typeSize,
-      skipEcc,
     });
   }
 
@@ -402,7 +343,7 @@ export function readTableData(data: Uint8Array, param: Parameter, calOffset: num
       // ROW_DIR: data stored row-wise (r * cols + c) - all of row 0, then row 1, etc.
       const idx = param.columnDir ? (c * rows + r) : (r * cols + c);
       const addr = param.address + dataOffset + idx * typeSize;
-      const raw = readValue(data, addr, param.dataType, calOffset, skipEcc);
+      const raw = readValue(data, addr, param.dataType, calOffset);
       const phys = applyConversion(raw, param.factor, param.offset);
       if (debug && r < 3 && c < 4) {
         const fileOffset = addressToOffset(addr, calOffset);
@@ -433,7 +374,7 @@ export function writeTableCell(
   writeValue(data, addr, param.dataType, raw, calOffset);
 }
 
-export function readAxisData(data: Uint8Array, axis: AxisDefinition, calOffset: number = 0, skipEcc: boolean = false): number[] {
+export function readAxisData(data: Uint8Array, axis: AxisDefinition, calOffset: number = 0): number[] {
   if (!axis.address || !axis.dataType) {
     // Generate index-based axis
     return Array.from({ length: axis.points }, (_, i) => i);
@@ -447,7 +388,7 @@ export function readAxisData(data: Uint8Array, axis: AxisDefinition, calOffset: 
 
   for (let i = 0; i < axis.points; i++) {
     const addr = axis.address + dataOffset + i * typeSize;
-    const raw = readValue(data, addr, axis.dataType, calOffset, skipEcc);
+    const raw = readValue(data, addr, axis.dataType, calOffset);
     result.push(applyConversion(raw, factor, offset));
   }
   return result;

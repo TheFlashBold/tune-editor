@@ -126,3 +126,120 @@ export function isS19File(filename: string): boolean {
   const lower = filename.toLowerCase();
   return lower.endsWith('.s19') || lower.endsWith('.srec') || lower.endsWith('.mot');
 }
+
+/**
+ * Intel HEX format parser
+ *
+ * Record format: :LLAAAATT[DD...]CC
+ * LL - Byte count
+ * AAAA - 16-bit address
+ * TT - Record type (00=data, 01=EOF, 02=ext segment, 04=ext linear address)
+ * DD - Data bytes
+ * CC - Checksum
+ */
+
+interface HexChunk {
+  address: number;
+  data: number[];
+}
+
+/**
+ * Parse Intel HEX content into address/data chunks
+ */
+function parseHex(content: string): HexChunk[] {
+  const lines = content.split('\n');
+  const chunks: HexChunk[] = [];
+  let extendedAddress = 0; // Upper 16 bits from type 04 records
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed.startsWith(':')) continue;
+
+    const byteCount = parseInt(trimmed.substring(1, 3), 16);
+    const address = parseInt(trimmed.substring(3, 7), 16);
+    const recordType = parseInt(trimmed.substring(7, 9), 16);
+
+    if (recordType === 0x00) {
+      // Data record
+      const data: number[] = [];
+      for (let i = 0; i < byteCount; i++) {
+        const byteHex = trimmed.substring(9 + i * 2, 11 + i * 2);
+        data.push(parseInt(byteHex, 16));
+      }
+      if (data.length > 0) {
+        chunks.push({
+          address: extendedAddress + address,
+          data
+        });
+      }
+    } else if (recordType === 0x02) {
+      // Extended segment address (shifts left by 4)
+      const segment = parseInt(trimmed.substring(9, 13), 16);
+      extendedAddress = segment << 4;
+    } else if (recordType === 0x04) {
+      // Extended linear address (upper 16 bits)
+      const upper = parseInt(trimmed.substring(9, 13), 16);
+      extendedAddress = upper << 16;
+    } else if (recordType === 0x01) {
+      // EOF
+      break;
+    }
+  }
+
+  return chunks;
+}
+
+/**
+ * Convert Intel HEX content to Uint8Array binary
+ */
+export function hexToBinary(content: string): Uint8Array {
+  const chunks = parseHex(content);
+  if (chunks.length === 0) {
+    throw new Error('No data records found in HEX file');
+  }
+
+  // Normalize addresses (handle TriCore aliasing)
+  const normalizedChunks = chunks.map(chunk => ({
+    address: normalizeAddress(chunk.address),
+    data: chunk.data
+  }));
+
+  // Sort by address
+  normalizedChunks.sort((a, b) => a.address - b.address);
+
+  // Find address range
+  const minAddr = normalizedChunks[0].address;
+  let maxAddr = 0;
+  for (const chunk of normalizedChunks) {
+    const end = chunk.address + chunk.data.length;
+    if (end > maxAddr) maxAddr = end;
+  }
+
+  // Use base offset for high addresses
+  const baseOffset = minAddr >= 0x80000000 ? minAddr : 0;
+  const size = maxAddr - baseOffset;
+
+  // Create buffer filled with 0xFF (erased flash)
+  const buffer = new Uint8Array(size);
+  buffer.fill(0xFF);
+
+  // Write chunks
+  for (const chunk of normalizedChunks) {
+    const offset = chunk.address - baseOffset;
+    if (offset >= 0 && offset + chunk.data.length <= size) {
+      for (let i = 0; i < chunk.data.length; i++) {
+        buffer[offset + i] = chunk.data[i];
+      }
+    }
+  }
+
+  return buffer;
+}
+
+/**
+ * Check if filename is an Intel HEX file
+ */
+export function isHexFile(filename: string): boolean {
+  const lower = filename.toLowerCase();
+  return lower.endsWith('.hex') || lower.endsWith('.ihex');
+}

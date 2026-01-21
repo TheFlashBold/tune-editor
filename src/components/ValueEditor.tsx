@@ -17,33 +17,32 @@ interface Props {
   binData: Uint8Array;
   originalBinData?: Uint8Array | null;
   calOffset?: number;
-  skipEcc?: boolean;
   onModify: () => void;
 }
 
-export function ValueEditor({ parameter, binData, originalBinData, calOffset = 0, skipEcc = false, onModify }: Props) {
+export function ValueEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
   if (parameter.type === 'VALUE') {
-    return <ScalarEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} skipEcc={skipEcc} onModify={onModify} />;
+    return <ScalarEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} onModify={onModify} />;
   }
-  return <TableEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} skipEcc={skipEcc} onModify={onModify} />;
+  return <TableEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} onModify={onModify} />;
 }
 
-function ScalarEditor({ parameter, binData, originalBinData, calOffset = 0, skipEcc = false, onModify }: Props) {
-  const [value, setValue] = useState(() => readParameterValue(binData, parameter, calOffset, skipEcc));
+function ScalarEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
+  const [value, setValue] = useState(() => readParameterValue(binData, parameter, calOffset));
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [showOriginal, setShowOriginal] = useState(false);
 
   const originalValue = useMemo(
-    () => originalBinData ? readParameterValue(originalBinData, parameter, calOffset, skipEcc) : null,
-    [originalBinData, parameter, calOffset, skipEcc]
+    () => originalBinData ? readParameterValue(originalBinData, parameter, calOffset) : null,
+    [originalBinData, parameter, calOffset]
   );
 
   const hasChanged = originalValue !== null && Math.abs(originalValue - value) > 0.0001;
 
   useEffect(() => {
-    setValue(readParameterValue(binData, parameter, calOffset, skipEcc));
-  }, [parameter, binData, calOffset, skipEcc]);
+    setValue(readParameterValue(binData, parameter, calOffset));
+  }, [parameter, binData, calOffset]);
 
   const handleDoubleClick = () => {
     setInputValue(formatValue(value, 4));
@@ -137,7 +136,23 @@ function getCellColor(value: number, min: number, max: number): string {
   return `hsl(${hue}, 65%, 70%)`;
 }
 
-function TableEditor({ parameter, binData, originalBinData, calOffset = 0, skipEcc = false, onModify }: Props) {
+interface Selection {
+  startRow: number;
+  startCol: number;
+  endRow: number;
+  endCol: number;
+}
+
+function normalizeSelection(sel: Selection): Selection {
+  return {
+    startRow: Math.min(sel.startRow, sel.endRow),
+    startCol: Math.min(sel.startCol, sel.endCol),
+    endRow: Math.max(sel.startRow, sel.endRow),
+    endCol: Math.max(sel.startCol, sel.endCol),
+  };
+}
+
+function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
   const [tableData, setTableData] = useState<number[][]>([]);
   const [editCell, setEditCell] = useState<{ row: number; col: number } | null>(null);
   const [editAxisCell, setEditAxisCell] = useState<{ axis: 'x' | 'y'; index: number } | null>(null);
@@ -146,19 +161,26 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, skipE
   const [xAxisData, setXAxisData] = useState<number[]>([]);
   const [yAxisData, setYAxisData] = useState<number[]>([]);
 
+  // Selection state
+  const [selection, setSelection] = useState<Selection | null>(null);
+  const [isSelecting, setIsSelecting] = useState(false);
+  const [selectionAnchor, setSelectionAnchor] = useState<{ row: number; col: number } | null>(null);
+  const [modifyValue, setModifyValue] = useState('');
+  const [showModifyInput, setShowModifyInput] = useState<'add' | 'multiply' | 'set' | null>(null);
+
   const originalTableData = useMemo(
-    () => originalBinData ? readTableData(originalBinData, parameter, calOffset, skipEcc) : null,
-    [originalBinData, parameter, calOffset, skipEcc]
+    () => originalBinData ? readTableData(originalBinData, parameter, calOffset) : null,
+    [originalBinData, parameter, calOffset]
   );
 
   const originalXAxis = useMemo(
-    () => originalBinData && parameter.xAxis ? readAxisData(originalBinData, parameter.xAxis, calOffset, skipEcc) : null,
-    [originalBinData, parameter, calOffset, skipEcc]
+    () => originalBinData && parameter.xAxis ? readAxisData(originalBinData, parameter.xAxis, calOffset) : null,
+    [originalBinData, parameter, calOffset]
   );
 
   const originalYAxis = useMemo(
-    () => originalBinData && parameter.yAxis ? readAxisData(originalBinData, parameter.yAxis, calOffset, skipEcc) : null,
-    [originalBinData, parameter, calOffset, skipEcc]
+    () => originalBinData && parameter.yAxis ? readAxisData(originalBinData, parameter.yAxis, calOffset) : null,
+    [originalBinData, parameter, calOffset]
   );
 
   const hasChanged = useMemo(() => {
@@ -190,13 +212,13 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, skipE
 
   // These are used for initial loading only
   const xAxis = useMemo(
-    () => (parameter.xAxis ? readAxisData(binData, parameter.xAxis, calOffset, skipEcc) : []),
-    [parameter, binData, calOffset, skipEcc]
+    () => (parameter.xAxis ? readAxisData(binData, parameter.xAxis, calOffset) : []),
+    [parameter, binData, calOffset]
   );
 
   const yAxis = useMemo(
-    () => (parameter.yAxis ? readAxisData(binData, parameter.yAxis, calOffset, skipEcc) : []),
-    [parameter, binData, calOffset, skipEcc]
+    () => (parameter.yAxis ? readAxisData(binData, parameter.yAxis, calOffset) : []),
+    [parameter, binData, calOffset]
   );
 
   // Initialize axis data state
@@ -223,8 +245,8 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, skipE
   const dataDecimals = useMemo(() => getConsistentDecimals(tableData.flat(), 2), [tableData]);
 
   useEffect(() => {
-    setTableData(readTableData(binData, parameter, calOffset, skipEcc));
-  }, [parameter, binData, calOffset, skipEcc]);
+    setTableData(readTableData(binData, parameter, calOffset));
+  }, [parameter, binData, calOffset]);
 
   const handleCellDoubleClick = (row: number, col: number) => {
     setInputValue(formatValue(tableData[row][col], 4));
@@ -314,6 +336,147 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, skipE
     return Math.abs(originalTableData[row][col] - tableData[row][col]) > 0.0001;
   };
 
+  // Check if a cell is in the current selection
+  const isSelected = (row: number, col: number): boolean => {
+    if (!selection) return false;
+    const norm = normalizeSelection(selection);
+    return row >= norm.startRow && row <= norm.endRow && col >= norm.startCol && col <= norm.endCol;
+  };
+
+  // Get count of selected cells
+  const selectionCount = useMemo(() => {
+    if (!selection) return 0;
+    const norm = normalizeSelection(selection);
+    return (norm.endRow - norm.startRow + 1) * (norm.endCol - norm.startCol + 1);
+  }, [selection]);
+
+  // Selection handlers
+  const handleCellMouseDown = (row: number, col: number, e: MouseEvent) => {
+    if (e.shiftKey && selectionAnchor) {
+      // Extend selection from anchor
+      setSelection({
+        startRow: selectionAnchor.row,
+        startCol: selectionAnchor.col,
+        endRow: row,
+        endCol: col,
+      });
+    } else {
+      // Start new selection
+      setSelectionAnchor({ row, col });
+      setSelection({ startRow: row, startCol: col, endRow: row, endCol: col });
+      setIsSelecting(true);
+    }
+  };
+
+  const handleCellMouseEnter = (row: number, col: number) => {
+    if (isSelecting && selectionAnchor) {
+      setSelection({
+        startRow: selectionAnchor.row,
+        startCol: selectionAnchor.col,
+        endRow: row,
+        endCol: col,
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsSelecting(false);
+  };
+
+  // Copy selection to clipboard
+  const copySelection = () => {
+    if (!selection || tableData.length === 0) return;
+    const norm = normalizeSelection(selection);
+    const rows: string[] = [];
+    for (let r = norm.startRow; r <= norm.endRow; r++) {
+      const cols: string[] = [];
+      for (let c = norm.startCol; c <= norm.endCol; c++) {
+        cols.push(formatValue(tableData[r][c], 4));
+      }
+      rows.push(cols.join('\t'));
+    }
+    navigator.clipboard.writeText(rows.join('\n'));
+  };
+
+  // Paste from clipboard
+  const pasteSelection = async () => {
+    if (!selection) return;
+    try {
+      const text = await navigator.clipboard.readText();
+      const norm = normalizeSelection(selection);
+      const rows = text.trim().split('\n').map(r => r.split('\t').map(c => parseFloat(c.trim())));
+
+      const newData = tableData.map(r => [...r]);
+      for (let r = 0; r < rows.length && norm.startRow + r < tableData.length; r++) {
+        for (let c = 0; c < rows[r].length && norm.startCol + c < tableData[0].length; c++) {
+          const value = rows[r][c];
+          if (!isNaN(value)) {
+            const targetRow = norm.startRow + r;
+            const targetCol = norm.startCol + c;
+            writeTableCell(binData, parameter, targetRow, targetCol, value, calOffset);
+            newData[targetRow][targetCol] = value;
+          }
+        }
+      }
+      setTableData(newData);
+      onModify();
+    } catch (e) {
+      console.error('Paste failed:', e);
+    }
+  };
+
+  // Modify selected cells
+  const modifySelection = (operation: 'add' | 'multiply' | 'set', value: number) => {
+    if (!selection || isNaN(value)) return;
+    const norm = normalizeSelection(selection);
+    const newData = tableData.map(r => [...r]);
+
+    for (let r = norm.startRow; r <= norm.endRow; r++) {
+      for (let c = norm.startCol; c <= norm.endCol; c++) {
+        let newValue: number;
+        if (operation === 'add') {
+          newValue = tableData[r][c] + value;
+        } else if (operation === 'multiply') {
+          // 50 means 50% of current value
+          newValue = tableData[r][c] * (value / 100);
+        } else {
+          // set to exact value
+          newValue = value;
+        }
+        writeTableCell(binData, parameter, r, c, newValue, calOffset);
+        newData[r][c] = newValue;
+      }
+    }
+    setTableData(newData);
+    onModify();
+    setShowModifyInput(null);
+    setModifyValue('');
+  };
+
+  // Keyboard handler for copy/paste
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'c' && selection) {
+        e.preventDefault();
+        copySelection();
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key === 'v' && selection) {
+        e.preventDefault();
+        pasteSelection();
+      }
+      if (e.key === 'Escape') {
+        setSelection(null);
+        setShowModifyInput(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [selection, tableData]);
+
   return (
     <div>
       <div class="flex items-start justify-between mb-4">
@@ -335,12 +498,83 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, skipE
         )}
       </div>
 
-      <div class="flex flex-wrap gap-4 mb-6 p-3 bg-zinc-800 rounded text-xs text-zinc-400">
+      <div class="flex flex-wrap items-center gap-4 mb-6 p-3 bg-zinc-800 rounded text-xs text-zinc-400">
         <span>Address: 0x{parameter.address.toString(16).toUpperCase()}</span>
         <span>Size: {parameter.rows || 1} x {parameter.cols || 1}</span>
         <span>Z: {parameter.unit || '-'}</span>
         {parameter.xAxis && <span>X: {parameter.xAxis.unit || '-'}</span>}
         {parameter.yAxis && <span>Y: {parameter.yAxis.unit || '-'}</span>}
+
+        {/* Selection info and modify buttons */}
+        {selection && selectionCount > 0 && (
+          <>
+            <span class="border-l border-zinc-600 pl-4 text-zinc-300">
+              {selectionCount} cell{selectionCount > 1 ? 's' : ''}
+            </span>
+            <div class="flex items-center gap-1">
+              {showModifyInput ? (
+                <div class="flex items-center gap-1">
+                  <input
+                    type="text"
+                    value={modifyValue}
+                    onInput={e => setModifyValue((e.target as HTMLInputElement).value)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter') {
+                        modifySelection(showModifyInput, parseFloat(modifyValue));
+                      }
+                      if (e.key === 'Escape') {
+                        setShowModifyInput(null);
+                        setModifyValue('');
+                      }
+                    }}
+                    placeholder={showModifyInput === 'add' ? '+/-' : showModifyInput === 'multiply' ? '100' : 'value'}
+                    autoFocus
+                    class="w-16 px-1.5 py-0.5 bg-zinc-700 border border-zinc-600 rounded text-zinc-100 text-xs"
+                  />
+                  <span class="text-zinc-500 text-xs">
+                    {showModifyInput === 'multiply' && '%'}
+                  </span>
+                  <button
+                    onClick={() => modifySelection(showModifyInput, parseFloat(modifyValue))}
+                    class="px-2 py-0.5 bg-blue-600 text-white rounded text-xs hover:bg-blue-500"
+                  >
+                    OK
+                  </button>
+                  <button
+                    onClick={() => { setShowModifyInput(null); setModifyValue(''); }}
+                    class="px-1.5 py-0.5 bg-zinc-700 text-zinc-400 rounded text-xs hover:bg-zinc-600"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setShowModifyInput('add')}
+                    class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
+                    title="Add/subtract value from selection"
+                  >
+                    +/-
+                  </button>
+                  <button
+                    onClick={() => setShowModifyInput('multiply')}
+                    class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
+                    title="Scale selection by percentage (50 = half, 200 = double)"
+                  >
+                    %
+                  </button>
+                  <button
+                    onClick={() => setShowModifyInput('set')}
+                    class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
+                    title="Set selection to value"
+                  >
+                    =
+                  </button>
+                </>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       <div class="overflow-auto max-h-[calc(100vh-200px)]">
@@ -461,6 +695,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, skipE
                 {row.map((cell, colIdx) => {
                   const isEditing = editCell?.row === rowIdx && editCell?.col === colIdx;
                   const isChanged = cellChanged(rowIdx, colIdx);
+                  const isCellSelected = isSelected(rowIdx, colIdx);
                   const displayValue = showOriginal && originalTableData
                     ? originalTableData[rowIdx][colIdx]
                     : cell;
@@ -470,12 +705,16 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, skipE
                   return (
                     <td
                       key={colIdx}
-                      class="p-1.5 border border-zinc-600 text-right cursor-pointer text-zinc-900 hover:brightness-110 min-w-16"
+                      class={`p-1.5 border text-right cursor-pointer text-zinc-900 hover:brightness-110 min-w-16 select-none ${
+                        isCellSelected ? 'border-blue-500 border-2' : 'border-zinc-600'
+                      }`}
                       style={{
-                        backgroundColor: isEditing ? '#3b82f6' : bgColor,
+                        backgroundColor: isEditing ? '#3b82f6' : isCellSelected ? `color-mix(in srgb, ${bgColor} 70%, #3b82f6 30%)` : bgColor,
                         outline: isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
                         outlineOffset: '-2px',
                       }}
+                      onMouseDown={(e) => handleCellMouseDown(rowIdx, colIdx, e)}
+                      onMouseEnter={() => handleCellMouseEnter(rowIdx, colIdx)}
                       onDblClick={() => handleCellDoubleClick(rowIdx, colIdx)}
                     >
                       {isEditing ? (

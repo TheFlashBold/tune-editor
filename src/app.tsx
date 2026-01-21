@@ -7,9 +7,9 @@ import { ValueEditor } from './components/ValueEditor';
 import { LogViewer } from './components/LogViewer';
 import { BLEConnector } from './components/BLEConnector';
 import { Modal } from './components/Modal';
-import { readParameterValue, readTableData, readAxisData, formatValue, debugHexDump, debugLayoutComparison, debugFindDataOffset, debugTableAddresses, stripEccBytes, detectEccPresence, debugEccBlock, addressToOffset } from './lib/binUtils';
+import { readParameterValue, readTableData, readAxisData, formatValue, debugHexDump, debugLayoutComparison, debugFindDataOffset, debugTableAddresses, detectEccPresence, debugEccBlock, addressToOffset } from './lib/binUtils';
 import { loadDefinitionIndex, loadDefinition, findMatchingDefinitions, type DefinitionIndexEntry } from './lib/definitionLoader';
-import { s19ToBinary, isS19File } from './lib/s19Parser';
+import { s19ToBinary, isS19File, hexToBinary, isHexFile } from './lib/s19Parser';
 import './app.css';
 
 // Vehicle settings interface
@@ -119,7 +119,6 @@ export function App() {
   const [vehicleSettings, setVehicleSettings] = useState<VehicleSettings>(loadSettings);
   const [dragOverDef, setDragOverDef] = useState(false);
   const [dragOverBin, setDragOverBin] = useState(false);
-  const [skipEcc, setSkipEcc] = useState(false); // Skip ECC bytes when reading raw flash dumps
   const [hasEcc, setHasEcc] = useState(false); // Whether ECC was detected in the bin file
 
   const jsonInputRef = useRef<HTMLInputElement>(null);
@@ -131,19 +130,18 @@ export function App() {
     getDefinition: () => definition,
     getSelectedParam: () => selectedParam,
     getCalOffset: () => calOffset,
-    getSkipEcc: () => skipEcc,
     hexDump: (addr: number, len: number = 64) => binData && console.log(debugHexDump(binData, addr, len, calOffset)),
     readTable: (paramName?: string) => {
       const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
       if (!p || !binData) return null;
-      return readTableData(binData, p, calOffset, skipEcc, true); // debug=true
+      return readTableData(binData, p, calOffset, true); // debug=true
     },
     readAxis: (paramName?: string, axis: 'x' | 'y' = 'x') => {
       const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
       if (!p || !binData) return null;
       const axisDef = axis === 'x' ? p.xAxis : p.yAxis;
       if (!axisDef) return null;
-      return readAxisData(binData, axisDef, calOffset, skipEcc);
+      return readAxisData(binData, axisDef, calOffset);
     },
     // Compare ROW_DIR vs COLUMN_DIR layouts to identify actual storage format
     compareLayouts: (paramName?: string) => {
@@ -162,27 +160,6 @@ export function App() {
       const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
       if (!p || !binData) { console.log('No param or binData'); return; }
       debugTableAddresses(binData, p, calOffset);
-    },
-    // ECC detection and skipping
-    detectEcc: () => {
-      if (!binData) { console.log('No binData'); return; }
-      const result = detectEccPresence(binData, 20);
-      console.log(`ECC detection: hasEcc=${result.hasEcc}, confidence=${(result.confidence * 100).toFixed(1)}%`);
-      console.log(`Current skipEcc setting: ${skipEcc}`);
-      console.log('Use debug.toggleEcc() to enable/disable ECC skipping');
-      return result;
-    },
-    toggleEcc: () => {
-      const newValue = !skipEcc;
-      setSkipEcc(newValue);
-      console.log(`ECC skipping ${newValue ? 'ENABLED' : 'DISABLED'}`);
-      console.log('Table data will re-render with new setting');
-      return newValue;
-    },
-    setSkipEcc: (value: boolean) => {
-      setSkipEcc(value);
-      console.log(`ECC skipping set to ${value}`);
-      return value;
     },
     // Analyze ECC block at a specific offset or at the selected param's address
     eccBlock: (offset?: number) => {
@@ -259,11 +236,15 @@ export function App() {
     let data: Uint8Array;
     let displayName = file.name;
 
-    // Parse S19 files, otherwise load as binary
+    // Parse S19/HEX files, otherwise load as binary
     if (isS19File(file.name)) {
       const text = await file.text();
       data = s19ToBinary(text);
       displayName = file.name.replace(/\.(s19|srec|mot)$/i, '.bin');
+    } else if (isHexFile(file.name)) {
+      const text = await file.text();
+      data = hexToBinary(text);
+      displayName = file.name.replace(/\.(hex|ihex)$/i, '.bin');
     } else {
       const buffer = await file.arrayBuffer();
       data = new Uint8Array(buffer);
@@ -278,7 +259,6 @@ export function App() {
     // Detect ECC presence
     const eccResult = detectEccPresence(data, 20);
     setHasEcc(eccResult.hasEcc);
-    setSkipEcc(eccResult.hasEcc); // Auto-enable ECC skipping if detected
 
     // Auto-detect and load matching definition
     try {
@@ -353,16 +333,21 @@ export function App() {
     const ext = file.name.toLowerCase();
     const isBinFile = ext.endsWith('.bin') || ext.endsWith('.ori') || ext.endsWith('.mod');
     const isS19 = isS19File(file.name);
-    if (!isBinFile && !isS19) return;
+    const isHex = isHexFile(file.name);
+    if (!isBinFile && !isS19 && !isHex) return;
 
     let data: Uint8Array;
     let displayName = file.name;
 
-    // Parse S19 files, otherwise load as binary
+    // Parse S19/HEX files, otherwise load as binary
     if (isS19) {
       const text = await file.text();
       data = s19ToBinary(text);
       displayName = file.name.replace(/\.(s19|srec|mot)$/i, '.bin');
+    } else if (isHex) {
+      const text = await file.text();
+      data = hexToBinary(text);
+      displayName = file.name.replace(/\.(hex|ihex)$/i, '.bin');
     } else {
       const buffer = await file.arrayBuffer();
       data = new Uint8Array(buffer);
@@ -375,7 +360,6 @@ export function App() {
     // Detect ECC presence
     const eccResult = detectEccPresence(data, 20);
     setHasEcc(eccResult.hasEcc);
-    setSkipEcc(eccResult.hasEcc); // Auto-enable ECC skipping if detected
 
     // Auto-detect and load matching definition
     try {
@@ -419,14 +403,14 @@ export function App() {
 
     for (const param of definition.parameters) {
       if (param.type === 'VALUE') {
-        const originalValue = readParameterValue(originalBinData, param, calOffset, skipEcc);
-        const currentValue = readParameterValue(binData, param, calOffset, skipEcc);
+        const originalValue = readParameterValue(originalBinData, param, calOffset);
+        const currentValue = readParameterValue(binData, param, calOffset);
         if (Math.abs(originalValue - currentValue) > 0.0001) {
           diffs.push({ param, originalValue, currentValue });
         }
       } else {
-        const originalTable = readTableData(originalBinData, param, calOffset, skipEcc);
-        const currentTable = readTableData(binData, param, calOffset, skipEcc);
+        const originalTable = readTableData(originalBinData, param, calOffset);
+        const currentTable = readTableData(binData, param, calOffset);
         const cellDiffs: CellDiff[] = [];
 
         for (let r = 0; r < originalTable.length; r++) {
@@ -446,8 +430,8 @@ export function App() {
         const axisDiffs: AxisDiff[] = [];
 
         if (param.xAxis?.address) {
-          const originalXAxis = readAxisData(originalBinData, param.xAxis, calOffset, skipEcc);
-          const currentXAxis = readAxisData(binData, param.xAxis, calOffset, skipEcc);
+          const originalXAxis = readAxisData(originalBinData, param.xAxis, calOffset);
+          const currentXAxis = readAxisData(binData, param.xAxis, calOffset);
           const changedIndices: number[] = [];
           for (let i = 0; i < originalXAxis.length; i++) {
             if (Math.abs(originalXAxis[i] - currentXAxis[i]) > 0.0001) {
@@ -460,8 +444,8 @@ export function App() {
         }
 
         if (param.yAxis?.address) {
-          const originalYAxis = readAxisData(originalBinData, param.yAxis, calOffset, skipEcc);
-          const currentYAxis = readAxisData(binData, param.yAxis, calOffset, skipEcc);
+          const originalYAxis = readAxisData(originalBinData, param.yAxis, calOffset);
+          const currentYAxis = readAxisData(binData, param.yAxis, calOffset);
           const changedIndices: number[] = [];
           for (let i = 0; i < originalYAxis.length; i++) {
             if (Math.abs(originalYAxis[i] - currentYAxis[i]) > 0.0001) {
@@ -475,8 +459,8 @@ export function App() {
 
         if (cellDiffs.length > 0 || axisDiffs.length > 0) {
           // Read current axis data for display
-          const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset, skipEcc) : undefined;
-          const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset, skipEcc) : undefined;
+          const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset) : undefined;
+          const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset) : undefined;
 
           diffs.push({
             param,
@@ -492,7 +476,7 @@ export function App() {
     }
 
     return diffs;
-  }, [definition, binData, originalBinData, calOffset, skipEcc]);
+  }, [definition, binData, originalBinData, calOffset]);
 
   return (
     <div class="flex flex-col h-screen bg-zinc-900 text-zinc-100">
@@ -522,10 +506,10 @@ export function App() {
                     />
                   </label>
                   <label class="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
-                    Open BIN/S19...
+                    Open BIN/S19/HEX...
                     <input
                         type="file"
-                        accept=".bin,.ori,.mod,.s19,.srec,.mot"
+                        accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex"
                         ref={binInputRef}
                         onChange={handleOpenBin}
                         class="hidden"
@@ -653,6 +637,11 @@ export function App() {
                 {detectedMode === 'cal' ? 'CAL' : 'Full'}
               </span>
               )}
+              {detectedMode && definition?.verification?.expected && (
+                  <span class="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700 text-zinc-300">
+                    {definition.verification.expected}
+                  </span>
+              )}
               {hasEcc && (
                   <span class="px-2 py-0.5 rounded text-xs font-medium bg-orange-900 text-orange-300">
                     ECC
@@ -741,17 +730,17 @@ export function App() {
             <label class="flex justify-center items-center h-full text-zinc-500 cursor-pointer hover:bg-zinc-700/30 transition-colors">
               <div class="text-center">
                 {dragOverBin ? (
-                  <p class="text-green-400">Drop .bin or .s19 file here</p>
+                  <p class="text-green-400">Drop .bin, .s19, or .hex file here</p>
                 ) : (
                   <>
-                    <p>Click or drop BIN/S19 file</p>
-                    <p class="text-xs mt-1">or use File → Open BIN/S19</p>
+                    <p>Click or drop BIN/S19/HEX file</p>
+                    <p class="text-xs mt-1">or use File → Open BIN/S19/HEX</p>
                   </>
                 )}
               </div>
               <input
                 type="file"
-                accept=".bin,.ori,.mod,.s19,.srec,.mot"
+                accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex"
                 onChange={async (e) => {
                   const file = (e.target as HTMLInputElement).files?.[0];
                   if (!file) return;
@@ -763,6 +752,10 @@ export function App() {
                     const text = await file.text();
                     data = s19ToBinary(text);
                     displayName = file.name.replace(/\.(s19|srec|mot)$/i, '.bin');
+                  } else if (isHexFile(file.name)) {
+                    const text = await file.text();
+                    data = hexToBinary(text);
+                    displayName = file.name.replace(/\.(hex|ihex)$/i, '.bin');
                   } else {
                     const buffer = await file.arrayBuffer();
                     data = new Uint8Array(buffer);
@@ -790,7 +783,6 @@ export function App() {
               binData={binData}
               originalBinData={originalBinData}
               calOffset={calOffset}
-              skipEcc={skipEcc}
               onModify={handleModify}
             />
           )}
