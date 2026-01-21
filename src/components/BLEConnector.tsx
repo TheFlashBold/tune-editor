@@ -385,6 +385,510 @@ class MockBLEService {
     }
 }
 
+// WiFi WebSocket service - alternative transport to BLE
+// Connects to ESP32 WiFi AP (default: 192.168.4.1)
+class WebSocketService {
+    ws: WebSocket | null = null;
+    address: string;
+    logging = false;
+    onFrame?: (frame: LogFrame) => void;
+    onLog?: (message: string) => void;
+    onPacketListeners: ((packet: DataView) => void)[] = [];
+    startTime = 0;
+    loggingRate: number = DEFAULT_LOGGING_RATE;
+    gpsEnabled = false;
+    gpsWatchId: number | null = null;
+    currentGPS: GPSData | null = null;
+    accelerometerEnabled = false;
+    currentAccelerometer: AccelerometerData | null = null;
+    previousGPS: { speed: number; time: number } | null = null;
+    vehicleSettings: VehicleSettings | null = null;
+    lastQueryTime: number = 0;
+    persistModeEnabled = true;
+    chunkSize = 0;
+    expectedChunks = 1;
+    receivedChunks = 0;
+    lastTickCount = 0;
+    writeQueue: ArrayBuffer[] = [];
+    writeInterval: ReturnType<typeof setInterval> | null = null;
+
+    constructor(address: string = '192.168.4.1') {
+        this.address = address;
+    }
+
+    log(message: string) {
+        console.log(`[WiFi] ${message}`);
+        this.onLog?.(message);
+    }
+
+    async setup() {
+        this.log(`Connecting to ws://${this.address}/ws...`);
+
+        return new Promise<void>((resolve, reject) => {
+            const timeout = setTimeout(() => {
+                this.log('Connection timeout');
+                reject(new Error('Connection timeout'));
+            }, 5000);
+
+            this.ws = new WebSocket(`ws://${this.address}/ws`);
+            this.ws.binaryType = 'arraybuffer';
+
+            this.ws.onopen = () => {
+                clearTimeout(timeout);
+                this.log('WebSocket connected');
+
+                // Start write queue processing
+                this.writeInterval = setInterval(() => this.processWriteQueue(), 10);
+
+                resolve();
+            };
+
+            this.ws.onclose = (e) => {
+                this.log(`WebSocket closed: ${e.code} ${e.reason}`);
+                if (this.writeInterval) {
+                    clearInterval(this.writeInterval);
+                    this.writeInterval = null;
+                }
+            };
+
+            this.ws.onerror = (e) => {
+                clearTimeout(timeout);
+                this.log(`WebSocket error: ${e}`);
+                reject(e);
+            };
+
+            this.ws.onmessage = (event) => {
+                this.onReadValue(new DataView(event.data));
+            };
+        });
+    }
+
+    processWriteQueue() {
+        if (this.writeQueue.length > 0 && this.ws?.readyState === WebSocket.OPEN) {
+            const data = this.writeQueue.shift();
+            if (data) {
+                this.ws.send(data);
+            }
+        }
+    }
+
+    onReadValue(data: DataView) {
+        // Same multi-packet handling as BLE
+        let offset = 0;
+        while (offset < data.byteLength) {
+            if (data.byteLength - offset < 8) break;
+
+            const hdID = data.getUint8(offset);
+            if (hdID !== BLE_HEADER_ID && hdID !== BLE_HEADER_PT) {
+                offset++;
+                continue;
+            }
+
+            const cmdSize = data.getUint8(offset + 6) | (data.getUint8(offset + 7) << 8);
+            const totalPacketSize = 8 + cmdSize;
+
+            if (offset + totalPacketSize > data.byteLength) {
+                break;
+            }
+
+            const packetData = new DataView(data.buffer, data.byteOffset + offset, totalPacketSize);
+            for (const listener of this.onPacketListeners) {
+                try { listener(packetData); } catch (e) { console.error(e); }
+            }
+
+            offset += totalPacketSize;
+        }
+    }
+
+    onPacket(fn: (packet: DataView) => void) {
+        this.onPacketListeners.push(fn);
+    }
+
+    offPacket(fn: (packet: DataView) => void) {
+        const index = this.onPacketListeners.indexOf(fn);
+        if (index > -1) this.onPacketListeners.splice(index, 1);
+    }
+
+    async writePacket(data: ArrayBuffer) {
+        // WebSocket has no MTU limit like BLE, send entire packet
+        this.writeQueue.push(data);
+    }
+
+    async setBridgePersistDelay(delay: number) {
+        this.log(`Setting persist delay to ${delay}ms...`);
+        const header = new BLEHeader();
+        header.cmdSize = 2;
+        header.cmdFlags = BLECommandFlags.SETTINGS | BLESettings.PERSIST_DELAY;
+        const packet = ConcatArrayBuffer(header.toArrayBuffer(), delay & 0xFF, (delay & 0xFF00) >> 8);
+        await this.writePacket(packet);
+        this.log(`Persist delay set to ${delay}ms`);
+    }
+
+    async sendUDSCommand(...command: ArrayBuffer[]) {
+        const header = new BLEHeader();
+        header.cmdSize = command.reduce((total, ab) => total + ab.byteLength, 0);
+        header.cmdFlags = BLECommandFlags.PER_CLEAR;
+        await this.writePacket(ConcatArrayBuffer(header.toArrayBuffer(), ...command));
+    }
+
+    async clearPersist() {
+        this.log('Clearing persist queue...');
+        const header = new BLEHeader();
+        header.cmdSize = 0;
+        header.cmdFlags = BLECommandFlags.PER_CLEAR;
+        await this.writePacket(header.toArrayBuffer());
+        this.log('Persist queue cleared');
+    }
+
+    async addPersistCommand(command: ArrayBuffer[], isFirst: boolean, isLast: boolean) {
+        const totalSize = command.reduce((total, ab) => total + ab.byteLength, 0);
+
+        let flags = BLECommandFlags.PER_ADD;
+        if (isFirst) flags |= BLECommandFlags.PER_CLEAR;
+        if (isLast) flags |= BLECommandFlags.PER_ENABLE;
+
+        const flagDesc = [];
+        if (isFirst) flagDesc.push('CLEAR');
+        flagDesc.push('ADD');
+        if (isLast) flagDesc.push('ENABLE');
+        this.log(`Adding persist command (${totalSize} bytes, flags=${flagDesc.join('|')})...`);
+
+        const header = new BLEHeader();
+        header.cmdSize = totalSize;
+        header.cmdFlags = flags;
+        await this.writePacket(ConcatArrayBuffer(header.toArrayBuffer(), ...command));
+    }
+
+    async waitForPacket(matchFn?: (data: DataView) => boolean, timeoutMs = 500): Promise<DataView> {
+        return new Promise((resolve, reject) => {
+            const timeout = setTimeout(() => {
+                this.offPacket(listener);
+                this.log(`Timeout waiting for packet (${timeoutMs}ms)`);
+                reject(new Error("Timeout"));
+            }, timeoutMs);
+
+            const listener = (packet: DataView) => {
+                const matches = matchFn?.(packet) ?? true;
+                if (!matches) return;
+
+                clearTimeout(timeout);
+                this.offPacket(listener);
+                this.log(`Received packet (${packet.byteLength} bytes)`);
+                resolve(packet);
+            };
+
+            this.onPacket(listener);
+        });
+    }
+
+    async getInfo(): Promise<Record<string, string>> {
+        this.log('Querying ECU info...');
+        const info: Record<string, string> = {};
+
+        for (const [key, address] of Object.entries(ECU_INFO_FIELDS)) {
+            const header = new BLEHeader();
+            header.cmdSize = 1 + address.length;
+            header.cmdFlags = BLECommandFlags.PER_CLEAR;
+
+            await this.writePacket(ConcatArrayBuffer(header.toArrayBuffer(), NumberToArrayBuffer(0x22), ...address));
+
+            try {
+                const response = await this.waitForPacket((data) => data.getUint8(8) === UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED);
+                const buffer = response.buffer.slice(11, response.byteLength);
+                info[key] = new TextDecoder().decode(buffer);
+                this.log(`  ${key}: ${info[key]}`);
+            } catch {
+                info[key] = "N/A";
+                this.log(`  ${key}: N/A (timeout)`);
+            }
+        }
+
+        this.log('ECU info query complete');
+        return info;
+    }
+
+    startGPS() {
+        if (!navigator.geolocation) return;
+        this.gpsEnabled = true;
+        this.gpsWatchId = navigator.geolocation.watchPosition(
+            (position) => {
+                this.currentGPS = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    speed: position.coords.speed,
+                    heading: position.coords.heading,
+                    accuracy: position.coords.accuracy,
+                    altitude: position.coords.altitude
+                };
+            },
+            (error) => console.error('GPS error:', error),
+            { enableHighAccuracy: true, maximumAge: 100, timeout: 5000 }
+        );
+    }
+
+    stopGPS() {
+        this.gpsEnabled = false;
+        if (this.gpsWatchId !== null) {
+            navigator.geolocation.clearWatch(this.gpsWatchId);
+            this.gpsWatchId = null;
+        }
+        this.currentGPS = null;
+    }
+
+    startAccelerometer() {
+        if (!window.DeviceMotionEvent) return;
+        this.accelerometerEnabled = true;
+        const handler = (event: DeviceMotionEvent) => {
+            if (event.accelerationIncludingGravity) {
+                this.currentAccelerometer = {
+                    x: (event.accelerationIncludingGravity.x || 0) / 9.81,
+                    y: (event.accelerationIncludingGravity.y || 0) / 9.81,
+                    z: (event.accelerationIncludingGravity.z || 0) / 9.81
+                };
+            }
+        };
+        window.addEventListener('devicemotion', handler);
+        (this as any)._accelHandler = handler;
+    }
+
+    stopAccelerometer() {
+        this.accelerometerEnabled = false;
+        if ((this as any)._accelHandler) {
+            window.removeEventListener('devicemotion', (this as any)._accelHandler);
+            (this as any)._accelHandler = null;
+        }
+        this.currentAccelerometer = null;
+    }
+
+    async startLogging(withGPS = false, withAccelerometer = false, vehicleSettings?: VehicleSettings, persistMode = true, chunkSize = 0) {
+        this.vehicleSettings = vehicleSettings || null;
+        this.loggingRate = vehicleSettings?.loggingRate || DEFAULT_LOGGING_RATE;
+        this.persistModeEnabled = persistMode;
+        this.chunkSize = chunkSize;
+
+        this.log(`Starting logging: persistMode=${persistMode}, rate=${this.loggingRate}Hz, chunkSize=${chunkSize}`);
+
+        await this.clearPersist();
+
+        if (persistMode) {
+            await this.setBridgePersistDelay(1000 / this.loggingRate);
+
+            const pids = [...PIDs.values()];
+            const effectiveChunkSize = chunkSize > 0 ? chunkSize : pids.length;
+            const numChunks = Math.ceil(pids.length / effectiveChunkSize);
+
+            this.log(`Adding ${pids.length} PIDs in ${numChunks} chunk(s)...`);
+
+            for (let i = 0; i < numChunks; i++) {
+                const startIdx = i * effectiveChunkSize;
+                const chunk = pids.slice(startIdx, startIdx + effectiveChunkSize);
+                const addresses = chunk.map(({ address }) => NumberToArrayBuffer2(address));
+                const isFirst = i === 0;
+                const isLast = i === numChunks - 1;
+                await this.addPersistCommand([NumberToArrayBuffer(0x22), ...addresses], isFirst, isLast);
+            }
+
+            this.log('Persist mode setup complete, waiting for packets...');
+        }
+
+        this.logging = true;
+        this.startTime = performance.now();
+        this.previousGPS = null;
+
+        if (withGPS) this.startGPS();
+        if (withAccelerometer) this.startAccelerometer();
+
+        const log = async () => {
+            if (!this.logging) return;
+
+            try {
+                const queryStart = performance.now();
+                const frame = await this.getLoggingFrame();
+                frame.queryTime = Math.round(performance.now() - queryStart);
+                this.lastQueryTime = frame.queryTime;
+
+                if (this.gpsEnabled && this.currentGPS) {
+                    frame.gps = { ...this.currentGPS };
+                }
+
+                if (this.accelerometerEnabled && this.currentAccelerometer) {
+                    frame.accelerometer = { ...this.currentAccelerometer };
+                }
+
+                // Calculate derived values (same as BLEService)
+                const calc: CalculatedData = {};
+                const airflow = frame.data["Airflow"];
+                const rpm = frame.data["Engine Speed"];
+                if (airflow !== undefined && rpm !== undefined && rpm > 0) {
+                    calc.airmass = Math.round(airflow / rpm * 8333.33333333 * 10) / 10;
+                }
+
+                const map = frame.data["MAP"];
+                const ambientPressure = frame.data["Ambient Pressure"];
+                if (map !== undefined && ambientPressure !== undefined) {
+                    calc.boost = Math.round((map - ambientPressure) * 100) / 100;
+                }
+
+                const torque = frame.data["Torque"];
+                if (torque !== undefined && rpm !== undefined && rpm > 0) {
+                    calc.enginePower = Math.round(torque * rpm / 9549 * 10) / 10;
+                }
+
+                if (Object.keys(calc).length > 0) {
+                    frame.calculated = calc;
+                }
+
+                this.onFrame?.(frame);
+            } catch (e) {
+                console.error(e);
+            }
+
+            if (this.logging) {
+                setTimeout(log, 1000 / this.loggingRate);
+            }
+        };
+
+        log();
+    }
+
+    async stopLogging() {
+        this.logging = false;
+        this.stopGPS();
+        this.stopAccelerometer();
+        await this.clearPersist();
+    }
+
+    async getLoggingFrame(): Promise<LogFrame> {
+        const frame: LogFrame = {
+            time: (performance.now() - this.startTime) / 1000,
+            data: {}
+        };
+
+        const pids = [...PIDs.values()];
+
+        if (this.persistModeEnabled) {
+            const effectiveChunkSize = this.chunkSize > 0 ? this.chunkSize : pids.length;
+            const numChunks = Math.ceil(pids.length / effectiveChunkSize);
+
+            return new Promise((resolve, reject) => {
+                let packetsReceived = 0;
+                let currentTickCount = 0;
+                const frameData: Record<string, number> = {};
+
+                const timeout = setTimeout(() => {
+                    this.offPacket(listener);
+                    this.log(`Timeout waiting for persist packets (received ${packetsReceived}/${numChunks})`);
+                    reject(new Error("Timeout"));
+                }, 2000);
+
+                const listener = (packet: DataView) => {
+                    if (packet.byteLength < 9) return;
+                    if (packet.getUint8(8) !== UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED) return;
+
+                    const header = BLEHeader.fromDataView(packet);
+                    const tickCount = header.tickCount;
+
+                    if (packetsReceived === 0) {
+                        currentTickCount = tickCount;
+                    } else if (numChunks > 1 && tickCount !== currentTickCount && packetsReceived > 0) {
+                        packetsReceived = 0;
+                        currentTickCount = tickCount;
+                        Object.keys(frameData).forEach(k => delete frameData[k]);
+                    }
+
+                    let index = 9;
+                    while (index < packet.byteLength) {
+                        if (index + 2 > packet.byteLength) break;
+                        const address = packet.getUint16(index);
+                        index += 2;
+
+                        const pid = PIDs.get(address);
+                        if (!pid) break;
+                        if (index + pid.length > packet.byteLength) break;
+
+                        let value = 0;
+                        if (pid.length === 1) {
+                            value = pid.signed ? packet.getInt8(index) : packet.getUint8(index);
+                        } else if (pid.length === 2) {
+                            value = pid.signed ? packet.getInt16(index) : packet.getUint16(index);
+                        }
+
+                        value = eval(pid.equation.replaceAll("x", String(value)));
+                        const roundingFactor = Math.pow(10, pid.fractional + 1);
+                        value = Math.round(value * roundingFactor) / roundingFactor;
+                        frameData[pid.name] = value;
+
+                        index += pid.length;
+                    }
+
+                    packetsReceived++;
+
+                    if (packetsReceived >= numChunks) {
+                        clearTimeout(timeout);
+                        this.offPacket(listener);
+                        this.lastTickCount = currentTickCount;
+                        frame.data = frameData;
+                        resolve(frame);
+                    }
+                };
+
+                this.onPacket(listener);
+            });
+        } else {
+            const effectiveChunkSize = this.chunkSize > 0 ? this.chunkSize : pids.length;
+
+            for (let i = 0; i < pids.length; i += effectiveChunkSize) {
+                const chunk = pids.slice(i, i + effectiveChunkSize);
+                const addresses = chunk.map(({ address }) => NumberToArrayBuffer2(address));
+                await this.sendUDSCommand(NumberToArrayBuffer(0x22), ...addresses);
+
+                const packet = await this.waitForPacket(
+                    (data) => data.getUint8(8) === UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED,
+                    2000
+                );
+                this.parsePacketData(packet, frame);
+            }
+        }
+
+        return frame;
+    }
+
+    parsePacketData(packet: DataView, frame: LogFrame) {
+        let index = 9;
+        while (index < packet.byteLength) {
+            const address = packet.getUint16(index);
+            index += 2;
+
+            const pid = PIDs.get(address);
+            if (!pid) continue;
+
+            let value = 0;
+            if (pid.length === 1) {
+                value = pid.signed ? packet.getInt8(index) : packet.getUint8(index);
+            } else if (pid.length === 2) {
+                value = pid.signed ? packet.getInt16(index) : packet.getUint16(index);
+            }
+
+            value = eval(pid.equation.replaceAll("x", String(value)));
+            const roundingFactor = Math.pow(10, pid.fractional + 1);
+            value = Math.round(value * roundingFactor) / roundingFactor;
+            frame.data[pid.name] = value;
+
+            index += pid.length;
+        }
+    }
+
+    disconnect() {
+        this.logging = false;
+        if (this.writeInterval) {
+            clearInterval(this.writeInterval);
+            this.writeInterval = null;
+        }
+        this.ws?.close();
+        this.ws = null;
+    }
+}
+
 class BLEService {
     device: BluetoothDevice;
     service: BluetoothRemoteGATTService | null = null;
@@ -1036,6 +1540,8 @@ interface BLEConnectorProps {
     vehicleSettings?: VehicleSettings;
 }
 
+type Transport = 'ble' | 'wifi';
+
 export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnectorProps) {
     const [status, setStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
     const [info, setInfo] = useState<Record<string, string> | null>(null);
@@ -1050,9 +1556,11 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
     const [persistMode, setPersistMode] = useState(true);
     const [debugLogs, setDebugLogs] = useState<string[]>([]);
     const [showDebugLogs, setShowDebugLogs] = useState(false);
+    const [transport, setTransport] = useState<Transport>('ble');
+    const [wifiAddress, setWifiAddress] = useState('192.168.4.1');
     const gpsAvailable = !!navigator.geolocation;
     const accelAvailable = !!window.DeviceMotionEvent;
-    const serviceRef = useRef<BLEService | MockBLEService | null>(null);
+    const serviceRef = useRef<BLEService | MockBLEService | WebSocketService | null>(null);
     const debugLogRef = useRef<HTMLDivElement | null>(null);
 
     async function connect() {
@@ -1061,13 +1569,15 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
             setDebugLogs([]);
             setShowDebugLogs(true);
 
+            const logHandler = (message: string) => {
+                const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 });
+                setDebugLogs(prev => [...prev.slice(-99), `${timestamp} ${message}`]);
+            };
+
             if (IS_LOCALHOST) {
                 // Use mock service on localhost for testing
                 const service = new MockBLEService();
-                service.onLog = (message) => {
-                    const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 });
-                    setDebugLogs(prev => [...prev.slice(-99), `${timestamp} ${message}`]);
-                };
+                service.onLog = logHandler;
                 await service.setup();
                 serviceRef.current = service;
 
@@ -1077,15 +1587,26 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                 return;
             }
 
+            // WiFi WebSocket transport
+            if (transport === 'wifi') {
+                const service = new WebSocketService(wifiAddress);
+                service.onLog = logHandler;
+                await service.setup();
+                serviceRef.current = service;
+
+                setStatus('connected');
+                const ecuInfo = await service.getInfo();
+                setInfo(ecuInfo);
+                return;
+            }
+
+            // BLE transport
             const device = await navigator.bluetooth.requestDevice({
                 filters: [{ services: [BLE_SERVICE_UUID] }]
             });
 
             const service = new BLEService(device, mtu);
-            service.onLog = (message) => {
-                const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 });
-                setDebugLogs(prev => [...prev.slice(-99), `${timestamp} ${message}`]);
-            };
+            service.onLog = logHandler;
             await service.setup();
             serviceRef.current = service;
 
@@ -1278,8 +1799,17 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
         }
     }, [debugLogs]);
 
+    const getConnectionStatus = () => {
+        if (status !== 'connected') {
+            return status === 'connecting' ? 'Connecting...' : 'Disconnected';
+        }
+        if (IS_LOCALHOST) return 'Connected (Mock)';
+        if (transport === 'wifi') return `Connected (WiFi: ${wifiAddress})`;
+        return `Connected (BLE, MTU: ${mtu})`;
+    };
+
     return (
-        <Modal title="BLE ISO-TP Bridge" onClose={onClose} width="lg">
+        <Modal title="ISO-TP Bridge" onClose={onClose} width="lg">
             {/* Connection status */}
                     <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
                         <div class="flex items-center gap-3">
@@ -1288,26 +1818,47 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                                 status === 'connecting' ? 'bg-yellow-500 animate-pulse' :
                                 'bg-zinc-500'
                             }`} />
-                            <span class="text-sm">
-                                {status === 'connected' ? (IS_LOCALHOST ? 'Connected (Mock)' : `Connected (MTU: ${mtu})`) :
-                                 status === 'connecting' ? 'Connecting...' :
-                                 'Disconnected'}
-                            </span>
+                            <span class="text-sm">{getConnectionStatus()}</span>
                         </div>
 
                         {status === 'disconnected' && (
                             <div class="flex flex-wrap items-center gap-2 sm:ml-auto">
                                 {!IS_LOCALHOST && (
                                     <>
-                                        <label class="text-xs text-zinc-400">MTU:</label>
-                                        <input
-                                            type="number"
-                                            value={mtu}
-                                            onChange={(e) => setMtu(Number((e.target as HTMLInputElement).value))}
-                                            class="w-20 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
-                                            min={23}
-                                            max={517}
-                                        />
+                                        <label class="text-xs text-zinc-400">Transport:</label>
+                                        <select
+                                            value={transport}
+                                            onChange={(e) => setTransport((e.target as HTMLSelectElement).value as Transport)}
+                                            class="px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
+                                        >
+                                            <option value="ble">Bluetooth LE</option>
+                                            <option value="wifi">WiFi</option>
+                                        </select>
+                                        {transport === 'wifi' && (
+                                            <>
+                                                <label class="text-xs text-zinc-400">Address:</label>
+                                                <input
+                                                    type="text"
+                                                    value={wifiAddress}
+                                                    onChange={(e) => setWifiAddress((e.target as HTMLInputElement).value)}
+                                                    class="w-32 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded font-mono"
+                                                    placeholder="192.168.4.1"
+                                                />
+                                            </>
+                                        )}
+                                        {transport === 'ble' && (
+                                            <>
+                                                <label class="text-xs text-zinc-400">MTU:</label>
+                                                <input
+                                                    type="number"
+                                                    value={mtu}
+                                                    onChange={(e) => setMtu(Number((e.target as HTMLInputElement).value))}
+                                                    class="w-20 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
+                                                    min={23}
+                                                    max={517}
+                                                />
+                                            </>
+                                        )}
                                     </>
                                 )}
                                 <button
