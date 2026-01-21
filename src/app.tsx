@@ -7,7 +7,7 @@ import { ValueEditor } from './components/ValueEditor';
 import { LogViewer } from './components/LogViewer';
 import { BLEConnector } from './components/BLEConnector';
 import { Modal } from './components/Modal';
-import { readParameterValue, readTableData, readAxisData, formatValue } from './lib/binUtils';
+import { readParameterValue, readTableData, readAxisData, formatValue, debugHexDump, debugLayoutComparison, debugFindDataOffset, debugTableAddresses, stripEccBytes, detectEccPresence, debugEccBlock, addressToOffset } from './lib/binUtils';
 import { loadDefinitionIndex, loadDefinition, findMatchingDefinitions, type DefinitionIndexEntry } from './lib/definitionLoader';
 import { s19ToBinary, isS19File } from './lib/s19Parser';
 import './app.css';
@@ -119,9 +119,88 @@ export function App() {
   const [vehicleSettings, setVehicleSettings] = useState<VehicleSettings>(loadSettings);
   const [dragOverDef, setDragOverDef] = useState(false);
   const [dragOverBin, setDragOverBin] = useState(false);
+  const [skipEcc, setSkipEcc] = useState(false); // Skip ECC bytes when reading raw flash dumps
+  const [hasEcc, setHasEcc] = useState(false); // Whether ECC was detected in the bin file
 
   const jsonInputRef = useRef<HTMLInputElement>(null);
   const binInputRef = useRef<HTMLInputElement>(null);
+
+  // Expose debug functions to window for console debugging
+  (window as any).debug = {
+    getBinData: () => binData,
+    getDefinition: () => definition,
+    getSelectedParam: () => selectedParam,
+    getCalOffset: () => calOffset,
+    getSkipEcc: () => skipEcc,
+    hexDump: (addr: number, len: number = 64) => binData && console.log(debugHexDump(binData, addr, len, calOffset)),
+    readTable: (paramName?: string) => {
+      const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
+      if (!p || !binData) return null;
+      return readTableData(binData, p, calOffset, skipEcc, true); // debug=true
+    },
+    readAxis: (paramName?: string, axis: 'x' | 'y' = 'x') => {
+      const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
+      if (!p || !binData) return null;
+      const axisDef = axis === 'x' ? p.xAxis : p.yAxis;
+      if (!axisDef) return null;
+      return readAxisData(binData, axisDef, calOffset, skipEcc);
+    },
+    // Compare ROW_DIR vs COLUMN_DIR layouts to identify actual storage format
+    compareLayouts: (paramName?: string) => {
+      const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
+      if (!p || !binData) { console.log('No param or binData'); return; }
+      debugLayoutComparison(binData, p, calOffset);
+    },
+    // Search for correct data offset by trying different byte offsets
+    findOffset: (paramName?: string) => {
+      const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
+      if (!p || !binData) { console.log('No param or binData'); return; }
+      debugFindDataOffset(binData, p, calOffset);
+    },
+    // Show all addresses for a table and highlight 0xFF00 values
+    tableAddresses: (paramName?: string) => {
+      const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
+      if (!p || !binData) { console.log('No param or binData'); return; }
+      debugTableAddresses(binData, p, calOffset);
+    },
+    // ECC detection and skipping
+    detectEcc: () => {
+      if (!binData) { console.log('No binData'); return; }
+      const result = detectEccPresence(binData, 20);
+      console.log(`ECC detection: hasEcc=${result.hasEcc}, confidence=${(result.confidence * 100).toFixed(1)}%`);
+      console.log(`Current skipEcc setting: ${skipEcc}`);
+      console.log('Use debug.toggleEcc() to enable/disable ECC skipping');
+      return result;
+    },
+    toggleEcc: () => {
+      const newValue = !skipEcc;
+      setSkipEcc(newValue);
+      console.log(`ECC skipping ${newValue ? 'ENABLED' : 'DISABLED'}`);
+      console.log('Table data will re-render with new setting');
+      return newValue;
+    },
+    setSkipEcc: (value: boolean) => {
+      setSkipEcc(value);
+      console.log(`ECC skipping set to ${value}`);
+      return value;
+    },
+    // Analyze ECC block at a specific offset or at the selected param's address
+    eccBlock: (offset?: number) => {
+      if (!binData) { console.log('No binData'); return; }
+      let blockOffset: number;
+      if (offset !== undefined) {
+        blockOffset = Math.floor(offset / 64) * 64; // Align to 64-byte block
+      } else if (selectedParam) {
+        const fileOffset = addressToOffset(selectedParam.address, calOffset);
+        blockOffset = Math.floor(fileOffset / 64) * 64;
+      } else {
+        console.log('No offset provided and no param selected');
+        return;
+      }
+      debugEccBlock(binData, blockOffset);
+    },
+    getHasEcc: () => hasEcc,
+  };
   const originalBinInputRef = useRef<HTMLInputElement>(null);
 
   // Update circumference when tire dimensions change
@@ -195,6 +274,11 @@ export function App() {
     setModified(false);
     setShowFileMenu(false);
     if (binInputRef.current) binInputRef.current.value = '';
+
+    // Detect ECC presence
+    const eccResult = detectEccPresence(data, 20);
+    setHasEcc(eccResult.hasEcc);
+    setSkipEcc(eccResult.hasEcc); // Auto-enable ECC skipping if detected
 
     // Auto-detect and load matching definition
     try {
@@ -288,6 +372,11 @@ export function App() {
     setBinFileName(displayName);
     setModified(false);
 
+    // Detect ECC presence
+    const eccResult = detectEccPresence(data, 20);
+    setHasEcc(eccResult.hasEcc);
+    setSkipEcc(eccResult.hasEcc); // Auto-enable ECC skipping if detected
+
     // Auto-detect and load matching definition
     try {
       const matches = await findMatchingDefinitions(data);
@@ -330,14 +419,14 @@ export function App() {
 
     for (const param of definition.parameters) {
       if (param.type === 'VALUE') {
-        const originalValue = readParameterValue(originalBinData, param, calOffset);
-        const currentValue = readParameterValue(binData, param, calOffset);
+        const originalValue = readParameterValue(originalBinData, param, calOffset, skipEcc);
+        const currentValue = readParameterValue(binData, param, calOffset, skipEcc);
         if (Math.abs(originalValue - currentValue) > 0.0001) {
           diffs.push({ param, originalValue, currentValue });
         }
       } else {
-        const originalTable = readTableData(originalBinData, param, calOffset);
-        const currentTable = readTableData(binData, param, calOffset);
+        const originalTable = readTableData(originalBinData, param, calOffset, skipEcc);
+        const currentTable = readTableData(binData, param, calOffset, skipEcc);
         const cellDiffs: CellDiff[] = [];
 
         for (let r = 0; r < originalTable.length; r++) {
@@ -357,8 +446,8 @@ export function App() {
         const axisDiffs: AxisDiff[] = [];
 
         if (param.xAxis?.address) {
-          const originalXAxis = readAxisData(originalBinData, param.xAxis, calOffset);
-          const currentXAxis = readAxisData(binData, param.xAxis, calOffset);
+          const originalXAxis = readAxisData(originalBinData, param.xAxis, calOffset, skipEcc);
+          const currentXAxis = readAxisData(binData, param.xAxis, calOffset, skipEcc);
           const changedIndices: number[] = [];
           for (let i = 0; i < originalXAxis.length; i++) {
             if (Math.abs(originalXAxis[i] - currentXAxis[i]) > 0.0001) {
@@ -371,8 +460,8 @@ export function App() {
         }
 
         if (param.yAxis?.address) {
-          const originalYAxis = readAxisData(originalBinData, param.yAxis, calOffset);
-          const currentYAxis = readAxisData(binData, param.yAxis, calOffset);
+          const originalYAxis = readAxisData(originalBinData, param.yAxis, calOffset, skipEcc);
+          const currentYAxis = readAxisData(binData, param.yAxis, calOffset, skipEcc);
           const changedIndices: number[] = [];
           for (let i = 0; i < originalYAxis.length; i++) {
             if (Math.abs(originalYAxis[i] - currentYAxis[i]) > 0.0001) {
@@ -386,8 +475,8 @@ export function App() {
 
         if (cellDiffs.length > 0 || axisDiffs.length > 0) {
           // Read current axis data for display
-          const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset) : undefined;
-          const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset) : undefined;
+          const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset, skipEcc) : undefined;
+          const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset, skipEcc) : undefined;
 
           diffs.push({
             param,
@@ -403,7 +492,7 @@ export function App() {
     }
 
     return diffs;
-  }, [definition, binData, originalBinData, calOffset]);
+  }, [definition, binData, originalBinData, calOffset, skipEcc]);
 
   return (
     <div class="flex flex-col h-screen bg-zinc-900 text-zinc-100">
@@ -412,159 +501,179 @@ export function App() {
         {/* File Menu */}
         <div class="relative">
           <button
-            onClick={() => setShowFileMenu(!showFileMenu)}
-            class={`px-3 py-1 text-sm rounded hover:bg-zinc-700 ${showFileMenu ? 'bg-zinc-700' : ''}`}
+              onClick={() => setShowFileMenu(!showFileMenu)}
+              className={`px-3 py-1 text-sm rounded hover:bg-zinc-700 ${showFileMenu ? 'bg-zinc-700' : ''}`}
           >
             File
           </button>
           {showFileMenu && (
-            <>
-              <div class="fixed inset-0 z-10" onClick={() => setShowFileMenu(false)} />
-              <div class="absolute left-0 top-full mt-1 w-48 bg-zinc-800 border border-zinc-600 rounded shadow-lg z-20">
-                <label class="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
-                  Open Definition...
-                  <input
-                    type="file"
-                    accept=".json"
-                    ref={jsonInputRef}
-                    onChange={handleOpenJson}
-                    class="hidden"
-                  />
-                </label>
-                <label class="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
-                  Open BIN/S19...
-                  <input
-                    type="file"
-                    accept=".bin,.ori,.mod,.s19,.srec,.mot"
-                    ref={binInputRef}
-                    onChange={handleOpenBin}
-                    class="hidden"
-                  />
-                </label>
-                <label class="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
-                  Open Original BIN...
-                  <input
-                    type="file"
-                    accept=".bin,.ori,.mod"
-                    ref={originalBinInputRef}
-                    onChange={handleOpenOriginalBin}
-                    class="hidden"
-                  />
-                </label>
-                <div class="border-t border-zinc-600 my-1" />
-                <button
-                  onClick={handleSearchDefinitions}
-                  disabled={!binData}
-                  class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 disabled:text-zinc-500 disabled:hover:bg-transparent"
-                >
-                  Find Definition...
-                </button>
-                <div class="border-t border-zinc-600 my-1" />
-                <button
-                  onClick={handleSaveBin}
-                  disabled={!modified}
-                  class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 disabled:text-zinc-500 disabled:hover:bg-transparent"
-                >
-                  Save BIN
-                </button>
-              </div>
-            </>
+              <>
+                <div class="fixed inset-0 z-10" onClick={() => setShowFileMenu(false)}/>
+                <div
+                    class="absolute left-0 top-full mt-1 w-48 bg-zinc-800 border border-zinc-600 rounded shadow-lg z-20">
+                  <label class="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
+                    Open Definition...
+                    <input
+                        type="file"
+                        accept=".json"
+                        ref={jsonInputRef}
+                        onChange={handleOpenJson}
+                        class="hidden"
+                    />
+                  </label>
+                  <label class="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
+                    Open BIN/S19...
+                    <input
+                        type="file"
+                        accept=".bin,.ori,.mod,.s19,.srec,.mot"
+                        ref={binInputRef}
+                        onChange={handleOpenBin}
+                        class="hidden"
+                    />
+                  </label>
+                  <label class="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
+                    Open Original BIN...
+                    <input
+                        type="file"
+                        accept=".bin,.ori,.mod"
+                        ref={originalBinInputRef}
+                        onChange={handleOpenOriginalBin}
+                        class="hidden"
+                    />
+                  </label>
+                  <div class="border-t border-zinc-600 my-1"/>
+                  <button
+                      onClick={handleSearchDefinitions}
+                      disabled={!binData}
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 disabled:text-zinc-500 disabled:hover:bg-transparent"
+                  >
+                    Find Definition...
+                  </button>
+                  <div class="border-t border-zinc-600 my-1"/>
+                  <button
+                      onClick={handleSaveBin}
+                      disabled={!modified}
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 disabled:text-zinc-500 disabled:hover:bg-transparent"
+                  >
+                    Save BIN
+                  </button>
+                </div>
+              </>
           )}
         </div>
 
         {/* Tools Menu */}
         <div class="relative">
           <button
-            onClick={() => setShowToolsMenu(!showToolsMenu)}
-            class={`px-3 py-1 text-sm rounded hover:bg-zinc-700 ${showToolsMenu ? 'bg-zinc-700' : ''}`}
+              onClick={() => setShowToolsMenu(!showToolsMenu)}
+              className={`px-3 py-1 text-sm rounded hover:bg-zinc-700 ${showToolsMenu ? 'bg-zinc-700' : ''}`}
           >
             Tools
           </button>
           {showToolsMenu && (
-            <>
-              <div class="fixed inset-0 z-10" onClick={() => setShowToolsMenu(false)} />
-              <div class="absolute left-0 top-full mt-1 w-48 bg-zinc-800 border border-zinc-600 rounded shadow-lg z-20">
-                <button
-                  onClick={() => { setShowConverter(true); setShowToolsMenu(false); }}
-                  class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
-                >
-                  A2L Converter
-                </button>
-                <button
-                  onClick={() => { setShowXdfConverter(true); setShowToolsMenu(false); }}
-                  class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
-                >
-                  XDF Converter
-                </button>
-                <div class="border-t border-zinc-600 my-1" />
-                <button
-                  onClick={() => { setShowLogViewer(true); setShowToolsMenu(false); }}
-                  class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
-                >
-                  Log Viewer
-                </button>
-                <button
-                  onClick={() => { setShowBLEConnector(true); setShowToolsMenu(false); }}
-                  class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
-                >
-                  BLE Datalogger
-                </button>
-              </div>
-            </>
+              <>
+                <div class="fixed inset-0 z-10" onClick={() => setShowToolsMenu(false)}/>
+                <div
+                    class="absolute left-0 top-full mt-1 w-48 bg-zinc-800 border border-zinc-600 rounded shadow-lg z-20">
+                  <button
+                      onClick={() => {
+                        setShowConverter(true);
+                        setShowToolsMenu(false);
+                      }}
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
+                  >
+                    A2L Converter
+                  </button>
+                  <button
+                      onClick={() => {
+                        setShowXdfConverter(true);
+                        setShowToolsMenu(false);
+                      }}
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
+                  >
+                    XDF Converter
+                  </button>
+                </div>
+              </>
           )}
         </div>
 
         {/* Settings Button */}
         <button
-          onClick={() => setShowSettings(true)}
-          class="px-3 py-1 text-sm rounded hover:bg-zinc-700"
+            onClick={() => setShowSettings(true)}
+            className="px-3 py-1 text-sm rounded hover:bg-zinc-700"
         >
           Settings
         </button>
 
+        <button
+            onClick={() => {
+              setShowLogViewer(true);
+              setShowToolsMenu(false);
+            }}
+            className="px-3 py-1 text-sm rounded hover:bg-zinc-700"
+        >
+          Log Viewer
+        </button>
+
+        <button
+            onClick={() => {
+              setShowBLEConnector(true);
+              setShowToolsMenu(false);
+            }}
+            className="px-3 py-1 text-sm rounded hover:bg-zinc-700"
+        >
+          Connect (BLE)
+        </button>
+
         {originalBinData && binData && (
-          <button
-            onClick={() => setShowChanges(true)}
-            class="px-3 py-1 text-sm rounded hover:bg-zinc-700"
-          >
-            Changes ({changes.length})
-          </button>
+            <button
+                onClick={() => setShowChanges(true)}
+                className="px-3 py-1 text-sm rounded hover:bg-zinc-700"
+            >
+              Changes ({changes.length})
+            </button>
         )}
 
-        <div class="flex-1" />
+        <div class="flex-1"/>
 
         {originalBinFileName && (
-          <div class="flex items-center gap-2 mr-2">
-            <span class="text-xs text-zinc-500">Original:</span>
-            <span class="font-mono text-sm text-zinc-400">{originalBinFileName}</span>
-          </div>
+            <div class="flex items-center gap-2 mr-2">
+              <span class="text-xs text-zinc-500">Original:</span>
+              <span class="font-mono text-sm text-zinc-400">{originalBinFileName}</span>
+            </div>
         )}
         {binFileName && (
-          <div class="flex items-center gap-2 mr-2">
-            <span class="font-mono text-sm text-zinc-400">{binFileName}</span>
-            {detectedMode && (
-              <span class={`px-2 py-0.5 rounded text-xs font-medium ${
-                detectedMode === 'cal' ? 'bg-blue-900 text-blue-300' : 'bg-purple-900 text-purple-300'
-              }`}>
+            <div class="flex items-center gap-2 mr-2">
+              <span class="font-mono text-sm text-zinc-400">{binFileName}</span>
+              {detectedMode && (
+                  <span class={`px-2 py-0.5 rounded text-xs font-medium ${
+                      detectedMode === 'cal' ? 'bg-blue-900 text-blue-300' : 'bg-purple-900 text-purple-300'
+                  }`}>
                 {detectedMode === 'cal' ? 'CAL' : 'Full'}
               </span>
-            )}
-            {modified && (
-              <span class="px-2 py-0.5 bg-amber-500 text-black rounded text-xs font-semibold">
+              )}
+              {hasEcc && (
+                  <span class="px-2 py-0.5 rounded text-xs font-medium bg-orange-900 text-orange-300">
+                    ECC
+                  </span>
+              )}
+              {modified && (
+                  <span class="px-2 py-0.5 bg-amber-500 text-black rounded text-xs font-semibold">
                 Modified
               </span>
-            )}
-          </div>
+              )}
+            </div>
         )}
       </header>
 
       {/* Main Content */}
       <div class="flex flex-1 overflow-hidden">
         <aside
-          class={`w-80 flex flex-col bg-zinc-800 border-r border-zinc-700 transition-colors ${
-            dragOverDef ? 'bg-blue-900/30 border-blue-500' : ''
-          }`}
-          onDragOver={(e) => { preventDefaults(e); setDragOverDef(true); }}
+            class={`w-80 flex flex-col bg-zinc-800 border-r border-zinc-700 transition-colors ${
+                dragOverDef ? 'bg-blue-900/30 border-blue-500' : ''
+            }`}
+            onDragOver={(e) => { preventDefaults(e); setDragOverDef(true); }}
           onDragEnter={(e) => { preventDefaults(e); setDragOverDef(true); }}
           onDragLeave={() => setDragOverDef(false)}
           onDrop={handleDefDrop}
@@ -681,6 +790,7 @@ export function App() {
               binData={binData}
               originalBinData={originalBinData}
               calOffset={calOffset}
+              skipEcc={skipEcc}
               onModify={handleModify}
             />
           )}

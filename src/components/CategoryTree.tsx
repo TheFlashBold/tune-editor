@@ -93,19 +93,23 @@ function TreeNodeView({
 
       {(node.name === 'Root' || isExpanded) && (
         <>
-          {Array.from(node.children.values()).map(child => (
-            <TreeNodeView
-              key={child.path}
-              node={child}
-              depth={node.name === 'Root' ? 0 : depth + 1}
-              onSelect={onSelect}
-              selectedParam={selectedParam}
-              expanded={expanded}
-              onToggle={onToggle}
-            />
-          ))}
+          {Array.from(node.children.values())
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map(child => (
+              <TreeNodeView
+                key={child.path}
+                node={child}
+                depth={node.name === 'Root' ? 0 : depth + 1}
+                onSelect={onSelect}
+                selectedParam={selectedParam}
+                expanded={expanded}
+                onToggle={onToggle}
+              />
+            ))}
 
-          {node.parameters.map(param => (
+          {[...node.parameters]
+            .sort((a, b) => (a.customName || a.description || a.name).localeCompare(b.customName || b.description || b.name))
+            .map(param => (
             <div
               key={param.name}
               data-param={param.name}
@@ -152,15 +156,21 @@ export function CategoryTree({ parameters, onSelect, selectedParam }: Props) {
     return buildTree(filtered);
   }, [parameters, filter]);
 
-  // Collect all visible parameters in tree order
+  // Collect all visible parameters in tree order (sorted: folders first, then params)
   const visibleParams = useMemo(() => {
     const result: Parameter[] = [];
     const collect = (node: TreeNode, isRoot: boolean) => {
       if (!isRoot && !expanded.has(node.path)) return;
-      for (const child of node.children.values()) {
+      // Sort children alphabetically
+      const sortedChildren = Array.from(node.children.values())
+        .sort((a, b) => a.name.localeCompare(b.name));
+      for (const child of sortedChildren) {
         collect(child, false);
       }
-      result.push(...node.parameters);
+      // Sort parameters alphabetically by display name
+      const sortedParams = [...node.parameters]
+        .sort((a, b) => (a.customName || a.description || a.name).localeCompare(b.customName || b.description || b.name));
+      result.push(...sortedParams);
     };
     collect(tree, true);
     return result;

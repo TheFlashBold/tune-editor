@@ -165,8 +165,9 @@ export class A2LParser {
       const block = match[2];
 
       // Match FNC_VALUES for characteristics or AXIS_PTS_X for axis points
+      // Use negative lookbehind to avoid matching NO_AXIS_PTS_X
       const fncMatch = block.match(/FNC_VALUES\s+(\d+)\s+(\S+)\s+(\S+)/);
-      const axisMatch = block.match(/AXIS_PTS_X\s+(\d+)\s+(\S+)/);
+      const axisMatch = block.match(/(?<!NO_)AXIS_PTS_X\s+(\d+)\s+(\S+)/);
       const typeStr = fncMatch?.[2] || axisMatch?.[2];
       const dataType = typeStr ? (DATATYPE_MAP[typeStr] || 'UWORD') : 'UWORD';
 

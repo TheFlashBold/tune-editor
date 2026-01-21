@@ -17,32 +17,33 @@ interface Props {
   binData: Uint8Array;
   originalBinData?: Uint8Array | null;
   calOffset?: number;
+  skipEcc?: boolean;
   onModify: () => void;
 }
 
-export function ValueEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
+export function ValueEditor({ parameter, binData, originalBinData, calOffset = 0, skipEcc = false, onModify }: Props) {
   if (parameter.type === 'VALUE') {
-    return <ScalarEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} onModify={onModify} />;
+    return <ScalarEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} skipEcc={skipEcc} onModify={onModify} />;
   }
-  return <TableEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} onModify={onModify} />;
+  return <TableEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} skipEcc={skipEcc} onModify={onModify} />;
 }
 
-function ScalarEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
-  const [value, setValue] = useState(() => readParameterValue(binData, parameter, calOffset));
+function ScalarEditor({ parameter, binData, originalBinData, calOffset = 0, skipEcc = false, onModify }: Props) {
+  const [value, setValue] = useState(() => readParameterValue(binData, parameter, calOffset, skipEcc));
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [showOriginal, setShowOriginal] = useState(false);
 
   const originalValue = useMemo(
-    () => originalBinData ? readParameterValue(originalBinData, parameter, calOffset) : null,
-    [originalBinData, parameter, calOffset]
+    () => originalBinData ? readParameterValue(originalBinData, parameter, calOffset, skipEcc) : null,
+    [originalBinData, parameter, calOffset, skipEcc]
   );
 
   const hasChanged = originalValue !== null && Math.abs(originalValue - value) > 0.0001;
 
   useEffect(() => {
-    setValue(readParameterValue(binData, parameter, calOffset));
-  }, [parameter, binData, calOffset]);
+    setValue(readParameterValue(binData, parameter, calOffset, skipEcc));
+  }, [parameter, binData, calOffset, skipEcc]);
 
   const handleDoubleClick = () => {
     setInputValue(formatValue(value, 4));
@@ -136,7 +137,7 @@ function getCellColor(value: number, min: number, max: number): string {
   return `hsl(${hue}, 65%, 70%)`;
 }
 
-function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
+function TableEditor({ parameter, binData, originalBinData, calOffset = 0, skipEcc = false, onModify }: Props) {
   const [tableData, setTableData] = useState<number[][]>([]);
   const [editCell, setEditCell] = useState<{ row: number; col: number } | null>(null);
   const [editAxisCell, setEditAxisCell] = useState<{ axis: 'x' | 'y'; index: number } | null>(null);
@@ -146,18 +147,18 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
   const [yAxisData, setYAxisData] = useState<number[]>([]);
 
   const originalTableData = useMemo(
-    () => originalBinData ? readTableData(originalBinData, parameter, calOffset) : null,
-    [originalBinData, parameter, calOffset]
+    () => originalBinData ? readTableData(originalBinData, parameter, calOffset, skipEcc) : null,
+    [originalBinData, parameter, calOffset, skipEcc]
   );
 
   const originalXAxis = useMemo(
-    () => originalBinData && parameter.xAxis ? readAxisData(originalBinData, parameter.xAxis, calOffset) : null,
-    [originalBinData, parameter, calOffset]
+    () => originalBinData && parameter.xAxis ? readAxisData(originalBinData, parameter.xAxis, calOffset, skipEcc) : null,
+    [originalBinData, parameter, calOffset, skipEcc]
   );
 
   const originalYAxis = useMemo(
-    () => originalBinData && parameter.yAxis ? readAxisData(originalBinData, parameter.yAxis, calOffset) : null,
-    [originalBinData, parameter, calOffset]
+    () => originalBinData && parameter.yAxis ? readAxisData(originalBinData, parameter.yAxis, calOffset, skipEcc) : null,
+    [originalBinData, parameter, calOffset, skipEcc]
   );
 
   const hasChanged = useMemo(() => {
@@ -189,13 +190,13 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
 
   // These are used for initial loading only
   const xAxis = useMemo(
-    () => (parameter.xAxis ? readAxisData(binData, parameter.xAxis, calOffset) : []),
-    [parameter, binData, calOffset]
+    () => (parameter.xAxis ? readAxisData(binData, parameter.xAxis, calOffset, skipEcc) : []),
+    [parameter, binData, calOffset, skipEcc]
   );
 
   const yAxis = useMemo(
-    () => (parameter.yAxis ? readAxisData(binData, parameter.yAxis, calOffset) : []),
-    [parameter, binData, calOffset]
+    () => (parameter.yAxis ? readAxisData(binData, parameter.yAxis, calOffset, skipEcc) : []),
+    [parameter, binData, calOffset, skipEcc]
   );
 
   // Initialize axis data state
@@ -222,8 +223,8 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
   const dataDecimals = useMemo(() => getConsistentDecimals(tableData.flat(), 2), [tableData]);
 
   useEffect(() => {
-    setTableData(readTableData(binData, parameter, calOffset));
-  }, [parameter, binData, calOffset]);
+    setTableData(readTableData(binData, parameter, calOffset, skipEcc));
+  }, [parameter, binData, calOffset, skipEcc]);
 
   const handleCellDoubleClick = (row: number, col: number) => {
     setInputValue(formatValue(tableData[row][col], 4));

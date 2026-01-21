@@ -29,6 +29,7 @@ export interface Parameter {
   rows?: number;
   cols?: number;
   columnDir?: boolean; // true if data is stored column-wise
+  dataOffset?: number; // Byte offset where table data starts (for STD_AXIS)
   categories: string[];
   customName?: string;
 }

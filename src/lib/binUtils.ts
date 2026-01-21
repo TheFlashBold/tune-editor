@@ -2,6 +2,197 @@ import { DataType, DATA_TYPE_INFO, Parameter, AxisDefinition, DefinitionVerifica
 
 const BASE_OFFSET = 0xa0000000; // Simos ECU flash base address
 
+// ECC pattern for TC1797/Simos flash:
+// - SEC-DED (Single Error Correction, Double Error Detection)
+// - 8-bit ECC per 64-bit (8 bytes) of data
+// - All-zero data = all-zero ECC, all-one data = all-one ECC
+//
+// In raw flash dumps, ECC appears to be at positions 30-31 and 62-63 within 64-byte blocks
+// This suggests: 30 bytes data + 2 bytes ECC + 30 bytes data + 2 bytes ECC = 64 bytes
+const ECC_BLOCK_SIZE = 64;
+const ECC_DATA_SIZE = 60; // 60 bytes of usable data per 64-byte block
+const ECC_POSITIONS = [30, 31, 62, 63]; // Positions of ECC bytes within a 64-byte block
+
+/**
+ * SEC-DED Hamming code calculation for 64-bit data
+ * Based on TC1797 flash ECC (8-bit ECC per 64-bit data)
+ */
+function calculateEcc8(data: Uint8Array, offset: number): number {
+  // Read 8 bytes (64 bits) of data
+  let d = 0n;
+  for (let i = 0; i < 8 && offset + i < data.length; i++) {
+    d |= BigInt(data[offset + i]) << BigInt(i * 8);
+  }
+
+  // SEC-DED parity calculation
+  // Parity bits cover specific bit positions based on Hamming code
+  let ecc = 0;
+
+  // P0 covers bits where bit 0 of position is 1 (1,3,5,7,9,...)
+  // P1 covers bits where bit 1 of position is 1 (2,3,6,7,10,11,...)
+  // P2 covers bits where bit 2 of position is 1 (4,5,6,7,12,13,14,15,...)
+  // etc.
+
+  for (let bit = 0; bit < 64; bit++) {
+    if ((d >> BigInt(bit)) & 1n) {
+      // This data bit is 1, XOR it into the appropriate parity bits
+      const pos = bit + 1; // 1-indexed position (skip parity positions in real Hamming)
+      for (let p = 0; p < 7; p++) {
+        if ((pos >> p) & 1) {
+          ecc ^= (1 << p);
+        }
+      }
+      // Overall parity (P7)
+      ecc ^= 0x80;
+    }
+  }
+
+  return ecc;
+}
+
+/**
+ * Decode ECC and correct single-bit errors in 8 bytes of data
+ * Returns corrected data bytes, or null if uncorrectable
+ */
+export function decodeEcc8(data: Uint8Array, dataOffset: number, storedEcc: number): Uint8Array | null {
+  const result = data.slice(dataOffset, dataOffset + 8);
+  const calculatedEcc = calculateEcc8(data, dataOffset);
+  const syndrome = calculatedEcc ^ storedEcc;
+
+  if (syndrome === 0) {
+    // No error
+    return result;
+  }
+
+  // Check overall parity (bit 7)
+  const overallParity = (syndrome & 0x80) !== 0;
+  const errorPos = syndrome & 0x7F;
+
+  if (overallParity && errorPos > 0 && errorPos <= 64) {
+    // Single-bit error in data - correct it
+    const bitIndex = errorPos - 1;
+    const byteIndex = Math.floor(bitIndex / 8);
+    const bitInByte = bitIndex % 8;
+    result[byteIndex] ^= (1 << bitInByte);
+    return result;
+  } else if (overallParity && errorPos === 0) {
+    // Single-bit error in ECC itself - data is correct
+    return result;
+  } else {
+    // Double-bit error or uncorrectable
+    return null;
+  }
+}
+
+/**
+ * Check if a file offset lands on an ECC byte position
+ */
+export function isEccPosition(fileOffset: number): boolean {
+  const posInBlock = fileOffset % ECC_BLOCK_SIZE;
+  return ECC_POSITIONS.includes(posInBlock);
+}
+
+/**
+ * Convert a logical offset (A2L address space, no ECC) to a physical offset (raw file with ECC)
+ *
+ * ECC layout: every 64 physical bytes contain 62 bytes of data + 2 ECC bytes
+ * - Bytes 0-29: data (30 bytes)
+ * - Byte 30: ECC (1 byte)
+ * - Bytes 31-61: data (31 bytes)
+ * - Byte 62: ECC (1 byte)
+ * - Byte 63: data (1 byte)
+ *
+ * A2L addresses assume data is contiguous (no ECC). When reading from raw flash,
+ * we need to skip the ECC bytes.
+ */
+export function logicalToPhysical(logicalOffset: number): number {
+  // Every 62 logical bytes map to 64 physical bytes
+  const block = Math.floor(logicalOffset / ECC_DATA_SIZE);
+  const posInBlock = logicalOffset % ECC_DATA_SIZE;
+
+  if (posInBlock < 30) {
+    // Before first ECC byte, maps directly
+    return block * ECC_BLOCK_SIZE + posInBlock;
+  } else if (posInBlock < 61) {
+    // Between first and second ECC byte, offset by 1
+    return block * ECC_BLOCK_SIZE + posInBlock + 1;
+  } else {
+    // After second ECC byte (position 61), offset by 2
+    return block * ECC_BLOCK_SIZE + posInBlock + 2;
+  }
+}
+
+/**
+ * Convert a physical offset (raw file with ECC) to a logical offset (A2L address space)
+ * Returns -1 if the physical offset is an ECC byte position
+ */
+export function physicalToLogical(physicalOffset: number): number {
+  const block = Math.floor(physicalOffset / ECC_BLOCK_SIZE);
+  const posInBlock = physicalOffset % ECC_BLOCK_SIZE;
+
+  if (posInBlock < 30) {
+    return block * ECC_DATA_SIZE + posInBlock;
+  } else if (posInBlock >= 32 && posInBlock < 62) {
+    return block * ECC_DATA_SIZE + (posInBlock - 2);
+  } else {
+    // Position 30-31 or 62-63: ECC byte
+    return -1;
+  }
+}
+
+/**
+ * Strip ECC bytes from raw flash data
+ * Converts 64-byte blocks with ECC to 60-byte pure data blocks
+ */
+export function stripEccBytes(data: Uint8Array): Uint8Array {
+  const numBlocks = Math.ceil(data.length / ECC_BLOCK_SIZE);
+  const result = new Uint8Array(numBlocks * ECC_DATA_SIZE);
+
+  for (let block = 0; block < numBlocks; block++) {
+    const srcOffset = block * ECC_BLOCK_SIZE;
+    const dstOffset = block * ECC_DATA_SIZE;
+
+    // Copy first 30 bytes (before first ECC)
+    for (let i = 0; i < 30 && srcOffset + i < data.length; i++) {
+      result[dstOffset + i] = data[srcOffset + i];
+    }
+
+    // Copy next 30 bytes (after first ECC, before second ECC)
+    for (let i = 0; i < 30 && srcOffset + 32 + i < data.length; i++) {
+      result[dstOffset + 30 + i] = data[srcOffset + 32 + i];
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Detect if binary data likely contains ECC bytes
+ * Checks for 0xFF patterns at expected ECC positions
+ */
+export function detectEccPresence(data: Uint8Array, sampleCount: number = 10): { hasEcc: boolean; confidence: number } {
+  let eccPatternCount = 0;
+  const step = Math.floor(data.length / sampleCount);
+
+  for (let i = 0; i < sampleCount; i++) {
+    const blockStart = Math.floor((i * step) / ECC_BLOCK_SIZE) * ECC_BLOCK_SIZE;
+    if (blockStart + 63 >= data.length) continue;
+
+    // Check if ECC positions contain typical ECC values (often 0xFF or computed values)
+    const ecc1 = (data[blockStart + 30] << 8) | data[blockStart + 31];
+    const ecc2 = (data[blockStart + 62] << 8) | data[blockStart + 63];
+
+    // ECC bytes are often 0xFFxx or 0x00xx patterns
+    if ((ecc1 & 0xFF00) === 0xFF00 || (ecc2 & 0xFF00) === 0xFF00 ||
+        (ecc1 & 0xFF00) === 0x0000 || (ecc2 & 0xFF00) === 0x0000) {
+      eccPatternCount++;
+    }
+  }
+
+  const confidence = eccPatternCount / sampleCount;
+  return { hasEcc: confidence > 0.5, confidence };
+}
+
 /**
  * Read ASCII string from binary at given offset
  */
@@ -69,11 +260,69 @@ export function addressToOffset(address: number, calOffset: number = 0): number 
   return (address - BASE_OFFSET) - calOffset;
 }
 
-export function readValue(data: Uint8Array, address: number, dataType: DataType, calOffset: number = 0): number {
+/**
+ * Check if a file offset lands on an ECC position
+ * ECC bytes are at positions 30-31 and 62-63 within each 64-byte block
+ */
+function isOnEccPosition(offset: number): boolean {
+  const posInBlock = offset % ECC_BLOCK_SIZE;
+  return posInBlock >= 30 && posInBlock <= 31 || posInBlock >= 62 && posInBlock <= 63;
+}
+
+/**
+ * Check if reading a value of given size at offset would touch ECC positions
+ */
+function touchesEcc(offset: number, size: number): boolean {
+  for (let i = 0; i < size; i++) {
+    if (isOnEccPosition(offset + i)) return true;
+  }
+  return false;
+}
+
+/**
+ * Read bytes from data, skipping ECC positions
+ * Returns a Uint8Array with the requested number of data bytes
+ */
+function readBytesSkippingEcc(data: Uint8Array, startOffset: number, numBytes: number): Uint8Array {
+  const result = new Uint8Array(numBytes);
+  let srcOffset = startOffset;
+
+  for (let i = 0; i < numBytes; i++) {
+    srcOffset = skipEccBytes(srcOffset);
+    if (srcOffset >= data.length) {
+      result[i] = 0;
+    } else {
+      result[i] = data[srcOffset];
+    }
+    srcOffset++;
+  }
+
+  return result;
+}
+
+export function readValue(data: Uint8Array, address: number, dataType: DataType, calOffset: number = 0, skipEcc: boolean = false): number {
   const offset = addressToOffset(address, calOffset);
   if (offset < 0 || offset >= data.length) return 0;
 
   const info = DATA_TYPE_INFO[dataType];
+
+  if (skipEcc) {
+    // Read bytes while skipping ECC positions
+    const bytes = readBytesSkippingEcc(data, offset, info.size);
+    const view = new DataView(bytes.buffer);
+
+    switch (dataType) {
+      case 'UBYTE': return view.getUint8(0);
+      case 'SBYTE': return view.getInt8(0);
+      case 'UWORD': return view.getUint16(0, true);
+      case 'SWORD': return view.getInt16(0, true);
+      case 'ULONG': return view.getUint32(0, true);
+      case 'SLONG': return view.getInt32(0, true);
+      case 'FLOAT32': return view.getFloat32(0, true);
+      default: return 0;
+    }
+  }
+
   const view = new DataView(data.buffer, data.byteOffset + offset, info.size);
 
   switch (dataType) {
@@ -114,8 +363,8 @@ export function reverseConversion(phys: number, factor: number, offset: number):
   return (phys - offset) / factor;
 }
 
-export function readParameterValue(data: Uint8Array, param: Parameter, calOffset: number = 0): number {
-  const raw = readValue(data, param.address, param.dataType, calOffset);
+export function readParameterValue(data: Uint8Array, param: Parameter, calOffset: number = 0, skipEcc: boolean = false): number {
+  const raw = readValue(data, param.address, param.dataType, calOffset, skipEcc);
   return applyConversion(raw, param.factor, param.offset);
 }
 
@@ -124,21 +373,42 @@ export function writeParameterValue(data: Uint8Array, param: Parameter, physValu
   writeValue(data, param.address, param.dataType, raw, calOffset);
 }
 
-export function readTableData(data: Uint8Array, param: Parameter, calOffset: number = 0): number[][] {
+export function readTableData(data: Uint8Array, param: Parameter, calOffset: number = 0, skipEcc: boolean = false, debug: boolean = false): number[][] {
   const rows = param.rows || 1;
   const cols = param.cols || 1;
   const typeSize = DATA_TYPE_INFO[param.dataType].size;
+  const dataOffset = param.dataOffset ?? 0; // Byte offset where table data starts (for STD_AXIS)
   const result: number[][] = [];
+
+  if (debug) {
+    console.log('readTableData debug:', {
+      name: param.name,
+      address: '0x' + param.address.toString(16),
+      calOffset: '0x' + calOffset.toString(16),
+      dataOffset,
+      rows, cols,
+      columnDir: param.columnDir,
+      factor: param.factor,
+      offset: param.offset,
+      typeSize,
+      skipEcc,
+    });
+  }
 
   for (let r = 0; r < rows; r++) {
     const row: number[] = [];
     for (let c = 0; c < cols; c++) {
-      // COLUMN_DIR: data stored column-wise (c * rows + r)
-      // ROW_DIR: data stored row-wise (r * cols + c)
+      // COLUMN_DIR: data stored column-wise (c * rows + r) - all of col 0, then col 1, etc.
+      // ROW_DIR: data stored row-wise (r * cols + c) - all of row 0, then row 1, etc.
       const idx = param.columnDir ? (c * rows + r) : (r * cols + c);
-      const addr = param.address + idx * typeSize;
-      const raw = readValue(data, addr, param.dataType, calOffset);
-      row.push(applyConversion(raw, param.factor, param.offset));
+      const addr = param.address + dataOffset + idx * typeSize;
+      const raw = readValue(data, addr, param.dataType, calOffset, skipEcc);
+      const phys = applyConversion(raw, param.factor, param.offset);
+      if (debug && r < 3 && c < 4) {
+        const fileOffset = addressToOffset(addr, calOffset);
+        console.log(`  [${r},${c}] idx=${idx} addr=0x${addr.toString(16)} fileOffset=0x${fileOffset.toString(16)} raw=${raw} phys=${phys.toFixed(4)}`);
+      }
+      row.push(phys);
     }
     result.push(row);
   }
@@ -156,13 +426,14 @@ export function writeTableCell(
   const rows = param.rows || 1;
   const cols = param.cols || 1;
   const typeSize = DATA_TYPE_INFO[param.dataType].size;
+  const dataOffset = param.dataOffset ?? 0; // Byte offset where table data starts (for STD_AXIS)
   const idx = param.columnDir ? (col * rows + row) : (row * cols + col);
-  const addr = param.address + idx * typeSize;
+  const addr = param.address + dataOffset + idx * typeSize;
   const raw = reverseConversion(physValue, param.factor, param.offset);
   writeValue(data, addr, param.dataType, raw, calOffset);
 }
 
-export function readAxisData(data: Uint8Array, axis: AxisDefinition, calOffset: number = 0): number[] {
+export function readAxisData(data: Uint8Array, axis: AxisDefinition, calOffset: number = 0, skipEcc: boolean = false): number[] {
   if (!axis.address || !axis.dataType) {
     // Generate index-based axis
     return Array.from({ length: axis.points }, (_, i) => i);
@@ -176,7 +447,7 @@ export function readAxisData(data: Uint8Array, axis: AxisDefinition, calOffset: 
 
   for (let i = 0; i < axis.points; i++) {
     const addr = axis.address + dataOffset + i * typeSize;
-    const raw = readValue(data, addr, axis.dataType, calOffset);
+    const raw = readValue(data, addr, axis.dataType, calOffset, skipEcc);
     result.push(applyConversion(raw, factor, offset));
   }
   return result;
@@ -224,4 +495,233 @@ export function getConsistentDecimals(values: number[], maxDecimals: number = 2)
 export function formatValueConsistent(value: number, decimals: number): string {
   if (value == null || isNaN(value)) return '-';
   return decimals > 0 ? value.toFixed(decimals) : Math.round(value).toString();
+}
+
+// Debug function to show all addresses and values for a table
+export function debugTableAddresses(data: Uint8Array, param: Parameter, calOffset: number = 0): void {
+  const rows = param.rows || 1;
+  const cols = param.cols || 1;
+  const typeSize = DATA_TYPE_INFO[param.dataType].size;
+  const dataOffset = param.dataOffset ?? 0;
+
+  console.log(`=== Address dump for ${param.name} ===`);
+  console.log(`Base: 0x${param.address.toString(16)}, dataOffset: ${dataOffset}, calOffset: 0x${calOffset.toString(16)}`);
+  console.log(`Dimensions: ${cols}x${rows}, typeSize: ${typeSize}, columnDir: ${param.columnDir}`);
+  console.log('');
+
+  // Show addresses where 0xFF00 appears
+  const badAddresses: string[] = [];
+
+  for (let r = 0; r < rows; r++) {
+    let rowStr = `Row ${r.toString().padStart(2)}: `;
+    for (let c = 0; c < cols; c++) {
+      const idx = param.columnDir ? (c * rows + r) : (r * cols + c);
+      const addr = param.address + dataOffset + idx * typeSize;
+      const fileOffset = addressToOffset(addr, calOffset);
+      const raw = readValue(data, addr, param.dataType, calOffset);
+
+      if (raw === 0xFF00 || raw === 65280) {
+        badAddresses.push(`[${r},${c}] addr=0x${addr.toString(16)} file=0x${fileOffset.toString(16)} idx=${idx}`);
+        rowStr += `**${fileOffset.toString(16).padStart(6)}** `;
+      } else {
+        rowStr += `${fileOffset.toString(16).padStart(6)} `;
+      }
+    }
+    console.log(rowStr);
+  }
+
+  console.log('');
+  if (badAddresses.length > 0) {
+    console.log('Addresses with 0xFF00:');
+    badAddresses.forEach(a => console.log('  ' + a));
+
+    // Check if there's a pattern in file offsets
+    const fileOffsets = badAddresses.map(a => parseInt(a.match(/file=0x([0-9a-f]+)/)?.[1] || '0', 16));
+    if (fileOffsets.length >= 2) {
+      const diffs = fileOffsets.slice(1).map((v, i) => v - fileOffsets[i]);
+      console.log('');
+      console.log('File offset differences between bad values:', diffs.map(d => '0x' + d.toString(16)).join(', '));
+    }
+  }
+}
+
+// Debug function to search for clean data by trying different offsets
+export function debugFindDataOffset(data: Uint8Array, param: Parameter, calOffset: number = 0): void {
+  const cols = param.cols || 1;
+  const typeSize = DATA_TYPE_INFO[param.dataType].size;
+  const baseFileOffset = addressToOffset(param.address, calOffset);
+
+  console.log(`=== Searching for clean data offset for ${param.name} ===`);
+  console.log(`Base address: 0x${param.address.toString(16)}, file offset: 0x${baseFileOffset.toString(16)}`);
+  console.log(`Looking for data without 0xFF00 values in first ${cols} entries...`);
+  console.log('');
+
+  // Try offsets from -16 to +16 bytes
+  for (let byteOffset = -16; byteOffset <= 16; byteOffset += 2) {
+    const testOffset = baseFileOffset + byteOffset;
+    if (testOffset < 0) continue;
+
+    let hasFF00 = false;
+    const values: number[] = [];
+    for (let i = 0; i < cols && !hasFF00; i++) {
+      const idx = testOffset + i * typeSize;
+      if (idx + typeSize > data.length) { hasFF00 = true; break; }
+      const raw = data[idx] | (data[idx + 1] << 8); // little-endian UWORD
+      if (raw === 0xFF00 || raw === 0x00FF) hasFF00 = true;
+      values.push(raw);
+    }
+
+    const status = hasFF00 ? '❌' : '✓ ';
+    const physValues = values.slice(0, 6).map(r =>
+      (r * (param.factor || 1) + (param.offset || 0)).toFixed(2)
+    );
+    console.log(`  offset ${byteOffset >= 0 ? '+' : ''}${byteOffset}: ${status} [${physValues.join(', ')}...]`);
+  }
+}
+
+// Debug function to compare ROW_DIR vs COLUMN_DIR layouts
+export function debugLayoutComparison(data: Uint8Array, param: Parameter, calOffset: number = 0): void {
+  const rows = param.rows || 1;
+  const cols = param.cols || 1;
+  const typeSize = DATA_TYPE_INFO[param.dataType].size;
+  const dataOffset = param.dataOffset ?? 0;
+
+  console.log(`=== Layout comparison for ${param.name} ===`);
+  console.log(`Dimensions: ${cols}x${rows} (cols x rows), typeSize=${typeSize}, dataOffset=${dataOffset}`);
+  console.log(`Base address: 0x${param.address.toString(16)}, calOffset: 0x${calOffset.toString(16)}`);
+  console.log(`columnDir in definition: ${param.columnDir}`);
+  console.log('');
+
+  const fileOffset = addressToOffset(param.address + dataOffset, calOffset);
+
+  // Show raw hex bytes for first 40 bytes
+  console.log('Raw hex (first 40 bytes):');
+  let hexLine = '';
+  for (let i = 0; i < 40 && fileOffset + i < data.length; i++) {
+    hexLine += data[fileOffset + i].toString(16).padStart(2, '0') + ' ';
+    if ((i + 1) % 16 === 0) {
+      console.log(`  ${hexLine}`);
+      hexLine = '';
+    }
+  }
+  if (hexLine) console.log(`  ${hexLine}`);
+  console.log('');
+
+  // Read first few values in memory order
+  console.log('Raw memory (first 20 UWORD values):');
+  const rawValues: number[] = [];
+  for (let i = 0; i < 20 && i < rows * cols; i++) {
+    const addr = param.address + dataOffset + i * typeSize;
+    const raw = readValue(data, addr, param.dataType, calOffset);
+    const phys = applyConversion(raw, param.factor, param.offset);
+    rawValues.push(phys);
+    const hexVal = raw.toString(16).padStart(4, '0').toUpperCase();
+    console.log(`  idx ${i.toString().padStart(2)}: raw=${raw.toString().padStart(5)} (0x${hexVal}) phys=${phys.toFixed(4)}`);
+  }
+  console.log('');
+
+  // Check for stride pattern - look for repeated values at regular intervals
+  console.log('Checking for stride patterns (looking for 0xFF00 or similar markers):');
+  const markers: number[] = [];
+  for (let i = 0; i < Math.min(40, rows * cols); i++) {
+    const addr = param.address + dataOffset + i * typeSize;
+    const raw = readValue(data, addr, param.dataType, calOffset);
+    if (raw === 65280 || raw === 0xFF00 || raw === 0x00FF) {
+      markers.push(i);
+    }
+  }
+  if (markers.length > 0) {
+    console.log(`  Found 0xFF00 at indices: ${markers.join(', ')}`);
+    if (markers.length >= 2) {
+      const stride = markers[1] - markers[0];
+      console.log(`  Stride between markers: ${stride} (cols=${cols}, rows=${rows})`);
+      if (stride === cols) {
+        console.log('  ⚠️ Stride matches column count! Data may have per-row headers.');
+      } else if (stride === cols + 1) {
+        console.log('  ⚠️ Stride is cols+1! Each row may have 1 extra value (header/padding).');
+      }
+    }
+  } else {
+    console.log('  No obvious markers found in first 40 values');
+  }
+  console.log('');
+
+  // Show how these map to cells in ROW_DIR
+  console.log('As ROW_DIR (row-major):');
+  console.log('  Row 0:', rawValues.slice(0, Math.min(cols, rawValues.length)).map(v => v.toFixed(2)).join(', '));
+  if (rows > 1 && rawValues.length > cols) {
+    console.log('  Row 1:', rawValues.slice(cols, Math.min(2 * cols, rawValues.length)).map(v => v.toFixed(2)).join(', '));
+  }
+}
+
+// Debug function to dump hex bytes at a given address
+export function debugHexDump(data: Uint8Array, address: number, length: number, calOffset: number = 0): string {
+  const fileOffset = addressToOffset(address, calOffset);
+  const lines: string[] = [];
+  lines.push(`Address: 0x${address.toString(16)} -> File offset: 0x${fileOffset.toString(16)} (calOffset: 0x${calOffset.toString(16)})`);
+
+  for (let i = 0; i < length; i += 16) {
+    const bytes: string[] = [];
+    const ascii: string[] = [];
+    for (let j = 0; j < 16 && i + j < length; j++) {
+      const idx = fileOffset + i + j;
+      if (idx >= 0 && idx < data.length) {
+        const b = data[idx];
+        bytes.push(b.toString(16).padStart(2, '0'));
+        ascii.push(b >= 0x20 && b < 0x7f ? String.fromCharCode(b) : '.');
+      } else {
+        bytes.push('??');
+        ascii.push('?');
+      }
+    }
+    lines.push(`${(fileOffset + i).toString(16).padStart(6, '0')}: ${bytes.join(' ')}  ${ascii.join('')}`);
+  }
+  return lines.join('\n');
+}
+
+/**
+ * Debug function to analyze ECC layout in a 64-byte block
+ * Shows data and suspected ECC positions
+ */
+export function debugEccBlock(data: Uint8Array, blockOffset: number): void {
+  console.log(`=== ECC Block Analysis at offset 0x${blockOffset.toString(16)} ===`);
+
+  // Show all 64 bytes with position markers
+  for (let row = 0; row < 4; row++) {
+    const rowOffset = blockOffset + row * 16;
+    let hex = '';
+    let positions = '';
+    for (let col = 0; col < 16; col++) {
+      const pos = row * 16 + col;
+      const idx = rowOffset + col;
+      const byte = idx < data.length ? data[idx] : 0;
+      const isEcc = ECC_POSITIONS.includes(pos);
+      hex += (isEcc ? '[' : ' ') + byte.toString(16).padStart(2, '0') + (isEcc ? ']' : ' ');
+      positions += pos.toString().padStart(4);
+    }
+    console.log(`  ${hex}`);
+    console.log(`  ${positions}`);
+  }
+
+  // Analyze potential 8-byte blocks with ECC
+  console.log('\n8-byte block analysis (assuming 1 byte ECC per 8 bytes data):');
+  for (let i = 0; i < 7; i++) {
+    const dataStart = blockOffset + i * 9;
+    const eccPos = dataStart + 8;
+    if (eccPos < data.length) {
+      const storedEcc = data[eccPos];
+      const calcEcc = calculateEcc8(data, dataStart);
+      const match = storedEcc === calcEcc ? '✓' : '✗';
+      console.log(`  Block ${i}: data@${dataStart.toString(16)}, ECC@${eccPos.toString(16)}: stored=0x${storedEcc.toString(16).padStart(2,'0')}, calc=0x${calcEcc.toString(16).padStart(2,'0')} ${match}`);
+    }
+  }
+
+  // Analyze 30-byte blocks (observed pattern)
+  console.log('\n30-byte block analysis (positions 30-31, 62-63):');
+  const ecc1Pos = blockOffset + 30;
+  const ecc2Pos = blockOffset + 62;
+  if (ecc2Pos + 1 < data.length) {
+    console.log(`  ECC1 at ${ecc1Pos.toString(16)}: 0x${data[ecc1Pos].toString(16).padStart(2,'0')} 0x${data[ecc1Pos+1].toString(16).padStart(2,'0')}`);
+    console.log(`  ECC2 at ${ecc2Pos.toString(16)}: 0x${data[ecc2Pos].toString(16).padStart(2,'0')} 0x${data[ecc2Pos+1].toString(16).padStart(2,'0')}`);
+  }
 }
