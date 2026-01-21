@@ -168,6 +168,11 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
   const [modifyValue, setModifyValue] = useState('');
   const [showModifyInput, setShowModifyInput] = useState<'add' | 'multiply' | 'set' | null>(null);
 
+  // Axis selection state
+  const [axisSelection, setAxisSelection] = useState<{ axis: 'x' | 'y'; start: number; end: number } | null>(null);
+  const [isAxisSelecting, setIsAxisSelecting] = useState(false);
+  const [axisSelectionAnchor, setAxisSelectionAnchor] = useState<{ axis: 'x' | 'y'; index: number } | null>(null);
+
   const originalTableData = useMemo(
     () => originalBinData ? readTableData(originalBinData, parameter, calOffset) : null,
     [originalBinData, parameter, calOffset]
@@ -345,13 +350,28 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
 
   // Get count of selected cells
   const selectionCount = useMemo(() => {
+    if (axisSelection) {
+      return Math.abs(axisSelection.end - axisSelection.start) + 1;
+    }
     if (!selection) return 0;
     const norm = normalizeSelection(selection);
     return (norm.endRow - norm.startRow + 1) * (norm.endCol - norm.startCol + 1);
-  }, [selection]);
+  }, [selection, axisSelection]);
+
+  // Check if an axis cell is selected
+  const isAxisSelected = (axis: 'x' | 'y', index: number): boolean => {
+    if (!axisSelection || axisSelection.axis !== axis) return false;
+    const start = Math.min(axisSelection.start, axisSelection.end);
+    const end = Math.max(axisSelection.start, axisSelection.end);
+    return index >= start && index <= end;
+  };
 
   // Selection handlers
   const handleCellMouseDown = (row: number, col: number, e: MouseEvent) => {
+    // Clear axis selection when selecting table cells
+    setAxisSelection(null);
+    setAxisSelectionAnchor(null);
+
     if (e.shiftKey && selectionAnchor) {
       // Extend selection from anchor
       setSelection({
@@ -381,6 +401,30 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
 
   const handleMouseUp = () => {
     setIsSelecting(false);
+    setIsAxisSelecting(false);
+  };
+
+  // Axis selection handlers
+  const handleAxisMouseDown = (axis: 'x' | 'y', index: number, e: MouseEvent) => {
+    // Clear table selection when selecting axis
+    setSelection(null);
+    setSelectionAnchor(null);
+
+    if (e.shiftKey && axisSelectionAnchor && axisSelectionAnchor.axis === axis) {
+      // Extend selection from anchor
+      setAxisSelection({ axis, start: axisSelectionAnchor.index, end: index });
+    } else {
+      // Start new selection
+      setAxisSelectionAnchor({ axis, index });
+      setAxisSelection({ axis, start: index, end: index });
+      setIsAxisSelecting(true);
+    }
+  };
+
+  const handleAxisMouseEnter = (axis: 'x' | 'y', index: number) => {
+    if (isAxisSelecting && axisSelectionAnchor && axisSelectionAnchor.axis === axis) {
+      setAxisSelection({ axis, start: axisSelectionAnchor.index, end: index });
+    }
   };
 
   // Copy selection to clipboard
@@ -425,9 +469,43 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
     }
   };
 
-  // Modify selected cells
+  // Modify selected cells (table or axis)
   const modifySelection = (operation: 'add' | 'multiply' | 'set', value: number) => {
-    if (!selection || isNaN(value)) return;
+    if (isNaN(value)) return;
+
+    // Handle axis selection
+    if (axisSelection) {
+      const axisDef = axisSelection.axis === 'x' ? parameter.xAxis : parameter.yAxis;
+      if (!axisDef?.address) return;
+
+      const axisData = axisSelection.axis === 'x' ? xAxisData : yAxisData;
+      const setAxisData = axisSelection.axis === 'x' ? setXAxisData : setYAxisData;
+      const newAxisData = [...axisData];
+
+      const start = Math.min(axisSelection.start, axisSelection.end);
+      const end = Math.max(axisSelection.start, axisSelection.end);
+
+      for (let i = start; i <= end; i++) {
+        let newValue: number;
+        if (operation === 'add') {
+          newValue = axisData[i] + value;
+        } else if (operation === 'multiply') {
+          newValue = axisData[i] * (value / 100);
+        } else {
+          newValue = value;
+        }
+        writeAxisValue(binData, axisDef, i, newValue, calOffset);
+        newAxisData[i] = newValue;
+      }
+      setAxisData(newAxisData);
+      onModify();
+      setShowModifyInput(null);
+      setModifyValue('');
+      return;
+    }
+
+    // Handle table selection
+    if (!selection) return;
     const norm = normalizeSelection(selection);
     const newData = tableData.map(r => [...r]);
 
@@ -466,6 +544,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
       }
       if (e.key === 'Escape') {
         setSelection(null);
+        setAxisSelection(null);
         setShowModifyInput(null);
       }
     };
@@ -475,7 +554,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [selection, tableData]);
+  }, [selection, axisSelection, tableData]);
 
   return (
     <div>
@@ -506,7 +585,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
         {parameter.yAxis && <span>Y: {parameter.yAxis.unit || '-'}</span>}
 
         {/* Selection info and modify buttons */}
-        {selection && selectionCount > 0 && (
+        {(selection || axisSelection) && selectionCount > 0 && (
           <>
             <span class="border-l border-zinc-600 pl-4 text-zinc-300">
               {selectionCount} cell{selectionCount > 1 ? 's' : ''}
@@ -608,18 +687,21 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
                 ? xAxisData.map((val, i) => {
                     const isEditing = editAxisCell?.axis === 'x' && editAxisCell?.index === i;
                     const isChanged = xAxisChanged(i);
+                    const isCellSelected = isAxisSelected('x', i);
                     const displayValue = showOriginal && originalXAxis ? originalXAxis[i] : val;
                     const canEdit = parameter.xAxis?.address;
                     return (
                       <th
                         key={i}
-                        class={`p-1.5 border border-zinc-700 bg-zinc-800 text-zinc-400 font-medium text-right ${
+                        class={`p-1.5 border font-medium text-right select-none ${
                           canEdit ? 'cursor-pointer hover:bg-zinc-700' : ''
-                        }`}
+                        } ${isCellSelected ? 'border-blue-500 border-2 bg-blue-900/50 text-zinc-200' : 'border-zinc-700 bg-zinc-800 text-zinc-400'}`}
                         style={{
                           outline: isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
                           outlineOffset: '-2px',
                         }}
+                        onMouseDown={(e) => canEdit && handleAxisMouseDown('x', i, e)}
+                        onMouseEnter={() => canEdit && handleAxisMouseEnter('x', i)}
                         onDblClick={() => canEdit && handleAxisDoubleClick('x', i)}
                       >
                         {isEditing ? (
@@ -663,17 +745,20 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
                 {yAxisData.length > 0 && (() => {
                   const isEditing = editAxisCell?.axis === 'y' && editAxisCell?.index === rowIdx;
                   const isChanged = yAxisChanged(rowIdx);
+                  const isCellSelected = isAxisSelected('y', rowIdx);
                   const displayValue = showOriginal && originalYAxis ? originalYAxis[rowIdx] : yAxisData[rowIdx];
                   const canEdit = parameter.yAxis?.address;
                   return (
                     <td
-                      class={`p-1.5 border border-zinc-700 bg-zinc-800 text-zinc-400 font-medium text-right ${
+                      class={`p-1.5 border font-medium text-right select-none ${
                         canEdit ? 'cursor-pointer hover:bg-zinc-700' : ''
-                      }`}
+                      } ${isCellSelected ? 'border-blue-500 border-2 bg-blue-900/50 text-zinc-200' : 'border-zinc-700 bg-zinc-800 text-zinc-400'}`}
                       style={{
                         outline: isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
                         outlineOffset: '-2px',
                       }}
+                      onMouseDown={(e) => canEdit && handleAxisMouseDown('y', rowIdx, e)}
+                      onMouseEnter={() => canEdit && handleAxisMouseEnter('y', rowIdx)}
                       onDblClick={() => canEdit && handleAxisDoubleClick('y', rowIdx)}
                     >
                       {isEditing ? (

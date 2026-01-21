@@ -133,6 +133,7 @@ class BLEHeader {
     rxID: number = BLE_HEADER_RX;
     txID: number = BLE_HEADER_TX;
     cmdSize: number = 0;
+    tickCount: number = 0; // Millisecond timestamp from bridge (in persist mode responses)
 
     toArrayBuffer(): ArrayBuffer {
         const buffer = new ArrayBuffer(8);
@@ -146,6 +147,22 @@ class BLEHeader {
         view[6] = this.cmdSize & 0xFF;
         view[7] = (this.cmdSize & 0xFF00) >> 8;
         return buffer;
+    }
+
+    static fromDataView(data: DataView): BLEHeader {
+        const header = new BLEHeader();
+        header.hdID = data.getUint8(0);
+        header.cmdFlags = data.getUint8(1);
+        header.rxID = data.getUint8(2) | (data.getUint8(3) << 8);
+        header.txID = data.getUint8(4) | (data.getUint8(5) << 8);
+        header.cmdSize = data.getUint8(6) | (data.getUint8(7) << 8);
+        // In persist mode responses, rxID/txID are reused as tickCount (ms timestamp)
+        header.tickCount = (header.rxID << 16) | header.txID;
+        return header;
+    }
+
+    isValid(): boolean {
+        return this.hdID === BLE_HEADER_ID;
     }
 
     static size_partial(): number {
@@ -393,6 +410,11 @@ class BLEService {
     lastQueryTime: number = 0;
     persistModeEnabled = true;
     chunkSize = 0; // 0 = all at once
+    // For continuous stream processing (SimosTools-style)
+    pendingPidData: Map<string, number> = new Map(); // accumulate PID values
+    expectedChunks = 1;
+    receivedChunks = 0;
+    lastTickCount = 0;
 
     constructor(device: BluetoothDevice, mtuSize: number = DEFAULT_MTU_SIZE) {
         this.device = device;
@@ -430,8 +452,37 @@ class BLEService {
     }
 
     onReadValue(data: DataView) {
-        for (const listener of this.onPacketListeners) {
-            try { listener(data); } catch (e) { console.error(e); }
+        // SimosTools-style: handle multiple packets in single notification
+        // The bridge may send multiple complete packets in one BLE notification
+        let offset = 0;
+        while (offset < data.byteLength) {
+            // Check if we have enough bytes for a header
+            if (data.byteLength - offset < 8) break;
+
+            const hdID = data.getUint8(offset);
+            if (hdID !== BLE_HEADER_ID && hdID !== BLE_HEADER_PT) {
+                // Not a valid header, skip this byte and try again
+                offset++;
+                continue;
+            }
+
+            // Parse header to get packet size
+            const cmdSize = data.getUint8(offset + 6) | (data.getUint8(offset + 7) << 8);
+            const totalPacketSize = 8 + cmdSize; // header + payload
+
+            // Check if we have the complete packet
+            if (offset + totalPacketSize > data.byteLength) {
+                // Incomplete packet, likely split across notifications - just process what we have
+                break;
+            }
+
+            // Extract this packet and notify listeners
+            const packetData = new DataView(data.buffer, data.byteOffset + offset, totalPacketSize);
+            for (const listener of this.onPacketListeners) {
+                try { listener(packetData); } catch (e) { console.error(e); }
+            }
+
+            offset += totalPacketSize;
         }
     }
 
@@ -499,23 +550,36 @@ class BLEService {
         this.log('Persist queue cleared');
     }
 
-    async enablePersist() {
-        this.log('Enabling persist mode...');
-        const header = new BLEHeader();
-        header.cmdSize = 0;
-        header.cmdFlags = BLECommandFlags.PER_ENABLE;
-        await this.writePacket(header.toArrayBuffer());
-        this.log('Persist mode enabled');
-    }
-
-    async addPersistCommand(...command: ArrayBuffer[]) {
+    /**
+     * Add persist command with SimosTools-style combined flags:
+     * - isFirst: includes PER_CLEAR to clear queue before adding
+     * - isLast: includes PER_ENABLE to start persist mode after adding
+     */
+    async addPersistCommand(command: ArrayBuffer[], isFirst: boolean, isLast: boolean) {
         const totalSize = command.reduce((total, ab) => total + ab.byteLength, 0);
-        this.log(`Adding persist command (${totalSize} bytes, rxID=${BLE_HEADER_RX.toString(16)}, txID=${BLE_HEADER_TX.toString(16)})...`);
+
+        // Build flags like SimosTools:
+        // First frame: PER_ADD | PER_CLEAR
+        // Middle frames: PER_ADD
+        // Last frame: PER_ADD | PER_ENABLE
+        let flags = BLECommandFlags.PER_ADD;
+        if (isFirst) {
+            flags |= BLECommandFlags.PER_CLEAR;
+        }
+        if (isLast) {
+            flags |= BLECommandFlags.PER_ENABLE;
+        }
+
+        const flagDesc = [];
+        if (isFirst) flagDesc.push('CLEAR');
+        flagDesc.push('ADD');
+        if (isLast) flagDesc.push('ENABLE');
+        this.log(`Adding persist command (${totalSize} bytes, flags=${flagDesc.join('|')})...`);
+
         const header = new BLEHeader();
         header.cmdSize = totalSize;
-        header.cmdFlags = BLECommandFlags.PER_ADD;
+        header.cmdFlags = flags;
         await this.writePacket(ConcatArrayBuffer(header.toArrayBuffer(), ...command));
-        this.log('Persist command added');
     }
 
     async waitForPacket(matchFn?: (data: DataView) => boolean, timeoutMs = 500): Promise<DataView> {
@@ -647,7 +711,7 @@ class BLEService {
         await this.clearPersist();
 
         if (persistMode) {
-            // Set up persist mode with all PIDs
+            // Set up persist mode with all PIDs using SimosTools-style combined flags
             await this.setBridgePersistDelay(1000 / this.loggingRate);
 
             const pids = [...PIDs.values()];
@@ -656,15 +720,19 @@ class BLEService {
 
             this.log(`Adding ${pids.length} PIDs in ${numChunks} chunk(s)...`);
 
-            // Add PIDs in chunks
-            for (let i = 0; i < pids.length; i += effectiveChunkSize) {
-                const chunk = pids.slice(i, i + effectiveChunkSize);
+            // Add PIDs in chunks with combined flags like SimosTools:
+            // First frame: PER_ADD | PER_CLEAR
+            // Middle frames: PER_ADD
+            // Last frame: PER_ADD | PER_ENABLE
+            for (let i = 0; i < numChunks; i++) {
+                const startIdx = i * effectiveChunkSize;
+                const chunk = pids.slice(startIdx, startIdx + effectiveChunkSize);
                 const addresses = chunk.map(({ address }) => NumberToArrayBuffer2(address));
-                await this.addPersistCommand(NumberToArrayBuffer(0x22), ...addresses);
+                const isFirst = i === 0;
+                const isLast = i === numChunks - 1;
+                await this.addPersistCommand([NumberToArrayBuffer(0x22), ...addresses], isFirst, isLast);
             }
 
-            // Enable persist mode
-            await this.enablePersist();
             this.log('Persist mode setup complete, waiting for packets...');
         }
 
@@ -824,17 +892,92 @@ class BLEService {
         const pids = [...PIDs.values()];
 
         if (this.persistModeEnabled) {
-            // Persist mode: bridge sends data automatically, just wait for packets
+            // Persist mode: bridge sends data automatically
+            // Use event-driven approach: wait for all chunks of a complete cycle
             const effectiveChunkSize = this.chunkSize > 0 ? this.chunkSize : pids.length;
             const numChunks = Math.ceil(pids.length / effectiveChunkSize);
 
-            for (let c = 0; c < numChunks; c++) {
-                const packet = await this.waitForPacket(
-                    (data) => data.getUint8(8) === UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED,
-                    2000
-                );
-                this.parsePacketData(packet, frame);
-            }
+            return new Promise((resolve, reject) => {
+                let packetsReceived = 0;
+                let currentTickCount = 0;
+                const frameData: Record<string, number> = {};
+
+                const timeout = setTimeout(() => {
+                    this.offPacket(listener);
+                    this.log(`Timeout waiting for persist packets (received ${packetsReceived}/${numChunks})`);
+                    reject(new Error("Timeout"));
+                }, 2000);
+
+                const listener = (packet: DataView) => {
+                    // Check if this is a valid UDS response
+                    if (packet.byteLength < 9) return;
+                    if (packet.getUint8(8) !== UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED) return;
+
+                    // Parse header for tickCount (timing info in persist mode)
+                    const header = BLEHeader.fromDataView(packet);
+                    const tickCount = header.tickCount;
+
+                    // If this is a new cycle (different tickCount), reset accumulator
+                    // SimosTools uses tick to track frames, but tickCount is a timestamp
+                    // We use it to detect if we're getting stale data
+                    if (packetsReceived === 0) {
+                        currentTickCount = tickCount;
+                    } else if (numChunks === 1) {
+                        // Single chunk mode: each packet is a complete frame
+                        // Just parse and return immediately
+                    } else if (tickCount !== currentTickCount && packetsReceived > 0) {
+                        // Different tickCount - could be from a different cycle
+                        // Reset and start fresh with this packet
+                        packetsReceived = 0;
+                        currentTickCount = tickCount;
+                        Object.keys(frameData).forEach(k => delete frameData[k]);
+                    }
+
+                    // Parse PID data from this packet
+                    let index = 9;
+                    while (index < packet.byteLength) {
+                        if (index + 2 > packet.byteLength) break;
+                        const address = packet.getUint16(index);
+                        index += 2;
+
+                        const pid = PIDs.get(address);
+                        if (!pid) {
+                            // Unknown PID, skip - but we don't know length, so break
+                            break;
+                        }
+
+                        if (index + pid.length > packet.byteLength) break;
+
+                        let value = 0;
+                        if (pid.length === 1) {
+                            value = pid.signed ? packet.getInt8(index) : packet.getUint8(index);
+                        } else if (pid.length === 2) {
+                            value = pid.signed ? packet.getInt16(index) : packet.getUint16(index);
+                        }
+
+                        value = eval(pid.equation.replaceAll("x", String(value)));
+                        const roundingFactor = Math.pow(10, pid.fractional + 1);
+                        value = Math.round(value * roundingFactor) / roundingFactor;
+                        frameData[pid.name] = value;
+
+                        index += pid.length;
+                    }
+
+                    packetsReceived++;
+
+                    // Check if we have all chunks for this cycle
+                    if (packetsReceived >= numChunks) {
+                        clearTimeout(timeout);
+                        this.offPacket(listener);
+                        this.lastTickCount = currentTickCount;
+
+                        frame.data = frameData;
+                        resolve(frame);
+                    }
+                };
+
+                this.onPacket(listener);
+            });
         } else {
             // Non-persist mode: send commands manually
             const effectiveChunkSize = this.chunkSize > 0 ? this.chunkSize : pids.length;
