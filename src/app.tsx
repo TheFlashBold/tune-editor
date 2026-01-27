@@ -102,6 +102,7 @@ export function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [showLogViewer, setShowLogViewer] = useState(false);
   const [showBLEConnector, setShowBLEConnector] = useState(false);
+  const [showDefinitions, setShowDefinitions] = useState(false);
   const [logViewerData, setLogViewerData] = useState<string | null>(null);
   const [showChanges, setShowChanges] = useState(false);
   const [showDefinitionPicker, setShowDefinitionPicker] = useState(false);
@@ -608,6 +609,21 @@ export function App() {
             className="px-3 py-1 text-sm rounded hover:bg-zinc-700"
         >
           Connect (BLE)
+        </button>
+
+        <button
+            onClick={async () => {
+              try {
+                const defs = await loadDefinitionIndex();
+                setAllDefinitions(defs);
+                setShowDefinitions(true);
+              } catch (err) {
+                console.error('Failed to load definitions:', err);
+              }
+            }}
+            className="px-3 py-1 text-sm rounded hover:bg-zinc-700"
+        >
+          Definitions
         </button>
 
         {originalBinData && binData && (
@@ -1291,6 +1307,59 @@ export function App() {
                     >
                       <span class="font-medium">{entry.name}</span>
                       <span class="text-zinc-500 ml-2">({entry.paramCount})</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </Modal>
+      )}
+
+      {/* Definitions Modal */}
+      {showDefinitions && (
+        <Modal title="Definitions" onClose={() => setShowDefinitions(false)} width="lg">
+          <div class="space-y-4">
+            {allDefinitions.length === 0 ? (
+              <div class="text-center py-4 text-zinc-500">
+                No definitions available.
+              </div>
+            ) : (
+              <div>
+                <div class="text-sm text-zinc-400 mb-3">
+                  {allDefinitions.length} definition{allDefinitions.length !== 1 ? 's' : ''} available
+                </div>
+                <div class="max-h-96 overflow-y-auto space-y-1">
+                  {allDefinitions.map((entry) => (
+                    <button
+                      key={entry.file}
+                      onClick={async () => {
+                        try {
+                          const def = await loadDefinition(entry.file);
+                          setDefinition(def);
+                          setCalOffset(entry.verification?.calOffset || 0);
+                          setSelectedParam(null);
+                          setShowDefinitions(false);
+                        } catch (err) {
+                          console.error('Failed to load definition:', err);
+                        }
+                      }}
+                      class="w-full text-left p-3 bg-zinc-700 hover:bg-zinc-600 rounded border border-zinc-600 transition-colors"
+                    >
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <div class="font-medium">{entry.name}</div>
+                          <div class="text-xs text-zinc-400 mt-1">
+                            {entry.paramCount} parameters
+                            {entry.verification?.expected && ` · ${entry.verification.expected}`}
+                          </div>
+                        </div>
+                        {entry.verification?.calOffset !== undefined && (
+                          <div class="text-xs text-zinc-500">
+                            CAL @ 0x{entry.verification.calOffset.toString(16).toUpperCase()}
+                          </div>
+                        )}
+                      </div>
                     </button>
                   ))}
                 </div>
