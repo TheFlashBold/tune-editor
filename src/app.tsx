@@ -126,23 +126,26 @@ export function App() {
   const binInputRef = useRef<HTMLInputElement>(null);
 
   // Expose debug functions to window for console debugging
+  const baseAddress = definition?.baseAddress ?? 0xa0000000;
+  const bigEndian = definition?.bigEndian ?? false;
   (window as any).debug = {
     getBinData: () => binData,
     getDefinition: () => definition,
     getSelectedParam: () => selectedParam,
     getCalOffset: () => calOffset,
+    getBaseAddress: () => baseAddress,
     hexDump: (addr: number, len: number = 64) => binData && console.log(debugHexDump(binData, addr, len, calOffset)),
     readTable: (paramName?: string) => {
       const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
       if (!p || !binData) return null;
-      return readTableData(binData, p, calOffset, true); // debug=true
+      return readTableData(binData, p, calOffset, baseAddress, bigEndian, true); // debug=true
     },
     readAxis: (paramName?: string, axis: 'x' | 'y' = 'x') => {
       const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
       if (!p || !binData) return null;
       const axisDef = axis === 'x' ? p.xAxis : p.yAxis;
       if (!axisDef) return null;
-      return readAxisData(binData, axisDef, calOffset);
+      return readAxisData(binData, axisDef, calOffset, baseAddress, bigEndian);
     },
     // Compare ROW_DIR vs COLUMN_DIR layouts to identify actual storage format
     compareLayouts: (paramName?: string) => {
@@ -269,7 +272,9 @@ export function App() {
         const def = await loadDefinition(match.entry.file);
         setDefinition(def);
         setDetectedMode(match.mode);
-        setCalOffset(match.mode === 'cal' ? (match.entry.verification?.calOffset || 0) : 0);
+        // Use definition.offset if available, otherwise fall back to verification.calOffset
+        const defOffset = def.offset ?? match.entry.verification?.calOffset ?? 0;
+        setCalOffset(match.mode === 'cal' ? defOffset : 0);
         setSelectedParam(null);
       } else if (matches.length > 1) {
         setDefinitionMatches(matches);
@@ -285,8 +290,9 @@ export function App() {
       const def = await loadDefinition(entry.file);
       setDefinition(def);
       setDetectedMode(mode);
-      // For CAL-only files, subtract calOffset to get file offset; for full BIN, addresses map directly
-      setCalOffset(mode === 'cal' ? (entry.verification?.calOffset || 0) : 0);
+      // Use definition.offset if available, otherwise fall back to verification.calOffset
+      const defOffset = def.offset ?? entry.verification?.calOffset ?? 0;
+      setCalOffset(mode === 'cal' ? defOffset : 0);
       setSelectedParam(null);
       setShowDefinitionPicker(false);
       setDefinitionMatches([]); // Clear notification after loading
@@ -370,7 +376,9 @@ export function App() {
         const def = await loadDefinition(match.entry.file);
         setDefinition(def);
         setDetectedMode(match.mode);
-        setCalOffset(match.mode === 'cal' ? (match.entry.verification?.calOffset || 0) : 0);
+        // Use definition.offset if available, otherwise fall back to verification.calOffset
+        const defOffset = def.offset ?? match.entry.verification?.calOffset ?? 0;
+        setCalOffset(match.mode === 'cal' ? defOffset : 0);
         setSelectedParam(null);
       } else if (matches.length > 1) {
         setDefinitionMatches(matches);
@@ -402,16 +410,19 @@ export function App() {
 
     const diffs: ParamDiff[] = [];
 
+    const defBaseAddress = definition.baseAddress ?? 0xa0000000;
+    const defBigEndian = definition.bigEndian ?? false;
+
     for (const param of definition.parameters) {
       if (param.type === 'VALUE') {
-        const originalValue = readParameterValue(originalBinData, param, calOffset);
-        const currentValue = readParameterValue(binData, param, calOffset);
+        const originalValue = readParameterValue(originalBinData, param, calOffset, defBaseAddress, defBigEndian);
+        const currentValue = readParameterValue(binData, param, calOffset, defBaseAddress, defBigEndian);
         if (Math.abs(originalValue - currentValue) > 0.0001) {
           diffs.push({ param, originalValue, currentValue });
         }
       } else {
-        const originalTable = readTableData(originalBinData, param, calOffset);
-        const currentTable = readTableData(binData, param, calOffset);
+        const originalTable = readTableData(originalBinData, param, calOffset, defBaseAddress, defBigEndian);
+        const currentTable = readTableData(binData, param, calOffset, defBaseAddress, defBigEndian);
         const cellDiffs: CellDiff[] = [];
 
         for (let r = 0; r < originalTable.length; r++) {
@@ -431,8 +442,8 @@ export function App() {
         const axisDiffs: AxisDiff[] = [];
 
         if (param.xAxis?.address) {
-          const originalXAxis = readAxisData(originalBinData, param.xAxis, calOffset);
-          const currentXAxis = readAxisData(binData, param.xAxis, calOffset);
+          const originalXAxis = readAxisData(originalBinData, param.xAxis, calOffset, defBaseAddress, defBigEndian);
+          const currentXAxis = readAxisData(binData, param.xAxis, calOffset, defBaseAddress, defBigEndian);
           const changedIndices: number[] = [];
           for (let i = 0; i < originalXAxis.length; i++) {
             if (Math.abs(originalXAxis[i] - currentXAxis[i]) > 0.0001) {
@@ -445,8 +456,8 @@ export function App() {
         }
 
         if (param.yAxis?.address) {
-          const originalYAxis = readAxisData(originalBinData, param.yAxis, calOffset);
-          const currentYAxis = readAxisData(binData, param.yAxis, calOffset);
+          const originalYAxis = readAxisData(originalBinData, param.yAxis, calOffset, defBaseAddress, defBigEndian);
+          const currentYAxis = readAxisData(binData, param.yAxis, calOffset, defBaseAddress, defBigEndian);
           const changedIndices: number[] = [];
           for (let i = 0; i < originalYAxis.length; i++) {
             if (Math.abs(originalYAxis[i] - currentYAxis[i]) > 0.0001) {
@@ -460,8 +471,8 @@ export function App() {
 
         if (cellDiffs.length > 0 || axisDiffs.length > 0) {
           // Read current axis data for display
-          const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset) : undefined;
-          const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset) : undefined;
+          const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset, defBaseAddress, defBigEndian) : undefined;
+          const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset, defBaseAddress, defBigEndian) : undefined;
 
           diffs.push({
             param,
@@ -487,7 +498,7 @@ export function App() {
         <div class="relative">
           <button
               onClick={() => setShowFileMenu(!showFileMenu)}
-              className={`px-3 py-1 text-sm rounded hover:bg-zinc-700 ${showFileMenu ? 'bg-zinc-700' : ''}`}
+              className={`px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer ${showFileMenu ? 'bg-zinc-700' : ''}`}
           >
             File
           </button>
@@ -530,7 +541,7 @@ export function App() {
                   <button
                       onClick={handleSearchDefinitions}
                       disabled={!binData}
-                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 disabled:text-zinc-500 disabled:hover:bg-transparent"
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
                   >
                     Find Definition...
                   </button>
@@ -538,7 +549,7 @@ export function App() {
                   <button
                       onClick={handleSaveBin}
                       disabled={!modified}
-                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 disabled:text-zinc-500 disabled:hover:bg-transparent"
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
                   >
                     Save BIN
                   </button>
@@ -551,7 +562,7 @@ export function App() {
         <div class="relative">
           <button
               onClick={() => setShowToolsMenu(!showToolsMenu)}
-              className={`px-3 py-1 text-sm rounded hover:bg-zinc-700 ${showToolsMenu ? 'bg-zinc-700' : ''}`}
+              className={`px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer ${showToolsMenu ? 'bg-zinc-700' : ''}`}
           >
             Tools
           </button>
@@ -565,7 +576,7 @@ export function App() {
                         setShowConverter(true);
                         setShowToolsMenu(false);
                       }}
-                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer"
                   >
                     A2L Converter
                   </button>
@@ -574,7 +585,7 @@ export function App() {
                         setShowXdfConverter(true);
                         setShowToolsMenu(false);
                       }}
-                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700"
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer"
                   >
                     XDF Converter
                   </button>
@@ -586,7 +597,7 @@ export function App() {
         {/* Settings Button */}
         <button
             onClick={() => setShowSettings(true)}
-            className="px-3 py-1 text-sm rounded hover:bg-zinc-700"
+            className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
         >
           Settings
         </button>
@@ -596,7 +607,7 @@ export function App() {
               setShowLogViewer(true);
               setShowToolsMenu(false);
             }}
-            className="px-3 py-1 text-sm rounded hover:bg-zinc-700"
+            className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
         >
           Log Viewer
         </button>
@@ -606,9 +617,9 @@ export function App() {
               setShowBLEConnector(true);
               setShowToolsMenu(false);
             }}
-            className="px-3 py-1 text-sm rounded hover:bg-zinc-700"
+            className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
         >
-          Connect (BLE)
+          Connect to ISO-TP Bridge
         </button>
 
         <button
@@ -621,7 +632,7 @@ export function App() {
                 console.error('Failed to load definitions:', err);
               }
             }}
-            className="px-3 py-1 text-sm rounded hover:bg-zinc-700"
+            className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
         >
           Definitions
         </button>
@@ -629,7 +640,7 @@ export function App() {
         {originalBinData && binData && (
             <button
                 onClick={() => setShowChanges(true)}
-                className="px-3 py-1 text-sm rounded hover:bg-zinc-700"
+                className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
             >
               Changes ({changes.length})
             </button>
@@ -799,6 +810,8 @@ export function App() {
               binData={binData}
               originalBinData={originalBinData}
               calOffset={calOffset}
+              baseAddress={definition?.baseAddress}
+              bigEndian={definition?.bigEndian}
               onModify={handleModify}
             />
           )}
@@ -1337,7 +1350,7 @@ export function App() {
                         try {
                           const def = await loadDefinition(entry.file);
                           setDefinition(def);
-                          setCalOffset(entry.verification?.calOffset || 0);
+                          setCalOffset(def.offset ?? entry.verification?.calOffset ?? 0);
                           setSelectedParam(null);
                           setShowDefinitions(false);
                         } catch (err) {

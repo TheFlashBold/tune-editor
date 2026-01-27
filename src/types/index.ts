@@ -44,6 +44,9 @@ export interface Definition {
   name: string;
   version: string;
   verification?: DefinitionVerification;  // Check to verify definition matches file
+  offset?: number;  // CAL block offset in full bin (e.g., 0x30000 for DSG, 0x800000 for Simos18)
+  baseAddress?: number;  // Memory base address to subtract from parameter addresses (0xa0000000 for Simos, 0 for DSG/direct offsets)
+  bigEndian?: boolean;  // True if binary data is stored in big-endian (Motorola) byte order (e.g., DSG/TCU)
   parameters: Parameter[];
 }
 

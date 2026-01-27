@@ -1,6 +1,6 @@
 import { DataType, DATA_TYPE_INFO, Parameter, AxisDefinition, DefinitionVerification, BinaryMode } from '../types';
 
-const BASE_OFFSET = 0xa0000000; // Simos ECU flash base address
+const DEFAULT_BASE_ADDRESS = 0xa0000000; // Simos ECU flash base address (default)
 
 // ECC pattern for TC1797/Simos flash:
 // - SEC-DED (Single Error Correction, Double Error Detection)
@@ -206,30 +206,36 @@ const SIMOS_EPK_OFFSET = 8;
 
 /**
  * Detect binary mode (full bin or CAL block only) and verify definition matches
- * Returns the detected mode and base offset to use for address calculations
+ * Returns the detected mode and calOffset to use for address calculations
+ *
+ * Address calculation: fileOffset = address - baseAddress - calOffset
+ * - Full bin: calOffset = 0 (addresses map directly after baseAddress subtraction)
+ * - CAL-only: calOffset = verification.calOffset (need additional subtraction)
  */
 export function detectBinaryMode(
   data: Uint8Array,
   verification: DefinitionVerification
-): { mode: BinaryMode; baseOffset: number; valid: boolean; found: string } {
+): { mode: BinaryMode; calOffset: number; valid: boolean; found: string } {
   const { calOffset, expected, length = expected.length } = verification;
 
   // First check at offset 8 (CAL block only - after CAS header)
   const foundAtCal = readString(data, SIMOS_EPK_OFFSET, length);
   if (foundAtCal === expected) {
-    return { mode: 'cal', baseOffset: 0, valid: true, found: foundAtCal };
+    // CAL-only: need to subtract calOffset from addresses to get file offset
+    return { mode: 'cal', calOffset: calOffset, valid: true, found: foundAtCal };
   }
 
   // Then check at calOffset + 8 (full bin)
   const foundAtFull = readString(data, calOffset + SIMOS_EPK_OFFSET, length);
   if (foundAtFull === expected) {
-    return { mode: 'full', baseOffset: calOffset, valid: true, found: foundAtFull };
+    // Full bin: addresses map directly (no additional subtraction needed)
+    return { mode: 'full', calOffset: 0, valid: true, found: foundAtFull };
   }
 
-  // Not found at either location
+  // Not found at either location - assume CAL-only as fallback
   return {
-    mode: 'full',
-    baseOffset: calOffset,
+    mode: 'cal',
+    calOffset: calOffset,
     valid: false,
     found: foundAtCal || foundAtFull || ''
   };
@@ -251,49 +257,54 @@ export function readCalVersion(data: Uint8Array, offset: number, maxLength: numb
 
 /**
  * Calculate file offset from memory address
- * @param address - Memory address (e.g. 0xa0340000)
- * @param calOffset - Where CAL block starts in full bin (e.g. 0x340000), 0 for CAL-only files
+ * @param address - Memory address (e.g. 0xa0340000) or direct file offset (e.g. 0x69416 for KP files)
+ * @param calOffset - Offset to subtract for CAL-only files (0 for full bin, verification.calOffset for CAL-only)
+ * @param baseAddress - Memory base address to subtract (0xa0000000 for Simos, 0 for DSG/direct offsets)
  */
-export function addressToOffset(address: number, calOffset: number = 0): number {
-  // Memory address → flash offset → file offset
-  // e.g. 0xa0340100 → 0x340100 → 0x100 (if calOffset = 0x340000)
-  return (address - BASE_OFFSET) - calOffset;
+export function addressToOffset(address: number, calOffset: number = 0, baseAddress: number = DEFAULT_BASE_ADDRESS): number {
+  // Formula: fileOffset = address - baseAddress - calOffset
+  // - For Simos full bin: (0xa0800100 - 0xa0000000) - 0 = 0x800100
+  // - For Simos CAL-only: (0xa0800100 - 0xa0000000) - 0x800000 = 0x100
+  // - For DSG (baseAddress=0): 0x69416 - 0 - 0 = 0x69416
+  return (address - baseAddress) - calOffset;
 }
 
-export function readValue(data: Uint8Array, address: number, dataType: DataType, calOffset: number = 0): number {
-  const offset = addressToOffset(address, calOffset);
+export function readValue(data: Uint8Array, address: number, dataType: DataType, calOffset: number = 0, baseAddress: number = DEFAULT_BASE_ADDRESS, bigEndian: boolean = false): number {
+  const offset = addressToOffset(address, calOffset, baseAddress);
   if (offset < 0 || offset >= data.length) return 0;
 
   const info = DATA_TYPE_INFO[dataType];
   const view = new DataView(data.buffer, data.byteOffset + offset, info.size);
+  const littleEndian = !bigEndian;
 
   switch (dataType) {
     case 'UBYTE': return view.getUint8(0);
     case 'SBYTE': return view.getInt8(0);
-    case 'UWORD': return view.getUint16(0, true); // little-endian
-    case 'SWORD': return view.getInt16(0, true);
-    case 'ULONG': return view.getUint32(0, true);
-    case 'SLONG': return view.getInt32(0, true);
-    case 'FLOAT32': return view.getFloat32(0, true);
+    case 'UWORD': return view.getUint16(0, littleEndian);
+    case 'SWORD': return view.getInt16(0, littleEndian);
+    case 'ULONG': return view.getUint32(0, littleEndian);
+    case 'SLONG': return view.getInt32(0, littleEndian);
+    case 'FLOAT32': return view.getFloat32(0, littleEndian);
     default: return 0;
   }
 }
 
-export function writeValue(data: Uint8Array, address: number, dataType: DataType, value: number, calOffset: number = 0): void {
-  const offset = addressToOffset(address, calOffset);
+export function writeValue(data: Uint8Array, address: number, dataType: DataType, value: number, calOffset: number = 0, baseAddress: number = DEFAULT_BASE_ADDRESS, bigEndian: boolean = false): void {
+  const offset = addressToOffset(address, calOffset, baseAddress);
   if (offset < 0 || offset >= data.length) return;
 
   const info = DATA_TYPE_INFO[dataType];
   const view = new DataView(data.buffer, data.byteOffset + offset, info.size);
+  const littleEndian = !bigEndian;
 
   switch (dataType) {
     case 'UBYTE': view.setUint8(0, Math.max(0, Math.min(255, value))); break;
     case 'SBYTE': view.setInt8(0, Math.max(-128, Math.min(127, value))); break;
-    case 'UWORD': view.setUint16(0, Math.max(0, Math.min(65535, value)), true); break;
-    case 'SWORD': view.setInt16(0, Math.max(-32768, Math.min(32767, value)), true); break;
-    case 'ULONG': view.setUint32(0, value >>> 0, true); break;
-    case 'SLONG': view.setInt32(0, value, true); break;
-    case 'FLOAT32': view.setFloat32(0, value, true); break;
+    case 'UWORD': view.setUint16(0, Math.max(0, Math.min(65535, value)), littleEndian); break;
+    case 'SWORD': view.setInt16(0, Math.max(-32768, Math.min(32767, value)), littleEndian); break;
+    case 'ULONG': view.setUint32(0, value >>> 0, littleEndian); break;
+    case 'SLONG': view.setInt32(0, value, littleEndian); break;
+    case 'FLOAT32': view.setFloat32(0, value, littleEndian); break;
   }
 }
 
@@ -305,17 +316,17 @@ export function reverseConversion(phys: number, factor: number, offset: number):
   return (phys - offset) / factor;
 }
 
-export function readParameterValue(data: Uint8Array, param: Parameter, calOffset: number = 0): number {
-  const raw = readValue(data, param.address, param.dataType, calOffset);
+export function readParameterValue(data: Uint8Array, param: Parameter, calOffset: number = 0, baseAddress: number = DEFAULT_BASE_ADDRESS, bigEndian: boolean = false): number {
+  const raw = readValue(data, param.address, param.dataType, calOffset, baseAddress, bigEndian);
   return applyConversion(raw, param.factor, param.offset);
 }
 
-export function writeParameterValue(data: Uint8Array, param: Parameter, physValue: number, calOffset: number = 0): void {
+export function writeParameterValue(data: Uint8Array, param: Parameter, physValue: number, calOffset: number = 0, baseAddress: number = DEFAULT_BASE_ADDRESS, bigEndian: boolean = false): void {
   const raw = reverseConversion(physValue, param.factor, param.offset);
-  writeValue(data, param.address, param.dataType, raw, calOffset);
+  writeValue(data, param.address, param.dataType, raw, calOffset, baseAddress, bigEndian);
 }
 
-export function readTableData(data: Uint8Array, param: Parameter, calOffset: number = 0, debug: boolean = false): number[][] {
+export function readTableData(data: Uint8Array, param: Parameter, calOffset: number = 0, baseAddress: number = DEFAULT_BASE_ADDRESS, bigEndian: boolean = false, debug: boolean = false): number[][] {
   const rows = param.rows || 1;
   const cols = param.cols || 1;
   const typeSize = DATA_TYPE_INFO[param.dataType].size;
@@ -327,12 +338,14 @@ export function readTableData(data: Uint8Array, param: Parameter, calOffset: num
       name: param.name,
       address: '0x' + param.address.toString(16),
       calOffset: '0x' + calOffset.toString(16),
+      baseAddress: '0x' + baseAddress.toString(16),
       dataOffset,
       rows, cols,
       columnDir: param.columnDir,
       factor: param.factor,
       offset: param.offset,
       typeSize,
+      bigEndian,
     });
   }
 
@@ -343,10 +356,10 @@ export function readTableData(data: Uint8Array, param: Parameter, calOffset: num
       // ROW_DIR: data stored row-wise (r * cols + c) - all of row 0, then row 1, etc.
       const idx = param.columnDir ? (c * rows + r) : (r * cols + c);
       const addr = param.address + dataOffset + idx * typeSize;
-      const raw = readValue(data, addr, param.dataType, calOffset);
+      const raw = readValue(data, addr, param.dataType, calOffset, baseAddress, bigEndian);
       const phys = applyConversion(raw, param.factor, param.offset);
       if (debug && r < 3 && c < 4) {
-        const fileOffset = addressToOffset(addr, calOffset);
+        const fileOffset = addressToOffset(addr, calOffset, baseAddress);
         console.log(`  [${r},${c}] idx=${idx} addr=0x${addr.toString(16)} fileOffset=0x${fileOffset.toString(16)} raw=${raw} phys=${phys.toFixed(4)}`);
       }
       row.push(phys);
@@ -362,7 +375,9 @@ export function writeTableCell(
   row: number,
   col: number,
   physValue: number,
-  calOffset: number = 0
+  calOffset: number = 0,
+  baseAddress: number = DEFAULT_BASE_ADDRESS,
+  bigEndian: boolean = false
 ): void {
   const rows = param.rows || 1;
   const cols = param.cols || 1;
@@ -371,10 +386,10 @@ export function writeTableCell(
   const idx = param.columnDir ? (col * rows + row) : (row * cols + col);
   const addr = param.address + dataOffset + idx * typeSize;
   const raw = reverseConversion(physValue, param.factor, param.offset);
-  writeValue(data, addr, param.dataType, raw, calOffset);
+  writeValue(data, addr, param.dataType, raw, calOffset, baseAddress, bigEndian);
 }
 
-export function readAxisData(data: Uint8Array, axis: AxisDefinition, calOffset: number = 0): number[] {
+export function readAxisData(data: Uint8Array, axis: AxisDefinition, calOffset: number = 0, baseAddress: number = DEFAULT_BASE_ADDRESS, bigEndian: boolean = false): number[] {
   if (!axis.address || !axis.dataType) {
     // Generate index-based axis
     return Array.from({ length: axis.points }, (_, i) => i);
@@ -388,7 +403,7 @@ export function readAxisData(data: Uint8Array, axis: AxisDefinition, calOffset: 
 
   for (let i = 0; i < axis.points; i++) {
     const addr = axis.address + dataOffset + i * typeSize;
-    const raw = readValue(data, addr, axis.dataType, calOffset);
+    const raw = readValue(data, addr, axis.dataType, calOffset, baseAddress, bigEndian);
     result.push(applyConversion(raw, factor, offset));
   }
   return result;
@@ -399,7 +414,9 @@ export function writeAxisValue(
   axis: AxisDefinition,
   index: number,
   physValue: number,
-  calOffset: number = 0
+  calOffset: number = 0,
+  baseAddress: number = DEFAULT_BASE_ADDRESS,
+  bigEndian: boolean = false
 ): void {
   if (!axis.address || !axis.dataType) return;
 
@@ -410,7 +427,7 @@ export function writeAxisValue(
 
   const addr = axis.address + dataOffset + index * typeSize;
   const raw = reverseConversion(physValue, factor, offset);
-  writeValue(data, addr, axis.dataType, raw, calOffset);
+  writeValue(data, addr, axis.dataType, raw, calOffset, baseAddress, bigEndian);
 }
 
 export function formatValue(value: number, decimals: number = 2): string {

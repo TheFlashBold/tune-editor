@@ -12,37 +12,41 @@ import {
   formatValueConsistent,
 } from '../lib/binUtils';
 
+const DEFAULT_BASE_ADDRESS = 0xa0000000;
+
 interface Props {
   parameter: Parameter;
   binData: Uint8Array;
   originalBinData?: Uint8Array | null;
   calOffset?: number;
+  baseAddress?: number;
+  bigEndian?: boolean;
   onModify: () => void;
 }
 
-export function ValueEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
+export function ValueEditor({ parameter, binData, originalBinData, calOffset = 0, baseAddress = DEFAULT_BASE_ADDRESS, bigEndian = false, onModify }: Props) {
   if (parameter.type === 'VALUE') {
-    return <ScalarEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} onModify={onModify} />;
+    return <ScalarEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} baseAddress={baseAddress} bigEndian={bigEndian} onModify={onModify} />;
   }
-  return <TableEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} onModify={onModify} />;
+  return <TableEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset} baseAddress={baseAddress} bigEndian={bigEndian} onModify={onModify} />;
 }
 
-function ScalarEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
-  const [value, setValue] = useState(() => readParameterValue(binData, parameter, calOffset));
+function ScalarEditor({ parameter, binData, originalBinData, calOffset = 0, baseAddress = DEFAULT_BASE_ADDRESS, bigEndian = false, onModify }: Props) {
+  const [value, setValue] = useState(() => readParameterValue(binData, parameter, calOffset, baseAddress, bigEndian));
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [showOriginal, setShowOriginal] = useState(false);
 
   const originalValue = useMemo(
-    () => originalBinData ? readParameterValue(originalBinData, parameter, calOffset) : null,
-    [originalBinData, parameter, calOffset]
+    () => originalBinData ? readParameterValue(originalBinData, parameter, calOffset, baseAddress, bigEndian) : null,
+    [originalBinData, parameter, calOffset, baseAddress, bigEndian]
   );
 
   const hasChanged = originalValue !== null && Math.abs(originalValue - value) > 0.0001;
 
   useEffect(() => {
-    setValue(readParameterValue(binData, parameter, calOffset));
-  }, [parameter, binData, calOffset]);
+    setValue(readParameterValue(binData, parameter, calOffset, baseAddress, bigEndian));
+  }, [parameter, binData, calOffset, baseAddress, bigEndian]);
 
   const handleDoubleClick = () => {
     setInputValue(formatValue(value, 4));
@@ -52,7 +56,7 @@ function ScalarEditor({ parameter, binData, originalBinData, calOffset = 0, onMo
   const handleConfirm = () => {
     const newValue = parseFloat(inputValue);
     if (!isNaN(newValue)) {
-      writeParameterValue(binData, parameter, newValue, calOffset);
+      writeParameterValue(binData, parameter, newValue, calOffset, baseAddress, bigEndian);
       setValue(newValue);
       onModify();
     }
@@ -152,7 +156,7 @@ function normalizeSelection(sel: Selection): Selection {
   };
 }
 
-function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onModify }: Props) {
+function TableEditor({ parameter, binData, originalBinData, calOffset = 0, baseAddress = DEFAULT_BASE_ADDRESS, bigEndian = false, onModify }: Props) {
   const [tableData, setTableData] = useState<number[][]>([]);
   const [editCell, setEditCell] = useState<{ row: number; col: number } | null>(null);
   const [editAxisCell, setEditAxisCell] = useState<{ axis: 'x' | 'y'; index: number } | null>(null);
@@ -174,18 +178,18 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
   const [axisSelectionAnchor, setAxisSelectionAnchor] = useState<{ axis: 'x' | 'y'; index: number } | null>(null);
 
   const originalTableData = useMemo(
-    () => originalBinData ? readTableData(originalBinData, parameter, calOffset) : null,
-    [originalBinData, parameter, calOffset]
+    () => originalBinData ? readTableData(originalBinData, parameter, calOffset, baseAddress, bigEndian) : null,
+    [originalBinData, parameter, calOffset, baseAddress, bigEndian]
   );
 
   const originalXAxis = useMemo(
-    () => originalBinData && parameter.xAxis ? readAxisData(originalBinData, parameter.xAxis, calOffset) : null,
-    [originalBinData, parameter, calOffset]
+    () => originalBinData && parameter.xAxis ? readAxisData(originalBinData, parameter.xAxis, calOffset, baseAddress, bigEndian) : null,
+    [originalBinData, parameter, calOffset, baseAddress, bigEndian]
   );
 
   const originalYAxis = useMemo(
-    () => originalBinData && parameter.yAxis ? readAxisData(originalBinData, parameter.yAxis, calOffset) : null,
-    [originalBinData, parameter, calOffset]
+    () => originalBinData && parameter.yAxis ? readAxisData(originalBinData, parameter.yAxis, calOffset, baseAddress, bigEndian) : null,
+    [originalBinData, parameter, calOffset, baseAddress, bigEndian]
   );
 
   const hasChanged = useMemo(() => {
@@ -217,13 +221,13 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
 
   // These are used for initial loading only
   const xAxis = useMemo(
-    () => (parameter.xAxis ? readAxisData(binData, parameter.xAxis, calOffset) : []),
-    [parameter, binData, calOffset]
+    () => (parameter.xAxis ? readAxisData(binData, parameter.xAxis, calOffset, baseAddress, bigEndian) : []),
+    [parameter, binData, calOffset, baseAddress, bigEndian]
   );
 
   const yAxis = useMemo(
-    () => (parameter.yAxis ? readAxisData(binData, parameter.yAxis, calOffset) : []),
-    [parameter, binData, calOffset]
+    () => (parameter.yAxis ? readAxisData(binData, parameter.yAxis, calOffset, baseAddress, bigEndian) : []),
+    [parameter, binData, calOffset, baseAddress, bigEndian]
   );
 
   // Initialize axis data state
@@ -250,8 +254,8 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
   const dataDecimals = useMemo(() => getConsistentDecimals(tableData.flat(), 2), [tableData]);
 
   useEffect(() => {
-    setTableData(readTableData(binData, parameter, calOffset));
-  }, [parameter, binData, calOffset]);
+    setTableData(readTableData(binData, parameter, calOffset, baseAddress, bigEndian));
+  }, [parameter, binData, calOffset, baseAddress, bigEndian]);
 
   const handleCellDoubleClick = (row: number, col: number) => {
     setInputValue(formatValue(tableData[row][col], 4));
@@ -270,7 +274,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
     if (editCell) {
       const newValue = parseFloat(inputValue);
       if (!isNaN(newValue)) {
-        writeTableCell(binData, parameter, editCell.row, editCell.col, newValue, calOffset);
+        writeTableCell(binData, parameter, editCell.row, editCell.col, newValue, calOffset, baseAddress, bigEndian);
         const newData = [...tableData];
         newData[editCell.row] = [...newData[editCell.row]];
         newData[editCell.row][editCell.col] = newValue;
@@ -283,7 +287,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
       if (!isNaN(newValue)) {
         const axisDef = editAxisCell.axis === 'x' ? parameter.xAxis : parameter.yAxis;
         if (axisDef) {
-          writeAxisValue(binData, axisDef, editAxisCell.index, newValue, calOffset);
+          writeAxisValue(binData, axisDef, editAxisCell.index, newValue, calOffset, baseAddress, bigEndian);
           if (editAxisCell.axis === 'x') {
             const newAxisData = [...xAxisData];
             newAxisData[editAxisCell.index] = newValue;
@@ -457,7 +461,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
           if (!isNaN(value)) {
             const targetRow = norm.startRow + r;
             const targetCol = norm.startCol + c;
-            writeTableCell(binData, parameter, targetRow, targetCol, value, calOffset);
+            writeTableCell(binData, parameter, targetRow, targetCol, value, calOffset, baseAddress, bigEndian);
             newData[targetRow][targetCol] = value;
           }
         }
@@ -494,7 +498,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
         } else {
           newValue = value;
         }
-        writeAxisValue(binData, axisDef, i, newValue, calOffset);
+        writeAxisValue(binData, axisDef, i, newValue, calOffset, baseAddress, bigEndian);
         newAxisData[i] = newValue;
       }
       setAxisData(newAxisData);
@@ -521,7 +525,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, onMod
           // set to exact value
           newValue = value;
         }
-        writeTableCell(binData, parameter, r, c, newValue, calOffset);
+        writeTableCell(binData, parameter, r, c, newValue, calOffset, baseAddress, bigEndian);
         newData[r][c] = newValue;
       }
     }
