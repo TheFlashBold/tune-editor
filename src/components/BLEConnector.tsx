@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'preact/hooks';
-import type { VehicleSettings } from '../app';
-import { Modal } from './Modal';
+import {useState, useRef, useEffect} from 'preact/hooks';
+import type {VehicleSettings} from '../app';
+import {Modal} from './Modal';
 
 const BLE_SERVICE_UUID = "0000abf0-0000-1000-8000-00805f9b34fb";
 const BLE_DATA_TX_UUID = "0000abf1-0000-1000-8000-00805f9b34fb";
@@ -61,27 +61,163 @@ interface IPid {
 }
 
 const PIDs: Map<number, IPid> = new Map([
-    [0xf40c, { address: 0xf40c, name: "Engine Speed", length: 2, signed: false, equation: "x / 4", fractional: 0, unit: "rpm" }],
-    [0x2033, { address: 0x2033, name: "Vehicle Speed", length: 2, signed: false, equation: "x / 100", fractional: 1, unit: "km/h" }],
-    [0x210f, { address: 0x210f, name: "Gear", length: 2, signed: false, equation: "x + 1", fractional: 0, unit: "" }],
-    [0x2032, { address: 0x2032, name: "Airflow", length: 2, signed: false, equation: "x", fractional: 0, unit: "kg/h" }],
-    [0x13ca, { address: 0x13ca, name: "Ambient Pressure", length: 2, signed: false, equation: "x / 12060.176665439", fractional: 2, unit: "bar" }],
-    [0x1004, { address: 0x1004, name: "Ambient Temp", length: 2, signed: true, equation: "x / 128", fractional: 1, unit: "C" }],
-    [0x39c0, { address: 0x39c0, name: "MAP", length: 2, signed: false, equation: "x / 1000", fractional: 3, unit: "bar" }],
-    [0x39c1, { address: 0x39c1, name: "MAP SP", length: 2, signed: false, equation: "x / 1000", fractional: 3, unit: "bar" }],
-    [0x202a, { address: 0x202a, name: "PUT", length: 2, signed: false, equation: "x / 1000", fractional: 3, unit: "bar" }],
-    [0x2029, { address: 0x2029, name: "PUT SP", length: 2, signed: false, equation: "x / 1000", fractional: 3, unit: "bar" }],
-    [0x11cd, { address: 0x11cd, name: "Coolant Temp", length: 1, signed: false, equation: "x - 40", fractional: 0, unit: "C" }],
-    [0x437C, { address: 0x437C, name: "Torque", length: 2, signed: true, equation: "x / 10", fractional: 1, unit: "Nm" }],
-    [0x4380, { address: 0x4380, name: "Torque Req", length: 2, signed: true, equation: "x / 10", fractional: 1, unit: "Nm" }],
-    [0x2904, { address: 0x2904, name: "Misfires", length: 2, signed: false, equation: "x", fractional: 0, unit: "" }],
-    [0x10c0, { address: 0x10c0, name: "Lambda", length: 2, signed: false, equation: "x / 1024", fractional: 3, unit: "" }],
-    [0xf444, { address: 0xf444, name: "Lambda SP", length: 2, signed: false, equation: "x / 32768", fractional: 3, unit: "" }],
-    [0x1001, { address: 0x1001, name: "IAT", length: 1, signed: false, equation: "x * 0.75 - 48", fractional: 1, unit: "C" }],
-    [0x200a, { address: 0x200a, name: "Knock Cyl 1", length: 2, signed: true, equation: "x / 100", fractional: 2, unit: "deg" }],
-    [0x200b, { address: 0x200b, name: "Knock Cyl 2", length: 2, signed: true, equation: "x / 100", fractional: 2, unit: "deg" }],
-    [0x200c, { address: 0x200c, name: "Knock Cyl 3", length: 2, signed: true, equation: "x / 100", fractional: 2, unit: "deg" }],
-    [0x200d, { address: 0x200d, name: "Knock Cyl 4", length: 2, signed: true, equation: "x / 100", fractional: 2, unit: "deg" }],
+    [0xf40c, {
+        address: 0xf40c,
+        name: "Engine Speed",
+        length: 2,
+        signed: false,
+        equation: "x / 4",
+        fractional: 0,
+        unit: "rpm"
+    }],
+    [0x2033, {
+        address: 0x2033,
+        name: "Vehicle Speed",
+        length: 2,
+        signed: false,
+        equation: "x / 100",
+        fractional: 1,
+        unit: "km/h"
+    }],
+    [0x210f, {address: 0x210f, name: "Gear", length: 2, signed: false, equation: "x + 1", fractional: 0, unit: ""}],
+    [0x2032, {address: 0x2032, name: "Airflow", length: 2, signed: false, equation: "x", fractional: 0, unit: "kg/h"}],
+    [0x13ca, {
+        address: 0x13ca,
+        name: "Ambient Pressure",
+        length: 2,
+        signed: false,
+        equation: "x / 12060.176665439",
+        fractional: 2,
+        unit: "bar"
+    }],
+    [0x1004, {
+        address: 0x1004,
+        name: "Ambient Temp",
+        length: 2,
+        signed: true,
+        equation: "x / 128",
+        fractional: 1,
+        unit: "C"
+    }],
+    [0x39c0, {
+        address: 0x39c0,
+        name: "MAP",
+        length: 2,
+        signed: false,
+        equation: "x / 1000",
+        fractional: 3,
+        unit: "bar"
+    }],
+    [0x39c1, {
+        address: 0x39c1,
+        name: "MAP SP",
+        length: 2,
+        signed: false,
+        equation: "x / 1000",
+        fractional: 3,
+        unit: "bar"
+    }],
+    [0x202a, {
+        address: 0x202a,
+        name: "PUT",
+        length: 2,
+        signed: false,
+        equation: "x / 1000",
+        fractional: 3,
+        unit: "bar"
+    }],
+    [0x2029, {
+        address: 0x2029,
+        name: "PUT SP",
+        length: 2,
+        signed: false,
+        equation: "x / 1000",
+        fractional: 3,
+        unit: "bar"
+    }],
+    [0x11cd, {
+        address: 0x11cd,
+        name: "Coolant Temp",
+        length: 1,
+        signed: false,
+        equation: "x - 40",
+        fractional: 0,
+        unit: "C"
+    }],
+    [0x437C, {address: 0x437C, name: "Torque", length: 2, signed: true, equation: "x / 10", fractional: 1, unit: "Nm"}],
+    [0x4380, {
+        address: 0x4380,
+        name: "Torque Req",
+        length: 2,
+        signed: true,
+        equation: "x / 10",
+        fractional: 1,
+        unit: "Nm"
+    }],
+    [0x2904, {address: 0x2904, name: "Misfires", length: 2, signed: false, equation: "x", fractional: 0, unit: ""}],
+    [0x10c0, {
+        address: 0x10c0,
+        name: "Lambda",
+        length: 2,
+        signed: false,
+        equation: "x / 1024",
+        fractional: 3,
+        unit: ""
+    }],
+    [0xf444, {
+        address: 0xf444,
+        name: "Lambda SP",
+        length: 2,
+        signed: false,
+        equation: "x / 32768",
+        fractional: 3,
+        unit: ""
+    }],
+    [0x1001, {
+        address: 0x1001,
+        name: "IAT",
+        length: 1,
+        signed: false,
+        equation: "x * 0.75 - 48",
+        fractional: 1,
+        unit: "C"
+    }],
+    [0x200a, {
+        address: 0x200a,
+        name: "Knock Cyl 1",
+        length: 2,
+        signed: true,
+        equation: "x / 100",
+        fractional: 2,
+        unit: "deg"
+    }],
+    [0x200b, {
+        address: 0x200b,
+        name: "Knock Cyl 2",
+        length: 2,
+        signed: true,
+        equation: "x / 100",
+        fractional: 2,
+        unit: "deg"
+    }],
+    [0x200c, {
+        address: 0x200c,
+        name: "Knock Cyl 3",
+        length: 2,
+        signed: true,
+        equation: "x / 100",
+        fractional: 2,
+        unit: "deg"
+    }],
+    [0x200d, {
+        address: 0x200d,
+        name: "Knock Cyl 4",
+        length: 2,
+        signed: true,
+        equation: "x / 100",
+        fractional: 2,
+        unit: "deg"
+    }],
 ]);
 
 function NumberToArrayBuffer2(n: number): ArrayBuffer {
@@ -385,510 +521,6 @@ class MockBLEService {
     }
 }
 
-// WiFi WebSocket service - alternative transport to BLE
-// Connects to ESP32 WiFi AP (default: 192.168.4.1)
-class WebSocketService {
-    ws: WebSocket | null = null;
-    address: string;
-    logging = false;
-    onFrame?: (frame: LogFrame) => void;
-    onLog?: (message: string) => void;
-    onPacketListeners: ((packet: DataView) => void)[] = [];
-    startTime = 0;
-    loggingRate: number = DEFAULT_LOGGING_RATE;
-    gpsEnabled = false;
-    gpsWatchId: number | null = null;
-    currentGPS: GPSData | null = null;
-    accelerometerEnabled = false;
-    currentAccelerometer: AccelerometerData | null = null;
-    previousGPS: { speed: number; time: number } | null = null;
-    vehicleSettings: VehicleSettings | null = null;
-    lastQueryTime: number = 0;
-    persistModeEnabled = true;
-    chunkSize = 0;
-    expectedChunks = 1;
-    receivedChunks = 0;
-    lastTickCount = 0;
-    writeQueue: ArrayBuffer[] = [];
-    writeInterval: ReturnType<typeof setInterval> | null = null;
-
-    constructor(address: string = '192.168.4.1') {
-        this.address = address;
-    }
-
-    log(message: string) {
-        console.log(`[WiFi] ${message}`);
-        this.onLog?.(message);
-    }
-
-    async setup() {
-        this.log(`Connecting to ws://${this.address}/ws...`);
-
-        return new Promise<void>((resolve, reject) => {
-            const timeout = setTimeout(() => {
-                this.log('Connection timeout');
-                reject(new Error('Connection timeout'));
-            }, 5000);
-
-            this.ws = new WebSocket(`ws://${this.address}/ws`);
-            this.ws.binaryType = 'arraybuffer';
-
-            this.ws.onopen = () => {
-                clearTimeout(timeout);
-                this.log('WebSocket connected');
-
-                // Start write queue processing
-                this.writeInterval = setInterval(() => this.processWriteQueue(), 10);
-
-                resolve();
-            };
-
-            this.ws.onclose = (e) => {
-                this.log(`WebSocket closed: ${e.code} ${e.reason}`);
-                if (this.writeInterval) {
-                    clearInterval(this.writeInterval);
-                    this.writeInterval = null;
-                }
-            };
-
-            this.ws.onerror = (e) => {
-                clearTimeout(timeout);
-                this.log(`WebSocket error: ${e}`);
-                reject(e);
-            };
-
-            this.ws.onmessage = (event) => {
-                this.onReadValue(new DataView(event.data));
-            };
-        });
-    }
-
-    processWriteQueue() {
-        if (this.writeQueue.length > 0 && this.ws?.readyState === WebSocket.OPEN) {
-            const data = this.writeQueue.shift();
-            if (data) {
-                this.ws.send(data);
-            }
-        }
-    }
-
-    onReadValue(data: DataView) {
-        // Same multi-packet handling as BLE
-        let offset = 0;
-        while (offset < data.byteLength) {
-            if (data.byteLength - offset < 8) break;
-
-            const hdID = data.getUint8(offset);
-            if (hdID !== BLE_HEADER_ID && hdID !== BLE_HEADER_PT) {
-                offset++;
-                continue;
-            }
-
-            const cmdSize = data.getUint8(offset + 6) | (data.getUint8(offset + 7) << 8);
-            const totalPacketSize = 8 + cmdSize;
-
-            if (offset + totalPacketSize > data.byteLength) {
-                break;
-            }
-
-            const packetData = new DataView(data.buffer, data.byteOffset + offset, totalPacketSize);
-            for (const listener of this.onPacketListeners) {
-                try { listener(packetData); } catch (e) { console.error(e); }
-            }
-
-            offset += totalPacketSize;
-        }
-    }
-
-    onPacket(fn: (packet: DataView) => void) {
-        this.onPacketListeners.push(fn);
-    }
-
-    offPacket(fn: (packet: DataView) => void) {
-        const index = this.onPacketListeners.indexOf(fn);
-        if (index > -1) this.onPacketListeners.splice(index, 1);
-    }
-
-    async writePacket(data: ArrayBuffer) {
-        // WebSocket has no MTU limit like BLE, send entire packet
-        this.writeQueue.push(data);
-    }
-
-    async setBridgePersistDelay(delay: number) {
-        this.log(`Setting persist delay to ${delay}ms...`);
-        const header = new BLEHeader();
-        header.cmdSize = 2;
-        header.cmdFlags = BLECommandFlags.SETTINGS | BLESettings.PERSIST_DELAY;
-        const packet = ConcatArrayBuffer(header.toArrayBuffer(), delay & 0xFF, (delay & 0xFF00) >> 8);
-        await this.writePacket(packet);
-        this.log(`Persist delay set to ${delay}ms`);
-    }
-
-    async sendUDSCommand(...command: ArrayBuffer[]) {
-        const header = new BLEHeader();
-        header.cmdSize = command.reduce((total, ab) => total + ab.byteLength, 0);
-        header.cmdFlags = BLECommandFlags.PER_CLEAR;
-        await this.writePacket(ConcatArrayBuffer(header.toArrayBuffer(), ...command));
-    }
-
-    async clearPersist() {
-        this.log('Clearing persist queue...');
-        const header = new BLEHeader();
-        header.cmdSize = 0;
-        header.cmdFlags = BLECommandFlags.PER_CLEAR;
-        await this.writePacket(header.toArrayBuffer());
-        this.log('Persist queue cleared');
-    }
-
-    async addPersistCommand(command: ArrayBuffer[], isFirst: boolean, isLast: boolean) {
-        const totalSize = command.reduce((total, ab) => total + ab.byteLength, 0);
-
-        let flags = BLECommandFlags.PER_ADD;
-        if (isFirst) flags |= BLECommandFlags.PER_CLEAR;
-        if (isLast) flags |= BLECommandFlags.PER_ENABLE;
-
-        const flagDesc = [];
-        if (isFirst) flagDesc.push('CLEAR');
-        flagDesc.push('ADD');
-        if (isLast) flagDesc.push('ENABLE');
-        this.log(`Adding persist command (${totalSize} bytes, flags=${flagDesc.join('|')})...`);
-
-        const header = new BLEHeader();
-        header.cmdSize = totalSize;
-        header.cmdFlags = flags;
-        await this.writePacket(ConcatArrayBuffer(header.toArrayBuffer(), ...command));
-    }
-
-    async waitForPacket(matchFn?: (data: DataView) => boolean, timeoutMs = 500): Promise<DataView> {
-        return new Promise((resolve, reject) => {
-            const timeout = setTimeout(() => {
-                this.offPacket(listener);
-                this.log(`Timeout waiting for packet (${timeoutMs}ms)`);
-                reject(new Error("Timeout"));
-            }, timeoutMs);
-
-            const listener = (packet: DataView) => {
-                const matches = matchFn?.(packet) ?? true;
-                if (!matches) return;
-
-                clearTimeout(timeout);
-                this.offPacket(listener);
-                this.log(`Received packet (${packet.byteLength} bytes)`);
-                resolve(packet);
-            };
-
-            this.onPacket(listener);
-        });
-    }
-
-    async getInfo(): Promise<Record<string, string>> {
-        this.log('Querying ECU info...');
-        const info: Record<string, string> = {};
-
-        for (const [key, address] of Object.entries(ECU_INFO_FIELDS)) {
-            const header = new BLEHeader();
-            header.cmdSize = 1 + address.length;
-            header.cmdFlags = BLECommandFlags.PER_CLEAR;
-
-            await this.writePacket(ConcatArrayBuffer(header.toArrayBuffer(), NumberToArrayBuffer(0x22), ...address));
-
-            try {
-                const response = await this.waitForPacket((data) => data.getUint8(8) === UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED);
-                const buffer = response.buffer.slice(11, response.byteLength);
-                info[key] = new TextDecoder().decode(buffer);
-                this.log(`  ${key}: ${info[key]}`);
-            } catch {
-                info[key] = "N/A";
-                this.log(`  ${key}: N/A (timeout)`);
-            }
-        }
-
-        this.log('ECU info query complete');
-        return info;
-    }
-
-    startGPS() {
-        if (!navigator.geolocation) return;
-        this.gpsEnabled = true;
-        this.gpsWatchId = navigator.geolocation.watchPosition(
-            (position) => {
-                this.currentGPS = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    speed: position.coords.speed,
-                    heading: position.coords.heading,
-                    accuracy: position.coords.accuracy,
-                    altitude: position.coords.altitude
-                };
-            },
-            (error) => console.error('GPS error:', error),
-            { enableHighAccuracy: true, maximumAge: 100, timeout: 5000 }
-        );
-    }
-
-    stopGPS() {
-        this.gpsEnabled = false;
-        if (this.gpsWatchId !== null) {
-            navigator.geolocation.clearWatch(this.gpsWatchId);
-            this.gpsWatchId = null;
-        }
-        this.currentGPS = null;
-    }
-
-    startAccelerometer() {
-        if (!window.DeviceMotionEvent) return;
-        this.accelerometerEnabled = true;
-        const handler = (event: DeviceMotionEvent) => {
-            if (event.accelerationIncludingGravity) {
-                this.currentAccelerometer = {
-                    x: (event.accelerationIncludingGravity.x || 0) / 9.81,
-                    y: (event.accelerationIncludingGravity.y || 0) / 9.81,
-                    z: (event.accelerationIncludingGravity.z || 0) / 9.81
-                };
-            }
-        };
-        window.addEventListener('devicemotion', handler);
-        (this as any)._accelHandler = handler;
-    }
-
-    stopAccelerometer() {
-        this.accelerometerEnabled = false;
-        if ((this as any)._accelHandler) {
-            window.removeEventListener('devicemotion', (this as any)._accelHandler);
-            (this as any)._accelHandler = null;
-        }
-        this.currentAccelerometer = null;
-    }
-
-    async startLogging(withGPS = false, withAccelerometer = false, vehicleSettings?: VehicleSettings, persistMode = true, chunkSize = 0) {
-        this.vehicleSettings = vehicleSettings || null;
-        this.loggingRate = vehicleSettings?.loggingRate || DEFAULT_LOGGING_RATE;
-        this.persistModeEnabled = persistMode;
-        this.chunkSize = chunkSize;
-
-        this.log(`Starting logging: persistMode=${persistMode}, rate=${this.loggingRate}Hz, chunkSize=${chunkSize}`);
-
-        await this.clearPersist();
-
-        if (persistMode) {
-            await this.setBridgePersistDelay(1000 / this.loggingRate);
-
-            const pids = [...PIDs.values()];
-            const effectiveChunkSize = chunkSize > 0 ? chunkSize : pids.length;
-            const numChunks = Math.ceil(pids.length / effectiveChunkSize);
-
-            this.log(`Adding ${pids.length} PIDs in ${numChunks} chunk(s)...`);
-
-            for (let i = 0; i < numChunks; i++) {
-                const startIdx = i * effectiveChunkSize;
-                const chunk = pids.slice(startIdx, startIdx + effectiveChunkSize);
-                const addresses = chunk.map(({ address }) => NumberToArrayBuffer2(address));
-                const isFirst = i === 0;
-                const isLast = i === numChunks - 1;
-                await this.addPersistCommand([NumberToArrayBuffer(0x22), ...addresses], isFirst, isLast);
-            }
-
-            this.log('Persist mode setup complete, waiting for packets...');
-        }
-
-        this.logging = true;
-        this.startTime = performance.now();
-        this.previousGPS = null;
-
-        if (withGPS) this.startGPS();
-        if (withAccelerometer) this.startAccelerometer();
-
-        const log = async () => {
-            if (!this.logging) return;
-
-            try {
-                const queryStart = performance.now();
-                const frame = await this.getLoggingFrame();
-                frame.queryTime = Math.round(performance.now() - queryStart);
-                this.lastQueryTime = frame.queryTime;
-
-                if (this.gpsEnabled && this.currentGPS) {
-                    frame.gps = { ...this.currentGPS };
-                }
-
-                if (this.accelerometerEnabled && this.currentAccelerometer) {
-                    frame.accelerometer = { ...this.currentAccelerometer };
-                }
-
-                // Calculate derived values (same as BLEService)
-                const calc: CalculatedData = {};
-                const airflow = frame.data["Airflow"];
-                const rpm = frame.data["Engine Speed"];
-                if (airflow !== undefined && rpm !== undefined && rpm > 0) {
-                    calc.airmass = Math.round(airflow / rpm * 8333.33333333 * 10) / 10;
-                }
-
-                const map = frame.data["MAP"];
-                const ambientPressure = frame.data["Ambient Pressure"];
-                if (map !== undefined && ambientPressure !== undefined) {
-                    calc.boost = Math.round((map - ambientPressure) * 100) / 100;
-                }
-
-                const torque = frame.data["Torque"];
-                if (torque !== undefined && rpm !== undefined && rpm > 0) {
-                    calc.enginePower = Math.round(torque * rpm / 9549 * 10) / 10;
-                }
-
-                if (Object.keys(calc).length > 0) {
-                    frame.calculated = calc;
-                }
-
-                this.onFrame?.(frame);
-            } catch (e) {
-                console.error(e);
-            }
-
-            if (this.logging) {
-                setTimeout(log, 1000 / this.loggingRate);
-            }
-        };
-
-        log();
-    }
-
-    async stopLogging() {
-        this.logging = false;
-        this.stopGPS();
-        this.stopAccelerometer();
-        await this.clearPersist();
-    }
-
-    async getLoggingFrame(): Promise<LogFrame> {
-        const frame: LogFrame = {
-            time: (performance.now() - this.startTime) / 1000,
-            data: {}
-        };
-
-        const pids = [...PIDs.values()];
-
-        if (this.persistModeEnabled) {
-            const effectiveChunkSize = this.chunkSize > 0 ? this.chunkSize : pids.length;
-            const numChunks = Math.ceil(pids.length / effectiveChunkSize);
-
-            return new Promise((resolve, reject) => {
-                let packetsReceived = 0;
-                let currentTickCount = 0;
-                const frameData: Record<string, number> = {};
-
-                const timeout = setTimeout(() => {
-                    this.offPacket(listener);
-                    this.log(`Timeout waiting for persist packets (received ${packetsReceived}/${numChunks})`);
-                    reject(new Error("Timeout"));
-                }, 2000);
-
-                const listener = (packet: DataView) => {
-                    if (packet.byteLength < 9) return;
-                    if (packet.getUint8(8) !== UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED) return;
-
-                    const header = BLEHeader.fromDataView(packet);
-                    const tickCount = header.tickCount;
-
-                    if (packetsReceived === 0) {
-                        currentTickCount = tickCount;
-                    } else if (numChunks > 1 && tickCount !== currentTickCount && packetsReceived > 0) {
-                        packetsReceived = 0;
-                        currentTickCount = tickCount;
-                        Object.keys(frameData).forEach(k => delete frameData[k]);
-                    }
-
-                    let index = 9;
-                    while (index < packet.byteLength) {
-                        if (index + 2 > packet.byteLength) break;
-                        const address = packet.getUint16(index);
-                        index += 2;
-
-                        const pid = PIDs.get(address);
-                        if (!pid) break;
-                        if (index + pid.length > packet.byteLength) break;
-
-                        let value = 0;
-                        if (pid.length === 1) {
-                            value = pid.signed ? packet.getInt8(index) : packet.getUint8(index);
-                        } else if (pid.length === 2) {
-                            value = pid.signed ? packet.getInt16(index) : packet.getUint16(index);
-                        }
-
-                        value = eval(pid.equation.replaceAll("x", String(value)));
-                        const roundingFactor = Math.pow(10, pid.fractional + 1);
-                        value = Math.round(value * roundingFactor) / roundingFactor;
-                        frameData[pid.name] = value;
-
-                        index += pid.length;
-                    }
-
-                    packetsReceived++;
-
-                    if (packetsReceived >= numChunks) {
-                        clearTimeout(timeout);
-                        this.offPacket(listener);
-                        this.lastTickCount = currentTickCount;
-                        frame.data = frameData;
-                        resolve(frame);
-                    }
-                };
-
-                this.onPacket(listener);
-            });
-        } else {
-            const effectiveChunkSize = this.chunkSize > 0 ? this.chunkSize : pids.length;
-
-            for (let i = 0; i < pids.length; i += effectiveChunkSize) {
-                const chunk = pids.slice(i, i + effectiveChunkSize);
-                const addresses = chunk.map(({ address }) => NumberToArrayBuffer2(address));
-                await this.sendUDSCommand(NumberToArrayBuffer(0x22), ...addresses);
-
-                const packet = await this.waitForPacket(
-                    (data) => data.getUint8(8) === UDS_RESPONSE.READ_IDENTIFIER_ACCEPTED,
-                    2000
-                );
-                this.parsePacketData(packet, frame);
-            }
-        }
-
-        return frame;
-    }
-
-    parsePacketData(packet: DataView, frame: LogFrame) {
-        let index = 9;
-        while (index < packet.byteLength) {
-            const address = packet.getUint16(index);
-            index += 2;
-
-            const pid = PIDs.get(address);
-            if (!pid) continue;
-
-            let value = 0;
-            if (pid.length === 1) {
-                value = pid.signed ? packet.getInt8(index) : packet.getUint8(index);
-            } else if (pid.length === 2) {
-                value = pid.signed ? packet.getInt16(index) : packet.getUint16(index);
-            }
-
-            value = eval(pid.equation.replaceAll("x", String(value)));
-            const roundingFactor = Math.pow(10, pid.fractional + 1);
-            value = Math.round(value * roundingFactor) / roundingFactor;
-            frame.data[pid.name] = value;
-
-            index += pid.length;
-        }
-    }
-
-    disconnect() {
-        this.logging = false;
-        if (this.writeInterval) {
-            clearInterval(this.writeInterval);
-            this.writeInterval = null;
-        }
-        this.ws?.close();
-        this.ws = null;
-    }
-}
-
 class BLEService {
     device: BluetoothDevice;
     service: BluetoothRemoteGATTService | null = null;
@@ -983,7 +615,11 @@ class BLEService {
             // Extract this packet and notify listeners
             const packetData = new DataView(data.buffer, data.byteOffset + offset, totalPacketSize);
             for (const listener of this.onPacketListeners) {
-                try { listener(packetData); } catch (e) { console.error(e); }
+                try {
+                    listener(packetData);
+                } catch (e) {
+                    console.error(e);
+                }
             }
 
             offset += totalPacketSize;
@@ -1005,8 +641,10 @@ class BLEService {
         const packetSize = this.mtuSize - 3;
 
         if (data.byteLength <= packetSize) {
+            this.log(`Sending packet: ${data.byteLength} bytes (MTU: ${this.mtuSize}, max: ${packetSize})`);
             this.writeQueue.push(data);
         } else {
+            this.log(`Splitting packet: ${data.byteLength} bytes into chunks of ${packetSize} bytes`);
             const dataView = new DataView(data);
             const flagByte = dataView.getUint8(1);
             dataView.setUint8(1, (flagByte | BLECommandFlags.SPLIT_PK) & 0xFF);
@@ -1157,7 +795,7 @@ class BLEService {
             },
             {
                 enableHighAccuracy: true,
-                maximumAge: 100,
+                maximumAge: Math.floor(1000 / DEFAULT_LOGGING_RATE),
                 timeout: 5000
             }
         );
@@ -1231,7 +869,7 @@ class BLEService {
             for (let i = 0; i < numChunks; i++) {
                 const startIdx = i * effectiveChunkSize;
                 const chunk = pids.slice(startIdx, startIdx + effectiveChunkSize);
-                const addresses = chunk.map(({ address }) => NumberToArrayBuffer2(address));
+                const addresses = chunk.map(({address}) => NumberToArrayBuffer2(address));
                 const isFirst = i === 0;
                 const isLast = i === numChunks - 1;
                 await this.addPersistCommand([NumberToArrayBuffer(0x22), ...addresses], isFirst, isLast);
@@ -1263,12 +901,12 @@ class BLEService {
 
                 // Add GPS data if enabled (for position tracking)
                 if (this.gpsEnabled && this.currentGPS) {
-                    frame.gps = { ...this.currentGPS };
+                    frame.gps = {...this.currentGPS};
                 }
 
                 // Add accelerometer data if enabled
                 if (this.accelerometerEnabled && this.currentAccelerometer) {
-                    frame.accelerometer = { ...this.currentAccelerometer };
+                    frame.accelerometer = {...this.currentAccelerometer};
                 }
 
                 // Initialize calculated data
@@ -1358,7 +996,7 @@ class BLEService {
                         }
                     }
 
-                    this.previousGPS = { speed: currentSpeed, time: currentTime };
+                    this.previousGPS = {speed: currentSpeed, time: currentTime};
                 }
 
                 // Only set calculated if we have any values
@@ -1488,7 +1126,7 @@ class BLEService {
 
             for (let i = 0; i < pids.length; i += effectiveChunkSize) {
                 const chunk = pids.slice(i, i + effectiveChunkSize);
-                const addresses = chunk.map(({ address }) => NumberToArrayBuffer2(address));
+                const addresses = chunk.map(({address}) => NumberToArrayBuffer2(address));
                 await this.sendUDSCommand(NumberToArrayBuffer(0x22), ...addresses);
 
                 const packet = await this.waitForPacket(
@@ -1540,14 +1178,12 @@ interface BLEConnectorProps {
     vehicleSettings?: VehicleSettings;
 }
 
-type Transport = 'ble' | 'wifi';
-
-export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnectorProps) {
+export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnectorProps) {
     const [status, setStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
     const [info, setInfo] = useState<Record<string, string> | null>(null);
     const [logging, setLogging] = useState(false);
     const [frames, setFrames] = useState<LogFrame[]>([]);
-    const [mtu, setMtu] = useState(512); // Expected MTU after firmware fix
+    const [mtu, setMtu] = useState(185); // iOS typically negotiates 185, Bluefy may be lower (~40)
     const [currentFrame, setCurrentFrame] = useState<LogFrame | null>(null);
     const [gpsEnabled, setGpsEnabled] = useState(false);
     const [accelEnabled, setAccelEnabled] = useState(false);
@@ -1556,11 +1192,9 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
     const [persistMode, setPersistMode] = useState(true);
     const [debugLogs, setDebugLogs] = useState<string[]>([]);
     const [showDebugLogs, setShowDebugLogs] = useState(false);
-    const [transport, setTransport] = useState<Transport>('ble');
-    const [wifiAddress, setWifiAddress] = useState('192.168.4.1');
     const gpsAvailable = !!navigator.geolocation;
     const accelAvailable = !!window.DeviceMotionEvent;
-    const serviceRef = useRef<BLEService | MockBLEService | WebSocketService | null>(null);
+    const serviceRef = useRef<BLEService | MockBLEService | null>(null);
     const debugLogRef = useRef<HTMLDivElement | null>(null);
 
     async function connect() {
@@ -1570,7 +1204,13 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
             setShowDebugLogs(true);
 
             const logHandler = (message: string) => {
-                const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 });
+                const timestamp = new Date().toLocaleTimeString('en-US', {
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    fractionalSecondDigits: 3
+                });
                 setDebugLogs(prev => [...prev.slice(-99), `${timestamp} ${message}`]);
             };
 
@@ -1587,22 +1227,9 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
                 return;
             }
 
-            // WiFi WebSocket transport
-            if (transport === 'wifi') {
-                const service = new WebSocketService(wifiAddress);
-                service.onLog = logHandler;
-                await service.setup();
-                serviceRef.current = service;
-
-                setStatus('connected');
-                const ecuInfo = await service.getInfo();
-                setInfo(ecuInfo);
-                return;
-            }
-
             // BLE transport
             const device = await navigator.bluetooth.requestDevice({
-                filters: [{ services: [BLE_SERVICE_UUID] }]
+                filters: [{services: [BLE_SERVICE_UUID]}]
             });
 
             const service = new BLEService(device, mtu);
@@ -1725,8 +1352,8 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
         if (!csv) return;
 
         const filename = `log_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.csv`;
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const file = new File([blob], filename, { type: 'text/csv' });
+        const blob = new Blob([csv], {type: 'text/csv'});
+        const file = new File([blob], filename, {type: 'text/csv'});
 
         try {
             await navigator.share({
@@ -1746,7 +1373,7 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
         if (!csv) return;
 
         const filename = `log_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.csv`;
-        const blob = new Blob([csv], { type: 'text/csv' });
+        const blob = new Blob([csv], {type: 'text/csv'});
 
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -1768,7 +1395,7 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
             return typeof navigator !== 'undefined' &&
                 !!navigator.share &&
                 !!navigator.canShare &&
-                navigator.canShare({ files: [new File([''], 'test.csv', { type: 'text/csv' })] });
+                navigator.canShare({files: [new File([''], 'test.csv', {type: 'text/csv'})]});
         } catch {
             return false;
         }
@@ -1804,492 +1431,482 @@ export function BLEConnector({ onLogData, onClose, vehicleSettings }: BLEConnect
             return status === 'connecting' ? 'Connecting...' : 'Disconnected';
         }
         if (IS_LOCALHOST) return 'Connected (Mock)';
-        if (transport === 'wifi') return `Connected (WiFi: ${wifiAddress})`;
         return `Connected (BLE, MTU: ${mtu})`;
     };
 
     return (
         <Modal title="ISO-TP Bridge" onClose={onClose} width="lg">
             {/* Connection status */}
-                    <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class={`w-3 h-3 rounded-full shrink-0 ${
-                                status === 'connected' ? 'bg-green-500' :
-                                status === 'connecting' ? 'bg-yellow-500 animate-pulse' :
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+                <div class="flex items-center gap-3">
+                    <div class={`w-3 h-3 rounded-full shrink-0 ${
+                        status === 'connected' ? 'bg-green-500' :
+                            status === 'connecting' ? 'bg-yellow-500 animate-pulse' :
                                 'bg-zinc-500'
-                            }`} />
-                            <span class="text-sm">{getConnectionStatus()}</span>
-                        </div>
+                    }`}/>
+                    <span class="text-sm">{getConnectionStatus()}</span>
+                </div>
 
-                        {status === 'disconnected' && (
-                            <div class="flex flex-wrap items-center gap-2 sm:ml-auto">
-                                {!IS_LOCALHOST && (
-                                    <>
-                                        <label class="text-xs text-zinc-400">Transport:</label>
-                                        <select
-                                            value={transport}
-                                            onChange={(e) => setTransport((e.target as HTMLSelectElement).value as Transport)}
-                                            class="px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
-                                        >
-                                            <option value="ble">Bluetooth LE</option>
-                                            <option value="wifi">WiFi</option>
-                                        </select>
-                                        {transport === 'wifi' && (
-                                            <>
-                                                <label class="text-xs text-zinc-400">Address:</label>
-                                                <input
-                                                    type="text"
-                                                    value={wifiAddress}
-                                                    onChange={(e) => setWifiAddress((e.target as HTMLInputElement).value)}
-                                                    class="w-32 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded font-mono"
-                                                    placeholder="192.168.4.1"
-                                                />
-                                            </>
-                                        )}
-                                        {transport === 'ble' && (
-                                            <>
-                                                <label class="text-xs text-zinc-400">MTU:</label>
-                                                <input
-                                                    type="number"
-                                                    value={mtu}
-                                                    onChange={(e) => setMtu(Number((e.target as HTMLInputElement).value))}
-                                                    class="w-20 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
-                                                    min={23}
-                                                    max={517}
-                                                />
-                                            </>
-                                        )}
-                                    </>
-                                )}
-                                <button
-                                    onClick={connect}
-                                    class="flex-1 sm:flex-none px-4 py-2.5 sm:py-1.5 text-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded font-medium"
-                                >
-                                    {IS_LOCALHOST ? 'Connect (Mock)' : 'Connect'}
-                                </button>
-                            </div>
+                {status === 'disconnected' && (
+                    <div class="flex flex-wrap items-center gap-2 sm:ml-auto">
+                        {!IS_LOCALHOST && (
+                            <>
+                                <label class="text-xs text-zinc-400">MTU:</label>
+                                <input
+                                    type="number"
+                                    value={mtu}
+                                    onChange={(e) => setMtu(Number((e.target as HTMLInputElement).value))}
+                                    class="w-20 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
+                                    min={23}
+                                    max={517}
+                                />
+                            </>
                         )}
-                        {status === 'connected' && (
-                            <button
-                                onClick={disconnect}
-                                class="sm:ml-auto px-4 py-2.5 sm:py-1.5 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
-                            >
-                                Disconnect
-                            </button>
-                        )}
+                        <button
+                            onClick={connect}
+                            class="flex-1 sm:flex-none px-4 py-2.5 sm:py-1.5 text-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded font-medium"
+                        >
+                            {IS_LOCALHOST ? 'Connect (Mock)' : 'Connect'}
+                        </button>
                     </div>
+                )}
+                {status === 'connected' && (
+                    <button
+                        onClick={disconnect}
+                        class="sm:ml-auto px-4 py-2.5 sm:py-1.5 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
+                    >
+                        Disconnect
+                    </button>
+                )}
+            </div>
 
-                    {/* ECU Info */}
-                    {info && (
-                        <div class="mb-4 p-3 bg-zinc-900 rounded border border-zinc-700">
-                            <div class="text-xs text-zinc-400 mb-2">ECU Info</div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs font-mono">
-                                {Object.entries(info).map(([key, value]) => (
-                                    <div key={key} class="flex">
-                                        <span class="text-zinc-500 w-24 sm:w-28 shrink-0">{key}:</span>
-                                        <span class="text-zinc-300 truncate">{value}</span>
-                                    </div>
-                                ))}
+            {/* ECU Info */}
+            {info && (
+                <div class="mb-4 p-3 bg-zinc-900 rounded border border-zinc-700">
+                    <div class="text-xs text-zinc-400 mb-2">ECU Info</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs font-mono">
+                        {Object.entries(info).map(([key, value]) => (
+                            <div key={key} class="flex">
+                                <span class="text-zinc-500 w-24 sm:w-28 shrink-0">{key}:</span>
+                                <span class="text-zinc-300 truncate">{value}</span>
                             </div>
-                        </div>
-                    )}
+                        ))}
+                    </div>
+                </div>
+            )}
 
-                    {/* Connection Parameters */}
-                    {status === 'connected' && !logging && (
-                        <div class="mb-4 p-3 bg-zinc-900 rounded border border-zinc-700">
-                            <div class="text-xs text-zinc-400 mb-2">Connection Parameters</div>
-                            <div class="flex flex-wrap items-center gap-4">
+            {/* Connection Parameters */}
+            {status === 'connected' && !logging && (
+                <div class="mb-4 p-3 bg-zinc-900 rounded border border-zinc-700">
+                    <div class="text-xs text-zinc-400 mb-2">Connection Parameters</div>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <label class="flex items-center gap-2 text-sm cursor-pointer select-none">
+                            <input
+                                type="checkbox"
+                                checked={persistMode}
+                                onChange={(e) => setPersistMode((e.target as HTMLInputElement).checked)}
+                                class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
+                            />
+                            <span>Persist Mode</span>
+                            <span class="text-xs text-zinc-500">(bridge auto-queries)</span>
+                        </label>
+                        <div class="flex items-center gap-2">
+                            <label class="text-xs text-zinc-400">Chunk Size:</label>
+                            <input
+                                type="number"
+                                value={chunkSize}
+                                onChange={(e) => setChunkSize(Number((e.target as HTMLInputElement).value))}
+                                class="w-16 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
+                                min={0}
+                                max={PIDs.size}
+                                placeholder="0"
+                            />
+                            <span class="text-xs text-zinc-500">
+                                        {chunkSize === 0 ? `(all ${PIDs.size})` : `(${Math.ceil(PIDs.size / chunkSize)} chunks)`}
+                                    </span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Logging controls */}
+            {status === 'connected' && (
+                <div class="mb-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                        <div class="flex items-center gap-3">
+                            <button
+                                onClick={toggleLogging}
+                                class={`flex-1 sm:flex-none px-4 py-3 sm:py-2 text-sm rounded font-medium ${
+                                    logging
+                                        ? 'bg-red-600 hover:bg-red-500 active:bg-red-700'
+                                        : 'bg-green-600 hover:bg-green-500 active:bg-green-700'
+                                }`}
+                            >
+                                {logging ? 'Stop Logging' : 'Start Logging'}
+                            </button>
+
+                            {!logging && gpsAvailable && (
                                 <label class="flex items-center gap-2 text-sm cursor-pointer select-none">
                                     <input
                                         type="checkbox"
-                                        checked={persistMode}
-                                        onChange={(e) => setPersistMode((e.target as HTMLInputElement).checked)}
+                                        checked={gpsEnabled}
+                                        onChange={(e) => setGpsEnabled((e.target as HTMLInputElement).checked)}
                                         class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
                                     />
-                                    <span>Persist Mode</span>
-                                    <span class="text-xs text-zinc-500">(bridge auto-queries)</span>
+                                    <span>GPS</span>
                                 </label>
-                                <div class="flex items-center gap-2">
-                                    <label class="text-xs text-zinc-400">Chunk Size:</label>
+                            )}
+
+                            {!logging && accelAvailable && (
+                                <label class="flex items-center gap-2 text-sm cursor-pointer select-none">
                                     <input
-                                        type="number"
-                                        value={chunkSize}
-                                        onChange={(e) => setChunkSize(Number((e.target as HTMLInputElement).value))}
-                                        class="w-16 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
-                                        min={0}
-                                        max={PIDs.size}
-                                        placeholder="0"
+                                        type="checkbox"
+                                        checked={accelEnabled}
+                                        onChange={(e) => setAccelEnabled((e.target as HTMLInputElement).checked)}
+                                        class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
                                     />
-                                    <span class="text-xs text-zinc-500">
-                                        {chunkSize === 0 ? `(all ${PIDs.size})` : `(${Math.ceil(PIDs.size / chunkSize)} chunks)`}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                                    <span>G-Force</span>
+                                </label>
+                            )}
 
-                    {/* Logging controls */}
-                    {status === 'connected' && (
-                        <div class="mb-4">
-                            <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-                                <div class="flex items-center gap-3">
-                                    <button
-                                        onClick={toggleLogging}
-                                        class={`flex-1 sm:flex-none px-4 py-3 sm:py-2 text-sm rounded font-medium ${
-                                            logging
-                                                ? 'bg-red-600 hover:bg-red-500 active:bg-red-700'
-                                                : 'bg-green-600 hover:bg-green-500 active:bg-green-700'
-                                        }`}
-                                    >
-                                        {logging ? 'Stop Logging' : 'Start Logging'}
-                                    </button>
-
-                                    {!logging && gpsAvailable && (
-                                        <label class="flex items-center gap-2 text-sm cursor-pointer select-none">
-                                            <input
-                                                type="checkbox"
-                                                checked={gpsEnabled}
-                                                onChange={(e) => setGpsEnabled((e.target as HTMLInputElement).checked)}
-                                                class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
-                                            />
-                                            <span>GPS</span>
-                                        </label>
-                                    )}
-
-                                    {!logging && accelAvailable && (
-                                        <label class="flex items-center gap-2 text-sm cursor-pointer select-none">
-                                            <input
-                                                type="checkbox"
-                                                checked={accelEnabled}
-                                                onChange={(e) => setAccelEnabled((e.target as HTMLInputElement).checked)}
-                                                class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
-                                            />
-                                            <span>G-Force</span>
-                                        </label>
-                                    )}
-
-                                    {!logging && vehicleSettings && (
-                                        <span class="text-xs text-zinc-500">
+                            {!logging && vehicleSettings && (
+                                <span class="text-xs text-zinc-500">
                                             {vehicleSettings.loggingRate}Hz
                                         </span>
-                                    )}
+                            )}
 
-                                    {logging && currentFrame?.queryTime !== undefined && (
-                                        <span class={`text-xs font-mono ${
-                                            currentFrame.queryTime > (1000 / (vehicleSettings?.loggingRate || 20))
-                                                ? 'text-red-400'
-                                                : 'text-green-400'
-                                        }`}>
+                            {logging && currentFrame?.queryTime !== undefined && (
+                                <span class={`text-xs font-mono ${
+                                    currentFrame.queryTime > (1000 / (vehicleSettings?.loggingRate || 20))
+                                        ? 'text-red-400'
+                                        : 'text-green-400'
+                                }`}>
                                             {currentFrame.queryTime}ms
-                                            {currentFrame.queryTime > (1000 / (vehicleSettings?.loggingRate || 20)) && (
-                                                <span class="text-zinc-500 ml-1">
+                                    {currentFrame.queryTime > (1000 / (vehicleSettings?.loggingRate || 20)) && (
+                                        <span class="text-zinc-500 ml-1">
                                                     (max {Math.floor(1000 / currentFrame.queryTime)}Hz)
                                                 </span>
-                                            )}
-                                        </span>
                                     )}
-                                </div>
+                                        </span>
+                            )}
+                        </div>
 
-                                {logging && gpsEnabled && currentFrame?.gps && (
-                                    <span class="text-xs text-zinc-400 font-mono">
+                        {logging && gpsEnabled && currentFrame?.gps && (
+                            <span class="text-xs text-zinc-400 font-mono">
                                         GPS: {(currentFrame.gps.speed !== null ? (currentFrame.gps.speed * 3.6).toFixed(1) : '?')} km/h
-                                        {currentFrame.gps.accuracy > 10 && (
-                                            <span class="text-yellow-500 ml-1">
+                                {currentFrame.gps.accuracy > 10 && (
+                                    <span class="text-yellow-500 ml-1">
                                                 (±{currentFrame.gps.accuracy.toFixed(0)}m)
                                             </span>
-                                        )}
-                                    </span>
                                 )}
+                                    </span>
+                        )}
 
-                                {logging && frames.length > 0 && (
-                                    <span class="text-sm text-zinc-400 text-center sm:text-left">
+                        {logging && frames.length > 0 && (
+                            <span class="text-sm text-zinc-400 text-center sm:text-left">
                                         {frames.length} frames ({(frames.length / (vehicleSettings?.loggingRate || 20)).toFixed(1)}s)
                                     </span>
-                                )}
-                            </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
+                </div>
+            )}
 
-                    {/* Log captured summary (shown when stopped) */}
-                    {!logging && logStopped && (
-                        <div class={`mb-4 p-4 rounded border ${frames.length > 0 ? 'bg-green-900/30 border-green-700' : 'bg-yellow-900/30 border-yellow-700'}`}>
-                            <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-                                <div class="flex-1">
-                                    {frames.length > 0 ? (
-                                        <>
-                                            <div class="text-green-300 font-medium">
-                                                Log captured: {frames.length} frames
-                                            </div>
-                                            <div class="text-sm text-green-400/70">
-                                                Duration: {(frames[frames.length - 1]?.time ?? 0).toFixed(1)}s
-                                                {frames[0]?.gps && ' • GPS recorded'}
-                                                {frames[0]?.accelerometer && ' • G-force recorded'}
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div class="text-yellow-300 font-medium">
-                                                No data captured
-                                            </div>
-                                            <div class="text-sm text-yellow-400/70">
-                                                Check ECU connection and try again
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                                {frames.length > 0 && (
-                                    <div class="flex gap-2">
-                                        {canShare && (
-                                            <button
-                                                onClick={shareCSV}
-                                                class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded font-medium"
-                                            >
-                                                Share
-                                            </button>
-                                        )}
-                                        <button
-                                            onClick={downloadCSV}
-                                            class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-green-600 hover:bg-green-500 active:bg-green-700 rounded font-medium"
-                                        >
-                                            Save
-                                        </button>
-                                        <button
-                                            onClick={copyCSV}
-                                            class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
-                                        >
-                                            Copy
-                                        </button>
-                                        <button
-                                            onClick={exportCSV}
-                                            class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
-                                        >
-                                            View
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Live data */}
-                    {currentFrame && logging && (
-                        <div class="p-2 sm:p-3 bg-zinc-900 rounded border border-zinc-700">
-                            <div class="text-xs text-zinc-400 mb-2">Live Data</div>
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 text-xs font-mono">
-                                {Object.entries(currentFrame.data).map(([name, value]) => {
-                                    const pid = [...PIDs.values()].find(p => p.name === name);
-                                    return (
-                                        <div key={name} class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400 truncate mr-1">{name}</span>
-                                            <span class="text-zinc-100 shrink-0">
-                                                {value.toFixed(pid?.fractional ?? 1)}
-                                                {pid?.unit && <span class="text-zinc-500 ml-1">{pid.unit}</span>}
-                                            </span>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-
-                            {/* GPS Data */}
-                            {gpsEnabled && currentFrame.gps && (
+            {/* Log captured summary (shown when stopped) */}
+            {!logging && logStopped && (
+                <div
+                    class={`mb-4 p-4 rounded border ${frames.length > 0 ? 'bg-green-900/30 border-green-700' : 'bg-yellow-900/30 border-yellow-700'}`}>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                        <div class="flex-1">
+                            {frames.length > 0 ? (
                                 <>
-                                    <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">GPS Data</div>
-                                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 text-xs font-mono">
-                                        <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400">Speed</span>
-                                            <span class="text-zinc-100">
+                                    <div class="text-green-300 font-medium">
+                                        Log captured: {frames.length} frames
+                                    </div>
+                                    <div class="text-sm text-green-400/70">
+                                        Duration: {(frames[frames.length - 1]?.time ?? 0).toFixed(1)}s
+                                        {frames[0]?.gps && ' • GPS recorded'}
+                                        {frames[0]?.accelerometer && ' • G-force recorded'}
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div class="text-yellow-300 font-medium">
+                                        No data captured
+                                    </div>
+                                    <div class="text-sm text-yellow-400/70">
+                                        Check ECU connection and try again
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                        {frames.length > 0 && (
+                            <div class="flex gap-2">
+                                {canShare && (
+                                    <button
+                                        onClick={shareCSV}
+                                        class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 rounded font-medium"
+                                    >
+                                        Share
+                                    </button>
+                                )}
+                                <button
+                                    onClick={downloadCSV}
+                                    class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-green-600 hover:bg-green-500 active:bg-green-700 rounded font-medium"
+                                >
+                                    Save
+                                </button>
+                                <button
+                                    onClick={copyCSV}
+                                    class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
+                                >
+                                    Copy
+                                </button>
+                                <button
+                                    onClick={exportCSV}
+                                    class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
+                                >
+                                    View
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {/* Live data */}
+            {currentFrame && logging && (
+                <div class="p-2 sm:p-3 bg-zinc-900 rounded border border-zinc-700">
+                    <div class="text-xs text-zinc-400 mb-2">Live Data</div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 text-xs font-mono">
+                        {Object.entries(currentFrame.data).map(([name, value]) => {
+                            const pid = [...PIDs.values()].find(p => p.name === name);
+                            return (
+                                <div key={name} class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-400 truncate mr-1">{name}</span>
+                                    <span class="text-zinc-100 shrink-0">
+                                                {value.toFixed(pid?.fractional ?? 1)}
+                                        {pid?.unit && <span class="text-zinc-500 ml-1">{pid.unit}</span>}
+                                            </span>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    {/* GPS Data */}
+                    {gpsEnabled && currentFrame.gps && (
+                        <>
+                            <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">GPS Data</div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 text-xs font-mono">
+                                <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-400">Speed</span>
+                                    <span class="text-zinc-100">
                                                 {currentFrame.gps.speed !== null ? (currentFrame.gps.speed * 3.6).toFixed(1) : '-'}
-                                                <span class="text-zinc-500 ml-1">km/h</span>
+                                        <span class="text-zinc-500 ml-1">km/h</span>
                                             </span>
-                                        </div>
-                                        <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400">Heading</span>
-                                            <span class="text-zinc-100">
+                                </div>
+                                <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-400">Heading</span>
+                                    <span class="text-zinc-100">
                                                 {currentFrame.gps.heading !== null ? currentFrame.gps.heading.toFixed(0) : '-'}
-                                                <span class="text-zinc-500 ml-1">°</span>
+                                        <span class="text-zinc-500 ml-1">°</span>
                                             </span>
-                                        </div>
-                                        <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400">Altitude</span>
-                                            <span class="text-zinc-100">
+                                </div>
+                                <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-400">Altitude</span>
+                                    <span class="text-zinc-100">
                                                 {currentFrame.gps.altitude !== null ? currentFrame.gps.altitude.toFixed(0) : '-'}
-                                                <span class="text-zinc-500 ml-1">m</span>
+                                        <span class="text-zinc-500 ml-1">m</span>
                                             </span>
-                                        </div>
-                                        <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400">Accuracy</span>
-                                            <span class={`text-zinc-100 ${currentFrame.gps.accuracy > 10 ? 'text-yellow-400' : ''}`}>
+                                </div>
+                                <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-400">Accuracy</span>
+                                    <span
+                                        class={`text-zinc-100 ${currentFrame.gps.accuracy > 10 ? 'text-yellow-400' : ''}`}>
                                                 {currentFrame.gps.accuracy.toFixed(0)}
-                                                <span class="text-zinc-500 ml-1">m</span>
+                                        <span class="text-zinc-500 ml-1">m</span>
                                             </span>
-                                        </div>
-                                        <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded col-span-2">
-                                            <span class="text-zinc-400">Position</span>
-                                            <span class="text-zinc-100 text-[10px] sm:text-xs">
+                                </div>
+                                <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded col-span-2">
+                                    <span class="text-zinc-400">Position</span>
+                                    <span class="text-zinc-100 text-[10px] sm:text-xs">
                                                 {currentFrame.gps.latitude.toFixed(5)}, {currentFrame.gps.longitude.toFixed(5)}
                                             </span>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-
-                            {/* Accelerometer Data */}
-                            {accelEnabled && currentFrame.accelerometer && (
-                                <>
-                                    <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">G-Force</div>
-                                    <div class="grid grid-cols-3 gap-1.5 sm:gap-2 text-xs font-mono">
-                                        <div class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400">Lateral</span>
-                                            <span class="text-amber-300">
-                                                {currentFrame.accelerometer.x >= 0 ? '+' : ''}{currentFrame.accelerometer.x.toFixed(2)}
-                                                <span class="text-zinc-500 ml-1">G</span>
-                                            </span>
-                                        </div>
-                                        <div class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400">Accel</span>
-                                            <span class="text-amber-300">
-                                                {currentFrame.accelerometer.y >= 0 ? '+' : ''}{currentFrame.accelerometer.y.toFixed(2)}
-                                                <span class="text-zinc-500 ml-1">G</span>
-                                            </span>
-                                        </div>
-                                        <div class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                            <span class="text-zinc-400">Vertical</span>
-                                            <span class="text-amber-300">
-                                                {currentFrame.accelerometer.z >= 0 ? '+' : ''}{currentFrame.accelerometer.z.toFixed(2)}
-                                                <span class="text-zinc-500 ml-1">G</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-
-                            {/* Calculated Data */}
-                            {currentFrame.calculated && (
-                                <>
-                                    <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">Calculated</div>
-                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 text-xs font-mono">
-                                        {currentFrame.calculated.airmass !== undefined && (
-                                            <div class="flex justify-between bg-purple-900/30 border border-purple-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                                <span class="text-zinc-400">Airmass</span>
-                                                <span class="text-purple-300">
-                                                    {currentFrame.calculated.airmass.toFixed(1)}
-                                                    <span class="text-zinc-500 ml-1">mg</span>
-                                                </span>
-                                            </div>
-                                        )}
-                                        {currentFrame.calculated.boost !== undefined && (
-                                            <div class="flex justify-between bg-purple-900/30 border border-purple-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                                <span class="text-zinc-400">Boost</span>
-                                                <span class="text-purple-300">
-                                                    {currentFrame.calculated.boost.toFixed(2)}
-                                                    <span class="text-zinc-500 ml-1">bar</span>
-                                                </span>
-                                            </div>
-                                        )}
-                                        {currentFrame.calculated.boostError !== undefined && (
-                                            <div class={`flex justify-between px-2 py-1.5 sm:py-1 rounded ${
-                                                Math.abs(currentFrame.calculated.boostError) > 0.1
-                                                    ? 'bg-yellow-900/30 border border-yellow-800/50'
-                                                    : 'bg-purple-900/30 border border-purple-800/50'
-                                            }`}>
-                                                <span class="text-zinc-400">Boost Err</span>
-                                                <span class={Math.abs(currentFrame.calculated.boostError) > 0.1 ? 'text-yellow-300' : 'text-purple-300'}>
-                                                    {currentFrame.calculated.boostError >= 0 ? '+' : ''}{currentFrame.calculated.boostError.toFixed(3)}
-                                                    <span class="text-zinc-500 ml-1">bar</span>
-                                                </span>
-                                            </div>
-                                        )}
-                                        {currentFrame.calculated.knockAvg !== undefined && (
-                                            <div class={`flex justify-between px-2 py-1.5 sm:py-1 rounded ${
-                                                currentFrame.calculated.knockAvg < -1
-                                                    ? 'bg-red-900/30 border border-red-800/50'
-                                                    : 'bg-purple-900/30 border border-purple-800/50'
-                                            }`}>
-                                                <span class="text-zinc-400">Knock</span>
-                                                <span class={currentFrame.calculated.knockAvg < -1 ? 'text-red-300' : 'text-purple-300'}>
-                                                    {currentFrame.calculated.knockAvg.toFixed(2)}
-                                                    <span class="text-zinc-500 ml-1">°</span>
-                                                </span>
-                                            </div>
-                                        )}
-                                        {currentFrame.calculated.acceleration !== undefined && (
-                                            <div class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                                <span class="text-zinc-400">Accel</span>
-                                                <span class="text-blue-300">
-                                                    {currentFrame.calculated.acceleration.toFixed(2)}
-                                                    <span class="text-zinc-500 ml-1">m/s²</span>
-                                                </span>
-                                            </div>
-                                        )}
-                                        {currentFrame.calculated.force !== undefined && (
-                                            <div class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                                <span class="text-zinc-400">Force</span>
-                                                <span class="text-blue-300">
-                                                    {currentFrame.calculated.force.toFixed(0)}
-                                                    <span class="text-zinc-500 ml-1">N</span>
-                                                </span>
-                                            </div>
-                                        )}
-                                        {currentFrame.calculated.wheelTorque !== undefined && (
-                                            <div class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                                <span class="text-zinc-400">Wheel Tq</span>
-                                                <span class="text-green-300">
-                                                    {currentFrame.calculated.wheelTorque.toFixed(1)}
-                                                    <span class="text-zinc-500 ml-1">Nm</span>
-                                                </span>
-                                            </div>
-                                        )}
-                                        {currentFrame.calculated.calculatedTorque !== undefined && (
-                                            <div class="flex justify-between bg-cyan-900/30 border border-cyan-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                                <span class="text-zinc-400">Calc Tq</span>
-                                                <span class="text-cyan-300">
-                                                    {currentFrame.calculated.calculatedTorque.toFixed(1)}
-                                                    <span class="text-zinc-500 ml-1">Nm</span>
-                                                </span>
-                                            </div>
-                                        )}
-                                        {currentFrame.calculated.torqueDiff !== undefined && (
-                                            <div class={`flex justify-between px-2 py-1.5 sm:py-1 rounded ${
-                                                Math.abs(currentFrame.calculated.torqueDiff) > 30
-                                                    ? 'bg-yellow-900/30 border border-yellow-800/50'
-                                                    : 'bg-cyan-900/30 border border-cyan-800/50'
-                                            }`}>
-                                                <span class="text-zinc-400">Tq Diff</span>
-                                                <span class={Math.abs(currentFrame.calculated.torqueDiff) > 30 ? 'text-yellow-300' : 'text-cyan-300'}>
-                                                    {currentFrame.calculated.torqueDiff >= 0 ? '+' : ''}{currentFrame.calculated.torqueDiff.toFixed(1)}
-                                                    <span class="text-zinc-500 ml-1">Nm</span>
-                                                </span>
-                                            </div>
-                                        )}
-                                        {currentFrame.calculated.enginePower !== undefined && (
-                                            <div class="flex justify-between bg-orange-900/30 border border-orange-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                                <span class="text-zinc-400">ECU Power</span>
-                                                <span class="text-orange-300">
-                                                    {currentFrame.calculated.enginePower.toFixed(1)}
-                                                    <span class="text-zinc-500 ml-1">kW</span>
-                                                </span>
-                                            </div>
-                                        )}
-                                        {currentFrame.calculated.power !== undefined && (
-                                            <div class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                                <span class="text-zinc-400">Wheel Power</span>
-                                                <span class="text-green-300">
-                                                    {currentFrame.calculated.power.toFixed(1)}
-                                                    <span class="text-zinc-500 ml-1">kW</span>
-                                                </span>
-                                            </div>
-                                        )}
-                                    </div>
-                                </>
-                            )}
-                        </div>
+                                </div>
+                            </div>
+                        </>
                     )}
 
-                    {/* No BLE support warning */}
+                    {/* Accelerometer Data */}
+                    {accelEnabled && currentFrame.accelerometer && (
+                        <>
+                            <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">G-Force</div>
+                            <div class="grid grid-cols-3 gap-1.5 sm:gap-2 text-xs font-mono">
+                                <div
+                                    class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-400">Lateral</span>
+                                    <span class="text-amber-300">
+                                                {currentFrame.accelerometer.x >= 0 ? '+' : ''}{currentFrame.accelerometer.x.toFixed(2)}
+                                        <span class="text-zinc-500 ml-1">G</span>
+                                            </span>
+                                </div>
+                                <div
+                                    class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-400">Accel</span>
+                                    <span class="text-amber-300">
+                                                {currentFrame.accelerometer.y >= 0 ? '+' : ''}{currentFrame.accelerometer.y.toFixed(2)}
+                                        <span class="text-zinc-500 ml-1">G</span>
+                                            </span>
+                                </div>
+                                <div
+                                    class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-400">Vertical</span>
+                                    <span class="text-amber-300">
+                                                {currentFrame.accelerometer.z >= 0 ? '+' : ''}{currentFrame.accelerometer.z.toFixed(2)}
+                                        <span class="text-zinc-500 ml-1">G</span>
+                                            </span>
+                                </div>
+                            </div>
+                        </>
+                    )}
+
+                    {/* Calculated Data */}
+                    {currentFrame.calculated && (
+                        <>
+                            <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">Calculated</div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 text-xs font-mono">
+                                {currentFrame.calculated.airmass !== undefined && (
+                                    <div
+                                        class="flex justify-between bg-purple-900/30 border border-purple-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                        <span class="text-zinc-400">Airmass</span>
+                                        <span class="text-purple-300">
+                                                    {currentFrame.calculated.airmass.toFixed(1)}
+                                            <span class="text-zinc-500 ml-1">mg</span>
+                                                </span>
+                                    </div>
+                                )}
+                                {currentFrame.calculated.boost !== undefined && (
+                                    <div
+                                        class="flex justify-between bg-purple-900/30 border border-purple-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                        <span class="text-zinc-400">Boost</span>
+                                        <span class="text-purple-300">
+                                                    {currentFrame.calculated.boost.toFixed(2)}
+                                            <span class="text-zinc-500 ml-1">bar</span>
+                                                </span>
+                                    </div>
+                                )}
+                                {currentFrame.calculated.boostError !== undefined && (
+                                    <div class={`flex justify-between px-2 py-1.5 sm:py-1 rounded ${
+                                        Math.abs(currentFrame.calculated.boostError) > 0.1
+                                            ? 'bg-yellow-900/30 border border-yellow-800/50'
+                                            : 'bg-purple-900/30 border border-purple-800/50'
+                                    }`}>
+                                        <span class="text-zinc-400">Boost Err</span>
+                                        <span
+                                            class={Math.abs(currentFrame.calculated.boostError) > 0.1 ? 'text-yellow-300' : 'text-purple-300'}>
+                                                    {currentFrame.calculated.boostError >= 0 ? '+' : ''}{currentFrame.calculated.boostError.toFixed(3)}
+                                            <span class="text-zinc-500 ml-1">bar</span>
+                                                </span>
+                                    </div>
+                                )}
+                                {currentFrame.calculated.knockAvg !== undefined && (
+                                    <div class={`flex justify-between px-2 py-1.5 sm:py-1 rounded ${
+                                        currentFrame.calculated.knockAvg < -1
+                                            ? 'bg-red-900/30 border border-red-800/50'
+                                            : 'bg-purple-900/30 border border-purple-800/50'
+                                    }`}>
+                                        <span class="text-zinc-400">Knock</span>
+                                        <span
+                                            class={currentFrame.calculated.knockAvg < -1 ? 'text-red-300' : 'text-purple-300'}>
+                                                    {currentFrame.calculated.knockAvg.toFixed(2)}
+                                            <span class="text-zinc-500 ml-1">°</span>
+                                                </span>
+                                    </div>
+                                )}
+                                {currentFrame.calculated.acceleration !== undefined && (
+                                    <div
+                                        class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                        <span class="text-zinc-400">Accel</span>
+                                        <span class="text-blue-300">
+                                                    {currentFrame.calculated.acceleration.toFixed(2)}
+                                            <span class="text-zinc-500 ml-1">m/s²</span>
+                                                </span>
+                                    </div>
+                                )}
+                                {currentFrame.calculated.force !== undefined && (
+                                    <div
+                                        class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                        <span class="text-zinc-400">Force</span>
+                                        <span class="text-blue-300">
+                                                    {currentFrame.calculated.force.toFixed(0)}
+                                            <span class="text-zinc-500 ml-1">N</span>
+                                                </span>
+                                    </div>
+                                )}
+                                {currentFrame.calculated.wheelTorque !== undefined && (
+                                    <div
+                                        class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                        <span class="text-zinc-400">Wheel Tq</span>
+                                        <span class="text-green-300">
+                                                    {currentFrame.calculated.wheelTorque.toFixed(1)}
+                                            <span class="text-zinc-500 ml-1">Nm</span>
+                                                </span>
+                                    </div>
+                                )}
+                                {currentFrame.calculated.calculatedTorque !== undefined && (
+                                    <div
+                                        class="flex justify-between bg-cyan-900/30 border border-cyan-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                        <span class="text-zinc-400">Calc Tq</span>
+                                        <span class="text-cyan-300">
+                                                    {currentFrame.calculated.calculatedTorque.toFixed(1)}
+                                            <span class="text-zinc-500 ml-1">Nm</span>
+                                                </span>
+                                    </div>
+                                )}
+                                {currentFrame.calculated.torqueDiff !== undefined && (
+                                    <div class={`flex justify-between px-2 py-1.5 sm:py-1 rounded ${
+                                        Math.abs(currentFrame.calculated.torqueDiff) > 30
+                                            ? 'bg-yellow-900/30 border border-yellow-800/50'
+                                            : 'bg-cyan-900/30 border border-cyan-800/50'
+                                    }`}>
+                                        <span class="text-zinc-400">Tq Diff</span>
+                                        <span
+                                            class={Math.abs(currentFrame.calculated.torqueDiff) > 30 ? 'text-yellow-300' : 'text-cyan-300'}>
+                                                    {currentFrame.calculated.torqueDiff >= 0 ? '+' : ''}{currentFrame.calculated.torqueDiff.toFixed(1)}
+                                            <span class="text-zinc-500 ml-1">Nm</span>
+                                                </span>
+                                    </div>
+                                )}
+                                {currentFrame.calculated.enginePower !== undefined && (
+                                    <div
+                                        class="flex justify-between bg-orange-900/30 border border-orange-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                        <span class="text-zinc-400">ECU Power</span>
+                                        <span class="text-orange-300">
+                                                    {currentFrame.calculated.enginePower.toFixed(1)}
+                                            <span class="text-zinc-500 ml-1">kW</span>
+                                                </span>
+                                    </div>
+                                )}
+                                {currentFrame.calculated.power !== undefined && (
+                                    <div
+                                        class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1.5 sm:py-1 rounded">
+                                        <span class="text-zinc-400">Wheel Power</span>
+                                        <span class="text-green-300">
+                                                    {currentFrame.calculated.power.toFixed(1)}
+                                            <span class="text-zinc-500 ml-1">kW</span>
+                                                </span>
+                                    </div>
+                                )}
+                            </div>
+                        </>
+                    )}
+                </div>
+            )}
+
+            {/* No BLE support warning */}
             {!navigator.bluetooth && (
                 <div class="p-4 bg-red-900/30 border border-red-700 rounded text-sm text-red-300 text-center">
                     Web Bluetooth is not supported in this browser.
-                    <br />
+                    <br/>
                     <span class="text-xs text-red-400">Use Chrome or Edge on Desktop/Android</span>
                 </div>
             )}
