@@ -117,33 +117,33 @@ const PIDs: Map<number, IPid> = new Map([
         fractional: 3,
         unit: "bar"
     }],
-    [0x202a, {
-        address: 0x202a,
-        name: "PUT",
-        length: 2,
-        signed: false,
-        equation: "x / 1000",
-        fractional: 3,
-        unit: "bar"
-    }],
-    [0x2029, {
-        address: 0x2029,
-        name: "PUT SP",
-        length: 2,
-        signed: false,
-        equation: "x / 1000",
-        fractional: 3,
-        unit: "bar"
-    }],
-    [0x11cd, {
-        address: 0x11cd,
-        name: "Coolant Temp",
-        length: 1,
-        signed: false,
-        equation: "x - 40",
-        fractional: 0,
-        unit: "C"
-    }],
+    // [0x202a, {
+    //     address: 0x202a,
+    //     name: "PUT",
+    //     length: 2,
+    //     signed: false,
+    //     equation: "x / 1000",
+    //     fractional: 3,
+    //     unit: "bar"
+    // }],
+    // [0x2029, {
+    //     address: 0x2029,
+    //     name: "PUT SP",
+    //     length: 2,
+    //     signed: false,
+    //     equation: "x / 1000",
+    //     fractional: 3,
+    //     unit: "bar"
+    // }],
+    // [0x11cd, {
+    //     address: 0x11cd,
+    //     name: "Coolant Temp",
+    //     length: 1,
+    //     signed: false,
+    //     equation: "x - 40",
+    //     fractional: 0,
+    //     unit: "C"
+    // }],
     [0x437C, {address: 0x437C, name: "Torque", length: 2, signed: true, equation: "x / 10", fractional: 1, unit: "Nm"}],
     [0x4380, {
         address: 0x4380,
@@ -479,9 +479,9 @@ class MockBLEService {
                     'Ambient Temp': 22,
                     'MAP': Math.round((1.0 + this.mockBoost) * 1000) / 1000,
                     'MAP SP': Math.round((1.0 + this.mockBoost + 0.05) * 1000) / 1000,
-                    'PUT': Math.round((1.0 + this.mockBoost * 0.9) * 1000) / 1000,
-                    'PUT SP': Math.round((1.0 + this.mockBoost) * 1000) / 1000,
-                    'Coolant Temp': 90,
+                    // 'PUT': Math.round((1.0 + this.mockBoost * 0.9) * 1000) / 1000,
+                    // 'PUT SP': Math.round((1.0 + this.mockBoost) * 1000) / 1000,
+                    // 'Coolant Temp': 90,
                     'Torque': Math.round(this.mockThrottle * 3 + (Math.random() - 0.5) * 10),
                     'Torque Req': Math.round(this.mockThrottle * 3.2),
                     'Misfires': 0,
