@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'preact/hooks';
+import { useState, useEffect, useMemo, useRef } from 'preact/hooks';
 import { Parameter } from '../types';
 import {
   readParameterValue,
@@ -140,6 +140,374 @@ function getCellColor(value: number, min: number, max: number): string {
   return `hsl(${hue}, 65%, 70%)`;
 }
 
+interface CurveGraphProps {
+  xData: number[];
+  yData: number[];
+  originalYData?: number[] | null;
+  showOriginal: boolean;
+  xUnit: string;
+  yUnit: string;
+}
+
+function CurveGraph({ xData, yData, originalYData, showOriginal, xUnit, yUnit }: CurveGraphProps) {
+  const width = 600;
+  const height = 300;
+  const padding = { top: 20, right: 30, bottom: 50, left: 60 };
+  const plotWidth = width - padding.left - padding.right;
+  const plotHeight = height - padding.top - padding.bottom;
+
+  if (xData.length === 0 || yData.length === 0) return null;
+
+  // Calculate ranges
+  const xMin = Math.min(...xData);
+  const xMax = Math.max(...xData);
+  const allYValues = showOriginal && originalYData ? [...yData, ...originalYData] : yData;
+  const yMin = Math.min(...allYValues);
+  const yMax = Math.max(...allYValues);
+  const yRange = yMax - yMin || 1;
+  const yPadding = yRange * 0.1;
+  const yMinPadded = yMin - yPadding;
+  const yMaxPadded = yMax + yPadding;
+
+  // Scale functions
+  const scaleX = (val: number) => padding.left + ((val - xMin) / (xMax - xMin || 1)) * plotWidth;
+  const scaleY = (val: number) => padding.top + plotHeight - ((val - yMinPadded) / (yMaxPadded - yMinPadded)) * plotHeight;
+
+  // Generate path
+  const generatePath = (values: number[]) => {
+    return values.map((y, i) => {
+      const x = xData[i] ?? i;
+      const px = scaleX(x);
+      const py = scaleY(y);
+      return `${i === 0 ? 'M' : 'L'} ${px} ${py}`;
+    }).join(' ');
+  };
+
+  // Grid lines
+  const xTicks = 5;
+  const yTicks = 5;
+  const xStep = (xMax - xMin) / xTicks;
+  const yStep = (yMaxPadded - yMinPadded) / yTicks;
+
+  return (
+    <div class="mt-4 bg-zinc-800 rounded-lg p-4">
+      <svg viewBox={`0 0 ${width} ${height}`} class="w-full font-mono text-xs" preserveAspectRatio="xMidYMid meet">
+        {/* Grid */}
+        <g class="text-zinc-600">
+          {Array.from({ length: yTicks + 1 }).map((_, i) => {
+            const y = scaleY(yMinPadded + i * yStep);
+            return (
+              <line key={`yg${i}`} x1={padding.left} x2={width - padding.right} y1={y} y2={y} stroke="currentColor" stroke-opacity="0.3" />
+            );
+          })}
+          {Array.from({ length: xTicks + 1 }).map((_, i) => {
+            const x = scaleX(xMin + i * xStep);
+            return (
+              <line key={`xg${i}`} x1={x} x2={x} y1={padding.top} y2={height - padding.bottom} stroke="currentColor" stroke-opacity="0.3" />
+            );
+          })}
+        </g>
+
+        {/* Axes */}
+        <line x1={padding.left} x2={width - padding.right} y1={height - padding.bottom} y2={height - padding.bottom} stroke="#71717a" stroke-width="1" />
+        <line x1={padding.left} x2={padding.left} y1={padding.top} y2={height - padding.bottom} stroke="#71717a" stroke-width="1" />
+
+        {/* X axis labels */}
+        {Array.from({ length: xTicks + 1 }).map((_, i) => {
+          const val = xMin + i * xStep;
+          const x = scaleX(val);
+          return (
+            <text key={`xl${i}`} x={x} y={height - padding.bottom + 20} fill="#a1a1aa" text-anchor="middle">
+              {formatValue(val, 1)}
+            </text>
+          );
+        })}
+        <text x={padding.left + plotWidth / 2} y={height - 8} fill="#71717a" text-anchor="middle">
+          {xUnit}
+        </text>
+
+        {/* Y axis labels */}
+        {Array.from({ length: yTicks + 1 }).map((_, i) => {
+          const val = yMinPadded + i * yStep;
+          const y = scaleY(val);
+          return (
+            <text key={`yl${i}`} x={padding.left - 10} y={y + 4} fill="#a1a1aa" text-anchor="end">
+              {formatValue(val, 1)}
+            </text>
+          );
+        })}
+        <text x={15} y={padding.top + plotHeight / 2} fill="#71717a" text-anchor="middle" transform={`rotate(-90, 15, ${padding.top + plotHeight / 2})`}>
+          {yUnit}
+        </text>
+
+        {/* Original curve (if showing) */}
+        {showOriginal && originalYData && (
+          <>
+            <path d={generatePath(originalYData)} fill="none" stroke="#71717a" stroke-width="2" stroke-dasharray="5,5" />
+            {originalYData.map((y, i) => {
+              const x = xData[i] ?? i;
+              return <circle key={`oc${i}`} cx={scaleX(x)} cy={scaleY(y)} r="3" fill="#71717a" />;
+            })}
+          </>
+        )}
+
+        {/* Current curve */}
+        <path d={generatePath(yData)} fill="none" stroke="#3b82f6" stroke-width="2" />
+        {yData.map((y, i) => {
+          const x = xData[i] ?? i;
+          return <circle key={`c${i}`} cx={scaleX(x)} cy={scaleY(y)} r="4" fill="#3b82f6" />;
+        })}
+      </svg>
+
+      {showOriginal && originalYData && (
+        <div class="flex gap-4 mt-2 text-xs text-zinc-400">
+          <span class="flex items-center gap-1">
+            <span class="w-4 h-0.5 bg-blue-500 inline-block"></span> Aktuell
+          </span>
+          <span class="flex items-center gap-1">
+            <span class="w-4 h-0.5 bg-zinc-500 inline-block" style="background: repeating-linear-gradient(90deg, #71717a 0, #71717a 4px, transparent 4px, transparent 8px)"></span> Original
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface SurfaceGraphProps {
+  xData: number[];
+  yData: number[];
+  zData: number[][];
+  xUnit: string;
+  yUnit: string;
+  zUnit: string;
+}
+
+function SurfaceGraph({ xData, yData, zData, xUnit, yUnit, zUnit }: SurfaceGraphProps) {
+  const [rotation, setRotation] = useState(45);
+  const [tilt, setTilt] = useState(-20);
+
+  if (zData.length === 0 || zData[0].length === 0) return null;
+
+  const rows = zData.length;
+  const cols = zData[0].length;
+
+  // Aspect ratio based on data dimensions
+  const baseSize = 600;
+  const aspectRatio = cols / rows;
+  const width = aspectRatio >= 1 ? baseSize * Math.min(aspectRatio, 2) : baseSize;
+  const height = aspectRatio < 1 ? baseSize / Math.max(aspectRatio, 0.5) : baseSize;
+  const centerX = width / 2;
+  const centerY = height / 2 + 20;
+
+  // Calculate Z range
+  const allZ = zData.flat();
+  const zMin = Math.min(...allZ);
+  const zMax = Math.max(...allZ);
+
+  // Normalize data to 0-1 range
+  const normalize = (val: number, min: number, max: number) => (max - min) ? (val - min) / (max - min) : 0.5;
+
+  // 3D to 2D projection with rotation (isometric, square cells)
+  const project = (x: number, y: number, z: number) => {
+    const scale = Math.min(width, height) * 0.4;
+    const radRot = (rotation * Math.PI) / 180;
+    const radTilt = (tilt * Math.PI) / 180;
+
+    // Rotate around Z axis
+    const rx = x * Math.cos(radRot) - y * Math.sin(radRot);
+    const ry = x * Math.sin(radRot) + y * Math.cos(radRot);
+
+    // Apply tilt (rotation around X axis)
+    const ty = ry * Math.cos(radTilt) - z * Math.sin(radTilt);
+    const tz = ry * Math.sin(radTilt) + z * Math.cos(radTilt);
+
+    // Project to 2D - same scale for X and Y to keep cells square
+    return {
+      x: centerX + rx * scale,
+      y: centerY - ty * scale - tz * scale * 0.8,
+      depth: tz
+    };
+  };
+
+  // Generate grid points
+  const points: { x: number; y: number; depth: number; row: number; col: number; z: number }[][] = [];
+  for (let r = 0; r < rows; r++) {
+    points[r] = [];
+    for (let c = 0; c < cols; c++) {
+      const nx = normalize(c, 0, cols - 1) - 0.5;
+      const ny = normalize(r, 0, rows - 1) - 0.5;
+      const nz = normalize(zData[r][c], zMin, zMax);
+      const p = project(nx, ny, nz);
+      points[r][c] = { ...p, row: r, col: c, z: zData[r][c] };
+    }
+  }
+
+  // Generate quads with depth sorting
+  const quads: { path: string; depth: number; color: string }[] = [];
+  for (let r = 0; r < rows - 1; r++) {
+    for (let c = 0; c < cols - 1; c++) {
+      const p1 = points[r][c];
+      const p2 = points[r][c + 1];
+      const p3 = points[r + 1][c + 1];
+      const p4 = points[r + 1][c];
+
+      const avgZ = (zData[r][c] + zData[r][c + 1] + zData[r + 1][c + 1] + zData[r + 1][c]) / 4;
+      const t = normalize(avgZ, zMin, zMax);
+      const hue = (1 - t) * 120; // green to red
+      const color = `hsl(${hue}, 70%, 50%)`;
+
+      const avgDepth = (p1.depth + p2.depth + p3.depth + p4.depth) / 4;
+      const path = `M ${p1.x} ${p1.y} L ${p2.x} ${p2.y} L ${p3.x} ${p3.y} L ${p4.x} ${p4.y} Z`;
+
+      quads.push({ path, depth: avgDepth, color });
+    }
+  }
+
+  // Sort by depth (back to front)
+  quads.sort((a, b) => a.depth - b.depth);
+
+  // Generate wireframe lines
+  const lines: { x1: number; y1: number; x2: number; y2: number; depth: number }[] = [];
+  // Horizontal lines (along X)
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols - 1; c++) {
+      const p1 = points[r][c];
+      const p2 = points[r][c + 1];
+      lines.push({ x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, depth: (p1.depth + p2.depth) / 2 });
+    }
+  }
+  // Vertical lines (along Y)
+  for (let r = 0; r < rows - 1; r++) {
+    for (let c = 0; c < cols; c++) {
+      const p1 = points[r][c];
+      const p2 = points[r + 1][c];
+      lines.push({ x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, depth: (p1.depth + p2.depth) / 2 });
+    }
+  }
+
+  // Axis lines
+  const origin = project(-0.6, -0.6, 0);
+  const xEnd = project(0.6, -0.6, 0);
+  const yEnd = project(-0.6, 0.6, 0);
+  const zEnd = project(-0.6, -0.6, 1.2);
+
+  // Generate axis ticks from actual data values
+  const xTicks = xData.map((val, i) => {
+    const t = cols > 1 ? i / (cols - 1) : 0.5;
+    const pos = project(-0.5 + t, -0.6, 0);
+    return { val, pos };
+  });
+  const yTicks = yData.map((val, i) => {
+    const t = rows > 1 ? i / (rows - 1) : 0.5;
+    const pos = project(-0.6, -0.5 + t, 0);
+    return { val, pos };
+  });
+  // Z axis: show 5 ticks for the value range
+  const numZTicks = 5;
+  const zTicks = Array.from({ length: numZTicks }, (_, i) => {
+    const t = i / (numZTicks - 1);
+    const val = zMin + t * (zMax - zMin);
+    const pos = project(-0.6, -0.6, t);
+    return { val, pos };
+  });
+
+  return (
+    <div class="mt-4 bg-zinc-800 rounded-lg p-4">
+      <div class="flex items-center gap-4 mb-3 text-xs text-zinc-400">
+        <label class="flex items-center gap-2">
+          Rotation:
+          <input
+            type="range"
+            min="0"
+            max="360"
+            value={rotation}
+            onInput={e => setRotation(parseInt((e.target as HTMLInputElement).value))}
+            class="w-24 h-1 bg-zinc-600 rounded appearance-none cursor-pointer"
+          />
+          <span class="w-8">{rotation}°</span>
+        </label>
+        <label class="flex items-center gap-2">
+          Tilt:
+          <input
+            type="range"
+            min="-60"
+            max="60"
+            value={tilt}
+            onInput={e => setTilt(parseInt((e.target as HTMLInputElement).value))}
+            class="w-24 h-1 bg-zinc-600 rounded appearance-none cursor-pointer"
+          />
+          <span class="w-8">{tilt}°</span>
+        </label>
+      </div>
+
+      <svg viewBox={`0 0 ${width} ${height}`} class="w-full font-mono text-xs" style={{ maxHeight: '70vh' }} preserveAspectRatio="xMidYMid meet">
+        {/* Filled quads */}
+        {quads.map((q, i) => (
+          <path key={`q${i}`} d={q.path} fill={q.color} fill-opacity="0.7" stroke="none" />
+        ))}
+
+        {/* Wireframe */}
+        {lines.map((l, i) => (
+          <line
+            key={`l${i}`}
+            x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2}
+            stroke="rgba(0,0,0,0.3)"
+            stroke-width="0.5"
+          />
+        ))}
+
+        {/* Axes */}
+        <line x1={origin.x} y1={origin.y} x2={xEnd.x} y2={xEnd.y} stroke="#ef4444" stroke-width="2" />
+        <line x1={origin.x} y1={origin.y} x2={yEnd.x} y2={yEnd.y} stroke="#22c55e" stroke-width="2" />
+        <line x1={origin.x} y1={origin.y} x2={zEnd.x} y2={zEnd.y} stroke="#3b82f6" stroke-width="2" />
+
+        {/* X axis ticks and values */}
+        {xTicks.map((tick, i) => (
+          <g key={`xt${i}`}>
+            <line x1={tick.pos.x} y1={tick.pos.y} x2={tick.pos.x} y2={tick.pos.y + 6} stroke="#ef4444" stroke-width="1" />
+            <text x={tick.pos.x} y={tick.pos.y + 18} fill="#a1a1aa" font-size="9" text-anchor="middle">
+              {formatValue(tick.val, 0)}
+            </text>
+          </g>
+        ))}
+
+        {/* Y axis ticks and values */}
+        {yTicks.map((tick, i) => (
+          <g key={`yt${i}`}>
+            <line x1={tick.pos.x} y1={tick.pos.y} x2={tick.pos.x - 6} y2={tick.pos.y} stroke="#22c55e" stroke-width="1" />
+            <text x={tick.pos.x - 10} y={tick.pos.y + 3} fill="#a1a1aa" font-size="9" text-anchor="end">
+              {formatValue(tick.val, 0)}
+            </text>
+          </g>
+        ))}
+
+        {/* Z axis ticks and values */}
+        {zTicks.map((tick, i) => (
+          <g key={`zt${i}`}>
+            <line x1={tick.pos.x} y1={tick.pos.y} x2={tick.pos.x - 6} y2={tick.pos.y} stroke="#3b82f6" stroke-width="1" />
+            <text x={tick.pos.x - 10} y={tick.pos.y + 3} fill="#a1a1aa" font-size="9" text-anchor="end">
+              {formatValue(tick.val, 0)}
+            </text>
+          </g>
+        ))}
+
+        {/* Axis labels */}
+        <text x={xEnd.x + 10} y={xEnd.y} fill="#ef4444" font-size="11">{xUnit || 'X'}</text>
+        <text x={yEnd.x - 5} y={yEnd.y + 15} fill="#22c55e" font-size="11">{yUnit || 'Y'}</text>
+        <text x={zEnd.x - 20} y={zEnd.y - 5} fill="#3b82f6" font-size="11">{zUnit || 'Z'}</text>
+      </svg>
+
+      {/* Color legend */}
+      <div class="flex items-center gap-2 mt-2 text-xs text-zinc-400">
+        <span>{formatValue(zMin, 1)}</span>
+        <div class="w-32 h-3 rounded" style="background: linear-gradient(90deg, hsl(120,70%,50%), hsl(60,70%,50%), hsl(0,70%,50%))"></div>
+        <span>{formatValue(zMax, 1)}</span>
+        <span class="ml-2 text-zinc-500">{zUnit}</span>
+      </div>
+    </div>
+  );
+}
+
 interface Selection {
   startRow: number;
   startCol: number;
@@ -171,6 +539,14 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, baseA
   const [selectionAnchor, setSelectionAnchor] = useState<{ row: number; col: number } | null>(null);
   const [modifyValue, setModifyValue] = useState('');
   const [showModifyInput, setShowModifyInput] = useState<'add' | 'multiply' | 'set' | null>(null);
+  const modifyInputRef = useRef<HTMLInputElement>(null);
+
+  // Focus modify input when it becomes visible
+  useEffect(() => {
+    if (showModifyInput && modifyInputRef.current) {
+      modifyInputRef.current.focus();
+    }
+  }, [showModifyInput]);
 
   // Axis selection state
   const [axisSelection, setAxisSelection] = useState<{ axis: 'x' | 'y'; start: number; end: number } | null>(null);
@@ -535,7 +911,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, baseA
     setModifyValue('');
   };
 
-  // Keyboard handler for copy/paste
+  // Keyboard handler for copy/paste and selection editing
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'c' && selection) {
@@ -551,6 +927,11 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, baseA
         setAxisSelection(null);
         setShowModifyInput(null);
       }
+      // Enter key opens set input when cells are selected
+      if (e.key === 'Enter' && (selection || axisSelection) && !editCell && !editAxisCell && !showModifyInput) {
+        e.preventDefault();
+        setShowModifyInput('set');
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('mouseup', handleMouseUp);
@@ -558,7 +939,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, baseA
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [selection, axisSelection, tableData]);
+  }, [selection, axisSelection, tableData, editCell, editAxisCell, showModifyInput]);
 
   return (
     <div>
@@ -598,6 +979,7 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, baseA
               {showModifyInput ? (
                 <div class="flex items-center gap-1">
                   <input
+                    ref={modifyInputRef}
                     type="text"
                     value={modifyValue}
                     onInput={e => setModifyValue((e.target as HTMLInputElement).value)}
@@ -611,7 +993,6 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, baseA
                       }
                     }}
                     placeholder={showModifyInput === 'add' ? '+/-' : showModifyInput === 'multiply' ? '100' : 'value'}
-                    autoFocus
                     class="w-16 px-1.5 py-0.5 bg-zinc-700 border border-zinc-600 rounded text-zinc-100 text-xs"
                   />
                   <span class="text-zinc-500 text-xs">
@@ -827,6 +1208,30 @@ function TableEditor({ parameter, binData, originalBinData, calOffset = 0, baseA
           </tbody>
         </table>
       </div>
+
+      {/* 2D Graph for CURVE type */}
+      {parameter.type === 'CURVE' && tableData.length > 0 && tableData[0] && (
+        <CurveGraph
+          xData={xAxisData.length > 0 ? xAxisData : Array.from({ length: tableData[0].length }, (_, i) => i)}
+          yData={tableData[0]}
+          originalYData={showOriginal && originalTableData ? originalTableData[0] : null}
+          showOriginal={showOriginal}
+          xUnit={parameter.xAxis?.unit || 'X'}
+          yUnit={parameter.unit || 'Y'}
+        />
+      )}
+
+      {/* 3D Graph for MAP type */}
+      {parameter.type === 'MAP' && tableData.length > 0 && tableData[0] && (
+        <SurfaceGraph
+          xData={xAxisData.length > 0 ? xAxisData : Array.from({ length: tableData[0].length }, (_, i) => i)}
+          yData={yAxisData.length > 0 ? yAxisData : Array.from({ length: tableData.length }, (_, i) => i)}
+          zData={tableData}
+          xUnit={parameter.xAxis?.unit || 'X'}
+          yUnit={parameter.yAxis?.unit || 'Y'}
+          zUnit={parameter.unit || 'Z'}
+        />
+      )}
     </div>
   );
 }

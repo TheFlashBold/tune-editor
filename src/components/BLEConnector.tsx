@@ -1196,6 +1196,28 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
     const accelAvailable = !!window.DeviceMotionEvent;
     const serviceRef = useRef<BLEService | MockBLEService | null>(null);
     const debugLogRef = useRef<HTMLDivElement | null>(null);
+    const wakeLockRef = useRef<WakeLockSentinel | null>(null);
+
+    async function requestWakeLock() {
+        try {
+            if ('wakeLock' in navigator) {
+                wakeLockRef.current = await navigator.wakeLock.request('screen');
+                console.log('[WakeLock] Screen wake lock acquired');
+                wakeLockRef.current.addEventListener('release', () => {
+                    console.log('[WakeLock] Screen wake lock released');
+                });
+            }
+        } catch (e) {
+            console.warn('[WakeLock] Failed to acquire wake lock:', e);
+        }
+    }
+
+    function releaseWakeLock() {
+        if (wakeLockRef.current) {
+            wakeLockRef.current.release();
+            wakeLockRef.current = null;
+        }
+    }
 
     async function connect() {
         try {
@@ -1222,6 +1244,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                 serviceRef.current = service;
 
                 setStatus('connected');
+                await requestWakeLock();
                 const ecuInfo = await service.getInfo();
                 setInfo(ecuInfo);
                 return;
@@ -1238,6 +1261,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
             serviceRef.current = service;
 
             setStatus('connected');
+            await requestWakeLock();
 
             // Get ECU info
             const ecuInfo = await service.getInfo();
@@ -1251,6 +1275,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
     function disconnect() {
         serviceRef.current?.disconnect();
         serviceRef.current = null;
+        releaseWakeLock();
         setStatus('disconnected');
         setInfo(null);
         setLogging(false);
@@ -1416,8 +1441,20 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
     useEffect(() => {
         return () => {
             serviceRef.current?.disconnect();
+            releaseWakeLock();
         };
     }, []);
+
+    // Re-acquire wake lock when page becomes visible again
+    useEffect(() => {
+        const handleVisibilityChange = async () => {
+            if (document.visibilityState === 'visible' && status === 'connected' && !wakeLockRef.current) {
+                await requestWakeLock();
+            }
+        };
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }, [status]);
 
     // Auto-scroll debug logs
     useEffect(() => {
