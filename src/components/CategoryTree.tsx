@@ -109,32 +109,33 @@ function TreeNodeView({
 
           {[...node.parameters]
             .sort((a, b) => (a.customName || a.description || a.name).localeCompare(b.customName || b.description || b.name))
-            .map(param => (
-            <div
-              key={param.name}
-              data-param={param.name}
-              class={`flex items-center gap-1.5 px-2 py-1 cursor-pointer ${
-                selectedParam?.name === param.name
-                  ? 'bg-blue-500 text-white'
-                  : 'hover:bg-zinc-700'
-              }`}
-              style={{ paddingLeft: (depth + 1) * 16 }}
-              onClick={(e) => { e.stopPropagation(); onSelect(param); }}
-            >
-              <span
-                class={`inline-flex justify-center items-center w-4 h-4 shrink-0 text-[10px] font-semibold rounded ${
-                  selectedParam?.name === param.name
-                    ? 'bg-white/20 text-white'
-                    : 'bg-zinc-700 text-zinc-400'
-                }`}
-              >
-                {param.type[0]}
-              </span>
-              <span class="truncate" title={param.name}>
-                {param.customName || param.description || param.name}
-              </span>
-            </div>
-          ))}
+            .map(param => {
+              // Use address as unique identifier (name + description can be duplicated)
+              const paramId = `${param.address}`;
+              const isSelected = selectedParam?.address === param.address;
+              return (
+                <div
+                  key={paramId}
+                  data-param={paramId}
+                  class={`flex items-center gap-1.5 px-2 py-1 cursor-pointer ${
+                    isSelected ? 'bg-blue-500 text-white' : 'hover:bg-zinc-700'
+                  }`}
+                  style={{ paddingLeft: (depth + 1) * 16 }}
+                  onClick={(e) => { e.stopPropagation(); onSelect(param); }}
+                >
+                  <span
+                    class={`inline-flex justify-center items-center w-4 h-4 shrink-0 text-[10px] font-semibold rounded ${
+                      isSelected ? 'bg-white/20 text-white' : 'bg-zinc-700 text-zinc-400'
+                    }`}
+                  >
+                    {param.type[0]}
+                  </span>
+                  <span class="truncate" title={param.name}>
+                    {param.customName || param.description || param.name}
+                  </span>
+                </div>
+              );
+            })}
         </>
       )}
     </div>
@@ -205,7 +206,7 @@ export function CategoryTree({ parameters, onSelect, selectedParam }: Props) {
 
     e.preventDefault();
     const currentIdx = selectedParam
-      ? visibleParams.findIndex(p => p.name === selectedParam.name)
+      ? visibleParams.findIndex(p => p.address === selectedParam.address)
       : -1;
 
     let nextIdx: number;
@@ -228,7 +229,9 @@ export function CategoryTree({ parameters, onSelect, selectedParam }: Props) {
   // Scroll selected parameter into view
   useEffect(() => {
     if (!selectedParam || !scrollContainerRef.current) return;
-    const el = scrollContainerRef.current.querySelector(`[data-param="${selectedParam.name}"]`);
+    // Find element by address (unique identifier)
+    const elements = scrollContainerRef.current.querySelectorAll('[data-param]');
+    const el = Array.from(elements).find(e => e.getAttribute('data-param') === String(selectedParam.address));
     el?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [selectedParam]);
 

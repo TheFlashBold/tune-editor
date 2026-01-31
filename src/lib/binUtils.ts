@@ -205,12 +205,58 @@ export function readString(data: Uint8Array, offset: number, length: number): st
 const SIMOS_EPK_OFFSET = 8;
 
 /**
+ * Check if a string looks like a DSG/TCU EPK (F45M, F49M, VPB9, etc.)
+ */
+function isDsgEpk(epk: string): boolean {
+  return /^[FV][A-Z0-9]{3}$/.test(epk);
+}
+
+/**
+ * Search for DSG/TCU EPK pattern in binary data
+ * Pattern: HWNumber_Version_Code EPK (e.g., "0D9300012H_4518_OTJD F45M")
+ * DSG bins have version info block around 0x4ff00-0x50100
+ */
+function findDsgEpk(data: Uint8Array, expected: string): { offset: number; found: string } | null {
+  // DSG version info is typically around offset 0x4ff00-0x50100
+  // Search multiple regions where EPK might appear
+  const searchRegions = [
+    { start: 0, length: 4096 },           // First 4KB
+    { start: 0x4ff00, length: 512 },      // DSG version block ~320KB
+    { start: 0x30000, length: 4096 },     // Some DSG files have info here
+  ];
+
+  for (const region of searchRegions) {
+    if (region.start >= data.length) continue;
+
+    const end = Math.min(region.start + region.length, data.length);
+    const slice = data.slice(region.start, end);
+    const text = String.fromCharCode(...slice);
+
+    // Look for the expected EPK preceded by space or underscore
+    const patterns = [
+      new RegExp(`[\\s_](${expected})(?:[\\s\\x00]|$)`),  // EPK after space/underscore
+      new RegExp(`(${expected})[\\s\\x00]`),              // EPK followed by space/null
+    ];
+
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match) {
+        return { offset: region.start + text.indexOf(match[1]), found: match[1] };
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
  * Detect binary mode (full bin or CAL block only) and verify definition matches
  * Returns the detected mode and calOffset to use for address calculations
  *
  * Address calculation: fileOffset = address - baseAddress - calOffset
  * - Full bin: calOffset = 0 (addresses map directly after baseAddress subtraction)
  * - CAL-only: calOffset = verification.calOffset (need additional subtraction)
+ * - DSG/TCU: calOffset = 0, baseAddress = 0 (direct file offsets)
  */
 export function detectBinaryMode(
   data: Uint8Array,
@@ -218,6 +264,18 @@ export function detectBinaryMode(
 ): { mode: BinaryMode; calOffset: number; valid: boolean; found: string } {
   const { calOffset, expected, length = expected.length } = verification;
 
+  // Check if this is a DSG/TCU definition (EPK like F45M, F49M, etc.)
+  if (isDsgEpk(expected)) {
+    // DSG bins - use calOffset from definition (can be negative for bins with data offset)
+    const dsgMatch = findDsgEpk(data, expected);
+    if (dsgMatch) {
+      return { mode: 'cal', calOffset: calOffset, valid: true, found: dsgMatch.found };
+    }
+    // Fallback: assume DSG bin, use definition's calOffset
+    return { mode: 'cal', calOffset: calOffset, valid: false, found: '' };
+  }
+
+  // ECU (Simos) detection
   // First check at offset 8 (CAL block only - after CAS header)
   const foundAtCal = readString(data, SIMOS_EPK_OFFSET, length);
   if (foundAtCal === expected) {
@@ -258,7 +316,7 @@ export function readCalVersion(data: Uint8Array, offset: number, maxLength: numb
 /**
  * Calculate file offset from memory address
  * @param address - Memory address (e.g. 0xa0340000) or direct file offset (e.g. 0x69416 for KP files)
- * @param calOffset - Offset to subtract for CAL-only files (0 for full bin, verification.calOffset for CAL-only)
+ * @param calOffset - Offset to subtract (positive) or add (negative) for address adjustment
  * @param baseAddress - Memory base address to subtract (0xa0000000 for Simos, 0 for DSG/direct offsets)
  */
 export function addressToOffset(address: number, calOffset: number = 0, baseAddress: number = DEFAULT_BASE_ADDRESS): number {
@@ -266,6 +324,7 @@ export function addressToOffset(address: number, calOffset: number = 0, baseAddr
   // - For Simos full bin: (0xa0800100 - 0xa0000000) - 0 = 0x800100
   // - For Simos CAL-only: (0xa0800100 - 0xa0000000) - 0x800000 = 0x100
   // - For DSG (baseAddress=0): 0x69416 - 0 - 0 = 0x69416
+  // - For DSG with negative calOffset: 0x328ec - 0 - (-0x10000) = 0x428ec
   return (address - baseAddress) - calOffset;
 }
 

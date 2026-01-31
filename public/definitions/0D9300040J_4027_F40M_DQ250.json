@@ -1,0 +1,3135 @@
+{
+  "name": "F40M",
+  "version": "1.0",
+  "baseAddress": 0,
+  "parameters": [
+    {
+      "name": "Ges_NAnHS12Eco_kf",
+      "description": "Hochschaltkennfeld 1->2 Eco",
+      "address": 205164,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209936,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS12Normal_kf",
+      "description": "Hochschaltkennfeld 1->2 Normal",
+      "address": 205644,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209936,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS12Sport_kf",
+      "description": "Hochschaltkennfeld 1->2 Sport",
+      "address": 207084,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "DSG Line Pressure"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209936,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS23Eco_kf",
+      "description": "Hochschaltkennfeld 2->3 Eco",
+      "address": 205260,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209944,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS23Normal_kf",
+      "description": "Hochschaltkennfeld 2->3 Normal",
+      "address": 205740,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209944,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS23Sport_kf",
+      "description": "Hochschaltkennfeld 2->3 Sport",
+      "address": 207180,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "DSG Line Pressure"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209944,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS34Eco_kf",
+      "description": "Hochschaltkennfeld 3->4 Eco",
+      "address": 205356,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209952,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS34Normal_kf",
+      "description": "Hochschaltkennfeld 3->4 Normal",
+      "address": 205836,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209952,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS34Sport_kf",
+      "description": "Hochschaltkennfeld 3->4 Sport",
+      "address": 207276,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "DSG Line Pressure"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209952,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS45Eco_kf",
+      "description": "Hochschaltkennfeld 4->5 Eco",
+      "address": 205452,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209960,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS45Normal_kf",
+      "description": "Hochschaltkennfeld 4->5 Normal",
+      "address": 205932,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209960,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS45Sport_kf",
+      "description": "Hochschaltkennfeld 4->5 Sport",
+      "address": 207372,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "DSG Line Pressure"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209960,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS56Eco_kf",
+      "description": "Hochschaltkennfeld 5->6 Eco",
+      "address": 205548,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209968,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS56Normal_kf",
+      "description": "Hochschaltkennfeld 5->6 Normal",
+      "address": 206028,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209968,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS56Sport_kf",
+      "description": "Hochschaltkennfeld 5->6 Sport",
+      "address": 207468,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "DSG Line Pressure"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209876,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209968,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS21Eco_kf",
+      "description": "Rckschaltkennfeld 2->1 Eco",
+      "address": 206124,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209936,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS21Normal_kf",
+      "description": "Rckschaltkennfeld 2->1 Normal",
+      "address": 206604,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209936,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS21Sport_kf",
+      "description": "Rckschaltkennfeld 2->1 Sport",
+      "address": 207564,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "DSG Line Pressure"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209936,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS32Eco_kf",
+      "description": "Rckschaltkennfeld 3->2 Eco",
+      "address": 206220,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209944,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS32Normal_kf",
+      "description": "Rckschaltkennfeld 3->2 Normal",
+      "address": 206700,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209944,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS32Sport_kf",
+      "description": "Rckschaltkennfeld 3->2 Sport",
+      "address": 207660,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "DSG Line Pressure"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209944,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS43Eco_kf",
+      "description": "Rckschaltkennfeld 4->3 Eco",
+      "address": 206316,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209952,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS43Normal_kf",
+      "description": "Rckschaltkennfeld 4->3 Normal",
+      "address": 206796,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209952,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS43Sport_kf",
+      "description": "Rckschaltkennfeld 4->3 Sport",
+      "address": 207756,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "DSG Line Pressure"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209952,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS54Eco_kf",
+      "description": "Rckschaltkennfeld 5->4 Eco",
+      "address": 206412,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209960,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS54Normal_kf",
+      "description": "Rckschaltkennfeld 5->4 Normal",
+      "address": 206892,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209960,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS54Sport_kf",
+      "description": "Rckschaltkennfeld 5->4 Sport",
+      "address": 207852,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "DSG Line Pressure"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209960,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS65Eco_kf",
+      "description": "Rckschaltkennfeld 6->5 Eco",
+      "address": 206508,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209968,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS65Normal_kf",
+      "description": "Rckschaltkennfeld 6->5 Normal",
+      "address": 206988,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209968,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS65Sport_kf",
+      "description": "Rckschaltkennfeld 6->5 Sport",
+      "address": 207948,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "DSG Line Pressure"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 209900,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209968,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "HdrPHauptZuI_kf_z",
+      "description": "Target current for main pressure valve",
+      "address": 204344,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "mA",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "My map"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "bar",
+        "address": 204320,
+        "dataType": "SWORD",
+        "factor": 0.01
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 204332,
+        "dataType": "SWORD",
+        "factor": 0.01
+      }
+    },
+    {
+      "name": "HdrMomentZuPHaupt_kl",
+      "description": "Data Moment zu main pressure KL",
+      "address": 204404,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "My map"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 204396,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "HdrPHauptMax_kl",
+      "description": "Maximum main pressure",
+      "address": 204436,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "My map"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "min-1",
+        "address": 204428,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "HdrPHauptSolldruckFact_kl",
+      "description": "Factor on main pressure offset from target pressure",
+      "address": 204476,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "My map"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "bar",
+        "address": 204468,
+        "dataType": "SWORD",
+        "factor": 0.01
+      }
+    },
+    {
+      "name": "MmrDmmoMaxAnf_kf",
+      "description": "maximum torque increase when starting",
+      "address": 204116,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Launch Contro"
+      ],
+      "cols": 8,
+      "rows": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 204084,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "C",
+        "address": 204100,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "mmr_dMaufLCVFzg_ko",
+      "description": "Mom.Ramp stop engine intervention LaunchControl over driving speed",
+      "address": 204248,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Launch Contro"
+      ]
+    },
+    {
+      "name": "mmr_dMaufZG_Eingriff_ko",
+      "description": "Mom.Ramp stop engine intervention for ZG raising",
+      "address": 204262,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Launch Contro"
+      ]
+    },
+    {
+      "name": "MmrMAufbauLaunch_kl",
+      "description": "build ramp max. engine moment separately for LaunchControl",
+      "address": 204278,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+      ],
+      "cols": 3,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 3,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 204272,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KhsMRedMomMaxAMax_ko",
+      "description": "Maximum torque reduction in the switching mode 'maximum acceleration' - Maximale Momentenreduktion in der Schaltart 'maximale Beschleunigung'",
+      "address": 236962,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Launch Contro"
+      ]
+    },
+    {
+      "name": "KhsMRedMomMaxSport_ko",
+      "description": "Maximale Momentenreduktion in S (Sport)",
+      "address": 236958,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Launch Contro"
+      ]
+    },
+    {
+      "name": "KhsMRedMomMaxTip_ko",
+      "description": "Maximale Momentenreduktion in Tiptronic",
+      "address": 236960,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Launch Contro"
+      ]
+    },
+    {
+      "name": "KhsMRedMomMaxAMax_ko",
+      "description": "Maximale Momentenreduktion in der Schaltart 'maximale Beschleunigung'",
+      "address": 236964,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Launch Contro"
+      ]
+    },
+    {
+      "name": "KhsMRedTSchaltEco_NZiel_kl",
+      "description": "Schaltzeiten in D (Eco) mit Momentenreduktion",
+      "address": 236684,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Kiss Poin"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 236672,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KhsMRedTSchaltNormal_NZiel_kl",
+      "description": "Switching times in D (normal) with torque reduction - Schaltzeiten in D (Normal) mit Momentenreduktion",
+      "address": 236736,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Kiss Poin"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 236672,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KhsMRedTSchaltSport_NZiel_kl",
+      "description": "Schaltzeiten in S (Sport) mit Momentenreduktion",
+      "address": 236788,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Kiss Poin"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 236672,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KhsMRedTSchaltTip_NZiel_kl",
+      "description": "Schaltzeiten in Tiptronic mit Momentenreduktion",
+      "address": 236840,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Kiss Poin"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 236672,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KusLauchNAbMax_ko",
+      "description": "Maximum Drive Speed Launch Control",
+      "address": 199372,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+      ]
+    },
+    {
+      "name": "KusLauchTMin_ko",
+      "description": "Minimum Temperature for Launch Control",
+      "address": 199374,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": " Celsius",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+      ]
+    },
+    {
+      "name": "KusLauchPBremseEinst_ko",
+      "description": "Minimum Brake Pressure to Activate  Launch Control",
+      "address": 199386,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+      ]
+    },
+    {
+      "name": "KusNBegrNMaxNeutral_ko",
+      "description": "Max. Engine speed in N for speed limitation",
+      "address": 199324,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Launch Contro"
+      ]
+    },
+    {
+      "name": "KzuPHauptMin_ko",
+      "description": "Minimum main pressure when shooting",
+      "address": 198246,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "My map"
+      ]
+    },
+    {
+      "name": "kan_dm_launch_ko",
+      "description": "Max increase in moments with active launch control",
+      "address": 212990,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 2.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+      ]
+    },
+    {
+      "name": "Kan_DmAnstiegPDiff_kf",
+      "description": "Rise limitation via accelerator pedal and pressure difference to the kiss point",
+      "address": 212932,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 2.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Torque limite"
+      ],
+      "cols": 4,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 212904,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "bar",
+        "address": 212920,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KanLC_dMMax_kl",
+      "description": "Characteristic curve for maximum torque increase for a launch control approach",
+      "address": 212892,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 2.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 212880,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KanLC_MOffset_kl",
+      "description": "Torque offset at LaunchControl (with / without ESP)",
+      "address": 212860,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.02,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 212848,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KandMAnstiegR_kf",
+      "description": "Rise limit Clutch torque Start in R",
+      "address": 212684,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 2.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Torque Maximu"
+      ],
+      "cols": 4,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 212676,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 212664,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KandMAnstiegD_kf",
+      "description": "Rise limit Clutch setpoint starting Gear 1,3,5",
+      "address": 212732,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 2.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Torque Maximu"
+      ],
+      "cols": 4,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 212676,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 212664,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KandMAnstiegDKupp2_kf",
+      "description": "Rise limit Clutch setpoint starting Gear 2, 4, 6",
+      "address": 212780,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 2.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Torque Maximu"
+      ],
+      "cols": 4,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 212676,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 212664,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KanMomMaxVorst_kf",
+      "description": "Maximales Vorsteuermoment ber Luftdruck und Temperatur",
+      "address": 212600,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.02,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Temperature Range Limit"
+      ],
+      "cols": 4,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "hPa",
+        "address": 212584,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "C",
+        "address": 212592,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KusLaunchNstal",
+      "description": "Stall speed LC approach - Stalldrehzahl LC Anfahrt ",
+      "address": 198632,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 198296,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KusLaunchNstall_kl",
+      "description": "Stalldrehzahl LC Anfahrt mit aktivem ESP",
+      "address": 198648,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 198296,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KusIMax_ko[K1]",
+      "description": "Max. Current for max. Clutch torque for K1",
+      "address": 198696,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "mA",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "My map"
+      ]
+    },
+    {
+      "name": "KusIMax_ko[K2]",
+      "description": "Max. Current for max. Clutch torque for K2",
+      "address": 198698,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "mA",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "My map"
+      ]
+    },
+    {
+      "name": "KusMMax_ko[K1]",
+      "description": "Max. Clutch torque for moment engagement for K1",
+      "address": 198700,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.02,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "My map"
+      ]
+    },
+    {
+      "name": "KusMMax_ko[K2]",
+      "description": "Max. Clutch torque for moment engagement for K2",
+      "address": 198702,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.02,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "My map"
+      ]
+    },
+    {
+      "name": "KusAnstallNStallMax_ko[T0]",
+      "description": "Maximum stall speed for Temperature Range 0",
+      "address": 198980,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Oil Flo"
+      ]
+    },
+    {
+      "name": "KusAnstallNStallMax_ko[T1]",
+      "description": "Maximum stall speed for Temperature Range 1",
+      "address": 198982,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Oil Flo"
+      ]
+    },
+    {
+      "name": "KusAnstallNStallMax_ko[T2]",
+      "description": "Maximum stall speed for Temperature Range 2",
+      "address": 198984,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Oil Flo"
+      ]
+    },
+    {
+      "name": "KusLC_MRed_kl",
+      "description": "engine moment over Speed",
+      "address": 199000,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Torque Maximu"
+      ],
+      "cols": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "km/h",
+        "address": 198988,
+        "dataType": "SWORD",
+        "factor": 0.01
+      }
+    },
+    {
+      "name": "KusGangw_dMMin_gehend_auf_kl",
+      "description": "Minimum torque gradient for opening the outgoing clutch",
+      "address": 198828,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 2.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Oil Flo"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 198820,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KusAMaxLCLwDisable_kl",
+      "description": "Steering angle to deactivate the AMax function after launch control",
+      "address": 198876,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Launch Contro"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "km/h",
+        "address": 198860,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KusAMaxStallLwDisable_kl",
+      "description": "Steering angle to deactivate the AMax function after moving into the stable",
+      "address": 198868,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Launch Contro"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "km/h",
+        "address": 198860,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KscQKuehlFahren_kf",
+      "description": "Cooling oil flow for driving",
+      "address": 199808,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "l / min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Shift Time"
+      ],
+      "cols": 6,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "C",
+        "address": 199712,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U / min",
+        "address": 199724,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KrsSchaltzeitTip_kf",
+      "description": "maximum switching times for downshifts for Tiptronic operation - maximale Schaltzeiten fr Rckschaltungen fr Tiptronic-Betrieb",
+      "address": 233960,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Up/Downshift Map"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 233936,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gang",
+        "address": 233948,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KrsSchaltzeitEco_kf",
+      "description": "maximale Schaltzeiten fr Rckschaltungen im Economic-Betrieb",
+      "address": 234012,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Up/Downshift Map"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 233936,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gang",
+        "address": 233948,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KrsSchaltzeitSport_kf",
+      "description": "maximale Schaltzeiten fr Rckschaltungen im Sport-Betrieb",
+      "address": 234064,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Up/Downshift Map"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 233936,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gang",
+        "address": 233948,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KhsTSchaltEco_kl",
+      "description": "Switching time - Schaltzeiten in D (Eco)",
+      "address": 235748,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Up/Downshift Map"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 235736,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KhsTSchaltSport_kl",
+      "description": "Schaltzeiten in S (Sport)",
+      "address": 235800,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Up/Downshift Map"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 235736,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KhsTSchaltTip_kl",
+      "description": "Schaltzeiten in Tiptronic",
+      "address": 235852,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Up/Downshift Map"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 235736,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KhsMRedTSchaltEco_kl",
+      "description": "Schaltzeiten in D (Eco) mit Momentenreduktion",
+      "address": 235904,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Up/Downshift Map"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 235736,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KhsMRedTSchaltNormal_kl",
+      "description": "Switching times in D (normal) with torque reduction - Schaltzeiten in D (Normal) mit Momentenreduktion",
+      "address": 235956,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Up/Downshift Map"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 235736,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KhsMRedTSchaltSport_kl",
+      "description": "Schaltzeiten in S (Sport) mit Momentenreduktion",
+      "address": 236008,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Up/Downshift Map"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 235736,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "KhsMRedTSchaltTip_kl",
+      "description": "Schaltzeiten in Tiptronic mit Momentenreduktion",
+      "address": 236060,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "Up/Downshift Map"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 235736,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS12Sport_kf",
+      "description": "Upshift map 1->2 Sport",
+      "address": 207086,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplikation"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 202080,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 208976,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS23Sport_kf",
+      "description": "Upshift map 2->3 Sport",
+      "address": 207182,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplikation"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 202080,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 208986,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS34Sport_kf",
+      "description": "Upshift map 3->4 Sport",
+      "address": 207278,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplikation"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 202080,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 208994,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS45Sport_kf",
+      "description": "Upshift map 4->5 Sport",
+      "address": 207374,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplikation"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 202080,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209002,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnHS56Sport_kf",
+      "description": "Upshift map 5->6 Sport",
+      "address": 207470,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplikation"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 202080,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209010,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS21Sport_kf",
+      "description": "Downshift map 2->1 Sport",
+      "address": 207566,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplikation"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 202080,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 208976,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS32Sport_kf",
+      "description": "Downshift map 3->2 Sport",
+      "address": 207662,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplikation"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 202080,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 208986,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS43Sport_kf",
+      "description": "Downshift map 4->3 Sport",
+      "address": 207758,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplikation"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 202080,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 208994,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS54Sport_kf",
+      "description": "Downshift map 5->4 Sport",
+      "address": 207854,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplikation"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 202080,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209002,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Ges_NAnRS65Sport_kf",
+      "description": "Downshift map 6->5 Sport",
+      "address": 207950,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplikation"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 202080,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 209010,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "MmrTemperaMmax_kl",
+      "description": "Max. Motormoment Motoreingriff Uebertemperatur",
+      "address": 204048,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrDmmoApplikation"
+      ],
+      "cols": 2,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 2,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Grad",
+        "address": 204044,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "mmr_dMaufNMotBegr_ko",
+      "description": "Mom.Rampe Beenden Motoreingriff Motordrehzahlbegrenzung",
+      "address": 204266,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrDmmoApplikation"
+      ]
+    },
+    {
+      "name": "mmr_dMaufGangR_ko",
+      "description": "Mom.Rampe Beenden Motoreingriff MMaxGangR",
+      "address": 204268,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrDmmoApplikation"
+      ]
+    },
+    {
+      "name": "mmr_dMaufSegeln_ko",
+      "description": "Mom.Rampe Beenden Motoreingriff Segeln",
+      "address": 204270,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrDmmoApplikation"
+      ]
+    },
+    {
+      "name": "MmrKrieSchubNDiff_ko",
+      "description": "Drehzahlschwelle Kriechen Schub fr dmmo Wiederanfahren",
+      "address": 204308,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplBefuellen"
+      ]
+    },
+    {
+      "name": "MmrSchubNDiff_ko",
+      "description": "Drehzahlschwelle Anfahren Schub fr dmmo Begr. Wiederanfahren",
+      "address": 204310,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrApplBefuellen"
+      ]
+    },
+    {
+      "name": "Mmr_FpMinBefuellen_ko",
+      "description": "Minimales Fahrpedal fr die Freigabe des Momenteneingriffs beim Befllen",
+      "address": 204314,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-"
+      ]
+    },
+    {
+      "name": "Mmr_NllOffsetBefuellen_ko",
+      "description": "Offset auf die Leerlaufsolldrehzahl fr die Freigabe des Momenteneingriffs beim Befllen",
+      "address": 204312,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-"
+      ]
+    },
+    {
+      "name": "Mmr_SwSourceMRedAus_ko",
+      "description": "Schalter fr die Auswahl des Moments zum Bestimmen des Ende des Eingriffs",
+      "address": 204318,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrDmmoApplikation"
+      ]
+    },
+    {
+      "name": "Mmr_VFzgMinBefuellen_ko",
+      "description": "Minimale Fahrgeschwindigkeit fr die Freigabe des Momenteneingriffs beim Befllen",
+      "address": 204316,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-"
+      ]
+    },
+    {
+      "name": "mmr_MMaxBefuellfunktion_ko",
+      "description": "max. Motormoment Befuellfunktion",
+      "address": 204286,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrDmmoApplikation"
+      ]
+    },
+    {
+      "name": "mmr_MMaxGetriebeschutz_ko",
+      "description": "max. Motormoment Getriebeschutz",
+      "address": 204294,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrDmmoApplikation"
+      ]
+    },
+    {
+      "name": "mmr_MMaxKupplungOffen_ko",
+      "description": "max. Motormoment Kupplung Offen",
+      "address": 204296,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrDmmoApplikation"
+      ]
+    },
+    {
+      "name": "mmr_MMaxMissbrAnfahren_ko",
+      "description": "max. Motormoment Anfahren",
+      "address": 204290,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrDmmoApplikation"
+      ]
+    },
+    {
+      "name": "mmr_dMabBefuellfunktion_ko",
+      "description": "Mom.Rampe Erreichen Zielwert Moteing. Befuellfunktion",
+      "address": 204288,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrDmmoApplikation"
+      ]
+    },
+    {
+      "name": "mmr_dMabMissbrAnfahren_ko",
+      "description": "Mom.Rampe Erreichen Zielwert Moteing. Missbrauch Anfahr",
+      "address": 204292,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Eco-",
+        "MmrDmmoApplikation"
+      ]
+    }
+  ],
+  "_source": "XDF",
+  "verification": {
+    "calOffset": -65536,
+    "expected": "F40M"
+  },
+  "binInfo": {
+    "type": "TCU",
+    "binFile": "0D9300040J_4027_F40M.bin",
+    "binPath": "dsg/0D9300040J_4027_F40M.bin",
+    "epk": "F40M",
+    "hwNumber": "0D9300040J",
+    "swVersion": "4027",
+    "tcuType": "DQ250"
+  }
+}
