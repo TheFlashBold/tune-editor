@@ -60,7 +60,7 @@
       "calOffset": 262144,
       "expected": "SC1CF00"
     },
-    "paramCount": 563
+    "paramCount": 25364
   },
   {
     "name": "SC800F90",
@@ -116,14 +116,15 @@
     },
     "paramCount": 3617
   },
+
   {
-    "name": "SC8S50",
-    "file": "8V0906264K_0003_SC8S50.json",
+    "name": "SC800S50",
+    "file": "8V0906264K_0003_SC8S500_SC8I0S00_SC8I0S50_SC800S50.json",
     "verification": {
-      "calOffset": 8388608,
-      "expected": "SC8S50"
+      "calOffset": 2097152,
+      "expected": "SC8S500"
     },
-    "paramCount": 37133
+    "paramCount": 33140
   },
   {
     "name": "SC8V30",

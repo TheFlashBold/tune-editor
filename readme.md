@@ -31,9 +31,40 @@ A web-based ECU tuning editor for viewing and modifying calibration data in BIN 
 4. **Compare (optional)**: Load an original BIN to see changes highlighted
 5. **Save**: Export the modified BIN file
 
+## Included definitions
+
+### VAG ECU
+
+| Boxcode    | SW-Version | EPK     |
+|------------|------------|---------|
+| 06K906071C | 8100       | SC8V30  |
+| 3G0906259G | 0004       | SCGA05  |
+| 3GD906259B | 0003       | SCG910  |
+| 5G0906259A | 0004       | SC8H64  |
+| 5G0906259F | 0001       | SC8O200 |
+| 5G0906259P | X621       | SC8LB70 |
+| 5G0906259S | 0002       | SCGA10  |
+| 5G0906259  | 0010       | SC8F900 |
+| 8U0906259A | 0003       | SC8H85  |
+| 8V0906259A | 0004       | SC8H65  |
+| 8V0906264E | 0003       | SC1CF00 |
+| 8V0906264K | 0003       | SC8S50  |
+
+### VAG DSG TCU
+
+| Boxcode    | SW-Version | EPK  |
+|------------|------------|------|
+| 0D9300012L | 4517       | F45M |
+| 0D9300012  | 4930       | F49M |
+| 0D9300014N | 5002       | F50M |
+| 0D9300018D | 5201       | F52M |
+| 0D9300040J | 4027       | F40M |
+| 0D9300040S | 4311       | F43M |
+
 ## A2L Converter
 
 The built-in converter parses ASAP2 (A2L) files and extracts:
+
 - CHARACTERISTIC definitions (VALUE, CURVE, MAP)
 - COMPU_METHOD conversion formulas
 - AXIS_PTS breakpoint tables
@@ -62,7 +93,7 @@ npm run build
 ```
 
 ## License
-Provided as is, no support or guarantee
 
+Provided as is, no support or guarantee
 
 MIT
