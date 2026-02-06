@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useMemo } from 'preact/hooks';
+import { DATA_TYPE_INFO } from './types';
 import type { Definition, Parameter } from './types';
 import { FileLoader } from './components/FileLoader';
 import { XdfLoader } from './components/XdfLoader';
@@ -224,6 +225,46 @@ export function App() {
     setModified(false);
     setShowFileMenu(false);
   }, [binData, binFileName]);
+
+  const handleSaveCal = useCallback(() => {
+    if (!binData || !binFileName || !definition) return;
+
+    const defCalOffset = definition.verification?.calOffset ?? (definition as any).offset ?? 0;
+    if (!defCalOffset) return;
+
+    // Compute CAL block extent from parameter addresses
+    const base = definition.baseAddress ?? 0xa0000000;
+    let maxFileOffset = 0;
+    for (const p of definition.parameters) {
+      const rows = p.rows || 1;
+      const cols = p.cols || 1;
+      const typeSize = DATA_TYPE_INFO[p.dataType].size;
+      const end = (p.address - base) + rows * cols * typeSize;
+      if (end > maxFileOffset) maxFileOffset = end;
+      if (p.xAxis?.address) {
+        const axEnd = (p.xAxis.address - base) + p.xAxis.points * DATA_TYPE_INFO[p.xAxis.dataType ?? 'UWORD'].size;
+        if (axEnd > maxFileOffset) maxFileOffset = axEnd;
+      }
+      if (p.yAxis?.address) {
+        const axEnd = (p.yAxis.address - base) + p.yAxis.points * DATA_TYPE_INFO[p.yAxis.dataType ?? 'UWORD'].size;
+        if (axEnd > maxFileOffset) maxFileOffset = axEnd;
+      }
+    }
+
+    // Round up to 64KB boundary
+    const calEnd = Math.min(Math.ceil(maxFileOffset / 0x10000) * 0x10000, binData.length);
+    const calData = binData.slice(defCalOffset, calEnd);
+
+    const blob = new Blob([calData.buffer as ArrayBuffer], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = binFileName.replace(/\.[^.]+$/, '_cal.bin');
+    a.click();
+    URL.revokeObjectURL(url);
+    setModified(false);
+    setShowFileMenu(false);
+  }, [binData, binFileName, definition]);
 
   const handleOpenJson = useCallback(async () => {
     const file = jsonInputRef.current?.files?.[0];
@@ -613,6 +654,15 @@ export function App() {
                   >
                     Save BIN
                   </button>
+                  {detectedMode === 'full' && definition?.verification?.calOffset && (
+                    <button
+                        onClick={handleSaveCal}
+                        disabled={!modified}
+                        className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
+                    >
+                      Save CAL
+                    </button>
+                  )}
                 </div>
               </>
           )}
