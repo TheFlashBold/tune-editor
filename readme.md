@@ -61,6 +61,22 @@ A web-based ECU tuning editor for viewing and modifying calibration data in BIN 
 | 0D9300040J | 4027       | F40M |
 | 0D9300040S | 4311       | F43M |
 
+## Patching
+
+Built-in support for [Switchleg1/BinToolz](https://github.com/Switchleg1/BinToolz) `.btp` patch files. Compatible patches are automatically detected when a binary is loaded.
+
+| Patch | Description |
+|-------|-------------|
+| SL PATCH | Multimaps, Rolling Anti-Lag, Launch Control, Traction Control |
+| SL HSL | Highspeed Logging |
+| Immo | Immobilizer |
+| SWG | Simple Wastegate Control |
+| SL CBRICK | CBOOT Brick Protection |
+| FREE SAP | Secondary Air Pump delete |
+| CAT | Catalyst monitoring delete |
+
+Patches with bundled XDF definitions automatically add their parameters to the category tree under "Patch". Custom `.btp` files can also be loaded via the file picker in the Patches dialog.
+
 ## A2L Converter
 
 The built-in converter parses ASAP2 (A2L) files and extracts:

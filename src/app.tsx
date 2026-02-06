@@ -7,7 +7,10 @@ import { ValueEditor } from './components/ValueEditor';
 import { LogViewer } from './components/LogViewer';
 import { BLEConnector } from './components/BLEConnector';
 import { Modal } from './components/Modal';
-import { readParameterValue, readTableData, readAxisData, formatValue, debugHexDump, debugLayoutComparison, debugFindDataOffset, debugTableAddresses, detectEccPresence, debugEccBlock, addressToOffset } from './lib/binUtils';
+import { PatchManager, mergeDefinitions } from './components/PatchManager';
+import { parseBtp, verifyCrc32, checkPatch } from './lib/btpParser';
+import type { PatchCheckResult } from './lib/btpParser';
+import { readParameterValue, readTableData, readAxisData, formatValue, debugHexDump, debugLayoutComparison, debugFindDataOffset, debugTableAddresses, debugEccBlock, addressToOffset } from './lib/binUtils';
 import { loadDefinitionIndex, loadDefinition, findMatchingDefinitions, type DefinitionIndexEntry } from './lib/definitionLoader';
 import { s19ToBinary, isS19File, hexToBinary, isHexFile } from './lib/s19Parser';
 import './app.css';
@@ -120,7 +123,8 @@ export function App() {
   const [vehicleSettings, setVehicleSettings] = useState<VehicleSettings>(loadSettings);
   const [dragOverDef, setDragOverDef] = useState(false);
   const [dragOverBin, setDragOverBin] = useState(false);
-  const [hasEcc, setHasEcc] = useState(false); // Whether ECC was detected in the bin file
+  const [showPatchManager, setShowPatchManager] = useState(false);
+  const [patchResults, setPatchResults] = useState<PatchCheckResult[]>([]);
 
   const jsonInputRef = useRef<HTMLInputElement>(null);
   const binInputRef = useRef<HTMLInputElement>(null);
@@ -179,8 +183,7 @@ export function App() {
         return;
       }
       debugEccBlock(binData, blockOffset);
-    },
-    getHasEcc: () => hasEcc,
+    }
   };
   const originalBinInputRef = useRef<HTMLInputElement>(null);
 
@@ -233,6 +236,61 @@ export function App() {
     if (jsonInputRef.current) jsonInputRef.current.value = '';
   }, []);
 
+  // Auto-detect patches for a loaded binary
+  const detectPatches = useCallback(async (data: Uint8Array, currentDef: Definition | null) => {
+    try {
+      const response = await fetch('./patches/index.json');
+      if (!response.ok) return;
+      const patchIndex: { name: string; file: string; definition?: string; category?: string }[] = await response.json();
+
+      const results: PatchCheckResult[] = [];
+      for (const entry of patchIndex) {
+        try {
+          const btpResponse = await fetch(`./patches/${entry.file}`);
+          if (!btpResponse.ok) continue;
+          const btpData = new Uint8Array(await btpResponse.arrayBuffer());
+          const crcValid = verifyCrc32(btpData);
+          const { header, blocks } = parseBtp(btpData);
+
+          if (header.fileSize === data.length) {
+            const status = checkPatch(blocks, data);
+            results.push({
+              name: entry.name,
+              file: entry.file,
+              status,
+              definition: entry.definition,
+              category: entry.category,
+              blocks,
+              header,
+              crcValid,
+            });
+          }
+        } catch {
+          // Skip individual patch load failures
+        }
+      }
+
+      setPatchResults(results);
+
+      // Auto-load definitions for applied patches
+      const appliedWithDef = results.filter(r => r.status === 'applied' && r.definition);
+      if (appliedWithDef.length > 0 && currentDef) {
+        let mergedDef = currentDef;
+        for (const applied of appliedWithDef) {
+          try {
+            const patchDef = await fetch(`./patches/definitions/${applied.definition}`).then(r => r.json()) as Definition;
+            mergedDef = mergeDefinitions(mergedDef, patchDef, applied.name);
+          } catch {
+            // Skip individual definition load failures
+          }
+        }
+        setDefinition(mergedDef);
+      }
+    } catch {
+      // Patch index not available, silently skip
+    }
+  }, []);
+
   const handleOpenBin = useCallback(async () => {
     const file = binInputRef.current?.files?.[0];
     if (!file) return;
@@ -260,11 +318,8 @@ export function App() {
     setShowFileMenu(false);
     if (binInputRef.current) binInputRef.current.value = '';
 
-    // Detect ECC presence
-    const eccResult = detectEccPresence(data, 20);
-    setHasEcc(eccResult.hasEcc);
-
     // Auto-detect and load matching definition
+    let loadedDef: Definition | null = null;
     try {
       const matches = await findMatchingDefinitions(data);
       if (matches.length === 1) {
@@ -276,6 +331,7 @@ export function App() {
         const defOffset = def.offset ?? match.entry.verification?.calOffset ?? 0;
         setCalOffset(match.mode === 'cal' ? defOffset : 0);
         setSelectedParam(null);
+        loadedDef = def;
       } else if (matches.length > 1) {
         setDefinitionMatches(matches);
         setShowDefinitionPicker(true);
@@ -283,7 +339,10 @@ export function App() {
     } catch (err) {
       console.error('Definition auto-detect failed:', err);
     }
-  }, []);
+
+    // Auto-detect patches
+    detectPatches(data, loadedDef);
+  }, [detectPatches]);
 
   const handleSelectDefinition = useCallback(async (entry: DefinitionIndexEntry, mode: 'full' | 'cal') => {
     try {
@@ -364,11 +423,8 @@ export function App() {
     setBinFileName(displayName);
     setModified(false);
 
-    // Detect ECC presence
-    const eccResult = detectEccPresence(data, 20);
-    setHasEcc(eccResult.hasEcc);
-
     // Auto-detect and load matching definition
+    let loadedDef: Definition | null = null;
     try {
       const matches = await findMatchingDefinitions(data);
       if (matches.length === 1) {
@@ -380,6 +436,7 @@ export function App() {
         const defOffset = def.offset ?? match.entry.verification?.calOffset ?? 0;
         setCalOffset(match.mode === 'cal' ? defOffset : 0);
         setSelectedParam(null);
+        loadedDef = def;
       } else if (matches.length > 1) {
         setDefinitionMatches(matches);
         setShowDefinitionPicker(true);
@@ -387,7 +444,10 @@ export function App() {
     } catch (err) {
       console.error('Definition auto-detect failed:', err);
     }
-  }, []);
+
+    // Auto-detect patches
+    detectPatches(data, loadedDef);
+  }, [detectPatches]);
 
   const preventDefaults = useCallback((e: DragEvent) => {
     e.preventDefault();
@@ -637,6 +697,19 @@ export function App() {
           Definitions
         </button>
 
+        <button
+            onClick={() => setShowPatchManager(true)}
+            disabled={!binData}
+            className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500"
+        >
+          Patches
+          {patchResults.filter(r => r.status === 'applied').length > 0 && (
+            <span class="ml-1 text-green-400">
+              ({patchResults.filter(r => r.status === 'applied').length})
+            </span>
+          )}
+        </button>
+
         {originalBinData && binData && (
             <button
                 onClick={() => setShowChanges(true)}
@@ -669,9 +742,9 @@ export function App() {
                     {definition.verification.expected}
                   </span>
               )}
-              {hasEcc && (
-                  <span class="px-2 py-0.5 rounded text-xs font-medium bg-orange-900 text-orange-300">
-                    ECC
+              {patchResults.filter(r => r.status === 'applied').length > 0 && (
+                  <span class="px-2 py-0.5 rounded text-xs font-medium bg-green-900 text-green-300">
+                    {patchResults.filter(r => r.status === 'applied').length} Patches
                   </span>
               )}
               {modified && (
@@ -1380,6 +1453,19 @@ export function App() {
             )}
           </div>
         </Modal>
+      )}
+
+      {/* Patch Manager Modal */}
+      {showPatchManager && binData && (
+        <PatchManager
+          binData={binData}
+          patchResults={patchResults}
+          onClose={() => setShowPatchManager(false)}
+          onModify={handleModify}
+          onPatchResultsChange={setPatchResults}
+          definition={definition}
+          onDefinitionUpdate={setDefinition}
+        />
       )}
     </div>
   );

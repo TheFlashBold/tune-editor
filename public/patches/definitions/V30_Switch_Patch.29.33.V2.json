@@ -1,0 +1,2896 @@
+{
+  "name": "SC8V30",
+  "version": "1.0",
+  "baseAddress": 2684354560,
+  "offset": 262144,
+  "parameters": [
+    {
+      "name": "Knock threshold for blink mil on knock average",
+      "description": "Knock threshold for blink mil on knock average",
+      "address": 2685651728,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -48,
+      "max": 47.619999,
+      "factor": 0.37593984962406013,
+      "offset": -48.1203007518797,
+      "categories": [
+        "Switch Patch"
+      ]
+    },
+    {
+      "name": "Knock threshold for blink mil on knock individual cylinder",
+      "description": "Knock threshold for blink mil on knock individual cylinder",
+      "address": 2685651770,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -48,
+      "max": 47.619999,
+      "factor": 0.37593984962406013,
+      "offset": -48.1203007518797,
+      "categories": [
+        "Switch Patch"
+      ]
+    },
+    {
+      "name": "Additional blink time for blink mil on knock (ms)",
+      "description": "0 is disabled",
+      "address": 2685651729,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "ms",
+      "min": 0,
+      "max": 2550,
+      "factor": 10,
+      "offset": 0,
+      "categories": [
+        "Switch Patch"
+      ]
+    },
+    {
+      "name": "Minimum engagement RPM",
+      "description": "Minimum engagement RPM",
+      "address": 2685651730,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "Maximum engagement RPM",
+      "description": "Maximum engagement RPM",
+      "address": 2685651732,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "Maximum engagement cycles",
+      "description": "Maximum engagement cycles",
+      "address": 2685651734,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "sparks",
+      "min": 0,
+      "max": 65535,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "Rev soft limit above engagement point",
+      "description": "At this point the engine cuts fuel and spark to 1 cylinder every 4",
+      "address": 2685651736,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "Rev medium limit above engagement point",
+      "description": "At this point the engine cuts fuel and spark to 1 cylinder every 3",
+      "address": 2685651738,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "Rev hard limit above engagement point",
+      "description": "At this point the engine cuts fuel and spark to 2 cylinder every 4",
+      "address": 2685651740,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "PUT modifier to prevent overboost",
+      "description": "PUT modifier to prevent overboost",
+      "address": 2685651742,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kpa",
+      "min": -2716.949951,
+      "max": 2716.949951,
+      "factor": 0.008329156492802806,
+      "offset": -272.92979995616236,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "Ramp in cycles",
+      "description": "Ramp in cycles",
+      "address": 2685651744,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "rev",
+      "min": 0,
+      "max": 255,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "Ramp out cycles",
+      "description": "Ramp out cycles",
+      "address": 2685651745,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "rev",
+      "min": 0,
+      "max": 255,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "Maximum acceleration allowed to enable RAL",
+      "description": "Maximum acceleration allowed to enable RAL",
+      "address": 2685651746,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "ms2",
+      "min": 0,
+      "max": 3,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "RPM filtering amount",
+      "description": "RPM filtering amount",
+      "address": 2685651747,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 32,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "Minimum oil temperature",
+      "description": "Minimum oil temperature",
+      "address": 2685651748,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "c",
+      "min": -40,
+      "max": 215,
+      "factor": 1,
+      "offset": -40,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "Minimum coolant temperature",
+      "description": "Minimum coolant temperature",
+      "address": 2685651749,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "c",
+      "min": -48,
+      "max": 142.5,
+      "factor": 0.7518796992481203,
+      "offset": -48.1203007518797,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "RAL engagement button",
+      "description": "0: set 1: resume",
+      "address": 2685651750,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "EGT ignition table",
+      "description": "|X: x",
+      "address": 2685655084,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -35.619999,
+      "max": 60,
+      "factor": 0.37499953125058594,
+      "offset": -35.624955468805666,
+      "categories": [
+        "Knock"
+      ],
+      "cols": 4
+    },
+    {
+      "name": "Disable clutch start (MT)",
+      "description": "Disable clutch start (MT)",
+      "address": 2685651751,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "RAL"
+      ]
+    },
+    {
+      "name": "WG table ambient temperature compensation",
+      "description": "1.00 = 100%|X: x",
+      "address": 2685655142,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": -1,
+      "max": 1,
+      "factor": 0.00006103515625,
+      "offset": -2,
+      "categories": [
+        "RAL"
+      ],
+      "cols": 6
+    },
+    {
+      "name": "WG temperature axis",
+      "description": "WG temperature axis",
+      "address": 2685655136,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "c",
+      "min": -48,
+      "max": 143.25,
+      "factor": 0.7518796992481203,
+      "offset": -48.1203007518797,
+      "categories": [
+        "RAL"
+      ],
+      "cols": 6
+    },
+    {
+      "name": "WG temperature axis header",
+      "description": "must be 6",
+      "address": 2685655135,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 6,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "RAL"
+      ]
+    },
+    {
+      "name": "UI button",
+      "description": "0: Cruise Cancel(off) 1: Cruise Resume 2: Variable speed setpoint 3: Pedals",
+      "address": 2685651752,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 3,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Misc"
+      ]
+    },
+    {
+      "name": "Timeout",
+      "description": "Timeout",
+      "address": 2685651753,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "ms",
+      "min": 0,
+      "max": 2550,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Switching"
+      ]
+    },
+    {
+      "name": "Minimum engagement RPM",
+      "description": "Minimum engagement RPM",
+      "address": 2685651754,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 2000,
+      "max": 7000,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Switching"
+      ]
+    },
+    {
+      "name": "Minimum pedal",
+      "description": "Minimum pedal",
+      "address": 2685651756,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "%",
+      "min": 0,
+      "max": 100,
+      "factor": 0.09765625,
+      "offset": 0,
+      "categories": [
+        "Map Switching"
+      ]
+    },
+    {
+      "name": "Target RPM",
+      "description": "Target RPM",
+      "address": 2685651758,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Switching"
+      ]
+    },
+    {
+      "name": "Timing during PU",
+      "description": "Timing during PU",
+      "address": 2685651760,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -35.630001,
+      "max": 59.990002,
+      "factor": 0.37499999999999994,
+      "offset": -35.62499999999999,
+      "categories": [
+        "Map Switching"
+      ]
+    },
+    {
+      "name": "Timing during RPM limiter and rampout",
+      "description": "Timing during RPM limiter and rampout",
+      "address": 2685651761,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -35.630001,
+      "max": 59.990002,
+      "factor": 0.37499999999999994,
+      "offset": -35.62499999999999,
+      "categories": [
+        "NLS"
+      ]
+    },
+    {
+      "name": "Target TQ",
+      "description": "Target TQ",
+      "address": 2685651762,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 600,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "NLS"
+      ]
+    },
+    {
+      "name": "Ramp out cycles",
+      "description": "Ramp out cycles",
+      "address": 2685651764,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rev",
+      "min": 0,
+      "max": 65535,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "NLS"
+      ]
+    },
+    {
+      "name": "Target RPM",
+      "description": "Target RPM",
+      "address": 2685651766,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "NLS"
+      ]
+    },
+    {
+      "name": "Minimum oil temperature",
+      "description": "Minimum oil temperature",
+      "address": 2685651768,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "c",
+      "min": -40,
+      "max": 215,
+      "factor": 1,
+      "offset": -40,
+      "categories": [
+        "NLS"
+      ]
+    },
+    {
+      "name": "Minimum coolant temperature",
+      "description": "Minimum coolant temperature",
+      "address": 2685651769,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "c",
+      "min": -48,
+      "max": 142.5,
+      "factor": 0.7518796992481203,
+      "offset": -48.1203007518797,
+      "categories": [
+        "NLS"
+      ]
+    },
+    {
+      "name": "Release RPM limiter speed",
+      "description": "Release RPM limiter speed",
+      "address": 2685651772,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kph",
+      "min": 1,
+      "max": 20,
+      "factor": 0.01,
+      "offset": 0,
+      "categories": [
+        "NLS"
+      ]
+    },
+    {
+      "name": "Slip target straight",
+      "description": "Slip target while steering wheel is straight",
+      "address": 2685655108,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kph",
+      "min": 0,
+      "max": 32,
+      "factor": 0.01,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "Slip wheel angle multiplier",
+      "description": "Slip target multiplier calculated based on wheel angle and speed",
+      "address": 2685655110,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0,
+      "max": 2.18,
+      "factor": 0,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "Threshold increase on sustained slip",
+      "description": "Slip threshold is increased as wheel spin is sustained",
+      "address": 2685655122,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "kph",
+      "min": 0,
+      "max": 2.55,
+      "factor": 0.01,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "Maximum allowed PID value (kph slip)",
+      "description": "PID will be clamped if it reaches this value",
+      "address": 2685655112,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kph",
+      "min": 0,
+      "max": 100,
+      "factor": 0.01,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "Maximum allowed I value (kph slip)",
+      "description": "I will be clamped if it reaches this value",
+      "address": 2685655114,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kph",
+      "min": 0,
+      "max": 100,
+      "factor": 0.01,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "PID filter amount",
+      "description": "How much smoothing to apply to PID value",
+      "address": 2685655116,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 64,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "PID I weight",
+      "description": "How quickly &apos;I&apos; will rise/fall on sustained error",
+      "address": 2685655117,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 4,
+      "factor": 0,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "PID D weight",
+      "description": "How much to resist change due to &apos;P&apos; error",
+      "address": 2685655118,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 4,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "Slip ignition weight",
+      "description": "How much ignition intervention per kph of slip",
+      "address": 2685655119,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "kph",
+      "min": 0.1,
+      "max": 10,
+      "factor": 0,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "Slip WG weight",
+      "description": "How much WG intervention per kph of slip",
+      "address": 2685655120,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "kph",
+      "min": 0,
+      "max": 38.93,
+      "factor": 0.15267175572519084,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "Minimum timing",
+      "description": "Minimum timing",
+      "address": 2685655121,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -35,
+      "max": 0,
+      "factor": 0.3750093752343809,
+      "offset": -35.62589064726618,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "SCC duration",
+      "description": "Amount of time to run SCC after P drops below threshold",
+      "address": 2685655123,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "ms",
+      "min": 0,
+      "max": 2550,
+      "factor": 10,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "SCC Threshold",
+      "description": "SCC will start when value of P reaches this value",
+      "address": 2685655124,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kph",
+      "min": 0,
+      "max": 20,
+      "factor": 0.01,
+      "offset": 0,
+      "categories": [
+        "LC"
+      ]
+    },
+    {
+      "name": "RPM limiter",
+      "description": "RPM limiter",
+      "address": 2685651776,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "RPM limiter",
+      "description": "RPM limiter",
+      "address": 2685651778,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "RPM limiter",
+      "description": "RPM limiter",
+      "address": 2685651780,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "RPM limiter",
+      "description": "RPM limiter",
+      "address": 2685651782,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "RPM limiter",
+      "description": "RPM limiter",
+      "address": 2685651784,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Speed limiter",
+      "description": "Speed limiter",
+      "address": 2685651786,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kph",
+      "min": 0,
+      "max": 655.340027,
+      "factor": 0.01,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Speed limiter",
+      "description": "Speed limiter",
+      "address": 2685651788,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kph",
+      "min": 0,
+      "max": 655.340027,
+      "factor": 0.01,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Speed limiter",
+      "description": "Speed limiter",
+      "address": 2685651790,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kph",
+      "min": 0,
+      "max": 655.340027,
+      "factor": 0.01,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Speed limiter",
+      "description": "Speed limiter",
+      "address": 2685651792,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kph",
+      "min": 0,
+      "max": 655.340027,
+      "factor": 0.01,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Speed limiter",
+      "description": "Speed limiter",
+      "address": 2685651794,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kph",
+      "min": 0,
+      "max": 655.340027,
+      "factor": 0.01,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Pops enable",
+      "description": "Pops enable",
+      "address": 2685651796,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Pops enable",
+      "description": "Pops enable",
+      "address": 2685651797,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Pops enable",
+      "description": "Pops enable",
+      "address": 2685651798,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Pops enable",
+      "description": "Pops enable",
+      "address": 2685651799,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Pops enable",
+      "description": "Pops enable",
+      "address": 2685651800,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Lambda modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685651802,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": -31.99,
+      "max": 31.99,
+      "factor": 0.000976562500038148,
+      "offset": -32.00000000125004,
+      "categories": [
+        "TC"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "Lambda modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685651994,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": -31.99,
+      "max": 31.99,
+      "factor": 0.000976562500038148,
+      "offset": -32.00000000125004,
+      "categories": [
+        "Map Slot 1"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "Lambda modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685652186,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": -31.99,
+      "max": 31.99,
+      "factor": 0.000976562500038148,
+      "offset": -32.00000000125004,
+      "categories": [
+        "Map Slot 2"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "Lambda modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685652378,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": -31.99,
+      "max": 31.99,
+      "factor": 0.000976562500038148,
+      "offset": -32.00000000125004,
+      "categories": [
+        "Map Slot 3"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "Lambda modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685652570,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": -31.99,
+      "max": 31.99,
+      "factor": 0.000976562500038148,
+      "offset": -32.00000000125004,
+      "categories": [
+        "Map Slot 4"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "Spark modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685652762,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -35.619999,
+      "max": 60,
+      "factor": 0.37499999999999994,
+      "offset": -35.62499999999999,
+      "categories": [
+        "TC"
+      ],
+      "rows": 16,
+      "cols": 16
+    },
+    {
+      "name": "Spark modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685653018,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -35.619999,
+      "max": 60,
+      "factor": 0.37499999999999994,
+      "offset": -35.62499999999999,
+      "categories": [
+        "Map Slot 1"
+      ],
+      "rows": 16,
+      "cols": 16
+    },
+    {
+      "name": "Spark modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685653274,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -35.619999,
+      "max": 60,
+      "factor": 0.37499999999999994,
+      "offset": -35.62499999999999,
+      "categories": [
+        "Map Slot 2"
+      ],
+      "rows": 16,
+      "cols": 16
+    },
+    {
+      "name": "Spark modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685653530,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -35.619999,
+      "max": 60,
+      "factor": 0.37499999999999994,
+      "offset": -35.62499999999999,
+      "categories": [
+        "Map Slot 3"
+      ],
+      "rows": 16,
+      "cols": 16
+    },
+    {
+      "name": "Spark modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685653786,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -35.619999,
+      "max": 60,
+      "factor": 0.37499999999999994,
+      "offset": -35.62499999999999,
+      "categories": [
+        "Map Slot 4"
+      ],
+      "rows": 16,
+      "cols": 16
+    },
+    {
+      "name": "PUT setpoint",
+      "description": "|X: x|Y: y",
+      "address": 2685654042,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "hpa",
+      "min": 0,
+      "max": 5434,
+      "factor": 0.08291752498664837,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "PUT setpoint",
+      "description": "|X: x|Y: y",
+      "address": 2685654234,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "hpa",
+      "min": 0,
+      "max": 5434,
+      "factor": 0.08291752498664837,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "PUT setpoint",
+      "description": "|X: x|Y: y",
+      "address": 2685654426,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "hpa",
+      "min": 0,
+      "max": 5434,
+      "factor": 0.08291752498664837,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "PUT setpoint",
+      "description": "|X: x|Y: y",
+      "address": 2685654618,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "hpa",
+      "min": 0,
+      "max": 5434,
+      "factor": 0.08291752498664837,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "PUT setpoint",
+      "description": "|X: x|Y: y",
+      "address": 2685654810,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "hpa",
+      "min": 0,
+      "max": 5434,
+      "factor": 0.08291752498664837,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "Enable flex fuel spark modifier",
+      "description": "Enable flex fuel spark modifier",
+      "address": 2685655028,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Enable flex fuel spark modifier",
+      "description": "Enable flex fuel spark modifier",
+      "address": 2685655034,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Enable flex fuel spark modifier",
+      "description": "Enable flex fuel spark modifier",
+      "address": 2685655040,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Enable flex fuel spark modifier",
+      "description": "Enable flex fuel spark modifier",
+      "address": 2685655046,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Enable flex fuel spark modifier",
+      "description": "Enable flex fuel spark modifier",
+      "address": 2685655052,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Enable flex fuel PUT modifier",
+      "description": "Enable flex fuel PUT modifier",
+      "address": 2685655029,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Enable flex fuel PUT modifier",
+      "description": "Enable flex fuel PUT modifier",
+      "address": 2685655035,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Enable flex fuel PUT modifier",
+      "description": "Enable flex fuel PUT modifier",
+      "address": 2685655041,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Enable flex fuel PUT modifier",
+      "description": "Enable flex fuel PUT modifier",
+      "address": 2685655047,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Enable flex fuel PUT modifier",
+      "description": "Enable flex fuel PUT modifier",
+      "address": 2685655053,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Enable flex fuel lambda modifier",
+      "description": "Enable flex fuel lambda modifier",
+      "address": 2685655030,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Enable flex fuel lambda modifier",
+      "description": "Enable flex fuel lambda modifier",
+      "address": 2685655036,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Enable flex fuel lambda modifier",
+      "description": "Enable flex fuel lambda modifier",
+      "address": 2685655042,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Enable flex fuel lambda modifier",
+      "description": "Enable flex fuel lambda modifier",
+      "address": 2685655048,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Enable flex fuel lambda modifier",
+      "description": "Enable flex fuel lambda modifier",
+      "address": 2685655054,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Enable flex fuel TQ modifier",
+      "description": "Enable flex fuel TQ modifier",
+      "address": 2685655031,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Enable flex fuel TQ modifier",
+      "description": "Enable flex fuel TQ modifier",
+      "address": 2685655037,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Enable flex fuel TQ modifier",
+      "description": "Enable flex fuel TQ modifier",
+      "address": 2685655043,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Enable flex fuel TQ modifier",
+      "description": "Enable flex fuel TQ modifier",
+      "address": 2685655049,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Enable flex fuel TQ modifier",
+      "description": "Enable flex fuel TQ modifier",
+      "address": 2685655055,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Enable flex fuel IAT modifier",
+      "description": "Enable flex fuel IAT modifier",
+      "address": 2685655032,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Enable flex fuel IAT modifier",
+      "description": "Enable flex fuel IAT modifier",
+      "address": 2685655038,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Enable flex fuel IAT modifier",
+      "description": "Enable flex fuel IAT modifier",
+      "address": 2685655044,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Enable flex fuel IAT modifier",
+      "description": "Enable flex fuel IAT modifier",
+      "address": 2685655050,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Enable flex fuel IAT modifier",
+      "description": "Enable flex fuel IAT modifier",
+      "address": 2685655056,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Enable flex fuel MPI modifier",
+      "description": "Enable flex fuel MPI modifier",
+      "address": 2685655033,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Enable flex fuel MPI modifier",
+      "description": "Enable flex fuel MPI modifier",
+      "address": 2685655039,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Enable flex fuel MPI modifier",
+      "description": "Enable flex fuel MPI modifier",
+      "address": 2685655045,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Enable flex fuel MPI modifier",
+      "description": "Enable flex fuel MPI modifier",
+      "address": 2685655051,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Enable flex fuel MPI modifier",
+      "description": "Enable flex fuel MPI modifier",
+      "address": 2685655057,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Enable RAL",
+      "description": "Enable RAL",
+      "address": 2685655068,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Enable RAL",
+      "description": "Enable RAL",
+      "address": 2685655069,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Enable RAL",
+      "description": "Enable RAL",
+      "address": 2685655070,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Enable RAL",
+      "description": "Enable RAL",
+      "address": 2685655071,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Enable RAL",
+      "description": "Enable RAL",
+      "address": 2685655072,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Enable NLS",
+      "description": "Enable NLS",
+      "address": 2685655088,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Enable NLS",
+      "description": "Enable NLS",
+      "address": 2685655089,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Enable NLS",
+      "description": "Enable NLS",
+      "address": 2685655090,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Enable NLS",
+      "description": "Enable NLS",
+      "address": 2685655091,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Enable NLS",
+      "description": "Enable NLS",
+      "address": 2685655092,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Enable LC",
+      "description": "Enable LC",
+      "address": 2685655093,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Enable LC",
+      "description": "Enable LC",
+      "address": 2685655094,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Enable LC",
+      "description": "Enable LC",
+      "address": 2685655095,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Enable LC",
+      "description": "Enable LC",
+      "address": 2685655096,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Enable LC",
+      "description": "Enable LC",
+      "address": 2685655097,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Disable OEM TC",
+      "description": "Disable OEM TC",
+      "address": 2685655098,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Disable OEM TC",
+      "description": "Disable OEM TC",
+      "address": 2685655099,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Disable OEM TC",
+      "description": "Disable OEM TC",
+      "address": 2685655100,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Disable OEM TC",
+      "description": "Disable OEM TC",
+      "address": 2685655101,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Disable OEM TC",
+      "description": "Disable OEM TC",
+      "address": 2685655102,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Enable SL TC",
+      "description": "Enable SL TC",
+      "address": 2685655103,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Enable SL TC",
+      "description": "Enable SL TC",
+      "address": 2685655104,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Enable SL TC",
+      "description": "Enable SL TC",
+      "address": 2685655105,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Enable SL TC",
+      "description": "Enable SL TC",
+      "address": 2685655106,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Enable SL TC",
+      "description": "Enable SL TC",
+      "address": 2685655107,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Manual AFU",
+      "description": "This does not set manual AFU active, this only adjusts the value",
+      "address": 2685655130,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Manual AFU",
+      "description": "This does not set manual AFU active, this only adjusts the value",
+      "address": 2685655131,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Manual AFU",
+      "description": "This does not set manual AFU active, this only adjusts the value",
+      "address": 2685655132,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Manual AFU",
+      "description": "This does not set manual AFU active, this only adjusts the value",
+      "address": 2685655133,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Manual AFU",
+      "description": "This does not set manual AFU active, this only adjusts the value",
+      "address": 2685655134,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    },
+    {
+      "name": "Weight",
+      "description": "|X: x",
+      "address": 2685661200,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 2,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 5",
+        "Flex Fuel"
+      ],
+      "cols": 8
+    },
+    {
+      "name": "Weight",
+      "description": "|X: x",
+      "address": 2685661192,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 2,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 5",
+        "Spark"
+      ],
+      "cols": 8
+    },
+    {
+      "name": "Weight",
+      "description": "|X: x",
+      "address": 2685661208,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 2,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 5",
+        "PUT"
+      ],
+      "cols": 8
+    },
+    {
+      "name": "Weight",
+      "description": "|X: x",
+      "address": 2685661216,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 2,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 5",
+        "Lambda"
+      ],
+      "cols": 8
+    },
+    {
+      "name": "Weight",
+      "description": "|X: x",
+      "address": 2685661232,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 2,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 5",
+        "TQ"
+      ],
+      "cols": 8
+    },
+    {
+      "name": "Weight",
+      "description": "|X: x",
+      "address": 2685661224,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 2,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 5",
+        "IAT"
+      ],
+      "cols": 8
+    },
+    {
+      "name": "Modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685661272,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": -1,
+      "max": 1,
+      "factor": 0.0078125,
+      "offset": -1,
+      "categories": [
+        "Map Slot 5",
+        "IAT"
+      ],
+      "rows": 10,
+      "cols": 8
+    },
+    {
+      "name": "Modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685661352,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0,
+      "max": 1023.969971,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 5",
+        "Lambda"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685661712,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": -31.99,
+      "max": 31.99,
+      "factor": 0.000976562500038148,
+      "offset": -32.00000000125004,
+      "categories": [
+        "Map Slot 5",
+        "PUT"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "Modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685661904,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "degree",
+      "min": -48,
+      "max": 47.619999,
+      "factor": 0.37499999999999994,
+      "offset": -35.62499999999999,
+      "categories": [
+        "Map Slot 5",
+        "Flex Fuel"
+      ],
+      "rows": 16,
+      "cols": 16
+    },
+    {
+      "name": "Modifier",
+      "description": "|X: x|Y: y",
+      "address": 2685662160,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "hpa",
+      "min": -2717,
+      "max": 2717,
+      "factor": 0.08291752498664837,
+      "offset": -2717.0414587624937,
+      "categories": [
+        "Map Slot 5",
+        "Spark"
+      ],
+      "rows": 8,
+      "cols": 12
+    },
+    {
+      "name": "PUT SP RPM Axis",
+      "description": "PUT SP RPM Axis",
+      "address": 2685655004,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Misc"
+      ],
+      "cols": 12
+    },
+    {
+      "name": "PUT SP RPM Axis Header",
+      "description": "must be 12",
+      "address": 2685655002,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0,
+      "max": 8160,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Misc"
+      ]
+    },
+    {
+      "name": "EGT ignition axis",
+      "description": "EGT ignition axis",
+      "address": 2685655076,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "c",
+      "min": 0,
+      "max": 1775,
+      "factor": 0.03125,
+      "offset": -273,
+      "categories": [
+        "Knock"
+      ],
+      "cols": 4
+    },
+    {
+      "name": "EGT ignition axis Header",
+      "description": "must be 4",
+      "address": 2685655074,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0,
+      "max": 1775,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Knock"
+      ]
+    },
+    {
+      "name": "Flex fuel weight axis",
+      "description": "Flex fuel weight axis",
+      "address": 2685661184,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "e",
+      "min": 0,
+      "max": 2,
+      "factor": 0.0078125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 5"
+      ],
+      "cols": 8
+    },
+    {
+      "name": "Flex fuel weight axis Header",
+      "description": "must be 8",
+      "address": 2685661183,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 8,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 5"
+      ]
+    },
+    {
+      "name": "Torque Request AT Type 1",
+      "description": "|X: x|Y: y",
+      "address": 2686722964,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 2",
+      "description": "|X: x|Y: y",
+      "address": 2686723324,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 3",
+      "description": "|X: x|Y: y",
+      "address": 2686723684,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 1",
+      "description": "|X: x|Y: y",
+      "address": 2686724044,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 2",
+      "description": "|X: x|Y: y",
+      "address": 2686724404,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 3",
+      "description": "|X: x|Y: y",
+      "address": 2686724764,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 1",
+      "description": "|X: x|Y: y",
+      "address": 2686725124,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 2",
+      "description": "|X: x|Y: y",
+      "address": 2686725484,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 3",
+      "description": "|X: x|Y: y",
+      "address": 2686725844,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 1",
+      "description": "|X: x|Y: y",
+      "address": 2686726204,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 2",
+      "description": "|X: x|Y: y",
+      "address": 2686726564,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 3",
+      "description": "|X: x|Y: y",
+      "address": 2686726924,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 1",
+      "description": "|X: x|Y: y",
+      "address": 2686727284,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 2",
+      "description": "|X: x|Y: y",
+      "address": 2686727644,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request AT Type 3",
+      "description": "|X: x|Y: y",
+      "address": 2686728004,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ],
+      "rows": 9,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request MT Type 1",
+      "description": "|X: x|Y: y",
+      "address": 2686730044,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ],
+      "rows": 7,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request MT Type 2",
+      "description": "|X: x|Y: y",
+      "address": 2686730324,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ],
+      "rows": 7,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request MT Type 1",
+      "description": "|X: x|Y: y",
+      "address": 2686730604,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ],
+      "rows": 7,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request MT Type 2",
+      "description": "|X: x|Y: y",
+      "address": 2686730884,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ],
+      "rows": 7,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request MT Type 1",
+      "description": "|X: x|Y: y",
+      "address": 2686731164,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ],
+      "rows": 7,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request MT Type 2",
+      "description": "|X: x|Y: y",
+      "address": 2686731444,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ],
+      "rows": 7,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request MT Type 1",
+      "description": "|X: x|Y: y",
+      "address": 2686731724,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ],
+      "rows": 7,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request MT Type 2",
+      "description": "|X: x|Y: y",
+      "address": 2686732004,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ],
+      "rows": 7,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request MT Type 1",
+      "description": "|X: x|Y: y",
+      "address": 2686732284,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ],
+      "rows": 7,
+      "cols": 20
+    },
+    {
+      "name": "Torque Request MT Type 2",
+      "description": "|X: x|Y: y",
+      "address": 2686732564,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0,
+      "max": 1024,
+      "factor": 0.03125,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ],
+      "rows": 7,
+      "cols": 20
+    },
+    {
+      "name": "Gauge settings (bitmask)",
+      "description": "Gauge settings (bitmask)",
+      "address": 2685662352,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 255,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "TC"
+      ]
+    },
+    {
+      "name": "Gauge settings (bitmask)",
+      "description": "Gauge settings (bitmask)",
+      "address": 2685662353,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 255,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 1"
+      ]
+    },
+    {
+      "name": "Gauge settings (bitmask)",
+      "description": "Gauge settings (bitmask)",
+      "address": 2685662354,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 255,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 2"
+      ]
+    },
+    {
+      "name": "Gauge settings (bitmask)",
+      "description": "Gauge settings (bitmask)",
+      "address": 2685662355,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 255,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 3"
+      ]
+    },
+    {
+      "name": "Gauge settings (bitmask)",
+      "description": "Gauge settings (bitmask)",
+      "address": 2685662356,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 255,
+      "factor": 1,
+      "offset": 0,
+      "categories": [
+        "Map Slot 4"
+      ]
+    }
+  ]
+}

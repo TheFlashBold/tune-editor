@@ -10,6 +10,8 @@ export class XDFParser {
   private xmlDoc: Document | null = null;
   private csvMappings: CsvMapping[] = [];
   private matchedCount = 0;
+  private baseOffset = 0;
+  private categoryMap: Map<number, string> = new Map();
 
   parseCsv(csvContent: string): void {
     const lines = csvContent.split('\n');
@@ -57,11 +59,37 @@ export class XDFParser {
 
   async parseXDF(file: File): Promise<void> {
     const text = await file.text();
-    const parser = new DOMParser();
-    this.xmlDoc = parser.parseFromString(text, 'text/xml');
+    this.parseXDFString(text);
   }
 
-  generateDefinition(name: string): Definition {
+  parseXDFString(text: string): void {
+    const parser = new DOMParser();
+    this.xmlDoc = parser.parseFromString(text, 'text/xml');
+
+    // Parse BASEOFFSET from XDFHEADER
+    const baseOffsetEl = this.xmlDoc.querySelector('XDFHEADER > BASEOFFSET');
+    if (baseOffsetEl) {
+      this.baseOffset = parseInt(baseOffsetEl.getAttribute('offset') || '0', 10);
+    }
+
+    // Parse CATEGORY elements from XDFHEADER
+    this.categoryMap.clear();
+    const categories = this.xmlDoc.querySelectorAll('XDFHEADER > CATEGORY');
+    for (const cat of categories) {
+      const indexStr = cat.getAttribute('index') || '0';
+      const index = parseInt(indexStr, indexStr.startsWith('0x') ? 16 : 10);
+      const name = cat.getAttribute('name') || '';
+      if (name) {
+        this.categoryMap.set(index, name);
+      }
+    }
+  }
+
+  getBaseOffset(): number {
+    return this.baseOffset;
+  }
+
+  generateDefinition(name: string, addressTransform?: (addr: number) => number): Definition {
     if (!this.xmlDoc) {
       throw new Error('No XDF file parsed');
     }
@@ -72,7 +100,7 @@ export class XDFParser {
     // Parse XDFTABLE elements (tables and curves)
     const tables = this.xmlDoc.querySelectorAll('XDFTABLE');
     for (const table of tables) {
-      const param = this.parseTable(table);
+      const param = this.parseTable(table, addressTransform);
       if (param) {
         parameters.push(param);
       }
@@ -81,7 +109,7 @@ export class XDFParser {
     // Parse XDFCONSTANT elements (single values)
     const constants = this.xmlDoc.querySelectorAll('XDFCONSTANT');
     for (const constant of constants) {
-      const param = this.parseConstant(constant);
+      const param = this.parseConstant(constant, addressTransform);
       if (param) {
         parameters.push(param);
       }
@@ -94,34 +122,72 @@ export class XDFParser {
     };
   }
 
-  private parseTable(element: Element): Parameter | null {
+  private resolveCategories(element: Element): string[] {
+    // Use CATEGORYMEM elements to resolve category names
+    const catMems = element.querySelectorAll(':scope > CATEGORYMEM');
+    const categories: string[] = [];
+
+    for (const catMem of catMems) {
+      const catIndex = parseInt(catMem.getAttribute('category') || '0', 10);
+      const catName = this.categoryMap.get(catIndex);
+      if (catName) {
+        categories.push(catName);
+      }
+    }
+
+    return categories;
+  }
+
+  private parseTable(element: Element, addressTransform?: (addr: number) => number): Parameter | null {
     const title = element.querySelector('title')?.textContent || '';
     const description = element.querySelector('description')?.textContent || title;
 
-    // Get main data info
-    const embeddedData = element.querySelector('embeddedData');
+    // In XDF format, the z-axis contains the main data (address, type, dimensions)
+    const zAxis = element.querySelector(':scope > XDFAXIS[id="z"]');
+    const zEmbedded = zAxis?.querySelector('embeddedData') || zAxis?.querySelector('EMBEDDEDDATA');
+
+    // Try table-level embeddedData first, then fall back to z-axis
+    let embeddedData = element.querySelector(':scope > embeddedData') || element.querySelector(':scope > EMBEDDEDDATA');
+    if (!embeddedData && zEmbedded) {
+      embeddedData = zEmbedded;
+    }
     if (!embeddedData) return null;
 
     const address = this.parseAddress(embeddedData.getAttribute('mmedaddress'));
     if (address === null) return null;
 
+    const finalAddress = addressTransform ? addressTransform(address) : address;
+
     const sizeBits = parseInt(embeddedData.getAttribute('mmedelementsizebits') || '8', 10);
     const typeFlags = parseInt(embeddedData.getAttribute('mmedtypeflags') || '0', 16);
     const dataType = this.getDataType(sizeBits, typeFlags);
 
-    // Parse math equation for factor/offset
-    const { factor, offset } = this.parseMath(element.querySelector(':scope > MATH'));
+    // Parse math equation from z-axis or table-level MATH
+    const mathElement = zAxis?.querySelector('MATH') || element.querySelector(':scope > MATH');
+    const { factor, offset } = this.parseMath(mathElement);
 
-    // Parse axes
+    // Get units/min/max from z-axis or table level
+    const unitSource = zAxis || element;
+    const unit = unitSource.querySelector('units')?.textContent || '';
+    const min = parseFloat(unitSource.querySelector('min')?.textContent || '0');
+    const max = parseFloat(unitSource.querySelector('max')?.textContent || '65535');
+
+    // Parse x/y axes
     const axes = element.querySelectorAll(':scope > XDFAXIS');
     let xAxis: AxisDefinition | undefined;
     let yAxis: AxisDefinition | undefined;
     let cols = 1;
     let rows = 1;
 
+    // Get rows from z-axis mmedrowcount if available
+    const zRowCount = parseInt(embeddedData.getAttribute('mmedrowcount') || '0', 10);
+    const zColCount = parseInt(embeddedData.getAttribute('mmedcolcount') || '0', 10);
+
     for (const axis of axes) {
       const axisId = axis.getAttribute('id');
-      const axisDef = this.parseAxis(axis);
+      if (axisId === 'z') continue; // z-axis is the data, not a dimension axis
+
+      const axisDef = this.parseAxis(axis, addressTransform);
 
       if (axisId === 'x' && axisDef) {
         xAxis = axisDef;
@@ -132,34 +198,43 @@ export class XDFParser {
       }
     }
 
+    // Use z-axis dimensions if x/y didn't provide them
+    if (zColCount > 0 && cols === 1) cols = zColCount;
+    if (zRowCount > 0 && rows === 1) rows = zRowCount;
+
     // Determine type
     let type: 'VALUE' | 'CURVE' | 'MAP' = 'VALUE';
-    if (yAxis && yAxis.points > 1) {
+    if ((yAxis && yAxis.points > 1) || (rows > 1 && cols > 1)) {
       type = 'MAP';
-    } else if (xAxis && xAxis.points > 1) {
+    } else if ((xAxis && xAxis.points > 1) || cols > 1) {
       type = 'CURVE';
     }
 
-    // Apply CSV mapping
-    const { categories, customName } = this.findMapping(title);
+    // Resolve categories from CATEGORYMEM or CSV mapping
+    let categories: string[];
+    let customName = '';
 
-    // Skip if CSV is loaded but no match found
-    if (this.csvMappings.length > 0 && categories.length === 0) {
-      return null;
-    }
+    if (this.csvMappings.length > 0) {
+      const mapping = this.findMapping(title);
+      categories = mapping.categories;
+      customName = mapping.customName;
 
-    if (categories.length > 0) {
+      // Skip if CSV is loaded but no match found
+      if (categories.length === 0) {
+        return null;
+      }
       this.matchedCount++;
+    } else {
+      categories = this.resolveCategories(element);
+      if (categories.length === 0) {
+        categories = ['Uncategorized'];
+      }
     }
-
-    const unit = element.querySelector('units')?.textContent || '';
-    const min = parseFloat(element.querySelector('min')?.textContent || '0');
-    const max = parseFloat(element.querySelector('max')?.textContent || '65535');
 
     return {
       name: title,
       description,
-      address,
+      address: finalAddress,
       type,
       dataType,
       unit,
@@ -171,20 +246,22 @@ export class XDFParser {
       yAxis,
       rows: type === 'MAP' ? rows : undefined,
       cols: type !== 'VALUE' ? cols : undefined,
-      categories: categories.length > 0 ? categories : ['Uncategorized'],
+      categories,
       customName: customName || undefined,
     };
   }
 
-  private parseConstant(element: Element): Parameter | null {
+  private parseConstant(element: Element, addressTransform?: (addr: number) => number): Parameter | null {
     const title = element.querySelector('title')?.textContent || '';
     const description = element.querySelector('description')?.textContent || title;
 
-    const embeddedData = element.querySelector('embeddedData');
+    const embeddedData = element.querySelector('embeddedData') || element.querySelector('EMBEDDEDDATA');
     if (!embeddedData) return null;
 
     const address = this.parseAddress(embeddedData.getAttribute('mmedaddress'));
     if (address === null) return null;
+
+    const finalAddress = addressTransform ? addressTransform(address) : address;
 
     const sizeBits = parseInt(embeddedData.getAttribute('mmedelementsizebits') || '8', 10);
     const typeFlags = parseInt(embeddedData.getAttribute('mmedtypeflags') || '0', 16);
@@ -192,14 +269,18 @@ export class XDFParser {
 
     const { factor, offset } = this.parseMath(element.querySelector('MATH'));
 
-    const { categories, customName } = this.findMapping(title);
+    let categories: string[];
+    let customName = '';
 
-    if (this.csvMappings.length > 0 && categories.length === 0) {
-      return null;
-    }
-
-    if (categories.length > 0) {
+    if (this.csvMappings.length > 0) {
+      const mapping = this.findMapping(title);
+      categories = mapping.categories;
+      customName = mapping.customName;
+      if (categories.length === 0) return null;
       this.matchedCount++;
+    } else {
+      categories = this.resolveCategories(element);
+      if (categories.length === 0) categories = ['Uncategorized'];
     }
 
     const unit = element.querySelector('units')?.textContent || '';
@@ -209,7 +290,7 @@ export class XDFParser {
     return {
       name: title,
       description,
-      address,
+      address: finalAddress,
       type: 'VALUE',
       dataType,
       unit,
@@ -217,24 +298,26 @@ export class XDFParser {
       max,
       factor,
       offset,
-      categories: categories.length > 0 ? categories : ['Uncategorized'],
+      categories,
       customName: customName || undefined,
     };
   }
 
-  private parseAxis(element: Element): AxisDefinition | null {
-    const embeddedData = element.querySelector('embeddedData');
-    const indexCount = parseInt(element.getAttribute('indexcount') || '1', 10);
+  private parseAxis(element: Element, addressTransform?: (addr: number) => number): AxisDefinition | null {
+    const embeddedData = element.querySelector('embeddedData') || element.querySelector('EMBEDDEDDATA');
+    const indexCountEl = element.querySelector('indexcount');
+    const indexCount = parseInt(indexCountEl?.textContent || '1', 10);
 
     if (indexCount <= 1) return null;
 
     let address: number | undefined;
     let dataType: DataType = 'UWORD';
-    let dataOffset = 0;
 
     if (embeddedData) {
       const addr = this.parseAddress(embeddedData.getAttribute('mmedaddress'));
-      if (addr !== null) address = addr;
+      if (addr !== null) {
+        address = addressTransform ? addressTransform(addr) : addr;
+      }
 
       const sizeBits = parseInt(embeddedData.getAttribute('mmedelementsizebits') || '16', 10);
       const typeFlags = parseInt(embeddedData.getAttribute('mmedtypeflags') || '0', 16);
@@ -256,7 +339,7 @@ export class XDFParser {
       dataType,
       factor,
       offset,
-      dataOffset,
+      dataOffset: 0,
     };
   }
 
@@ -267,8 +350,28 @@ export class XDFParser {
 
     const equation = mathElement.getAttribute('equation') || 'X';
 
-    // Parse common XDF math equations like "X * 0.1" or "X * 0.01 + 10"
-    // Format: X * factor + offset or X / divisor + offset
+    // Try rational function format: ((a * X) - b) / (c - (d * X))
+    const rationalMatch = equation.match(
+      /\(\(\s*([\d.]+)\s*\*\s*X\s*\)\s*-\s*([\d.]+)\s*\)\s*\/\s*\(\s*([\d.]+)\s*-\s*\(\s*([\d.]+)\s*\*\s*X\s*\)\s*\)/i
+    );
+    if (rationalMatch) {
+      const a = parseFloat(rationalMatch[1]);
+      const b = parseFloat(rationalMatch[2]);
+      const c = parseFloat(rationalMatch[3]);
+      const d = parseFloat(rationalMatch[4]);
+
+      if (d === 0 && c !== 0) {
+        // Simplifies to (a*X - b) / c = (a/c)*X - (b/c)
+        return { factor: a / c, offset: -(b / c) };
+      }
+      // Non-zero d: can't represent as simple factor+offset, approximate
+      // For display purposes, use a/c as factor and -b/c as offset
+      if (c !== 0) {
+        return { factor: a / c, offset: -(b / c) };
+      }
+    }
+
+    // Parse simpler XDF math equations like "X * 0.1" or "X * 0.01 + 10"
     let factor = 1;
     let offset = 0;
 
@@ -276,6 +379,12 @@ export class XDFParser {
     const mulMatch = equation.match(/X\s*\*\s*([\d.]+)/i);
     if (mulMatch) {
       factor = parseFloat(mulMatch[1]);
+    }
+
+    // Match: number * X
+    const mulMatch2 = equation.match(/([\d.]+)\s*\*\s*X/i);
+    if (!mulMatch && mulMatch2) {
+      factor = parseFloat(mulMatch2[1]);
     }
 
     // Match: X / number
