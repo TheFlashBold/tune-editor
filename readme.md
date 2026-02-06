@@ -74,6 +74,8 @@ Built-in support for [Switchleg1/BinToolz](https://github.com/Switchleg1/BinTool
 | SL CBRICK | CBOOT Brick Protection |
 | FREE SAP | Secondary Air Pump delete |
 | CAT | Catalyst monitoring delete |
+| DQ250 HSL | DSG Highspeed Logging |
+| Torque Limit | DSG DQ250 Torque Limit Increase |
 
 Patches with bundled XDF definitions automatically add their parameters to the category tree under "Patch". Custom `.btp` files can also be loaded via the file picker in the Patches dialog.
 

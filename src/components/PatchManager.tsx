@@ -236,6 +236,8 @@ export function PatchManager({
     'CBRICK': 'CBOOT Brick Protection',
     'FREE SAP': 'Secondary Air Pump Delete',
     'CAT': 'Catalyst Monitoring Delete',
+    'DSG HSL': 'DQ250 Highspeed Logging',
+    'DSG Torque Limit': 'DQ250 Torque Limit Increase',
   };
 
   const selectedReady = allResults.filter(r => selectedPatches.has(r.file) && r.status === 'ready').length;

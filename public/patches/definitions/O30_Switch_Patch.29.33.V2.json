@@ -36,7 +36,7 @@
     },
     {
       "name": "Additional blink time for blink mil on knock (ms)",
-      "description": "0 is disabled",
+      "description": "Additional blink time for blink mil on knock (ms) — 0 is disabled",
       "address": 2686958833,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -96,7 +96,7 @@
     },
     {
       "name": "Rev soft limit above engagement point",
-      "description": "At this point the engine cuts fuel and spark to 1 cylinder every 4",
+      "description": "Rev soft limit above engagement point — At this point the engine cuts fuel and spark to 1 cylinder every 4",
       "address": 2686958840,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -111,7 +111,7 @@
     },
     {
       "name": "Rev medium limit above engagement point",
-      "description": "At this point the engine cuts fuel and spark to 1 cylinder every 3",
+      "description": "Rev medium limit above engagement point — At this point the engine cuts fuel and spark to 1 cylinder every 3",
       "address": 2686958842,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -126,7 +126,7 @@
     },
     {
       "name": "Rev hard limit above engagement point",
-      "description": "At this point the engine cuts fuel and spark to 2 cylinder every 4",
+      "description": "Rev hard limit above engagement point — At this point the engine cuts fuel and spark to 2 cylinder every 4",
       "address": 2686958844,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -246,7 +246,7 @@
     },
     {
       "name": "RAL engagement button",
-      "description": "0: set 1: resume",
+      "description": "RAL engagement button — 0: set 1: resume",
       "address": 2686958854,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -261,7 +261,7 @@
     },
     {
       "name": "EGT ignition table",
-      "description": "|X: x",
+      "description": "EGT ignition table — |X: x",
       "address": 2686962188,
       "type": "CURVE",
       "dataType": "UBYTE",
@@ -292,7 +292,7 @@
     },
     {
       "name": "WG table ambient temperature compensation",
-      "description": "1.00 = 100%|X: x",
+      "description": "WG table ambient temperature compensation — 1.00 = 100%|X: x",
       "address": 2686962246,
       "type": "CURVE",
       "dataType": "UWORD",
@@ -324,7 +324,7 @@
     },
     {
       "name": "WG temperature axis header",
-      "description": "must be 6",
+      "description": "WG temperature axis header — must be 6",
       "address": 2686962239,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -339,7 +339,7 @@
     },
     {
       "name": "UI button",
-      "description": "0: Cruise Cancel(off) 1: Cruise Resume 2: Variable speed setpoint 3: Pedals",
+      "description": "UI button — 0: Cruise Cancel(off) 1: Cruise Resume 2: Variable speed setpoint 3: Pedals",
       "address": 2686958856,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -534,7 +534,7 @@
     },
     {
       "name": "Slip target straight",
-      "description": "Slip target while steering wheel is straight",
+      "description": "Slip target straight — Slip target while steering wheel is straight",
       "address": 2686962212,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -549,7 +549,7 @@
     },
     {
       "name": "Slip wheel angle multiplier",
-      "description": "Slip target multiplier calculated based on wheel angle and speed",
+      "description": "Slip wheel angle multiplier — Slip target multiplier calculated based on wheel angle and speed",
       "address": 2686962214,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -564,7 +564,7 @@
     },
     {
       "name": "Threshold increase on sustained slip",
-      "description": "Slip threshold is increased as wheel spin is sustained",
+      "description": "Threshold increase on sustained slip — Slip threshold is increased as wheel spin is sustained",
       "address": 2686962226,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -579,7 +579,7 @@
     },
     {
       "name": "Maximum allowed PID value (kph slip)",
-      "description": "PID will be clamped if it reaches this value",
+      "description": "Maximum allowed PID value (kph slip) — PID will be clamped if it reaches this value",
       "address": 2686962216,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -594,7 +594,7 @@
     },
     {
       "name": "Maximum allowed I value (kph slip)",
-      "description": "I will be clamped if it reaches this value",
+      "description": "Maximum allowed I value (kph slip) — I will be clamped if it reaches this value",
       "address": 2686962218,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -609,7 +609,7 @@
     },
     {
       "name": "PID filter amount",
-      "description": "How much smoothing to apply to PID value",
+      "description": "PID filter amount — How much smoothing to apply to PID value",
       "address": 2686962220,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -624,7 +624,7 @@
     },
     {
       "name": "PID I weight",
-      "description": "How quickly &apos;I&apos; will rise/fall on sustained error",
+      "description": "PID I weight — How quickly &apos;I&apos; will rise/fall on sustained error",
       "address": 2686962221,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -639,7 +639,7 @@
     },
     {
       "name": "PID D weight",
-      "description": "How much to resist change due to &apos;P&apos; error",
+      "description": "PID D weight — How much to resist change due to &apos;P&apos; error",
       "address": 2686962222,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -654,7 +654,7 @@
     },
     {
       "name": "Slip ignition weight",
-      "description": "How much ignition intervention per kph of slip",
+      "description": "Slip ignition weight — How much ignition intervention per kph of slip",
       "address": 2686962223,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -669,7 +669,7 @@
     },
     {
       "name": "Slip WG weight",
-      "description": "How much WG intervention per kph of slip",
+      "description": "Slip WG weight — How much WG intervention per kph of slip",
       "address": 2686962224,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -699,7 +699,7 @@
     },
     {
       "name": "SCC duration",
-      "description": "Amount of time to run SCC after P drops below threshold",
+      "description": "SCC duration — Amount of time to run SCC after P drops below threshold",
       "address": 2686962227,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -714,7 +714,7 @@
     },
     {
       "name": "SCC Threshold",
-      "description": "SCC will start when value of P reaches this value",
+      "description": "SCC Threshold — SCC will start when value of P reaches this value",
       "address": 2686962228,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -954,7 +954,7 @@
     },
     {
       "name": "Lambda modifier",
-      "description": "|X: x|Y: y",
+      "description": "Lambda modifier — |X: x|Y: y",
       "address": 2686958906,
       "type": "MAP",
       "dataType": "UWORD",
@@ -971,7 +971,7 @@
     },
     {
       "name": "Lambda modifier",
-      "description": "|X: x|Y: y",
+      "description": "Lambda modifier — |X: x|Y: y",
       "address": 2686959098,
       "type": "MAP",
       "dataType": "UWORD",
@@ -988,7 +988,7 @@
     },
     {
       "name": "Lambda modifier",
-      "description": "|X: x|Y: y",
+      "description": "Lambda modifier — |X: x|Y: y",
       "address": 2686959290,
       "type": "MAP",
       "dataType": "UWORD",
@@ -1005,7 +1005,7 @@
     },
     {
       "name": "Lambda modifier",
-      "description": "|X: x|Y: y",
+      "description": "Lambda modifier — |X: x|Y: y",
       "address": 2686959482,
       "type": "MAP",
       "dataType": "UWORD",
@@ -1022,7 +1022,7 @@
     },
     {
       "name": "Lambda modifier",
-      "description": "|X: x|Y: y",
+      "description": "Lambda modifier — |X: x|Y: y",
       "address": 2686959674,
       "type": "MAP",
       "dataType": "UWORD",
@@ -1039,7 +1039,7 @@
     },
     {
       "name": "Spark modifier",
-      "description": "|X: x|Y: y",
+      "description": "Spark modifier — |X: x|Y: y",
       "address": 2686959866,
       "type": "MAP",
       "dataType": "UBYTE",
@@ -1056,7 +1056,7 @@
     },
     {
       "name": "Spark modifier",
-      "description": "|X: x|Y: y",
+      "description": "Spark modifier — |X: x|Y: y",
       "address": 2686960122,
       "type": "MAP",
       "dataType": "UBYTE",
@@ -1073,7 +1073,7 @@
     },
     {
       "name": "Spark modifier",
-      "description": "|X: x|Y: y",
+      "description": "Spark modifier — |X: x|Y: y",
       "address": 2686960378,
       "type": "MAP",
       "dataType": "UBYTE",
@@ -1090,7 +1090,7 @@
     },
     {
       "name": "Spark modifier",
-      "description": "|X: x|Y: y",
+      "description": "Spark modifier — |X: x|Y: y",
       "address": 2686960634,
       "type": "MAP",
       "dataType": "UBYTE",
@@ -1107,7 +1107,7 @@
     },
     {
       "name": "Spark modifier",
-      "description": "|X: x|Y: y",
+      "description": "Spark modifier — |X: x|Y: y",
       "address": 2686960890,
       "type": "MAP",
       "dataType": "UBYTE",
@@ -1124,7 +1124,7 @@
     },
     {
       "name": "PUT setpoint",
-      "description": "|X: x|Y: y",
+      "description": "PUT setpoint — |X: x|Y: y",
       "address": 2686961146,
       "type": "MAP",
       "dataType": "UWORD",
@@ -1141,7 +1141,7 @@
     },
     {
       "name": "PUT setpoint",
-      "description": "|X: x|Y: y",
+      "description": "PUT setpoint — |X: x|Y: y",
       "address": 2686961338,
       "type": "MAP",
       "dataType": "UWORD",
@@ -1158,7 +1158,7 @@
     },
     {
       "name": "PUT setpoint",
-      "description": "|X: x|Y: y",
+      "description": "PUT setpoint — |X: x|Y: y",
       "address": 2686961530,
       "type": "MAP",
       "dataType": "UWORD",
@@ -1175,7 +1175,7 @@
     },
     {
       "name": "PUT setpoint",
-      "description": "|X: x|Y: y",
+      "description": "PUT setpoint — |X: x|Y: y",
       "address": 2686961722,
       "type": "MAP",
       "dataType": "UWORD",
@@ -1192,7 +1192,7 @@
     },
     {
       "name": "PUT setpoint",
-      "description": "|X: x|Y: y",
+      "description": "PUT setpoint — |X: x|Y: y",
       "address": 2686961914,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2034,7 +2034,7 @@
     },
     {
       "name": "Manual AFU",
-      "description": "This does not set manual AFU active, this only adjusts the value",
+      "description": "Manual AFU — This does not set manual AFU active, this only adjusts the value",
       "address": 2686962234,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -2049,7 +2049,7 @@
     },
     {
       "name": "Manual AFU",
-      "description": "This does not set manual AFU active, this only adjusts the value",
+      "description": "Manual AFU — This does not set manual AFU active, this only adjusts the value",
       "address": 2686962235,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -2064,7 +2064,7 @@
     },
     {
       "name": "Manual AFU",
-      "description": "This does not set manual AFU active, this only adjusts the value",
+      "description": "Manual AFU — This does not set manual AFU active, this only adjusts the value",
       "address": 2686962236,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -2079,7 +2079,7 @@
     },
     {
       "name": "Manual AFU",
-      "description": "This does not set manual AFU active, this only adjusts the value",
+      "description": "Manual AFU — This does not set manual AFU active, this only adjusts the value",
       "address": 2686962237,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -2094,7 +2094,7 @@
     },
     {
       "name": "Manual AFU",
-      "description": "This does not set manual AFU active, this only adjusts the value",
+      "description": "Manual AFU — This does not set manual AFU active, this only adjusts the value",
       "address": 2686962238,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -2109,7 +2109,7 @@
     },
     {
       "name": "Weight",
-      "description": "|X: x",
+      "description": "Weight — |X: x",
       "address": 2686968304,
       "type": "CURVE",
       "dataType": "UBYTE",
@@ -2126,7 +2126,7 @@
     },
     {
       "name": "Weight",
-      "description": "|X: x",
+      "description": "Weight — |X: x",
       "address": 2686968296,
       "type": "CURVE",
       "dataType": "UBYTE",
@@ -2143,7 +2143,7 @@
     },
     {
       "name": "Weight",
-      "description": "|X: x",
+      "description": "Weight — |X: x",
       "address": 2686968312,
       "type": "CURVE",
       "dataType": "UBYTE",
@@ -2160,7 +2160,7 @@
     },
     {
       "name": "Weight",
-      "description": "|X: x",
+      "description": "Weight — |X: x",
       "address": 2686968320,
       "type": "CURVE",
       "dataType": "UBYTE",
@@ -2177,7 +2177,7 @@
     },
     {
       "name": "Weight",
-      "description": "|X: x",
+      "description": "Weight — |X: x",
       "address": 2686968336,
       "type": "CURVE",
       "dataType": "UBYTE",
@@ -2194,7 +2194,7 @@
     },
     {
       "name": "Weight",
-      "description": "|X: x",
+      "description": "Weight — |X: x",
       "address": 2686968328,
       "type": "CURVE",
       "dataType": "UBYTE",
@@ -2211,7 +2211,7 @@
     },
     {
       "name": "Modifier",
-      "description": "|X: x|Y: y",
+      "description": "Modifier — |X: x|Y: y",
       "address": 2686968376,
       "type": "MAP",
       "dataType": "UBYTE",
@@ -2229,7 +2229,7 @@
     },
     {
       "name": "Modifier",
-      "description": "|X: x|Y: y",
+      "description": "Modifier — |X: x|Y: y",
       "address": 2686968456,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2247,7 +2247,7 @@
     },
     {
       "name": "Modifier",
-      "description": "|X: x|Y: y",
+      "description": "Modifier — |X: x|Y: y",
       "address": 2686968816,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2265,7 +2265,7 @@
     },
     {
       "name": "Modifier",
-      "description": "|X: x|Y: y",
+      "description": "Modifier — |X: x|Y: y",
       "address": 2686969008,
       "type": "MAP",
       "dataType": "UBYTE",
@@ -2283,7 +2283,7 @@
     },
     {
       "name": "Modifier",
-      "description": "|X: x|Y: y",
+      "description": "Modifier — |X: x|Y: y",
       "address": 2686969264,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2317,7 +2317,7 @@
     },
     {
       "name": "PUT SP RPM Axis Header",
-      "description": "must be 12",
+      "description": "PUT SP RPM Axis Header — must be 12",
       "address": 2686962106,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -2348,7 +2348,7 @@
     },
     {
       "name": "EGT ignition axis Header",
-      "description": "must be 4",
+      "description": "EGT ignition axis Header — must be 4",
       "address": 2686962178,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -2379,7 +2379,7 @@
     },
     {
       "name": "Flex fuel weight axis Header",
-      "description": "must be 8",
+      "description": "Flex fuel weight axis Header — must be 8",
       "address": 2686968287,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -2394,7 +2394,7 @@
     },
     {
       "name": "Torque Request AT Type 1",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 1 — |X: x|Y: y",
       "address": 2686873172,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2411,7 +2411,7 @@
     },
     {
       "name": "Torque Request AT Type 2",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 2 — |X: x|Y: y",
       "address": 2686873532,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2428,7 +2428,7 @@
     },
     {
       "name": "Torque Request AT Type 3",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 3 — |X: x|Y: y",
       "address": 2686873892,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2445,7 +2445,7 @@
     },
     {
       "name": "Torque Request AT Type 1",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 1 — |X: x|Y: y",
       "address": 2686874252,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2462,7 +2462,7 @@
     },
     {
       "name": "Torque Request AT Type 2",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 2 — |X: x|Y: y",
       "address": 2686874612,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2479,7 +2479,7 @@
     },
     {
       "name": "Torque Request AT Type 3",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 3 — |X: x|Y: y",
       "address": 2686874972,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2496,7 +2496,7 @@
     },
     {
       "name": "Torque Request AT Type 1",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 1 — |X: x|Y: y",
       "address": 2686875332,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2513,7 +2513,7 @@
     },
     {
       "name": "Torque Request AT Type 2",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 2 — |X: x|Y: y",
       "address": 2686875692,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2530,7 +2530,7 @@
     },
     {
       "name": "Torque Request AT Type 3",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 3 — |X: x|Y: y",
       "address": 2686876052,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2547,7 +2547,7 @@
     },
     {
       "name": "Torque Request AT Type 1",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 1 — |X: x|Y: y",
       "address": 2686876412,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2564,7 +2564,7 @@
     },
     {
       "name": "Torque Request AT Type 2",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 2 — |X: x|Y: y",
       "address": 2686876772,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2581,7 +2581,7 @@
     },
     {
       "name": "Torque Request AT Type 3",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 3 — |X: x|Y: y",
       "address": 2686877132,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2598,7 +2598,7 @@
     },
     {
       "name": "Torque Request AT Type 1",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 1 — |X: x|Y: y",
       "address": 2686877492,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2615,7 +2615,7 @@
     },
     {
       "name": "Torque Request AT Type 2",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 2 — |X: x|Y: y",
       "address": 2686877852,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2632,7 +2632,7 @@
     },
     {
       "name": "Torque Request AT Type 3",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request AT Type 3 — |X: x|Y: y",
       "address": 2686878212,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2649,7 +2649,7 @@
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request MT Type 1 — |X: x|Y: y",
       "address": 2686879772,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2666,7 +2666,7 @@
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request MT Type 2 — |X: x|Y: y",
       "address": 2686880052,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2683,7 +2683,7 @@
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request MT Type 1 — |X: x|Y: y",
       "address": 2686880332,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2700,7 +2700,7 @@
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request MT Type 2 — |X: x|Y: y",
       "address": 2686880612,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2717,7 +2717,7 @@
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request MT Type 1 — |X: x|Y: y",
       "address": 2686880892,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2734,7 +2734,7 @@
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request MT Type 2 — |X: x|Y: y",
       "address": 2686881172,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2751,7 +2751,7 @@
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request MT Type 1 — |X: x|Y: y",
       "address": 2686881452,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2768,7 +2768,7 @@
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request MT Type 2 — |X: x|Y: y",
       "address": 2686881732,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2785,7 +2785,7 @@
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request MT Type 1 — |X: x|Y: y",
       "address": 2686882012,
       "type": "MAP",
       "dataType": "UWORD",
@@ -2802,7 +2802,7 @@
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "|X: x|Y: y",
+      "description": "Torque Request MT Type 2 — |X: x|Y: y",
       "address": 2686882292,
       "type": "MAP",
       "dataType": "UWORD",
