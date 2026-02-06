@@ -63,6 +63,13 @@
   { "name": "DQ250 HSL - F50M", "file": "DQ250_HSL_-_F50M.btp", "category": "DSG HSL" },
   { "name": "DQ250 HSL - F52M", "file": "DQ250_HSL_-_F52M.btp", "category": "DSG HSL" },
 
+  { "name": "DQ250 Immo Off (Untested) - F40M", "file": "DQ250_Immo_Off_-_F40M.btp", "category": "DSG Immo" },
+  { "name": "DQ250 Immo Off (Untested) - F43M", "file": "DQ250_Immo_Off_-_F43M.btp", "category": "DSG Immo" },
+  { "name": "DQ250 Immo Off (Untested) - F45M", "file": "DQ250_Immo_Off_-_F45M.btp", "category": "DSG Immo" },
+  { "name": "DQ250 Immo Off (Untested) - F49M", "file": "DQ250_Immo_Off_-_F49M.btp", "category": "DSG Immo" },
+  { "name": "DQ250 Immo Off (Untested) - F50M", "file": "DQ250_Immo_Off_-_F50M.btp", "category": "DSG Immo" },
+  { "name": "DQ250 Immo Off (Untested) - F52M", "file": "DQ250_Immo_Off_-_F52M.btp", "category": "DSG Immo" },
+
   { "name": "Torque Limit - F40M", "file": "Torque_Limit_-_F40M.btp", "category": "DSG Torque Limit" },
   { "name": "Torque Limit - F43M", "file": "Torque_Limit_-_F43M.btp", "category": "DSG Torque Limit" },
   { "name": "Torque Limit - F45M", "file": "Torque_Limit_-_F45M.btp", "category": "DSG Torque Limit" },
