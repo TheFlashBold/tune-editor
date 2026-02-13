@@ -923,6 +923,14 @@ function TableEditor({
 
     // Copy selection to clipboard
     const copySelection = () => {
+        if (axisSelection) {
+            const axisData = axisSelection.axis === 'x' ? xAxisData : yAxisData;
+            const start = Math.min(axisSelection.start, axisSelection.end);
+            const end = Math.max(axisSelection.start, axisSelection.end);
+            const values = axisData.slice(start, end + 1).map(v => formatValue(v, 4));
+            navigator.clipboard.writeText(values.join('\t'));
+            return;
+        }
         if (!selection || tableData.length === 0) return;
         const norm = normalizeSelection(selection);
         const rows: string[] = [];
@@ -938,6 +946,29 @@ function TableEditor({
 
     // Paste from clipboard
     const pasteSelection = async () => {
+        if (axisSelection) {
+            try {
+                const text = await navigator.clipboard.readText();
+                const values = text.trim().split(/[\t\n]/).map(v => parseFloat(v.trim()));
+                const axisDef = axisSelection.axis === 'x' ? parameter.xAxis : parameter.yAxis;
+                if (!axisDef?.address) return;
+                const axisData = axisSelection.axis === 'x' ? xAxisData : yAxisData;
+                const setAxisData = axisSelection.axis === 'x' ? setXAxisData : setYAxisData;
+                const newAxisData = [...axisData];
+                const start = Math.min(axisSelection.start, axisSelection.end);
+                for (let i = 0; i < values.length && start + i < axisData.length; i++) {
+                    if (!isNaN(values[i])) {
+                        writeAxisValue(binData, axisDef, start + i, values[i], calOffset, baseAddress, bigEndian);
+                        newAxisData[start + i] = values[i];
+                    }
+                }
+                setAxisData(newAxisData);
+                onModify();
+            } catch (e) {
+                console.error('Paste failed:', e);
+            }
+            return;
+        }
         if (!selection) return;
         try {
             const text = await navigator.clipboard.readText();
@@ -1028,11 +1059,11 @@ function TableEditor({
     // Keyboard handler for copy/paste and selection editing
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'c' && selection) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'c' && (selection || axisSelection)) {
                 e.preventDefault();
                 copySelection();
             }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'v' && selection) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'v' && (selection || axisSelection)) {
                 e.preventDefault();
                 pasteSelection();
             }
@@ -1195,11 +1226,11 @@ function TableEditor({
                                 return (
                                     <th
                                         key={i}
-                                        class={`p-1.5 border font-medium text-right select-none ${
+                                        class={`p-1.5 border border-zinc-700 font-medium text-right select-none ${
                                             canEdit ? 'cursor-pointer hover:bg-zinc-700' : ''
-                                        } ${isCellSelected ? 'border-blue-500 border-2 bg-blue-900/50 text-zinc-200' : 'border-zinc-700 bg-zinc-800 text-zinc-400'}`}
+                                        } ${isCellSelected ? 'bg-blue-900/50 text-zinc-200' : 'bg-zinc-800 text-zinc-400'}`}
                                         style={{
-                                            outline: isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
+                                            outline: isCellSelected ? '2px solid #3b82f6' : isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
                                             outlineOffset: '-2px',
                                         }}
                                         onMouseDown={(e) => canEdit && handleAxisMouseDown('x', i, e)}
@@ -1252,11 +1283,11 @@ function TableEditor({
                                 const canEdit = parameter.yAxis?.address;
                                 return (
                                     <td
-                                        class={`p-1.5 border font-medium text-right select-none ${
+                                        class={`p-1.5 border border-zinc-700 font-medium text-right select-none ${
                                             canEdit ? 'cursor-pointer hover:bg-zinc-700' : ''
-                                        } ${isCellSelected ? 'border-blue-500 border-2 bg-blue-900/50 text-zinc-200' : 'border-zinc-700 bg-zinc-800 text-zinc-400'}`}
+                                        } ${isCellSelected ? 'bg-blue-900/50 text-zinc-200' : 'bg-zinc-800 text-zinc-400'}`}
                                         style={{
-                                            outline: isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
+                                            outline: isCellSelected ? '2px solid #3b82f6' : isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
                                             outlineOffset: '-2px',
                                         }}
                                         onMouseDown={(e) => canEdit && handleAxisMouseDown('y', rowIdx, e)}
@@ -1292,12 +1323,14 @@ function TableEditor({
                                 return (
                                     <td
                                         key={colIdx}
-                                        class={`p-1.5 border text-right cursor-pointer text-zinc-900 hover:brightness-110 min-w-16 select-none ${
-                                            isCellSelected ? 'border-blue-500 border-2' : 'border-zinc-600'
+                                        class={`p-1.5 border border-zinc-600 text-right cursor-pointer hover:brightness-110 min-w-16 select-none ${
+                                            isChanged && !showOriginal ? 'text-white font-bold' : 'text-zinc-900'
                                         }`}
                                         style={{
-                                            backgroundColor: isEditing ? '#3b82f6' : isCellSelected ? `color-mix(in srgb, ${bgColor} 70%, #3b82f6 30%)` : bgColor,
-                                            outline: isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
+                                            backgroundColor: isEditing ? '#3b82f6' : isChanged && !showOriginal
+                                                ? `color-mix(in srgb, ${bgColor} 50%, #b45309 50%)`
+                                                : isCellSelected ? `color-mix(in srgb, ${bgColor} 70%, #3b82f6 30%)` : bgColor,
+                                            outline: isCellSelected ? '2px solid #3b82f6' : undefined,
                                             outlineOffset: '-2px',
                                         }}
                                         onMouseDown={(e) => handleCellMouseDown(rowIdx, colIdx, e)}

@@ -1049,43 +1049,42 @@ export function App() {
                         </div>
                       ) : (
                         <div class="space-y-2">
-                          {/* Axis changes */}
-                          {axisDiffs && axisDiffs.length > 0 && (
-                            <div class="text-xs mb-2">
-                              {axisDiffs.map(({ axis, changedIndices }) => (
-                                <div key={axis} class="text-amber-400">
-                                  {axis.toUpperCase()}-Axis: {changedIndices.length} value{changedIndices.length !== 1 ? 's' : ''} changed
-                                </div>
-                              ))}
-                            </div>
-                          )}
                           {/* Side-by-side table comparison */}
+                          {(() => {
+                            const xDiff = axisDiffs?.find(d => d.axis === 'x');
+                            const yDiff = axisDiffs?.find(d => d.axis === 'y');
+                            const origXAxis = xDiff ? xDiff.original : xAxis;
+                            const origYAxis = yDiff ? yDiff.original : yAxis;
+                            return (
                           <div class="flex gap-4 overflow-x-auto">
                             {/* Original table */}
                             <div class="flex-1 min-w-0">
                               <div class="text-xs text-zinc-400 mb-1 font-medium">Original</div>
                               <div class="overflow-x-auto">
                                 <table class="border-collapse font-mono text-[10px]">
-                                  {xAxis && xAxis.length > 0 && (
+                                  {origXAxis && origXAxis.length > 0 && (
                                     <thead>
                                       <tr>
-                                        {yAxis && yAxis.length > 0 && (
+                                        {origYAxis && origYAxis.length > 0 && (
                                           <th class="px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-zinc-500"></th>
                                         )}
-                                        {xAxis.map((val, i) => (
-                                          <th key={i} class="px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-zinc-500 text-right font-normal">
-                                            {formatValue(val, 1)}
-                                          </th>
-                                        ))}
+                                        {origXAxis.map((val, i) => {
+                                          const isChanged = xDiff?.changedIndices.includes(i);
+                                          return (
+                                            <th key={i} class={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right font-normal ${isChanged ? 'text-red-400' : 'text-zinc-500'}`}>
+                                              {formatValue(val, 1)}
+                                            </th>
+                                          );
+                                        })}
                                       </tr>
                                     </thead>
                                   )}
                                   <tbody>
                                     {(originalValue as number[][]).map((row, rowIdx) => (
                                       <tr key={rowIdx}>
-                                        {yAxis && yAxis.length > 0 && (
-                                          <td class="px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-zinc-500 text-right">
-                                            {formatValue(yAxis[rowIdx], 1)}
+                                        {origYAxis && origYAxis.length > 0 && (
+                                          <td class={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right ${yDiff?.changedIndices.includes(rowIdx) ? 'text-red-400' : 'text-zinc-500'}`}>
+                                            {formatValue(origYAxis[rowIdx], 1)}
                                           </td>
                                         )}
                                         {row.map((cell, colIdx) => {
@@ -1118,11 +1117,14 @@ export function App() {
                                         {yAxis && yAxis.length > 0 && (
                                           <th class="px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-zinc-500"></th>
                                         )}
-                                        {xAxis.map((val, i) => (
-                                          <th key={i} class="px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-zinc-500 text-right font-normal">
-                                            {formatValue(val, 1)}
-                                          </th>
-                                        ))}
+                                        {xAxis.map((val, i) => {
+                                          const isChanged = xDiff?.changedIndices.includes(i);
+                                          return (
+                                            <th key={i} class={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right font-normal ${isChanged ? 'text-green-400' : 'text-zinc-500'}`}>
+                                              {formatValue(val, 1)}
+                                            </th>
+                                          );
+                                        })}
                                       </tr>
                                     </thead>
                                   )}
@@ -1130,7 +1132,7 @@ export function App() {
                                     {(currentValue as number[][]).map((row, rowIdx) => (
                                       <tr key={rowIdx}>
                                         {yAxis && yAxis.length > 0 && (
-                                          <td class="px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-zinc-500 text-right">
+                                          <td class={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right ${yDiff?.changedIndices.includes(rowIdx) ? 'text-green-400' : 'text-zinc-500'}`}>
                                             {formatValue(yAxis[rowIdx], 1)}
                                           </td>
                                         )}
@@ -1154,6 +1156,8 @@ export function App() {
                               </div>
                             </div>
                           </div>
+                            );
+                          })()}
                           <div class="text-xs text-zinc-500 mt-1">
                             {cellDiffs?.length || 0} cell{(cellDiffs?.length || 0) !== 1 ? 's' : ''} changed
                           </div>

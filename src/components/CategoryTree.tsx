@@ -145,17 +145,23 @@ function TreeNodeView({
 export function CategoryTree({ parameters, onSelect, selectedParam }: Props) {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [filter, setFilter] = useState('');
+  const [debouncedFilter, setDebouncedFilter] = useState('');
+
+  useEffect(() => {
+    const id = setTimeout(() => setDebouncedFilter(filter), 150);
+    return () => clearTimeout(id);
+  }, [filter]);
 
   const tree = useMemo(() => {
-    const filtered = filter
+    const filtered = debouncedFilter
       ? parameters.filter(p =>
-          fuzzyMatch(p.name, filter) ||
-          fuzzyMatch(p.description, filter) ||
-          (p.customName && fuzzyMatch(p.customName, filter))
+          fuzzyMatch(p.name, debouncedFilter) ||
+          fuzzyMatch(p.description, debouncedFilter) ||
+          (p.customName && fuzzyMatch(p.customName, debouncedFilter))
         )
       : parameters;
     return buildTree(filtered);
-  }, [parameters, filter]);
+  }, [parameters, debouncedFilter]);
 
   // Collect all visible parameters in tree order (sorted: folders first, then params)
   const visibleParams = useMemo(() => {
