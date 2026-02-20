@@ -54,6 +54,10 @@
   { "name": "FREE SAP - S50", "file": "FREE_SAP_-_S50.btp", "category": "FREE SAP" },
   { "name": "FREE SAP - V30", "file": "FREE_SAP_-_V30.btp", "category": "FREE SAP" },
 
+  { "name": "FREE SAP CAL - S50", "file": "FREE_SAP_CAL_-_S50.btp", "category": "FREE SAP CAL" },
+
+  { "name": "FREE EVAP - S50", "file": "FREE_EVAP_-_S50.btp", "category": "FREE EVAP" },
+
   { "name": "CAT patch - A05", "file": "CAT_patch_-_A05.btp", "category": "CAT" },
   { "name": "CAT patch - S50", "file": "CAT_patch_-_S50.btp", "category": "CAT" },
 
