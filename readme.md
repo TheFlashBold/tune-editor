@@ -114,4 +114,4 @@ npm run build
 
 Provided as is, no support or guarantee
 
-MIT
+GPL-3.0
