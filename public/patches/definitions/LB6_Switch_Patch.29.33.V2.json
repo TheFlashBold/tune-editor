@@ -1,12 +1,12 @@
 {
-  "name": "SC8LB6",
+  "name": "SC800LB7",
   "version": "1.0",
-  "baseAddress": 2684354560,
+  "baseAddress": 0,
   "parameters": [
     {
       "name": "Knock threshold for blink mil on knock average",
       "description": "Knock threshold for blink mil on knock average",
-      "address": 2686967696,
+      "address": 2613136,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -15,22 +15,14 @@
       "factor": 0.37593984962406013,
       "offset": -48.1203007518797,
       "categories": [
-        "Switch Patch"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Knock"
+      ]
     },
     {
       "name": "Knock threshold for blink mil on knock individual cylinder",
       "description": "Knock threshold for blink mil on knock individual cylinder",
-      "address": 2686967738,
+      "address": 2613178,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -39,190 +31,126 @@
       "factor": 0.37593984962406013,
       "offset": -48.1203007518797,
       "categories": [
-        "Switch Patch"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Knock"
+      ]
     },
     {
       "name": "Additional blink time for blink mil on knock (ms)",
       "description": "Additional blink time for blink mil on knock (ms) — 0 is disabled",
-      "address": 2686967697,
+      "address": 2613137,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "ms",
       "min": 0.0,
       "max": 2550.0,
       "factor": 10.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Switch Patch"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Knock"
+      ]
     },
     {
       "name": "Minimum engagement RPM",
       "description": "Minimum engagement RPM",
-      "address": 2686967698,
+      "address": 2613138,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "Maximum engagement RPM",
       "description": "Maximum engagement RPM",
-      "address": 2686967700,
+      "address": 2613140,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "Maximum engagement cycles",
       "description": "Maximum engagement cycles",
-      "address": 2686967702,
+      "address": 2613142,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "sparks",
       "min": 0.0,
       "max": 65535.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "Rev soft limit above engagement point",
       "description": "Rev soft limit above engagement point — At this point the engine cuts fuel and spark to 1 cylinder every 4",
-      "address": 2686967704,
+      "address": 2613144,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "Rev medium limit above engagement point",
       "description": "Rev medium limit above engagement point — At this point the engine cuts fuel and spark to 1 cylinder every 3",
-      "address": 2686967706,
+      "address": 2613146,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "Rev hard limit above engagement point",
       "description": "Rev hard limit above engagement point — At this point the engine cuts fuel and spark to 2 cylinder every 4",
-      "address": 2686967708,
+      "address": 2613148,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "PUT modifier to prevent overboost",
       "description": "PUT modifier to prevent overboost",
-      "address": 2686967710,
+      "address": 2613150,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "kpa",
@@ -231,118 +159,78 @@
       "factor": 0.008329156492802806,
       "offset": -272.92979995616236,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "Ramp in cycles",
       "description": "Ramp in cycles",
-      "address": 2686967712,
+      "address": 2613152,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "rev",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "Ramp out cycles",
       "description": "Ramp out cycles",
-      "address": 2686967713,
+      "address": 2613153,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "rev",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "Maximum acceleration allowed to enable RAL",
       "description": "Maximum acceleration allowed to enable RAL",
-      "address": 2686967714,
+      "address": 2613154,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "ms2",
       "min": 0.0,
       "max": 3.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "RPM filtering amount",
       "description": "RPM filtering amount",
-      "address": 2686967715,
+      "address": 2613155,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 32.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "Minimum oil temperature",
       "description": "Minimum oil temperature",
-      "address": 2686967716,
+      "address": 2613156,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "c",
@@ -351,22 +239,14 @@
       "factor": 1.0,
       "offset": -40.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "Minimum coolant temperature",
       "description": "Minimum coolant temperature",
-      "address": 2686967717,
+      "address": 2613157,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "c",
@@ -375,46 +255,30 @@
       "factor": 0.7518796992481203,
       "offset": -48.1203007518797,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "RAL engagement button",
       "description": "RAL engagement button — 0: set 1: resume",
-      "address": 2686967718,
+      "address": 2613158,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "EGT ignition table",
-      "description": "EGT ignition table — |X: x",
-      "address": 2686971042,
+      "description": "EGT ignition table",
+      "address": 2616482,
       "type": "CURVE",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -423,7 +287,8 @@
       "factor": 0.37499953125058594,
       "offset": -35.624955468805666,
       "categories": [
-        "Knock"
+        "Switch Patch",
+        "RAL"
       ],
       "cols": 4,
       "xAxis": {
@@ -432,7 +297,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686971034,
+        "address": 2616474,
         "dataType": "UWORD",
         "factor": 0.03125,
         "offset": -273.0
@@ -441,31 +306,23 @@
     {
       "name": "Disable clutch start (MT)",
       "description": "Disable clutch start (MT)",
-      "address": 2686967719,
+      "address": 2613159,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "RAL"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Misc"
+      ]
     },
     {
       "name": "WG table ambient temperature compensation",
       "description": "WG table ambient temperature compensation — 1.00 = 100%|X: x",
-      "address": 2686971142,
+      "address": 2616582,
       "type": "CURVE",
       "dataType": "UWORD",
       "unit": "",
@@ -474,7 +331,8 @@
       "factor": 6.103515625e-05,
       "offset": -2.0,
       "categories": [
-        "RAL"
+        "Switch Patch",
+        "Misc"
       ],
       "cols": 6,
       "xAxis": {
@@ -483,7 +341,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686971136,
+        "address": 2616576,
         "dataType": "UBYTE",
         "factor": 0.7518796992481203,
         "offset": -48.1203007518797
@@ -492,7 +350,7 @@
     {
       "name": "WG temperature axis",
       "description": "WG temperature axis",
-      "address": 2686971136,
+      "address": 2616576,
       "type": "CURVE",
       "dataType": "UBYTE",
       "unit": "c",
@@ -501,71 +359,54 @@
       "factor": 0.7518796992481203,
       "offset": -48.1203007518797,
       "categories": [
-        "RAL"
+        "Switch Patch",
+        "Misc"
       ],
       "cols": 6,
       "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
       "name": "WG temperature axis header",
       "description": "WG temperature axis header — must be 6",
-      "address": 2686971135,
+      "address": 2616575,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 6.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "RAL"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Misc"
+      ]
     },
     {
       "name": "UI button",
       "description": "UI button — 0: Cruise Cancel(off) 1: Cruise Resume 2: Variable speed setpoint 3: Pedals",
-      "address": 2686967720,
+      "address": 2613160,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 3.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Misc"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching"
+      ]
     },
     {
       "name": "Timeout",
       "description": "Timeout",
-      "address": 2686967721,
+      "address": 2613161,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "ms",
@@ -574,70 +415,46 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Map Switching"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "NLS"
+      ]
     },
     {
       "name": "Minimum engagement RPM",
       "description": "Minimum engagement RPM",
-      "address": 2686967722,
+      "address": 2613162,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 2000.0,
       "max": 7000.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Switching"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "NLS"
+      ]
     },
     {
       "name": "Minimum pedal",
       "description": "Minimum pedal",
-      "address": 2686967724,
+      "address": 2613164,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "%",
       "min": 0.0,
       "max": 100.0,
       "factor": 0.09765625,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Switching"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "NLS"
+      ]
     },
     {
       "name": "Target RPM",
       "description": "Target RPM",
-      "address": 2686967726,
+      "address": 2613166,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
@@ -646,22 +463,14 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Map Switching"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "NLS"
+      ]
     },
     {
       "name": "Timing during PU",
       "description": "Timing during PU",
-      "address": 2686967728,
+      "address": 2613168,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -670,22 +479,14 @@
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Map Switching"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "NLS"
+      ]
     },
     {
       "name": "Timing during RPM limiter and rampout",
       "description": "Timing during RPM limiter and rampout",
-      "address": 2686967729,
+      "address": 2613169,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -694,94 +495,62 @@
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "NLS"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "LC"
+      ]
     },
     {
       "name": "Target TQ",
       "description": "Target TQ",
-      "address": 2686967730,
+      "address": 2613170,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "nm",
       "min": 0.0,
       "max": 600.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "NLS"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "LC"
+      ]
     },
     {
       "name": "Ramp out cycles",
       "description": "Ramp out cycles",
-      "address": 2686967732,
+      "address": 2613172,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rev",
       "min": 0.0,
       "max": 65535.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "NLS"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "LC"
+      ]
     },
     {
       "name": "Target RPM",
       "description": "Target RPM",
-      "address": 2686967734,
+      "address": 2613174,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "NLS"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "LC"
+      ]
     },
     {
       "name": "Minimum oil temperature",
       "description": "Minimum oil temperature",
-      "address": 2686967736,
+      "address": 2613176,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "c",
@@ -790,22 +559,14 @@
       "factor": 1.0,
       "offset": -40.0,
       "categories": [
-        "NLS"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "LC"
+      ]
     },
     {
       "name": "Minimum coolant temperature",
       "description": "Minimum coolant temperature",
-      "address": 2686967737,
+      "address": 2613177,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "c",
@@ -814,70 +575,46 @@
       "factor": 0.7518796992481203,
       "offset": -48.1203007518797,
       "categories": [
-        "NLS"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "LC"
+      ]
     },
     {
       "name": "Release RPM limiter speed",
       "description": "Release RPM limiter speed",
-      "address": 2686967740,
+      "address": 2613180,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "kph",
       "min": 1.0,
       "max": 20.0,
       "factor": 0.01,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "NLS"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "LC"
+      ]
     },
     {
       "name": "Slip target straight",
       "description": "Slip target straight — Slip target while steering wheel is straight",
-      "address": 2686971108,
+      "address": 2616548,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "kph",
       "min": 0.0,
       "max": 32.0,
       "factor": 0.01,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "Slip wheel angle multiplier",
       "description": "Slip wheel angle multiplier — Slip target multiplier calculated based on wheel angle and speed",
-      "address": 2686971110,
+      "address": 2616550,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "",
@@ -886,118 +623,78 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "Threshold increase on sustained slip",
       "description": "Threshold increase on sustained slip — Slip threshold is increased as wheel spin is sustained",
-      "address": 2686971122,
+      "address": 2616562,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "kph",
       "min": 0.0,
       "max": 2.55,
       "factor": 0.01,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "Maximum allowed PID value (kph slip)",
       "description": "Maximum allowed PID value (kph slip) — PID will be clamped if it reaches this value",
-      "address": 2686971112,
+      "address": 2616552,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "kph",
       "min": 0.0,
       "max": 100.0,
       "factor": 0.01,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "Maximum allowed I value (kph slip)",
       "description": "Maximum allowed I value (kph slip) — I will be clamped if it reaches this value",
-      "address": 2686971114,
+      "address": 2616554,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "kph",
       "min": 0.0,
       "max": 100.0,
       "factor": 0.01,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "PID filter amount",
       "description": "PID filter amount — How much smoothing to apply to PID value",
-      "address": 2686971116,
+      "address": 2616556,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 64.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "PID I weight",
       "description": "PID I weight — How quickly 'I' will rise/fall on sustained error",
-      "address": 2686971117,
+      "address": 2616557,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
@@ -1006,22 +703,14 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "PID D weight",
       "description": "PID D weight — How much to resist change due to 'P' error",
-      "address": 2686971118,
+      "address": 2616558,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
@@ -1030,22 +719,14 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "Slip ignition weight",
       "description": "Slip ignition weight — How much ignition intervention per kph of slip",
-      "address": 2686971119,
+      "address": 2616559,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "kph",
@@ -1054,46 +735,30 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "Slip WG weight",
       "description": "Slip WG weight — How much WG intervention per kph of slip",
-      "address": 2686971120,
+      "address": 2616560,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "kph",
       "min": 0.0,
       "max": 38.93,
       "factor": 0.15267175572519084,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "Minimum timing",
       "description": "Minimum timing",
-      "address": 2686971121,
+      "address": 2616561,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -1102,430 +767,301 @@
       "factor": 0.3750093752343809,
       "offset": -35.62589064726618,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "SCC duration",
       "description": "SCC duration — Amount of time to run SCC after P drops below threshold",
-      "address": 2686971123,
+      "address": 2616563,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "ms",
       "min": 0.0,
       "max": 2550.0,
       "factor": 10.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "TC"
+      ]
     },
     {
       "name": "SCC Threshold",
       "description": "SCC Threshold — SCC will start when value of P reaches this value",
-      "address": 2686971124,
+      "address": 2616564,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "kph",
       "min": 0.0,
       "max": 20.0,
       "factor": 0.01,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "LC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
-    },
-    {
-      "name": "RPM limiter",
-      "description": "RPM limiter",
-      "address": 2686967744,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "rpm",
-      "min": 0.0,
-      "max": 8160.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
+        "Switch Patch",
         "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "RPM limiter",
       "description": "RPM limiter",
-      "address": 2686967746,
+      "address": 2613184,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "RPM limiter",
       "description": "RPM limiter",
-      "address": 2686967748,
+      "address": 2613186,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "RPM limiter",
       "description": "RPM limiter",
-      "address": 2686967750,
+      "address": 2613188,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "RPM limiter",
       "description": "RPM limiter",
-      "address": 2686967752,
+      "address": 2613190,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
+    },
+    {
+      "name": "RPM limiter",
+      "description": "RPM limiter",
+      "address": 2613192,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0.0,
+      "max": 8160.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Speed limiter",
       "description": "Speed limiter",
-      "address": 2686967754,
+      "address": 2613194,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "kph",
       "min": 0.0,
       "max": 655.340027,
       "factor": 0.01,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
-    },
-    {
-      "name": "Speed limiter",
-      "description": "Speed limiter",
-      "address": 2686967756,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 655.340027,
-      "factor": 0.01,
-      "offset": 0.0,
-      "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Speed limiter",
       "description": "Speed limiter",
-      "address": 2686967758,
+      "address": 2613196,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "kph",
       "min": 0.0,
       "max": 655.340027,
       "factor": 0.01,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Speed limiter",
       "description": "Speed limiter",
-      "address": 2686967760,
+      "address": 2613198,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "kph",
       "min": 0.0,
       "max": 655.340027,
       "factor": 0.01,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Speed limiter",
       "description": "Speed limiter",
-      "address": 2686967762,
+      "address": 2613200,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "kph",
       "min": 0.0,
       "max": 655.340027,
       "factor": 0.01,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
+    },
+    {
+      "name": "Speed limiter",
+      "description": "Speed limiter",
+      "address": 2613202,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kph",
+      "min": 0.0,
+      "max": 655.340027,
+      "factor": 0.01,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Pops enable",
       "description": "Pops enable",
-      "address": 2686967764,
+      "address": 2613204,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
-    },
-    {
-      "name": "Pops enable",
-      "description": "Pops enable",
-      "address": 2686967765,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Pops enable",
       "description": "Pops enable",
-      "address": 2686967766,
+      "address": 2613205,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Pops enable",
       "description": "Pops enable",
-      "address": 2686967767,
+      "address": 2613206,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Pops enable",
       "description": "Pops enable",
-      "address": 2686967768,
+      "address": 2613207,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
+    },
+    {
+      "name": "Pops enable",
+      "description": "Pops enable",
+      "address": 2613208,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 1.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Lambda modifier",
-      "description": "Lambda modifier — |X: x|Y: y",
-      "address": 2686967770,
+      "description": "Lambda modifier",
+      "address": 2613210,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "",
@@ -1534,17 +1070,20 @@
       "factor": 0.000976562500038148,
       "offset": -32.00000000125004,
       "categories": [
-        "TC"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686483613,
+        "address": 2129053,
         "dataType": "UBYTE",
         "factor": 32.0
       },
@@ -1554,15 +1093,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686700926,
+        "address": 2346366,
         "dataType": "UWORD",
         "factor": 0.02119478141451133
       }
     },
     {
       "name": "Lambda modifier",
-      "description": "Lambda modifier — |X: x|Y: y",
-      "address": 2686967962,
+      "description": "Lambda modifier",
+      "address": 2613402,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "",
@@ -1571,17 +1110,20 @@
       "factor": 0.000976562500038148,
       "offset": -32.00000000125004,
       "categories": [
-        "Map Slot 1"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686483613,
+        "address": 2129053,
         "dataType": "UBYTE",
         "factor": 32.0
       },
@@ -1591,15 +1133,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686700926,
+        "address": 2346366,
         "dataType": "UWORD",
         "factor": 0.02119478141451133
       }
     },
     {
       "name": "Lambda modifier",
-      "description": "Lambda modifier — |X: x|Y: y",
-      "address": 2686968154,
+      "description": "Lambda modifier",
+      "address": 2613594,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "",
@@ -1608,17 +1150,20 @@
       "factor": 0.000976562500038148,
       "offset": -32.00000000125004,
       "categories": [
-        "Map Slot 2"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686483613,
+        "address": 2129053,
         "dataType": "UBYTE",
         "factor": 32.0
       },
@@ -1628,15 +1173,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686700926,
+        "address": 2346366,
         "dataType": "UWORD",
         "factor": 0.02119478141451133
       }
     },
     {
       "name": "Lambda modifier",
-      "description": "Lambda modifier — |X: x|Y: y",
-      "address": 2686968346,
+      "description": "Lambda modifier",
+      "address": 2613786,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "",
@@ -1645,17 +1190,20 @@
       "factor": 0.000976562500038148,
       "offset": -32.00000000125004,
       "categories": [
-        "Map Slot 3"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686483613,
+        "address": 2129053,
         "dataType": "UBYTE",
         "factor": 32.0
       },
@@ -1665,15 +1213,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686700926,
+        "address": 2346366,
         "dataType": "UWORD",
         "factor": 0.02119478141451133
       }
     },
     {
       "name": "Lambda modifier",
-      "description": "Lambda modifier — |X: x|Y: y",
-      "address": 2686968538,
+      "description": "Lambda modifier",
+      "address": 2613978,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "",
@@ -1682,17 +1230,20 @@
       "factor": 0.000976562500038148,
       "offset": -32.00000000125004,
       "categories": [
-        "Map Slot 4"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686483613,
+        "address": 2129053,
         "dataType": "UBYTE",
         "factor": 32.0
       },
@@ -1702,15 +1253,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686700926,
+        "address": 2346366,
         "dataType": "UWORD",
         "factor": 0.02119478141451133
       }
     },
     {
       "name": "Spark modifier",
-      "description": "Spark modifier — |X: x|Y: y",
-      "address": 2686968730,
+      "description": "Spark modifier",
+      "address": 2614170,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -1719,17 +1270,20 @@
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "TC"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
       ],
       "cols": 16,
       "rows": 16,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 16,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651430,
+        "address": 2296870,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -1738,15 +1292,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651272,
+        "address": 2296712,
         "dataType": "UWORD",
         "factor": 0.04238956282902266
       }
     },
     {
       "name": "Spark modifier",
-      "description": "Spark modifier — |X: x|Y: y",
-      "address": 2686968986,
+      "description": "Spark modifier",
+      "address": 2614426,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -1755,17 +1309,20 @@
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Map Slot 1"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
       ],
       "cols": 16,
       "rows": 16,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 16,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651430,
+        "address": 2296870,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -1774,15 +1331,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651272,
+        "address": 2296712,
         "dataType": "UWORD",
         "factor": 0.04238956282902266
       }
     },
     {
       "name": "Spark modifier",
-      "description": "Spark modifier — |X: x|Y: y",
-      "address": 2686969242,
+      "description": "Spark modifier",
+      "address": 2614682,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -1791,17 +1348,20 @@
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Map Slot 2"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
       ],
       "cols": 16,
       "rows": 16,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 16,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651430,
+        "address": 2296870,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -1810,15 +1370,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651272,
+        "address": 2296712,
         "dataType": "UWORD",
         "factor": 0.04238956282902266
       }
     },
     {
       "name": "Spark modifier",
-      "description": "Spark modifier — |X: x|Y: y",
-      "address": 2686969498,
+      "description": "Spark modifier",
+      "address": 2614938,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -1827,17 +1387,20 @@
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Map Slot 3"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
       ],
       "cols": 16,
       "rows": 16,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 16,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651430,
+        "address": 2296870,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -1846,15 +1409,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651272,
+        "address": 2296712,
         "dataType": "UWORD",
         "factor": 0.04238956282902266
       }
     },
     {
       "name": "Spark modifier",
-      "description": "Spark modifier — |X: x|Y: y",
-      "address": 2686969754,
+      "description": "Spark modifier",
+      "address": 2615194,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -1863,17 +1426,20 @@
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Map Slot 4"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
       ],
       "cols": 16,
       "rows": 16,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 16,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651430,
+        "address": 2296870,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -1882,34 +1448,37 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651272,
+        "address": 2296712,
         "dataType": "UWORD",
         "factor": 0.04238956282902266
       }
     },
     {
       "name": "PUT setpoint",
-      "description": "PUT setpoint — |X: x|Y: y",
-      "address": 2686970010,
+      "description": "PUT setpoint",
+      "address": 2615450,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "hpa",
       "min": 0.0,
       "max": 5434.0,
       "factor": 0.08291752498664837,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686970972,
+        "address": 2616412,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -1918,33 +1487,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486227,
+        "address": 2131667,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "PUT setpoint",
-      "description": "PUT setpoint — |X: x|Y: y",
-      "address": 2686970202,
+      "description": "PUT setpoint",
+      "address": 2615642,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "hpa",
       "min": 0.0,
       "max": 5434.0,
       "factor": 0.08291752498664837,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 1"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686970972,
+        "address": 2616412,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -1953,33 +1525,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486227,
+        "address": 2131667,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "PUT setpoint",
-      "description": "PUT setpoint — |X: x|Y: y",
-      "address": 2686970394,
+      "description": "PUT setpoint",
+      "address": 2615834,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "hpa",
       "min": 0.0,
       "max": 5434.0,
       "factor": 0.08291752498664837,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 2"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686970972,
+        "address": 2616412,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -1988,33 +1563,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486227,
+        "address": 2131667,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "PUT setpoint",
-      "description": "PUT setpoint — |X: x|Y: y",
-      "address": 2686970586,
+      "description": "PUT setpoint",
+      "address": 2616026,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "hpa",
       "min": 0.0,
       "max": 5434.0,
       "factor": 0.08291752498664837,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 3"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686970972,
+        "address": 2616412,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -2023,33 +1601,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486227,
+        "address": 2131667,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "PUT setpoint",
-      "description": "PUT setpoint — |X: x|Y: y",
-      "address": 2686970778,
+      "description": "PUT setpoint",
+      "address": 2616218,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "hpa",
       "min": 0.0,
       "max": 5434.0,
       "factor": 0.08291752498664837,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 4"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686970972,
+        "address": 2616412,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -2058,1490 +1639,1044 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486227,
+        "address": 2131667,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Enable flex fuel spark modifier",
       "description": "Enable flex fuel spark modifier",
-      "address": 2686970996,
+      "address": 2616436,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
+      ]
     },
     {
       "name": "Enable flex fuel spark modifier",
       "description": "Enable flex fuel spark modifier",
-      "address": 2686971002,
+      "address": 2616442,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
+      ]
     },
     {
       "name": "Enable flex fuel spark modifier",
       "description": "Enable flex fuel spark modifier",
-      "address": 2686971008,
+      "address": 2616448,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
+      ]
     },
     {
       "name": "Enable flex fuel spark modifier",
       "description": "Enable flex fuel spark modifier",
-      "address": 2686971014,
+      "address": 2616454,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
+      ]
     },
     {
       "name": "Enable flex fuel spark modifier",
       "description": "Enable flex fuel spark modifier",
-      "address": 2686971020,
+      "address": 2616460,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Enable flex fuel PUT modifier",
       "description": "Enable flex fuel PUT modifier",
-      "address": 2686970997,
+      "address": 2616437,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
+      ]
     },
     {
       "name": "Enable flex fuel PUT modifier",
       "description": "Enable flex fuel PUT modifier",
-      "address": 2686971003,
+      "address": 2616443,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
+      ]
     },
     {
       "name": "Enable flex fuel PUT modifier",
       "description": "Enable flex fuel PUT modifier",
-      "address": 2686971009,
+      "address": 2616449,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
+      ]
     },
     {
       "name": "Enable flex fuel PUT modifier",
       "description": "Enable flex fuel PUT modifier",
-      "address": 2686971015,
+      "address": 2616455,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
+      ]
     },
     {
       "name": "Enable flex fuel PUT modifier",
       "description": "Enable flex fuel PUT modifier",
-      "address": 2686971021,
+      "address": 2616461,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Enable flex fuel lambda modifier",
       "description": "Enable flex fuel lambda modifier",
-      "address": 2686970998,
+      "address": 2616438,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
+      ]
     },
     {
       "name": "Enable flex fuel lambda modifier",
       "description": "Enable flex fuel lambda modifier",
-      "address": 2686971004,
+      "address": 2616444,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
+      ]
     },
     {
       "name": "Enable flex fuel lambda modifier",
       "description": "Enable flex fuel lambda modifier",
-      "address": 2686971010,
+      "address": 2616450,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
+      ]
     },
     {
       "name": "Enable flex fuel lambda modifier",
       "description": "Enable flex fuel lambda modifier",
-      "address": 2686971016,
+      "address": 2616456,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
+      ]
     },
     {
       "name": "Enable flex fuel lambda modifier",
       "description": "Enable flex fuel lambda modifier",
-      "address": 2686971022,
+      "address": 2616462,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Enable flex fuel TQ modifier",
       "description": "Enable flex fuel TQ modifier",
-      "address": 2686970999,
+      "address": 2616439,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
+      ]
     },
     {
       "name": "Enable flex fuel TQ modifier",
       "description": "Enable flex fuel TQ modifier",
-      "address": 2686971005,
+      "address": 2616445,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
+      ]
     },
     {
       "name": "Enable flex fuel TQ modifier",
       "description": "Enable flex fuel TQ modifier",
-      "address": 2686971011,
+      "address": 2616451,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
+      ]
     },
     {
       "name": "Enable flex fuel TQ modifier",
       "description": "Enable flex fuel TQ modifier",
-      "address": 2686971017,
+      "address": 2616457,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
+      ]
     },
     {
       "name": "Enable flex fuel TQ modifier",
       "description": "Enable flex fuel TQ modifier",
-      "address": 2686971023,
+      "address": 2616463,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Enable flex fuel IAT modifier",
       "description": "Enable flex fuel IAT modifier",
-      "address": 2686971000,
+      "address": 2616440,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
+      ]
     },
     {
       "name": "Enable flex fuel IAT modifier",
       "description": "Enable flex fuel IAT modifier",
-      "address": 2686971006,
+      "address": 2616446,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
+      ]
     },
     {
       "name": "Enable flex fuel IAT modifier",
       "description": "Enable flex fuel IAT modifier",
-      "address": 2686971012,
+      "address": 2616452,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
+      ]
     },
     {
       "name": "Enable flex fuel IAT modifier",
       "description": "Enable flex fuel IAT modifier",
-      "address": 2686971018,
+      "address": 2616458,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
+      ]
     },
     {
       "name": "Enable flex fuel IAT modifier",
       "description": "Enable flex fuel IAT modifier",
-      "address": 2686971024,
+      "address": 2616464,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Enable flex fuel MPI modifier",
       "description": "Enable flex fuel MPI modifier",
-      "address": 2686971001,
+      "address": 2616441,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
+      ]
     },
     {
       "name": "Enable flex fuel MPI modifier",
       "description": "Enable flex fuel MPI modifier",
-      "address": 2686971007,
+      "address": 2616447,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
+      ]
     },
     {
       "name": "Enable flex fuel MPI modifier",
       "description": "Enable flex fuel MPI modifier",
-      "address": 2686971013,
+      "address": 2616453,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
+      ]
     },
     {
       "name": "Enable flex fuel MPI modifier",
       "description": "Enable flex fuel MPI modifier",
-      "address": 2686971019,
+      "address": 2616459,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
+      ]
     },
     {
       "name": "Enable flex fuel MPI modifier",
       "description": "Enable flex fuel MPI modifier",
-      "address": 2686971025,
+      "address": 2616465,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Enable RAL",
       "description": "Enable RAL",
-      "address": 2686971026,
+      "address": 2616466,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
+      ]
     },
     {
       "name": "Enable RAL",
       "description": "Enable RAL",
-      "address": 2686971027,
+      "address": 2616467,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
+      ]
     },
     {
       "name": "Enable RAL",
       "description": "Enable RAL",
-      "address": 2686971028,
+      "address": 2616468,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
+      ]
     },
     {
       "name": "Enable RAL",
       "description": "Enable RAL",
-      "address": 2686971029,
+      "address": 2616469,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
+      ]
     },
     {
       "name": "Enable RAL",
       "description": "Enable RAL",
-      "address": 2686971030,
+      "address": 2616470,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Enable NLS",
       "description": "Enable NLS",
-      "address": 2686971046,
+      "address": 2616486,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
-    },
-    {
-      "name": "Enable NLS",
-      "description": "Enable NLS",
-      "address": 2686971047,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Enable NLS",
       "description": "Enable NLS",
-      "address": 2686971048,
+      "address": 2616487,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Enable NLS",
       "description": "Enable NLS",
-      "address": 2686971049,
+      "address": 2616488,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Enable NLS",
       "description": "Enable NLS",
-      "address": 2686971050,
+      "address": 2616489,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
-      "name": "Enable LC",
-      "description": "Enable LC",
-      "address": 2686971051,
+      "name": "Enable NLS",
+      "description": "Enable NLS",
+      "address": 2616490,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Enable LC",
       "description": "Enable LC",
-      "address": 2686971052,
+      "address": 2616491,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Enable LC",
       "description": "Enable LC",
-      "address": 2686971053,
+      "address": 2616492,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Enable LC",
       "description": "Enable LC",
-      "address": 2686971054,
+      "address": 2616493,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Enable LC",
       "description": "Enable LC",
-      "address": 2686971055,
+      "address": 2616494,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
-      "name": "Disable OEM TC",
-      "description": "Disable OEM TC",
-      "address": 2686971056,
+      "name": "Enable LC",
+      "description": "Enable LC",
+      "address": 2616495,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Disable OEM TC",
       "description": "Disable OEM TC",
-      "address": 2686971057,
+      "address": 2616496,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Disable OEM TC",
       "description": "Disable OEM TC",
-      "address": 2686971058,
+      "address": 2616497,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Disable OEM TC",
       "description": "Disable OEM TC",
-      "address": 2686971059,
+      "address": 2616498,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Disable OEM TC",
       "description": "Disable OEM TC",
-      "address": 2686971060,
+      "address": 2616499,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
-      "name": "Enable SL TC",
-      "description": "Enable SL TC",
-      "address": 2686971061,
+      "name": "Disable OEM TC",
+      "description": "Disable OEM TC",
+      "address": 2616500,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Enable SL TC",
       "description": "Enable SL TC",
-      "address": 2686971062,
+      "address": 2616501,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Enable SL TC",
       "description": "Enable SL TC",
-      "address": 2686971063,
+      "address": 2616502,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Enable SL TC",
       "description": "Enable SL TC",
-      "address": 2686971064,
+      "address": 2616503,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Enable SL TC",
       "description": "Enable SL TC",
-      "address": 2686971065,
+      "address": 2616504,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
+    },
+    {
+      "name": "Enable SL TC",
+      "description": "Enable SL TC",
+      "address": 2616505,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 1.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Manual AFU",
       "description": "Manual AFU — This does not set manual AFU active, this only adjusts the value",
-      "address": 2686971130,
+      "address": 2616570,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 0.0078125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
-    },
-    {
-      "name": "Manual AFU",
-      "description": "Manual AFU — This does not set manual AFU active, this only adjusts the value",
-      "address": 2686971131,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 0.0078125,
-      "offset": 0.0,
-      "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Manual AFU",
       "description": "Manual AFU — This does not set manual AFU active, this only adjusts the value",
-      "address": 2686971132,
+      "address": 2616571,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 0.0078125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Manual AFU",
       "description": "Manual AFU — This does not set manual AFU active, this only adjusts the value",
-      "address": 2686971133,
+      "address": 2616572,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 0.0078125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Manual AFU",
       "description": "Manual AFU — This does not set manual AFU active, this only adjusts the value",
-      "address": 2686971134,
+      "address": 2616573,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 1.0,
       "factor": 0.0078125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
+    },
+    {
+      "name": "Manual AFU",
+      "description": "Manual AFU — This does not set manual AFU active, this only adjusts the value",
+      "address": 2616574,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 1.0,
+      "factor": 0.0078125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     },
     {
       "name": "Weight",
-      "description": "Weight — |X: x",
-      "address": 2686973276,
+      "description": "Weight",
+      "address": 2618716,
       "type": "CURVE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 2.0,
       "factor": 0.0078125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 5",
-        "Flex Fuel"
-      ],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686973260,
-        "dataType": "UBYTE",
-        "factor": 0.0078125
-      }
-    },
-    {
-      "name": "Weight",
-      "description": "Weight — |X: x",
-      "address": 2686973268,
-      "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 2.0,
-      "factor": 0.0078125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 5",
+        "Switch Patch",
+        "Flex Fuel",
         "Spark"
       ],
       "cols": 8,
@@ -3551,24 +2686,25 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686973260,
+        "address": 2618700,
         "dataType": "UBYTE",
         "factor": 0.0078125
       }
     },
     {
       "name": "Weight",
-      "description": "Weight — |X: x",
-      "address": 2686973284,
+      "description": "Weight",
+      "address": 2618708,
       "type": "CURVE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 2.0,
       "factor": 0.0078125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 5",
+        "Switch Patch",
+        "Flex Fuel",
         "PUT"
       ],
       "cols": 8,
@@ -3578,24 +2714,25 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686973260,
+        "address": 2618700,
         "dataType": "UBYTE",
         "factor": 0.0078125
       }
     },
     {
       "name": "Weight",
-      "description": "Weight — |X: x",
-      "address": 2686973292,
+      "description": "Weight",
+      "address": 2618724,
       "type": "CURVE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 2.0,
       "factor": 0.0078125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 5",
+        "Switch Patch",
+        "Flex Fuel",
         "Lambda"
       ],
       "cols": 8,
@@ -3605,24 +2742,25 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686973260,
+        "address": 2618700,
         "dataType": "UBYTE",
         "factor": 0.0078125
       }
     },
     {
       "name": "Weight",
-      "description": "Weight — |X: x",
-      "address": 2686973308,
+      "description": "Weight",
+      "address": 2618732,
       "type": "CURVE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 2.0,
       "factor": 0.0078125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 5",
+        "Switch Patch",
+        "Flex Fuel",
         "TQ"
       ],
       "cols": 8,
@@ -3632,24 +2770,25 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686973260,
+        "address": 2618700,
         "dataType": "UBYTE",
         "factor": 0.0078125
       }
     },
     {
       "name": "Weight",
-      "description": "Weight — |X: x",
-      "address": 2686973300,
+      "description": "Weight",
+      "address": 2618748,
       "type": "CURVE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 2.0,
       "factor": 0.0078125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 5",
+        "Switch Patch",
+        "Flex Fuel",
         "IAT"
       ],
       "cols": 8,
@@ -3659,15 +2798,43 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686973260,
+        "address": 2618700,
+        "dataType": "UBYTE",
+        "factor": 0.0078125
+      }
+    },
+    {
+      "name": "Weight",
+      "description": "Weight",
+      "address": 2618740,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 2.0,
+      "factor": 0.0078125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Flex Fuel",
+        "MPI"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2618700,
         "dataType": "UBYTE",
         "factor": 0.0078125
       }
     },
     {
       "name": "Modifier",
-      "description": "Modifier — |X: x|Y: y",
-      "address": 2686973324,
+      "description": "Modifier",
+      "address": 2618764,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "",
@@ -3676,18 +2843,20 @@
       "factor": 0.0078125,
       "offset": -1.0,
       "categories": [
-        "Map Slot 5",
-        "IAT"
+        "Switch Patch",
+        "Flex Fuel",
+        "MPI"
       ],
       "cols": 8,
       "rows": 10,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 8,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686580460,
+        "address": 2225900,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -3696,35 +2865,37 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686579282,
+        "address": 2224722,
         "dataType": "UWORD",
         "factor": 0.04238956282902266
       }
     },
     {
       "name": "Modifier",
-      "description": "Modifier — |X: x|Y: y",
-      "address": 2686973404,
+      "description": "Modifier",
+      "address": 2618844,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "",
       "min": 0.0,
       "max": 1023.969971,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 5",
-        "Lambda"
+        "Switch Patch",
+        "Flex Fuel",
+        "TQ"
       ],
       "cols": 20,
       "rows": 9,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -3733,14 +2904,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486227,
+        "address": 2131667,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Modifier",
-      "description": "Modifier — |X: x|Y: y",
-      "address": 2686973764,
+      "description": "Modifier",
+      "address": 2619204,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "",
@@ -3749,18 +2920,20 @@
       "factor": 0.000976562500038148,
       "offset": -32.00000000125004,
       "categories": [
-        "Map Slot 5",
-        "PUT"
+        "Switch Patch",
+        "Flex Fuel",
+        "Lambda"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686483613,
+        "address": 2129053,
         "dataType": "UBYTE",
         "factor": 32.0
       },
@@ -3770,15 +2943,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686700926,
+        "address": 2346366,
         "dataType": "UWORD",
         "factor": 0.02119478141451133
       }
     },
     {
       "name": "Modifier",
-      "description": "Modifier — |X: x|Y: y",
-      "address": 2686974014,
+      "description": "Modifier",
+      "address": 2619454,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "degree",
@@ -3787,18 +2960,20 @@
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Map Slot 5",
-        "Flex Fuel"
+        "Switch Patch",
+        "Flex Fuel",
+        "Spark"
       ],
       "cols": 16,
       "rows": 16,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 16,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651430,
+        "address": 2296870,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -3807,15 +2982,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686651272,
+        "address": 2296712,
         "dataType": "UWORD",
         "factor": 0.04238956282902266
       }
     },
     {
       "name": "Modifier",
-      "description": "Modifier — |X: x|Y: y",
-      "address": 2686974270,
+      "description": "Modifier",
+      "address": 2619710,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "hpa",
@@ -3824,18 +2999,20 @@
       "factor": 0.08291752498664837,
       "offset": -2717.0414587624937,
       "categories": [
-        "Map Slot 5",
-        "Spark"
+        "Switch Patch",
+        "Flex Fuel",
+        "PUT"
       ],
       "cols": 12,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686970972,
+        "address": 2616412,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -3844,63 +3021,54 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486227,
+        "address": 2131667,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "PUT SP RPM Axis",
       "description": "PUT SP RPM Axis",
-      "address": 2686970972,
+      "address": 2616412,
       "type": "CURVE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Misc"
+        "Switch Patch",
+        "Map Switching"
       ],
       "cols": 12,
       "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
+        "type": "FIX_AXIS",
+        "points": 12,
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
       "name": "PUT SP RPM Axis Header",
       "description": "PUT SP RPM Axis Header — must be 12",
-      "address": 2686970970,
+      "address": 2616410,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "",
       "min": 0.0,
       "max": 8160.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Misc"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "Map Switching"
+      ]
     },
     {
       "name": "EGT ignition axis",
       "description": "EGT ignition axis",
-      "address": 2686971034,
+      "address": 2616474,
       "type": "CURVE",
       "dataType": "UWORD",
       "unit": "c",
@@ -3909,115 +3077,556 @@
       "factor": 0.03125,
       "offset": -273.0,
       "categories": [
-        "Knock"
+        "Switch Patch",
+        "RAL"
       ],
       "cols": 4,
       "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
+        "type": "FIX_AXIS",
+        "points": 4,
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
       "name": "EGT ignition axis Header",
       "description": "EGT ignition axis Header — must be 4",
-      "address": 2686971032,
+      "address": 2616472,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "",
       "min": 0.0,
       "max": 1775.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Knock"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+        "Switch Patch",
+        "RAL"
+      ]
     },
     {
       "name": "Flex fuel weight axis",
       "description": "Flex fuel weight axis",
-      "address": 2686973260,
+      "address": 2618700,
       "type": "CURVE",
       "dataType": "UBYTE",
       "unit": "e",
       "min": 0.0,
       "max": 2.0,
       "factor": 0.0078125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "Map Slot 5"
+        "Switch Patch",
+        "Flex Fuel"
       ],
       "cols": 8,
       "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
       "name": "Flex fuel weight axis Header",
       "description": "Flex fuel weight axis Header — must be 8",
-      "address": 2686973259,
+      "address": 2618699,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 8.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Flex Fuel"
+      ]
+    },
+    {
+      "name": "Torque Request AT Type 1",
+      "description": "Torque Request AT Type 1",
+      "address": 2369376,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 2",
+      "description": "Torque Request AT Type 2",
+      "address": 2369736,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 3",
+      "description": "Torque Request AT Type 3",
+      "address": 2370096,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 1"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 1",
+      "description": "Torque Request AT Type 1",
+      "address": 2370456,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 2",
+      "description": "Torque Request AT Type 2",
+      "address": 2370816,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 3",
+      "description": "Torque Request AT Type 3",
+      "address": 2371176,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 2"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 1",
+      "description": "Torque Request AT Type 1",
+      "address": 2371536,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 2",
+      "description": "Torque Request AT Type 2",
+      "address": 2371896,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 3",
+      "description": "Torque Request AT Type 3",
+      "address": 2372256,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 3"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 1",
+      "description": "Torque Request AT Type 1",
+      "address": 2372616,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 2",
+      "description": "Torque Request AT Type 2",
+      "address": 2372976,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 3",
+      "description": "Torque Request AT Type 3",
+      "address": 2373336,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 4"
+      ],
+      "cols": 20,
+      "rows": 9,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 9,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131667,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request AT Type 1",
+      "description": "Torque Request AT Type 1",
+      "address": 2373696,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 5"
       ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 1",
-      "description": "Torque Request AT Type 1 — |X: x|Y: y",
-      "address": 2686723936,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "TC"
-      ],
       "cols": 20,
       "rows": 9,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -4026,33 +3635,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486227,
+        "address": 2131667,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Torque Request AT Type 2",
-      "description": "Torque Request AT Type 2 — |X: x|Y: y",
-      "address": 2686724296,
+      "description": "Torque Request AT Type 2",
+      "address": 2374056,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "nm",
       "min": 0.0,
       "max": 1024.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
       ],
       "cols": 20,
       "rows": 9,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -4061,33 +3673,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486227,
+        "address": 2131667,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Torque Request AT Type 3",
-      "description": "Torque Request AT Type 3 — |X: x|Y: y",
-      "address": 2686724656,
+      "description": "Torque Request AT Type 3",
+      "address": 2374416,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "nm",
       "min": 0.0,
       "max": 1024.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
       ],
       "cols": 20,
       "rows": 9,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -4096,523 +3711,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 1",
-      "description": "Torque Request AT Type 1 — |X: x|Y: y",
-      "address": 2686725016,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 1"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 2",
-      "description": "Torque Request AT Type 2 — |X: x|Y: y",
-      "address": 2686725376,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 1"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 3",
-      "description": "Torque Request AT Type 3 — |X: x|Y: y",
-      "address": 2686725736,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 1"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 1",
-      "description": "Torque Request AT Type 1 — |X: x|Y: y",
-      "address": 2686726096,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 2"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 2",
-      "description": "Torque Request AT Type 2 — |X: x|Y: y",
-      "address": 2686726456,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 2"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 3",
-      "description": "Torque Request AT Type 3 — |X: x|Y: y",
-      "address": 2686726816,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 2"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 1",
-      "description": "Torque Request AT Type 1 — |X: x|Y: y",
-      "address": 2686727176,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 3"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 2",
-      "description": "Torque Request AT Type 2 — |X: x|Y: y",
-      "address": 2686727536,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 3"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 3",
-      "description": "Torque Request AT Type 3 — |X: x|Y: y",
-      "address": 2686727896,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 3"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 1",
-      "description": "Torque Request AT Type 1 — |X: x|Y: y",
-      "address": 2686728256,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 4"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 2",
-      "description": "Torque Request AT Type 2 — |X: x|Y: y",
-      "address": 2686728616,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 4"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request AT Type 3",
-      "description": "Torque Request AT Type 3 — |X: x|Y: y",
-      "address": 2686728976,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "Map Slot 4"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486227,
+        "address": 2131667,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "Torque Request MT Type 1 — |X: x|Y: y",
-      "address": 2686731016,
+      "description": "Torque Request MT Type 1",
+      "address": 2376456,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "nm",
       "min": 0.0,
       "max": 1024.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486219,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request MT Type 2",
-      "description": "Torque Request MT Type 2 — |X: x|Y: y",
-      "address": 2686731296,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
-        "TC"
-      ],
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686720636,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686486219,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Torque Request MT Type 1",
-      "description": "Torque Request MT Type 1 — |X: x|Y: y",
-      "address": 2686731576,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 1024.0,
-      "factor": 0.03125,
-      "offset": 0.0,
-      "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 1"
       ],
       "cols": 20,
       "rows": 7,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -4621,33 +3749,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486219,
+        "address": 2131659,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "Torque Request MT Type 2 — |X: x|Y: y",
-      "address": 2686731856,
+      "description": "Torque Request MT Type 2",
+      "address": 2376736,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "nm",
       "min": 0.0,
       "max": 1024.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 1"
       ],
       "cols": 20,
       "rows": 7,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -4656,33 +3787,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486219,
+        "address": 2131659,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "Torque Request MT Type 1 — |X: x|Y: y",
-      "address": 2686732136,
+      "description": "Torque Request MT Type 1",
+      "address": 2377016,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "nm",
       "min": 0.0,
       "max": 1024.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 2"
       ],
       "cols": 20,
       "rows": 7,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -4691,33 +3825,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486219,
+        "address": 2131659,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "Torque Request MT Type 2 — |X: x|Y: y",
-      "address": 2686732416,
+      "description": "Torque Request MT Type 2",
+      "address": 2377296,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "nm",
       "min": 0.0,
       "max": 1024.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 2"
       ],
       "cols": 20,
       "rows": 7,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -4726,33 +3863,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486219,
+        "address": 2131659,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "Torque Request MT Type 1 — |X: x|Y: y",
-      "address": 2686732696,
+      "description": "Torque Request MT Type 1",
+      "address": 2377576,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "nm",
       "min": 0.0,
       "max": 1024.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 3"
       ],
       "cols": 20,
       "rows": 7,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -4761,33 +3901,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486219,
+        "address": 2131659,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "Torque Request MT Type 2 — |X: x|Y: y",
-      "address": 2686732976,
+      "description": "Torque Request MT Type 2",
+      "address": 2377856,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "nm",
       "min": 0.0,
       "max": 1024.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 3"
       ],
       "cols": 20,
       "rows": 7,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -4796,33 +3939,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486219,
+        "address": 2131659,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "Torque Request MT Type 1 — |X: x|Y: y",
-      "address": 2686733256,
+      "description": "Torque Request MT Type 1",
+      "address": 2378136,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "nm",
       "min": 0.0,
       "max": 1024.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 4"
       ],
       "cols": 20,
       "rows": 7,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -4831,33 +3977,36 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486219,
+        "address": 2131659,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "Torque Request MT Type 2 — |X: x|Y: y",
-      "address": 2686733536,
+      "description": "Torque Request MT Type 2",
+      "address": 2378416,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "nm",
       "min": 0.0,
       "max": 1024.0,
       "factor": 0.03125,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 4"
       ],
       "cols": 20,
       "rows": 7,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686720636,
+        "address": 2366076,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -4866,134 +4015,185 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 2686486219,
+        "address": 2131659,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request MT Type 1",
+      "description": "Torque Request MT Type 1",
+      "address": 2378696,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ],
+      "cols": 20,
+      "rows": 7,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 7,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131659,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Torque Request MT Type 2",
+      "description": "Torque Request MT Type 2",
+      "address": 2378976,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "nm",
+      "min": 0.0,
+      "max": 1024.0,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ],
+      "cols": 20,
+      "rows": 7,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 20,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2366076,
+        "dataType": "UWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 7,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 2131659,
         "dataType": "UBYTE"
       }
     },
     {
       "name": "Gauge settings (bitmask)",
       "description": "Gauge settings (bitmask)",
-      "address": 2686974724,
+      "address": 2620164,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
-        "TC"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
-    },
-    {
-      "name": "Gauge settings (bitmask)",
-      "description": "Gauge settings (bitmask)",
-      "address": 2686974725,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 1"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Gauge settings (bitmask)",
       "description": "Gauge settings (bitmask)",
-      "address": 2686974726,
+      "address": 2620165,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 2"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Gauge settings (bitmask)",
       "description": "Gauge settings (bitmask)",
-      "address": 2686974727,
+      "address": 2620166,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 3"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
     },
     {
       "name": "Gauge settings (bitmask)",
       "description": "Gauge settings (bitmask)",
-      "address": 2686974728,
+      "address": 2620167,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -0.0,
       "categories": [
+        "Switch Patch",
+        "Map Switching",
         "Map Slot 4"
-      ],
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2686451712,
-        "dataType": "UWORD"
-      }
+      ]
+    },
+    {
+      "name": "Gauge settings (bitmask)",
+      "description": "Gauge settings (bitmask)",
+      "address": 2620168,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Switch Patch",
+        "Map Switching",
+        "Map Slot 5"
+      ]
     }
   ],
+  "_source": "XDF",
   "offset": 2097152,
   "verification": {
     "calOffset": 8388608,
     "expected": "SC8LB70"
+  },
+  "binInfo": {
+    "type": "ECU",
+    "binFile": "A1AEe-8LB7_C1_X621523_Premaster 0001.bin",
+    "binPath": "A1AEe-8LB7_C1_X621523_Premaster 0001.bin",
+    "epk": "SC8LB70",
+    "calVersion": "SC800LB7",
+    "boxCode": "5G0906259P",
+    "boxVersion": "X621"
   }
 }
