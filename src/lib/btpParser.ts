@@ -89,14 +89,10 @@ export function parseBtp(data: Uint8Array): { header: BtpHeader; blocks: BtpBloc
   return { header, blocks };
 }
 
-export function verifyCrc32(data: Uint8Array): boolean {
-  if (data.length < BTP_HEADER_SIZE) return false;
-
-  const storedChecksum = readU32LE(data, 32);
-
-  // CRC32 with polynomial 0xEDB88320 over data after header
+export function computeCrc32(data: Uint8Array, start: number = 0, end?: number): number {
+  const stop = end ?? data.length;
   let crc = 0xFFFFFFFF;
-  for (let i = BTP_HEADER_SIZE; i < data.length; i++) {
+  for (let i = start; i < stop; i++) {
     let ch = data[i];
     for (let j = 0; j < 8; j++) {
       const b = (ch ^ crc) & 1;
@@ -107,8 +103,14 @@ export function verifyCrc32(data: Uint8Array): boolean {
       ch = ch >>> 1;
     }
   }
+  return (~crc) & 0xFFFFFFFF;
+}
 
-  const computed = (~crc) & 0xFFFFFFFF;
+export function verifyCrc32(data: Uint8Array): boolean {
+  if (data.length < BTP_HEADER_SIZE) return false;
+
+  const storedChecksum = readU32LE(data, 32);
+  const computed = computeCrc32(data, BTP_HEADER_SIZE);
   // Convert to signed 32-bit for comparison (Python stores as signed)
   const storedSigned = storedChecksum | 0;
   const computedSigned = computed | 0;
@@ -159,4 +161,95 @@ export function removePatch(blocks: BtpBlock[], binData: Uint8Array): void {
       binData[block.offset + d] = block.originalData[d];
     }
   }
+}
+
+function writeU32LE(data: Uint8Array, offset: number, value: number): void {
+  data[offset] = value & 0xFF;
+  data[offset + 1] = (value >>> 8) & 0xFF;
+  data[offset + 2] = (value >>> 16) & 0xFF;
+  data[offset + 3] = (value >>> 24) & 0xFF;
+}
+
+export function buildBtp(
+  originalData: Uint8Array,
+  modifiedData: Uint8Array,
+  softCode: string,
+  paramRanges: { offset: number; length: number }[]
+): Uint8Array {
+  // Find contiguous runs of differing bytes within parameter ranges
+  const blocks: { offset: number; original: number[]; modified: number[] }[] = [];
+
+  for (const range of paramRanges) {
+    let runStart = -1;
+    let runOrig: number[] = [];
+    let runMod: number[] = [];
+
+    for (let i = 0; i < range.length; i++) {
+      const pos = range.offset + i;
+      if (pos >= originalData.length || pos >= modifiedData.length) break;
+
+      if (originalData[pos] !== modifiedData[pos]) {
+        if (runStart === -1) {
+          runStart = pos;
+          runOrig = [];
+          runMod = [];
+        }
+        runOrig.push(originalData[pos]);
+        runMod.push(modifiedData[pos]);
+      } else {
+        if (runStart !== -1) {
+          blocks.push({ offset: runStart, original: runOrig, modified: runMod });
+          runStart = -1;
+        }
+      }
+    }
+    // Flush trailing run
+    if (runStart !== -1) {
+      blocks.push({ offset: runStart, original: runOrig, modified: runMod });
+    }
+  }
+
+  // Build block data: offset(u32) + length(u32) + originalBytes + modifiedBytes
+  let blockDataSize = 0;
+  for (const b of blocks) {
+    blockDataSize += 8 + b.original.length + b.modified.length;
+  }
+
+  const blockData = new Uint8Array(blockDataSize);
+  let pos = 0;
+  for (const b of blocks) {
+    writeU32LE(blockData, pos, b.offset);
+    writeU32LE(blockData, pos + 4, b.original.length);
+    pos += 8;
+    for (let i = 0; i < b.original.length; i++) blockData[pos++] = b.original[i];
+    for (let i = 0; i < b.modified.length; i++) blockData[pos++] = b.modified[i];
+  }
+
+  // Compute CRC32 over block data
+  const checksum = computeCrc32(blockData);
+
+  // Build 100-byte header
+  const version = 'BinToolz Patch v1.1';
+  const result = new Uint8Array(BTP_HEADER_SIZE + blockDataSize);
+
+  // Version string (20 bytes, null-padded)
+  for (let i = 0; i < 20; i++) {
+    result[i] = i < version.length ? version.charCodeAt(i) : 0;
+  }
+  // SoftCode (8 bytes, null-padded)
+  for (let i = 0; i < 8; i++) {
+    result[20 + i] = i < softCode.length ? softCode.charCodeAt(i) : 0;
+  }
+  // Block count (u32)
+  writeU32LE(result, 28, blocks.length);
+  // Block checksum (u32)
+  writeU32LE(result, 32, checksum);
+  // File size (u32) — size of the original binary
+  writeU32LE(result, 36, originalData.length);
+  // Bytes 40-99: zero padding (already zeroed)
+
+  // Append block data
+  result.set(blockData, BTP_HEADER_SIZE);
+
+  return result;
 }

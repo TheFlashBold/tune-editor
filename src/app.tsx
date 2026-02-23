@@ -9,7 +9,7 @@ import { LogViewer } from './components/LogViewer';
 import { BLEConnector } from './components/BLEConnector';
 import { Modal } from './components/Modal';
 import { PatchManager, mergeDefinitions } from './components/PatchManager';
-import { parseBtp, verifyCrc32, checkPatch } from './lib/btpParser';
+import { parseBtp, verifyCrc32, checkPatch, buildBtp } from './lib/btpParser';
 import type { PatchCheckResult } from './lib/btpParser';
 import { readParameterValue, readTableData, readAxisData, formatValue, debugHexDump, debugLayoutComparison, debugFindDataOffset, debugTableAddresses, debugEccBlock, addressToOffset } from './lib/binUtils';
 import { loadDefinitionIndex, loadDefinition, findMatchingDefinitions, type DefinitionIndexEntry } from './lib/definitionLoader';
@@ -505,6 +505,81 @@ export function App() {
     if (originalBinInputRef.current) originalBinInputRef.current.value = '';
   }, []);
 
+  const getParamByteRanges = useCallback((): { offset: number; length: number }[] => {
+    if (!definition || !binData) return [];
+    const defBaseAddress = definition.baseAddress ?? 0xa0000000;
+    const ranges: { offset: number; length: number }[] = [];
+    const seen = new Set<string>();
+
+    const addRange = (offset: number, length: number) => {
+      if (offset < 0 || offset + length > binData.length) return;
+      const key = `${offset}:${length}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+      ranges.push({ offset, length });
+    };
+
+    for (const param of definition.parameters) {
+      const rows = param.rows || 1;
+      const cols = param.cols || 1;
+      const typeSize = DATA_TYPE_INFO[param.dataType].size;
+      const dataOffset = param.dataOffset ?? 0;
+      const fileOffset = addressToOffset(param.address, calOffset, defBaseAddress) + dataOffset;
+      addRange(fileOffset, rows * cols * typeSize);
+
+      if (param.xAxis?.address) {
+        const axType = DATA_TYPE_INFO[param.xAxis.dataType ?? param.dataType].size;
+        const axDataOffset = param.xAxis.dataOffset ?? 0;
+        const axFileOffset = addressToOffset(param.xAxis.address, calOffset, defBaseAddress) + axDataOffset;
+        addRange(axFileOffset, param.xAxis.points * axType);
+      }
+      if (param.yAxis?.address) {
+        const axType = DATA_TYPE_INFO[param.yAxis.dataType ?? param.dataType].size;
+        const axDataOffset = param.yAxis.dataOffset ?? 0;
+        const axFileOffset = addressToOffset(param.yAxis.address, calOffset, defBaseAddress) + axDataOffset;
+        addRange(axFileOffset, param.yAxis.points * axType);
+      }
+    }
+
+    // Sort by offset and merge overlapping/adjacent ranges
+    ranges.sort((a, b) => a.offset - b.offset);
+    const merged: { offset: number; length: number }[] = [];
+    for (const r of ranges) {
+      const last = merged[merged.length - 1];
+      if (last && r.offset <= last.offset + last.length) {
+        const end = Math.max(last.offset + last.length, r.offset + r.length);
+        last.length = end - last.offset;
+      } else {
+        merged.push({ ...r });
+      }
+    }
+    return merged;
+  }, [definition, binData, calOffset]);
+
+  const handleExportBtp = useCallback(() => {
+    if (!binData || !originalBinData || !definition) return;
+
+    const ranges = getParamByteRanges();
+    const softCode = (definition.verification?.expected ?? definition.name).slice(0, 8);
+    const btpData = buildBtp(originalBinData, binData, softCode, ranges);
+
+    // Check if there are any blocks
+    const blockCount = btpData[28] | (btpData[29] << 8) | (btpData[30] << 16) | ((btpData[31] << 24) >>> 0);
+    if (blockCount === 0) {
+      alert('No changes to export');
+      return;
+    }
+
+    const blob = new Blob([btpData.buffer as ArrayBuffer], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (binFileName ?? 'patch').replace(/\.[^.]+$/, '_patch.btp');
+    a.click();
+    URL.revokeObjectURL(url);
+    setShowFileMenu(false);
+  }, [binData, originalBinData, definition, binFileName, getParamByteRanges]);
+
   // Calculate differences between original and current BIN
   const changes = useMemo((): ParamDiff[] => {
     if (!definition || !binData || !originalBinData) return [];
@@ -649,7 +724,7 @@ export function App() {
                   <div class="border-t border-zinc-600 my-1"/>
                   <button
                       onClick={handleSaveBin}
-                      disabled={!modified}
+                      disabled={!binData}
                       className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
                   >
                     Save BIN
@@ -657,12 +732,19 @@ export function App() {
                   {detectedMode === 'full' && definition?.verification?.calOffset && (
                     <button
                         onClick={handleSaveCal}
-                        disabled={!modified}
+                        disabled={!binData}
                         className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
                     >
                       Save CAL
                     </button>
                   )}
+                  <button
+                      onClick={handleExportBtp}
+                      disabled={!binData || !originalBinData}
+                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
+                  >
+                    Export Changes as BTP Patch
+                  </button>
                 </div>
               </>
           )}
