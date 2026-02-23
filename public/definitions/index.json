@@ -72,6 +72,15 @@
     "paramCount": 3300
   },
   {
+    "name": "SC8O30",
+    "file": "8V0906264H__0003_SC8O30.json",
+    "verification": {
+      "calOffset": 2097152,
+      "expected": "SC8O30"
+    },
+    "paramCount": 3894
+  },
+  {
     "name": "SC800LB7",
     "file": "5G0906259P_X621_SC8LB70_SC800LB7.json",
     "verification": {
@@ -116,7 +125,6 @@
     },
     "paramCount": 3617
   },
-
   {
     "name": "SC800S50",
     "file": "8V0906264K_0003_SC8S500_SC8I0S00_SC8I0S50_SC800S50.json",
