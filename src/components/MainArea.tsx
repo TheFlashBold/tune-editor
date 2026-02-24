@@ -26,7 +26,7 @@ export function MainArea() {
     }, [ctx.crossCompareBin, ctx.selectedParam]);
 
     return (
-        <main className="flex-1 overflow-auto p-4 relative">
+        <main className="flex-1 overflow-auto px-4 pb-4 relative">
             <div
                 className="absolute inset-0 pointer-events-none opacity-[0.10]"
                 style={{

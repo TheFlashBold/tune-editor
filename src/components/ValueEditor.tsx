@@ -109,7 +109,7 @@ function ScalarEditor(props: IValueEditorProps) {
 
     return (
         <div>
-            <div class="sticky top-0 z-10 bg-zinc-900 pb-2">
+            <div class="sticky top-0 z-10 bg-zinc-900 pt-4 pb-2">
                 <div class="flex items-start justify-between mb-4">
                     <div>
                         <h2 class="text-lg font-semibold">
@@ -1337,7 +1337,7 @@ function TableEditor({
 
     return (
         <div>
-            <div class="sticky top-0 z-10 bg-zinc-900 pb-2">
+            <div class="sticky top-0 z-10 bg-zinc-900 pt-4 pb-2">
                 <div class="flex items-start justify-between mb-4">
                     <div>
                         <h2 class="text-lg font-semibold">
