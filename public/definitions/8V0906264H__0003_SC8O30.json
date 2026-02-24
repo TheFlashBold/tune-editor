@@ -473244,7 +473244,7 @@
       "unit": "mg/stk",
       "min": 0.0,
       "max": 20000.0,
-      "factor": 1.0,
+      "factor": 1000000.0,
       "offset": 0.0,
       "categories": [
         "Limiter"
@@ -473289,7 +473289,7 @@
       "unit": "hPa",
       "min": -10000.0,
       "max": 10000.0,
-      "factor": 1.0,
+      "factor": 0.01,
       "offset": 0.0,
       "categories": [
         "Airflow"
@@ -473305,7 +473305,7 @@
       "unit": "hPa",
       "min": 0.0,
       "max": 10000.0,
-      "factor": 1.0,
+      "factor": 0.01,
       "offset": 0.0,
       "categories": [
         "Airflow"
@@ -508751,7 +508751,8 @@
         "max": 8160.0,
         "unit": "rpm",
         "address": 2135130,
-        "dataType": "UWORD"
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -508761,6 +508762,7 @@
         "unit": "hPa",
         "address": 2134694,
         "dataType": "UWORD",
+        "dataOffset": 2,
         "factor": 0.08291752498664837
       }
     },
