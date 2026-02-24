@@ -176,16 +176,20 @@ export function useAppState(): IAppContext {
     }, []);
 
     const loadCrossCompareBin = useCallback(async (file: File) => {
-        const buffer = await file.arrayBuffer();
+        const {data, displayName} = await parseFileData(file);
         const newBin: ILoadedBin = {
-            name: file.name,
-            data: new Uint8Array(buffer),
+            name: displayName,
+            data,
         };
 
-        const matches = await findMatchingDefinitions(newBin.data);
+        const matches = await findMatchingDefinitions(data);
         if (matches.length === 1) {
             const match = matches[0];
-            newBin.definition = await loadDefinition(match.entry.file);
+            const def = await loadDefinition(match.entry.file);
+            newBin.definition = def;
+            newBin.type = match.mode === 'cal' ? 'CAL' : 'FULL';
+            const defOffset = def.offset ?? match.entry.verification?.calOffset ?? 0;
+            newBin.calOffset = match.mode === 'cal' ? defOffset : 0;
         }
 
         setCrossCompareBin(newBin);

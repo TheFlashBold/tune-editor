@@ -123,7 +123,7 @@ export function MenuBar({
                                 Open Crosscompare BIN...
                                 <input
                                     type="file"
-                                    accept=".bin,.ori,.mod"
+                                    accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex"
                                     ref={crossCompareBinInputRef}
                                     onChange={handleOpenCrossCompareBin}
                                     className="hidden"

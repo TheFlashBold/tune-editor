@@ -1,8 +1,29 @@
+import {useMemo} from 'preact/hooks';
 import {useAppContext} from '../context/app';
 import {ValueEditor} from './ValueEditor';
+import type {CrossCompareInfo} from './ValueEditor';
 
 export function MainArea() {
     const ctx = useAppContext();
+
+    const crossCompare: CrossCompareInfo | null = useMemo(() => {
+        if (!ctx.crossCompareBin?.definition || !ctx.selectedParam) return null;
+        const ccDef = ctx.crossCompareBin.definition;
+        const selectedName = ctx.selectedParam.name.toLowerCase();
+        const ccParam = ccDef.parameters.find(p => p.name.toLowerCase() === selectedName);
+        if (!ccParam) return null;
+        if (ctx.selectedParam.type !== 'VALUE') {
+            if ((ccParam.rows || 1) !== (ctx.selectedParam.rows || 1) ||
+                (ccParam.cols || 1) !== (ctx.selectedParam.cols || 1)) return null;
+        }
+        return {
+            data: ctx.crossCompareBin.data,
+            param: ccParam,
+            calOffset: ctx.crossCompareBin.calOffset ?? 0,
+            baseAddress: ccDef.baseAddress ?? 0xa0000000,
+            bigEndian: ccDef.bigEndian ?? false,
+        };
+    }, [ctx.crossCompareBin, ctx.selectedParam]);
 
     return (
         <main className="flex-1 overflow-auto p-4 relative">
@@ -51,6 +72,7 @@ export function MainArea() {
                     baseAddress={ctx.baseAddress}
                     bigEndian={ctx.bigEndian}
                     onModify={ctx.markModified}
+                    crossCompare={crossCompare}
                 />
             )}
         </main>

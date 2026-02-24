@@ -6,7 +6,8 @@ export interface ILoadedBin {
     data: Uint8Array,
     modified?: boolean,
     type?: "CAL" | "FULL",
-    definition?: Definition
+    definition?: Definition,
+    calOffset?: number,
 }
 
 export interface AxisDefinition {
