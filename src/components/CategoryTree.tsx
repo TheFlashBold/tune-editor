@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from 'preact/hooks';
-import type { Parameter } from '../types';
+import type { IDefinitionParameter } from '../types';
 
 function fuzzyMatch(text: string, pattern: string): boolean {
   const t = text.toLowerCase();
@@ -17,13 +17,13 @@ interface TreeNode {
   name: string;
   path: string;
   children: Map<string, TreeNode>;
-  parameters: Parameter[];
+  parameters: IDefinitionParameter[];
 }
 
 interface Props {
-  parameters: Parameter[];
-  onSelect: (param: Parameter) => void;
-  selectedParam: Parameter | null;
+  parameters: IDefinitionParameter[];
+  onSelect: (param: IDefinitionParameter) => void;
+  selectedParam: IDefinitionParameter | null;
 }
 
 function countAllParameters(node: TreeNode): number {
@@ -34,7 +34,7 @@ function countAllParameters(node: TreeNode): number {
   return count;
 }
 
-function buildTree(parameters: Parameter[]): TreeNode {
+function buildTree(parameters: IDefinitionParameter[]): TreeNode {
   const root: TreeNode = { name: 'Root', path: '', children: new Map(), parameters: [] };
 
   for (const param of parameters) {
@@ -65,8 +65,8 @@ function TreeNodeView({
 }: {
   node: TreeNode;
   depth: number;
-  onSelect: (p: Parameter) => void;
-  selectedParam: Parameter | null;
+  onSelect: (p: IDefinitionParameter) => void;
+  selectedParam: IDefinitionParameter | null;
   expanded: Set<string>;
   onToggle: (path: string) => void;
 }) {
@@ -165,7 +165,7 @@ export function CategoryTree({ parameters, onSelect, selectedParam }: Props) {
 
   // Collect all visible parameters in tree order (sorted: folders first, then params)
   const visibleParams = useMemo(() => {
-    const result: Parameter[] = [];
+    const result: IDefinitionParameter[] = [];
     const collect = (node: TreeNode, isRoot: boolean) => {
       if (!isRoot && !expanded.has(node.path)) return;
       // Sort children alphabetically

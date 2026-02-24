@@ -1,5 +1,5 @@
 import {useState, useEffect, useMemo, useRef} from 'preact/hooks';
-import {Parameter} from '../types';
+import {IDefinitionParameter} from '../types';
 import {
     readParameterValue,
     writeParameterValue,
@@ -14,8 +14,8 @@ import {
 
 const DEFAULT_BASE_ADDRESS = 0xa0000000;
 
-interface Props {
-    parameter: Parameter;
+interface IValueEditorProps {
+    parameter: IDefinitionParameter;
     binData: Uint8Array;
     originalBinData?: Uint8Array | null;
     calOffset?: number;
@@ -24,33 +24,24 @@ interface Props {
     onModify: () => void;
 }
 
-export function ValueEditor({
-                                parameter,
-                                binData,
-                                originalBinData,
-                                calOffset = 0,
-                                baseAddress = DEFAULT_BASE_ADDRESS,
-                                bigEndian = false,
-                                onModify
-                            }: Props) {
+export function ValueEditor(props: IValueEditorProps) {
+    const {parameter} = props
     if (parameter.type === 'VALUE') {
-        return <ScalarEditor parameter={parameter} binData={binData} originalBinData={originalBinData}
-                             calOffset={calOffset} baseAddress={baseAddress} bigEndian={bigEndian}
-                             onModify={onModify}/>;
+        return <ScalarEditor {...props} />;
     }
-    return <TableEditor parameter={parameter} binData={binData} originalBinData={originalBinData} calOffset={calOffset}
-                        baseAddress={baseAddress} bigEndian={bigEndian} onModify={onModify}/>;
+    return <TableEditor {...props}/>;
 }
 
-function ScalarEditor({
-                          parameter,
-                          binData,
-                          originalBinData,
-                          calOffset = 0,
-                          baseAddress = DEFAULT_BASE_ADDRESS,
-                          bigEndian = false,
-                          onModify
-                      }: Props) {
+function ScalarEditor(props: IValueEditorProps) {
+    const {
+        parameter,
+        binData,
+        originalBinData,
+        calOffset = 0,
+        baseAddress = DEFAULT_BASE_ADDRESS,
+        bigEndian = false,
+        onModify
+    } = props;
     const [value, setValue] = useState(() => readParameterValue(binData, parameter, calOffset, baseAddress, bigEndian));
     const [editing, setEditing] = useState(false);
     const [inputValue, setInputValue] = useState('');
@@ -106,14 +97,30 @@ function ScalarEditor({
                     <code class="text-xs text-zinc-500">{parameter.name}</code>
                 </div>
                 {originalBinData && (
-                    <button
-                        onClick={() => setShowOriginal(!showOriginal)}
-                        class={`px-3 py-1.5 text-sm rounded ${
-                            showOriginal ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
-                        } ${hasChanged ? 'ring-2 ring-amber-500' : ''}`}
-                    >
-                        Original
-                    </button>
+                    <div class="flex gap-x-2">
+                        {hasChanged && (
+                            <button
+                                onClick={() => {
+                                    if (originalValue !== null) {
+                                        writeParameterValue(binData, parameter, originalValue, calOffset, baseAddress, bigEndian);
+                                        setValue(originalValue);
+                                        onModify();
+                                    }
+                                }}
+                                class="px-3 py-1.5 text-sm rounded bg-zinc-700 text-zinc-300 hover:bg-zinc-600"
+                            >
+                                Revert
+                            </button>
+                        )}
+                        <button
+                            onClick={() => setShowOriginal(!showOriginal)}
+                            class={`px-3 py-1.5 text-sm rounded ${
+                                showOriginal ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
+                            } ${hasChanged ? 'ring-2 ring-amber-500' : ''}`}
+                        >
+                            Original
+                        </button>
+                    </div>
                 )}
             </div>
 
@@ -147,12 +154,12 @@ function ScalarEditor({
                     <span class="text-base text-zinc-500">{parameter.unit}</span>
                 </div>
 
-                {showOriginal && originalValue !== null && (
+                {originalValue !== null && (
                     <div
                         class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-700 rounded-lg border-2 border-dashed border-zinc-600">
-            <span class="text-3xl font-semibold font-mono text-zinc-400">
-              {formatValue(originalValue, 4)}
-            </span>
+                        <span class="text-3xl font-semibold font-mono text-zinc-400">
+                            {formatValue(originalValue, 4)}
+                        </span>
                         <span class="text-base text-zinc-500">{parameter.unit}</span>
                     </div>
                 )}
@@ -161,7 +168,7 @@ function ScalarEditor({
             {isBitmask && (
                 <div class="mt-4 space-y-2">
                     <div class="inline-flex gap-1">
-                        {Array.from({ length: 8 }, (_, i) => {
+                        {Array.from({length: 8}, (_, i) => {
                             const rawValue = Math.round(value);
                             const isSet = (rawValue & (1 << i)) !== 0;
                             const origRaw = originalValue !== null ? Math.round(originalValue) : null;
@@ -638,7 +645,7 @@ function TableEditor({
                          baseAddress = DEFAULT_BASE_ADDRESS,
                          bigEndian = false,
                          onModify
-                     }: Props) {
+                     }: IValueEditorProps) {
     const [tableData, setTableData] = useState<number[][]>([]);
     const [editCell, setEditCell] = useState<{ row: number; col: number } | null>(null);
     const [editAxisCell, setEditAxisCell] = useState<{ axis: 'x' | 'y'; index: number } | null>(null);
@@ -1096,14 +1103,42 @@ function TableEditor({
                     <code class="text-xs text-zinc-500">{parameter.name}</code>
                 </div>
                 {originalBinData && (
-                    <button
-                        onClick={() => setShowOriginal(!showOriginal)}
-                        class={`px-3 py-1.5 text-sm rounded ${
-                            showOriginal ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
-                        } ${hasChanged ? 'ring-2 ring-amber-500' : ''}`}
-                    >
-                        Original
-                    </button>
+                    <div class="flex gap-x-2">
+                        {hasChanged &&
+                            <button class="px-3 py-1.5 text-sm rounded bg-zinc-700 text-zinc-300 hover:bg-zinc-600"
+                                    onClick={() => {
+                                        if (!originalTableData) return;
+                                        for (let r = 0; r < originalTableData.length; r++) {
+                                            for (let c = 0; c < originalTableData[r].length; c++) {
+                                                writeTableCell(binData, parameter, r, c, originalTableData[r][c], calOffset, baseAddress, bigEndian);
+                                            }
+                                        }
+                                        if (originalXAxis && parameter.xAxis) {
+                                            for (let i = 0; i < originalXAxis.length; i++) {
+                                                writeAxisValue(binData, parameter.xAxis, i, originalXAxis[i], calOffset, baseAddress, bigEndian);
+                                            }
+                                        }
+                                        if (originalYAxis && parameter.yAxis) {
+                                            for (let i = 0; i < originalYAxis.length; i++) {
+                                                writeAxisValue(binData, parameter.yAxis, i, originalYAxis[i], calOffset, baseAddress, bigEndian);
+                                            }
+                                        }
+                                        setTableData(originalTableData.map(row => [...row]));
+                                        if (originalXAxis) setXAxisData([...originalXAxis]);
+                                        if (originalYAxis) setYAxisData([...originalYAxis]);
+                                        onModify();
+                                    }}>
+                                Revert
+                            </button>}
+                        <button
+                            onClick={() => setShowOriginal(!showOriginal)}
+                            class={`px-3 py-1.5 text-sm rounded ${
+                                showOriginal ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
+                            } ${hasChanged ? 'ring-2 ring-amber-500' : ''}`}
+                        >
+                            Original
+                        </button>
+                    </div>
                 )}
             </div>
 

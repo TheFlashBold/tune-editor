@@ -1,4 +1,4 @@
-import { Parameter, DataType, AxisDefinition, Definition } from '../types';
+import { IDefinitionParameter, DataType, AxisDefinition, Definition } from '../types';
 
 interface CsvMapping {
   categories: string[];
@@ -94,7 +94,7 @@ export class XDFParser {
       throw new Error('No XDF file parsed');
     }
 
-    const parameters: Parameter[] = [];
+    const parameters: IDefinitionParameter[] = [];
     this.matchedCount = 0;
 
     // Parse XDFTABLE elements (tables and curves)
@@ -138,7 +138,7 @@ export class XDFParser {
     return categories;
   }
 
-  private parseTable(element: Element, addressTransform?: (addr: number) => number): Parameter | null {
+  private parseTable(element: Element, addressTransform?: (addr: number) => number): IDefinitionParameter | null {
     const title = element.querySelector('title')?.textContent || '';
     const description = element.querySelector('description')?.textContent || title;
 
@@ -251,7 +251,7 @@ export class XDFParser {
     };
   }
 
-  private parseConstant(element: Element, addressTransform?: (addr: number) => number): Parameter | null {
+  private parseConstant(element: Element, addressTransform?: (addr: number) => number): IDefinitionParameter | null {
     const title = element.querySelector('title')?.textContent || '';
     const description = element.querySelector('description')?.textContent || title;
 

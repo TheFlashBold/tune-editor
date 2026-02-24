@@ -1,4 +1,4 @@
-import { Parameter, DataType, AxisDefinition, Definition, DATA_TYPE_INFO } from '../types';
+import { IDefinitionParameter, DataType, AxisDefinition, Definition, DATA_TYPE_INFO } from '../types';
 
 interface CompuMethod {
   name: string;
@@ -281,7 +281,7 @@ export class A2LParser {
   }
 
   generateDefinition(name: string): Definition {
-    const parameters: Parameter[] = [];
+    const parameters: IDefinitionParameter[] = [];
 
     for (const char of this.characteristics) {
       const mapping = this.matchCategory(char.name);
@@ -291,7 +291,7 @@ export class A2LParser {
       const dataType = layout?.dataType || 'UWORD';
       const { factor, offset, unit } = this.getConversion(char.compuMethod);
 
-      const param: Parameter = {
+      const param: IDefinitionParameter = {
         name: char.name,
         description: char.description,
         address: char.address,

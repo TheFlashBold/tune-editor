@@ -1,5 +1,5 @@
 import {useState, useRef, useEffect} from 'preact/hooks';
-import type {VehicleSettings} from '../app';
+import type {VehicleSettings} from '../lib/vehicleSettings';
 import {Modal} from './Modal';
 
 const BLE_SERVICE_UUID = "0000abf0-0000-1000-8000-00805f9b34fb";

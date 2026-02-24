@@ -1,1608 +1,279 @@
-import { useState, useCallback, useRef, useMemo } from 'preact/hooks';
-import { DATA_TYPE_INFO } from './types';
-import type { Definition, Parameter } from './types';
-import { FileLoader } from './components/FileLoader';
-import { XdfLoader } from './components/XdfLoader';
-import { CategoryTree } from './components/CategoryTree';
-import { ValueEditor } from './components/ValueEditor';
-import { LogViewer } from './components/LogViewer';
-import { BLEConnector } from './components/BLEConnector';
-import { Modal } from './components/Modal';
-import { PatchManager, mergeDefinitions } from './components/PatchManager';
-import { parseBtp, verifyCrc32, checkPatch, buildBtp } from './lib/btpParser';
-import type { PatchCheckResult } from './lib/btpParser';
-import { readParameterValue, readTableData, readAxisData, formatValue, debugHexDump, debugLayoutComparison, debugFindDataOffset, debugTableAddresses, debugEccBlock, addressToOffset } from './lib/binUtils';
-import { loadDefinitionIndex, loadDefinition, findMatchingDefinitions, type DefinitionIndexEntry } from './lib/definitionLoader';
-import { s19ToBinary, isS19File, hexToBinary, isHexFile } from './lib/s19Parser';
+import {useState, useCallback} from 'preact/hooks';
+import type {Definition} from './types';
+import {FileLoader} from './components/FileLoader';
+import {XdfLoader} from './components/XdfLoader';
+import {LogViewer} from './components/LogViewer';
+import {BLEConnector} from './components/BLEConnector';
+import {Modal} from './components/Modal';
+import {PatchManager} from './components/PatchManager';
+import {MenuBar} from './components/MenuBar';
+import {Sidebar} from './components/Sidebar';
+import {MainArea} from './components/MainArea';
+import {SettingsModal} from './components/SettingsModal';
+import {ChangesModal} from './components/ChangesModal';
+import {DefinitionPickerModal} from './components/DefinitionPickerModal';
+import {AppContext} from './context/app';
+import {useAppState} from './hooks/useAppState';
+import {loadSettings, saveSettings, calculateWheelCircumference} from './lib/vehicleSettings';
+import type {VehicleSettings} from './lib/vehicleSettings';
+import {loadDefinition} from './lib/definitionLoader';
+import {isS19File, isHexFile} from './lib/s19Parser';
 import './app.css';
 
-// Vehicle settings interface
-export interface VehicleSettings {
-  weight: number; // kg
-  tireWidth: number; // mm (e.g., 225)
-  tireAspect: number; // % (e.g., 45)
-  rimDiameter: number; // inches (e.g., 17)
-  wheelCircumference: number; // mm (calculated or manual)
-  useManualCircumference: boolean;
-  gearRatios: number[]; // gear ratio for each gear (index 0 = neutral, 1-7 = gears)
-  finalDrive: number; // final drive ratio (Achsübersetzung)
-  loggingRate: number; // Hz
-}
+const BIN_EXTENSIONS = ['.bin', '.ori', '.mod'];
 
-const DEFAULT_VEHICLE_SETTINGS: VehicleSettings = {
-  weight: 1500,
-  tireWidth: 225,
-  tireAspect: 45,
-  rimDiameter: 17,
-  wheelCircumference: 1987,
-  useManualCircumference: false,
-  // Total ratios (gear × final drive) - set finalDrive to 1 when using total ratios
-  gearRatios: [0, 13.24, 8.23, 5.79, 4.33, 3.40, 2.87, 0],
-  finalDrive: 1,
-  loggingRate: 20,
-};
-
-const STORAGE_KEY = 'vehicleSettings';
-
-function loadSettings(): VehicleSettings {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      return { ...DEFAULT_VEHICLE_SETTINGS, ...JSON.parse(stored) };
-    }
-  } catch (e) {
-    console.error('Failed to load settings:', e);
-  }
-  return DEFAULT_VEHICLE_SETTINGS;
-}
-
-function saveSettings(settings: VehicleSettings) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-  } catch (e) {
-    console.error('Failed to save settings:', e);
-  }
-}
-
-function calculateWheelCircumference(width: number, aspect: number, rimDiameter: number): number {
-  // Tire sidewall height = width * (aspect / 100)
-  const sidewallHeight = width * (aspect / 100);
-  // Total diameter = rim diameter (in mm) + 2 * sidewall height
-  const rimDiameterMm = rimDiameter * 25.4;
-  const totalDiameter = rimDiameterMm + 2 * sidewallHeight;
-  // Circumference = π * diameter
-  return Math.round(Math.PI * totalDiameter);
-}
-
-interface CellDiff {
-  row: number;
-  col: number;
-  original: number;
-  current: number;
-}
-
-interface AxisDiff {
-  axis: 'x' | 'y';
-  original: number[];
-  current: number[];
-  changedIndices: number[];
-}
-
-interface ParamDiff {
-  param: Parameter;
-  originalValue: number | number[][];
-  currentValue: number | number[][];
-  cellDiffs?: CellDiff[];
-  axisDiffs?: AxisDiff[];
-  xAxis?: number[];
-  yAxis?: number[];
+function classifyFile(name: string): 'json' | 'bin' | 'csv' | null {
+    const lower = name.toLowerCase();
+    if (lower.endsWith('.json')) return 'json';
+    if (lower.endsWith('.csv')) return 'csv';
+    if (BIN_EXTENSIONS.some(ext => lower.endsWith(ext))) return 'bin';
+    if (isS19File(name) || isHexFile(name)) return 'bin';
+    return null;
 }
 
 export function App() {
-  const [showConverter, setShowConverter] = useState(false);
-  const [showXdfConverter, setShowXdfConverter] = useState(false);
-  const [showFileMenu, setShowFileMenu] = useState(false);
-  const [showToolsMenu, setShowToolsMenu] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
-  const [showLogViewer, setShowLogViewer] = useState(false);
-  const [showBLEConnector, setShowBLEConnector] = useState(false);
-  const [showDefinitions, setShowDefinitions] = useState(false);
-  const [logViewerData, setLogViewerData] = useState<string | null>(null);
-  const [showChanges, setShowChanges] = useState(false);
-  const [showDefinitionPicker, setShowDefinitionPicker] = useState(false);
-  const [definitionMatches, setDefinitionMatches] = useState<{ entry: DefinitionIndexEntry; mode: 'full' | 'cal' }[]>([]);
-  const [allDefinitions, setAllDefinitions] = useState<DefinitionIndexEntry[]>([]);
-  const [detectedMode, setDetectedMode] = useState<'full' | 'cal' | null>(null);
-  const [calOffset, setCalOffset] = useState<number>(0);
-  const [definition, setDefinition] = useState<Definition | null>(null);
-  const [binData, setBinData] = useState<Uint8Array | null>(null);
-  const [binFileName, setBinFileName] = useState<string | null>(null);
-  const [originalBinData, setOriginalBinData] = useState<Uint8Array | null>(null);
-  const [originalBinFileName, setOriginalBinFileName] = useState<string | null>(null);
-  const [selectedParam, setSelectedParam] = useState<Parameter | null>(null);
-  const [modified, setModified] = useState(false);
-  const [vehicleSettings, setVehicleSettings] = useState<VehicleSettings>(loadSettings);
-  const [dragOverDef, setDragOverDef] = useState(false);
-  const [dragOverBin, setDragOverBin] = useState(false);
-  const [showPatchManager, setShowPatchManager] = useState(false);
-  const [patchResults, setPatchResults] = useState<PatchCheckResult[]>([]);
+    const appState = useAppState();
 
-  const jsonInputRef = useRef<HTMLInputElement>(null);
-  const binInputRef = useRef<HTMLInputElement>(null);
+    // Vehicle settings (local to App — only used by Settings and BLE)
+    const [vehicleSettings, setVehicleSettings] = useState<VehicleSettings>(loadSettings);
 
-  // Expose debug functions to window for console debugging
-  const baseAddress = definition?.baseAddress ?? 0xa0000000;
-  const bigEndian = definition?.bigEndian ?? false;
-  (window as any).debug = {
-    getBinData: () => binData,
-    getDefinition: () => definition,
-    getSelectedParam: () => selectedParam,
-    getCalOffset: () => calOffset,
-    getBaseAddress: () => baseAddress,
-    hexDump: (addr: number, len: number = 64) => binData && console.log(debugHexDump(binData, addr, len, calOffset)),
-    readTable: (paramName?: string) => {
-      const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
-      if (!p || !binData) return null;
-      return readTableData(binData, p, calOffset, baseAddress, bigEndian, true); // debug=true
-    },
-    readAxis: (paramName?: string, axis: 'x' | 'y' = 'x') => {
-      const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
-      if (!p || !binData) return null;
-      const axisDef = axis === 'x' ? p.xAxis : p.yAxis;
-      if (!axisDef) return null;
-      return readAxisData(binData, axisDef, calOffset, baseAddress, bigEndian);
-    },
-    // Compare ROW_DIR vs COLUMN_DIR layouts to identify actual storage format
-    compareLayouts: (paramName?: string) => {
-      const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
-      if (!p || !binData) { console.log('No param or binData'); return; }
-      debugLayoutComparison(binData, p, calOffset);
-    },
-    // Search for correct data offset by trying different byte offsets
-    findOffset: (paramName?: string) => {
-      const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
-      if (!p || !binData) { console.log('No param or binData'); return; }
-      debugFindDataOffset(binData, p, calOffset);
-    },
-    // Show all addresses for a table and highlight 0xFF00 values
-    tableAddresses: (paramName?: string) => {
-      const p = paramName ? definition?.parameters.find(x => x.name === paramName) : selectedParam;
-      if (!p || !binData) { console.log('No param or binData'); return; }
-      debugTableAddresses(binData, p, calOffset);
-    },
-    // Analyze ECC block at a specific offset or at the selected param's address
-    eccBlock: (offset?: number) => {
-      if (!binData) { console.log('No binData'); return; }
-      let blockOffset: number;
-      if (offset !== undefined) {
-        blockOffset = Math.floor(offset / 64) * 64; // Align to 64-byte block
-      } else if (selectedParam) {
-        const fileOffset = addressToOffset(selectedParam.address, calOffset);
-        blockOffset = Math.floor(fileOffset / 64) * 64;
-      } else {
-        console.log('No offset provided and no param selected');
-        return;
-      }
-      debugEccBlock(binData, blockOffset);
-    }
-  };
-  const originalBinInputRef = useRef<HTMLInputElement>(null);
+    // Modal visibility flags
+    const [showConverter, setShowConverter] = useState(false);
+    const [showXdfConverter, setShowXdfConverter] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
+    const [showLogViewer, setShowLogViewer] = useState(false);
+    const [showBLEConnector, setShowBLEConnector] = useState(false);
+    const [showDefinitions, setShowDefinitions] = useState(false);
+    const [showChanges, setShowChanges] = useState(false);
+    const [showPatchManager, setShowPatchManager] = useState(false);
+    const [logViewerData, setLogViewerData] = useState<string | null>(null);
 
-  // Update circumference when tire dimensions change
-  const updateVehicleSettings = useCallback((updates: Partial<VehicleSettings>) => {
-    setVehicleSettings(prev => {
-      const next = { ...prev, ...updates };
-      // Auto-calculate circumference if not using manual
-      if (!next.useManualCircumference && ('tireWidth' in updates || 'tireAspect' in updates || 'rimDiameter' in updates)) {
-        next.wheelCircumference = calculateWheelCircumference(next.tireWidth, next.tireAspect, next.rimDiameter);
-      }
-      saveSettings(next);
-      return next;
-    });
-  }, []);
-
-  const handleDefinitionLoad = useCallback((def: Definition) => {
-    setDefinition(def);
-    setSelectedParam(null);
-    setShowConverter(false);
-    setShowXdfConverter(false);
-  }, []);
-
-  const handleModify = useCallback(() => {
-    setModified(true);
-  }, []);
-
-  const handleSaveBin = useCallback(() => {
-    if (!binData || !binFileName) return;
-
-    const blob = new Blob([binData.buffer as ArrayBuffer], { type: 'application/octet-stream' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = binFileName.replace(/\.[^.]+$/, '_mod.bin');
-    a.click();
-    URL.revokeObjectURL(url);
-    setModified(false);
-    setShowFileMenu(false);
-  }, [binData, binFileName]);
-
-  const handleSaveCal = useCallback(() => {
-    if (!binData || !binFileName || !definition) return;
-
-    const defCalOffset = definition.verification?.calOffset ?? (definition as any).offset ?? 0;
-    if (!defCalOffset) return;
-
-    // Compute CAL block extent from parameter addresses
-    const base = definition.baseAddress ?? 0xa0000000;
-    let maxFileOffset = 0;
-    for (const p of definition.parameters) {
-      const rows = p.rows || 1;
-      const cols = p.cols || 1;
-      const typeSize = DATA_TYPE_INFO[p.dataType].size;
-      const end = (p.address - base) + rows * cols * typeSize;
-      if (end > maxFileOffset) maxFileOffset = end;
-      if (p.xAxis?.address) {
-        const axEnd = (p.xAxis.address - base) + p.xAxis.points * DATA_TYPE_INFO[p.xAxis.dataType ?? 'UWORD'].size;
-        if (axEnd > maxFileOffset) maxFileOffset = axEnd;
-      }
-      if (p.yAxis?.address) {
-        const axEnd = (p.yAxis.address - base) + p.yAxis.points * DATA_TYPE_INFO[p.yAxis.dataType ?? 'UWORD'].size;
-        if (axEnd > maxFileOffset) maxFileOffset = axEnd;
-      }
-    }
-
-    // Round up to 64KB boundary
-    const calEnd = Math.min(Math.ceil(maxFileOffset / 0x10000) * 0x10000, binData.length);
-    const calData = binData.slice(defCalOffset, calEnd);
-
-    const blob = new Blob([calData.buffer as ArrayBuffer], { type: 'application/octet-stream' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = binFileName.replace(/\.[^.]+$/, '_cal.bin');
-    a.click();
-    URL.revokeObjectURL(url);
-    setModified(false);
-    setShowFileMenu(false);
-  }, [binData, binFileName, definition]);
-
-  const handleOpenJson = useCallback(async () => {
-    const file = jsonInputRef.current?.files?.[0];
-    if (!file) return;
-    const text = await file.text();
-    const def = JSON.parse(text) as Definition;
-    setDefinition(def);
-    setSelectedParam(null);
-    setShowFileMenu(false);
-    if (jsonInputRef.current) jsonInputRef.current.value = '';
-  }, []);
-
-  // Auto-detect patches for a loaded binary
-  const detectPatches = useCallback(async (data: Uint8Array, currentDef: Definition | null) => {
-    try {
-      const response = await fetch('./patches/index.json');
-      if (!response.ok) return;
-      const patchIndex: { name: string; file: string; definition?: string; category?: string }[] = await response.json();
-
-      const results: PatchCheckResult[] = [];
-      for (const entry of patchIndex) {
-        try {
-          const btpResponse = await fetch(`./patches/${entry.file}`);
-          if (!btpResponse.ok) continue;
-          const btpData = new Uint8Array(await btpResponse.arrayBuffer());
-          const crcValid = verifyCrc32(btpData);
-          const { header, blocks } = parseBtp(btpData);
-
-          if (header.fileSize === data.length) {
-            const status = checkPatch(blocks, data);
-            results.push({
-              name: entry.name,
-              file: entry.file,
-              status,
-              definition: entry.definition,
-              category: entry.category,
-              blocks,
-              header,
-              crcValid,
-            });
-          }
-        } catch {
-          // Skip individual patch load failures
-        }
-      }
-
-      setPatchResults(results);
-
-      // Auto-load definitions for applied patches
-      const appliedWithDef = results.filter(r => r.status === 'applied' && r.definition);
-      if (appliedWithDef.length > 0 && currentDef) {
-        let mergedDef = currentDef;
-        for (const applied of appliedWithDef) {
-          try {
-            const patchDef = await fetch(`./patches/definitions/${applied.definition}`).then(r => r.json()) as Definition;
-            mergedDef = mergeDefinitions(mergedDef, patchDef, applied.name);
-          } catch {
-            // Skip individual definition load failures
-          }
-        }
-        setDefinition(mergedDef);
-      }
-    } catch {
-      // Patch index not available, silently skip
-    }
-  }, []);
-
-  const handleOpenBin = useCallback(async () => {
-    const file = binInputRef.current?.files?.[0];
-    if (!file) return;
-
-    let data: Uint8Array;
-    let displayName = file.name;
-
-    // Parse S19/HEX files, otherwise load as binary
-    if (isS19File(file.name)) {
-      const text = await file.text();
-      data = s19ToBinary(text);
-      displayName = file.name.replace(/\.(s19|srec|mot)$/i, '.bin');
-    } else if (isHexFile(file.name)) {
-      const text = await file.text();
-      data = hexToBinary(text);
-      displayName = file.name.replace(/\.(hex|ihex)$/i, '.bin');
-    } else {
-      const buffer = await file.arrayBuffer();
-      data = new Uint8Array(buffer);
-    }
-
-    setBinData(data);
-    setBinFileName(displayName);
-    setModified(false);
-    setShowFileMenu(false);
-    if (binInputRef.current) binInputRef.current.value = '';
-
-    // Auto-detect and load matching definition
-    let loadedDef: Definition | null = null;
-    try {
-      const matches = await findMatchingDefinitions(data);
-      if (matches.length === 1) {
-        const match = matches[0];
-        const def = await loadDefinition(match.entry.file);
-        setDefinition(def);
-        setDetectedMode(match.mode);
-        // Use definition.offset if available, otherwise fall back to verification.calOffset
-        const defOffset = def.offset ?? match.entry.verification?.calOffset ?? 0;
-        setCalOffset(match.mode === 'cal' ? defOffset : 0);
-        setSelectedParam(null);
-        loadedDef = def;
-      } else if (matches.length > 1) {
-        setDefinitionMatches(matches);
-        setShowDefinitionPicker(true);
-      }
-    } catch (err) {
-      console.error('Definition auto-detect failed:', err);
-    }
-
-    // Auto-detect patches
-    detectPatches(data, loadedDef);
-  }, [detectPatches]);
-
-  const handleSelectDefinition = useCallback(async (entry: DefinitionIndexEntry, mode: 'full' | 'cal') => {
-    try {
-      const def = await loadDefinition(entry.file);
-      setDefinition(def);
-      setDetectedMode(mode);
-      // Use definition.offset if available, otherwise fall back to verification.calOffset
-      const defOffset = def.offset ?? entry.verification?.calOffset ?? 0;
-      setCalOffset(mode === 'cal' ? defOffset : 0);
-      setSelectedParam(null);
-      setShowDefinitionPicker(false);
-      setDefinitionMatches([]); // Clear notification after loading
-    } catch (err) {
-      console.error('Failed to load definition:', err);
-    }
-  }, []);
-
-  const handleSearchDefinitions = useCallback(async () => {
-    if (!binData) return;
-    try {
-      const matches = await findMatchingDefinitions(binData);
-      const all = await loadDefinitionIndex();
-      setDefinitionMatches(matches);
-      setAllDefinitions(all);
-      setShowDefinitionPicker(true);
-      setShowFileMenu(false);
-    } catch (err) {
-      console.error('Definition search failed:', err);
-    }
-  }, [binData]);
-
-  // Drag and drop handlers
-  const handleDefDrop = useCallback(async (e: DragEvent) => {
-    e.preventDefault();
-    setDragOverDef(false);
-    const file = e.dataTransfer?.files[0];
-    if (!file || !file.name.endsWith('.json')) return;
-    try {
-      const text = await file.text();
-      const def = JSON.parse(text) as Definition;
-      setDefinition(def);
-      setSelectedParam(null);
-    } catch (err) {
-      console.error('Failed to load definition:', err);
-    }
-  }, []);
-
-  const handleBinDrop = useCallback(async (e: DragEvent) => {
-    e.preventDefault();
-    setDragOverBin(false);
-    const file = e.dataTransfer?.files[0];
-    if (!file) return;
-
-    const ext = file.name.toLowerCase();
-    const isBinFile = ext.endsWith('.bin') || ext.endsWith('.ori') || ext.endsWith('.mod');
-    const isS19 = isS19File(file.name);
-    const isHex = isHexFile(file.name);
-    if (!isBinFile && !isS19 && !isHex) return;
-
-    let data: Uint8Array;
-    let displayName = file.name;
-
-    // Parse S19/HEX files, otherwise load as binary
-    if (isS19) {
-      const text = await file.text();
-      data = s19ToBinary(text);
-      displayName = file.name.replace(/\.(s19|srec|mot)$/i, '.bin');
-    } else if (isHex) {
-      const text = await file.text();
-      data = hexToBinary(text);
-      displayName = file.name.replace(/\.(hex|ihex)$/i, '.bin');
-    } else {
-      const buffer = await file.arrayBuffer();
-      data = new Uint8Array(buffer);
-    }
-
-    setBinData(data);
-    setBinFileName(displayName);
-    setModified(false);
-
-    // Auto-detect and load matching definition
-    let loadedDef: Definition | null = null;
-    try {
-      const matches = await findMatchingDefinitions(data);
-      if (matches.length === 1) {
-        const match = matches[0];
-        const def = await loadDefinition(match.entry.file);
-        setDefinition(def);
-        setDetectedMode(match.mode);
-        // Use definition.offset if available, otherwise fall back to verification.calOffset
-        const defOffset = def.offset ?? match.entry.verification?.calOffset ?? 0;
-        setCalOffset(match.mode === 'cal' ? defOffset : 0);
-        setSelectedParam(null);
-        loadedDef = def;
-      } else if (matches.length > 1) {
-        setDefinitionMatches(matches);
-        setShowDefinitionPicker(true);
-      }
-    } catch (err) {
-      console.error('Definition auto-detect failed:', err);
-    }
-
-    // Auto-detect patches
-    detectPatches(data, loadedDef);
-  }, [detectPatches]);
-
-  const preventDefaults = useCallback((e: DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }, []);
-
-  const handleOpenOriginalBin = useCallback(async () => {
-    const file = originalBinInputRef.current?.files?.[0];
-    if (!file) return;
-    const buffer = await file.arrayBuffer();
-    setOriginalBinData(new Uint8Array(buffer));
-    setOriginalBinFileName(file.name);
-    setShowFileMenu(false);
-    if (originalBinInputRef.current) originalBinInputRef.current.value = '';
-  }, []);
-
-  const getParamByteRanges = useCallback((): { offset: number; length: number }[] => {
-    if (!definition || !binData) return [];
-    const defBaseAddress = definition.baseAddress ?? 0xa0000000;
-    const ranges: { offset: number; length: number }[] = [];
-    const seen = new Set<string>();
-
-    const addRange = (offset: number, length: number) => {
-      if (offset < 0 || offset + length > binData.length) return;
-      const key = `${offset}:${length}`;
-      if (seen.has(key)) return;
-      seen.add(key);
-      ranges.push({ offset, length });
-    };
-
-    for (const param of definition.parameters) {
-      const rows = param.rows || 1;
-      const cols = param.cols || 1;
-      const typeSize = DATA_TYPE_INFO[param.dataType].size;
-      const dataOffset = param.dataOffset ?? 0;
-      const fileOffset = addressToOffset(param.address, calOffset, defBaseAddress) + dataOffset;
-      addRange(fileOffset, rows * cols * typeSize);
-
-      if (param.xAxis?.address) {
-        const axType = DATA_TYPE_INFO[param.xAxis.dataType ?? param.dataType].size;
-        const axDataOffset = param.xAxis.dataOffset ?? 0;
-        const axFileOffset = addressToOffset(param.xAxis.address, calOffset, defBaseAddress) + axDataOffset;
-        addRange(axFileOffset, param.xAxis.points * axType);
-      }
-      if (param.yAxis?.address) {
-        const axType = DATA_TYPE_INFO[param.yAxis.dataType ?? param.dataType].size;
-        const axDataOffset = param.yAxis.dataOffset ?? 0;
-        const axFileOffset = addressToOffset(param.yAxis.address, calOffset, defBaseAddress) + axDataOffset;
-        addRange(axFileOffset, param.yAxis.points * axType);
-      }
-    }
-
-    // Sort by offset and merge overlapping/adjacent ranges
-    ranges.sort((a, b) => a.offset - b.offset);
-    const merged: { offset: number; length: number }[] = [];
-    for (const r of ranges) {
-      const last = merged[merged.length - 1];
-      if (last && r.offset <= last.offset + last.length) {
-        const end = Math.max(last.offset + last.length, r.offset + r.length);
-        last.length = end - last.offset;
-      } else {
-        merged.push({ ...r });
-      }
-    }
-    return merged;
-  }, [definition, binData, calOffset]);
-
-  const handleExportBtp = useCallback(() => {
-    if (!binData || !originalBinData || !definition) return;
-
-    const ranges = getParamByteRanges();
-    const softCode = (definition.verification?.expected ?? definition.name).slice(0, 8);
-    const btpData = buildBtp(originalBinData, binData, softCode, ranges);
-
-    // Check if there are any blocks
-    const blockCount = btpData[28] | (btpData[29] << 8) | (btpData[30] << 16) | ((btpData[31] << 24) >>> 0);
-    if (blockCount === 0) {
-      alert('No changes to export');
-      return;
-    }
-
-    const blob = new Blob([btpData.buffer as ArrayBuffer], { type: 'application/octet-stream' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = (binFileName ?? 'patch').replace(/\.[^.]+$/, '_patch.btp');
-    a.click();
-    URL.revokeObjectURL(url);
-    setShowFileMenu(false);
-  }, [binData, originalBinData, definition, binFileName, getParamByteRanges]);
-
-  // Calculate differences between original and current BIN
-  const changes = useMemo((): ParamDiff[] => {
-    if (!definition || !binData || !originalBinData) return [];
-
-    const diffs: ParamDiff[] = [];
-
-    const defBaseAddress = definition.baseAddress ?? 0xa0000000;
-    const defBigEndian = definition.bigEndian ?? false;
-
-    for (const param of definition.parameters) {
-      if (param.type === 'VALUE') {
-        const originalValue = readParameterValue(originalBinData, param, calOffset, defBaseAddress, defBigEndian);
-        const currentValue = readParameterValue(binData, param, calOffset, defBaseAddress, defBigEndian);
-        if (Math.abs(originalValue - currentValue) > 0.0001) {
-          diffs.push({ param, originalValue, currentValue });
-        }
-      } else {
-        const originalTable = readTableData(originalBinData, param, calOffset, defBaseAddress, defBigEndian);
-        const currentTable = readTableData(binData, param, calOffset, defBaseAddress, defBigEndian);
-        const cellDiffs: CellDiff[] = [];
-
-        for (let r = 0; r < originalTable.length; r++) {
-          for (let c = 0; c < originalTable[r].length; c++) {
-            if (Math.abs(originalTable[r][c] - currentTable[r][c]) > 0.0001) {
-              cellDiffs.push({
-                row: r,
-                col: c,
-                original: originalTable[r][c],
-                current: currentTable[r][c],
-              });
+    const updateVehicleSettings = useCallback((updates: Partial<VehicleSettings>) => {
+        setVehicleSettings(prev => {
+            const next = {...prev, ...updates};
+            if (!next.useManualCircumference && ('tireWidth' in updates || 'tireAspect' in updates || 'rimDiameter' in updates)) {
+                next.wheelCircumference = calculateWheelCircumference(next.tireWidth, next.tireAspect, next.rimDiameter);
             }
-          }
-        }
+            saveSettings(next);
+            return next;
+        });
+    }, []);
 
-        // Check axis changes
-        const axisDiffs: AxisDiff[] = [];
+    const handleDefinitionLoad = useCallback((def: Definition) => {
+        appState.setDefinition(def);
+        appState.setSelectedParam(null);
+        setShowConverter(false);
+        setShowXdfConverter(false);
+    }, [appState]);
 
-        if (param.xAxis?.address) {
-          const originalXAxis = readAxisData(originalBinData, param.xAxis, calOffset, defBaseAddress, defBigEndian);
-          const currentXAxis = readAxisData(binData, param.xAxis, calOffset, defBaseAddress, defBigEndian);
-          const changedIndices: number[] = [];
-          for (let i = 0; i < originalXAxis.length; i++) {
-            if (Math.abs(originalXAxis[i] - currentXAxis[i]) > 0.0001) {
-              changedIndices.push(i);
-            }
-          }
-          if (changedIndices.length > 0) {
-            axisDiffs.push({ axis: 'x', original: originalXAxis, current: currentXAxis, changedIndices });
-          }
-        }
+    // Global drag & drop — routes by file type
+    const handleGlobalDrop = useCallback(async (e: DragEvent) => {
+        e.preventDefault();
+        const file = e.dataTransfer?.files[0];
+        if (!file) return;
 
-        if (param.yAxis?.address) {
-          const originalYAxis = readAxisData(originalBinData, param.yAxis, calOffset, defBaseAddress, defBigEndian);
-          const currentYAxis = readAxisData(binData, param.yAxis, calOffset, defBaseAddress, defBigEndian);
-          const changedIndices: number[] = [];
-          for (let i = 0; i < originalYAxis.length; i++) {
-            if (Math.abs(originalYAxis[i] - currentYAxis[i]) > 0.0001) {
-              changedIndices.push(i);
-            }
-          }
-          if (changedIndices.length > 0) {
-            axisDiffs.push({ axis: 'y', original: originalYAxis, current: currentYAxis, changedIndices });
-          }
-        }
-
-        if (cellDiffs.length > 0 || axisDiffs.length > 0) {
-          // Read current axis data for display
-          const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset, defBaseAddress, defBigEndian) : undefined;
-          const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset, defBaseAddress, defBigEndian) : undefined;
-
-          diffs.push({
-            param,
-            originalValue: originalTable,
-            currentValue: currentTable,
-            cellDiffs,
-            axisDiffs,
-            xAxis,
-            yAxis,
-          });
-        }
-      }
-    }
-
-    return diffs;
-  }, [definition, binData, originalBinData, calOffset]);
-
-  return (
-    <div class="flex flex-col h-screen bg-zinc-900 text-zinc-100">
-      {/* Menu Bar */}
-      <header class="flex items-center gap-1 px-1 py-1 bg-zinc-800 border-b border-zinc-700">
-        {/* File Menu */}
-        <div class="relative">
-          <button
-              onClick={() => setShowFileMenu(!showFileMenu)}
-              className={`px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer ${showFileMenu ? 'bg-zinc-700' : ''}`}
-          >
-            File
-          </button>
-          {showFileMenu && (
-              <>
-                <div class="fixed inset-0 z-10" onClick={() => setShowFileMenu(false)}/>
-                <div
-                    class="absolute left-0 top-full mt-1 w-48 bg-zinc-800 border border-zinc-600 rounded shadow-lg z-20">
-                  <label class="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
-                    Open Definition...
-                    <input
-                        type="file"
-                        accept=".json"
-                        ref={jsonInputRef}
-                        onChange={handleOpenJson}
-                        class="hidden"
-                    />
-                  </label>
-                  <label class="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
-                    Open BIN/S19/HEX...
-                    <input
-                        type="file"
-                        accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex"
-                        ref={binInputRef}
-                        onChange={handleOpenBin}
-                        class="hidden"
-                    />
-                  </label>
-                  <label class="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
-                    Open Original BIN...
-                    <input
-                        type="file"
-                        accept=".bin,.ori,.mod"
-                        ref={originalBinInputRef}
-                        onChange={handleOpenOriginalBin}
-                        class="hidden"
-                    />
-                  </label>
-                  <div class="border-t border-zinc-600 my-1"/>
-                  <button
-                      onClick={handleSearchDefinitions}
-                      disabled={!binData}
-                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
-                  >
-                    Find Definition...
-                  </button>
-                  <div class="border-t border-zinc-600 my-1"/>
-                  <button
-                      onClick={handleSaveBin}
-                      disabled={!binData}
-                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
-                  >
-                    Save BIN
-                  </button>
-                  {detectedMode === 'full' && definition?.verification?.calOffset && (
-                    <button
-                        onClick={handleSaveCal}
-                        disabled={!binData}
-                        className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
-                    >
-                      Save CAL
-                    </button>
-                  )}
-                  <button
-                      onClick={handleExportBtp}
-                      disabled={!binData || !originalBinData}
-                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
-                  >
-                    Export Changes as BTP Patch
-                  </button>
-                </div>
-              </>
-          )}
-        </div>
-
-        {/* Tools Menu */}
-        <div class="relative">
-          <button
-              onClick={() => setShowToolsMenu(!showToolsMenu)}
-              className={`px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer ${showToolsMenu ? 'bg-zinc-700' : ''}`}
-          >
-            Tools
-          </button>
-          {showToolsMenu && (
-              <>
-                <div class="fixed inset-0 z-10" onClick={() => setShowToolsMenu(false)}/>
-                <div
-                    class="absolute left-0 top-full mt-1 w-48 bg-zinc-800 border border-zinc-600 rounded shadow-lg z-20">
-                  <button
-                      onClick={() => {
-                        setShowConverter(true);
-                        setShowToolsMenu(false);
-                      }}
-                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer"
-                  >
-                    A2L Converter
-                  </button>
-                  <button
-                      onClick={() => {
-                        setShowXdfConverter(true);
-                        setShowToolsMenu(false);
-                      }}
-                      className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer"
-                  >
-                    XDF Converter
-                  </button>
-                </div>
-              </>
-          )}
-        </div>
-
-        {/* Settings Button */}
-        <button
-            onClick={() => setShowSettings(true)}
-            className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
-        >
-          Settings
-        </button>
-
-        <button
-            onClick={() => {
-              setShowLogViewer(true);
-              setShowToolsMenu(false);
-            }}
-            className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
-        >
-          Log Viewer
-        </button>
-
-        <button
-            onClick={() => {
-              setShowBLEConnector(true);
-              setShowToolsMenu(false);
-            }}
-            className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
-        >
-          Connect to ISO-TP Bridge
-        </button>
-
-        <button
-            onClick={async () => {
-              try {
-                const defs = await loadDefinitionIndex();
-                setAllDefinitions(defs);
-                setShowDefinitions(true);
-              } catch (err) {
-                console.error('Failed to load definitions:', err);
-              }
-            }}
-            className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
-        >
-          Definitions
-        </button>
-
-        <button
-            onClick={() => setShowPatchManager(true)}
-            disabled={!binData}
-            className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500"
-        >
-          Patches
-          {patchResults.filter(r => r.status === 'applied').length > 0 && (
-            <span class="ml-1 text-green-400">
-              ({patchResults.filter(r => r.status === 'applied').length})
-            </span>
-          )}
-        </button>
-
-        {originalBinData && binData && (
-            <button
-                onClick={() => setShowChanges(true)}
-                className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
-            >
-              Changes ({changes.length})
-            </button>
-        )}
-
-        <div class="flex-1"/>
-
-        {originalBinFileName && (
-            <div class="flex items-center gap-2 mr-2">
-              <span class="text-xs text-zinc-500">Original:</span>
-              <span class="font-mono text-sm text-zinc-400">{originalBinFileName}</span>
-            </div>
-        )}
-        {binFileName && (
-            <div class="flex items-center gap-2 mr-2">
-              <span class="font-mono text-sm text-zinc-400">{binFileName}</span>
-              {detectedMode && (
-                  <span class={`px-2 py-0.5 rounded text-xs font-medium ${
-                      detectedMode === 'cal' ? 'bg-blue-900 text-blue-300' : 'bg-purple-900 text-purple-300'
-                  }`}>
-                {detectedMode === 'cal' ? 'CAL' : 'Full'}
-              </span>
-              )}
-              {detectedMode && definition?.verification?.expected && (
-                  <span class="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700 text-zinc-300">
-                    {definition.verification.expected}
-                  </span>
-              )}
-              {patchResults.filter(r => r.status === 'applied').length > 0 && (
-                  <span class="px-2 py-0.5 rounded text-xs font-medium bg-green-900 text-green-300">
-                    {patchResults.filter(r => r.status === 'applied').length} Patches
-                  </span>
-              )}
-              {modified && (
-                  <span class="px-2 py-0.5 bg-amber-500 text-black rounded text-xs font-semibold">
-                Modified
-              </span>
-              )}
-            </div>
-        )}
-      </header>
-
-      {/* Main Content */}
-      <div class="flex flex-1 overflow-hidden">
-        <aside
-            class={`w-80 flex flex-col bg-zinc-800 border-r border-zinc-700 transition-colors ${
-                dragOverDef ? 'bg-blue-900/30 border-blue-500' : ''
-            }`}
-            onDragOver={(e) => { preventDefaults(e); setDragOverDef(true); }}
-          onDragEnter={(e) => { preventDefaults(e); setDragOverDef(true); }}
-          onDragLeave={() => setDragOverDef(false)}
-          onDrop={handleDefDrop}
-        >
-          {definition ? (
-            <>
-              <div class="flex justify-between px-4 py-3 border-b border-zinc-700 font-semibold">
-                <span class="truncate">{definition.name}</span>
-                <span class="text-zinc-400 font-normal shrink-0 ml-2">{definition.parameters.length}</span>
-              </div>
-              <CategoryTree
-                parameters={definition.parameters}
-                onSelect={setSelectedParam}
-                selectedParam={selectedParam}
-              />
-            </>
-          ) : (
-            <label class="flex-1 flex flex-col justify-center items-center p-4 text-zinc-500 text-sm text-center cursor-pointer hover:bg-zinc-700/50 transition-colors">
-              {dragOverDef ? (
-                <p class="text-blue-400">Drop .json file here</p>
-              ) : (
-                <>
-                  <p>No definition loaded</p>
-                  <p class="mt-2">Click or drop Definition</p>
-                  <p class="mt-1 text-xs">or use A2L Converter</p>
-                </>
-              )}
-              <input
-                type="file"
-                accept=".json"
-                onChange={async (e) => {
-                  const file = (e.target as HTMLInputElement).files?.[0];
-                  if (!file) return;
-                  const text = await file.text();
-                  const def = JSON.parse(text) as Definition;
-                  setDefinition(def);
-                  setSelectedParam(null);
-                  (e.target as HTMLInputElement).value = '';
-                }}
-                class="hidden"
-              />
-            </label>
-          )}
-        </aside>
-
-        <main
-          class={`flex-1 overflow-auto p-4 relative transition-colors ${
-            dragOverBin ? 'bg-green-900/20' : ''
-          }`}
-          onDragOver={(e) => { preventDefaults(e); setDragOverBin(true); }}
-          onDragEnter={(e) => { preventDefaults(e); setDragOverBin(true); }}
-          onDragLeave={() => setDragOverBin(false)}
-          onDrop={handleBinDrop}
-        >
-          <div
-            class="absolute inset-0 pointer-events-none opacity-[0.10]"
-            style={{
-              backgroundImage: 'url(/tune-editor/logo.svg)',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center',
-              backgroundSize: '40%',
-            }}
-          />
-          {!binData && (
-            <label class="flex justify-center items-center h-full text-zinc-500 cursor-pointer hover:bg-zinc-700/30 transition-colors">
-              <div class="text-center">
-                {dragOverBin ? (
-                  <p class="text-green-400">Drop .bin, .s19, or .hex file here</p>
-                ) : (
-                  <>
-                    <p>Click or drop BIN/S19/HEX file</p>
-                    <p class="text-xs mt-1">or use File → Open BIN/S19/HEX</p>
-                  </>
-                )}
-              </div>
-              <input
-                type="file"
-                accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex"
-                onChange={async (e) => {
-                  const file = (e.target as HTMLInputElement).files?.[0];
-                  if (!file) return;
-
-                  let data: Uint8Array;
-                  let displayName = file.name;
-
-                  if (isS19File(file.name)) {
-                    const text = await file.text();
-                    data = s19ToBinary(text);
-                    displayName = file.name.replace(/\.(s19|srec|mot)$/i, '.bin');
-                  } else if (isHexFile(file.name)) {
-                    const text = await file.text();
-                    data = hexToBinary(text);
-                    displayName = file.name.replace(/\.(hex|ihex)$/i, '.bin');
-                  } else {
-                    const buffer = await file.arrayBuffer();
-                    data = new Uint8Array(buffer);
-                  }
-
-                  setBinData(data);
-                  setBinFileName(displayName);
-                  setModified(false);
-                  (e.target as HTMLInputElement).value = '';
-                }}
-                class="hidden"
-              />
-            </label>
-          )}
-
-          {binData && !selectedParam && (
-            <div class="flex justify-center items-center h-full text-zinc-500">
-              Select a parameter from the tree
-            </div>
-          )}
-
-          {binData && selectedParam && (
-            <ValueEditor
-              parameter={selectedParam}
-              binData={binData}
-              originalBinData={originalBinData}
-              calOffset={calOffset}
-              baseAddress={definition?.baseAddress}
-              bigEndian={definition?.bigEndian}
-              onModify={handleModify}
-            />
-          )}
-        </main>
-      </div>
-
-      {/* A2L Converter Modal */}
-      {showConverter && (
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-auto">
-            <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
-              <h2 class="text-lg font-semibold">A2L to JSON Converter</h2>
-              <button
-                onClick={() => setShowConverter(false)}
-                class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
-              >
-                ✕
-              </button>
-            </div>
-            <div class="p-4">
-              <FileLoader onDefinitionLoad={handleDefinitionLoad} />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* XDF Converter Modal */}
-      {showXdfConverter && (
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-auto">
-            <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
-              <h2 class="text-lg font-semibold">XDF to JSON Converter</h2>
-              <button
-                onClick={() => setShowXdfConverter(false)}
-                class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
-              >
-                ✕
-              </button>
-            </div>
-            <div class="p-4">
-              <XdfLoader onDefinitionLoad={handleDefinitionLoad} />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Log Viewer Modal */}
-      {showLogViewer && (
-        <LogViewer
-          onClose={() => { setShowLogViewer(false); setLogViewerData(null); }}
-          initialData={logViewerData}
-        />
-      )}
-
-      {/* BLE Connector Modal */}
-      {showBLEConnector && (
-        <BLEConnector
-          onClose={() => setShowBLEConnector(false)}
-          onLogData={(csv) => {
-            setShowBLEConnector(false);
-            setLogViewerData(csv);
+        const type = classifyFile(file.name);
+        if (type === 'json') {
+            await appState.loadDefinitionJson(file);
+        } else if (type === 'bin') {
+            await appState.loadBin(file);
+        } else if (type === 'csv') {
+            const text = await file.text();
+            setLogViewerData(text);
             setShowLogViewer(true);
-          }}
-          vehicleSettings={vehicleSettings}
-        />
-      )}
+        }
+    }, [appState]);
 
-      {/* Changes Modal */}
-      {showChanges && (
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl max-w-[95vw] w-full mx-4 max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
-              <h2 class="text-lg font-semibold">Changes ({changes.length})</h2>
-              <button
-                onClick={() => setShowChanges(false)}
-                class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
-              >
-                ✕
-              </button>
-            </div>
-            <div class="flex-1 overflow-auto p-4">
-              {changes.length === 0 ? (
-                <p class="text-zinc-500 text-center py-8">No changes detected</p>
-              ) : (
-                <div class="space-y-6">
-                  {changes.map(({ param, originalValue, currentValue, cellDiffs, axisDiffs, xAxis, yAxis }) => (
-                    <div
-                      key={param.name}
-                      class="p-3 bg-zinc-700 rounded"
-                    >
-                      <div
-                        class="flex items-center gap-2 mb-3 cursor-pointer hover:text-blue-400"
-                        onClick={() => {
-                          setSelectedParam(param);
-                          setShowChanges(false);
-                        }}
-                      >
-                        <span class="inline-flex justify-center items-center w-5 h-5 text-xs font-semibold rounded bg-zinc-600 text-zinc-300">
-                          {param.type[0]}
-                        </span>
-                        <span class="font-medium">
-                          {param.customName || param.description || param.name}
-                        </span>
-                        <span class="text-xs text-zinc-500">→ click to edit</span>
-                      </div>
-                      {param.type === 'VALUE' ? (
-                        <div class="flex items-center gap-4 text-sm font-mono">
-                          <span class="text-red-400">{formatValue(originalValue as number, 4)}</span>
-                          <span class="text-zinc-500">→</span>
-                          <span class="text-green-400">{formatValue(currentValue as number, 4)}</span>
-                          <span class="text-zinc-500">{param.unit}</span>
-                        </div>
-                      ) : (
-                        <div class="space-y-2">
-                          {/* Side-by-side table comparison */}
-                          {(() => {
-                            const xDiff = axisDiffs?.find(d => d.axis === 'x');
-                            const yDiff = axisDiffs?.find(d => d.axis === 'y');
-                            const origXAxis = xDiff ? xDiff.original : xAxis;
-                            const origYAxis = yDiff ? yDiff.original : yAxis;
-                            return (
-                          <div class="flex gap-4 overflow-x-auto">
-                            {/* Original table */}
-                            <div class="flex-1 min-w-0">
-                              <div class="text-xs text-zinc-400 mb-1 font-medium">Original</div>
-                              <div class="overflow-x-auto">
-                                <table class="border-collapse font-mono text-[10px]">
-                                  {origXAxis && origXAxis.length > 0 && (
-                                    <thead>
-                                      <tr>
-                                        {origYAxis && origYAxis.length > 0 && (
-                                          <th class="px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-zinc-500"></th>
-                                        )}
-                                        {origXAxis.map((val, i) => {
-                                          const isChanged = xDiff?.changedIndices.includes(i);
-                                          return (
-                                            <th key={i} class={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right font-normal ${isChanged ? 'text-red-400' : 'text-zinc-500'}`}>
-                                              {formatValue(val, 1)}
-                                            </th>
-                                          );
-                                        })}
-                                      </tr>
-                                    </thead>
-                                  )}
-                                  <tbody>
-                                    {(originalValue as number[][]).map((row, rowIdx) => (
-                                      <tr key={rowIdx}>
-                                        {origYAxis && origYAxis.length > 0 && (
-                                          <td class={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right ${yDiff?.changedIndices.includes(rowIdx) ? 'text-red-400' : 'text-zinc-500'}`}>
-                                            {formatValue(origYAxis[rowIdx], 1)}
-                                          </td>
-                                        )}
-                                        {row.map((cell, colIdx) => {
-                                          const isChanged = cellDiffs?.some(d => d.row === rowIdx && d.col === colIdx);
-                                          return (
-                                            <td
-                                              key={colIdx}
-                                              class={`px-1.5 py-0.5 border border-zinc-600 text-right ${
-                                                isChanged ? 'bg-red-900/50 text-red-300' : 'text-zinc-400'
-                                              }`}
-                                            >
-                                              {formatValue(cell, 2)}
-                                            </td>
-                                          );
-                                        })}
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                            {/* Current table */}
-                            <div class="flex-1 min-w-0">
-                              <div class="text-xs text-zinc-400 mb-1 font-medium">Current</div>
-                              <div class="overflow-x-auto">
-                                <table class="border-collapse font-mono text-[10px]">
-                                  {xAxis && xAxis.length > 0 && (
-                                    <thead>
-                                      <tr>
-                                        {yAxis && yAxis.length > 0 && (
-                                          <th class="px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-zinc-500"></th>
-                                        )}
-                                        {xAxis.map((val, i) => {
-                                          const isChanged = xDiff?.changedIndices.includes(i);
-                                          return (
-                                            <th key={i} class={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right font-normal ${isChanged ? 'text-green-400' : 'text-zinc-500'}`}>
-                                              {formatValue(val, 1)}
-                                            </th>
-                                          );
-                                        })}
-                                      </tr>
-                                    </thead>
-                                  )}
-                                  <tbody>
-                                    {(currentValue as number[][]).map((row, rowIdx) => (
-                                      <tr key={rowIdx}>
-                                        {yAxis && yAxis.length > 0 && (
-                                          <td class={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right ${yDiff?.changedIndices.includes(rowIdx) ? 'text-green-400' : 'text-zinc-500'}`}>
-                                            {formatValue(yAxis[rowIdx], 1)}
-                                          </td>
-                                        )}
-                                        {row.map((cell, colIdx) => {
-                                          const isChanged = cellDiffs?.some(d => d.row === rowIdx && d.col === colIdx);
-                                          return (
-                                            <td
-                                              key={colIdx}
-                                              class={`px-1.5 py-0.5 border border-zinc-600 text-right ${
-                                                isChanged ? 'bg-green-900/50 text-green-300' : 'text-zinc-400'
-                                              }`}
-                                            >
-                                              {formatValue(cell, 2)}
-                                            </td>
-                                          );
-                                        })}
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                          </div>
-                            );
-                          })()}
-                          <div class="text-xs text-zinc-500 mt-1">
-                            {cellDiffs?.length || 0} cell{(cellDiffs?.length || 0) !== 1 ? 's' : ''} changed
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+    const preventDefaults = useCallback((e: DragEvent) => {
+        e.preventDefault();
+    }, []);
 
-      {/* Settings Modal */}
-      {showSettings && (
-        <Modal title="Settings" onClose={() => setShowSettings(false)} width="lg">
-          <div class="space-y-5 sm:space-y-6">
-            {/* Logging Section */}
-            <div class="border-b border-zinc-700 pb-1">
-              <h3 class="text-sm font-semibold text-zinc-200">Logging</h3>
-            </div>
+    // Show definition picker when matches > 1
+    const showDefinitionPicker = appState.definitionMatches.length > 1;
 
-            {/* Logging Rate */}
-            <div>
-              <label class="block text-sm font-medium text-zinc-300 mb-2">
-                Logging Rate
-              </label>
-              <div class="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={vehicleSettings.loggingRate}
-                  onChange={(e) => updateVehicleSettings({ loggingRate: Number((e.target as HTMLInputElement).value) })}
-                  class="w-20 px-3 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm"
-                  min={1}
-                  max={100}
-                  step={1}
-                />
-                <span class="text-sm text-zinc-400">Hz</span>
-                <span class="text-xs text-zinc-500 ml-2">
-                  ({(1000 / vehicleSettings.loggingRate).toFixed(0)}ms per frame)
-                </span>
-              </div>
-              <p class="text-xs text-zinc-500 mt-1">
-                Higher rates need faster ECU response. Check query time in datalogger.
-              </p>
-            </div>
-
-            {/* Vehicle Section */}
-            <div class="border-b border-zinc-700 pb-1 mt-2">
-              <h3 class="text-sm font-semibold text-zinc-200">Vehicle</h3>
-            </div>
-
-            {/* Vehicle Weight */}
-            <div>
-              <label class="block text-sm font-medium text-zinc-300 mb-2">
-                Weight
-              </label>
-              <div class="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={vehicleSettings.weight}
-                  onChange={(e) => updateVehicleSettings({ weight: Number((e.target as HTMLInputElement).value) })}
-                  class="flex-1 px-3 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm"
-                  min={500}
-                  max={5000}
-                  step={10}
-                />
-                <span class="text-sm text-zinc-400 w-8">kg</span>
-              </div>
-              <p class="text-xs text-zinc-500 mt-1">
-                Including driver, fuel, and typical load
-              </p>
-            </div>
-
-            {/* Tire Size */}
-            <div>
-              <label class="block text-sm font-medium text-zinc-300 mb-2">
-                Tire Size
-              </label>
-              <div class="flex items-center gap-1.5 sm:gap-2">
-                <input
-                  type="number"
-                  value={vehicleSettings.tireWidth}
-                  onChange={(e) => updateVehicleSettings({ tireWidth: Number((e.target as HTMLInputElement).value) })}
-                  class="w-16 sm:w-20 px-2 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
-                  min={135}
-                  max={355}
-                  step={5}
-                />
-                <span class="text-zinc-500">/</span>
-                <input
-                  type="number"
-                  value={vehicleSettings.tireAspect}
-                  onChange={(e) => updateVehicleSettings({ tireAspect: Number((e.target as HTMLInputElement).value) })}
-                  class="w-14 sm:w-16 px-2 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
-                  min={20}
-                  max={80}
-                  step={5}
-                />
-                <span class="text-zinc-400 text-sm">R</span>
-                <input
-                  type="number"
-                  value={vehicleSettings.rimDiameter}
-                  onChange={(e) => updateVehicleSettings({ rimDiameter: Number((e.target as HTMLInputElement).value) })}
-                  class="w-14 sm:w-16 px-2 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
-                  min={13}
-                  max={24}
-                  step={1}
-                />
-              </div>
-              <p class="text-xs text-zinc-500 mt-1">
-                Example: 225/45 R17
-              </p>
-            </div>
-
-            {/* Wheel Circumference */}
-            <div>
-              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
-                <label class="text-sm font-medium text-zinc-300">
-                  Wheel Circumference
-                </label>
-                <label class="flex items-center gap-2 text-xs cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={vehicleSettings.useManualCircumference}
-                    onChange={(e) => {
-                      const useManual = (e.target as HTMLInputElement).checked;
-                      if (!useManual) {
-                        updateVehicleSettings({
-                          useManualCircumference: false,
-                          wheelCircumference: calculateWheelCircumference(
-                            vehicleSettings.tireWidth,
-                            vehicleSettings.tireAspect,
-                            vehicleSettings.rimDiameter
-                          )
-                        });
-                      } else {
-                        updateVehicleSettings({ useManualCircumference: true });
-                      }
+    return (
+        <AppContext.Provider value={appState}>
+            <div
+                class="flex flex-col h-screen bg-zinc-900 text-zinc-100"
+                onDragOver={preventDefaults}
+                onDrop={handleGlobalDrop}
+            >
+                <MenuBar
+                    onShowConverter={() => setShowConverter(true)}
+                    onShowXdfConverter={() => setShowXdfConverter(true)}
+                    onShowSettings={() => setShowSettings(true)}
+                    onShowLogViewer={() => setShowLogViewer(true)}
+                    onShowBLEConnector={() => setShowBLEConnector(true)}
+                    onShowDefinitions={(defs) => {
+                        appState.setAllDefinitions(defs);
+                        setShowDefinitions(true);
                     }}
-                    class="w-4 h-4 sm:w-3.5 sm:h-3.5 rounded bg-zinc-700 border-zinc-600"
-                  />
-                  <span class="text-zinc-400">Manual override</span>
-                </label>
-              </div>
-              <div class="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={vehicleSettings.wheelCircumference}
-                  onChange={(e) => updateVehicleSettings({ wheelCircumference: Number((e.target as HTMLInputElement).value) })}
-                  disabled={!vehicleSettings.useManualCircumference}
-                  class={`flex-1 px-3 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm ${
-                    !vehicleSettings.useManualCircumference ? 'opacity-60' : ''
-                  }`}
-                  min={1000}
-                  max={3000}
-                  step={1}
+                    onShowPatchManager={() => setShowPatchManager(true)}
+                    onShowChanges={() => setShowChanges(true)}
                 />
-                <span class="text-sm text-zinc-400 w-8">mm</span>
-              </div>
-              {!vehicleSettings.useManualCircumference && (
-                <p class="text-xs text-zinc-500 mt-1">
-                  Calculated from tire size
-                </p>
-              )}
-            </div>
+                <div class="flex flex-1 overflow-hidden">
+                    <Sidebar/>
+                    <MainArea/>
+                </div>
 
-            {/* Drivetrain Section */}
-            <div class="border-b border-zinc-700 pb-1 mt-2">
-              <h3 class="text-sm font-semibold text-zinc-200">Drivetrain</h3>
-            </div>
+                {/* A2L Converter Modal */}
+                {showConverter && (
+                    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                        <div
+                            class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-auto">
+                            <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
+                                <h2 class="text-lg font-semibold">A2L to JSON Converter</h2>
+                                <button
+                                    onClick={() => setShowConverter(false)}
+                                    class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                            <div class="p-4">
+                                <FileLoader onDefinitionLoad={handleDefinitionLoad}/>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
-            {/* Gear Ratios */}
-            <div>
-              <label class="block text-sm font-medium text-zinc-300 mb-2">
-                Gear Ratios (Total)
-              </label>
-              <div class="grid grid-cols-4 sm:grid-cols-7 gap-2">
-                {[1, 2, 3, 4, 5, 6, 7].map((gear) => (
-                  <div key={gear} class="flex flex-col items-center">
-                    <span class="text-xs text-zinc-500 mb-1">Gear {gear}</span>
-                    <input
-                      type="number"
-                      value={vehicleSettings.gearRatios[gear] || 0}
-                      onChange={(e) => {
-                        const newRatios = [...vehicleSettings.gearRatios];
-                        newRatios[gear] = Number((e.target as HTMLInputElement).value);
-                        updateVehicleSettings({ gearRatios: newRatios });
-                      }}
-                      class="w-full px-2 py-2 sm:py-1.5 bg-zinc-700 border border-zinc-600 rounded text-sm text-center"
-                      min={0}
-                      max={10}
-                      step={0.01}
+                {/* XDF Converter Modal */}
+                {showXdfConverter && (
+                    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                        <div
+                            class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-auto">
+                            <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
+                                <h2 class="text-lg font-semibold">XDF to JSON Converter</h2>
+                                <button
+                                    onClick={() => setShowXdfConverter(false)}
+                                    class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                            <div class="p-4">
+                                <XdfLoader onDefinitionLoad={handleDefinitionLoad}/>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Log Viewer Modal */}
+                {showLogViewer && (
+                    <LogViewer
+                        onClose={() => {
+                            setShowLogViewer(false);
+                            setLogViewerData(null);
+                        }}
+                        initialData={logViewerData}
                     />
-                  </div>
-                ))}
-              </div>
-            </div>
+                )}
 
-            {/* Final Drive */}
-            <div>
-              <label class="block text-sm font-medium text-zinc-300 mb-2">
-                Final Drive Ratio
-              </label>
-              <div class="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={vehicleSettings.finalDrive}
-                  onChange={(e) => updateVehicleSettings({ finalDrive: Number((e.target as HTMLInputElement).value) })}
-                  class="w-24 px-3 py-2.5 sm:py-2 bg-zinc-700 border border-zinc-600 rounded text-sm"
-                  min={1}
-                  max={6}
-                  step={0.01}
-                />
-                <span class="text-sm text-zinc-400">:1</span>
-              </div>
-            </div>
+                {/* BLE Connector Modal */}
+                {showBLEConnector && (
+                    <BLEConnector
+                        onClose={() => setShowBLEConnector(false)}
+                        onLogData={(csv) => {
+                            setShowBLEConnector(false);
+                            setLogViewerData(csv);
+                            setShowLogViewer(true);
+                        }}
+                        vehicleSettings={vehicleSettings}
+                    />
+                )}
 
-            {/* Info Box */}
-            <div class="p-3 bg-zinc-900 rounded border border-zinc-700 text-xs text-zinc-400">
-              <p class="font-medium text-zinc-300 mb-1">Dyno Light Calculation</p>
-              <p>These values are used for torque comparison:</p>
-              <ul class="mt-2 space-y-1 ml-3">
-                <li>• Total Ratio = Gear Ratio × Final Drive</li>
-                <li>• Calculated Engine Torque = Wheel Torque / Total Ratio</li>
-                <li>• Difference shows drivetrain losses</li>
-              </ul>
-              <p class="mt-2 text-zinc-500">
-                Tip: Enter total ratios directly and set Final Drive to 1
-              </p>
-            </div>
-          </div>
-        </Modal>
-      )}
+                {/* Changes Modal */}
+                {showChanges && (
+                    <ChangesModal onClose={() => setShowChanges(false)}/>
+                )}
 
-      {/* Definition Picker Modal */}
-      {showDefinitionPicker && (
-        <Modal title="Select Definition" onClose={() => setShowDefinitionPicker(false)} width="lg">
-          <div class="space-y-4">
-            {definitionMatches.length > 0 && (
-              <div>
-                <h3 class="text-sm font-semibold text-green-400 mb-2">
-                  Matching Definitions ({definitionMatches.length})
-                </h3>
-                <div class="space-y-2">
-                  {definitionMatches.map(({ entry, mode }) => (
-                    <button
-                      key={entry.file}
-                      onClick={() => handleSelectDefinition(entry, mode)}
-                      class="w-full text-left p-3 bg-zinc-700 hover:bg-zinc-600 rounded border border-zinc-600 transition-colors"
-                    >
-                      <div class="flex items-center justify-between">
-                        <div>
-                          <div class="font-medium">{entry.name}</div>
-                          <div class="text-xs text-zinc-400 mt-1">
-                            {entry.paramCount} parameters · {entry.verification.expected}
-                          </div>
+                {/* Settings Modal */}
+                {showSettings && (
+                    <SettingsModal
+                        settings={vehicleSettings}
+                        onUpdate={updateVehicleSettings}
+                        onClose={() => setShowSettings(false)}
+                    />
+                )}
+
+                {/* Definition Picker Modal (auto-shown when multiple matches) */}
+                {showDefinitionPicker && (
+                    <DefinitionPickerModal
+                        matches={appState.definitionMatches}
+                        allDefinitions={appState.allDefinitions}
+                        onSelect={(entry, mode) => {
+                            appState.selectDefinitionMatch(entry, mode);
+                        }}
+                        onClose={() => appState.clearDefinitionMatches()}
+                    />
+                )}
+
+                {/* Definitions Browser Modal */}
+                {showDefinitions && (
+                    <Modal title="Definitions" onClose={() => setShowDefinitions(false)} width="lg">
+                        <div class="space-y-4">
+                            {appState.allDefinitions.length === 0 ? (
+                                <div class="text-center py-4 text-zinc-500">
+                                    No definitions available.
+                                </div>
+                            ) : (
+                                <div>
+                                    <div class="text-sm text-zinc-400 mb-3">
+                                        {appState.allDefinitions.length} definition{appState.allDefinitions.length !== 1 ? 's' : ''} available
+                                    </div>
+                                    <div class="max-h-96 overflow-y-auto space-y-1">
+                                        {appState.allDefinitions.map((entry) => (
+                                            <button
+                                                key={entry.file}
+                                                onClick={async () => {
+                                                    try {
+                                                        const def = await loadDefinition(entry.file);
+                                                        appState.setDefinition(def);
+                                                        appState.setSelectedParam(null);
+                                                        setShowDefinitions(false);
+                                                    } catch (err) {
+                                                        console.error('Failed to load definition:', err);
+                                                    }
+                                                }}
+                                                class="w-full text-left p-3 bg-zinc-700 hover:bg-zinc-600 rounded border border-zinc-600 transition-colors"
+                                            >
+                                                <div class="flex items-center justify-between">
+                                                    <div>
+                                                        <div class="font-medium">{entry.name}</div>
+                                                        <div class="text-xs text-zinc-400 mt-1">
+                                                            {entry.paramCount} parameters
+                                                            {entry.verification?.expected && ` · ${entry.verification.expected}`}
+                                                        </div>
+                                                    </div>
+                                                    {entry.verification?.calOffset !== undefined && (
+                                                        <div class="text-xs text-zinc-500">
+                                                            CAL @
+                                                            0x{entry.verification.calOffset.toString(16).toUpperCase()}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                        <div class="text-xs px-2 py-1 rounded bg-green-900 text-green-300">
-                          {mode === 'cal' ? 'CAL Block' : 'Full BIN'}
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
+                    </Modal>
+                )}
 
-            {definitionMatches.length === 0 && (
-              <div class="text-center py-4 text-zinc-500">
-                No matching definitions found for this binary.
-              </div>
-            )}
-
-            {allDefinitions.length > 0 && (
-              <div>
-                <h3 class="text-sm font-semibold text-zinc-400 mb-2 mt-4">
-                  All Definitions ({allDefinitions.length})
-                </h3>
-                <div class="max-h-60 overflow-y-auto space-y-1">
-                  {allDefinitions.map((entry) => (
-                    <button
-                      key={entry.file}
-                      onClick={() => handleSelectDefinition(entry, 'cal')}
-                      class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 rounded transition-colors"
-                    >
-                      <span class="font-medium">{entry.name}</span>
-                      <span class="text-zinc-500 ml-2">({entry.paramCount})</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </Modal>
-      )}
-
-      {/* Definitions Modal */}
-      {showDefinitions && (
-        <Modal title="Definitions" onClose={() => setShowDefinitions(false)} width="lg">
-          <div class="space-y-4">
-            {allDefinitions.length === 0 ? (
-              <div class="text-center py-4 text-zinc-500">
-                No definitions available.
-              </div>
-            ) : (
-              <div>
-                <div class="text-sm text-zinc-400 mb-3">
-                  {allDefinitions.length} definition{allDefinitions.length !== 1 ? 's' : ''} available
-                </div>
-                <div class="max-h-96 overflow-y-auto space-y-1">
-                  {allDefinitions.map((entry) => (
-                    <button
-                      key={entry.file}
-                      onClick={async () => {
-                        try {
-                          const def = await loadDefinition(entry.file);
-                          setDefinition(def);
-                          setCalOffset(def.offset ?? entry.verification?.calOffset ?? 0);
-                          setSelectedParam(null);
-                          setShowDefinitions(false);
-                        } catch (err) {
-                          console.error('Failed to load definition:', err);
-                        }
-                      }}
-                      class="w-full text-left p-3 bg-zinc-700 hover:bg-zinc-600 rounded border border-zinc-600 transition-colors"
-                    >
-                      <div class="flex items-center justify-between">
-                        <div>
-                          <div class="font-medium">{entry.name}</div>
-                          <div class="text-xs text-zinc-400 mt-1">
-                            {entry.paramCount} parameters
-                            {entry.verification?.expected && ` · ${entry.verification.expected}`}
-                          </div>
-                        </div>
-                        {entry.verification?.calOffset !== undefined && (
-                          <div class="text-xs text-zinc-500">
-                            CAL @ 0x{entry.verification.calOffset.toString(16).toUpperCase()}
-                          </div>
-                        )}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </Modal>
-      )}
-
-      {/* Patch Manager Modal */}
-      {showPatchManager && binData && (
-        <PatchManager
-          binData={binData}
-          patchResults={patchResults}
-          onClose={() => setShowPatchManager(false)}
-          onModify={handleModify}
-          onPatchResultsChange={setPatchResults}
-          definition={definition}
-          onDefinitionUpdate={setDefinition}
-        />
-      )}
-    </div>
-  );
+                {/* Patch Manager Modal */}
+                {showPatchManager && appState.bin && (
+                    <PatchManager
+                        binData={appState.bin.data}
+                        patchResults={appState.patchResults}
+                        onClose={() => setShowPatchManager(false)}
+                        onModify={appState.markModified}
+                        onPatchResultsChange={appState.setPatchResults}
+                        definition={appState.definition}
+                        onDefinitionUpdate={appState.setDefinition}
+                    />
+                )}
+            </div>
+        </AppContext.Provider>
+    );
 }
