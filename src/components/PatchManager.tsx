@@ -321,8 +321,20 @@ export function PatchManager({
                                                           title="CRC32 mismatch">CRC!</span>
                                                 )}
                                                 {r.definition && (
-                                                    <span class="text-xs text-zinc-500"
-                                                          title="Has definition file">DEF</span>
+                                                    <button
+                                                        class="px-2 py-0.5 text-xs font-medium rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer transition-colors"
+                                                        onClick={async (e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            if (!definition) return;
+                                                            try {
+                                                                const patchDef = await fetch(`./patches/definitions/${r.definition}`).then(res => res.json()) as Definition;
+                                                                onDefinitionUpdate(mergeDefinitions(definition, patchDef, r.name));
+                                                            } catch (err) {
+                                                                console.error(`Failed to load patch definition:`, err);
+                                                            }
+                                                        }}
+                                                    >Load Def</button>
                                                 )}
                                                 <StatusBadge status={r.status}/>
                                             </label>

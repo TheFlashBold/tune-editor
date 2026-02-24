@@ -54,6 +54,8 @@ function ScalarEditor(props: IValueEditorProps) {
 
     const hasChanged = originalValue !== null && Math.abs(originalValue - value) > 0.0001;
     const isBitmask = parameter.dataType === 'UBYTE' && (/bitmask/i.test(parameter.name) || /bitmask/i.test(parameter.description));
+    const isToggle = parameter.dataType === 'UBYTE' && parameter.min === 0 && parameter.max === 1 && !isBitmask
+        && /\b(enable|disable)\b/i.test(parameter.description || parameter.customName || parameter.name);
 
     useEffect(() => {
         setValue(readParameterValue(binData, parameter, calOffset, baseAddress, bigEndian));
@@ -131,39 +133,69 @@ function ScalarEditor(props: IValueEditorProps) {
                 <span>Range: {parameter.min} - {parameter.max}</span>
             </div>
 
-            <div class="flex items-center gap-4">
-                <div
-                    class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-800 rounded-lg cursor-pointer"
-                    onDblClick={handleDoubleClick}
-                >
-                    {editing ? (
-                        <input
-                            type="text"
-                            value={inputValue}
-                            onInput={e => setInputValue((e.target as HTMLInputElement).value)}
-                            onBlur={handleConfirm}
-                            onKeyDown={handleKeyDown}
-                            autoFocus
-                            class="w-48 px-2 py-1 text-2xl font-mono bg-zinc-700 border-2 border-blue-500 rounded text-zinc-100 outline-none"
+            {isToggle ? (
+                <div class="flex items-center gap-4">
+                    <button
+                        onClick={() => {
+                            const newValue = value === 0 ? 1 : 0;
+                            writeParameterValue(binData, parameter, newValue, calOffset, baseAddress, bigEndian);
+                            setValue(newValue);
+                            onModify();
+                        }}
+                        class={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors cursor-pointer ${
+                            value === 1 ? 'bg-green-600' : 'bg-zinc-600'
+                        } ${hasChanged ? 'ring-2 ring-amber-500' : ''}`}
+                    >
+                        <span
+                            class={`inline-block h-5 w-5 rounded-full bg-white transition-transform ${
+                                value === 1 ? 'translate-x-6' : 'translate-x-1'
+                            }`}
                         />
-                    ) : (
-                        <span class={`text-3xl font-semibold font-mono ${hasChanged ? 'text-green-400' : ''}`}>
-              {formatValue(value, 4)}
-            </span>
-                    )}
-                    <span class="text-base text-zinc-500">{parameter.unit}</span>
-                </div>
-
-                {originalValue !== null && (
-                    <div
-                        class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-700 rounded-lg border-2 border-dashed border-zinc-600">
-                        <span class="text-3xl font-semibold font-mono text-zinc-400">
-                            {formatValue(originalValue, 4)}
+                    </button>
+                    <span class={`text-lg font-semibold font-mono ${hasChanged ? 'text-green-400' : ''}`}>
+                        {value === 1 ? 'Enabled' : 'Disabled'}
+                    </span>
+                    {originalValue !== null && hasChanged && (
+                        <span class="text-xs text-zinc-500">
+                            was {originalValue === 1 ? 'Enabled' : 'Disabled'}
                         </span>
+                    )}
+                </div>
+            ) : (
+                <div class="flex items-center gap-4">
+                    <div
+                        class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-800 rounded-lg cursor-pointer"
+                        onDblClick={handleDoubleClick}
+                    >
+                        {editing ? (
+                            <input
+                                type="text"
+                                value={inputValue}
+                                onInput={e => setInputValue((e.target as HTMLInputElement).value)}
+                                onBlur={handleConfirm}
+                                onKeyDown={handleKeyDown}
+                                autoFocus
+                                class="w-48 px-2 py-1 text-2xl font-mono bg-zinc-700 border-2 border-blue-500 rounded text-zinc-100 outline-none"
+                            />
+                        ) : (
+                            <span class={`text-3xl font-semibold font-mono ${hasChanged ? 'text-green-400' : ''}`}>
+                                {formatValue(value, 4)}
+                            </span>
+                        )}
                         <span class="text-base text-zinc-500">{parameter.unit}</span>
                     </div>
-                )}
-            </div>
+
+                    {originalValue !== null && (
+                        <div
+                            class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-700 rounded-lg border-2 border-dashed border-zinc-600">
+                            <span class="text-3xl font-semibold font-mono text-zinc-400">
+                                {formatValue(originalValue, 4)}
+                            </span>
+                            <span class="text-base text-zinc-500">{parameter.unit}</span>
+                        </div>
+                    )}
+                </div>
+            )}
 
             {isBitmask && (
                 <div class="mt-4 space-y-2">
