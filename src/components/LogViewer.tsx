@@ -243,15 +243,48 @@ function CSVViewer({ text }: CSVViewerProps) {
         if (range === 0) return "";
 
         const values = smoothedData[field];
-        if (!values) return "";
+        if (!values || values.length === 0) return "";
 
-        // Normalize to 0-1 range, then map to viewBox coordinates (using left axis for viewBox)
-        return values.map((value, idx) => {
-            const normalized = (value - axis.min) / range; // 0 to 1
-            // Map to left axis viewBox space
-            const y = leftAxis.max - normalized * (leftAxis.max - leftAxis.min);
-            return `${idx},${y}`;
-        }).join(" ");
+        const scale = (leftAxis.max - leftAxis.min) / range;
+        const offset = axis.min;
+        const yMax = leftAxis.max;
+
+        // Only process visible range (+ 1 point margin for line continuity)
+        const startIdx = Math.max(0, Math.floor(viewBoxX) - 1);
+        const endIdx = Math.min(values.length - 1, Math.ceil(viewBoxX + viewBoxWidth) + 1);
+        const visibleCount = endIdx - startIdx + 1;
+
+        // If more visible points than ~2000 pixels worth, downsample with min/max buckets
+        const maxPoints = 2000;
+        if (visibleCount > maxPoints) {
+            const bucketSize = visibleCount / maxPoints;
+            const parts: string[] = [];
+            for (let b = 0; b < maxPoints; b++) {
+                const bStart = startIdx + Math.floor(b * bucketSize);
+                const bEnd = Math.min(startIdx + Math.floor((b + 1) * bucketSize) - 1, endIdx);
+                let minVal = values[bStart], maxVal = values[bStart];
+                let minIdx = bStart, maxIdx = bStart;
+                for (let i = bStart + 1; i <= bEnd; i++) {
+                    if (values[i] < minVal) { minVal = values[i]; minIdx = i; }
+                    if (values[i] > maxVal) { maxVal = values[i]; maxIdx = i; }
+                }
+                // Emit min and max in index order to preserve shape
+                if (minIdx <= maxIdx) {
+                    parts.push(`${minIdx},${yMax - (minVal - offset) * scale}`);
+                    if (minIdx !== maxIdx) parts.push(`${maxIdx},${yMax - (maxVal - offset) * scale}`);
+                } else {
+                    parts.push(`${maxIdx},${yMax - (maxVal - offset) * scale}`);
+                    parts.push(`${minIdx},${yMax - (minVal - offset) * scale}`);
+                }
+            }
+            return parts.join(" ");
+        }
+
+        const parts = new Array<string>(visibleCount);
+        for (let i = startIdx; i <= endIdx; i++) {
+            parts[i - startIdx] = `${i},${yMax - (values[i] - offset) * scale}`;
+        }
+        return parts.join(" ");
     }
 
     function onMouseMove(e: MouseEvent) {
