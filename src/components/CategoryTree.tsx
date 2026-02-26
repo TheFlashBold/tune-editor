@@ -2,8 +2,8 @@ import {useState, useMemo, useEffect, useCallback, useRef} from 'preact/hooks';
 import type {IDefinitionParameter} from '../types';
 
 function tokenMatch(text: string, pattern: string): boolean {
-    const textParts = text.toLowerCase().split(' ');
-    const patternParts = pattern.toLowerCase().split(' ');
+    const textParts = text.toLowerCase().split(/[\s_]+/);
+    const patternParts = pattern.toLowerCase().split(/[\s_]+/);
 
     return patternParts.every((part) => textParts.includes(part));
 }
