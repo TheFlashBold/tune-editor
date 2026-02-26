@@ -73,7 +73,7 @@ function ScalarEditor(props: IValueEditorProps) {
     const showCompare = overlayMode === 'compare';
     const isBitmask = parameter.dataType === 'UBYTE' && (/bitmask/i.test(parameter.name) || /bitmask/i.test(parameter.description));
     const isToggle = parameter.dataType === 'UBYTE' && parameter.min === 0 && parameter.max === 1 && !isBitmask
-        && /\b(enable|disable)\b/i.test(parameter.description || parameter.customName || parameter.name);
+        && /\b(enable|disable|activation switch)\b/i.test(parameter.description || parameter.customName || parameter.name);
 
     useEffect(() => {
         setValue(readParameterValue(binData, parameter, calOffset, baseAddress, bigEndian));
