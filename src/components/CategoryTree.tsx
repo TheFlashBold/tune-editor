@@ -8,17 +8,17 @@ function tokenMatch(text: string, pattern: string): boolean {
     return patternParts.every((part) => textParts.includes(part));
 }
 
-function fuzzyMatch(text: string, pattern: string): boolean {
-    const t = text.toLowerCase();
-    const p = pattern.toLowerCase();
-    let ti = 0;
-    for (let pi = 0; pi < p.length; pi++) {
-        const idx = t.indexOf(p[pi], ti);
-        if (idx === -1) return false;
-        ti = idx + 1;
-    }
-    return true;
-}
+// function fuzzyMatch(text: string, pattern: string): boolean {
+//     const t = text.toLowerCase();
+//     const p = pattern.toLowerCase();
+//     let ti = 0;
+//     for (let pi = 0; pi < p.length; pi++) {
+//         const idx = t.indexOf(p[pi], ti);
+//         if (idx === -1) return false;
+//         ti = idx + 1;
+//     }
+//     return true;
+// }
 
 interface TreeNode {
     name: string;
