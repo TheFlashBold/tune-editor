@@ -1,5 +1,5 @@
 import {useAppContext} from '../context/app';
-import {formatValue} from '../lib/binUtils';
+import {formatValue, writeParameterValue, writeTableCell, writeAxisValue} from '../lib/binUtils';
 
 interface ChangesModalProps {
     onClose: () => void;
@@ -64,6 +64,17 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                             <span
                                                 className="text-green-400">{formatValue(currentValue as number, 4)}</span>
                                             <span className="text-zinc-500">{param.unit}</span>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (!ctx.bin) return;
+                                                    writeParameterValue(ctx.bin.data, param, originalValue as number, ctx.calOffset, ctx.baseAddress, ctx.bigEndian);
+                                                    ctx.markModified();
+                                                }}
+                                                className="ml-auto px-3 py-1 text-xs font-medium rounded bg-red-600/80 text-white hover:bg-red-500 cursor-pointer"
+                                            >
+                                                Revert to original
+                                            </button>
                                         </div>
                                     ) : (
                                         <div className="space-y-2">
@@ -183,8 +194,38 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                     </div>
                                                 );
                                             })()}
-                                            <div className="text-xs text-zinc-500 mt-1">
-                                                {cellDiffs?.length || 0} cell{(cellDiffs?.length || 0) !== 1 ? 's' : ''} changed
+                                            <div className="flex items-center gap-3 mt-1">
+                                                <span className="text-xs text-zinc-500">
+                                                    {cellDiffs?.length || 0} cell{(cellDiffs?.length || 0) !== 1 ? 's' : ''} changed
+                                                </span>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        if (!ctx.bin) return;
+                                                        const origTable = originalValue as number[][];
+                                                        for (let r = 0; r < origTable.length; r++) {
+                                                            for (let c = 0; c < origTable[r].length; c++) {
+                                                                writeTableCell(ctx.bin.data, param, r, c, origTable[r][c], ctx.calOffset, ctx.baseAddress, ctx.bigEndian);
+                                                            }
+                                                        }
+                                                        const xDiff = axisDiffs?.find(d => d.axis === 'x');
+                                                        const yDiff = axisDiffs?.find(d => d.axis === 'y');
+                                                        if (xDiff && param.xAxis) {
+                                                            for (let i = 0; i < xDiff.original.length; i++) {
+                                                                writeAxisValue(ctx.bin.data, param.xAxis, i, xDiff.original[i], ctx.calOffset, ctx.baseAddress, ctx.bigEndian);
+                                                            }
+                                                        }
+                                                        if (yDiff && param.yAxis) {
+                                                            for (let i = 0; i < yDiff.original.length; i++) {
+                                                                writeAxisValue(ctx.bin.data, param.yAxis, i, yDiff.original[i], ctx.calOffset, ctx.baseAddress, ctx.bigEndian);
+                                                            }
+                                                        }
+                                                        ctx.markModified();
+                                                    }}
+                                                    className="px-3 py-1 text-xs font-medium rounded bg-red-600/80 text-white hover:bg-red-500 cursor-pointer"
+                                                >
+                                                    Revert to original
+                                                </button>
                                             </div>
                                         </div>
                                     )}
