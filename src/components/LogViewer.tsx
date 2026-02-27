@@ -521,6 +521,42 @@ function CSVViewer({ text }: CSVViewerProps) {
         return labels.reverse();
     }, [rightAxis]);
 
+    function exportCsv(startIdx: number, endIdx: number) {
+        const exportFields: string[] = [];
+        const exportIndices: number[] = [];
+        if (timeColumnIndex !== -1 && !showFields.includes(fields[timeColumnIndex])) {
+            exportFields.push(fields[timeColumnIndex]);
+            exportIndices.push(timeColumnIndex);
+        }
+        for (const field of showFields) {
+            const idx = fields.indexOf(field);
+            if (idx !== -1) {
+                exportFields.push(field);
+                exportIndices.push(idx);
+            }
+        }
+
+        const lines = [exportFields.join(',')];
+        for (let i = startIdx; i <= endIdx; i++) {
+            lines.push(exportIndices.map(fi => data[i][fi] ?? 0).join(','));
+        }
+
+        const blob = new Blob([lines.join('\n')], {type: 'text/csv'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `log_export_${startIdx}-${endIdx}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    function exportCurrentView() {
+        exportCsv(
+            Math.max(0, Math.floor(scrollOffset)),
+            Math.min(data.length - 1, Math.floor(scrollOffset + visibleDataPoints))
+        );
+    }
+
     if (data.length === 0) {
         return <div class="text-zinc-500 text-center py-8">No data to display</div>;
     }
@@ -543,6 +579,22 @@ function CSVViewer({ text }: CSVViewerProps) {
                         />
                         <span class="w-4">{smoothing === 1 ? 'off' : smoothing}</span>
                     </span>
+                    {showFields.length > 0 && (
+                        <>
+                            <button
+                                onClick={exportCurrentView}
+                                class="px-3 py-1 text-xs font-medium rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer"
+                            >
+                                Export current view
+                            </button>
+                            <button
+                                onClick={() => exportCsv(0, data.length - 1)}
+                                class="px-3 py-1 text-xs font-medium rounded bg-zinc-600 text-zinc-200 hover:bg-zinc-500 cursor-pointer"
+                            >
+                                Export all
+                            </button>
+                        </>
+                    )}
                 </div>
                 <div class="flex gap-x-2 flex-1 min-h-0">
                     {/* Y-axis scale left */}
