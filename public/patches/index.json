@@ -34,7 +34,7 @@
   { "name": "SWG - H6G", "file": "SWG_-_H6G.btp", "category": "SWG", "variant": "H6G" },
   { "name": "SWG - H85", "file": "SWG_-_H85.btp", "category": "SWG", "variant": "H85" },
   { "name": "SWG - LB6", "file": "SWG_-_LB6.btp", "category": "SWG", "variant": "LB6" },
-  { "name": "SWG - O30", "file": "SWG_-_O30.btp", "category": "SWG", "variant": "O30" },
+  { "name": "SWG - O30", "file": "SWG_-_O30.btp", "definition": "O30_SWG.json", "category": "SWG", "variant": "O30" },
   { "name": "SWG - O40", "file": "SWG_-_O40.btp", "category": "SWG", "variant": "O40" },
   { "name": "SWG - S50", "file": "SWG_-_S50.btp", "category": "SWG", "variant": "S50" },
   { "name": "SWG - V30", "file": "SWG_-_V30.btp", "category": "SWG", "variant": "V30" },

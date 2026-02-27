@@ -1,0 +1,87 @@
+{
+  "name": "SC8O30",
+  "version": "1.0",
+  "baseAddress": 0,
+  "parameters": [
+    {
+      "name": "IP_FAC_BPA_SP[0]",
+      "description": "Simple Wastegate VVL 0 — Map for boost pressure actuator setpoint (VVL 0)",
+      "address": 2201692,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "-",
+      "min": -2.0,
+      "max": 1.99993896484375,
+      "factor": 6.103515625e-05,
+      "offset": -2.0,
+      "cols": 16,
+      "rows": 10,
+      "columnDir": true,
+      "categories": [
+        "Simple Wastegate"
+      ],
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 16,
+        "min": 0.0,
+        "max": 3.99993896484375,
+        "unit": "-",
+        "address": 2200910,
+        "dataType": "UWORD",
+        "factor": 6.103515625e-05,
+        "dataOffset": 2
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 10,
+        "min": 0.0,
+        "max": 3.99993896484375,
+        "unit": "bar",
+        "address": 2200988,
+        "dataType": "UWORD",
+        "factor": 6.103515625e-05,
+        "dataOffset": 2
+      }
+    },
+    {
+      "name": "IP_FAC_BPA_SP[1]",
+      "description": "Simple Wastegate VVL 1 — Map for boost pressure actuator setpoint (VVL 1)",
+      "address": 2202012,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "-",
+      "min": -2.0,
+      "max": 1.99993896484375,
+      "factor": 6.103515625e-05,
+      "offset": -2.0,
+      "cols": 16,
+      "rows": 10,
+      "columnDir": true,
+      "categories": [
+        "Simple Wastegate"
+      ],
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 16,
+        "min": 0.0,
+        "max": 3.99993896484375,
+        "unit": "-",
+        "address": 2200910,
+        "dataType": "UWORD",
+        "factor": 6.103515625e-05,
+        "dataOffset": 2
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 10,
+        "min": 0.0,
+        "max": 3.99993896484375,
+        "unit": "bar",
+        "address": 2200988,
+        "dataType": "UWORD",
+        "factor": 6.103515625e-05,
+        "dataOffset": 2
+      }
+    }
+  ]
+}
