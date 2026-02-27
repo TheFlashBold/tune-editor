@@ -1,4 +1,5 @@
 import {loadDefinitionIndex} from "../lib/definitionLoader.ts";
+import {parseEcuInfo} from "../lib/btpParser.ts";
 import {useAppContext} from "../context/app.ts";
 import {useState, useRef, useCallback} from "preact/hooks";
 
@@ -261,11 +262,21 @@ export function MenuBar({
                             {ctx.detectedMode === 'cal' ? 'CAL' : 'Full'}
                         </span>
                     )}
-                    {ctx.detectedMode && ctx.definition?.verification?.expected && (
-                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700 text-zinc-300">
-                            {ctx.definition.verification.expected}
-                        </span>
-                    )}
+                    {ctx.detectedMode && ctx.definition?.verification?.expected && (() => {
+                        const info = parseEcuInfo(ctx.definition.verification.expected);
+                        return info ? (<>
+                            <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700 text-zinc-400">
+                                {info.ecuFamily}
+                            </span>
+                            <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-600 text-zinc-200">
+                                {info.variant}
+                            </span>
+                        </>) : (
+                            <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700 text-zinc-300">
+                                {ctx.definition!.verification!.expected}
+                            </span>
+                        );
+                    })()}
                     {ctx.patchResults.filter(r => r.status === 'applied').length > 0 && (
                         <span className="px-2 py-0.5 rounded text-xs font-medium bg-green-900 text-green-300">
                             {ctx.patchResults.filter(r => r.status === 'applied').length} Patches

@@ -6,6 +6,7 @@ import {LogViewer} from './components/LogViewer';
 import {BLEConnector} from './components/BLEConnector';
 import {Modal} from './components/Modal';
 import {PatchManager} from './components/PatchManager';
+import {parseEcuInfo, getCalFileOffset} from './lib/btpParser';
 import {MenuBar} from './components/MenuBar';
 import {Sidebar} from './components/Sidebar';
 import {MainArea} from './components/MainArea';
@@ -266,6 +267,11 @@ export function App() {
                     <PatchManager
                         binData={appState.bin.data}
                         patchResults={appState.patchResults}
+                        calFileOffset={(() => {
+                            const epk = appState.definition?.verification?.expected;
+                            const info = epk ? parseEcuInfo(epk) : null;
+                            return info ? getCalFileOffset(info.ecuFamily) : null;
+                        })()}
                         onClose={() => setShowPatchManager(false)}
                         onModify={appState.markModified}
                         onPatchResultsChange={appState.setPatchResults}

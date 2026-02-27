@@ -1,7 +1,7 @@
 import {useState, useRef, useCallback} from 'preact/hooks';
 import {Modal} from './Modal';
 import type {Definition, IDefinitionParameter} from '../types';
-import {parseBtp, verifyCrc32, checkPatch, applyPatch, removePatch} from '../lib/btpParser';
+import {parseBtp, verifyCrc32, checkPatchBlockAware, applyPatch, removePatch, parseEcuInfo, getCalFileOffset} from '../lib/btpParser';
 import type {PatchCheckResult, PatchStatus} from '../lib/btpParser';
 
 interface PatchIndexEntry {
@@ -14,6 +14,7 @@ interface PatchIndexEntry {
 interface Props {
     binData: Uint8Array;
     patchResults: PatchCheckResult[];
+    calFileOffset: number | null;
     onClose: () => void;
     onModify: () => void;
     onPatchResultsChange: (results: PatchCheckResult[]) => void;
@@ -69,6 +70,7 @@ export {type PatchCheckResult, type PatchIndexEntry};
 export function PatchManager({
                                  binData,
                                  patchResults,
+                                 calFileOffset,
                                  onClose,
                                  onModify,
                                  onPatchResultsChange,
@@ -104,7 +106,10 @@ export function PatchManager({
 
                 let status: PatchStatus = 'incompatible';
                 if (header.fileSize === binData.length) {
-                    status = checkPatch(blocks, binData);
+                    // Derive calFileOffset from user patch softCode if not provided
+                    const patchEcuInfo = parseEcuInfo(header.softCode);
+                    const patchCalOffset = calFileOffset ?? (patchEcuInfo ? getCalFileOffset(patchEcuInfo.ecuFamily) : null);
+                    status = checkPatchBlockAware(blocks, binData, patchCalOffset);
                 }
 
                 newResults.push({
@@ -122,7 +127,7 @@ export function PatchManager({
 
         setUserPatches(prev => [...prev, ...newResults]);
         if (fileInputRef.current) fileInputRef.current.value = '';
-    }, [binData]);
+    }, [binData, calFileOffset]);
 
     const handleApply = useCallback(async () => {
         if (selectedPatches.size === 0) return;
@@ -139,14 +144,14 @@ export function PatchManager({
                 onModify();
             }
 
-            // Re-check all patch statuses
+            // Re-check all patch statuses (block-aware)
             const updatedBundled = patchResults.map(r => ({
                 ...r,
-                status: checkPatch(r.blocks, binData),
+                status: checkPatchBlockAware(r.blocks, binData, calFileOffset),
             }));
             const updatedUser = userPatches.map(r => ({
                 ...r,
-                status: checkPatch(r.blocks, binData),
+                status: checkPatchBlockAware(r.blocks, binData, calFileOffset),
             }));
 
             onPatchResultsChange(updatedBundled);
@@ -176,7 +181,7 @@ export function PatchManager({
         } finally {
             setLoading(false);
         }
-    }, [selectedPatches, allResults, binData, patchResults, userPatches, definition, onModify, onPatchResultsChange, onDefinitionUpdate]);
+    }, [selectedPatches, allResults, binData, patchResults, userPatches, definition, calFileOffset, onModify, onPatchResultsChange, onDefinitionUpdate]);
 
     const handleRemove = useCallback(async () => {
         if (selectedPatches.size === 0) return;
@@ -193,14 +198,14 @@ export function PatchManager({
                 onModify();
             }
 
-            // Re-check all patch statuses
+            // Re-check all patch statuses (block-aware)
             const updatedBundled = patchResults.map(r => ({
                 ...r,
-                status: checkPatch(r.blocks, binData),
+                status: checkPatchBlockAware(r.blocks, binData, calFileOffset),
             }));
             const updatedUser = userPatches.map(r => ({
                 ...r,
-                status: checkPatch(r.blocks, binData),
+                status: checkPatchBlockAware(r.blocks, binData, calFileOffset),
             }));
 
             onPatchResultsChange(updatedBundled);
@@ -218,7 +223,7 @@ export function PatchManager({
         } finally {
             setLoading(false);
         }
-    }, [selectedPatches, allResults, binData, patchResults, userPatches, definition, onModify, onPatchResultsChange, onDefinitionUpdate]);
+    }, [selectedPatches, allResults, binData, patchResults, userPatches, definition, calFileOffset, onModify, onPatchResultsChange, onDefinitionUpdate]);
 
     // Group bundled patches by category
     const groupedBundled = new Map<string, PatchCheckResult[]>();
@@ -321,20 +326,8 @@ export function PatchManager({
                                                           title="CRC32 mismatch">CRC!</span>
                                                 )}
                                                 {r.definition && (
-                                                    <button
-                                                        class="px-2 py-0.5 text-xs font-medium rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer transition-colors"
-                                                        onClick={async (e) => {
-                                                            e.preventDefault();
-                                                            e.stopPropagation();
-                                                            if (!definition) return;
-                                                            try {
-                                                                const patchDef = await fetch(`./patches/definitions/${r.definition}`).then(res => res.json()) as Definition;
-                                                                onDefinitionUpdate(mergeDefinitions(definition, patchDef, r.name));
-                                                            } catch (err) {
-                                                                console.error(`Failed to load patch definition:`, err);
-                                                            }
-                                                        }}
-                                                    >Load Def</button>
+                                                    <span className="text-xs text-zinc-500"
+                                                          title="Has definition file">DEF</span>
                                                 )}
                                                 <StatusBadge status={r.status}/>
                                             </label>

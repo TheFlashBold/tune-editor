@@ -3,6 +3,57 @@
 
 const BTP_HEADER_SIZE = 100;
 
+// --- ECU info parsing and block boundary mapping ---
+
+export interface EcuInfo {
+    ecuFamily: string;  // 'SC8', 'SCG', 'DSG'
+    variant: string;    // 'A05', 'S50', 'V30', 'F43M', etc.
+}
+
+// BinToolz 4MB binary: file offset where CAL block starts, per ECU family
+const ECU_CAL_FILE_OFFSET: Record<string, number> = {
+    'SC1': 0x040000,  // Simos 12.1
+    'SC8': 0x200000,  // Simos 18.1
+    'SCG': 0x220000,  // Simos 18.10
+};
+
+/**
+ * Parse ECU family and variant from an EPK string, definition name, or BTP softCode.
+ * Handles formats: "SC8O30", "SC800S50", "SCGA05", "SCG00A05", "SC8S500", "F43M", etc.
+ */
+export function parseEcuInfo(nameOrEpk: string): EcuInfo | null {
+    let m = nameOrEpk.match(/^SC1(?:00)?([A-Z0-9]{2,3})/);
+    if (m) return { ecuFamily: 'SC1', variant: m[1] };
+
+    m = nameOrEpk.match(/^SC8(?:00)?([A-Z0-9]{2,3})/);
+    if (m) return { ecuFamily: 'SC8', variant: m[1] };
+
+    m = nameOrEpk.match(/^SCG(?:00)?([A-Z0-9]{2,3})/);
+    if (m) return { ecuFamily: 'SCG', variant: m[1] };
+
+    m = nameOrEpk.match(/^[F][A-Z0-9]{3}/);
+    if (m) return { ecuFamily: 'DSG', variant: m[0] };
+
+    return null;
+}
+
+/**
+ * Get the CAL block file offset boundary for block classification in BinToolz binaries.
+ * Blocks at offset < boundary are ASW/CBOOT, blocks at offset >= boundary are CAL.
+ */
+export function getCalFileOffset(ecuFamily: string): number | null {
+    return ECU_CAL_FILE_OFFSET[ecuFamily] ?? null;
+}
+
+/**
+ * Extract variant code from a patch name like "SL PATCH v29.33 - A05" → "A05"
+ */
+export function extractVariantFromName(name: string): string | null {
+    const parts = name.split(' - ');
+    if (parts.length >= 2) return parts[parts.length - 1].trim();
+    return null;
+}
+
 export interface BtpHeader {
   version: string;       // 20 bytes, "BinToolz Patch v1.1"
   softCode: string;      // 8 bytes
@@ -145,6 +196,28 @@ export function checkPatch(blocks: BtpBlock[], binData: Uint8Array): PatchStatus
   if (allModified) return 'applied';
   if (allOriginal) return 'ready';
   return 'incompatible';
+}
+
+/**
+ * Block-aware patch status check.
+ * Classifies blocks as CAL (offset >= calFileOffset) or ASW/CBOOT (offset < calFileOffset).
+ * - If patch has ASW/CBOOT blocks: only check those for status (CAL may differ due to tuning).
+ * - If patch has only CAL blocks: only check CAL blocks.
+ * - If no calFileOffset known: falls back to checking all blocks.
+ */
+export function checkPatchBlockAware(blocks: BtpBlock[], binData: Uint8Array, calFileOffset: number | null): PatchStatus {
+  if (calFileOffset === null) {
+    return checkPatch(blocks, binData);
+  }
+
+  const aswBlocks = blocks.filter(b => b.offset < calFileOffset);
+  const blocksToCheck = aswBlocks.length > 0 ? aswBlocks : blocks.filter(b => b.offset >= calFileOffset);
+
+  if (blocksToCheck.length === 0) {
+    return checkPatch(blocks, binData);
+  }
+
+  return checkPatch(blocksToCheck, binData);
 }
 
 export function applyPatch(blocks: BtpBlock[], binData: Uint8Array): void {

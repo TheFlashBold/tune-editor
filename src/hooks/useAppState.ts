@@ -2,7 +2,7 @@ import {useState, useCallback, useMemo} from 'preact/hooks';
 import {DATA_TYPE_INFO, ILoadedBin} from '../types';
 import type {Definition, IDefinitionParameter, BinaryMode, CellDiff, AxisDiff, ParamDiff} from '../types';
 import type {PatchCheckResult} from '../lib/btpParser';
-import {parseBtp, verifyCrc32, checkPatch, buildBtp} from '../lib/btpParser';
+import {parseBtp, verifyCrc32, checkPatchBlockAware, buildBtp, parseEcuInfo, getCalFileOffset, extractVariantFromName} from '../lib/btpParser';
 import {
     readParameterValue,
     readTableData,
@@ -90,8 +90,19 @@ export function useAppState(): IAppContext {
                 category?: string
             }[] = await response.json();
 
+            // Extract ECU info from loaded definition for variant filtering
+            const epk = currentDef?.verification?.expected ?? currentDef?.name;
+            const binEcuInfo = epk ? parseEcuInfo(epk) : null;
+            const calFileOffset = binEcuInfo ? getCalFileOffset(binEcuInfo.ecuFamily) : null;
+
             const results: PatchCheckResult[] = [];
             for (const entry of patchIndex) {
+                // Pre-filter by variant from patch name
+                if (binEcuInfo) {
+                    const patchVariant = extractVariantFromName(entry.name);
+                    if (patchVariant && patchVariant !== binEcuInfo.variant) continue;
+                }
+
                 try {
                     const btpResponse = await fetch(`./patches/${entry.file}`);
                     if (!btpResponse.ok) continue;
@@ -99,19 +110,25 @@ export function useAppState(): IAppContext {
                     const crcValid = verifyCrc32(btpData);
                     const {header, blocks} = parseBtp(btpData);
 
-                    if (header.fileSize === data.length) {
-                        const status = checkPatch(blocks, data);
-                        results.push({
-                            name: entry.name,
-                            file: entry.file,
-                            status,
-                            definition: entry.definition,
-                            category: entry.category,
-                            blocks,
-                            header,
-                            crcValid,
-                        });
+                    if (header.fileSize !== data.length) continue;
+
+                    // Confirm variant match from softCode
+                    if (binEcuInfo) {
+                        const patchEcuInfo = parseEcuInfo(header.softCode);
+                        if (patchEcuInfo && patchEcuInfo.variant !== binEcuInfo.variant) continue;
                     }
+
+                    const status = checkPatchBlockAware(blocks, data, calFileOffset);
+                    results.push({
+                        name: entry.name,
+                        file: entry.file,
+                        status,
+                        definition: entry.definition,
+                        category: entry.category,
+                        blocks,
+                        header,
+                        crcValid,
+                    });
                 } catch {
                     // Skip individual patch load failures
                 }
