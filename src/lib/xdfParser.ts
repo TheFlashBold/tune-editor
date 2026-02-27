@@ -1,463 +1,390 @@
-import { IDefinitionParameter, DataType, AxisDefinition, Definition } from '../types';
+import type {IDefinitionParameter, DataType, AxisDefinition, Definition} from '../types';
 
-interface CsvMapping {
-  categories: string[];
-  pattern: string;
-  customName: string;
+// --- Math equation parsing ---
+
+function fixFloat(s: string): number {
+    s = s.trim();
+    // Handle malformed values like '2.66667.0' (double decimal point)
+    const firstDot = s.indexOf('.');
+    if (firstDot >= 0) {
+        const secondDot = s.indexOf('.', firstDot + 1);
+        if (secondDot >= 0) s = s.slice(0, secondDot);
+    }
+    return parseFloat(s);
 }
 
-export class XDFParser {
-  private xmlDoc: Document | null = null;
-  private csvMappings: CsvMapping[] = [];
-  private matchedCount = 0;
-  private baseOffset = 0;
-  private categoryMap: Map<number, string> = new Map();
+const NUM = '[\\d.\\-+eE]+';
 
-  parseCsv(csvContent: string): void {
-    const lines = csvContent.split('\n');
-    if (lines.length < 2) return;
+function parseMathEquation(equation: string): { factor: number; offset: number } {
+    equation = equation.trim();
 
-    const header = this.parseCsvLine(lines[0]);
-    const tableNameIdx = header.findIndex(h => h.toLowerCase().includes('table name'));
-    const customNameIdx = header.findIndex(h => h.toLowerCase().includes('custom name'));
-    const categoryColumns = tableNameIdx > 0 ? tableNameIdx : 3;
+    // Identity: X or x
+    if (/^[xX]$/.test(equation)) return {factor: 1, offset: 0};
 
-    for (let i = 1; i < lines.length; i++) {
-      const line = lines[i].trim();
-      if (!line) continue;
-
-      const parts = this.parseCsvLine(line);
-      const pattern = parts[tableNameIdx] || '';
-      if (!pattern) continue;
-
-      const categories = parts.slice(0, categoryColumns).filter(c => c.trim());
-      const customName = customNameIdx >= 0 ? parts[customNameIdx] || '' : '';
-
-      this.csvMappings.push({ categories, pattern, customName });
-    }
-  }
-
-  private parseCsvLine(line: string): string[] {
-    const result: string[] = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i++) {
-      const char = line[i];
-      if (char === '"') {
-        inQuotes = !inQuotes;
-      } else if (char === ',' && !inQuotes) {
-        result.push(current.trim());
-        current = '';
-      } else {
-        current += char;
-      }
-    }
-    result.push(current.trim());
-    return result;
-  }
-
-  async parseXDF(file: File): Promise<void> {
-    const text = await file.text();
-    this.parseXDFString(text);
-  }
-
-  parseXDFString(text: string): void {
-    const parser = new DOMParser();
-    this.xmlDoc = parser.parseFromString(text, 'text/xml');
-
-    // Parse BASEOFFSET from XDFHEADER
-    const baseOffsetEl = this.xmlDoc.querySelector('XDFHEADER > BASEOFFSET');
-    if (baseOffsetEl) {
-      this.baseOffset = parseInt(baseOffsetEl.getAttribute('offset') || '0', 10);
-    }
-
-    // Parse CATEGORY elements from XDFHEADER
-    this.categoryMap.clear();
-    const categories = this.xmlDoc.querySelectorAll('XDFHEADER > CATEGORY');
-    for (const cat of categories) {
-      const indexStr = cat.getAttribute('index') || '0';
-      const index = parseInt(indexStr, indexStr.startsWith('0x') ? 16 : 10);
-      const name = cat.getAttribute('name') || '';
-      if (name) {
-        this.categoryMap.set(index, name);
-      }
-    }
-  }
-
-  getBaseOffset(): number {
-    return this.baseOffset;
-  }
-
-  generateDefinition(name: string, addressTransform?: (addr: number) => number): Definition {
-    if (!this.xmlDoc) {
-      throw new Error('No XDF file parsed');
-    }
-
-    const parameters: IDefinitionParameter[] = [];
-    this.matchedCount = 0;
-
-    // Parse XDFTABLE elements (tables and curves)
-    const tables = this.xmlDoc.querySelectorAll('XDFTABLE');
-    for (const table of tables) {
-      const param = this.parseTable(table, addressTransform);
-      if (param) {
-        parameters.push(param);
-      }
-    }
-
-    // Parse XDFCONSTANT elements (single values)
-    const constants = this.xmlDoc.querySelectorAll('XDFCONSTANT');
-    for (const constant of constants) {
-      const param = this.parseConstant(constant, addressTransform);
-      if (param) {
-        parameters.push(param);
-      }
-    }
-
-    return {
-      name,
-      version: '1.0',
-      parameters,
-    };
-  }
-
-  private resolveCategories(element: Element): string[] {
-    // Use CATEGORYMEM elements to resolve category names
-    const catMems = element.querySelectorAll(':scope > CATEGORYMEM');
-    const categories: string[] = [];
-
-    for (const catMem of catMems) {
-      const catIndex = parseInt(catMem.getAttribute('category') || '0', 10);
-      const catName = this.categoryMap.get(catIndex);
-      if (catName) {
-        categories.push(catName);
-      }
-    }
-
-    return categories;
-  }
-
-  private parseTable(element: Element, addressTransform?: (addr: number) => number): IDefinitionParameter | null {
-    const title = element.querySelector('title')?.textContent || '';
-    const description = element.querySelector('description')?.textContent || title;
-
-    // In XDF format, the z-axis contains the main data (address, type, dimensions)
-    const zAxis = element.querySelector(':scope > XDFAXIS[id="z"]');
-    const zEmbedded = zAxis?.querySelector('embeddedData') || zAxis?.querySelector('EMBEDDEDDATA');
-
-    // Try table-level embeddedData first, then fall back to z-axis
-    let embeddedData = element.querySelector(':scope > embeddedData') || element.querySelector(':scope > EMBEDDEDDATA');
-    if (!embeddedData && zEmbedded) {
-      embeddedData = zEmbedded;
-    }
-    if (!embeddedData) return null;
-
-    const address = this.parseAddress(embeddedData.getAttribute('mmedaddress'));
-    if (address === null) return null;
-
-    const finalAddress = addressTransform ? addressTransform(address) : address;
-
-    const sizeBits = parseInt(embeddedData.getAttribute('mmedelementsizebits') || '8', 10);
-    const typeFlags = parseInt(embeddedData.getAttribute('mmedtypeflags') || '0', 16);
-    const dataType = this.getDataType(sizeBits, typeFlags);
-
-    // Parse math equation from z-axis or table-level MATH
-    const mathElement = zAxis?.querySelector('MATH') || element.querySelector(':scope > MATH');
-    const { factor, offset } = this.parseMath(mathElement);
-
-    // Get units/min/max from z-axis or table level
-    const unitSource = zAxis || element;
-    const unit = unitSource.querySelector('units')?.textContent || '';
-    const min = parseFloat(unitSource.querySelector('min')?.textContent || '0');
-    const max = parseFloat(unitSource.querySelector('max')?.textContent || '65535');
-
-    // Parse x/y axes
-    const axes = element.querySelectorAll(':scope > XDFAXIS');
-    let xAxis: AxisDefinition | undefined;
-    let yAxis: AxisDefinition | undefined;
-    let cols = 1;
-    let rows = 1;
-
-    // Get rows from z-axis mmedrowcount if available
-    const zRowCount = parseInt(embeddedData.getAttribute('mmedrowcount') || '0', 10);
-    const zColCount = parseInt(embeddedData.getAttribute('mmedcolcount') || '0', 10);
-
-    for (const axis of axes) {
-      const axisId = axis.getAttribute('id');
-      if (axisId === 'z') continue; // z-axis is the data, not a dimension axis
-
-      const axisDef = this.parseAxis(axis, addressTransform);
-
-      if (axisId === 'x' && axisDef) {
-        xAxis = axisDef;
-        cols = axisDef.points;
-      } else if (axisId === 'y' && axisDef) {
-        yAxis = axisDef;
-        rows = axisDef.points;
-      }
-    }
-
-    // Use z-axis dimensions if x/y didn't provide them
-    if (zColCount > 0 && cols === 1) cols = zColCount;
-    if (zRowCount > 0 && rows === 1) rows = zRowCount;
-
-    // Determine type
-    let type: 'VALUE' | 'CURVE' | 'MAP' = 'VALUE';
-    if ((yAxis && yAxis.points > 1) || (rows > 1 && cols > 1)) {
-      type = 'MAP';
-    } else if ((xAxis && xAxis.points > 1) || cols > 1) {
-      type = 'CURVE';
-    }
-
-    // Resolve categories from CATEGORYMEM or CSV mapping
-    let categories: string[];
-    let customName = '';
-
-    if (this.csvMappings.length > 0) {
-      const mapping = this.findMapping(title);
-      categories = mapping.categories;
-      customName = mapping.customName;
-
-      // Skip if CSV is loaded but no match found
-      if (categories.length === 0) {
-        return null;
-      }
-      this.matchedCount++;
-    } else {
-      categories = this.resolveCategories(element);
-      if (categories.length === 0) {
-        categories = ['Uncategorized'];
-      }
-    }
-
-    return {
-      name: title,
-      description,
-      address: finalAddress,
-      type,
-      dataType,
-      unit,
-      min,
-      max,
-      factor,
-      offset,
-      xAxis,
-      yAxis,
-      rows: type === 'MAP' ? rows : undefined,
-      cols: type !== 'VALUE' ? cols : undefined,
-      categories,
-      customName: customName || undefined,
-    };
-  }
-
-  private parseConstant(element: Element, addressTransform?: (addr: number) => number): IDefinitionParameter | null {
-    const title = element.querySelector('title')?.textContent || '';
-    const description = element.querySelector('description')?.textContent || title;
-
-    const embeddedData = element.querySelector('embeddedData') || element.querySelector('EMBEDDEDDATA');
-    if (!embeddedData) return null;
-
-    const address = this.parseAddress(embeddedData.getAttribute('mmedaddress'));
-    if (address === null) return null;
-
-    const finalAddress = addressTransform ? addressTransform(address) : address;
-
-    const sizeBits = parseInt(embeddedData.getAttribute('mmedelementsizebits') || '8', 10);
-    const typeFlags = parseInt(embeddedData.getAttribute('mmedtypeflags') || '0', 16);
-    const dataType = this.getDataType(sizeBits, typeFlags);
-
-    const { factor, offset } = this.parseMath(element.querySelector('MATH'));
-
-    let categories: string[];
-    let customName = '';
-
-    if (this.csvMappings.length > 0) {
-      const mapping = this.findMapping(title);
-      categories = mapping.categories;
-      customName = mapping.customName;
-      if (categories.length === 0) return null;
-      this.matchedCount++;
-    } else {
-      categories = this.resolveCategories(element);
-      if (categories.length === 0) categories = ['Uncategorized'];
-    }
-
-    const unit = element.querySelector('units')?.textContent || '';
-    const min = parseFloat(element.querySelector('min')?.textContent || '0');
-    const max = parseFloat(element.querySelector('max')?.textContent || '65535');
-
-    return {
-      name: title,
-      description,
-      address: finalAddress,
-      type: 'VALUE',
-      dataType,
-      unit,
-      min,
-      max,
-      factor,
-      offset,
-      categories,
-      customName: customName || undefined,
-    };
-  }
-
-  private parseAxis(element: Element, addressTransform?: (addr: number) => number): AxisDefinition | null {
-    const embeddedData = element.querySelector('embeddedData') || element.querySelector('EMBEDDEDDATA');
-    const indexCountEl = element.querySelector('indexcount');
-    const indexCount = parseInt(indexCountEl?.textContent || '1', 10);
-
-    if (indexCount <= 1) return null;
-
-    let address: number | undefined;
-    let dataType: DataType = 'UWORD';
-
-    if (embeddedData) {
-      const addr = this.parseAddress(embeddedData.getAttribute('mmedaddress'));
-      if (addr !== null) {
-        address = addressTransform ? addressTransform(addr) : addr;
-      }
-
-      const sizeBits = parseInt(embeddedData.getAttribute('mmedelementsizebits') || '16', 10);
-      const typeFlags = parseInt(embeddedData.getAttribute('mmedtypeflags') || '0', 16);
-      dataType = this.getDataType(sizeBits, typeFlags);
-    }
-
-    const { factor, offset } = this.parseMath(element.querySelector('MATH'));
-    const unit = element.querySelector('units')?.textContent || '';
-    const min = parseFloat(element.querySelector('min')?.textContent || '0');
-    const max = parseFloat(element.querySelector('max')?.textContent || '65535');
-
-    return {
-      type: address !== undefined ? 'STD_AXIS' : 'FIX_AXIS',
-      points: indexCount,
-      min,
-      max,
-      unit,
-      address,
-      dataType,
-      factor,
-      offset,
-      dataOffset: 0,
-    };
-  }
-
-  private parseMath(mathElement: Element | null): { factor: number; offset: number } {
-    if (!mathElement) {
-      return { factor: 1, offset: 0 };
-    }
-
-    const equation = mathElement.getAttribute('equation') || 'X';
-
-    // Try rational function format: ((a * X) - b) / (c - (d * X))
-    const rationalMatch = equation.match(
-      /\(\(\s*([\d.]+)\s*\*\s*X\s*\)\s*-\s*([\d.]+)\s*\)\s*\/\s*\(\s*([\d.]+)\s*-\s*\(\s*([\d.]+)\s*\*\s*X\s*\)\s*\)/i
+    // Rational function: ((a * X) - b) / (c - (d * X))
+    const rat = equation.match(
+        new RegExp(`^\\(\\s*\\(\\s*(${NUM})\\s*\\*\\s*X\\s*\\)\\s*-\\s*(${NUM})\\s*\\)\\s*/\\s*\\(\\s*(${NUM})\\s*-\\s*\\(\\s*(${NUM})\\s*\\*\\s*X\\s*\\)\\s*\\)$`, 'i')
     );
-    if (rationalMatch) {
-      const a = parseFloat(rationalMatch[1]);
-      const b = parseFloat(rationalMatch[2]);
-      const c = parseFloat(rationalMatch[3]);
-      const d = parseFloat(rationalMatch[4]);
-
-      if (d === 0 && c !== 0) {
-        // Simplifies to (a*X - b) / c = (a/c)*X - (b/c)
-        return { factor: a / c, offset: -(b / c) };
-      }
-      // Non-zero d: can't represent as simple factor+offset, approximate
-      // For display purposes, use a/c as factor and -b/c as offset
-      if (c !== 0) {
-        return { factor: a / c, offset: -(b / c) };
-      }
+    if (rat) {
+        const a = fixFloat(rat[1]), b = fixFloat(rat[2]), c = fixFloat(rat[3]), d = fixFloat(rat[4]);
+        if (d === 0 && c !== 0) return {factor: a / c, offset: -b / c};
+        return {factor: c !== 0 ? a / c : 1, offset: 0};
     }
 
-    // Parse simpler XDF math equations like "X * 0.1" or "X * 0.01 + 10"
-    let factor = 1;
-    let offset = 0;
+    // X / divisor
+    const div = equation.match(new RegExp(`^X\\s*/\\s*(${NUM})$`, 'i'));
+    if (div) return {factor: 1 / parseFloat(div[1]), offset: 0};
 
-    // Match: X * number
-    const mulMatch = equation.match(/X\s*\*\s*([\d.]+)/i);
-    if (mulMatch) {
-      factor = parseFloat(mulMatch[1]);
+    // X * factor +/- offset
+    const mulOff = equation.match(new RegExp(`^X\\s*\\*\\s*(${NUM})\\s*([+-])\\s*(${NUM})$`, 'i'));
+    if (mulOff) {
+        const f = parseFloat(mulOff[1]);
+        const o = parseFloat(mulOff[3]) * (mulOff[2] === '-' ? -1 : 1);
+        return {factor: f, offset: o};
     }
 
-    // Match: number * X
-    const mulMatch2 = equation.match(/([\d.]+)\s*\*\s*X/i);
-    if (!mulMatch && mulMatch2) {
-      factor = parseFloat(mulMatch2[1]);
-    }
+    // X * factor
+    const mul = equation.match(new RegExp(`^X\\s*\\*\\s*(${NUM})$`, 'i'));
+    if (mul) return {factor: parseFloat(mul[1]), offset: 0};
 
-    // Match: X / number
-    const divMatch = equation.match(/X\s*\/\s*([\d.]+)/i);
-    if (divMatch) {
-      factor = 1 / parseFloat(divMatch[1]);
-    }
+    // X +/- offset
+    const addSub = equation.match(new RegExp(`^X\\s*([+-])\\s*(${NUM})$`, 'i'));
+    if (addSub) return {factor: 1, offset: parseFloat(addSub[2]) * (addSub[1] === '-' ? -1 : 1)};
 
-    // Match: + number or - number at the end
-    const addMatch = equation.match(/([+-])\s*([\d.]+)\s*$/);
-    if (addMatch) {
-      offset = parseFloat(addMatch[2]);
-      if (addMatch[1] === '-') offset = -offset;
-    }
+    return {factor: 1, offset: 0};
+}
 
-    return { factor, offset };
-  }
+// --- Data type from XDF flags ---
 
-  private parseAddress(addrStr: string | null): number | null {
-    if (!addrStr) return null;
-    // XDF addresses are typically hex strings starting with 0x
-    if (addrStr.startsWith('0x') || addrStr.startsWith('0X')) {
-      return parseInt(addrStr, 16);
-    }
-    return parseInt(addrStr, 16);
-  }
-
-  private getDataType(sizeBits: number, typeFlags: number): DataType {
+function getDataType(sizeBits: number, typeFlags: number): DataType {
     const signed = (typeFlags & 0x01) !== 0;
-    const isFloat = (typeFlags & 0x10000) !== 0;
-
-    if (isFloat && sizeBits === 32) return 'FLOAT32';
-
+    if ((typeFlags & 0x10000) && sizeBits === 32) return 'FLOAT32';
     switch (sizeBits) {
-      case 8:
-        return signed ? 'SBYTE' : 'UBYTE';
-      case 16:
-        return signed ? 'SWORD' : 'UWORD';
-      case 32:
-        return signed ? 'SLONG' : 'ULONG';
-      default:
-        return 'UWORD';
+        case 8:  return signed ? 'SBYTE' : 'UBYTE';
+        case 16: return signed ? 'SWORD' : 'UWORD';
+        case 32: return signed ? 'SLONG' : 'ULONG';
+        default: return 'UWORD';
     }
-  }
+}
 
-  private findMapping(name: string): { categories: string[]; customName: string } {
-    for (const mapping of this.csvMappings) {
-      if (this.matchPattern(name, mapping.pattern)) {
-        return { categories: mapping.categories, customName: mapping.customName };
-      }
+// --- Address parsing ---
+
+function parseAddress(addrStr: string | null): number | null {
+    if (!addrStr) return null;
+    return parseInt(addrStr, addrStr.startsWith('0x') || addrStr.startsWith('0X') ? 16 : 16);
+}
+
+// --- Axis parsing ---
+
+interface ParsedAxis {
+    address: number;
+    dataType: DataType;
+    cols: number;
+    rows: number;
+    unit: string;
+    factor: number;
+    offset: number;
+    min: number;
+    max: number;
+    embedded: boolean;
+    points?: number;
+}
+
+function parseAxisElement(axisEl: Element): ParsedAxis | null {
+    const embed = axisEl.querySelector('EMBEDDEDDATA') || axisEl.querySelector('embeddedData');
+    const indexCountEl = axisEl.querySelector('indexcount');
+    const points = parseInt(indexCountEl?.textContent || '1', 10);
+
+    // No embedded data or no address/typeflags → non-embedded axis
+    if (!embed || (!embed.getAttribute('mmedaddress') && !embed.getAttribute('mmedtypeflags'))) {
+        return {address: 0, dataType: 'UWORD', cols: points, rows: 1, unit: '', factor: 1, offset: 0, min: 0, max: 0, embedded: false, points};
     }
-    return { categories: [], customName: '' };
-  }
 
-  private matchPattern(name: string, pattern: string): boolean {
-    const lowerName = name.toLowerCase();
-    const lowerPattern = pattern.toLowerCase();
+    const address = parseAddress(embed.getAttribute('mmedaddress')) ?? 0;
+    const sizeBits = parseInt(embed.getAttribute('mmedelementsizebits') || '16', 10);
+    const typeFlags = parseInt(embed.getAttribute('mmedtypeflags') || '0', 16);
+    const cols = parseInt(embed.getAttribute('mmedcolcount') || '1', 10);
+    const rows = parseInt(embed.getAttribute('mmedrowcount') || '1', 10);
 
-    if (pattern.includes('*')) {
-      const regex = new RegExp('^' + lowerPattern.replace(/\*/g, '.*') + '$');
-      return regex.test(lowerName);
-    }
+    const mathEl = axisEl.querySelector('MATH');
+    const {factor, offset} = mathEl ? parseMathEquation(mathEl.getAttribute('equation') || 'X') : {factor: 1, offset: 0};
 
-    return lowerName === lowerPattern;
-  }
-
-  getStats(): { tables: number; constants: number; matched: number } {
-    if (!this.xmlDoc) return { tables: 0, constants: 0, matched: 0 };
+    const unit = axisEl.querySelector('units')?.textContent || '';
+    const min = parseFloat(axisEl.querySelector('min')?.textContent || '0');
+    const max = parseFloat(axisEl.querySelector('max')?.textContent || '0');
 
     return {
-      tables: this.xmlDoc.querySelectorAll('XDFTABLE').length,
-      constants: this.xmlDoc.querySelectorAll('XDFCONSTANT').length,
-      matched: this.matchedCount,
+        address,
+        dataType: getDataType(sizeBits, typeFlags),
+        cols, rows, unit, factor, offset, min, max,
+        embedded: true,
+        points: cols > 1 ? cols : points,
     };
-  }
+}
+
+// --- Main parser ---
+
+export class XDFParser {
+    private xmlDoc: Document | null = null;
+    private baseOffset = 0;
+    private bigEndian = false;
+    private title = '';
+    private categoryMap: Map<number, string> = new Map();
+
+    parseXDFString(text: string): void {
+        const parser = new DOMParser();
+        this.xmlDoc = parser.parseFromString(text, 'text/xml');
+
+        const header = this.xmlDoc.querySelector('XDFHEADER');
+        if (!header) return;
+
+        // Title (EPK/version)
+        this.title = header.querySelector('deftitle')?.textContent || '';
+
+        // BASEOFFSET
+        const baseEl = header.querySelector('BASEOFFSET');
+        if (baseEl) {
+            const offsetStr = baseEl.getAttribute('offset') || '0';
+            const parsed = parseInt(offsetStr, 10);
+            if (!isNaN(parsed)) this.baseOffset = parsed;
+        }
+
+        // Endianness
+        const defaults = header.querySelector('DEFAULTS');
+        if (defaults) this.bigEndian = defaults.getAttribute('lsbfirst') === '0';
+
+        // Categories
+        this.categoryMap.clear();
+        for (const cat of header.querySelectorAll('CATEGORY')) {
+            const indexStr = cat.getAttribute('index') || '0';
+            const index = parseInt(indexStr, indexStr.startsWith('0x') ? 16 : 10);
+            const name = cat.getAttribute('name') || '';
+            if (name) this.categoryMap.set(index, name);
+        }
+    }
+
+    async parseXDF(file: File): Promise<void> {
+        this.parseXDFString(await file.text());
+    }
+
+    generateDefinition(name?: string): Definition {
+        if (!this.xmlDoc) throw new Error('No XDF file parsed');
+
+        const parameters: IDefinitionParameter[] = [];
+
+        for (const table of this.xmlDoc.querySelectorAll('XDFTABLE')) {
+            const param = this.parseTable(table);
+            if (param) parameters.push(param);
+        }
+
+        // XDFCONSTANT → VALUE parameters
+        for (const constant of this.xmlDoc.querySelectorAll('XDFCONSTANT')) {
+            const param = this.parseConstant(constant);
+            if (param) parameters.push(param);
+        }
+
+        const def: Definition = {
+            name: name || this.title,
+            version: '1.0',
+            baseAddress: 0,
+            parameters,
+        };
+
+        if (this.baseOffset) (def as any).offset = this.baseOffset;
+        if (this.bigEndian) def.bigEndian = true;
+
+        // Extract EPK from title for verification
+        const epkMatch = this.title.match(/^(SC[18G]\w+|SA\w+|SC4\w+|S8\w+|F\w{3})/i);
+        if (epkMatch) {
+            def.verification = {
+                calOffset: this.baseOffset,
+                expected: epkMatch[1].replace(/\.a2l$/i, ''),
+            };
+        }
+
+        return def;
+    }
+
+    private resolveCategories(element: Element): string[] {
+        const entries: [number, string][] = [];
+        for (const catMem of element.querySelectorAll(':scope > CATEGORYMEM')) {
+            const level = parseInt(catMem.getAttribute('index') || '0', 10);
+            const catIdx = parseInt(catMem.getAttribute('category') || '0', 10);
+            const catName = this.categoryMap.get(catIdx);
+            if (catName && catName !== 'Axis') entries.push([level, catName]);
+        }
+        entries.sort((a, b) => a[0] - b[0]);
+        const cats = entries.map(e => e[1]);
+
+        // Filter trailing "Misc" catch-all
+        if (cats.length > 1 && cats[cats.length - 1] === 'Misc') cats.pop();
+
+        return cats;
+    }
+
+    private parseTable(element: Element): IDefinitionParameter | null {
+        // Table flags: bit 5 (0x20) = COLUMN_DIR
+        const flags = parseInt(element.getAttribute('flags') || '0', 16);
+        const columnDir = (flags & 0x20) !== 0;
+
+        const title = element.querySelector('title')?.textContent || '';
+        const xdfDesc = element.querySelector('description')?.textContent || '';
+
+        // Detect A2L-generated XDFs: description first line is A2L ID
+        const descLines = xdfDesc.split(/[\r\n]+/);
+        const firstLine = (descLines[0] || '').trim();
+        const isA2lId = firstLine && !firstLine.includes(' ') && (firstLine.includes('_') || firstLine.includes('['));
+
+        let name: string;
+        let description: string;
+        if (isA2lId) {
+            name = firstLine;
+            description = title !== firstLine ? title : '';
+        } else {
+            name = title;
+            description = xdfDesc && xdfDesc !== title ? `${title} — ${xdfDesc}` : title;
+        }
+
+        // Parse axes
+        let xAxisData: ParsedAxis | null = null;
+        let yAxisData: ParsedAxis | null = null;
+        let zAxisData: ParsedAxis | null = null;
+
+        for (const axisEl of element.querySelectorAll(':scope > XDFAXIS')) {
+            const id = axisEl.getAttribute('id');
+            const data = parseAxisElement(axisEl);
+            if (!data) continue;
+            if (id === 'x') xAxisData = data;
+            else if (id === 'y') yAxisData = data;
+            else if (id === 'z') zAxisData = data;
+        }
+
+        if (!zAxisData || !zAxisData.embedded) return null;
+
+        const cols = zAxisData.cols;
+        const rows = zAxisData.rows;
+
+        let type: 'VALUE' | 'CURVE' | 'MAP' = 'VALUE';
+        if (cols === 1 && rows === 1) type = 'VALUE';
+        else if (rows === 1) type = 'CURVE';
+        else type = 'MAP';
+
+        const categories = this.resolveCategories(element);
+
+        const param: IDefinitionParameter = {
+            name,
+            description,
+            address: zAxisData.address + this.baseOffset,
+            type,
+            dataType: zAxisData.dataType,
+            unit: zAxisData.unit,
+            min: zAxisData.min,
+            max: zAxisData.max,
+            factor: zAxisData.factor,
+            offset: zAxisData.offset,
+            categories: categories.length > 0 ? categories : ['Uncategorized'],
+        };
+
+        if (type !== 'VALUE') {
+            param.cols = cols;
+            if (type === 'MAP') {
+                param.rows = rows;
+                if (columnDir) param.columnDir = true;
+            }
+        }
+
+        // X axis
+        if (xAxisData && xAxisData.embedded && type !== 'VALUE') {
+            const axis: AxisDefinition = {
+                type: 'COM_AXIS',
+                points: xAxisData.points ?? xAxisData.cols,
+                min: xAxisData.min,
+                max: xAxisData.max,
+                unit: xAxisData.unit,
+                address: xAxisData.address + this.baseOffset,
+                dataType: xAxisData.dataType,
+            };
+            if (xAxisData.factor !== 1) axis.factor = xAxisData.factor;
+            if (xAxisData.offset !== 0) axis.offset = xAxisData.offset;
+            param.xAxis = axis;
+        } else if (xAxisData && !xAxisData.embedded && type !== 'VALUE') {
+            param.xAxis = {type: 'FIX_AXIS', points: xAxisData.points ?? cols, min: 0, max: 0, unit: ''};
+        }
+
+        // Y axis
+        if (yAxisData && yAxisData.embedded && type === 'MAP') {
+            const axis: AxisDefinition = {
+                type: 'COM_AXIS',
+                points: yAxisData.points ?? yAxisData.cols,
+                min: yAxisData.min,
+                max: yAxisData.max,
+                unit: yAxisData.unit,
+                address: yAxisData.address + this.baseOffset,
+                dataType: yAxisData.dataType,
+            };
+            if (yAxisData.factor !== 1) axis.factor = yAxisData.factor;
+            if (yAxisData.offset !== 0) axis.offset = yAxisData.offset;
+            param.yAxis = axis;
+        } else if (yAxisData && !yAxisData.embedded && type === 'MAP') {
+            param.yAxis = {type: 'FIX_AXIS', points: yAxisData.points ?? rows, min: 0, max: 0, unit: ''};
+        }
+
+        return param;
+    }
+
+    private parseConstant(element: Element): IDefinitionParameter | null {
+        const title = element.querySelector('title')?.textContent || '';
+        const xdfDesc = element.querySelector('description')?.textContent || '';
+
+        const descLines = xdfDesc.split(/[\r\n]+/);
+        const firstLine = (descLines[0] || '').trim();
+        const isA2lId = firstLine && !firstLine.includes(' ') && (firstLine.includes('_') || firstLine.includes('['));
+
+        const name = isA2lId ? firstLine : title;
+        const description = isA2lId ? (title !== firstLine ? title : '') : (xdfDesc && xdfDesc !== title ? `${title} — ${xdfDesc}` : title);
+
+        const embed = element.querySelector('EMBEDDEDDATA') || element.querySelector('embeddedData');
+        if (!embed) return null;
+        const address = parseAddress(embed.getAttribute('mmedaddress'));
+        if (address === null) return null;
+
+        const sizeBits = parseInt(embed.getAttribute('mmedelementsizebits') || '8', 10);
+        const typeFlags = parseInt(embed.getAttribute('mmedtypeflags') || '0', 16);
+
+        const mathEl = element.querySelector('MATH');
+        const {factor, offset} = mathEl ? parseMathEquation(mathEl.getAttribute('equation') || 'X') : {factor: 1, offset: 0};
+
+        const unit = element.querySelector('units')?.textContent || '';
+        const min = parseFloat(element.querySelector('min')?.textContent || '0');
+        const max = parseFloat(element.querySelector('max')?.textContent || '65535');
+
+        const categories = this.resolveCategories(element);
+
+        return {
+            name,
+            description,
+            address: address + this.baseOffset,
+            type: 'VALUE',
+            dataType: getDataType(sizeBits, typeFlags),
+            unit, min, max, factor, offset,
+            categories: categories.length > 0 ? categories : ['Uncategorized'],
+        };
+    }
+
+    getStats(): { tables: number; constants: number; total: number } {
+        if (!this.xmlDoc) return {tables: 0, constants: 0, total: 0};
+        return {
+            tables: this.xmlDoc.querySelectorAll('XDFTABLE').length,
+            constants: this.xmlDoc.querySelectorAll('XDFCONSTANT').length,
+            total: this.xmlDoc.querySelectorAll('XDFTABLE').length + this.xmlDoc.querySelectorAll('XDFCONSTANT').length,
+        };
+    }
+
+    getBaseOffset(): number {
+        return this.baseOffset;
+    }
+
+    getTitle(): string {
+        return this.title;
+    }
 }

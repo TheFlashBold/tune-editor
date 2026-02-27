@@ -19,13 +19,15 @@ import {loadSettings, saveSettings, calculateWheelCircumference} from './lib/veh
 import type {VehicleSettings} from './lib/vehicleSettings';
 import {loadDefinition} from './lib/definitionLoader';
 import {isS19File, isHexFile} from './lib/s19Parser';
+import {XDFParser} from './lib/xdfParser';
 import './app.css';
 
 const BIN_EXTENSIONS = ['.bin', '.ori', '.mod'];
 
-function classifyFile(name: string): 'json' | 'bin' | 'csv' | null {
+function classifyFile(name: string): 'json' | 'bin' | 'csv' | 'xdf' | null {
     const lower = name.toLowerCase();
     if (lower.endsWith('.json')) return 'json';
+    if (lower.endsWith('.xdf')) return 'xdf';
     if (lower.endsWith('.csv')) return 'csv';
     if (BIN_EXTENSIONS.some(ext => lower.endsWith(ext))) return 'bin';
     if (isS19File(name) || isHexFile(name)) return 'bin';
@@ -76,6 +78,13 @@ export function App() {
         const type = classifyFile(file.name);
         if (type === 'json') {
             await appState.loadDefinitionJson(file);
+        } else if (type === 'xdf') {
+            const parser = new XDFParser();
+            await parser.parseXDF(file);
+            const def = parser.generateDefinition();
+            console.log(`XDF: ${def.parameters.length} parameters from ${file.name}`);
+            appState.setDefinition(def);
+            appState.setSelectedParam(null);
         } else if (type === 'bin') {
             await appState.loadBin(file);
         } else if (type === 'csv') {

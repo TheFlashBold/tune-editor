@@ -1,24 +1,24 @@
 import {useState, useMemo, useEffect, useCallback, useRef} from 'preact/hooks';
 import type {IDefinitionParameter} from '../types';
 
-function tokenMatch(text: string, pattern: string): boolean {
-    const textParts = text.toLowerCase().split(/[\s_]+/);
-    const patternParts = pattern.toLowerCase().split(/[\s_]+/);
-
-    return patternParts.every((part) => textParts.includes(part));
-}
-
-// function fuzzyMatch(text: string, pattern: string): boolean {
-//     const t = text.toLowerCase();
-//     const p = pattern.toLowerCase();
-//     let ti = 0;
-//     for (let pi = 0; pi < p.length; pi++) {
-//         const idx = t.indexOf(p[pi], ti);
-//         if (idx === -1) return false;
-//         ti = idx + 1;
-//     }
-//     return true;
+// function tokenMatch(text: string, pattern: string): boolean {
+//     const textParts = text.toLowerCase().split(/[\s_]+/);
+//     const patternParts = pattern.toLowerCase().split(/[\s_]+/);
+//
+//     return patternParts.every((part) => textParts.includes(part));
 // }
+
+function fuzzyMatch(text: string, pattern: string): boolean {
+    const t = text.toLowerCase();
+    const p = pattern.toLowerCase();
+    let ti = 0;
+    for (let pi = 0; pi < p.length; pi++) {
+        const idx = t.indexOf(p[pi], ti);
+        if (idx === -1) return false;
+        ti = idx + 1;
+    }
+    return true;
+}
 
 interface TreeNode {
     name: string;
@@ -168,12 +168,12 @@ export function CategoryTree({parameters, onSelect, selectedParam}: Props) {
     const tree = useMemo(() => {
         const filtered = debouncedFilter
             ? parameters.filter(p =>
-                    tokenMatch(p.name, debouncedFilter) ||
-                    tokenMatch(p.description, debouncedFilter) ||
-                    (p.customName && tokenMatch(p.name, debouncedFilter))
-                // fuzzyMatch(p.name, debouncedFilter) ||
-                // fuzzyMatch(p.description, debouncedFilter) ||
-                // (p.customName && fuzzyMatch(p.customName, debouncedFilter))
+                    // tokenMatch(p.name, debouncedFilter) ||
+                    // tokenMatch(p.description, debouncedFilter) ||
+                    // (p.customName && tokenMatch(p.name, debouncedFilter))
+                fuzzyMatch(p.name, debouncedFilter) ||
+                fuzzyMatch(p.description, debouncedFilter) ||
+                (p.customName && fuzzyMatch(p.customName, debouncedFilter))
             )
             : parameters;
         return buildTree(filtered);
