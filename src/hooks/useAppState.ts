@@ -2,7 +2,7 @@ import {useState, useCallback, useMemo} from 'preact/hooks';
 import {DATA_TYPE_INFO, ILoadedBin} from '../types';
 import type {Definition, IDefinitionParameter, BinaryMode, CellDiff, AxisDiff, ParamDiff} from '../types';
 import type {PatchCheckResult} from '../lib/btpParser';
-import {parseBtp, verifyCrc32, checkPatchBlockAware, buildBtp, parseEcuInfo, getCalFileOffset, extractVariantFromName} from '../lib/btpParser';
+import {parseBtp, verifyCrc32, checkPatchBlockAware, buildBtp, parseEcuInfo, getCalFileOffset} from '../lib/btpParser';
 import {
     readParameterValue,
     readTableData,
@@ -87,7 +87,8 @@ export function useAppState(): IAppContext {
                 name: string;
                 file: string;
                 definition?: string;
-                category?: string
+                category?: string;
+                variant?: string;
             }[] = await response.json();
 
             // Extract ECU info from loaded definition for variant filtering
@@ -95,14 +96,13 @@ export function useAppState(): IAppContext {
             const binEcuInfo = epk ? parseEcuInfo(epk) : null;
             const calFileOffset = binEcuInfo ? getCalFileOffset(binEcuInfo.ecuFamily) : null;
 
-            const results: PatchCheckResult[] = [];
-            for (const entry of patchIndex) {
-                // Pre-filter by variant from patch name
-                if (binEcuInfo) {
-                    const patchVariant = extractVariantFromName(entry.name);
-                    if (patchVariant && patchVariant !== binEcuInfo.variant) continue;
-                }
+            // Pre-filter by variant from index — only load matching BTPs
+            const filtered = binEcuInfo
+                ? patchIndex.filter(e => !e.variant || e.variant === binEcuInfo.variant)
+                : patchIndex;
 
+            const results: PatchCheckResult[] = [];
+            for (const entry of filtered) {
                 try {
                     const btpResponse = await fetch(`./patches/${entry.file}`);
                     if (!btpResponse.ok) continue;
@@ -111,12 +111,6 @@ export function useAppState(): IAppContext {
                     const {header, blocks} = parseBtp(btpData);
 
                     if (header.fileSize !== data.length) continue;
-
-                    // Confirm variant match from softCode
-                    if (binEcuInfo) {
-                        const patchEcuInfo = parseEcuInfo(header.softCode);
-                        if (patchEcuInfo && patchEcuInfo.variant !== binEcuInfo.variant) continue;
-                    }
 
                     const status = checkPatchBlockAware(blocks, data, calFileOffset);
                     results.push({

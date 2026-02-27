@@ -1,4 +1,4 @@
-import {useState, useCallback} from 'preact/hooks';
+import {useState, useCallback, useMemo} from 'preact/hooks';
 import type {Definition} from './types';
 import {FileLoader} from './components/FileLoader';
 import {XdfLoader} from './components/XdfLoader';
@@ -92,6 +92,13 @@ export function App() {
     // Show definition picker when matches > 1
     const showDefinitionPicker = appState.definitionMatches.length > 1;
 
+    // CAL file offset for block-aware patch checking
+    const calFileOffset = useMemo(() => {
+        const epk = appState.definition?.verification?.expected;
+        const info = epk ? parseEcuInfo(epk) : null;
+        return info ? getCalFileOffset(info.ecuFamily) : null;
+    }, [appState.definition]);
+
     return (
         <AppContext.Provider value={appState}>
             <div
@@ -119,44 +126,16 @@ export function App() {
 
                 {/* A2L Converter Modal */}
                 {showConverter && (
-                    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                        <div
-                            class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-auto">
-                            <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
-                                <h2 class="text-lg font-semibold">A2L to JSON Converter</h2>
-                                <button
-                                    onClick={() => setShowConverter(false)}
-                                    class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
-                                >
-                                    ✕
-                                </button>
-                            </div>
-                            <div class="p-4">
-                                <FileLoader onDefinitionLoad={handleDefinitionLoad}/>
-                            </div>
-                        </div>
-                    </div>
+                    <Modal title="A2L to JSON Converter" onClose={() => setShowConverter(false)} width="lg">
+                        <FileLoader onDefinitionLoad={handleDefinitionLoad}/>
+                    </Modal>
                 )}
 
                 {/* XDF Converter Modal */}
                 {showXdfConverter && (
-                    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                        <div
-                            class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-auto">
-                            <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
-                                <h2 class="text-lg font-semibold">XDF to JSON Converter</h2>
-                                <button
-                                    onClick={() => setShowXdfConverter(false)}
-                                    class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
-                                >
-                                    ✕
-                                </button>
-                            </div>
-                            <div class="p-4">
-                                <XdfLoader onDefinitionLoad={handleDefinitionLoad}/>
-                            </div>
-                        </div>
-                    </div>
+                    <Modal title="XDF to JSON Converter" onClose={() => setShowXdfConverter(false)} width="lg">
+                        <XdfLoader onDefinitionLoad={handleDefinitionLoad}/>
+                    </Modal>
                 )}
 
                 {/* Log Viewer Modal */}
@@ -267,11 +246,7 @@ export function App() {
                     <PatchManager
                         binData={appState.bin.data}
                         patchResults={appState.patchResults}
-                        calFileOffset={(() => {
-                            const epk = appState.definition?.verification?.expected;
-                            const info = epk ? parseEcuInfo(epk) : null;
-                            return info ? getCalFileOffset(info.ecuFamily) : null;
-                        })()}
+                        calFileOffset={calFileOffset}
                         onClose={() => setShowPatchManager(false)}
                         onModify={appState.markModified}
                         onPatchResultsChange={appState.setPatchResults}

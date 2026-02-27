@@ -9,6 +9,7 @@ interface PatchIndexEntry {
     file: string;
     definition?: string;
     category?: string;
+    variant?: string;
 }
 
 interface Props {
@@ -22,22 +23,47 @@ interface Props {
     onDefinitionUpdate: (def: Definition) => void;
 }
 
-function StatusBadge({status}: { status: PatchStatus }) {
-    const styles: Record<PatchStatus, string> = {
-        applied: 'bg-green-900 text-green-300',
-        ready: 'bg-blue-900 text-blue-300',
-        incompatible: 'bg-red-900/50 text-red-400',
-    };
-    const labels: Record<PatchStatus, string> = {
-        applied: 'Applied',
-        ready: 'Ready',
-        incompatible: 'Incompatible',
-    };
+const STATUS_STYLES: Record<PatchStatus, string> = {
+    applied: 'bg-green-900 text-green-300',
+    ready: 'bg-blue-900 text-blue-300',
+    incompatible: 'bg-red-900/50 text-red-400',
+};
 
+const STATUS_LABELS: Record<PatchStatus, string> = {
+    applied: 'Applied',
+    ready: 'Ready',
+    incompatible: 'Incompatible',
+};
+
+function PatchRow({result, selected, onToggle}: {
+    result: PatchCheckResult;
+    selected: boolean;
+    onToggle: () => void;
+}) {
     return (
-        <span class={`px-2 py-0.5 rounded text-xs font-medium ${styles[status]}`}>
-      {labels[status]}
-    </span>
+        <label
+            class={`flex items-center gap-3 px-3 py-2 rounded cursor-pointer transition-colors ${
+                selected ? 'bg-zinc-600' : 'bg-zinc-700/50 hover:bg-zinc-700'
+            } ${result.status === 'incompatible' ? 'opacity-50' : ''}`}
+        >
+            <input
+                type="checkbox"
+                checked={selected}
+                onChange={onToggle}
+                disabled={result.status === 'incompatible'}
+                class="w-4 h-4 rounded bg-zinc-600 border-zinc-500"
+            />
+            <span class="flex-1 text-sm truncate">{result.name}</span>
+            {!result.crcValid && (
+                <span class="text-xs text-amber-400" title="CRC32 mismatch">CRC!</span>
+            )}
+            {result.definition && (
+                <span class="text-xs text-zinc-500" title="Has definition file">DEF</span>
+            )}
+            <span class={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_STYLES[result.status]}`}>
+                {STATUS_LABELS[result.status]}
+            </span>
+        </label>
     );
 }
 
@@ -307,30 +333,12 @@ export function PatchManager({
                                     </div>
                                     <div class="space-y-1">
                                         {patches.map(r => (
-                                            <label
+                                            <PatchRow
                                                 key={r.file}
-                                                class={`flex items-center gap-3 px-3 py-2 rounded cursor-pointer transition-colors ${
-                                                    selectedPatches.has(r.file) ? 'bg-zinc-600' : 'bg-zinc-700/50 hover:bg-zinc-700'
-                                                } ${r.status === 'incompatible' ? 'opacity-50' : ''}`}
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedPatches.has(r.file)}
-                                                    onChange={() => toggleSelection(r.file)}
-                                                    disabled={r.status === 'incompatible'}
-                                                    class="w-4 h-4 rounded bg-zinc-600 border-zinc-500"
-                                                />
-                                                <span class="flex-1 text-sm truncate">{r.name}</span>
-                                                {!r.crcValid && (
-                                                    <span class="text-xs text-amber-400"
-                                                          title="CRC32 mismatch">CRC!</span>
-                                                )}
-                                                {r.definition && (
-                                                    <span className="text-xs text-zinc-500"
-                                                          title="Has definition file">DEF</span>
-                                                )}
-                                                <StatusBadge status={r.status}/>
-                                            </label>
+                                                result={r}
+                                                selected={selectedPatches.has(r.file)}
+                                                onToggle={() => toggleSelection(r.file)}
+                                            />
                                         ))}
                                     </div>
                                 </div>
@@ -351,25 +359,12 @@ export function PatchManager({
                         <h3 class="text-sm font-semibold text-zinc-300 mb-2">User Patches</h3>
                         <div class="space-y-1">
                             {userPatches.map(r => (
-                                <label
+                                <PatchRow
                                     key={r.file}
-                                    class={`flex items-center gap-3 px-3 py-2 rounded cursor-pointer transition-colors ${
-                                        selectedPatches.has(r.file) ? 'bg-zinc-600' : 'bg-zinc-700/50 hover:bg-zinc-700'
-                                    } ${r.status === 'incompatible' ? 'opacity-50' : ''}`}
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedPatches.has(r.file)}
-                                        onChange={() => toggleSelection(r.file)}
-                                        disabled={r.status === 'incompatible'}
-                                        class="w-4 h-4 rounded bg-zinc-600 border-zinc-500"
-                                    />
-                                    <span class="flex-1 text-sm truncate">{r.name}</span>
-                                    {!r.crcValid && (
-                                        <span class="text-xs text-amber-400" title="CRC32 mismatch">CRC!</span>
-                                    )}
-                                    <StatusBadge status={r.status}/>
-                                </label>
+                                    result={r}
+                                    selected={selectedPatches.has(r.file)}
+                                    onToggle={() => toggleSelection(r.file)}
+                                />
                             ))}
                         </div>
                     </div>

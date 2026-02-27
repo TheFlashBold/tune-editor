@@ -28,6 +28,9 @@ export function MenuBar({
     const [showFileMenu, setShowFileMenu] = useState(false);
     const [showToolsMenu, setShowToolsMenu] = useState(false);
 
+    const ecuInfo = ctx.definition?.verification?.expected ? parseEcuInfo(ctx.definition.verification.expected) : null;
+    const appliedPatchCount = ctx.patchResults.filter(r => r.status === 'applied').length;
+
     const jsonInputRef = useRef<HTMLInputElement>(null);
     const binInputRef = useRef<HTMLInputElement>(null);
     const originalBinInputRef = useRef<HTMLInputElement>(null);
@@ -228,9 +231,9 @@ export function MenuBar({
                 className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500"
             >
                 Patches
-                {ctx.patchResults.filter(r => r.status === 'applied').length > 0 && (
+                {appliedPatchCount > 0 && (
                     <span className="ml-1 text-green-400">
-                        ({ctx.patchResults.filter(r => r.status === 'applied').length})
+                        ({appliedPatchCount})
                     </span>
                 )}
             </button>
@@ -262,24 +265,22 @@ export function MenuBar({
                             {ctx.detectedMode === 'cal' ? 'CAL' : 'Full'}
                         </span>
                     )}
-                    {ctx.detectedMode && ctx.definition?.verification?.expected && (() => {
-                        const info = parseEcuInfo(ctx.definition.verification.expected);
-                        return info ? (<>
-                            <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700 text-zinc-400">
-                                {info.ecuFamily}
-                            </span>
-                            <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-600 text-zinc-200">
-                                {info.variant}
-                            </span>
-                        </>) : (
-                            <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700 text-zinc-300">
-                                {ctx.definition!.verification!.expected}
-                            </span>
-                        );
-                    })()}
-                    {ctx.patchResults.filter(r => r.status === 'applied').length > 0 && (
+                    {ctx.detectedMode && ecuInfo && (<>
+                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700 text-zinc-400">
+                            {ecuInfo.ecuFamily}
+                        </span>
+                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-600 text-zinc-200">
+                            {ecuInfo.variant}
+                        </span>
+                    </>)}
+                    {ctx.detectedMode && !ecuInfo && ctx.definition?.verification?.expected && (
+                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700 text-zinc-300">
+                            {ctx.definition.verification.expected}
+                        </span>
+                    )}
+                    {appliedPatchCount > 0 && (
                         <span className="px-2 py-0.5 rounded text-xs font-medium bg-green-900 text-green-300">
-                            {ctx.patchResults.filter(r => r.status === 'applied').length} Patches
+                            {appliedPatchCount} Patches
                         </span>
                     )}
                     {ctx.bin.modified && (
