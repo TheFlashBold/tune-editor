@@ -101,6 +101,12 @@ function parseAxisElement(axisEl: Element): ParsedAxis | null {
     }
 
     const address = parseAddress(embed.getAttribute('mmedaddress')) ?? 0;
+
+    // 0xFFFFFFFF is a sentinel for "no address" (e.g., DSG y-axis placeholders)
+    if (address === 0xFFFFFFFF) {
+        return {address: 0, dataType: 'UWORD', cols: points, rows: 1, unit: '', factor: 1, offset: 0, min: 0, max: 0, embedded: false, points};
+    }
+
     const sizeBits = parseInt(embed.getAttribute('mmedelementsizebits') || '16', 10);
     const typeFlags = parseInt(embed.getAttribute('mmedtypeflags') || '0', 16);
     const cols = parseInt(embed.getAttribute('mmedcolcount') || '1', 10);
@@ -191,10 +197,14 @@ export class XDFParser {
         };
 
         if (this.baseOffset) (def as any).offset = this.baseOffset;
-        if (this.bigEndian) def.bigEndian = true;
 
         // Extract EPK from title for verification
         const epkMatch = this.title.match(/^(SC[18G]\w+|SA\w+|SC4\w+|S8\w+|F\w{3})/i);
+        const isSimos = epkMatch && /^S/i.test(epkMatch[1]);
+
+        // Only trust lsbfirst=0 (big endian) for Simos ECUs — DSG/TCU XDFs
+        // report lsbfirst=0 but actual binary data is always little-endian
+        if (this.bigEndian && isSimos) def.bigEndian = true;
         if (epkMatch) {
             def.verification = {
                 calOffset: this.baseOffset,

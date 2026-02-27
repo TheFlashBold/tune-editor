@@ -63,7 +63,7 @@ export function App() {
     }, []);
 
     const handleDefinitionLoad = useCallback((def: Definition) => {
-        appState.setDefinition(def);
+        appState.setExternalDefinition(def);
         appState.setSelectedParam(null);
         setShowConverter(false);
         setShowXdfConverter(false);
@@ -83,7 +83,7 @@ export function App() {
             await parser.parseXDF(file);
             const def = parser.generateDefinition();
             console.log(`XDF: ${def.parameters.length} parameters from ${file.name}`);
-            appState.setDefinition(def);
+            appState.setExternalDefinition(def);
             appState.setSelectedParam(null);
         } else if (type === 'bin') {
             await appState.loadBin(file);
@@ -217,7 +217,7 @@ export function App() {
                                                 onClick={async () => {
                                                     try {
                                                         const def = await loadDefinition(entry.file);
-                                                        appState.setDefinition(def);
+                                                        appState.setExternalDefinition(def);
                                                         appState.setSelectedParam(null);
                                                         setShowDefinitions(false);
                                                     } catch (err) {

@@ -8,6 +8,7 @@ import {
     readTableData,
     readAxisData,
     addressToOffset,
+    detectBinaryMode,
 } from '../lib/binUtils';
 import {
     loadDefinitionIndex,
@@ -206,12 +207,32 @@ export function useAppState(): IAppContext {
         setCrossCompareBin(newBin);
     }, []);
 
+    // Set definition from external source (XDF drop, JSON drop, converter, browser)
+    // Recalculates calOffset based on loaded bin
+    const setExternalDefinition = useCallback((def: Definition | null) => {
+        setDefinition(def);
+        if (!def || !binData) {
+            setCalOffset(0);
+            setDetectedMode(null);
+            return;
+        }
+        if (def.verification) {
+            const result = detectBinaryMode(binData, def.verification);
+            setDetectedMode(result.mode);
+            const defOffset = def.offset ?? def.verification.calOffset ?? 0;
+            setCalOffset(result.mode === 'cal' ? defOffset : 0);
+        } else {
+            setCalOffset(def.offset ?? 0);
+            setDetectedMode(null);
+        }
+    }, [binData]);
+
     const loadDefinitionJson = useCallback(async (file: File) => {
         const text = await file.text();
         const def = JSON.parse(text) as Definition;
-        setDefinition(def);
+        setExternalDefinition(def);
         setSelectedParam(null);
-    }, []);
+    }, [setExternalDefinition]);
 
     const getParamByteRanges = useCallback((): { offset: number; length: number }[] => {
         if (!definition || !binData) return [];
@@ -426,6 +447,7 @@ export function useAppState(): IAppContext {
         markModified,
         loadDefinitionJson,
         setDefinition,
+        setExternalDefinition,
         selectDefinitionMatch,
         searchDefinitions,
         setSelectedParam,

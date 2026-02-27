@@ -41,6 +41,7 @@ export interface IAppContext {
     markModified: () => void;
     loadDefinitionJson: (file: File) => Promise<void>;
     setDefinition: (def: Definition | null) => void;
+    setExternalDefinition: (def: Definition | null) => void;
     selectDefinitionMatch: (entry: DefinitionIndexEntry, mode: BinaryMode) => Promise<void>;
     searchDefinitions: () => Promise<{
         matches: { entry: DefinitionIndexEntry; mode: BinaryMode }[];
