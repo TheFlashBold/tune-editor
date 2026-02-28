@@ -49,6 +49,7 @@ A web-based ECU tuning editor for viewing and modifying calibration data in BIN 
 | 8V0906259A | 0004       | SC8H65  |
 | 8V0906264E | 0003       | SC1CF00 |
 | 8V0906264K | 0003       | SC8S50  |
+| 8V0906264H | 0003       | SC8O30  |
 
 ### VAG DSG TCU
 

@@ -469341,7 +469341,7 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Limiter"
       ],
       "cols": 12,
       "xAxis": {
@@ -469389,7 +469389,7 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Limiter"
       ],
       "cols": 12,
       "xAxis": {
@@ -614243,7 +614243,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Limiter"
       ],
       "cols": 16,
       "rows": 12,

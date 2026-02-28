@@ -234,7 +234,8 @@ function ScalarEditor(props: IValueEditorProps) {
                     {showCompare && compareValue !== null && (
                         <div
                             class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-700 rounded-lg border-2 border-dashed border-teal-600">
-                            <span class={`text-3xl font-semibold font-mono ${hasCompareDiff ? 'text-teal-400' : 'text-zinc-400'}`}>
+                            <span
+                                class={`text-3xl font-semibold font-mono ${hasCompareDiff ? 'text-teal-400' : 'text-zinc-400'}`}>
                                 {formatValue(compareValue, 4)}
                             </span>
                             <span class="text-base text-zinc-500">{parameter.unit}</span>
@@ -280,19 +281,26 @@ function ScalarEditor(props: IValueEditorProps) {
 }
 
 // Logarithmic normalization for better color distribution
-function logNormalize(value: number, min: number, max: number): number {
-    if (min === max) return 0.5;
-    // Shift values to be positive (add offset so min becomes 1)
-    const offset = 1 - min;
-    const logMin = Math.log(min + offset);
-    const logMax = Math.log(max + offset);
-    const logVal = Math.log(value + offset);
-    return Math.max(0, Math.min(1, (logVal - logMin) / (logMax - logMin)));
+// function logNormalize(value: number, min: number, max: number): number {
+//     if (min === max) return 0.5;
+//     // Shift values to be positive (add offset so min becomes 1)
+//     const offset = 1 - min;
+//     const logMin = Math.log(min + offset);
+//     const logMax = Math.log(max + offset);
+//     const logVal = Math.log(value + offset);
+//     return Math.max(0, Math.min(1, (logVal - logMin) / (logMax - logMin)));
+// }
+
+function linearNormalize(value: number, min: number, max: number): number {
+    return (value - min) / (max - min);
 }
 
 function getCellColor(value: number, min: number, max: number): string {
-    if (value == null || isNaN(value) || min === max) return 'hsl(60, 50%, 75%)';
-    const t = logNormalize(value, min, max);
+    if (value == null || isNaN(value) || min === max) {
+        return 'hsl(60, 50%, 75%)';
+    }
+    // const t = logNormalize(value, min, max);
+    const t = linearNormalize(value, min, max);
     // Hue: 120 (green) to 0 (red)
     const hue = (1 - t) * 120;
     return `hsl(${hue}, 65%, 70%)`;
@@ -310,7 +318,17 @@ interface CurveGraphProps {
     yUnit: string;
 }
 
-function CurveGraph({xData, yData, originalYData, showOriginal, compareYData, compareXData, showCompare, xUnit, yUnit}: CurveGraphProps) {
+function CurveGraph({
+                        xData,
+                        yData,
+                        originalYData,
+                        showOriginal,
+                        compareYData,
+                        compareXData,
+                        showCompare,
+                        xUnit,
+                        yUnit
+                    }: CurveGraphProps) {
     const width = 1200;
     const height = 500;
     const padding = {top: 20, right: 30, bottom: 50, left: 60};
@@ -488,7 +506,18 @@ interface SurfaceGraphProps {
     zUnit: string;
 }
 
-function SurfaceGraph({xData, yData, zData, originalZData, showOriginal, compareZData, showCompare, xUnit, yUnit, zUnit}: SurfaceGraphProps) {
+function SurfaceGraph({
+                          xData,
+                          yData,
+                          zData,
+                          originalZData,
+                          showOriginal,
+                          compareZData,
+                          showCompare,
+                          xUnit,
+                          yUnit,
+                          zUnit
+                      }: SurfaceGraphProps) {
     const [rotation, setRotation] = useState(45);
     const [tilt, setTilt] = useState(-20);
     const [isDragging, setIsDragging] = useState(false);
@@ -533,7 +562,7 @@ function SurfaceGraph({xData, yData, zData, originalZData, showOriginal, compare
     // Determine overlay data
     const overlayZ = showCompare && compareZData ? compareZData
         : showOriginal && originalZData ? originalZData
-        : null;
+            : null;
     const overlayLabel = showCompare ? 'Compare' : showOriginal ? 'Original' : null;
 
     const rows = zData.length;
@@ -620,7 +649,8 @@ function SurfaceGraph({xData, yData, zData, originalZData, showOriginal, compare
             const p3 = points[r + 1][c + 1];
             const p4 = points[r + 1][c];
             const mainZ = (zData[r][c] + zData[r][c + 1] + zData[r + 1][c + 1] + zData[r + 1][c]) / 4;
-            const mainT = logNormalize(mainZ, zMin, zMax);
+            // const mainT = logNormalize(mainZ, zMin, zMax);
+            const mainT = linearNormalize(mainZ, zMin, zMax);
             const hue = (1 - mainT) * 120;
             const mainDepth = (p1.depth + p2.depth + p3.depth + p4.depth) / 4;
             const mainPath = `M ${p1.x} ${p1.y} L ${p2.x} ${p2.y} L ${p3.x} ${p3.y} L ${p4.x} ${p4.y} Z`;
@@ -633,7 +663,8 @@ function SurfaceGraph({xData, yData, zData, originalZData, showOriginal, compare
                 const op3 = oPoints[r + 1][c + 1];
                 const op4 = oPoints[r + 1][c];
                 const ovZ = (overlayZ[r][c] + overlayZ[r][c + 1] + overlayZ[r + 1][c + 1] + overlayZ[r + 1][c]) / 4;
-                const ovT = logNormalize(ovZ, zMin, zMax);
+                // const ovT = logNormalize(ovZ, zMin, zMax);
+                const ovT = linearNormalize(ovZ, zMin, zMax);
                 const ovColor = showCompare
                     ? `hsl(174, 60%, ${75 - ovT * 45}%)`
                     : `hsl(0, 0%, ${75 - ovT * 45}%)`;
@@ -672,13 +703,27 @@ function SurfaceGraph({xData, yData, zData, originalZData, showOriginal, compare
         for (let r = 0; r < oRows; r++) {
             for (let c = 0; c < oCols - 1; c++) {
                 const p1 = oPoints[r][c], p2 = oPoints[r][c + 1];
-                lines.push({x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, depth: (p1.depth + p2.depth) / 2, stroke: overlayStroke});
+                lines.push({
+                    x1: p1.x,
+                    y1: p1.y,
+                    x2: p2.x,
+                    y2: p2.y,
+                    depth: (p1.depth + p2.depth) / 2,
+                    stroke: overlayStroke
+                });
             }
         }
         for (let r = 0; r < oRows - 1; r++) {
             for (let c = 0; c < oCols; c++) {
                 const p1 = oPoints[r][c], p2 = oPoints[r + 1][c];
-                lines.push({x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, depth: (p1.depth + p2.depth) / 2, stroke: overlayStroke});
+                lines.push({
+                    x1: p1.x,
+                    y1: p1.y,
+                    x2: p2.x,
+                    y2: p2.y,
+                    depth: (p1.depth + p2.depth) / 2,
+                    stroke: overlayStroke
+                });
             }
         }
     }
@@ -1398,85 +1443,85 @@ function TableEditor({
                 </div>
 
                 <div class="flex flex-wrap items-center gap-4 p-3 bg-zinc-800 rounded text-xs text-zinc-400">
-                <span>Address: 0x{parameter.address.toString(16).toUpperCase()}</span>
-                <span>Size: {parameter.rows || 1} x {parameter.cols || 1}</span>
-                <span>Z: {parameter.unit || '-'}</span>
-                {parameter.xAxis && <span>X: {parameter.xAxis.unit || '-'}</span>}
-                {parameter.yAxis && <span>Y: {parameter.yAxis.unit || '-'}</span>}
+                    <span>Address: 0x{parameter.address.toString(16).toUpperCase()}</span>
+                    <span>Size: {parameter.rows || 1} x {parameter.cols || 1}</span>
+                    <span>Z: {parameter.unit || '-'}</span>
+                    {parameter.xAxis && <span>X: {parameter.xAxis.unit || '-'}</span>}
+                    {parameter.yAxis && <span>Y: {parameter.yAxis.unit || '-'}</span>}
 
-                {/* Selection info and modify buttons */}
-                {(selection || axisSelection) && selectionCount > 0 && (
-                    <>
+                    {/* Selection info and modify buttons */}
+                    {(selection || axisSelection) && selectionCount > 0 && (
+                        <>
             <span class="border-l border-zinc-600 pl-4 text-zinc-300">
               {selectionCount} cell{selectionCount > 1 ? 's' : ''}
             </span>
-                        <div class="flex items-center gap-1">
-                            {showModifyInput ? (
-                                <div class="flex items-center gap-1">
-                                    <input
-                                        ref={modifyInputRef}
-                                        type="text"
-                                        value={modifyValue}
-                                        onInput={e => setModifyValue((e.target as HTMLInputElement).value)}
-                                        onKeyDown={e => {
-                                            if (e.key === 'Enter') {
-                                                modifySelection(showModifyInput, parseFloat(modifyValue));
-                                            }
-                                            if (e.key === 'Escape') {
-                                                setShowModifyInput(null);
-                                                setModifyValue('');
-                                            }
-                                        }}
-                                        placeholder={showModifyInput === 'add' ? '+/-' : showModifyInput === 'multiply' ? '100' : 'value'}
-                                        class="w-16 px-1.5 py-0.5 bg-zinc-700 border border-zinc-600 rounded text-zinc-100 text-xs"
-                                    />
-                                    <span class="text-zinc-500 text-xs">
+                            <div class="flex items-center gap-1">
+                                {showModifyInput ? (
+                                    <div class="flex items-center gap-1">
+                                        <input
+                                            ref={modifyInputRef}
+                                            type="text"
+                                            value={modifyValue}
+                                            onInput={e => setModifyValue((e.target as HTMLInputElement).value)}
+                                            onKeyDown={e => {
+                                                if (e.key === 'Enter') {
+                                                    modifySelection(showModifyInput, parseFloat(modifyValue));
+                                                }
+                                                if (e.key === 'Escape') {
+                                                    setShowModifyInput(null);
+                                                    setModifyValue('');
+                                                }
+                                            }}
+                                            placeholder={showModifyInput === 'add' ? '+/-' : showModifyInput === 'multiply' ? '100' : 'value'}
+                                            class="w-16 px-1.5 py-0.5 bg-zinc-700 border border-zinc-600 rounded text-zinc-100 text-xs"
+                                        />
+                                        <span class="text-zinc-500 text-xs">
                     {showModifyInput === 'multiply' && '%'}
                   </span>
-                                    <button
-                                        onClick={() => modifySelection(showModifyInput, parseFloat(modifyValue))}
-                                        class="px-2 py-0.5 bg-blue-600 text-white rounded text-xs hover:bg-blue-500"
-                                    >
-                                        OK
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setShowModifyInput(null);
-                                            setModifyValue('');
-                                        }}
-                                        class="px-1.5 py-0.5 bg-zinc-700 text-zinc-400 rounded text-xs hover:bg-zinc-600"
-                                    >
-                                        ✕
-                                    </button>
-                                </div>
-                            ) : (
-                                <>
-                                    <button
-                                        onClick={() => setShowModifyInput('add')}
-                                        class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
-                                        title="Add/subtract value from selection"
-                                    >
-                                        +/-
-                                    </button>
-                                    <button
-                                        onClick={() => setShowModifyInput('multiply')}
-                                        class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
-                                        title="Scale selection by percentage (50 = half, 200 = double)"
-                                    >
-                                        %
-                                    </button>
-                                    <button
-                                        onClick={() => setShowModifyInput('set')}
-                                        class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
-                                        title="Set selection to value"
-                                    >
-                                        =
-                                    </button>
-                                </>
-                            )}
-                        </div>
-                    </>
-                )}
+                                        <button
+                                            onClick={() => modifySelection(showModifyInput, parseFloat(modifyValue))}
+                                            class="px-2 py-0.5 bg-blue-600 text-white rounded text-xs hover:bg-blue-500"
+                                        >
+                                            OK
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                setShowModifyInput(null);
+                                                setModifyValue('');
+                                            }}
+                                            class="px-1.5 py-0.5 bg-zinc-700 text-zinc-400 rounded text-xs hover:bg-zinc-600"
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <button
+                                            onClick={() => setShowModifyInput('add')}
+                                            class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
+                                            title="Add/subtract value from selection"
+                                        >
+                                            +/-
+                                        </button>
+                                        <button
+                                            onClick={() => setShowModifyInput('multiply')}
+                                            class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
+                                            title="Scale selection by percentage (50 = half, 200 = double)"
+                                        >
+                                            %
+                                        </button>
+                                        <button
+                                            onClick={() => setShowModifyInput('set')}
+                                            class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
+                                            title="Set selection to value"
+                                        >
+                                            =
+                                        </button>
+                                    </>
+                                )}
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
 
@@ -1525,7 +1570,7 @@ function TableEditor({
                                         style={{
                                             outline: isCellSelected ? '2px solid #3b82f6'
                                                 : showCompare && isCmpDiff ? '2px solid #14b8a6'
-                                                : isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
+                                                    : isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
                                             outlineOffset: '-2px',
                                         }}
                                         onMouseDown={(e) => canEdit && handleAxisMouseDown('x', i, e)}
@@ -1586,7 +1631,7 @@ function TableEditor({
                                         style={{
                                             outline: isCellSelected ? '2px solid #3b82f6'
                                                 : showCompare && isCmpDiff ? '2px solid #14b8a6'
-                                                : isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
+                                                    : isChanged && !showOriginal ? '2px solid #f59e0b' : undefined,
                                             outlineOffset: '-2px',
                                         }}
                                         onMouseDown={(e) => canEdit && handleAxisMouseDown('y', rowIdx, e)}
@@ -1628,15 +1673,15 @@ function TableEditor({
                                         key={colIdx}
                                         class={`p-1.5 border border-zinc-600 text-right cursor-pointer hover:brightness-110 min-w-16 select-none ${
                                             highlightCompare ? 'text-white font-bold'
-                                            : isChanged && !showOriginal && !showCompare ? 'text-white font-bold' : 'text-zinc-900'
+                                                : isChanged && !showOriginal && !showCompare ? 'text-white font-bold' : 'text-zinc-900'
                                         }`}
                                         style={{
                                             backgroundColor: isEditing ? '#3b82f6'
                                                 : highlightCompare
                                                     ? `color-mix(in srgb, ${bgColor} 50%, #0d9488 50%)`
-                                                : isChanged && !showOriginal && !showCompare
-                                                    ? `color-mix(in srgb, ${bgColor} 50%, #b45309 50%)`
-                                                : isCellSelected ? `color-mix(in srgb, ${bgColor} 70%, #3b82f6 30%)` : bgColor,
+                                                    : isChanged && !showOriginal && !showCompare
+                                                        ? `color-mix(in srgb, ${bgColor} 50%, #b45309 50%)`
+                                                        : isCellSelected ? `color-mix(in srgb, ${bgColor} 70%, #3b82f6 30%)` : bgColor,
                                             outline: isCellSelected ? '2px solid #3b82f6' : undefined,
                                             outlineOffset: '-2px',
                                         }}
