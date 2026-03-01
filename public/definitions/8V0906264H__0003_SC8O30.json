@@ -324310,7 +324310,20 @@
       "offset": -0.0,
       "categories": [
         "Other"
-      ]
+      ],
+      "bitLabels": {
+        "0": "MIS (Misfire)",
+        "1": "FUEL (Fuel system)",
+        "2": "CCM (Comprehensive component)",
+        "3": "CAT (Catalyst)",
+        "4": "HCAT (Heated catalyst)",
+        "5": "EVAP (Evaporative system)",
+        "6": "AIR (Secondary air)",
+        "8": "O2S (Oxygen sensor)",
+        "9": "HTR (O2S heater)",
+        "10": "EGR",
+        "11": "PRIVATE"
+      }
     },
     {
       "name": "C_STATE_READY_CMPL_OBD[1]",
@@ -324325,7 +324338,20 @@
       "offset": -0.0,
       "categories": [
         "Other"
-      ]
+      ],
+      "bitLabels": {
+        "0": "MIS (Misfire)",
+        "1": "FUEL (Fuel system)",
+        "2": "CCM (Comprehensive component)",
+        "3": "CAT (Catalyst)",
+        "4": "HCAT (Heated catalyst)",
+        "5": "EVAP (Evaporative system)",
+        "6": "AIR (Secondary air)",
+        "8": "O2S (Oxygen sensor)",
+        "9": "HTR (O2S heater)",
+        "10": "EGR",
+        "11": "PRIVATE"
+      }
     },
     {
       "name": "C_STATE_READY_OBD[0]",
@@ -324340,7 +324366,20 @@
       "offset": -0.0,
       "categories": [
         "Other"
-      ]
+      ],
+      "bitLabels": {
+        "0": "MIS (Misfire)",
+        "1": "FUEL (Fuel system)",
+        "2": "CCM (Comprehensive component)",
+        "3": "CAT (Catalyst)",
+        "4": "HCAT (Heated catalyst)",
+        "5": "EVAP (Evaporative system)",
+        "6": "AIR (Secondary air)",
+        "8": "O2S (Oxygen sensor)",
+        "9": "HTR (O2S heater)",
+        "10": "EGR",
+        "11": "PRIVATE"
+      }
     },
     {
       "name": "C_STATE_READY_OBD[1]",
@@ -324355,7 +324394,20 @@
       "offset": -0.0,
       "categories": [
         "Other"
-      ]
+      ],
+      "bitLabels": {
+        "0": "MIS (Misfire)",
+        "1": "FUEL (Fuel system)",
+        "2": "CCM (Comprehensive component)",
+        "3": "CAT (Catalyst)",
+        "4": "HCAT (Heated catalyst)",
+        "5": "EVAP (Evaporative system)",
+        "6": "AIR (Secondary air)",
+        "8": "O2S (Oxygen sensor)",
+        "9": "HTR (O2S heater)",
+        "10": "EGR",
+        "11": "PRIVATE"
+      }
     },
     {
       "name": "C_CTR_SCDN_EQU_DC_MAX",

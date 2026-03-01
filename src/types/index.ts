@@ -42,6 +42,7 @@ export interface IDefinitionParameter {
     dataOffset?: number; // Byte offset where table data starts (for STD_AXIS)
     categories: string[];
     customName?: string;
+    bitLabels?: Record<string, string>;  // bit index → label, e.g. {"0": "MIS", "3": "CAT"}
 }
 
 export interface DefinitionVerification {

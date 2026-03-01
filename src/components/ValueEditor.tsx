@@ -71,7 +71,7 @@ function ScalarEditor(props: IValueEditorProps) {
     const hasCompareDiff = compareValue !== null && Math.abs(compareValue - value) > 0.0001;
     const showOriginal = overlayMode === 'original';
     const showCompare = overlayMode === 'compare';
-    const isBitmask = parameter.dataType === 'UBYTE' && (/bitmask/i.test(parameter.name) || /bitmask/i.test(parameter.description));
+    const isBitmask = !!parameter.bitLabels || (parameter.dataType === 'UBYTE' && (/bitmask/i.test(parameter.name) || /bitmask/i.test(parameter.description)));
     const isToggle = parameter.dataType === 'UBYTE' && parameter.min === 0 && parameter.max === 1 && !isBitmask
         && /\b(enable|disable|activation switch)\b/i.test(parameter.description || parameter.customName || parameter.name);
 
@@ -244,38 +244,46 @@ function ScalarEditor(props: IValueEditorProps) {
                 </div>
             )}
 
-            {isBitmask && (
-                <div class="mt-4 space-y-2">
-                    <div class="inline-flex gap-1">
-                        {Array.from({length: 8}, (_, i) => {
-                            const rawValue = Math.round(value);
-                            const isSet = (rawValue & (1 << i)) !== 0;
-                            const origRaw = originalValue !== null ? Math.round(originalValue) : null;
-                            const origBit = origRaw !== null ? (origRaw & (1 << i)) !== 0 : null;
-                            const bitChanged = origBit !== null && origBit !== isSet;
-                            return (
-                                <label
-                                    key={i}
-                                    class={`flex flex-col items-center gap-1 px-2 py-1.5 rounded cursor-pointer transition-colors ${
-                                        isSet ? 'bg-green-900/50' : 'bg-zinc-800'
-                                    } ${bitChanged ? 'ring-1 ring-amber-500' : ''}`}
-                                >
-                                    <span class="text-xs font-mono text-zinc-500">{i}</span>
-                                    <input
-                                        type="checkbox"
-                                        checked={isSet}
-                                        onChange={() => handleBitToggle(i)}
-                                        class="w-4 h-4 rounded cursor-pointer"
-                                    />
-                                </label>
-                            );
-                        })}
+            {isBitmask && (() => {
+                const bitCount = ({'UWORD': 16, 'SWORD': 16, 'ULONG': 32, 'SLONG': 32} as Record<string, number>)[parameter.dataType] || 8;
+                const hexPad = bitCount / 4;
+                const rawValue = Math.round(value);
+                const origRaw = originalValue !== null ? Math.round(originalValue) : null;
+                const labels = parameter.bitLabels;
+                const bits = labels
+                    ? Object.keys(labels).map(Number).sort((a, b) => a - b)
+                    : Array.from({length: bitCount}, (_, i) => i);
+                return (
+                    <div class="mt-4 space-y-2">
+                        <div class={`inline-flex gap-1 ${labels ? 'flex-wrap' : ''}`}>
+                            {bits.map(i => {
+                                const isSet = (rawValue & (1 << i)) !== 0;
+                                const origBit = origRaw !== null ? (origRaw & (1 << i)) !== 0 : null;
+                                const bitChanged = origBit !== null && origBit !== isSet;
+                                return (
+                                    <label
+                                        key={i}
+                                        class={`flex flex-col items-center gap-1 px-2 py-1.5 rounded cursor-pointer transition-colors ${
+                                            isSet ? 'bg-green-900/50' : 'bg-zinc-800'
+                                        } ${bitChanged ? 'ring-1 ring-amber-500' : ''}`}
+                                    >
+                                        <span class="text-xs font-mono text-zinc-500">{labels ? labels[String(i)] : i}</span>
+                                        <input
+                                            type="checkbox"
+                                            checked={isSet}
+                                            onChange={() => handleBitToggle(i)}
+                                            class="w-4 h-4 rounded cursor-pointer"
+                                        />
+                                    </label>
+                                );
+                            })}
+                        </div>
+                        <div class="text-xs text-zinc-500 font-mono">
+                            0x{rawValue.toString(16).toUpperCase().padStart(hexPad, '0')} = {rawValue.toString(2).padStart(bitCount, '0')}b
+                        </div>
                     </div>
-                    <div class="text-xs text-zinc-500 font-mono">
-                        0x{Math.round(value).toString(16).toUpperCase().padStart(2, '0')} = {Math.round(value).toString(2).padStart(8, '0')}b
-                    </div>
-                </div>
-            )}
+                );
+            })()}
         </div>
     );
 }
