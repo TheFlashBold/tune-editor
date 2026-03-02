@@ -85,7 +85,7 @@ function TreeNodeView({
         <div style={{paddingLeft: depth * 16}}>
             {node.name !== 'Root' && (
                 <div
-                    class={`flex items-center gap-1 px-2 py-1 cursor-pointer hover:bg-zinc-700 ${hasChildren ? 'text-zinc-100 font-medium' : 'text-zinc-400'}`}
+                    class={`flex items-center gap-1 px-2 py-1 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-700 ${hasChildren ? 'text-zinc-900 dark:text-zinc-100 font-medium' : 'text-zinc-600 dark:text-zinc-400'}`}
                     onClick={(e) => {
                         e.stopPropagation();
                         hasChildren && onToggle(node.path);
@@ -128,7 +128,7 @@ function TreeNodeView({
                                     key={paramId}
                                     data-param={paramId}
                                     class={`flex items-center gap-1.5 px-2 py-1 cursor-pointer ${
-                                        isSelected ? 'bg-blue-500 text-white' : 'hover:bg-zinc-700'
+                                        isSelected ? 'bg-blue-500 text-white' : 'hover:bg-zinc-200 dark:hover:bg-zinc-700'
                                     }`}
                                     style={{paddingLeft: (depth + 1) * 16}}
                                     onClick={(e) => {
@@ -138,7 +138,7 @@ function TreeNodeView({
                                 >
                   <span
                       class={`inline-flex justify-center items-center w-4 h-4 shrink-0 text-[10px] font-semibold rounded ${
-                          isSelected ? 'bg-white/20 text-white' : 'bg-zinc-700 text-zinc-400'
+                          isSelected ? 'bg-white/20 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400'
                       }`}
                   >
                     {param.type[0]}
@@ -259,24 +259,24 @@ export function CategoryTree({parameters, onSelect, selectedParam}: Props) {
 
     return (
         <div class="flex-1 flex flex-col overflow-hidden">
-            <div class="flex gap-1 p-2 border-b border-zinc-700">
+            <div class="flex gap-1 p-2 border-b border-zinc-300 dark:border-zinc-700">
                 <input
                     type="text"
                     placeholder="Filter..."
                     value={filter}
                     onInput={e => setFilter((e.target as HTMLInputElement).value)}
-                    class="flex-1 px-2 py-1.5 bg-zinc-700 border border-zinc-600 rounded text-zinc-200 text-sm placeholder:text-zinc-500"
+                    class="flex-1 px-2 py-1.5 bg-zinc-200 dark:bg-zinc-700 border border-zinc-400 dark:border-zinc-600 rounded text-zinc-800 dark:text-zinc-200 text-sm placeholder:text-zinc-500"
                 />
                 <button
                     onClick={expandAll}
-                    class="w-7 h-7 bg-zinc-700 border border-zinc-600 rounded text-zinc-200 hover:bg-zinc-600"
+                    class="w-7 h-7 bg-zinc-200 dark:bg-zinc-700 border border-zinc-400 dark:border-zinc-600 rounded text-zinc-800 dark:text-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-600"
                     title="Expand All"
                 >
                     +
                 </button>
                 <button
                     onClick={() => setExpanded(new Set())}
-                    class="w-7 h-7 bg-zinc-700 border border-zinc-600 rounded text-zinc-200 hover:bg-zinc-600"
+                    class="w-7 h-7 bg-zinc-200 dark:bg-zinc-700 border border-zinc-400 dark:border-zinc-600 rounded text-zinc-800 dark:text-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-600"
                     title="Collapse All"
                 >
                     -

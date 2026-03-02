@@ -79,12 +79,12 @@ export function MenuBar({
     }, [ctx]);
 
     return (
-        <header className="flex items-center gap-1 px-1 py-1 bg-zinc-800 border-b border-zinc-700">
+        <header className="flex items-center gap-1 px-1 py-1 bg-zinc-100 dark:bg-zinc-800 border-b border-zinc-300 dark:border-zinc-700">
             {/* File Menu */}
             <div className="relative">
                 <button
                     onClick={() => setShowFileMenu(!showFileMenu)}
-                    className={`px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer ${showFileMenu ? 'bg-zinc-700' : ''}`}
+                    className={`px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer ${showFileMenu ? 'bg-zinc-200 dark:bg-zinc-700' : ''}`}
                 >
                     File
                 </button>
@@ -92,8 +92,8 @@ export function MenuBar({
                     <>
                         <div className="fixed inset-0 z-10" onClick={() => setShowFileMenu(false)}/>
                         <div
-                            className="absolute left-0 top-full mt-1 w-48 bg-zinc-800 border border-zinc-600 rounded shadow-lg z-20">
-                            <label className="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
+                            className="absolute left-0 top-full mt-1 w-48 bg-zinc-100 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-600 rounded shadow-lg z-20">
+                            <label className="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
                                 Open Definition...
                                 <input
                                     type="file"
@@ -103,7 +103,7 @@ export function MenuBar({
                                     className="hidden"
                                 />
                             </label>
-                            <label className="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
+                            <label className="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
                                 Open BIN/S19/HEX...
                                 <input
                                     type="file"
@@ -113,7 +113,7 @@ export function MenuBar({
                                     className="hidden"
                                 />
                             </label>
-                            <label className="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
+                            <label className="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
                                 Open Original BIN...
                                 <input
                                     type="file"
@@ -123,7 +123,7 @@ export function MenuBar({
                                     className="hidden"
                                 />
                             </label>
-                            <label className="block px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer">
+                            <label className="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
                                 Open Crosscompare BIN...
                                 <input
                                     type="file"
@@ -133,18 +133,18 @@ export function MenuBar({
                                     className="hidden"
                                 />
                             </label>
-                            <div className="border-t border-zinc-600 my-1"/>
+                            <div className="border-t border-zinc-400 dark:border-zinc-600 my-1"/>
                             <button
                                 onClick={handleSaveBin}
                                 disabled={!ctx.bin}
-                                className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
+                                className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
                             >
                                 Save BIN
                             </button>
                             <button
                                 onClick={handleExportBtp}
                                 disabled={!ctx.bin || !ctx.originalBin}
-                                className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
+                                className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
                             >
                                 Export Changes as BTP Patch
                             </button>
@@ -157,7 +157,7 @@ export function MenuBar({
             <div className="relative">
                 <button
                     onClick={() => setShowToolsMenu(!showToolsMenu)}
-                    className={`px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer ${showToolsMenu ? 'bg-zinc-700' : ''}`}
+                    className={`px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer ${showToolsMenu ? 'bg-zinc-200 dark:bg-zinc-700' : ''}`}
                 >
                     Tools
                 </button>
@@ -165,13 +165,13 @@ export function MenuBar({
                     <>
                         <div className="fixed inset-0 z-10" onClick={() => setShowToolsMenu(false)}/>
                         <div
-                            className="absolute left-0 top-full mt-1 w-48 bg-zinc-800 border border-zinc-600 rounded shadow-lg z-20">
+                            className="absolute left-0 top-full mt-1 w-48 bg-zinc-100 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-600 rounded shadow-lg z-20">
                             <button
                                 onClick={() => {
                                     onShowConverter();
                                     setShowToolsMenu(false);
                                 }}
-                                className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer"
+                                className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
                             >
                                 A2L Converter
                             </button>
@@ -180,7 +180,7 @@ export function MenuBar({
                                     onShowXdfConverter();
                                     setShowToolsMenu(false);
                                 }}
-                                className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-700 cursor-pointer"
+                                className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
                             >
                                 XDF Converter
                             </button>
@@ -192,21 +192,21 @@ export function MenuBar({
             {/* Settings Button */}
             <button
                 onClick={onShowSettings}
-                className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
+                className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
             >
                 Settings
             </button>
 
             <button
                 onClick={onShowLogViewer}
-                className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
+                className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
             >
                 Log Viewer
             </button>
 
             <button
                 onClick={onShowBLEConnector}
-                className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
+                className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
             >
                 Connect to ISO-TP Bridge
             </button>
@@ -220,7 +220,7 @@ export function MenuBar({
                         console.error('Failed to load definitions:', err);
                     }
                 }}
-                className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
+                className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
             >
                 Definitions
             </button>
@@ -228,7 +228,7 @@ export function MenuBar({
             <button
                 onClick={onShowPatchManager}
                 disabled={!ctx.bin}
-                className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500"
+                className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500"
             >
                 Patches
                 {appliedPatchCount > 0 && (
@@ -241,7 +241,7 @@ export function MenuBar({
             {ctx.originalBin && ctx.bin && (
                 <button
                     onClick={onShowChanges}
-                    className="px-3 py-1 text-sm rounded hover:bg-zinc-700 cursor-pointer"
+                    className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
                 >
                     Changes ({ctx.changes.length})
                 </button>
@@ -252,34 +252,34 @@ export function MenuBar({
             {ctx.originalBin && (
                 <div className="flex items-center gap-2 mr-2">
                     <span className="text-xs text-zinc-500">Original:</span>
-                    <span className="font-mono text-sm text-zinc-400">{ctx.originalBin.name}</span>
+                    <span className="font-mono text-sm text-zinc-600 dark:text-zinc-400">{ctx.originalBin.name}</span>
                 </div>
             )}
             {ctx.bin && (
                 <div className="flex items-center gap-2 mr-2">
-                    <span className="font-mono text-sm text-zinc-400">{ctx.bin.name}</span>
+                    <span className="font-mono text-sm text-zinc-600 dark:text-zinc-400">{ctx.bin.name}</span>
                     {ctx.detectedMode && (
                         <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                            ctx.detectedMode === 'cal' ? 'bg-blue-900 text-blue-300' : 'bg-purple-900 text-purple-300'
+                            ctx.detectedMode === 'cal' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300'
                         }`}>
                             {ctx.detectedMode === 'cal' ? 'CAL' : 'Full'}
                         </span>
                     )}
                     {ctx.detectedMode && ecuInfo && (<>
-                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700 text-zinc-400">
+                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-200 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-400">
                             {ecuInfo.ecuFamily}
                         </span>
-                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-600 text-zinc-200">
+                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-300 text-zinc-800 dark:bg-zinc-600 dark:text-zinc-200">
                             {ecuInfo.variant}
                         </span>
                     </>)}
                     {ctx.detectedMode && !ecuInfo && ctx.definition?.verification?.expected && (
-                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-700 text-zinc-300">
+                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-zinc-200 text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300">
                             {ctx.definition.verification.expected}
                         </span>
                     )}
                     {appliedPatchCount > 0 && (
-                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-green-900 text-green-300">
+                        <span className="px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300">
                             {appliedPatchCount} Patches
                         </span>
                     )}

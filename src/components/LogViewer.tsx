@@ -1,8 +1,8 @@
 import { useState, useMemo, useRef, useEffect } from 'preact/hooks';
 import { createPortal } from 'preact/compat';
 
-// Left axis: warm colors (distinct)
-const COLORS_LEFT = [
+// Left axis: warm colors (dark mode)
+const COLORS_LEFT_DARK = [
     "#ff6b6b", // red
     "#ffb86b", // orange
     "#ff6bb3", // pink
@@ -10,14 +10,46 @@ const COLORS_LEFT = [
     "#c9184a", // magenta-red
 ];
 
-// Right axis: cool colors (blues, greens, purples)
-const COLORS_RIGHT = [
+// Right axis: cool colors (dark mode)
+const COLORS_RIGHT_DARK = [
     "#6bd1ff", // light blue
     "#6b8cff", // blue
     "#6bffe0", // turquoise
     "#6bff8e", // green
     "#b26bff", // purple
 ];
+
+// Left axis: warm colors (light mode — darker for readability)
+const COLORS_LEFT_LIGHT = [
+    "#cc2200", // red
+    "#cc6600", // orange
+    "#cc0077", // pink
+    "#993300", // dark orange
+    "#880033", // magenta-red
+];
+
+// Right axis: cool colors (light mode)
+const COLORS_RIGHT_LIGHT = [
+    "#0066bb", // blue
+    "#0033cc", // deep blue
+    "#007755", // teal
+    "#006622", // green
+    "#6600cc", // purple
+];
+
+function useChartColors() {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const [dark, setDark] = useState(mq.matches);
+    useEffect(() => {
+        const handler = (e: MediaQueryListEvent) => setDark(e.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
+    return {
+        COLORS_LEFT: dark ? COLORS_LEFT_DARK : COLORS_LEFT_LIGHT,
+        COLORS_RIGHT: dark ? COLORS_RIGHT_DARK : COLORS_RIGHT_LIGHT,
+    };
+}
 
 // Simple moving average smoothing
 function smoothData(values: number[], windowSize: number): number[] {
@@ -39,6 +71,7 @@ interface CSVViewerProps {
 }
 
 function CSVViewer({ text }: CSVViewerProps) {
+    const { COLORS_LEFT, COLORS_RIGHT } = useChartColors();
     const [index, setIndex] = useState<number>(0);
     const [showFields, setShowFields] = useState<string[]>([]);
     const [zoom, setZoom] = useState<number>(1);
@@ -564,7 +597,7 @@ function CSVViewer({ text }: CSVViewerProps) {
     return (
         <>
             <div class="flex flex-col h-full">
-                <div class="text-xs text-zinc-400 mb-2 flex items-center gap-4">
+                <div class="text-xs text-zinc-600 dark:text-zinc-400 mb-2 flex items-center gap-4">
                     <span>{data.length} samples | Zoom: {zoom.toFixed(1)}x</span>
                     <span class="flex items-center gap-2">
                         Smoothing:
@@ -575,7 +608,7 @@ function CSVViewer({ text }: CSVViewerProps) {
                             step="2"
                             value={smoothing}
                             onChange={(e) => setSmoothing(Number((e.target as HTMLInputElement).value))}
-                            class="w-20 h-1 bg-zinc-600 rounded appearance-none cursor-pointer"
+                            class="w-20 h-1 bg-zinc-400 dark:bg-zinc-600 rounded appearance-none cursor-pointer"
                         />
                         <span class="w-4">{smoothing === 1 ? 'off' : smoothing}</span>
                     </span>
@@ -589,7 +622,7 @@ function CSVViewer({ text }: CSVViewerProps) {
                             </button>
                             <button
                                 onClick={() => exportCsv(0, data.length - 1)}
-                                class="px-3 py-1 text-xs font-medium rounded bg-zinc-600 text-zinc-200 hover:bg-zinc-500 cursor-pointer"
+                                class="px-3 py-1 text-xs font-medium rounded bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-400 dark:hover:bg-zinc-500 cursor-pointer"
                             >
                                 Export all
                             </button>
@@ -598,7 +631,7 @@ function CSVViewer({ text }: CSVViewerProps) {
                 </div>
                 <div class="flex gap-x-2 flex-1 min-h-0">
                     {/* Y-axis scale left */}
-                    <div class="flex flex-col h-full py-2 text-xs text-zinc-500 w-14 text-right">
+                    <div class="flex flex-col h-full py-2 text-xs text-zinc-500 dark:text-zinc-500 w-14 text-right">
                         {/* Color indicators for left axis fields */}
                         <div class="flex gap-0.5 justify-end mb-1">
                             {leftAxis.fields.map((field) => (
@@ -620,7 +653,7 @@ function CSVViewer({ text }: CSVViewerProps) {
                     {/* Graph container */}
                     <div
                         ref={containerRef}
-                        class="flex-1 overflow-x-auto overflow-y-hidden border border-zinc-600 bg-zinc-900 rounded"
+                        class="flex-1 overflow-x-auto overflow-y-hidden border border-zinc-400 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 rounded"
                         style={{ touchAction: 'none' }}
                         onWheel={onWheel}
                         onTouchStart={onTouchStart}
@@ -663,7 +696,7 @@ function CSVViewer({ text }: CSVViewerProps) {
 
                     {/* Y-axis scale right (only if dual axis) */}
                     {rightAxis.fields.length > 0 && (
-                        <div class="flex flex-col h-full py-2 text-xs text-zinc-400 w-14 text-left">
+                        <div class="flex flex-col h-full py-2 text-xs text-zinc-600 dark:text-zinc-400 w-14 text-left">
                             {/* Color indicators for right axis fields */}
                             <div class="flex gap-0.5 mb-1">
                                 {rightAxis.fields.map((field) => (
@@ -687,7 +720,7 @@ function CSVViewer({ text }: CSVViewerProps) {
                 {/* X-axis time labels */}
                 {timeColumnIndex !== -1 && (
                     <div class={`flex mt-1 ${rightAxis.fields.length > 0 ? 'ml-14 mr-14' : 'ml-14'}`}>
-                        <div class="flex-1 flex justify-between text-xs text-zinc-500 font-mono">
+                        <div class="flex-1 flex justify-between text-xs text-zinc-500 dark:text-zinc-500 font-mono">
                             {(() => {
                                 const numLabels = 7;
                                 const startIdx = Math.floor(scrollOffset);
@@ -710,7 +743,7 @@ function CSVViewer({ text }: CSVViewerProps) {
                     <svg
                         ref={previewRef}
                         viewBox={`0 ${min} ${previewData.length} ${max - min}`}
-                        class="w-full h-12 bg-zinc-900 border border-zinc-700 rounded cursor-pointer"
+                        class="w-full h-12 bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded cursor-pointer"
                         preserveAspectRatio="none"
                         onMouseDown={handlePreviewMouseDown}
                     >
@@ -755,8 +788,8 @@ function CSVViewer({ text }: CSVViewerProps) {
                                 onClick={() => toggleField(field)}
                                 class={`px-2 py-1 text-xs rounded border transition-colors ${
                                     isSelected
-                                        ? 'border-zinc-500 bg-zinc-700'
-                                        : 'border-zinc-700 bg-zinc-800 hover:bg-zinc-700'
+                                        ? 'border-zinc-400 dark:border-zinc-500 bg-zinc-300 dark:bg-zinc-700'
+                                        : 'border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700'
                                 }`}
                                 style={{
                                     color: isSelected ? getFieldColor(field) : 'inherit'
@@ -773,9 +806,9 @@ function CSVViewer({ text }: CSVViewerProps) {
             {isHovering && createPortal(
                 <div
                     ref={popupRef}
-                    class="fixed ml-4 mt-4 p-2 bg-zinc-800 border border-zinc-600 shadow-xl rounded pointer-events-none text-xs font-mono z-[100]"
+                    class="fixed ml-4 mt-4 p-2 bg-zinc-100 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-600 shadow-xl rounded pointer-events-none text-xs font-mono z-[100]"
                 >
-                    <div class="text-zinc-400 mb-1">
+                    <div class="text-zinc-600 dark:text-zinc-400 mb-1">
                         {timeColumnIndex !== -1 ? (
                             (data[Math.floor(index)]?.[timeColumnIndex] ?? 0).toFixed(3)
                         ) : (
@@ -829,12 +862,12 @@ export function LogViewer({ onClose, initialData }: LogViewerProps) {
 
     return (
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-            <div class="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl w-[95vw] h-[90vh] flex flex-col">
+            <div class="bg-zinc-100 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-600 rounded-lg shadow-xl w-[95vw] h-[90vh] flex flex-col">
                 {/* Header */}
-                <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
+                <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-300 dark:border-zinc-700">
                     <div class="flex items-center gap-4">
                         <h2 class="text-lg font-semibold">Log Viewer</h2>
-                        <label class="px-3 py-1.5 text-sm bg-zinc-700 hover:bg-zinc-600 rounded cursor-pointer transition-colors">
+                        <label class="px-3 py-1.5 text-sm bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 rounded cursor-pointer transition-colors">
                             Open CSV...
                             <input
                                 type="file"
@@ -847,7 +880,7 @@ export function LogViewer({ onClose, initialData }: LogViewerProps) {
                     </div>
                     <button
                         onClick={onClose}
-                        class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
+                        class="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
                     >
                         ✕
                     </button>
@@ -855,15 +888,15 @@ export function LogViewer({ onClose, initialData }: LogViewerProps) {
 
                 {/* Tabs for multiple files */}
                 {files.length > 1 && (
-                    <div class="flex gap-1 px-4 pt-2 border-b border-zinc-700">
+                    <div class="flex gap-1 px-4 pt-2 border-b border-zinc-300 dark:border-zinc-700">
                         {files.map((file, i) => (
                             <button
                                 key={i}
                                 onClick={() => setActiveIndex(i)}
                                 class={`px-3 py-1.5 text-sm rounded-t border-b-2 transition-colors ${
                                     i === activeIndex
-                                        ? 'border-blue-500 bg-zinc-700 text-zinc-100'
-                                        : 'border-transparent text-zinc-400 hover:text-zinc-100 hover:bg-zinc-700'
+                                        ? 'border-blue-500 bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100'
+                                        : 'border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700'
                                 }`}
                             >
                                 {file.name}

@@ -36,17 +36,17 @@ export function XdfLoader({onDefinitionLoad}: Props) {
 
     return (
         <div class="space-y-4">
-            <p class="text-sm text-zinc-400">
+            <p class="text-sm text-zinc-600 dark:text-zinc-400">
                 Load an XDF file to convert it to a definition. Categories are read from the XDF directly.
             </p>
             <div class="flex flex-wrap gap-3 items-end">
-                <label class="flex flex-col gap-1 text-xs text-zinc-400">
+                <label class="flex flex-col gap-1 text-xs text-zinc-600 dark:text-zinc-400">
                     XDF File
                     <input
                         type="file"
                         accept=".xdf"
                         ref={xdfRef}
-                        class="p-2 bg-zinc-700 border border-zinc-600 rounded text-zinc-200 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-zinc-600 file:text-zinc-200"
+                        class="p-2 bg-zinc-200 dark:bg-zinc-700 border border-zinc-400 dark:border-zinc-600 rounded text-zinc-800 dark:text-zinc-200 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-zinc-300 dark:file:bg-zinc-600 file:text-zinc-800 dark:file:text-zinc-200"
                     />
                 </label>
             </div>

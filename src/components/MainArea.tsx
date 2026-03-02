@@ -38,7 +38,7 @@ export function MainArea() {
             />
             {!ctx.bin && (
                 <label
-                    className="flex justify-center items-center h-full text-zinc-500 cursor-pointer hover:bg-zinc-700/30 transition-colors">
+                    className="flex justify-center items-center h-full text-zinc-500 cursor-pointer hover:bg-zinc-200/30 dark:hover:bg-zinc-700/30 transition-colors">
                     <div className="text-center">
                         <p>Click or drop BIN/S19/HEX file</p>
                         <p className="text-xs mt-1">or use File → Open BIN/S19/HEX</p>

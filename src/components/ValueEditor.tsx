@@ -109,7 +109,7 @@ function ScalarEditor(props: IValueEditorProps) {
 
     return (
         <div>
-            <div class="sticky top-0 z-10 bg-zinc-900 pt-4 pb-2">
+            <div class="sticky top-0 z-10 bg-white dark:bg-zinc-900 pt-4 pb-2">
                 <div class="flex items-start justify-between mb-4">
                     <div>
                         <h2 class="text-lg font-semibold">
@@ -128,7 +128,7 @@ function ScalarEditor(props: IValueEditorProps) {
                                             onModify();
                                         }
                                     }}
-                                    class="px-3 py-1.5 text-sm rounded bg-zinc-700 text-zinc-300 hover:bg-zinc-600"
+                                    class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600"
                                 >
                                     Revert
                                 </button>
@@ -137,7 +137,7 @@ function ScalarEditor(props: IValueEditorProps) {
                                 <button
                                     onClick={() => setOverlayMode(overlayMode === 'original' ? 'none' : 'original')}
                                     class={`px-3 py-1.5 text-sm rounded ${
-                                        showOriginal ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
+                                        showOriginal ? 'bg-blue-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'
                                     } ${hasChanged ? 'ring-2 ring-amber-500' : ''}`}
                                 >
                                     Original
@@ -147,7 +147,7 @@ function ScalarEditor(props: IValueEditorProps) {
                                 <button
                                     onClick={() => setOverlayMode(overlayMode === 'compare' ? 'none' : 'compare')}
                                     class={`px-3 py-1.5 text-sm rounded ${
-                                        showCompare ? 'bg-teal-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
+                                        showCompare ? 'bg-teal-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'
                                     } ${hasCompareDiff ? 'ring-2 ring-teal-500' : ''}`}
                                 >
                                     Compare
@@ -157,7 +157,7 @@ function ScalarEditor(props: IValueEditorProps) {
                     )}
                 </div>
 
-                <div class="flex gap-4 p-3 bg-zinc-800 rounded text-xs text-zinc-400">
+                <div class="flex gap-4 p-3 bg-zinc-200 dark:bg-zinc-800 rounded text-xs text-zinc-600 dark:text-zinc-400">
                     <span>Address: 0x{parameter.address.toString(16).toUpperCase()}</span>
                     <span>Type: {parameter.dataType}</span>
                     <span>Unit: {parameter.unit || '-'}</span>
@@ -201,7 +201,7 @@ function ScalarEditor(props: IValueEditorProps) {
             ) : (
                 <div class="flex items-center gap-4">
                     <div
-                        class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-800 rounded-lg cursor-pointer"
+                        class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg cursor-pointer"
                         onDblClick={handleDoubleClick}
                     >
                         {editing ? (
@@ -212,7 +212,7 @@ function ScalarEditor(props: IValueEditorProps) {
                                 onBlur={handleConfirm}
                                 onKeyDown={handleKeyDown}
                                 autoFocus
-                                class="w-48 px-2 py-1 text-2xl font-mono bg-zinc-700 border-2 border-blue-500 rounded text-zinc-100 outline-none"
+                                class="w-48 px-2 py-1 text-2xl font-mono bg-zinc-200 dark:bg-zinc-700 border-2 border-blue-500 rounded text-zinc-900 dark:text-zinc-100 outline-none"
                             />
                         ) : (
                             <span class={`text-3xl font-semibold font-mono ${hasChanged ? 'text-green-400' : ''}`}>
@@ -224,8 +224,8 @@ function ScalarEditor(props: IValueEditorProps) {
 
                     {originalValue !== null && (
                         <div
-                            class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-700 rounded-lg border-2 border-dashed border-zinc-600">
-                            <span class="text-3xl font-semibold font-mono text-zinc-400">
+                            class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-200 dark:bg-zinc-700 rounded-lg border-2 border-dashed border-zinc-400 dark:border-zinc-600">
+                            <span class="text-3xl font-semibold font-mono text-zinc-600 dark:text-zinc-400">
                                 {formatValue(originalValue, 4)}
                             </span>
                             <span class="text-base text-zinc-500">{parameter.unit}</span>
@@ -233,9 +233,9 @@ function ScalarEditor(props: IValueEditorProps) {
                     )}
                     {showCompare && compareValue !== null && (
                         <div
-                            class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-700 rounded-lg border-2 border-dashed border-teal-600">
+                            class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-200 dark:bg-zinc-700 rounded-lg border-2 border-dashed border-teal-600">
                             <span
-                                class={`text-3xl font-semibold font-mono ${hasCompareDiff ? 'text-teal-400' : 'text-zinc-400'}`}>
+                                class={`text-3xl font-semibold font-mono ${hasCompareDiff ? 'text-teal-400' : 'text-zinc-600 dark:text-zinc-400'}`}>
                                 {formatValue(compareValue, 4)}
                             </span>
                             <span class="text-base text-zinc-500">{parameter.unit}</span>
@@ -264,7 +264,7 @@ function ScalarEditor(props: IValueEditorProps) {
                                     <label
                                         key={i}
                                         class={`flex flex-col items-center gap-1 px-2 py-1.5 rounded cursor-pointer transition-colors ${
-                                            isSet ? 'bg-green-900/50' : 'bg-zinc-800'
+                                            isSet ? 'bg-green-900/50' : 'bg-zinc-100 dark:bg-zinc-800'
                                         } ${bitChanged ? 'ring-1 ring-amber-500' : ''}`}
                                     >
                                         <span class="text-xs font-mono text-zinc-500">{labels ? labels[String(i)] : i}</span>
@@ -381,7 +381,7 @@ function CurveGraph({
     const yStep = (yMaxPadded - yMinPadded) / yTicks;
 
     return (
-        <div class="mt-4 bg-zinc-800 rounded-lg p-4">
+        <div class="mt-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg p-4">
             <svg viewBox={`0 0 ${width} ${height}`} class="w-full font-mono text-xs"
                  preserveAspectRatio="xMidYMid meet">
                 {/* Grid */}
@@ -477,7 +477,7 @@ function CurveGraph({
             </svg>
 
             {(showOriginal && originalYData || showCompare && compareYData) && (
-                <div class="flex gap-4 mt-2 text-xs text-zinc-400">
+                <div class="flex gap-4 mt-2 text-xs text-zinc-600 dark:text-zinc-400">
           <span class="flex items-center gap-1">
             <span class="w-4 h-0.5 bg-blue-500 inline-block"></span> Aktuell
           </span>
@@ -769,7 +769,7 @@ function SurfaceGraph({
     const yDecimals = useMemo(() => getConsistentDecimals(yTicks.map(({val}) => val), 2), [yTicks]);
 
     return (
-        <div ref={containerRef} class="mt-4 bg-zinc-800 rounded-lg p-4">
+        <div ref={containerRef} class="mt-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg p-4">
             <svg
                 viewBox={`0 0 ${width} ${height}`}
                 class="w-full font-mono text-xs select-none"
@@ -838,7 +838,7 @@ function SurfaceGraph({
             </svg>
 
             {/* Color legend */}
-            <div class="flex items-center gap-2 mt-2 text-xs text-zinc-400">
+            <div class="flex items-center gap-2 mt-2 text-xs text-zinc-600 dark:text-zinc-400">
                 <span>{formatValue(zMin, 1)}</span>
                 <div class="w-32 h-3 rounded"
                      style="background: linear-gradient(90deg, hsl(120,70%,50%), hsl(60,70%,50%), hsl(0,70%,50%))"></div>
@@ -1390,7 +1390,7 @@ function TableEditor({
 
     return (
         <div>
-            <div class="sticky top-0 z-10 bg-zinc-900 pt-4 pb-2">
+            <div class="sticky top-0 z-10 bg-white dark:bg-zinc-900 pt-4 pb-2">
                 <div class="flex items-start justify-between mb-4">
                     <div>
                         <h2 class="text-lg font-semibold">
@@ -1401,7 +1401,7 @@ function TableEditor({
                     {(originalBinData || crossCompare) && (
                         <div class="flex gap-x-2">
                             {hasChanged && originalBinData &&
-                                <button class="px-3 py-1.5 text-sm rounded bg-zinc-700 text-zinc-300 hover:bg-zinc-600"
+                                <button class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600"
                                         onClick={() => {
                                             if (!originalTableData) return;
                                             for (let r = 0; r < originalTableData.length; r++) {
@@ -1430,7 +1430,7 @@ function TableEditor({
                                 <button
                                     onClick={() => setOverlayMode(overlayMode === 'original' ? 'none' : 'original')}
                                     class={`px-3 py-1.5 text-sm rounded ${
-                                        showOriginal ? 'bg-blue-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
+                                        showOriginal ? 'bg-blue-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'
                                     } ${hasChanged ? 'ring-2 ring-amber-500' : ''}`}
                                 >
                                     Original
@@ -1440,7 +1440,7 @@ function TableEditor({
                                 <button
                                     onClick={() => setOverlayMode(overlayMode === 'compare' ? 'none' : 'compare')}
                                     class={`px-3 py-1.5 text-sm rounded ${
-                                        showCompare ? 'bg-teal-600 text-white' : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
+                                        showCompare ? 'bg-teal-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'
                                     } ${hasCompareDiff ? 'ring-2 ring-teal-500' : ''}`}
                                 >
                                     Compare
@@ -1450,7 +1450,7 @@ function TableEditor({
                     )}
                 </div>
 
-                <div class="flex flex-wrap items-center gap-4 p-3 bg-zinc-800 rounded text-xs text-zinc-400">
+                <div class="flex flex-wrap items-center gap-4 p-3 bg-zinc-200 dark:bg-zinc-800 rounded text-xs text-zinc-600 dark:text-zinc-400">
                     <span>Address: 0x{parameter.address.toString(16).toUpperCase()}</span>
                     <span>Size: {parameter.rows || 1} x {parameter.cols || 1}</span>
                     <span>Z: {parameter.unit || '-'}</span>
@@ -1460,7 +1460,7 @@ function TableEditor({
                     {/* Selection info and modify buttons */}
                     {(selection || axisSelection) && selectionCount > 0 && (
                         <>
-            <span class="border-l border-zinc-600 pl-4 text-zinc-300">
+            <span class="border-l border-zinc-400 dark:border-zinc-600 pl-4 text-zinc-700 dark:text-zinc-300">
               {selectionCount} cell{selectionCount > 1 ? 's' : ''}
             </span>
                             <div class="flex items-center gap-1">
@@ -1481,7 +1481,7 @@ function TableEditor({
                                                 }
                                             }}
                                             placeholder={showModifyInput === 'add' ? '+/-' : showModifyInput === 'multiply' ? '100' : 'value'}
-                                            class="w-16 px-1.5 py-0.5 bg-zinc-700 border border-zinc-600 rounded text-zinc-100 text-xs"
+                                            class="w-16 px-1.5 py-0.5 bg-zinc-200 dark:bg-zinc-700 border border-zinc-400 dark:border-zinc-600 rounded text-zinc-900 dark:text-zinc-100 text-xs"
                                         />
                                         <span class="text-zinc-500 text-xs">
                     {showModifyInput === 'multiply' && '%'}
@@ -1497,7 +1497,7 @@ function TableEditor({
                                                 setShowModifyInput(null);
                                                 setModifyValue('');
                                             }}
-                                            class="px-1.5 py-0.5 bg-zinc-700 text-zinc-400 rounded text-xs hover:bg-zinc-600"
+                                            class="px-1.5 py-0.5 bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400 rounded text-xs hover:bg-zinc-300 dark:hover:bg-zinc-600"
                                         >
                                             ✕
                                         </button>
@@ -1506,21 +1506,21 @@ function TableEditor({
                                     <>
                                         <button
                                             onClick={() => setShowModifyInput('add')}
-                                            class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
+                                            class="px-2 py-0.5 bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded text-xs hover:bg-zinc-300 dark:hover:bg-zinc-600"
                                             title="Add/subtract value from selection"
                                         >
                                             +/-
                                         </button>
                                         <button
                                             onClick={() => setShowModifyInput('multiply')}
-                                            class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
+                                            class="px-2 py-0.5 bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded text-xs hover:bg-zinc-300 dark:hover:bg-zinc-600"
                                             title="Scale selection by percentage (50 = half, 200 = double)"
                                         >
                                             %
                                         </button>
                                         <button
                                             onClick={() => setShowModifyInput('set')}
-                                            class="px-2 py-0.5 bg-zinc-700 text-zinc-300 rounded text-xs hover:bg-zinc-600"
+                                            class="px-2 py-0.5 bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded text-xs hover:bg-zinc-300 dark:hover:bg-zinc-600"
                                             title="Set selection to value"
                                         >
                                             =
@@ -1545,21 +1545,21 @@ function TableEditor({
                     <thead>
                     <tr>
                         {yAxisData.length > 0 && (
-                            <th class="p-1 border border-zinc-700 bg-zinc-800 text-zinc-500 font-normal text-left align-top">
+                            <th class="p-1 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-zinc-500 font-normal text-left align-top">
                                 {parameter.unit || 'Z'}
                             </th>
                         )}
-                        {yAxisData.length > 0 && <th class="border border-zinc-700 bg-zinc-800"></th>}
+                        {yAxisData.length > 0 && <th class="border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800"></th>}
                         <th
                             colSpan={parameter.cols || 1}
-                            class="p-1 border border-zinc-700 bg-zinc-800 text-zinc-500 font-normal text-center"
+                            class="p-1 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-zinc-500 font-normal text-center"
                         >
                             {parameter.xAxis?.unit || 'X'} →
                         </th>
                     </tr>
                     <tr>
-                        {yAxisData.length > 0 && <th class="border border-zinc-700 bg-zinc-800"></th>}
-                        {yAxisData.length > 0 && <th class="border border-zinc-700 bg-zinc-700"></th>}
+                        {yAxisData.length > 0 && <th class="border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800"></th>}
+                        {yAxisData.length > 0 && <th class="border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-700"></th>}
                         {xAxisData.length > 0
                             ? xAxisData.map((val, i) => {
                                 const isEditing = editAxisCell?.axis === 'x' && editAxisCell?.index === i;
@@ -1572,9 +1572,9 @@ function TableEditor({
                                 return (
                                     <th
                                         key={i}
-                                        class={`p-1.5 border border-zinc-700 font-medium text-right select-none ${
-                                            canEdit ? 'cursor-pointer hover:bg-zinc-700' : ''
-                                        } ${isCellSelected ? 'bg-blue-900/50 text-zinc-200' : 'bg-zinc-800 text-zinc-400'}`}
+                                        class={`p-1.5 border border-zinc-300 dark:border-zinc-700 font-medium text-right select-none ${
+                                            canEdit ? 'cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-700' : ''
+                                        } ${isCellSelected ? 'bg-blue-900/50 text-zinc-200' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'}`}
                                         style={{
                                             outline: isCellSelected ? '2px solid #3b82f6'
                                                 : showCompare && isCmpDiff ? '2px solid #14b8a6'
@@ -1593,7 +1593,7 @@ function TableEditor({
                                                 onBlur={handleConfirm}
                                                 onKeyDown={handleKeyDown}
                                                 autoFocus
-                                                class="w-full bg-zinc-700 text-zinc-100 font-mono text-xs text-right outline-none border border-blue-500 rounded px-1"
+                                                class="w-full bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-mono text-xs text-right outline-none border border-blue-500 rounded px-1"
                                             />
                                         ) : (
                                             formatValueConsistent(displayValue, xDecimals)
@@ -1604,7 +1604,7 @@ function TableEditor({
                             : Array.from({length: parameter.cols || 1}).map((_, i) => (
                                 <th
                                     key={i}
-                                    class="p-1.5 border border-zinc-700 bg-zinc-800 text-zinc-400 font-medium text-right"
+                                    class="p-1.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-medium text-right"
                                 >
                                     {i}
                                 </th>
@@ -1617,7 +1617,7 @@ function TableEditor({
                             {yAxisData.length > 0 && rowIdx === 0 && (
                                 <td
                                     rowSpan={tableData.length}
-                                    class="p-1 border border-zinc-700 bg-zinc-800 text-zinc-500 font-normal text-center align-middle"
+                                    class="p-1 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-500 font-normal text-center align-middle"
                                     style={{writingMode: 'vertical-rl', transform: 'rotate(180deg)'}}
                                 >
                                     {parameter.yAxis?.unit || 'Y'} ↓
@@ -1633,9 +1633,9 @@ function TableEditor({
                                 const canEdit = parameter.yAxis?.address;
                                 return (
                                     <td
-                                        class={`p-1.5 border border-zinc-700 font-medium text-right select-none ${
-                                            canEdit ? 'cursor-pointer hover:bg-zinc-700' : ''
-                                        } ${isCellSelected ? 'bg-blue-900/50 text-zinc-200' : 'bg-zinc-800 text-zinc-400'}`}
+                                        class={`p-1.5 border border-zinc-300 dark:border-zinc-700 font-medium text-right select-none ${
+                                            canEdit ? 'cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-700' : ''
+                                        } ${isCellSelected ? 'bg-blue-900/50 text-zinc-200' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'}`}
                                         style={{
                                             outline: isCellSelected ? '2px solid #3b82f6'
                                                 : showCompare && isCmpDiff ? '2px solid #14b8a6'
@@ -1654,7 +1654,7 @@ function TableEditor({
                                                 onBlur={handleConfirm}
                                                 onKeyDown={handleKeyDown}
                                                 autoFocus
-                                                class="w-full bg-zinc-700 text-zinc-100 font-mono text-xs text-right outline-none border border-blue-500 rounded px-1"
+                                                class="w-full bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-mono text-xs text-right outline-none border border-blue-500 rounded px-1"
                                             />
                                         ) : (
                                             formatValueConsistent(displayValue, yDecimals)
@@ -1679,7 +1679,7 @@ function TableEditor({
                                 return (
                                     <td
                                         key={colIdx}
-                                        class={`p-1.5 border border-zinc-600 text-right cursor-pointer hover:brightness-110 min-w-16 select-none ${
+                                        class={`p-1.5 border border-zinc-400 dark:border-zinc-600 text-right cursor-pointer hover:brightness-110 min-w-16 select-none ${
                                             highlightCompare ? 'text-white font-bold'
                                                 : isChanged && !showOriginal && !showCompare ? 'text-white font-bold' : 'text-zinc-900'
                                         }`}

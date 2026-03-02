@@ -24,9 +24,9 @@ interface Props {
 }
 
 const STATUS_STYLES: Record<PatchStatus, string> = {
-    applied: 'bg-green-900 text-green-300',
-    ready: 'bg-blue-900 text-blue-300',
-    incompatible: 'bg-red-900/50 text-red-400',
+    applied: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300',
+    ready: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300',
+    incompatible: 'bg-red-100/50 text-red-600 dark:bg-red-900/50 dark:text-red-400',
 };
 
 const STATUS_LABELS: Record<PatchStatus, string> = {
@@ -43,7 +43,7 @@ function PatchRow({result, selected, onToggle}: {
     return (
         <label
             class={`flex items-center gap-3 px-3 py-2 rounded cursor-pointer transition-colors ${
-                selected ? 'bg-zinc-600' : 'bg-zinc-700/50 hover:bg-zinc-700'
+                selected ? 'bg-zinc-300 dark:bg-zinc-600' : 'bg-zinc-200/50 dark:bg-zinc-700/50 hover:bg-zinc-200 dark:hover:bg-zinc-700'
             } ${result.status === 'incompatible' ? 'opacity-50' : ''}`}
         >
             <input
@@ -51,7 +51,7 @@ function PatchRow({result, selected, onToggle}: {
                 checked={selected}
                 onChange={onToggle}
                 disabled={result.status === 'incompatible'}
-                class="w-4 h-4 rounded bg-zinc-600 border-zinc-500"
+                class="w-4 h-4 rounded bg-zinc-300 dark:bg-zinc-600 border-zinc-400 dark:border-zinc-500"
             />
             <span class="flex-1 text-sm truncate">{result.name}</span>
             {!result.crcValid && (
@@ -279,7 +279,7 @@ export function PatchManager({
             title="Patches"
             titleRight={
                 <a href="https://github.com/Switchleg1/BinToolz" target="_blank" rel="noopener noreferrer"
-                   class="text-xs text-zinc-400 hover:text-zinc-300">
+                   class="text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300">
                     Switchleg1/BinToolz
                 </a>
             }
@@ -290,19 +290,19 @@ export function PatchManager({
                     <button
                         onClick={handleApply}
                         disabled={selectedReady === 0 || loading}
-                        class="px-4 py-2 text-sm rounded font-medium bg-green-700 hover:bg-green-600 disabled:bg-zinc-700 disabled:text-zinc-500 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                        class="px-4 py-2 text-sm rounded font-medium bg-green-700 hover:bg-green-600 disabled:bg-zinc-200 dark:disabled:bg-zinc-700 disabled:text-zinc-500 transition-colors cursor-pointer disabled:cursor-not-allowed"
                     >
                         Apply Selected ({selectedReady})
                     </button>
                     <button
                         onClick={handleRemove}
                         disabled={selectedApplied === 0 || loading}
-                        class="px-4 py-2 text-sm rounded font-medium bg-red-700 hover:bg-red-600 disabled:bg-zinc-700 disabled:text-zinc-500 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                        class="px-4 py-2 text-sm rounded font-medium bg-red-700 hover:bg-red-600 disabled:bg-zinc-200 dark:disabled:bg-zinc-700 disabled:text-zinc-500 transition-colors cursor-pointer disabled:cursor-not-allowed"
                     >
                         Remove Selected ({selectedApplied})
                     </button>
                     <label
-                        class="ml-auto inline-flex items-center gap-2 px-3 py-2 bg-zinc-700 hover:bg-zinc-600 rounded cursor-pointer text-sm transition-colors">
+                        class="ml-auto inline-flex items-center gap-2 px-3 py-2 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:bg-zinc-600 rounded cursor-pointer text-sm transition-colors">
                         Load .btp
                         <input
                             type="file"
@@ -320,15 +320,15 @@ export function PatchManager({
                 {/* Bundled patches */}
                 {patchResults.length > 0 && (
                     <div>
-                        <h3 class="text-sm font-semibold text-zinc-300 mb-2">Bundled Patches</h3>
+                        <h3 class="text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">Bundled Patches</h3>
                         <div class="space-y-3">
                             {[...groupedBundled.entries()].map(([category, patches]) => (
                                 <div key={category}>
-                                    <div class="text-xs text-zinc-500 mb-1 font-medium">
+                                    <div class="text-xs text-zinc-500 dark:text-zinc-500 mb-1 font-medium">
                                         {category}
                                         {categoryDescriptions[category] && (
                                             <span
-                                                class="font-normal text-zinc-600"> — {categoryDescriptions[category]}</span>
+                                                class="font-normal text-zinc-500 dark:text-zinc-600"> — {categoryDescriptions[category]}</span>
                                         )}
                                     </div>
                                     <div class="space-y-1">
@@ -356,7 +356,7 @@ export function PatchManager({
                 {/* User-loaded patches */}
                 {userPatches.length > 0 && (
                     <div>
-                        <h3 class="text-sm font-semibold text-zinc-300 mb-2">User Patches</h3>
+                        <h3 class="text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">User Patches</h3>
                         <div class="space-y-1">
                             {userPatches.map(r => (
                                 <PatchRow

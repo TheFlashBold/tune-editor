@@ -12,12 +12,12 @@ export function ChangesModal({onClose}: ChangesModalProps) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
             <div
-                className="bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl max-w-[95vw] w-full mx-4 max-h-[90vh] flex flex-col">
-                <div className="flex justify-between items-center px-4 py-3 border-b border-zinc-700">
+                className="bg-zinc-100 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-600 rounded-lg shadow-xl max-w-[95vw] w-full mx-4 max-h-[90vh] flex flex-col">
+                <div className="flex justify-between items-center px-4 py-3 border-b border-zinc-300 dark:border-zinc-700">
                     <h2 className="text-lg font-semibold">Changes ({changes.length})</h2>
                     <button
                         onClick={onClose}
-                        className="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-700 text-zinc-400 hover:text-zinc-100"
+                        className="w-8 h-8 flex items-center justify-center rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
                     >
                         ✕
                     </button>
@@ -38,7 +38,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                           }) => (
                                 <div
                                     key={param.name}
-                                    className="p-3 bg-zinc-700 rounded"
+                                    className="p-3 bg-zinc-200 dark:bg-zinc-700 rounded"
                                 >
                                     <div
                                         className="flex items-center gap-2 mb-3 cursor-pointer hover:text-blue-400"
@@ -48,7 +48,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                         }}
                                     >
                                         <span
-                                            className="inline-flex justify-center items-center w-5 h-5 text-xs font-semibold rounded bg-zinc-600 text-zinc-300">
+                                            className="inline-flex justify-center items-center w-5 h-5 text-xs font-semibold rounded bg-zinc-300 dark:bg-zinc-600 text-zinc-700 dark:text-zinc-300">
                                             {param.type[0]}
                                         </span>
                                         <span className="font-medium">
@@ -88,7 +88,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                         {/* Original table */}
                                                         <div className="flex-1 min-w-0">
                                                             <div
-                                                                className="text-xs text-zinc-400 mb-1 font-medium">Original
+                                                                className="text-xs text-zinc-600 dark:text-zinc-400 mb-1 font-medium">Original
                                                             </div>
                                                             <div className="overflow-x-auto">
                                                                 <table
@@ -97,13 +97,13 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                                         <thead>
                                                                         <tr>
                                                                             {origYAxis && origYAxis.length > 0 && (
-                                                                                <th className="px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-zinc-500"></th>
+                                                                                <th className="px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-zinc-500"></th>
                                                                             )}
                                                                             {origXAxis.map((val, i) => {
                                                                                 const isChanged = xDiff?.changedIndices.includes(i);
                                                                                 return (
                                                                                     <th key={i}
-                                                                                        className={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right font-normal ${isChanged ? 'text-red-400' : 'text-zinc-500'}`}>
+                                                                                        className={`px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-right font-normal ${isChanged ? 'text-red-400' : 'text-zinc-500'}`}>
                                                                                         {formatValue(val, 1)}
                                                                                     </th>
                                                                                 );
@@ -115,7 +115,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                                     {(originalValue as number[][]).map((row, rowIdx) => (
                                                                         <tr key={rowIdx}>
                                                                             {origYAxis && origYAxis.length > 0 && (
-                                                                                <td className={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right ${yDiff?.changedIndices.includes(rowIdx) ? 'text-red-400' : 'text-zinc-500'}`}>
+                                                                                <td className={`px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-right ${yDiff?.changedIndices.includes(rowIdx) ? 'text-red-400' : 'text-zinc-500'}`}>
                                                                                     {formatValue(origYAxis[rowIdx], 1)}
                                                                                 </td>
                                                                             )}
@@ -124,8 +124,8 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                                                 return (
                                                                                     <td
                                                                                         key={colIdx}
-                                                                                        className={`px-1.5 py-0.5 border border-zinc-600 text-right ${
-                                                                                            isChanged ? 'bg-red-900/50 text-red-300' : 'text-zinc-400'
+                                                                                        className={`px-1.5 py-0.5 border border-zinc-400 dark:border-zinc-600 text-right ${
+                                                                                            isChanged ? 'bg-red-900/50 text-red-300' : 'text-zinc-600 dark:text-zinc-400'
                                                                                         }`}
                                                                                     >
                                                                                         {formatValue(cell, 2)}
@@ -141,7 +141,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                         {/* Current table */}
                                                         <div className="flex-1 min-w-0">
                                                             <div
-                                                                className="text-xs text-zinc-400 mb-1 font-medium">Current
+                                                                className="text-xs text-zinc-600 dark:text-zinc-400 mb-1 font-medium">Current
                                                             </div>
                                                             <div className="overflow-x-auto">
                                                                 <table
@@ -150,13 +150,13 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                                         <thead>
                                                                         <tr>
                                                                             {yAxis && yAxis.length > 0 && (
-                                                                                <th className="px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-zinc-500"></th>
+                                                                                <th className="px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-zinc-500"></th>
                                                                             )}
                                                                             {xAxis.map((val, i) => {
                                                                                 const isChanged = xDiff?.changedIndices.includes(i);
                                                                                 return (
                                                                                     <th key={i}
-                                                                                        className={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right font-normal ${isChanged ? 'text-green-400' : 'text-zinc-500'}`}>
+                                                                                        className={`px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-right font-normal ${isChanged ? 'text-green-400' : 'text-zinc-500'}`}>
                                                                                         {formatValue(val, 1)}
                                                                                     </th>
                                                                                 );
@@ -168,7 +168,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                                     {(currentValue as number[][]).map((row, rowIdx) => (
                                                                         <tr key={rowIdx}>
                                                                             {yAxis && yAxis.length > 0 && (
-                                                                                <td className={`px-1.5 py-0.5 border border-zinc-700 bg-zinc-800 text-right ${yDiff?.changedIndices.includes(rowIdx) ? 'text-green-400' : 'text-zinc-500'}`}>
+                                                                                <td className={`px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-right ${yDiff?.changedIndices.includes(rowIdx) ? 'text-green-400' : 'text-zinc-500'}`}>
                                                                                     {formatValue(yAxis[rowIdx], 1)}
                                                                                 </td>
                                                                             )}
@@ -177,8 +177,8 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                                                 return (
                                                                                     <td
                                                                                         key={colIdx}
-                                                                                        className={`px-1.5 py-0.5 border border-zinc-600 text-right ${
-                                                                                            isChanged ? 'bg-green-900/50 text-green-300' : 'text-zinc-400'
+                                                                                        className={`px-1.5 py-0.5 border border-zinc-400 dark:border-zinc-600 text-right ${
+                                                                                            isChanged ? 'bg-green-900/50 text-green-300' : 'text-zinc-600 dark:text-zinc-400'
                                                                                         }`}
                                                                                     >
                                                                                         {formatValue(cell, 2)}

@@ -47,22 +47,22 @@ export function FileLoader({ onDefinitionLoad }: Props) {
   return (
     <div class="space-y-4">
       <div class="flex flex-wrap gap-3 items-end">
-        <label class="flex flex-col gap-1 text-xs text-zinc-400">
+        <label class="flex flex-col gap-1 text-xs text-zinc-600 dark:text-zinc-400">
           A2L File
           <input
             type="file"
             accept=".a2l"
             ref={a2lRef}
-            class="p-2 bg-zinc-700 border border-zinc-600 rounded text-zinc-200 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-zinc-600 file:text-zinc-200"
+            class="p-2 bg-zinc-200 dark:bg-zinc-700 border border-zinc-400 dark:border-zinc-600 rounded text-zinc-800 dark:text-zinc-200 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-zinc-300 dark:file:bg-zinc-600 file:text-zinc-800 dark:file:text-zinc-200"
           />
         </label>
-        <label class="flex flex-col gap-1 text-xs text-zinc-400">
+        <label class="flex flex-col gap-1 text-xs text-zinc-600 dark:text-zinc-400">
           Categories CSV (optional)
           <input
             type="file"
             accept=".csv"
             ref={csvRef}
-            class="p-2 bg-zinc-700 border border-zinc-600 rounded text-zinc-200 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-zinc-600 file:text-zinc-200"
+            class="p-2 bg-zinc-200 dark:bg-zinc-700 border border-zinc-400 dark:border-zinc-600 rounded text-zinc-800 dark:text-zinc-200 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-zinc-300 dark:file:bg-zinc-600 file:text-zinc-800 dark:file:text-zinc-200"
           />
         </label>
       </div>

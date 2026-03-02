@@ -111,7 +111,7 @@ export function App() {
     return (
         <AppContext.Provider value={appState}>
             <div
-                class="flex flex-col h-screen bg-zinc-900 text-zinc-100"
+                class="flex flex-col h-screen bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100"
                 onDragOver={preventDefaults}
                 onDrop={handleGlobalDrop}
             >
@@ -207,7 +207,7 @@ export function App() {
                                 </div>
                             ) : (
                                 <div>
-                                    <div class="text-sm text-zinc-400 mb-3">
+                                    <div class="text-sm text-zinc-600 dark:text-zinc-400 mb-3">
                                         {appState.allDefinitions.length} definition{appState.allDefinitions.length !== 1 ? 's' : ''} available
                                     </div>
                                     <div class="max-h-96 overflow-y-auto space-y-1">
@@ -224,12 +224,12 @@ export function App() {
                                                         console.error('Failed to load definition:', err);
                                                     }
                                                 }}
-                                                class="w-full text-left p-3 bg-zinc-700 hover:bg-zinc-600 rounded border border-zinc-600 transition-colors"
+                                                class="w-full text-left p-3 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:bg-zinc-600 rounded border border-zinc-400 dark:border-zinc-600 transition-colors"
                                             >
                                                 <div class="flex items-center justify-between">
                                                     <div>
                                                         <div class="font-medium">{entry.name}</div>
-                                                        <div class="text-xs text-zinc-400 mt-1">
+                                                        <div class="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
                                                             {entry.paramCount} parameters
                                                             {entry.verification?.expected && ` · ${entry.verification.expected}`}
                                                         </div>

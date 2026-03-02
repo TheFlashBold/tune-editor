@@ -1488,12 +1488,12 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                     <div class="flex flex-wrap items-center gap-2 sm:ml-auto">
                         {!IS_LOCALHOST && (
                             <>
-                                <label class="text-xs text-zinc-400">MTU:</label>
+                                <label class="text-xs text-zinc-600 dark:text-zinc-400">MTU:</label>
                                 <input
                                     type="number"
                                     value={mtu}
                                     onChange={(e) => setMtu(Number((e.target as HTMLInputElement).value))}
-                                    class="w-20 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
+                                    class="w-20 px-2 py-2 sm:py-1 text-sm bg-zinc-200 dark:bg-zinc-700 border border-zinc-400 dark:border-zinc-600 rounded"
                                     min={23}
                                     max={517}
                                 />
@@ -1510,7 +1510,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                 {status === 'connected' && (
                     <button
                         onClick={disconnect}
-                        class="sm:ml-auto px-4 py-2.5 sm:py-1.5 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
+                        class="sm:ml-auto px-4 py-2.5 sm:py-1.5 text-sm bg-zinc-300 dark:bg-zinc-600 hover:bg-zinc-200 dark:hover:bg-zinc-500 active:bg-zinc-200 dark:active:bg-zinc-700 rounded"
                     >
                         Disconnect
                     </button>
@@ -1519,13 +1519,13 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
 
             {/* ECU Info */}
             {info && (
-                <div class="mb-4 p-3 bg-zinc-900 rounded border border-zinc-700">
-                    <div class="text-xs text-zinc-400 mb-2">ECU Info</div>
+                <div class="mb-4 p-3 bg-zinc-200 dark:bg-zinc-900 rounded border border-zinc-300 dark:border-zinc-700">
+                    <div class="text-xs text-zinc-600 dark:text-zinc-400 mb-2">ECU Info</div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs font-mono">
                         {Object.entries(info).map(([key, value]) => (
                             <div key={key} class="flex">
                                 <span class="text-zinc-500 w-24 sm:w-28 shrink-0">{key}:</span>
-                                <span class="text-zinc-300 truncate">{value}</span>
+                                <span class="text-zinc-700 dark:text-zinc-300 truncate">{value}</span>
                             </div>
                         ))}
                     </div>
@@ -1534,26 +1534,26 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
 
             {/* Connection Parameters */}
             {status === 'connected' && !logging && (
-                <div class="mb-4 p-3 bg-zinc-900 rounded border border-zinc-700">
-                    <div class="text-xs text-zinc-400 mb-2">Connection Parameters</div>
+                <div class="mb-4 p-3 bg-zinc-200 dark:bg-zinc-900 rounded border border-zinc-300 dark:border-zinc-700">
+                    <div class="text-xs text-zinc-600 dark:text-zinc-400 mb-2">Connection Parameters</div>
                     <div class="flex flex-wrap items-center gap-4">
                         <label class="flex items-center gap-2 text-sm cursor-pointer select-none">
                             <input
                                 type="checkbox"
                                 checked={persistMode}
                                 onChange={(e) => setPersistMode((e.target as HTMLInputElement).checked)}
-                                class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
+                                class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-600"
                             />
                             <span>Persist Mode</span>
                             <span class="text-xs text-zinc-500">(bridge auto-queries)</span>
                         </label>
                         <div class="flex items-center gap-2">
-                            <label class="text-xs text-zinc-400">Chunk Size:</label>
+                            <label class="text-xs text-zinc-600 dark:text-zinc-400">Chunk Size:</label>
                             <input
                                 type="number"
                                 value={chunkSize}
                                 onChange={(e) => setChunkSize(Number((e.target as HTMLInputElement).value))}
-                                class="w-16 px-2 py-2 sm:py-1 text-sm bg-zinc-700 border border-zinc-600 rounded"
+                                class="w-16 px-2 py-2 sm:py-1 text-sm bg-zinc-200 dark:bg-zinc-700 border border-zinc-400 dark:border-zinc-600 rounded"
                                 min={0}
                                 max={PIDs.size}
                                 placeholder="0"
@@ -1588,7 +1588,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                         type="checkbox"
                                         checked={gpsEnabled}
                                         onChange={(e) => setGpsEnabled((e.target as HTMLInputElement).checked)}
-                                        class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
+                                        class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-600"
                                     />
                                     <span>GPS</span>
                                 </label>
@@ -1600,7 +1600,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                         type="checkbox"
                                         checked={accelEnabled}
                                         onChange={(e) => setAccelEnabled((e.target as HTMLInputElement).checked)}
-                                        class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-700 border-zinc-600"
+                                        class="w-5 h-5 sm:w-4 sm:h-4 rounded bg-zinc-200 dark:bg-zinc-700 border-zinc-400 dark:border-zinc-600"
                                     />
                                     <span>G-Force</span>
                                 </label>
@@ -1629,7 +1629,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                         </div>
 
                         {logging && gpsEnabled && currentFrame?.gps && (
-                            <span class="text-xs text-zinc-400 font-mono">
+                            <span class="text-xs text-zinc-600 dark:text-zinc-400 font-mono">
                                         GPS: {(currentFrame.gps.speed !== null ? (currentFrame.gps.speed * 3.6).toFixed(1) : '?')} km/h
                                 {currentFrame.gps.accuracy > 10 && (
                                     <span class="text-yellow-500 ml-1">
@@ -1640,7 +1640,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                         )}
 
                         {logging && frames.length > 0 && (
-                            <span class="text-sm text-zinc-400 text-center sm:text-left">
+                            <span class="text-sm text-zinc-600 dark:text-zinc-400 text-center sm:text-left">
                                         {frames.length} frames ({(frames.length / (vehicleSettings?.loggingRate || 20)).toFixed(1)}s)
                                     </span>
                         )}
@@ -1694,13 +1694,13 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                 </button>
                                 <button
                                     onClick={copyCSV}
-                                    class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
+                                    class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-300 dark:bg-zinc-600 hover:bg-zinc-200 dark:hover:bg-zinc-500 active:bg-zinc-200 dark:active:bg-zinc-700 rounded"
                                 >
                                     Copy
                                 </button>
                                 <button
                                     onClick={exportCSV}
-                                    class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-600 hover:bg-zinc-500 active:bg-zinc-700 rounded"
+                                    class="flex-1 sm:flex-none px-4 py-2.5 sm:py-2 text-sm bg-zinc-300 dark:bg-zinc-600 hover:bg-zinc-200 dark:hover:bg-zinc-500 active:bg-zinc-200 dark:active:bg-zinc-700 rounded"
                                 >
                                     View
                                 </button>
@@ -1712,15 +1712,15 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
 
             {/* Live data */}
             {currentFrame && logging && (
-                <div class="p-2 sm:p-3 bg-zinc-900 rounded border border-zinc-700">
-                    <div class="text-xs text-zinc-400 mb-2">Live Data</div>
+                <div class="p-2 sm:p-3 bg-zinc-200 dark:bg-zinc-900 rounded border border-zinc-300 dark:border-zinc-700">
+                    <div class="text-xs text-zinc-600 dark:text-zinc-400 mb-2">Live Data</div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 text-xs font-mono">
                         {Object.entries(currentFrame.data).map(([name, value]) => {
                             const pid = [...PIDs.values()].find(p => p.name === name);
                             return (
-                                <div key={name} class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
-                                    <span class="text-zinc-400 truncate mr-1">{name}</span>
-                                    <span class="text-zinc-100 shrink-0">
+                                <div key={name} class="flex justify-between bg-zinc-100 dark:bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-600 dark:text-zinc-400 truncate mr-1">{name}</span>
+                                    <span class="text-zinc-900 dark:text-zinc-100 shrink-0">
                                                 {value.toFixed(pid?.fractional ?? 1)}
                                         {pid?.unit && <span class="text-zinc-500 ml-1">{pid.unit}</span>}
                                             </span>
@@ -1732,40 +1732,40 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                     {/* GPS Data */}
                     {gpsEnabled && currentFrame.gps && (
                         <>
-                            <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">GPS Data</div>
+                            <div class="text-xs text-zinc-600 dark:text-zinc-400 mb-2 mt-3 sm:mt-4">GPS Data</div>
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 text-xs font-mono">
-                                <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
-                                    <span class="text-zinc-400">Speed</span>
-                                    <span class="text-zinc-100">
+                                <div class="flex justify-between bg-zinc-100 dark:bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-600 dark:text-zinc-400">Speed</span>
+                                    <span class="text-zinc-900 dark:text-zinc-100">
                                                 {currentFrame.gps.speed !== null ? (currentFrame.gps.speed * 3.6).toFixed(1) : '-'}
                                         <span class="text-zinc-500 ml-1">km/h</span>
                                             </span>
                                 </div>
-                                <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
-                                    <span class="text-zinc-400">Heading</span>
-                                    <span class="text-zinc-100">
+                                <div class="flex justify-between bg-zinc-100 dark:bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-600 dark:text-zinc-400">Heading</span>
+                                    <span class="text-zinc-900 dark:text-zinc-100">
                                                 {currentFrame.gps.heading !== null ? currentFrame.gps.heading.toFixed(0) : '-'}
                                         <span class="text-zinc-500 ml-1">°</span>
                                             </span>
                                 </div>
-                                <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
-                                    <span class="text-zinc-400">Altitude</span>
-                                    <span class="text-zinc-100">
+                                <div class="flex justify-between bg-zinc-100 dark:bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-600 dark:text-zinc-400">Altitude</span>
+                                    <span class="text-zinc-900 dark:text-zinc-100">
                                                 {currentFrame.gps.altitude !== null ? currentFrame.gps.altitude.toFixed(0) : '-'}
                                         <span class="text-zinc-500 ml-1">m</span>
                                             </span>
                                 </div>
-                                <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
-                                    <span class="text-zinc-400">Accuracy</span>
+                                <div class="flex justify-between bg-zinc-100 dark:bg-zinc-800 px-2 py-1.5 sm:py-1 rounded">
+                                    <span class="text-zinc-600 dark:text-zinc-400">Accuracy</span>
                                     <span
-                                        class={`text-zinc-100 ${currentFrame.gps.accuracy > 10 ? 'text-yellow-400' : ''}`}>
+                                        class={`text-zinc-900 dark:text-zinc-100 ${currentFrame.gps.accuracy > 10 ? 'text-yellow-400' : ''}`}>
                                                 {currentFrame.gps.accuracy.toFixed(0)}
                                         <span class="text-zinc-500 ml-1">m</span>
                                             </span>
                                 </div>
-                                <div class="flex justify-between bg-zinc-800 px-2 py-1.5 sm:py-1 rounded col-span-2">
-                                    <span class="text-zinc-400">Position</span>
-                                    <span class="text-zinc-100 text-[10px] sm:text-xs">
+                                <div class="flex justify-between bg-zinc-100 dark:bg-zinc-800 px-2 py-1.5 sm:py-1 rounded col-span-2">
+                                    <span class="text-zinc-600 dark:text-zinc-400">Position</span>
+                                    <span class="text-zinc-900 dark:text-zinc-100 text-[10px] sm:text-xs">
                                                 {currentFrame.gps.latitude.toFixed(5)}, {currentFrame.gps.longitude.toFixed(5)}
                                             </span>
                                 </div>
@@ -1776,11 +1776,11 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                     {/* Accelerometer Data */}
                     {accelEnabled && currentFrame.accelerometer && (
                         <>
-                            <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">G-Force</div>
+                            <div class="text-xs text-zinc-600 dark:text-zinc-400 mb-2 mt-3 sm:mt-4">G-Force</div>
                             <div class="grid grid-cols-3 gap-1.5 sm:gap-2 text-xs font-mono">
                                 <div
                                     class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                    <span class="text-zinc-400">Lateral</span>
+                                    <span class="text-zinc-600 dark:text-zinc-400">Lateral</span>
                                     <span class="text-amber-300">
                                                 {currentFrame.accelerometer.x >= 0 ? '+' : ''}{currentFrame.accelerometer.x.toFixed(2)}
                                         <span class="text-zinc-500 ml-1">G</span>
@@ -1788,7 +1788,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                 </div>
                                 <div
                                     class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                    <span class="text-zinc-400">Accel</span>
+                                    <span class="text-zinc-600 dark:text-zinc-400">Accel</span>
                                     <span class="text-amber-300">
                                                 {currentFrame.accelerometer.y >= 0 ? '+' : ''}{currentFrame.accelerometer.y.toFixed(2)}
                                         <span class="text-zinc-500 ml-1">G</span>
@@ -1796,7 +1796,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                 </div>
                                 <div
                                     class="flex justify-between bg-amber-900/30 border border-amber-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                    <span class="text-zinc-400">Vertical</span>
+                                    <span class="text-zinc-600 dark:text-zinc-400">Vertical</span>
                                     <span class="text-amber-300">
                                                 {currentFrame.accelerometer.z >= 0 ? '+' : ''}{currentFrame.accelerometer.z.toFixed(2)}
                                         <span class="text-zinc-500 ml-1">G</span>
@@ -1809,12 +1809,12 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                     {/* Calculated Data */}
                     {currentFrame.calculated && (
                         <>
-                            <div class="text-xs text-zinc-400 mb-2 mt-3 sm:mt-4">Calculated</div>
+                            <div class="text-xs text-zinc-600 dark:text-zinc-400 mb-2 mt-3 sm:mt-4">Calculated</div>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 text-xs font-mono">
                                 {currentFrame.calculated.airmass !== undefined && (
                                     <div
                                         class="flex justify-between bg-purple-900/30 border border-purple-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                        <span class="text-zinc-400">Airmass</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">Airmass</span>
                                         <span class="text-purple-300">
                                                     {currentFrame.calculated.airmass.toFixed(1)}
                                             <span class="text-zinc-500 ml-1">mg</span>
@@ -1824,7 +1824,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                 {currentFrame.calculated.boost !== undefined && (
                                     <div
                                         class="flex justify-between bg-purple-900/30 border border-purple-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                        <span class="text-zinc-400">Boost</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">Boost</span>
                                         <span class="text-purple-300">
                                                     {currentFrame.calculated.boost.toFixed(2)}
                                             <span class="text-zinc-500 ml-1">bar</span>
@@ -1837,7 +1837,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                             ? 'bg-yellow-900/30 border border-yellow-800/50'
                                             : 'bg-purple-900/30 border border-purple-800/50'
                                     }`}>
-                                        <span class="text-zinc-400">Boost Err</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">Boost Err</span>
                                         <span
                                             class={Math.abs(currentFrame.calculated.boostError) > 0.1 ? 'text-yellow-300' : 'text-purple-300'}>
                                                     {currentFrame.calculated.boostError >= 0 ? '+' : ''}{currentFrame.calculated.boostError.toFixed(3)}
@@ -1851,7 +1851,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                             ? 'bg-red-900/30 border border-red-800/50'
                                             : 'bg-purple-900/30 border border-purple-800/50'
                                     }`}>
-                                        <span class="text-zinc-400">Knock</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">Knock</span>
                                         <span
                                             class={currentFrame.calculated.knockAvg < -1 ? 'text-red-300' : 'text-purple-300'}>
                                                     {currentFrame.calculated.knockAvg.toFixed(2)}
@@ -1862,7 +1862,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                 {currentFrame.calculated.acceleration !== undefined && (
                                     <div
                                         class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                        <span class="text-zinc-400">Accel</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">Accel</span>
                                         <span class="text-blue-300">
                                                     {currentFrame.calculated.acceleration.toFixed(2)}
                                             <span class="text-zinc-500 ml-1">m/s²</span>
@@ -1872,7 +1872,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                 {currentFrame.calculated.force !== undefined && (
                                     <div
                                         class="flex justify-between bg-blue-900/30 border border-blue-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                        <span class="text-zinc-400">Force</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">Force</span>
                                         <span class="text-blue-300">
                                                     {currentFrame.calculated.force.toFixed(0)}
                                             <span class="text-zinc-500 ml-1">N</span>
@@ -1882,7 +1882,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                 {currentFrame.calculated.wheelTorque !== undefined && (
                                     <div
                                         class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                        <span class="text-zinc-400">Wheel Tq</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">Wheel Tq</span>
                                         <span class="text-green-300">
                                                     {currentFrame.calculated.wheelTorque.toFixed(1)}
                                             <span class="text-zinc-500 ml-1">Nm</span>
@@ -1892,7 +1892,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                 {currentFrame.calculated.calculatedTorque !== undefined && (
                                     <div
                                         class="flex justify-between bg-cyan-900/30 border border-cyan-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                        <span class="text-zinc-400">Calc Tq</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">Calc Tq</span>
                                         <span class="text-cyan-300">
                                                     {currentFrame.calculated.calculatedTorque.toFixed(1)}
                                             <span class="text-zinc-500 ml-1">Nm</span>
@@ -1905,7 +1905,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                             ? 'bg-yellow-900/30 border border-yellow-800/50'
                                             : 'bg-cyan-900/30 border border-cyan-800/50'
                                     }`}>
-                                        <span class="text-zinc-400">Tq Diff</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">Tq Diff</span>
                                         <span
                                             class={Math.abs(currentFrame.calculated.torqueDiff) > 30 ? 'text-yellow-300' : 'text-cyan-300'}>
                                                     {currentFrame.calculated.torqueDiff >= 0 ? '+' : ''}{currentFrame.calculated.torqueDiff.toFixed(1)}
@@ -1916,7 +1916,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                 {currentFrame.calculated.enginePower !== undefined && (
                                     <div
                                         class="flex justify-between bg-orange-900/30 border border-orange-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                        <span class="text-zinc-400">ECU Power</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">ECU Power</span>
                                         <span class="text-orange-300">
                                                     {currentFrame.calculated.enginePower.toFixed(1)}
                                             <span class="text-zinc-500 ml-1">kW</span>
@@ -1926,7 +1926,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                                 {currentFrame.calculated.power !== undefined && (
                                     <div
                                         class="flex justify-between bg-green-900/30 border border-green-800/50 px-2 py-1.5 sm:py-1 rounded">
-                                        <span class="text-zinc-400">Wheel Power</span>
+                                        <span class="text-zinc-600 dark:text-zinc-400">Wheel Power</span>
                                         <span class="text-green-300">
                                                     {currentFrame.calculated.power.toFixed(1)}
                                             <span class="text-zinc-500 ml-1">kW</span>
@@ -1950,11 +1950,11 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
 
             {/* Debug Log Panel */}
             {status !== 'disconnected' && (
-                <div class="mt-4 border-t border-zinc-700 pt-4">
+                <div class="mt-4 border-t border-zinc-300 dark:border-zinc-700 pt-4">
                     <div class="flex items-center justify-between mb-2">
                         <button
                             onClick={() => setShowDebugLogs(!showDebugLogs)}
-                            class="text-xs text-zinc-400 hover:text-zinc-300 flex items-center gap-1"
+                            class="text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 flex items-center gap-1"
                         >
                             <span>{showDebugLogs ? '▼' : '▶'}</span>
                             <span>Debug Log ({debugLogs.length})</span>
@@ -1962,7 +1962,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                         {showDebugLogs && debugLogs.length > 0 && (
                             <button
                                 onClick={() => setDebugLogs([])}
-                                class="text-xs text-zinc-500 hover:text-zinc-400"
+                                class="text-xs text-zinc-600 dark:text-zinc-500 hover:text-zinc-500 dark:hover:text-zinc-400"
                             >
                                 Clear
                             </button>
@@ -1971,13 +1971,13 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
                     {showDebugLogs && (
                         <div
                             ref={debugLogRef}
-                            class="h-32 overflow-y-auto bg-zinc-900 border border-zinc-700 rounded p-2 font-mono text-xs"
+                            class="h-32 overflow-y-auto bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded p-2 font-mono text-xs"
                         >
                             {debugLogs.length === 0 ? (
                                 <div class="text-zinc-500 italic">No log entries yet...</div>
                             ) : (
                                 debugLogs.map((log, i) => (
-                                    <div key={i} class="text-zinc-400 whitespace-pre-wrap">
+                                    <div key={i} class="text-zinc-600 dark:text-zinc-400 whitespace-pre-wrap">
                                         {log}
                                     </div>
                                 ))
