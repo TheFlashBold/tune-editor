@@ -1,4 +1,5 @@
 import {useState, useCallback, useMemo} from 'preact/hooks';
+import {track} from '../lib/track';
 import {DATA_TYPE_INFO, ILoadedBin} from '../types';
 import type {Definition, IDefinitionParameter, BinaryMode, CellDiff, AxisDiff, ParamDiff} from '../types';
 import type {PatchCheckResult} from '../lib/btpParser';
@@ -156,6 +157,7 @@ export function useAppState(): IAppContext {
         setBinData(data);
         setBinFileName(displayName);
         setModified(false);
+        track('Load BIN', {size: data.length});
 
         // Auto-detect definition
         let loadedDef: Definition | null = null;
@@ -170,6 +172,7 @@ export function useAppState(): IAppContext {
                 setCalOffset(match.mode === 'cal' ? defOffset : 0);
                 setSelectedParam(null);
                 loadedDef = def;
+                track('Definition Matched', {name: def.name, mode: match.mode});
             } else if (matches.length > 1) {
                 setDefinitionMatches(matches);
             }
@@ -205,6 +208,7 @@ export function useAppState(): IAppContext {
         }
 
         setCrossCompareBin(newBin);
+        track('Load Cross-Compare');
     }, []);
 
     // Set definition from external source (XDF drop, JSON drop, converter, browser)
@@ -295,6 +299,7 @@ export function useAppState(): IAppContext {
         a.click();
         URL.revokeObjectURL(url);
         setModified(false);
+        track('Save BIN');
     }, [binData, binFileName]);
 
     const exportBtp = useCallback(() => {
@@ -317,6 +322,7 @@ export function useAppState(): IAppContext {
         a.download = (binFileName ?? 'patch').replace(/\.[^.]+$/, '_patch.btp');
         a.click();
         URL.revokeObjectURL(url);
+        track('Export BTP', {blocks: blockCount});
     }, [binData, originalBinData, definition, binFileName, getParamByteRanges]);
 
     const selectDefinitionMatch = useCallback(async (entry: DefinitionIndexEntry, mode: BinaryMode) => {

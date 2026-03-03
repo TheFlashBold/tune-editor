@@ -1,5 +1,6 @@
 import {useState, useRef, useCallback} from 'preact/hooks';
 import {Modal} from './Modal';
+import {track} from '../lib/track';
 import type {Definition, IDefinitionParameter} from '../types';
 import {parseBtp, verifyCrc32, checkPatchBlockAware, applyPatch, removePatch, parseEcuInfo, getCalFileOffset} from '../lib/btpParser';
 import type {PatchCheckResult, PatchStatus} from '../lib/btpParser';
@@ -168,6 +169,7 @@ export function PatchManager({
 
             if (toApply.length > 0) {
                 onModify();
+                track('Apply Patches', {count: toApply.length});
             }
 
             // Re-check all patch statuses (block-aware)

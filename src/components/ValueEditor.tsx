@@ -1,5 +1,6 @@
-import {useState, useEffect, useMemo, useRef} from 'preact/hooks';
+import {useState, useEffect, useMemo, useRef, useCallback} from 'preact/hooks';
 import {IDefinitionParameter} from '../types';
+import {track} from '../lib/track';
 import {
     readParameterValue,
     writeParameterValue,
@@ -34,11 +35,26 @@ interface IValueEditorProps {
 }
 
 export function ValueEditor(props: IValueEditorProps) {
-    const {parameter} = props
+    const {parameter, onModify} = props;
+    const tracked = useRef(false);
+
+    // Reset tracking flag when parameter changes
+    useEffect(() => { tracked.current = false; }, [parameter.name]);
+
+    const onModifyTracked = useCallback(() => {
+        onModify();
+        if (!tracked.current) {
+            tracked.current = true;
+            const type = parameter.type === 'VALUE' ? 'Scalar' : parameter.type === 'CURVE' ? '1D' : '2D';
+            track('Edit Parameter', {type, name: parameter.name});
+        }
+    }, [onModify, parameter.type, parameter.name]);
+
+    const trackedProps = {...props, onModify: onModifyTracked};
     if (parameter.type === 'VALUE') {
-        return <ScalarEditor {...props} />;
+        return <ScalarEditor {...trackedProps} />;
     }
-    return <TableEditor {...props}/>;
+    return <TableEditor {...trackedProps}/>;
 }
 
 function ScalarEditor(props: IValueEditorProps) {

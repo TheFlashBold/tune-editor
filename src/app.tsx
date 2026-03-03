@@ -1,5 +1,6 @@
 import {useState, useCallback, useMemo} from 'preact/hooks';
 import type {Definition} from './types';
+import {track} from './lib/track';
 import {FileLoader} from './components/FileLoader';
 import {XdfLoader} from './components/XdfLoader';
 import {LogViewer} from './components/LogViewer';
@@ -67,6 +68,7 @@ export function App() {
         appState.setSelectedParam(null);
         setShowConverter(false);
         setShowXdfConverter(false);
+        track('Load Definition', {name: def.name});
     }, [appState]);
 
     // Global drag & drop — routes by file type
@@ -119,7 +121,7 @@ export function App() {
                     onShowConverter={() => setShowConverter(true)}
                     onShowXdfConverter={() => setShowXdfConverter(true)}
                     onShowSettings={() => setShowSettings(true)}
-                    onShowLogViewer={() => setShowLogViewer(true)}
+                    onShowLogViewer={() => { setShowLogViewer(true); track('Open Log Viewer'); }}
                     onShowBLEConnector={() => setShowBLEConnector(true)}
                     onShowDefinitions={(defs) => {
                         appState.setAllDefinitions(defs);
@@ -220,6 +222,7 @@ export function App() {
                                                         appState.setExternalDefinition(def);
                                                         appState.setSelectedParam(null);
                                                         setShowDefinitions(false);
+                                                        track('Load Definition', {name: def.name});
                                                     } catch (err) {
                                                         console.error('Failed to load definition:', err);
                                                     }

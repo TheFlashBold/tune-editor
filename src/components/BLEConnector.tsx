@@ -1,6 +1,7 @@
 import {useState, useRef, useEffect} from 'preact/hooks';
 import type {VehicleSettings} from '../lib/vehicleSettings';
 import {Modal} from './Modal';
+import {track} from '../lib/track';
 
 const BLE_SERVICE_UUID = "0000abf0-0000-1000-8000-00805f9b34fb";
 const BLE_DATA_TX_UUID = "0000abf1-0000-1000-8000-00805f9b34fb";
@@ -75,11 +76,11 @@ const PIDs: Map<number, IPid> = new Map([
         name: "Vehicle Speed",
         length: 2,
         signed: false,
-        equation: "x / 100",
+        equation: "x / 347.947",
         fractional: 1,
         unit: "km/h"
     }],
-    [0x210f, {address: 0x210f, name: "Gear", length: 2, signed: false, equation: "x + 1", fractional: 0, unit: ""}],
+    [0x210f, {address: 0x210f, name: "Gear", length: 2, signed: false, equation: "x", fractional: 0, unit: ""}],
     [0x2032, {address: 0x2032, name: "Airflow", length: 2, signed: false, equation: "x", fractional: 0, unit: "kg/h"}],
     [0x13ca, {
         address: 0x13ca,
@@ -1098,7 +1099,7 @@ class BLEService {
                         }
 
                         value = eval(pid.equation.replaceAll("x", String(value)));
-                        const roundingFactor = Math.pow(10, pid.fractional + 1);
+                        const roundingFactor = Math.pow(10, pid.fractional);
                         value = Math.round(value * roundingFactor) / roundingFactor;
                         frameData[pid.name] = value;
 
@@ -1143,11 +1144,17 @@ class BLEService {
     parsePacketData(packet: DataView, frame: LogFrame) {
         let index = 9;
         while (index < packet.byteLength) {
+            if (index + 2 > packet.byteLength) break;
             const address = packet.getUint16(index);
             index += 2;
 
             const pid = PIDs.get(address);
-            if (!pid) continue;
+            if (!pid) {
+                // Unknown PID - can't determine value length, must stop parsing
+                break;
+            }
+
+            if (index + pid.length > packet.byteLength) break;
 
             let value = 0;
             if (pid.length === 1) {
@@ -1157,7 +1164,7 @@ class BLEService {
             }
 
             value = eval(pid.equation.replaceAll("x", String(value)));
-            const roundingFactor = Math.pow(10, pid.fractional + 1);
+            const roundingFactor = Math.pow(10, pid.fractional);
             value = Math.round(value * roundingFactor) / roundingFactor;
             frame.data[pid.name] = value;
 
@@ -1261,6 +1268,7 @@ export function BLEConnector({onLogData, onClose, vehicleSettings}: BLEConnector
             serviceRef.current = service;
 
             setStatus('connected');
+            track('BLE Connect');
             await requestWakeLock();
 
             // Get ECU info
