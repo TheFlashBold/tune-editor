@@ -226,12 +226,6 @@ function CSVViewer({text}: CSVViewerProps) {
         };
     }, [data, fields, showFields]);
 
-    // Combined min/max for preview
-    const {min, max} = useMemo(() => {
-        const allMin = Math.min(leftAxis.min, rightAxis.fields.length > 0 ? rightAxis.min : leftAxis.min);
-        const allMax = Math.max(leftAxis.max, rightAxis.fields.length > 0 ? rightAxis.max : leftAxis.max);
-        return {min: allMin, max: allMax};
-    }, [leftAxis, rightAxis]);
 
     // Get color for a field based on its axis
     const getFieldColor = (field: string): string => {
@@ -409,13 +403,14 @@ function CSVViewer({text}: CSVViewerProps) {
 
     function previewToPoints(field: string) {
         const fieldIndex = fields.indexOf(field);
-        const range = max - min;
+        const axis = fieldToAxis[field] === 'right' ? rightAxis : leftAxis;
+        const range = axis.max - axis.min;
         if (range === 0) return "";
 
         return previewData.map((row, idx) => {
             const value = row[fieldIndex] ?? 0;
-            const normalizedValue = ((value - min) / range) * (max - min);
-            return `${idx},${max - normalizedValue}`;
+            const normalized = (value - axis.min) / range;
+            return `${idx},${1 - normalized}`;
         }).join(" ");
     }
 
@@ -772,7 +767,7 @@ function CSVViewer({text}: CSVViewerProps) {
                 <div class="mt-2 relative">
                     <svg
                         ref={previewRef}
-                        viewBox={`0 ${min} ${previewData.length} ${max - min}`}
+                        viewBox={`0 0 ${previewData.length} 1`}
                         class="w-full h-12 bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded cursor-pointer"
                         preserveAspectRatio="none"
                         onMouseDown={handlePreviewMouseDown}
@@ -792,9 +787,9 @@ function CSVViewer({text}: CSVViewerProps) {
                         {/* Viewport indicator */}
                         <rect
                             x={(scrollOffset / data.length) * previewData.length}
-                            y={min}
+                            y={0}
                             width={(visibleDataPoints / data.length) * previewData.length}
-                            height={max - min}
+                            height={1}
                             fill="white"
                             fillOpacity={0.15}
                             stroke="white"
