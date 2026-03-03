@@ -55,7 +55,8 @@ function ScalarEditor(props: IValueEditorProps) {
     const [value, setValue] = useState(() => readParameterValue(binData, parameter, calOffset, baseAddress, bigEndian));
     const [editing, setEditing] = useState(false);
     const [inputValue, setInputValue] = useState('');
-    const [overlayMode, setOverlayMode] = useState<'none' | 'original' | 'compare'>('none');
+    const [showOriginalVal, setShowOriginalVal] = useState(false);
+    const [showCompareVal, setShowCompareVal] = useState(false);
 
     const originalValue = useMemo(
         () => originalBinData ? readParameterValue(originalBinData, parameter, calOffset, baseAddress, bigEndian) : null,
@@ -69,8 +70,8 @@ function ScalarEditor(props: IValueEditorProps) {
 
     const hasChanged = originalValue !== null && Math.abs(originalValue - value) > 0.0001;
     const hasCompareDiff = compareValue !== null && Math.abs(compareValue - value) > 0.0001;
-    const showOriginal = overlayMode === 'original';
-    const showCompare = overlayMode === 'compare';
+    const showOriginal = showOriginalVal;
+    const showCompare = showCompareVal;
     const isBitmask = !!parameter.bitLabels || (parameter.dataType === 'UBYTE' && (/bitmask/i.test(parameter.name) || /bitmask/i.test(parameter.description)));
     const isToggle = parameter.dataType === 'UBYTE' && parameter.min === 0 && parameter.max === 1 && !isBitmask
         && /\b(enable|disable|activation switch)\b/i.test(parameter.description || parameter.customName || parameter.name);
@@ -135,7 +136,7 @@ function ScalarEditor(props: IValueEditorProps) {
                             )}
                             {originalBinData && (
                                 <button
-                                    onClick={() => setOverlayMode(overlayMode === 'original' ? 'none' : 'original')}
+                                    onClick={() => setShowOriginalVal(!showOriginalVal)}
                                     class={`px-3 py-1.5 text-sm rounded ${
                                         showOriginal ? 'bg-blue-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'
                                     } ${hasChanged ? 'ring-2 ring-amber-500' : ''}`}
@@ -145,7 +146,7 @@ function ScalarEditor(props: IValueEditorProps) {
                             )}
                             {crossCompare && (
                                 <button
-                                    onClick={() => setOverlayMode(overlayMode === 'compare' ? 'none' : 'compare')}
+                                    onClick={() => setShowCompareVal(!showCompareVal)}
                                     class={`px-3 py-1.5 text-sm rounded ${
                                         showCompare ? 'bg-teal-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'
                                     } ${hasCompareDiff ? 'ring-2 ring-teal-500' : ''}`}
@@ -318,10 +319,8 @@ interface CurveGraphProps {
     xData: number[];
     yData: number[];
     originalYData?: number[] | null;
-    showOriginal: boolean;
     compareYData?: number[] | null;
     compareXData?: number[] | null;
-    showCompare: boolean;
     xUnit: string;
     yUnit: string;
 }
@@ -330,13 +329,13 @@ function CurveGraph({
                         xData,
                         yData,
                         originalYData,
-                        showOriginal,
                         compareYData,
                         compareXData,
-                        showCompare,
                         xUnit,
                         yUnit
                     }: CurveGraphProps) {
+    const [showOriginal, setShowOriginal] = useState(true);
+    const [showCompare, setShowCompare] = useState(true);
     const width = 1200;
     const height = 500;
     const padding = {top: 20, right: 30, bottom: 50, left: 60};
@@ -476,22 +475,24 @@ function CurveGraph({
                 })}
             </svg>
 
-            {(showOriginal && originalYData || showCompare && compareYData) && (
+            {(originalYData || compareYData) && (
                 <div class="flex gap-4 mt-2 text-xs text-zinc-600 dark:text-zinc-400">
-          <span class="flex items-center gap-1">
-            <span class="w-4 h-0.5 bg-blue-500 inline-block"></span> Aktuell
-          </span>
-                    {showOriginal && originalYData && (
-                        <span class="flex items-center gap-1">
-            <span class="w-4 h-0.5 bg-zinc-500 inline-block"
-                  style="background: repeating-linear-gradient(90deg, #71717a 0, #71717a 4px, transparent 4px, transparent 8px)"></span> Original
-          </span>
+                    <span class="flex items-center gap-1">
+                        <span class="w-4 h-0.5 bg-blue-500 inline-block"></span> Aktuell
+                    </span>
+                    {originalYData && (
+                        <label class="flex items-center gap-1 cursor-pointer select-none">
+                            <input type="checkbox" checked={showOriginal} onChange={() => setShowOriginal(!showOriginal)} class="cursor-pointer" />
+                            <span class="w-4 h-0.5 inline-block"
+                                  style="background: repeating-linear-gradient(90deg, #71717a 0, #71717a 4px, transparent 4px, transparent 8px)"></span> Original
+                        </label>
                     )}
-                    {showCompare && compareYData && (
-                        <span class="flex items-center gap-1">
-            <span class="w-4 h-0.5 inline-block"
-                  style="background: repeating-linear-gradient(90deg, #14b8a6 0, #14b8a6 4px, transparent 4px, transparent 8px)"></span> Compare
-          </span>
+                    {compareYData && (
+                        <label class="flex items-center gap-1 cursor-pointer select-none">
+                            <input type="checkbox" checked={showCompare} onChange={() => setShowCompare(!showCompare)} class="cursor-pointer" />
+                            <span class="w-4 h-0.5 inline-block"
+                                  style="background: repeating-linear-gradient(90deg, #14b8a6 0, #14b8a6 4px, transparent 4px, transparent 8px)"></span> Compare
+                        </label>
                     )}
                 </div>
             )}
@@ -504,11 +505,9 @@ interface SurfaceGraphProps {
     yData: number[];
     zData: number[][];
     originalZData?: number[][] | null;
-    showOriginal: boolean;
     compareZData?: number[][] | null;
     compareXData?: number[] | null;
     compareYData?: number[] | null;
-    showCompare: boolean;
     xUnit: string;
     yUnit: string;
     zUnit: string;
@@ -519,13 +518,13 @@ function SurfaceGraph({
                           yData,
                           zData,
                           originalZData,
-                          showOriginal,
                           compareZData,
-                          showCompare,
                           xUnit,
                           yUnit,
                           zUnit
                       }: SurfaceGraphProps) {
+    const [showOriginal, setShowOriginal] = useState(true);
+    const [showCompare, setShowCompare] = useState(true);
     const [rotation, setRotation] = useState(45);
     const [tilt, setTilt] = useState(-20);
     const [isDragging, setIsDragging] = useState(false);
@@ -567,11 +566,10 @@ function SurfaceGraph({
 
     if (zData.length === 0 || zData[0].length === 0) return null;
 
-    // Determine overlay data
-    const overlayZ = showCompare && compareZData ? compareZData
-        : showOriginal && originalZData ? originalZData
-            : null;
-    const overlayLabel = showCompare ? 'Compare' : showOriginal ? 'Original' : null;
+    // Overlay layers: always show both original and compare when available
+    const overlays: { z: number[][]; label: string; isCompare: boolean }[] = [];
+    if (showOriginal && originalZData) overlays.push({z: originalZData, label: 'Original', isCompare: false});
+    if (showCompare && compareZData) overlays.push({z: compareZData, label: 'Compare', isCompare: true});
 
     const rows = zData.length;
     const cols = zData[0].length;
@@ -585,7 +583,7 @@ function SurfaceGraph({
     const centerY = height / 2 + 100;
 
     // Calculate Z range (include overlay for consistent scale)
-    const allZ = [...zData.flat(), ...(overlayZ ? overlayZ.flat() : [])];
+    const allZ = [...zData.flat(), ...overlays.flatMap(o => o.z.flat())];
     const zMin = Math.min(...allZ);
     const zMax = Math.max(...allZ);
 
@@ -632,21 +630,22 @@ function SurfaceGraph({
     type Quad = { path: string; depth: number; color: string; opacity: number };
     const quads: Quad[] = [];
 
-    // Build overlay points once if needed
-    let oPoints: { x: number; y: number; depth: number }[][] | null = null;
-    if (overlayZ) {
-        const oRows = overlayZ.length;
-        const oCols = overlayZ[0].length;
-        oPoints = [];
+    // Build overlay points for each overlay layer
+    const overlayPoints: { points: { x: number; y: number; depth: number }[][]; overlay: typeof overlays[0] }[] = [];
+    for (const ov of overlays) {
+        const oRows = ov.z.length;
+        const oCols = ov.z[0].length;
+        const oPoints: { x: number; y: number; depth: number }[][] = [];
         for (let r = 0; r < oRows; r++) {
             oPoints[r] = [];
             for (let c = 0; c < oCols; c++) {
                 const nx = normalize(c, 0, oCols - 1) - 0.5;
                 const ny = normalize(r, 0, oRows - 1) - 0.5;
-                const nz = normalize(overlayZ[r][c], zMin, zMax);
+                const nz = normalize(ov.z[r][c], zMin, zMax);
                 oPoints[r][c] = project(nx, ny, nz);
             }
         }
+        overlayPoints.push({points: oPoints, overlay: ov});
     }
 
     for (let r = 0; r < rows - 1; r++) {
@@ -657,28 +656,28 @@ function SurfaceGraph({
             const p3 = points[r + 1][c + 1];
             const p4 = points[r + 1][c];
             const mainZ = (zData[r][c] + zData[r][c + 1] + zData[r + 1][c + 1] + zData[r + 1][c]) / 4;
-            // const mainT = logNormalize(mainZ, zMin, zMax);
             const mainT = linearNormalize(mainZ, zMin, zMax);
             const hue = (1 - mainT) * 120;
             const mainDepth = (p1.depth + p2.depth + p3.depth + p4.depth) / 4;
             const mainPath = `M ${p1.x} ${p1.y} L ${p2.x} ${p2.y} L ${p3.x} ${p3.y} L ${p4.x} ${p4.y} Z`;
             quads.push({path: mainPath, depth: mainDepth, color: `hsl(${hue}, 70%, 50%)`, opacity: 0.7});
 
-            // Overlay quad at same grid cell
-            if (overlayZ && oPoints && r < overlayZ.length - 1 && c < overlayZ[0].length - 1) {
-                const op1 = oPoints[r][c];
-                const op2 = oPoints[r][c + 1];
-                const op3 = oPoints[r + 1][c + 1];
-                const op4 = oPoints[r + 1][c];
-                const ovZ = (overlayZ[r][c] + overlayZ[r][c + 1] + overlayZ[r + 1][c + 1] + overlayZ[r + 1][c]) / 4;
-                // const ovT = logNormalize(ovZ, zMin, zMax);
-                const ovT = linearNormalize(ovZ, zMin, zMax);
-                const ovColor = showCompare
-                    ? `hsl(174, 60%, ${75 - ovT * 45}%)`
-                    : `hsl(0, 0%, ${75 - ovT * 45}%)`;
-                const ovDepth = (op1.depth + op2.depth + op3.depth + op4.depth) / 4;
-                const ovPath = `M ${op1.x} ${op1.y} L ${op2.x} ${op2.y} L ${op3.x} ${op3.y} L ${op4.x} ${op4.y} Z`;
-                quads.push({path: ovPath, depth: ovDepth, color: ovColor, opacity: 0.55});
+            // Overlay quads
+            for (const {points: oPoints, overlay: ov} of overlayPoints) {
+                if (r < ov.z.length - 1 && c < ov.z[0].length - 1) {
+                    const op1 = oPoints[r][c];
+                    const op2 = oPoints[r][c + 1];
+                    const op3 = oPoints[r + 1][c + 1];
+                    const op4 = oPoints[r + 1][c];
+                    const ovZ = (ov.z[r][c] + ov.z[r][c + 1] + ov.z[r + 1][c + 1] + ov.z[r + 1][c]) / 4;
+                    const ovT = linearNormalize(ovZ, zMin, zMax);
+                    const ovColor = ov.isCompare
+                        ? `hsl(174, 60%, ${75 - ovT * 45}%)`
+                        : `hsl(0, 0%, ${75 - ovT * 45}%)`;
+                    const ovDepth = (op1.depth + op2.depth + op3.depth + op4.depth) / 4;
+                    const ovPath = `M ${op1.x} ${op1.y} L ${op2.x} ${op2.y} L ${op3.x} ${op3.y} L ${op4.x} ${op4.y} Z`;
+                    quads.push({path: ovPath, depth: ovDepth, color: ovColor, opacity: 0.55});
+                }
             }
         }
     }
@@ -690,7 +689,6 @@ function SurfaceGraph({
     type WireLine = { x1: number; y1: number; x2: number; y2: number; depth: number; stroke: string };
     const lines: WireLine[] = [];
     const mainStroke = 'rgba(0,0,0,0.3)';
-    const overlayStroke = showCompare ? 'rgba(0,80,70,0.4)' : 'rgba(0,0,0,0.3)';
 
     // Main wireframe
     for (let r = 0; r < rows; r++) {
@@ -705,33 +703,20 @@ function SurfaceGraph({
             lines.push({x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, depth: (p1.depth + p2.depth) / 2, stroke: mainStroke});
         }
     }
-    // Overlay wireframe
-    if (oPoints && overlayZ) {
-        const oRows = overlayZ.length, oCols = overlayZ[0].length;
+    // Overlay wireframes
+    for (const {points: oPoints, overlay: ov} of overlayPoints) {
+        const oRows = ov.z.length, oCols = ov.z[0].length;
+        const overlayStroke = ov.isCompare ? 'rgba(0,80,70,0.4)' : 'rgba(0,0,0,0.3)';
         for (let r = 0; r < oRows; r++) {
             for (let c = 0; c < oCols - 1; c++) {
                 const p1 = oPoints[r][c], p2 = oPoints[r][c + 1];
-                lines.push({
-                    x1: p1.x,
-                    y1: p1.y,
-                    x2: p2.x,
-                    y2: p2.y,
-                    depth: (p1.depth + p2.depth) / 2,
-                    stroke: overlayStroke
-                });
+                lines.push({x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, depth: (p1.depth + p2.depth) / 2, stroke: overlayStroke});
             }
         }
         for (let r = 0; r < oRows - 1; r++) {
             for (let c = 0; c < oCols; c++) {
                 const p1 = oPoints[r][c], p2 = oPoints[r + 1][c];
-                lines.push({
-                    x1: p1.x,
-                    y1: p1.y,
-                    x2: p2.x,
-                    y2: p2.y,
-                    depth: (p1.depth + p2.depth) / 2,
-                    stroke: overlayStroke
-                });
+                lines.push({x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, depth: (p1.depth + p2.depth) / 2, stroke: overlayStroke});
             }
         }
     }
@@ -844,15 +829,21 @@ function SurfaceGraph({
                      style="background: linear-gradient(90deg, hsl(120,70%,50%), hsl(60,70%,50%), hsl(0,70%,50%))"></div>
                 <span>{formatValue(zMax, 1)}</span>
                 <span class="ml-2 text-zinc-500">{zUnit}</span>
-                {overlayLabel && (
-                    <span class="ml-4 flex items-center gap-1">
-                        <span class="w-8 h-3 rounded inline-block" style={{
-                            background: showCompare
-                                ? 'linear-gradient(90deg, hsl(174,60%,75%), hsl(174,60%,45%), hsl(174,60%,30%))'
-                                : 'linear-gradient(90deg, hsl(0,0%,75%), hsl(0,0%,55%), hsl(0,0%,30%))',
-                        }}></span>
-                        {overlayLabel}
-                    </span>
+                {originalZData && (
+                    <label class="ml-4 flex items-center gap-1 cursor-pointer select-none">
+                        <input type="checkbox" checked={showOriginal} onChange={() => setShowOriginal(!showOriginal)} class="cursor-pointer" />
+                        <span class="w-8 h-3 rounded inline-block"
+                              style="background: linear-gradient(90deg, hsl(0,0%,75%), hsl(0,0%,55%), hsl(0,0%,30%))"></span>
+                        Original
+                    </label>
+                )}
+                {compareZData && (
+                    <label class="ml-4 flex items-center gap-1 cursor-pointer select-none">
+                        <input type="checkbox" checked={showCompare} onChange={() => setShowCompare(!showCompare)} class="cursor-pointer" />
+                        <span class="w-8 h-3 rounded inline-block"
+                              style="background: linear-gradient(90deg, hsl(174,60%,75%), hsl(174,60%,45%), hsl(174,60%,30%))"></span>
+                        Compare
+                    </label>
                 )}
             </div>
         </div>
@@ -889,7 +880,8 @@ function TableEditor({
     const [editCell, setEditCell] = useState<{ row: number; col: number } | null>(null);
     const [editAxisCell, setEditAxisCell] = useState<{ axis: 'x' | 'y'; index: number } | null>(null);
     const [inputValue, setInputValue] = useState('');
-    const [overlayMode, setOverlayMode] = useState<'none' | 'original' | 'compare'>('none');
+    const [showOriginalTable, setShowOriginalTable] = useState(false);
+    const [showCompareTable, setShowCompareTable] = useState(false);
     const [xAxisData, setXAxisData] = useState<number[]>([]);
     const [yAxisData, setYAxisData] = useState<number[]>([]);
 
@@ -943,8 +935,8 @@ function TableEditor({
         [crossCompare]
     );
 
-    const showOriginal = overlayMode === 'original';
-    const showCompare = overlayMode === 'compare';
+    const showOriginal = showOriginalTable;
+    const showCompare = showCompareTable;
 
     const hasChanged = useMemo(() => {
         if (!originalTableData || tableData.length === 0) return false;
@@ -1398,56 +1390,54 @@ function TableEditor({
                         </h2>
                         <code class="text-xs text-zinc-500">{parameter.name}</code>
                     </div>
-                    {(originalBinData || crossCompare) && (
-                        <div class="flex gap-x-2">
-                            {hasChanged && originalBinData &&
-                                <button class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600"
-                                        onClick={() => {
-                                            if (!originalTableData) return;
-                                            for (let r = 0; r < originalTableData.length; r++) {
-                                                for (let c = 0; c < originalTableData[r].length; c++) {
-                                                    writeTableCell(binData, parameter, r, c, originalTableData[r][c], calOffset, baseAddress, bigEndian);
-                                                }
+                    <div class="flex gap-x-2">
+                        {hasChanged && originalBinData &&
+                            <button class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600"
+                                    onClick={() => {
+                                        if (!originalTableData) return;
+                                        for (let r = 0; r < originalTableData.length; r++) {
+                                            for (let c = 0; c < originalTableData[r].length; c++) {
+                                                writeTableCell(binData, parameter, r, c, originalTableData[r][c], calOffset, baseAddress, bigEndian);
                                             }
-                                            if (originalXAxis && parameter.xAxis) {
-                                                for (let i = 0; i < originalXAxis.length; i++) {
-                                                    writeAxisValue(binData, parameter.xAxis, i, originalXAxis[i], calOffset, baseAddress, bigEndian);
-                                                }
+                                        }
+                                        if (originalXAxis && parameter.xAxis) {
+                                            for (let i = 0; i < originalXAxis.length; i++) {
+                                                writeAxisValue(binData, parameter.xAxis, i, originalXAxis[i], calOffset, baseAddress, bigEndian);
                                             }
-                                            if (originalYAxis && parameter.yAxis) {
-                                                for (let i = 0; i < originalYAxis.length; i++) {
-                                                    writeAxisValue(binData, parameter.yAxis, i, originalYAxis[i], calOffset, baseAddress, bigEndian);
-                                                }
+                                        }
+                                        if (originalYAxis && parameter.yAxis) {
+                                            for (let i = 0; i < originalYAxis.length; i++) {
+                                                writeAxisValue(binData, parameter.yAxis, i, originalYAxis[i], calOffset, baseAddress, bigEndian);
                                             }
-                                            setTableData(originalTableData.map(row => [...row]));
-                                            if (originalXAxis) setXAxisData([...originalXAxis]);
-                                            if (originalYAxis) setYAxisData([...originalYAxis]);
-                                            onModify();
-                                        }}>
-                                    Revert
-                                </button>}
-                            {originalBinData && (
-                                <button
-                                    onClick={() => setOverlayMode(overlayMode === 'original' ? 'none' : 'original')}
-                                    class={`px-3 py-1.5 text-sm rounded ${
-                                        showOriginal ? 'bg-blue-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'
-                                    } ${hasChanged ? 'ring-2 ring-amber-500' : ''}`}
-                                >
-                                    Original
-                                </button>
-                            )}
-                            {crossCompare && (
-                                <button
-                                    onClick={() => setOverlayMode(overlayMode === 'compare' ? 'none' : 'compare')}
-                                    class={`px-3 py-1.5 text-sm rounded ${
-                                        showCompare ? 'bg-teal-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'
-                                    } ${hasCompareDiff ? 'ring-2 ring-teal-500' : ''}`}
-                                >
-                                    Compare
-                                </button>
-                            )}
-                        </div>
-                    )}
+                                        }
+                                        setTableData(originalTableData.map(row => [...row]));
+                                        if (originalXAxis) setXAxisData([...originalXAxis]);
+                                        if (originalYAxis) setYAxisData([...originalYAxis]);
+                                        onModify();
+                                    }}>
+                                Revert
+                            </button>}
+                        {originalBinData && (
+                            <button
+                                onClick={() => setShowOriginalTable(!showOriginalTable)}
+                                class={`px-3 py-1.5 text-sm rounded ${
+                                    showOriginal ? 'bg-blue-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'
+                                } ${hasChanged ? 'ring-2 ring-amber-500' : ''}`}
+                            >
+                                Original
+                            </button>
+                        )}
+                        {crossCompare && (
+                            <button
+                                onClick={() => setShowCompareTable(!showCompareTable)}
+                                class={`px-3 py-1.5 text-sm rounded ${
+                                    showCompare ? 'bg-teal-600 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600'
+                                } ${hasCompareDiff ? 'ring-2 ring-teal-500' : ''}`}
+                            >
+                                Compare
+                            </button>
+                        )}
+                    </div>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-4 p-3 bg-zinc-200 dark:bg-zinc-800 rounded text-xs text-zinc-600 dark:text-zinc-400">
@@ -1724,11 +1714,9 @@ function TableEditor({
                 <CurveGraph
                     xData={xAxisData.length > 0 ? xAxisData : Array.from({length: tableData[0].length}, (_, i) => i)}
                     yData={tableData[0]}
-                    originalYData={showOriginal && originalTableData ? originalTableData[0] : null}
-                    showOriginal={showOriginal}
+                    originalYData={originalTableData ? originalTableData[0] : null}
                     compareYData={compareTableData ? compareTableData[0] : null}
                     compareXData={compareXAxis}
-                    showCompare={showCompare}
                     xUnit={parameter.xAxis?.unit || 'X'}
                     yUnit={parameter.unit || 'Y'}
                 />
@@ -1741,11 +1729,9 @@ function TableEditor({
                     yData={yAxisData.length > 0 ? yAxisData : Array.from({length: tableData.length}, (_, i) => i)}
                     zData={tableData}
                     originalZData={originalTableData}
-                    showOriginal={showOriginal}
                     compareZData={compareTableData}
                     compareXData={compareXAxis}
                     compareYData={compareYAxis}
-                    showCompare={showCompare}
                     xUnit={parameter.xAxis?.unit || 'X'}
                     yUnit={parameter.yAxis?.unit || 'Y'}
                     zUnit={parameter.unit || 'Z'}
