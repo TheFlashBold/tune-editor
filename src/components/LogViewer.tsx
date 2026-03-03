@@ -1,5 +1,5 @@
-import { useState, useMemo, useRef, useEffect } from 'preact/hooks';
-import { createPortal } from 'preact/compat';
+import {useState, useMemo, useRef, useEffect} from 'preact/hooks';
+import {createPortal} from 'preact/compat';
 
 // Left axis: warm colors (dark mode)
 const COLORS_LEFT_DARK = [
@@ -70,8 +70,8 @@ interface CSVViewerProps {
     text: string;
 }
 
-function CSVViewer({ text }: CSVViewerProps) {
-    const { COLORS_LEFT, COLORS_RIGHT } = useChartColors();
+function CSVViewer({text}: CSVViewerProps) {
+    const {COLORS_LEFT, COLORS_RIGHT} = useChartColors();
     const [index, setIndex] = useState<number>(0);
     const [showFields, setShowFields] = useState<string[]>([]);
     const [zoom, setZoom] = useState<number>(1);
@@ -82,9 +82,9 @@ function CSVViewer({ text }: CSVViewerProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const [initialized, setInitialized] = useState(false);
 
-    const { fields, data } = useMemo(() => {
+    const {fields, data} = useMemo(() => {
         const lines = text.split("\n").filter(line => line.trim());
-        if (lines.length === 0) return { fields: [], data: [] };
+        if (lines.length === 0) return {fields: [], data: []};
 
         const [header, ...dataLines] = lines;
         const fields = header.split(",").map((field) => field.trim());
@@ -96,7 +96,7 @@ function CSVViewer({ text }: CSVViewerProps) {
             })
         );
 
-        return { fields, data };
+        return {fields, data};
     }, [text]);
 
     // Auto-select some fields on first load
@@ -132,7 +132,7 @@ function CSVViewer({ text }: CSVViewerProps) {
     }, [fields]);
 
     // Calculate min/max for each field and determine axis grouping
-    const { leftAxis, rightAxis, fieldToAxis } = useMemo(() => {
+    const {leftAxis, rightAxis, fieldToAxis} = useMemo(() => {
         const fieldRanges: { field: string; min: number; max: number }[] = [];
 
         showFields.forEach((field) => {
@@ -148,15 +148,15 @@ function CSVViewer({ text }: CSVViewerProps) {
                     }
                 });
                 if (min !== Infinity && max !== -Infinity) {
-                    fieldRanges.push({ field, min, max });
+                    fieldRanges.push({field, min, max});
                 }
             }
         });
 
         if (fieldRanges.length === 0) {
             return {
-                leftAxis: { min: 0, max: 100, fields: [] as string[] },
-                rightAxis: { min: 0, max: 100, fields: [] as string[] },
+                leftAxis: {min: 0, max: 100, fields: [] as string[]},
+                rightAxis: {min: 0, max: 100, fields: [] as string[]},
                 fieldToAxis: {} as Record<string, 'left' | 'right'>
             };
         }
@@ -203,10 +203,13 @@ function CSVViewer({ text }: CSVViewerProps) {
         }
 
         const calcAxis = (ranges: typeof fieldRanges) => {
-            if (ranges.length === 0) return { min: 0, max: 100, fields: [] as string[] };
+            if (ranges.length === 0) return {min: 0, max: 100, fields: [] as string[]};
             let min = Math.min(...ranges.map(r => r.min));
             let max = Math.max(...ranges.map(r => r.max));
-            if (min === max) { min -= 1; max += 1; }
+            if (min === max) {
+                min -= 1;
+                max += 1;
+            }
             const range = max - min;
             const padding = range * 0.05;
             return {
@@ -224,10 +227,10 @@ function CSVViewer({ text }: CSVViewerProps) {
     }, [data, fields, showFields]);
 
     // Combined min/max for preview
-    const { min, max } = useMemo(() => {
+    const {min, max} = useMemo(() => {
         const allMin = Math.min(leftAxis.min, rightAxis.fields.length > 0 ? rightAxis.min : leftAxis.min);
         const allMax = Math.max(leftAxis.max, rightAxis.fields.length > 0 ? rightAxis.max : leftAxis.max);
-        return { min: allMin, max: allMax };
+        return {min: allMin, max: allMax};
     }, [leftAxis, rightAxis]);
 
     // Get color for a field based on its axis
@@ -298,8 +301,14 @@ function CSVViewer({ text }: CSVViewerProps) {
                 let minVal = values[bStart], maxVal = values[bStart];
                 let minIdx = bStart, maxIdx = bStart;
                 for (let i = bStart + 1; i <= bEnd; i++) {
-                    if (values[i] < minVal) { minVal = values[i]; minIdx = i; }
-                    if (values[i] > maxVal) { maxVal = values[i]; maxIdx = i; }
+                    if (values[i] < minVal) {
+                        minVal = values[i];
+                        minIdx = i;
+                    }
+                    if (values[i] > maxVal) {
+                        maxVal = values[i];
+                        maxIdx = i;
+                    }
                 }
                 // Emit min and max in index order to preserve shape
                 if (minIdx <= maxIdx) {
@@ -460,7 +469,14 @@ function CSVViewer({ text }: CSVViewerProps) {
     }, [isDraggingPreview, visibleDataPoints, data.length]);
 
     // Touch handling for chart zoom/pan
-    const touchRef = useRef<{ startX: number; startY: number; startZoom: number; startScroll: number; startDist: number; isTwoFinger: boolean } | null>(null);
+    const touchRef = useRef<{
+        startX: number;
+        startY: number;
+        startZoom: number;
+        startScroll: number;
+        startDist: number;
+        isTwoFinger: boolean
+    } | null>(null);
 
     function onTouchStart(e: TouchEvent) {
         if (e.touches.length === 1) {
@@ -554,7 +570,10 @@ function CSVViewer({ text }: CSVViewerProps) {
         return labels.reverse();
     }, [rightAxis]);
 
-    function exportCsv(startIdx: number, endIdx: number) {
+    function exportCurrentView() {
+        const startIdx = Math.max(0, Math.floor(scrollOffset));
+        const endIdx = Math.min(data.length - 1, Math.floor(scrollOffset + visibleDataPoints));
+
         const exportFields: string[] = [];
         const exportIndices: number[] = [];
         if (timeColumnIndex !== -1 && !showFields.includes(fields[timeColumnIndex])) {
@@ -583,11 +602,22 @@ function CSVViewer({ text }: CSVViewerProps) {
         URL.revokeObjectURL(url);
     }
 
-    function exportCurrentView() {
-        exportCsv(
-            Math.max(0, Math.floor(scrollOffset)),
-            Math.min(data.length - 1, Math.floor(scrollOffset + visibleDataPoints))
-        );
+    function exportCurrentViewAllParams() {
+        const startIdx = Math.max(0, Math.floor(scrollOffset));
+        const endIdx = Math.min(data.length - 1, Math.floor(scrollOffset + visibleDataPoints));
+
+        const lines = [fields.join(',')];
+        for (let i = startIdx; i <= endIdx; i++) {
+            lines.push(fields.map((_, fi) => data[i][fi] ?? 0).join(','));
+        }
+
+        const blob = new Blob([lines.join('\n')], {type: 'text/csv'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `log_export_${startIdx}-${endIdx}_all.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
     }
 
     if (data.length === 0) {
@@ -621,10 +651,10 @@ function CSVViewer({ text }: CSVViewerProps) {
                                 Export current view
                             </button>
                             <button
-                                onClick={() => exportCsv(0, data.length - 1)}
+                                onClick={exportCurrentViewAllParams}
                                 class="px-3 py-1 text-xs font-medium rounded bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-400 dark:hover:bg-zinc-500 cursor-pointer"
                             >
-                                Export all
+                                Export current view (all parameters)
                             </button>
                         </>
                     )}
@@ -638,7 +668,7 @@ function CSVViewer({ text }: CSVViewerProps) {
                                 <div
                                     key={field}
                                     class="w-3 h-1 rounded-sm"
-                                    style={{ backgroundColor: getFieldColor(field) }}
+                                    style={{backgroundColor: getFieldColor(field)}}
                                     title={field}
                                 />
                             ))}
@@ -654,7 +684,7 @@ function CSVViewer({ text }: CSVViewerProps) {
                     <div
                         ref={containerRef}
                         class="flex-1 overflow-x-auto overflow-y-hidden border border-zinc-400 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 rounded"
-                        style={{ touchAction: 'none' }}
+                        style={{touchAction: 'none'}}
                         onWheel={onWheel}
                         onTouchStart={onTouchStart}
                         onTouchMove={onTouchMove}
@@ -703,7 +733,7 @@ function CSVViewer({ text }: CSVViewerProps) {
                                     <div
                                         key={field}
                                         class="w-3 h-1 rounded-sm"
-                                        style={{ backgroundColor: getFieldColor(field) }}
+                                        style={{backgroundColor: getFieldColor(field)}}
                                         title={field}
                                     />
                                 ))}
@@ -819,7 +849,7 @@ function CSVViewer({ text }: CSVViewerProps) {
                         const fieldIndex = fields.indexOf(field);
                         const value = data[Math.floor(index)]?.[fieldIndex];
                         return (
-                            <div key={field} style={{ color: getFieldColor(field) }}>
+                            <div key={field} style={{color: getFieldColor(field)}}>
                                 {field}: {value?.toFixed(2) ?? "N/A"}
                             </div>
                         );
@@ -836,10 +866,10 @@ interface LogViewerProps {
     initialData?: string | null;
 }
 
-export function LogViewer({ onClose, initialData }: LogViewerProps) {
+export function LogViewer({onClose, initialData}: LogViewerProps) {
     const [files, setFiles] = useState<{ name: string; content: string }[]>(() => {
         if (initialData) {
-            return [{ name: 'BLE Log', content: initialData }];
+            return [{name: 'BLE Log', content: initialData}];
         }
         return [];
     });
@@ -862,12 +892,14 @@ export function LogViewer({ onClose, initialData }: LogViewerProps) {
 
     return (
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-            <div class="bg-zinc-100 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-600 rounded-lg shadow-xl w-[95vw] h-[90vh] flex flex-col">
+            <div
+                class="bg-zinc-100 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-600 rounded-lg shadow-xl w-[95vw] h-[90vh] flex flex-col">
                 {/* Header */}
                 <div class="flex justify-between items-center px-4 py-3 border-b border-zinc-300 dark:border-zinc-700">
                     <div class="flex items-center gap-4">
                         <h2 class="text-lg font-semibold">Log Viewer</h2>
-                        <label class="px-3 py-1.5 text-sm bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 rounded cursor-pointer transition-colors">
+                        <label
+                            class="px-3 py-1.5 text-sm bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 rounded cursor-pointer transition-colors">
                             Open CSV...
                             <input
                                 type="file"
@@ -910,13 +942,14 @@ export function LogViewer({ onClose, initialData }: LogViewerProps) {
                     {files.length === 0 ? (
                         <div class="flex flex-col items-center justify-center h-full text-zinc-500">
                             <svg class="w-16 h-16 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
                             <p class="text-lg">No log files loaded</p>
                             <p class="text-sm mt-1">Click "Open CSV..." to load datalog files</p>
                         </div>
                     ) : (
-                        <CSVViewer text={files[activeIndex].content} />
+                        <CSVViewer text={files[activeIndex].content}/>
                     )}
                 </div>
             </div>
