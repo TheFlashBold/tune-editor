@@ -188,6 +188,7 @@ export function useAppState(): IAppContext {
         const buffer = await file.arrayBuffer();
         setOriginalBinData(new Uint8Array(buffer));
         setOriginalBinFileName(file.name);
+        track('Load Original');
     }, []);
 
     const loadCrossCompareBin = useCallback(async (file: File) => {

@@ -18,6 +18,7 @@
     "@types/web-bluetooth": "^0.0.21",
     "tailwindcss": "^4.1.18",
     "typescript": "~5.9.3",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vite-plugin-pwa": "^1.2.0"
   }
 }

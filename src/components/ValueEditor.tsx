@@ -143,6 +143,7 @@ function ScalarEditor(props: IValueEditorProps) {
                                             writeParameterValue(binData, parameter, originalValue, calOffset, baseAddress, bigEndian);
                                             setValue(originalValue);
                                             onModify();
+                                            track('Revert Parameter', {type: 'Scalar', name: parameter.name});
                                         }
                                     }}
                                     class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600"
@@ -1430,6 +1431,8 @@ function TableEditor({
                                         if (originalXAxis) setXAxisData([...originalXAxis]);
                                         if (originalYAxis) setYAxisData([...originalYAxis]);
                                         onModify();
+                                        const type = parameter.type === 'CURVE' ? '1D' : '2D';
+                                        track('Revert Parameter', {type, name: parameter.name});
                                     }}>
                                 Revert
                             </button>}
