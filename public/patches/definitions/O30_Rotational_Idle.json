@@ -1,0 +1,98 @@
+{
+  "name": "SC8O30",
+  "version": "1.0",
+  "baseAddress": 0,
+  "parameters": [
+    {
+      "name": "Rotation enable Slot 0",
+      "description": "Enable rotational idle for switch patch slot 0. Set to 1 to enable.",
+      "address": 2614902,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": ["Rotational Idle"]
+    },
+    {
+      "name": "Rotation enable Slot 1",
+      "description": "Enable rotational idle for switch patch slot 1. Set to 1 to enable.",
+      "address": 2614903,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": ["Rotational Idle"]
+    },
+    {
+      "name": "Rotation enable Slot 2",
+      "description": "Enable rotational idle for switch patch slot 2. Set to 1 to enable.",
+      "address": 2614904,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": ["Rotational Idle"]
+    },
+    {
+      "name": "Rotation enable Slot 3",
+      "description": "Enable rotational idle for switch patch slot 3. Set to 1 to enable.",
+      "address": 2614905,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": ["Rotational Idle"]
+    },
+    {
+      "name": "Rotation enable Slot 4",
+      "description": "Enable rotational idle for switch patch slot 4. Set to 1 to enable.",
+      "address": 2614906,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1,
+      "offset": 0,
+      "categories": ["Rotational Idle"]
+    },
+    {
+      "name": "Retard amount",
+      "description": "Ignition retard applied to the active cylinder. Default -20°.",
+      "address": 2614908,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "°",
+      "min": -95.625,
+      "max": 0,
+      "factor": -0.375,
+      "offset": 0,
+      "categories": ["Rotational Idle"]
+    },
+    {
+      "name": "RPM threshold",
+      "description": "Maximum RPM for rotational idle activation, in RPM/32 units. Default 38 ≈ 1216 RPM.",
+      "address": 2614909,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "rpm",
+      "min": 0,
+      "max": 8160,
+      "factor": 32,
+      "offset": 0,
+      "categories": ["Rotational Idle"]
+    }
+  ]
+}
