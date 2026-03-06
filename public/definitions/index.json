@@ -3,7 +3,7 @@
     "name": "F40M",
     "file": "0D9300040J_4027_F40M_DQ250.json",
     "verification": {
-      "calOffset": -65536,
+      "calOffset": 0,
       "expected": "F40M"
     },
     "paramCount": 109

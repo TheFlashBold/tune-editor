@@ -1,5 +1,6 @@
 import {useState, useMemo, useRef, useEffect} from 'preact/hooks';
 import {createPortal} from 'preact/compat';
+import {track} from '../lib/track';
 
 // Left axis: warm colors (dark mode)
 const COLORS_LEFT_DARK = [
@@ -883,6 +884,9 @@ export function LogViewer({onClose, initialData}: LogViewerProps) {
         setFiles(loaded);
         setActiveIndex(0);
         input.value = '';
+        const firstHeader = loaded[0]?.content.split('\n')[0] ?? '';
+        const pids = firstHeader.split(',').filter(s => s.trim()).length;
+        track('Load Log File', {count: loaded.length, pids});
     }
 
     return (

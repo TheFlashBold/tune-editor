@@ -269,10 +269,10 @@ export function detectBinaryMode(
         // DSG bins - use calOffset from definition (can be negative for bins with data offset)
         const dsgMatch = findDsgEpk(data, expected);
         if (dsgMatch) {
-            return {mode: 'cal', calOffset: calOffset, valid: true, found: dsgMatch.found};
+            return {mode: 'full', calOffset: calOffset, valid: true, found: dsgMatch.found};
         }
         // Fallback: assume DSG bin, use definition's calOffset
-        return {mode: 'cal', calOffset: calOffset, valid: false, found: ''};
+        return {mode: 'full', calOffset: calOffset, valid: false, found: ''};
     }
 
     // ECU (Simos) detection

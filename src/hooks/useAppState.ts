@@ -168,13 +168,14 @@ export function useAppState(): IAppContext {
                 const def = await loadDefinition(match.entry.file);
                 setDefinition(def);
                 setDetectedMode(match.mode);
-                const defOffset = def.offset ?? match.entry.verification?.calOffset ?? 0;
-                setCalOffset(match.mode === 'cal' ? defOffset : 0);
+                setCalOffset(match.calOffset);
                 setSelectedParam(null);
                 loadedDef = def;
                 track('Definition Matched', {name: def.name, mode: match.mode});
             } else if (matches.length > 1) {
                 setDefinitionMatches(matches);
+            } else {
+                track('No Definition Match', {size: data.length});
             }
         } catch (err) {
             console.error('Definition auto-detect failed:', err);
@@ -204,8 +205,7 @@ export function useAppState(): IAppContext {
             const def = await loadDefinition(match.entry.file);
             newBin.definition = def;
             newBin.type = match.mode === 'cal' ? 'CAL' : 'FULL';
-            const defOffset = def.offset ?? match.entry.verification?.calOffset ?? 0;
-            newBin.calOffset = match.mode === 'cal' ? defOffset : 0;
+            newBin.calOffset = match.calOffset;
         }
 
         setCrossCompareBin(newBin);
@@ -224,8 +224,7 @@ export function useAppState(): IAppContext {
         if (def.verification) {
             const result = detectBinaryMode(binData, def.verification);
             setDetectedMode(result.mode);
-            const defOffset = def.offset ?? def.verification.calOffset ?? 0;
-            setCalOffset(result.mode === 'cal' ? defOffset : 0);
+            setCalOffset(result.calOffset);
         } else {
             setCalOffset(def.offset ?? 0);
             setDetectedMode(null);
@@ -331,14 +330,18 @@ export function useAppState(): IAppContext {
             const def = await loadDefinition(entry.file);
             setDefinition(def);
             setDetectedMode(mode);
-            const defOffset = def.offset ?? entry.verification?.calOffset ?? 0;
-            setCalOffset(mode === 'cal' ? defOffset : 0);
+            if (binData && def.verification) {
+                const result = detectBinaryMode(binData, def.verification);
+                setCalOffset(result.calOffset);
+            } else {
+                setCalOffset(def.offset ?? entry.verification?.calOffset ?? 0);
+            }
             setSelectedParam(null);
             setDefinitionMatches([]);
         } catch (err) {
             console.error('Failed to load definition:', err);
         }
-    }, []);
+    }, [binData]);
 
     const searchDefinitions = useCallback(async () => {
         if (!binData) return {matches: [] as { entry: DefinitionIndexEntry; mode: BinaryMode }[], all: [] as DefinitionIndexEntry[]};

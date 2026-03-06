@@ -49,8 +49,6 @@
   { "name": "SL CBRICK v1.2 - V30", "file": "SL_CBRICK_v1.2_-_V30.btp", "category": "CBRICK", "variant": "V30" },
   { "name": "SL CBRICK v1.2 - V32", "file": "SL_CBRICK_v1.2_-_V32.btp", "category": "CBRICK", "variant": "V32" },
 
-  { "name": "Rotational Idle v1.0 - O30", "file": "Rotational_Idle_-_O30.btp", "definition": "O30_Rotational_Idle.json", "category": "Rotational Idle", "variant": "O30" },
-
   { "name": "FREE SAP - A05", "file": "FREE_SAP_-_A05.btp", "category": "FREE SAP", "variant": "A05" },
   { "name": "FREE SAP - O30", "file": "FREE_SAP_-_O30.btp", "category": "FREE SAP", "variant": "O30" },
   { "name": "FREE SAP - S50", "file": "FREE_SAP_-_S50.btp", "category": "FREE SAP", "variant": "S50" },

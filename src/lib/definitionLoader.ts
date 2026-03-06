@@ -31,9 +31,9 @@ export async function loadDefinitionIndex(): Promise<DefinitionIndexEntry[]> {
  */
 export async function findMatchingDefinitions(
     binData: Uint8Array
-): Promise<{ entry: DefinitionIndexEntry; mode: 'full' | 'cal'; confidence: 'exact' | 'partial' }[]> {
+): Promise<{ entry: DefinitionIndexEntry; mode: 'full' | 'cal'; calOffset: number; confidence: 'exact' | 'partial' }[]> {
     const index = await loadDefinitionIndex();
-    const matches: { entry: DefinitionIndexEntry; mode: 'full' | 'cal'; confidence: 'exact' | 'partial' }[] = [];
+    const matches: { entry: DefinitionIndexEntry; mode: 'full' | 'cal'; calOffset: number; confidence: 'exact' | 'partial' }[] = [];
 
     for (const entry of index) {
         const result = detectBinaryMode(binData, entry.verification);
@@ -42,6 +42,7 @@ export async function findMatchingDefinitions(
             matches.push({
                 entry,
                 mode: result.mode,
+                calOffset: result.calOffset,
                 confidence: 'exact'
             });
         }
