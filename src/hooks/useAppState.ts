@@ -433,6 +433,112 @@ export function useAppState(): IAppContext {
         return diffs;
     }, [definition, binData, originalBinData, calOffset]);
 
+    // Calculate differences between current bin and cross-compare bin
+    const crossCompareDiffs = useMemo((): ParamDiff[] => {
+        if (!definition || !binData || !crossCompareBin?.data || !crossCompareBin.definition) return [];
+
+        const diffs: ParamDiff[] = [];
+        const curBaseAddress = definition.baseAddress ?? 0xa0000000;
+        const curBigEndian = definition.bigEndian ?? false;
+        const ccDef = crossCompareBin.definition;
+        const ccCalOffset = crossCompareBin.calOffset ?? 0;
+        const ccBaseAddress = ccDef.baseAddress ?? 0xa0000000;
+        const ccBigEndian = ccDef.bigEndian ?? false;
+
+        // Build lookup of cross-compare params by lowercase name
+        const ccParamMap = new Map<string, IDefinitionParameter>();
+        for (const p of ccDef.parameters) {
+            ccParamMap.set(p.name.toLowerCase(), p);
+        }
+
+        for (const param of definition.parameters) {
+            const ccParam = ccParamMap.get(param.name.toLowerCase());
+            if (!ccParam) continue;
+
+            // For tables, dimensions must match
+            if (param.type !== 'VALUE') {
+                if ((ccParam.rows || 1) !== (param.rows || 1) ||
+                    (ccParam.cols || 1) !== (param.cols || 1)) continue;
+            }
+
+            if (param.type === 'VALUE') {
+                const currentValue = readParameterValue(binData, param, calOffset, curBaseAddress, curBigEndian);
+                const ccValue = readParameterValue(crossCompareBin.data, ccParam, ccCalOffset, ccBaseAddress, ccBigEndian);
+                if (Math.abs(ccValue - currentValue) > 0.0001) {
+                    diffs.push({param, originalValue: ccValue, currentValue});
+                }
+            } else {
+                const currentTable = readTableData(binData, param, calOffset, curBaseAddress, curBigEndian);
+                const ccTable = readTableData(crossCompareBin.data, ccParam, ccCalOffset, ccBaseAddress, ccBigEndian);
+                const cellDiffs: CellDiff[] = [];
+
+                for (let r = 0; r < currentTable.length; r++) {
+                    for (let c = 0; c < currentTable[r].length; c++) {
+                        if (Math.abs(ccTable[r][c] - currentTable[r][c]) > 0.0001) {
+                            cellDiffs.push({
+                                row: r,
+                                col: c,
+                                original: ccTable[r][c],
+                                current: currentTable[r][c],
+                            });
+                        }
+                    }
+                }
+
+                const axisDiffs: AxisDiff[] = [];
+
+                if (param.xAxis?.address && ccParam.xAxis?.address) {
+                    const currentXAxis = readAxisData(binData, param.xAxis, calOffset, curBaseAddress, curBigEndian);
+                    const ccXAxis = readAxisData(crossCompareBin.data, ccParam.xAxis, ccCalOffset, ccBaseAddress, ccBigEndian);
+                    if (currentXAxis.length === ccXAxis.length) {
+                        const changedIndices: number[] = [];
+                        for (let i = 0; i < currentXAxis.length; i++) {
+                            if (Math.abs(ccXAxis[i] - currentXAxis[i]) > 0.0001) {
+                                changedIndices.push(i);
+                            }
+                        }
+                        if (changedIndices.length > 0) {
+                            axisDiffs.push({axis: 'x', original: ccXAxis, current: currentXAxis, changedIndices});
+                        }
+                    }
+                }
+
+                if (param.yAxis?.address && ccParam.yAxis?.address) {
+                    const currentYAxis = readAxisData(binData, param.yAxis, calOffset, curBaseAddress, curBigEndian);
+                    const ccYAxis = readAxisData(crossCompareBin.data, ccParam.yAxis, ccCalOffset, ccBaseAddress, ccBigEndian);
+                    if (currentYAxis.length === ccYAxis.length) {
+                        const changedIndices: number[] = [];
+                        for (let i = 0; i < currentYAxis.length; i++) {
+                            if (Math.abs(ccYAxis[i] - currentYAxis[i]) > 0.0001) {
+                                changedIndices.push(i);
+                            }
+                        }
+                        if (changedIndices.length > 0) {
+                            axisDiffs.push({axis: 'y', original: ccYAxis, current: currentYAxis, changedIndices});
+                        }
+                    }
+                }
+
+                if (cellDiffs.length > 0 || axisDiffs.length > 0) {
+                    const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset, curBaseAddress, curBigEndian) : undefined;
+                    const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset, curBaseAddress, curBigEndian) : undefined;
+
+                    diffs.push({
+                        param,
+                        originalValue: ccTable,
+                        currentValue: currentTable,
+                        cellDiffs,
+                        axisDiffs,
+                        xAxis,
+                        yAxis,
+                    });
+                }
+            }
+        }
+
+        return diffs;
+    }, [definition, binData, crossCompareBin, calOffset]);
+
     return {
         bin,
         originalBin,
@@ -449,6 +555,7 @@ export function useAppState(): IAppContext {
         setAllDefinitions,
         clearDefinitionMatches,
         changes,
+        crossCompareDiffs,
         loadBin,
         loadOriginalBin,
         loadCrossCompareBin,

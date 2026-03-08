@@ -12,6 +12,7 @@ interface MenuBarProps {
     onShowDefinitions: (defs: any[]) => void;
     onShowPatchManager: () => void;
     onShowChanges: () => void;
+    onShowCrossCompare: () => void;
 }
 
 export function MenuBar({
@@ -23,6 +24,7 @@ export function MenuBar({
     onShowDefinitions,
     onShowPatchManager,
     onShowChanges,
+    onShowCrossCompare,
 }: MenuBarProps) {
     const ctx = useAppContext();
     const [showFileMenu, setShowFileMenu] = useState(false);
@@ -244,6 +246,15 @@ export function MenuBar({
                     className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
                 >
                     Changes ({ctx.changes.length})
+                </button>
+            )}
+
+            {ctx.crossCompareBin && ctx.bin && (
+                <button
+                    onClick={onShowCrossCompare}
+                    className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
+                >
+                    Cross-Compare ({ctx.crossCompareDiffs.length})
                 </button>
             )}
 

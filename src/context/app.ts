@@ -31,6 +31,7 @@ export interface IAppContext {
 
     // Computed
     changes: ParamDiff[];
+    crossCompareDiffs: ParamDiff[];
 
     // Actions
     loadBin: (file: File) => Promise<void>;

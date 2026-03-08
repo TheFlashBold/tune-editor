@@ -13,6 +13,7 @@ import {Sidebar} from './components/Sidebar';
 import {MainArea} from './components/MainArea';
 import {SettingsModal} from './components/SettingsModal';
 import {ChangesModal} from './components/ChangesModal';
+import {CrossCompareModal} from './components/CrossCompareModal';
 import {DefinitionPickerModal} from './components/DefinitionPickerModal';
 import {AppContext} from './context/app';
 import {useAppState} from './hooks/useAppState';
@@ -49,6 +50,7 @@ export function App() {
     const [showBLEConnector, setShowBLEConnector] = useState(false);
     const [showDefinitions, setShowDefinitions] = useState(false);
     const [showChanges, setShowChanges] = useState(false);
+    const [showCrossCompare, setShowCrossCompare] = useState(false);
     const [showPatchManager, setShowPatchManager] = useState(false);
     const [logViewerData, setLogViewerData] = useState<string | null>(null);
 
@@ -129,6 +131,7 @@ export function App() {
                     }}
                     onShowPatchManager={() => setShowPatchManager(true)}
                     onShowChanges={() => setShowChanges(true)}
+                    onShowCrossCompare={() => setShowCrossCompare(true)}
                 />
                 <div class="flex flex-1 overflow-hidden">
                     <Sidebar/>
@@ -176,6 +179,11 @@ export function App() {
                 {/* Changes Modal */}
                 {showChanges && (
                     <ChangesModal onClose={() => setShowChanges(false)}/>
+                )}
+
+                {/* Cross-Compare Modal */}
+                {showCrossCompare && (
+                    <CrossCompareModal onClose={() => setShowCrossCompare(false)}/>
                 )}
 
                 {/* Settings Modal */}
