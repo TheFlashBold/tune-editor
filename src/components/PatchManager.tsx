@@ -169,7 +169,9 @@ export function PatchManager({
 
             if (toApply.length > 0) {
                 onModify();
-                track('Apply Patches', {count: toApply.length});
+                for (const p of toApply) {
+                    track('Apply Patch', {name: p.name, category: p.category || '', file: p.file});
+                }
             }
 
             // Re-check all patch statuses (block-aware)
@@ -224,6 +226,9 @@ export function PatchManager({
 
             if (toRemove.length > 0) {
                 onModify();
+                for (const p of toRemove) {
+                    track('Remove Patch', {name: p.name, category: p.category || '', file: p.file});
+                }
             }
 
             // Re-check all patch statuses (block-aware)

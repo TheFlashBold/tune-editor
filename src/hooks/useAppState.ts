@@ -132,6 +132,18 @@ export function useAppState(): IAppContext {
 
             setPatchResults(results);
 
+            // Track detected patches
+            const applied = results.filter(r => r.status === 'applied');
+            const ready = results.filter(r => r.status === 'ready');
+            if (applied.length > 0 || ready.length > 0) {
+                track('Detect Patches', {
+                    applied: applied.map(p => p.name).join(', '),
+                    ready: ready.map(p => p.name).join(', '),
+                    appliedCount: applied.length,
+                    readyCount: ready.length,
+                });
+            }
+
             // Auto-load definitions for applied patches
             const appliedWithDef = results.filter(r => r.status === 'applied' && r.definition);
             if (appliedWithDef.length > 0 && currentDef) {
