@@ -55,6 +55,7 @@ export function useAppState(): IAppContext {
     const [patchResults, setPatchResults] = useState<PatchCheckResult[]>([]);
     const [definitionMatches, setDefinitionMatches] = useState<{ entry: DefinitionIndexEntry; mode: BinaryMode }[]>([]);
     const [allDefinitions, setAllDefinitions] = useState<DefinitionIndexEntry[]>([]);
+    const [customDefinition, setCustomDefinition] = useState(false);
 
     // Derived
     const baseAddress = definition?.baseAddress ?? 0xa0000000;
@@ -165,11 +166,12 @@ export function useAppState(): IAppContext {
 
     const loadBin = useCallback(async (file: File) => {
         const {data, displayName} = await parseFileData(file);
+        const fileType = isS19File(file.name) ? 's19' : isHexFile(file.name) ? 'hex' : 'bin';
 
         setBinData(data);
         setBinFileName(displayName);
         setModified(false);
-        track('Load BIN', {size: data.length});
+        track('Load BIN', {size: data.length, type: fileType});
 
         // Auto-detect definition
         let loadedDef: Definition | null = null;
@@ -179,6 +181,7 @@ export function useAppState(): IAppContext {
                 const match = matches[0];
                 const def = await loadDefinition(match.entry.file);
                 setDefinition(def);
+                setCustomDefinition(false);
                 setDetectedMode(match.mode);
                 setCalOffset(match.calOffset);
                 setSelectedParam(null);
@@ -221,13 +224,14 @@ export function useAppState(): IAppContext {
         }
 
         setCrossCompareBin(newBin);
-        track('Load Cross-Compare');
+        track('Load Cross-Compare', {definition: newBin.definition?.name ?? ''});
     }, []);
 
     // Set definition from external source (XDF drop, JSON drop, converter, browser)
     // Recalculates calOffset based on loaded bin
     const setExternalDefinition = useCallback((def: Definition | null) => {
         setDefinition(def);
+        setCustomDefinition(true);
         if (!def || !binData) {
             setCalOffset(0);
             setDetectedMode(null);
@@ -248,6 +252,7 @@ export function useAppState(): IAppContext {
         const def = JSON.parse(text) as Definition;
         setExternalDefinition(def);
         setSelectedParam(null);
+        track('Load Definition', {name: 'Custom'});
     }, [setExternalDefinition]);
 
     const getParamByteRanges = useCallback((): { offset: number; length: number }[] => {
@@ -311,8 +316,8 @@ export function useAppState(): IAppContext {
         a.click();
         URL.revokeObjectURL(url);
         setModified(false);
-        track('Save BIN');
-    }, [binData, binFileName]);
+        track('Save BIN', {definition: customDefinition ? 'Custom' : (definition?.name ?? '')});
+    }, [binData, binFileName, definition, customDefinition]);
 
     const exportBtp = useCallback(() => {
         if (!binData || !originalBinData || !definition) return;
@@ -341,6 +346,7 @@ export function useAppState(): IAppContext {
         try {
             const def = await loadDefinition(entry.file);
             setDefinition(def);
+            setCustomDefinition(false);
             setDetectedMode(mode);
             if (binData && def.verification) {
                 const result = detectBinaryMode(binData, def.verification);

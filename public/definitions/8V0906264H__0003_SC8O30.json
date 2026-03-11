@@ -67766,7 +67766,7 @@
       "factor": 6.103515625e-05,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Anti Tramp"
       ],
       "cols": 11,
       "rows": 7,
@@ -67850,7 +67850,7 @@
       "factor": 6.103515625e-05,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Anti Tramp"
       ],
       "cols": 11,
       "rows": 7,
@@ -67888,7 +67888,7 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Anti Tramp"
       ],
       "cols": 8,
       "xAxis": {
@@ -67938,7 +67938,7 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Anti Tramp"
       ],
       "cols": 8,
       "xAxis": {
@@ -67965,7 +67965,7 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Anti Tramp"
       ],
       "cols": 8,
       "xAxis": {
@@ -67992,7 +67992,7 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Anti Tramp"
       ],
       "cols": 8,
       "xAxis": {
@@ -548514,7 +548514,7 @@
       "factor": 0.000976562500038148,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel","Lambda Control"
       ],
       "cols": 12,
       "rows": 8,
@@ -548552,7 +548552,7 @@
       "factor": 0.000976562500038148,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel", "Lambda Control"
       ],
       "cols": 12,
       "rows": 8,

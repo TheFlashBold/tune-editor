@@ -70,7 +70,7 @@ export function App() {
         appState.setSelectedParam(null);
         setShowConverter(false);
         setShowXdfConverter(false);
-        track('Load Definition', {name: def.name});
+        track('Load Definition', {name: 'Custom'});
     }, [appState]);
 
     // Global drag & drop — routes by file type
@@ -93,6 +93,10 @@ export function App() {
             await appState.loadBin(file);
         } else if (type === 'csv') {
             const text = await file.text();
+            const firstHeader = text.split('\n')[0] ?? '';
+            const pids = firstHeader.split(',').filter(s => s.trim()).length;
+            track('Load Log File', {count: text.length, pids});
+
             setLogViewerData(text);
             setShowLogViewer(true);
         }
