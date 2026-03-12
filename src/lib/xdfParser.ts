@@ -93,6 +93,7 @@ interface ParsedAxis {
     offset: number;
     min: number;
     max: number;
+    formula?: RationalFormula;
     embedded: boolean;
     points?: number;
 }
