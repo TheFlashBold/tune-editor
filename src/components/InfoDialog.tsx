@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'preact/hooks';
 import {Modal} from './Modal';
+import {track} from '../lib/track';
 
 const APP_VERSION = __APP_VERSION__;
 const STORAGE_KEY = 'tune-editor-seen-version';
@@ -63,7 +64,6 @@ const changelog: ChangelogEntry[] = [
 
 export function InfoDialog() {
     const [visible, setVisible] = useState(false);
-
     useEffect(() => {
         const seen = localStorage.getItem(STORAGE_KEY);
         if (seen !== APP_VERSION) {
@@ -74,6 +74,10 @@ export function InfoDialog() {
     const dismiss = () => {
         localStorage.setItem(STORAGE_KEY, APP_VERSION);
         setVisible(false);
+
+        track("Info Dismiss", {
+            version: APP_VERSION,
+        });
     };
 
     if (!visible) return null;
