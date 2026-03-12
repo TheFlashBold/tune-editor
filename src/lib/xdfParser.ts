@@ -1,4 +1,4 @@
-import type {IDefinitionParameter, DataType, AxisDefinition, Definition} from '../types';
+import type {IDefinitionParameter, DataType, AxisDefinition, Definition, RationalFormula} from '../types';
 
 // --- Math equation parsing ---
 
@@ -15,20 +15,27 @@ function fixFloat(s: string): number {
 
 const NUM = '[\\d.\\-+eE]+';
 
-function parseMathEquation(equation: string): { factor: number; offset: number } {
+function parseMathEquation(equation: string): { factor: number; offset: number; formula?: RationalFormula } {
     equation = equation.trim();
 
     // Identity: X or x
     if (/^[xX]$/.test(equation)) return {factor: 1, offset: 0};
 
-    // Rational function: ((a * X) - b) / (c - (d * X))
-    const rat = equation.match(
-        new RegExp(`^\\(\\s*\\(\\s*(${NUM})\\s*\\*\\s*X\\s*\\)\\s*-\\s*(${NUM})\\s*\\)\\s*/\\s*\\(\\s*(${NUM})\\s*-\\s*\\(\\s*(${NUM})\\s*\\*\\s*X\\s*\\)\\s*\\)$`, 'i')
+    // General rational function: ((a * X) op1 b) / (c op2 (d * X))
+    // Matches forms like: ((0.0 * X) + 6622.0) / (1.0 + (1.0 * X))
+    //                     ((a * X) - b) / (c - (d * X))
+    const ratGen = equation.match(
+        new RegExp(`^\\(\\s*\\(\\s*(${NUM})\\s*\\*\\s*X\\s*\\)\\s*([+-])\\s*(${NUM})\\s*\\)\\s*/\\s*\\(\\s*(${NUM})\\s*([+-])\\s*\\(\\s*(${NUM})\\s*\\*\\s*X\\s*\\)\\s*\\)$`, 'i')
     );
-    if (rat) {
-        const a = fixFloat(rat[1]), b = fixFloat(rat[2]), c = fixFloat(rat[3]), d = fixFloat(rat[4]);
-        if (d === 0 && c !== 0) return {factor: a / c, offset: -b / c};
-        return {factor: c !== 0 ? a / c : 1, offset: 0};
+    if (ratGen) {
+        const a = fixFloat(ratGen[1]);
+        const b = fixFloat(ratGen[3]) * (ratGen[2] === '-' ? -1 : 1);
+        const c = fixFloat(ratGen[4]);
+        const d = fixFloat(ratGen[6]) * (ratGen[5] === '-' ? -1 : 1);
+        // If d=0 it's linear: (a*X + b) / c
+        if (d === 0 && c !== 0) return {factor: a / c, offset: b / c};
+        // Non-linear: return formula
+        return {factor: 1, offset: 0, formula: {a, b, c, d}};
     }
 
     // X / divisor
@@ -113,7 +120,7 @@ function parseAxisElement(axisEl: Element): ParsedAxis | null {
     const rows = parseInt(embed.getAttribute('mmedrowcount') || '1', 10);
 
     const mathEl = axisEl.querySelector('MATH');
-    const {factor, offset} = mathEl ? parseMathEquation(mathEl.getAttribute('equation') || 'X') : {factor: 1, offset: 0};
+    const {factor, offset, formula} = mathEl ? parseMathEquation(mathEl.getAttribute('equation') || 'X') : {factor: 1, offset: 0};
 
     const unit = axisEl.querySelector('units')?.textContent || '';
     const min = parseFloat(axisEl.querySelector('min')?.textContent || '0');
@@ -122,7 +129,7 @@ function parseAxisElement(axisEl: Element): ParsedAxis | null {
     return {
         address,
         dataType: getDataType(sizeBits, typeFlags),
-        cols, rows, unit, factor, offset, min, max,
+        cols, rows, unit, factor, offset, formula, min, max,
         embedded: true,
         points: cols > 1 ? cols : points,
     };
@@ -362,7 +369,7 @@ export class XDFParser {
         const typeFlags = parseInt(embed.getAttribute('mmedtypeflags') || '0', 16);
 
         const mathEl = element.querySelector('MATH');
-        const {factor, offset} = mathEl ? parseMathEquation(mathEl.getAttribute('equation') || 'X') : {factor: 1, offset: 0};
+        const {factor, offset, formula} = mathEl ? parseMathEquation(mathEl.getAttribute('equation') || 'X') : {factor: 1, offset: 0};
 
         const unit = element.querySelector('units')?.textContent || '';
         const min = parseFloat(element.querySelector('min')?.textContent || '0');
@@ -376,7 +383,7 @@ export class XDFParser {
             address: address + this.baseOffset,
             type: 'VALUE',
             dataType: getDataType(sizeBits, typeFlags),
-            unit, min, max, factor, offset,
+            unit, min, max, factor, offset, formula,
             categories: categories.length > 0 ? categories : ['Uncategorized'],
         };
     }

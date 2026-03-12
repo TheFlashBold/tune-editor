@@ -389,21 +389,33 @@ export function writeValue(data: Uint8Array, address: number, dataType: DataType
     }
 }
 
-export function applyConversion(raw: number, factor: number, offset: number): number {
+export function applyConversion(raw: number, factor: number, offset: number, formula?: import('../types').RationalFormula): number {
+    if (formula) {
+        const denom = formula.c + formula.d * raw;
+        if (denom === 0) return 0;
+        return (formula.a * raw + formula.b) / denom;
+    }
     return raw * factor + offset;
 }
 
-export function reverseConversion(phys: number, factor: number, offset: number): number {
+export function reverseConversion(phys: number, factor: number, offset: number, formula?: import('../types').RationalFormula): number {
+    if (formula) {
+        // Solve: phys = (a*X + b) / (c + d*X) for X
+        // => phys*(c + d*X) = a*X + b => X*(phys*d - a) = b - phys*c
+        const denom = phys * formula.d - formula.a;
+        if (denom === 0) return 0;
+        return (formula.b - phys * formula.c) / denom;
+    }
     return (phys - offset) / factor;
 }
 
 export function readParameterValue(data: Uint8Array, param: IDefinitionParameter, calOffset: number = 0, baseAddress: number = DEFAULT_BASE_ADDRESS, bigEndian: boolean = false): number {
     const raw = readValue(data, param.address, param.dataType, calOffset, baseAddress, bigEndian);
-    return applyConversion(raw, param.factor, param.offset);
+    return applyConversion(raw, param.factor, param.offset, param.formula);
 }
 
 export function writeParameterValue(data: Uint8Array, param: IDefinitionParameter, physValue: number, calOffset: number = 0, baseAddress: number = DEFAULT_BASE_ADDRESS, bigEndian: boolean = false): void {
-    const raw = reverseConversion(physValue, param.factor, param.offset);
+    const raw = reverseConversion(physValue, param.factor, param.offset, param.formula);
     writeValue(data, param.address, param.dataType, raw, calOffset, baseAddress, bigEndian);
 }
 
@@ -438,7 +450,7 @@ export function readTableData(data: Uint8Array, param: IDefinitionParameter, cal
             const idx = param.columnDir ? (c * rows + r) : (r * cols + c);
             const addr = param.address + dataOffset + idx * typeSize;
             const raw = readValue(data, addr, param.dataType, calOffset, baseAddress, bigEndian);
-            const phys = applyConversion(raw, param.factor, param.offset);
+            const phys = applyConversion(raw, param.factor, param.offset, param.formula);
             if (debug && r < 3 && c < 4) {
                 const fileOffset = addressToOffset(addr, calOffset, baseAddress);
                 console.log(`  [${r},${c}] idx=${idx} addr=0x${addr.toString(16)} fileOffset=0x${fileOffset.toString(16)} raw=${raw} phys=${phys.toFixed(4)}`);
@@ -466,7 +478,7 @@ export function writeTableCell(
     const dataOffset = param.dataOffset ?? 0; // Byte offset where table data starts (for STD_AXIS)
     const idx = param.columnDir ? (col * rows + row) : (row * cols + col);
     const addr = param.address + dataOffset + idx * typeSize;
-    const raw = reverseConversion(physValue, param.factor, param.offset);
+    const raw = reverseConversion(physValue, param.factor, param.offset, param.formula);
     writeValue(data, addr, param.dataType, raw, calOffset, baseAddress, bigEndian);
 }
 
@@ -485,7 +497,7 @@ export function readAxisData(data: Uint8Array, axis: AxisDefinition, calOffset: 
     for (let i = 0; i < axis.points; i++) {
         const addr = axis.address + dataOffset + i * typeSize;
         const raw = readValue(data, addr, axis.dataType, calOffset, baseAddress, bigEndian);
-        result.push(applyConversion(raw, factor, offset));
+        result.push(applyConversion(raw, factor, offset, axis.formula));
     }
     return result;
 }
@@ -507,7 +519,7 @@ export function writeAxisValue(
     const dataOffset = axis.dataOffset ?? 0;
 
     const addr = axis.address + dataOffset + index * typeSize;
-    const raw = reverseConversion(physValue, factor, offset);
+    const raw = reverseConversion(physValue, factor, offset, axis.formula);
     writeValue(data, addr, axis.dataType, raw, calOffset, baseAddress, bigEndian);
 }
 
@@ -655,7 +667,7 @@ export function debugLayoutComparison(data: Uint8Array, param: IDefinitionParame
     for (let i = 0; i < 20 && i < rows * cols; i++) {
         const addr = param.address + dataOffset + i * typeSize;
         const raw = readValue(data, addr, param.dataType, calOffset);
-        const phys = applyConversion(raw, param.factor, param.offset);
+        const phys = applyConversion(raw, param.factor, param.offset, param.formula);
         rawValues.push(phys);
         const hexVal = raw.toString(16).padStart(4, '0').toUpperCase();
         console.log(`  idx ${i.toString().padStart(2)}: raw=${raw.toString().padStart(5)} (0x${hexVal}) phys=${phys.toFixed(4)}`);

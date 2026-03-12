@@ -622,6 +622,7 @@
       "max": 2.18,
       "factor": 1.0,
       "offset": 0.0,
+      "formula": {"a": 0.0, "b": 6622.0, "c": 1.0, "d": 1.0},
       "categories": [
         "Switch Patch",
         "TC"
@@ -702,6 +703,7 @@
       "max": 4.0,
       "factor": 1.0,
       "offset": 0.0,
+      "formula": {"a": 0.0, "b": 32.0, "c": 1.0, "d": 1.0},
       "categories": [
         "Switch Patch",
         "TC"
@@ -716,7 +718,7 @@
       "unit": "",
       "min": 0.0,
       "max": 4.0,
-      "factor": 1.0,
+      "factor": 0.125,
       "offset": 0.0,
       "categories": [
         "Switch Patch",
@@ -734,6 +736,7 @@
       "max": 10.0,
       "factor": 1.0,
       "offset": 0.0,
+      "formula": {"a": 0.0, "b": 100.0, "c": 1.0, "d": 2.667},
       "categories": [
         "Switch Patch",
         "TC"

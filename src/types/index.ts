@@ -1,6 +1,14 @@
 
 export type DataType = 'UBYTE' | 'SBYTE' | 'UWORD' | 'SWORD' | 'ULONG' | 'SLONG' | 'FLOAT32';
 
+/** Rational function coefficients: physical = (a*X + b) / (c + d*X) */
+export interface RationalFormula {
+    a: number;
+    b: number;
+    c: number;
+    d: number;
+}
+
 export interface ILoadedBin {
     name: string;
     data: Uint8Array,
@@ -20,6 +28,7 @@ export interface AxisDefinition {
     dataType?: DataType;
     factor?: number;
     offset?: number;
+    formula?: RationalFormula;  // Non-linear conversion: (a*X+b)/(c+d*X)
     dataOffset?: number; // Byte offset where axis data starts
 }
 
@@ -34,6 +43,7 @@ export interface IDefinitionParameter {
     max: number;
     factor: number;
     offset: number;
+    formula?: RationalFormula;  // Non-linear conversion: (a*X+b)/(c+d*X)
     xAxis?: AxisDefinition;
     yAxis?: AxisDefinition;
     rows?: number;
