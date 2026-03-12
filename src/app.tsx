@@ -22,6 +22,7 @@ import type {VehicleSettings} from './lib/vehicleSettings';
 import {loadDefinition} from './lib/definitionLoader';
 import {isS19File, isHexFile} from './lib/s19Parser';
 import {XDFParser} from './lib/xdfParser';
+import {InfoDialog} from './components/InfoDialog.tsx';
 import './app.css';
 
 const BIN_EXTENSIONS = ['.bin', '.ori', '.mod'];
@@ -278,6 +279,8 @@ export function App() {
                         onDefinitionUpdate={appState.setDefinition}
                     />
                 )}
+                {/* What's New Dialog */}
+                <InfoDialog />
             </div>
         </AppContext.Provider>
     );
