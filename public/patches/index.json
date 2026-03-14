@@ -1,80 +1,393 @@
 [
-  { "name": "SL PATCH v29.33 - A05", "file": "SL_PATCH.29.33_-_A05.btp", "definition": "A05_Switch_Patch.29.33.V2.json", "category": "Main Patch", "variant": "A05" },
-  { "name": "SL PATCH v29.33 - S50", "file": "SL_PATCH.29.33_-_S50.btp", "definition": "S50_Switch_Patch.29.33.V2.json", "category": "Main Patch", "variant": "S50" },
-  { "name": "SL PATCH v29.33 - V30", "file": "SL_PATCH.29.33_-_V30.btp", "definition": "V30_Switch_Patch.29.33.V2.json", "category": "Main Patch", "variant": "V30" },
-  { "name": "SL PATCH v29.33.1 - LB6", "file": "SL_PATCH.29.33.1_-_LB6.btp", "definition": "LB6_Switch_Patch.29.33.V2.json", "category": "Main Patch", "variant": "LB6" },
-  { "name": "SL PATCH v29.33.1 - O30", "file": "SL_PATCH.29.33.1_-_O30.btp", "definition": "O30_Switch_Patch.29.33.V2.json", "category": "Main Patch", "variant": "O30" },
-  { "name": "SL PATCH v29.34 - V30", "file": "SL_PATCH.29.34_-_V30.btp", "definition": "V30_Switch_Patch.29.33.V2.json", "category": "Main Patch", "variant": "V30" },
-
-  { "name": "SL HSL v1.1 - A05", "file": "SL_HSL_v1.1_-_A05.btp", "category": "HSL", "variant": "A05" },
-  { "name": "SL HSL v1.1 - A10", "file": "SL_HSL_v1.1_-_A10.btp", "category": "HSL", "variant": "A10" },
-  { "name": "SL HSL v1.1 - H51", "file": "SL_HSL_v1.1_-_H51.btp", "category": "HSL", "variant": "H51" },
-  { "name": "SL HSL v1.1 - H65", "file": "SL_HSL_v1.1_-_H65.btp", "category": "HSL", "variant": "H65" },
-  { "name": "SL HSL v1.1 - H6G", "file": "SL_HSL_v1.1_-_H6G.btp", "category": "HSL", "variant": "H6G" },
-  { "name": "SL HSL v1.1 - H85", "file": "SL_HSL_v1.1_-_H85.btp", "category": "HSL", "variant": "H85" },
-  { "name": "SL HSL v1.1 - LB6", "file": "SL_HSL_v1.1_-_LB6.btp", "category": "HSL", "variant": "LB6" },
-  { "name": "SL HSL v1.1 - LB7", "file": "SL_HSL_v1.1_-_LB7.btp", "category": "HSL", "variant": "LB7" },
-  { "name": "SL HSL v1.1 - O30", "file": "SL_HSL_v1.1_-_O30.btp", "category": "HSL", "variant": "O30" },
-  { "name": "SL HSL v1.1 - O40", "file": "SL_HSL_v1.1_-_O40.btp", "category": "HSL", "variant": "O40" },
-  { "name": "SL HSL v1.1 - S50", "file": "SL_HSL_v1.1_-_S50.btp", "category": "HSL", "variant": "S50" },
-  { "name": "SL HSL v1.1 - V30", "file": "SL_HSL_v1.1_-_V30.btp", "category": "HSL", "variant": "V30" },
-  { "name": "SL HSL v1.1 - VC1", "file": "SL_HSL_v1.1_-_VC1.btp", "category": "HSL", "variant": "VC1" },
-
-  { "name": "Immo v2 - A05", "file": "Immo_v2_-_A05.btp", "category": "Immo", "variant": "A05" },
-  { "name": "Immo v2 - A10", "file": "Immo_v2_-_A10.btp", "category": "Immo", "variant": "A10" },
-  { "name": "Immo v2 - AB0", "file": "Immo_v2_-_AB0.btp", "category": "Immo", "variant": "AB0" },
-  { "name": "Immo v2 - O30", "file": "Immo_v2_-_O30.btp", "category": "Immo", "variant": "O30" },
-  { "name": "Immo v2 - O40", "file": "Immo_v2_-_O40.btp", "category": "Immo", "variant": "O40" },
-  { "name": "Immo v2 - S50", "file": "Immo_v2_-_S50.btp", "category": "Immo", "variant": "S50" },
-  { "name": "Immo v2 - V30", "file": "Immo_v2_-_V30.btp", "category": "Immo", "variant": "V30" },
-
-  { "name": "SWG - A05", "file": "SWG_-_A05.btp", "category": "SWG", "variant": "A05" },
-  { "name": "SWG - A10", "file": "SWG_-_A10.btp", "category": "SWG", "variant": "A10" },
-  { "name": "SWG - H65", "file": "SWG_-_H65.btp", "category": "SWG", "variant": "H65" },
-  { "name": "SWG - H6G", "file": "SWG_-_H6G.btp", "category": "SWG", "variant": "H6G" },
-  { "name": "SWG - H85", "file": "SWG_-_H85.btp", "category": "SWG", "variant": "H85" },
-  { "name": "SWG - LB6", "file": "SWG_-_LB6.btp", "category": "SWG", "variant": "LB6" },
-  { "name": "SWG - O30", "file": "SWG_-_O30.btp", "definition": "O30_SWG.json", "category": "SWG", "variant": "O30" },
-  { "name": "SWG - O40", "file": "SWG_-_O40.btp", "category": "SWG", "variant": "O40" },
-  { "name": "SWG - S50", "file": "SWG_-_S50.btp", "category": "SWG", "variant": "S50" },
-  { "name": "SWG - V30", "file": "SWG_-_V30.btp", "category": "SWG", "variant": "V30" },
-
-  { "name": "SL CBRICK v1.2 - A05", "file": "SL_CBRICK_v1.2_-_A05.btp", "category": "CBRICK", "variant": "A05" },
-  { "name": "SL CBRICK v1.2 - A10", "file": "SL_CBRICK_v1.2_-_A10.btp", "category": "CBRICK", "variant": "A10" },
-  { "name": "SL CBRICK v1.2 - H6G", "file": "SL_CBRICK_v1.2_-_H6G.btp", "category": "CBRICK", "variant": "H6G" },
-  { "name": "SL CBRICK v1.2 - LB6", "file": "SL_CBRICK_v1.2_-_LB6.btp", "category": "CBRICK", "variant": "LB6" },
-  { "name": "SL CBRICK v1.2 - LB7", "file": "SL_CBRICK_v1.2_-_LB7.btp", "category": "CBRICK", "variant": "LB7" },
-  { "name": "SL CBRICK v1.2 - O30", "file": "SL_CBRICK_v1.2_-_O30.btp", "category": "CBRICK", "variant": "O30" },
-  { "name": "SL CBRICK v1.2 - S50", "file": "SL_CBRICK_v1.2_-_S50.btp", "category": "CBRICK", "variant": "S50" },
-  { "name": "SL CBRICK v1.2 - V30", "file": "SL_CBRICK_v1.2_-_V30.btp", "category": "CBRICK", "variant": "V30" },
-  { "name": "SL CBRICK v1.2 - V32", "file": "SL_CBRICK_v1.2_-_V32.btp", "category": "CBRICK", "variant": "V32" },
-
-  { "name": "FREE SAP - A05", "file": "FREE_SAP_-_A05.btp", "category": "FREE SAP", "variant": "A05" },
-  { "name": "FREE SAP - O30", "file": "FREE_SAP_-_O30.btp", "category": "FREE SAP", "variant": "O30" },
-  { "name": "FREE SAP - S50", "file": "FREE_SAP_-_S50.btp", "category": "FREE SAP", "variant": "S50" },
-  { "name": "FREE SAP - V30", "file": "FREE_SAP_-_V30.btp", "category": "FREE SAP", "variant": "V30" },
-
-  { "name": "CAT patch - A05", "file": "CAT_patch_-_A05.btp", "category": "CAT", "variant": "A05" },
-  { "name": "CAT patch - S50", "file": "CAT_patch_-_S50.btp", "category": "CAT", "variant": "S50" },
-
-  { "name": "DQ250 HSL - F43M", "file": "DQ250_HSL_-_F43M.btp", "category": "DSG HSL", "variant": "F43M" },
-  { "name": "DQ250 HSL - F45M", "file": "DQ250_HSL_-_F45M.btp", "category": "DSG HSL", "variant": "F45M" },
-  { "name": "DQ250 HSL - F49M", "file": "DQ250_HSL_-_F49M.btp", "category": "DSG HSL", "variant": "F49M" },
-  { "name": "DQ250 HSL - F50M", "file": "DQ250_HSL_-_F50M.btp", "category": "DSG HSL", "variant": "F50M" },
-  { "name": "DQ250 HSL - F52M", "file": "DQ250_HSL_-_F52M.btp", "category": "DSG HSL", "variant": "F52M" },
-
-  { "name": "DQ250 Immo Off (Untested) - F40M", "file": "DQ250_Immo_Off_-_F40M.btp", "category": "DSG Immo", "variant": "F40M" },
-  { "name": "DQ250 Immo Off (Untested) - F43M", "file": "DQ250_Immo_Off_-_F43M.btp", "category": "DSG Immo", "variant": "F43M" },
-  { "name": "DQ250 Immo Off (Untested) - F45M", "file": "DQ250_Immo_Off_-_F45M.btp", "category": "DSG Immo", "variant": "F45M" },
-  { "name": "DQ250 Immo Off (Untested) - F49M", "file": "DQ250_Immo_Off_-_F49M.btp", "category": "DSG Immo", "variant": "F49M" },
-  { "name": "DQ250 Immo Off (Untested) - F50M", "file": "DQ250_Immo_Off_-_F50M.btp", "category": "DSG Immo", "variant": "F50M" },
-  { "name": "DQ250 Immo Off (Untested) - F52M", "file": "DQ250_Immo_Off_-_F52M.btp", "category": "DSG Immo", "variant": "F52M" },
-
-  { "name": "Torque Limit - F40M", "file": "Torque_Limit_-_F40M.btp", "category": "DSG Torque Limit", "variant": "F40M" },
-  { "name": "Torque Limit - F43M", "file": "Torque_Limit_-_F43M.btp", "category": "DSG Torque Limit", "variant": "F43M" },
-  { "name": "Torque Limit - F45M", "file": "Torque_Limit_-_F45M.btp", "category": "DSG Torque Limit", "variant": "F45M" },
-  { "name": "Torque Limit - F49M", "file": "Torque_Limit_-_F49M.btp", "category": "DSG Torque Limit", "variant": "F49M" },
-  { "name": "Torque Limit - F50M", "file": "Torque_Limit_-_F50M.btp", "category": "DSG Torque Limit", "variant": "F50M" },
-  { "name": "Torque Limit - F52M", "file": "Torque_Limit_-_F52M.btp", "category": "DSG Torque Limit", "variant": "F52M" },
-  { "name": "Torque Limit - F55M", "file": "Torque_Limit_-_F55M.btp", "category": "DSG Torque Limit", "variant": "F55M" }
+  {
+    "name": "SL PATCH v29.33 - A05",
+    "file": "SL_PATCH.29.33_-_A05.btp",
+    "definition": "A05_Switch_Patch.29.33.V2.json",
+    "category": "Main Patch",
+    "variant": "A05"
+  },
+  {
+    "name": "SL PATCH v29.33 - S50",
+    "file": "SL_PATCH.29.33_-_S50.btp",
+    "definition": "S50_Switch_Patch.29.33.V2.json",
+    "category": "Main Patch",
+    "variant": "S50"
+  },
+  {
+    "name": "SL PATCH v29.33 - V30",
+    "file": "SL_PATCH.29.33_-_V30.btp",
+    "definition": "V30_Switch_Patch.29.33.V2.json",
+    "category": "Main Patch",
+    "variant": "V30"
+  },
+  {
+    "name": "SL PATCH v29.33.1 - LB6",
+    "file": "SL_PATCH.29.33.1_-_LB6.btp",
+    "definition": "LB6_Switch_Patch.29.33.V2.json",
+    "category": "Main Patch",
+    "variant": "LB6"
+  },
+  {
+    "name": "SL PATCH v29.33.1 - O30",
+    "file": "SL_PATCH.29.33.1_-_O30.btp",
+    "definition": "O30_Switch_Patch.29.33.V2.json",
+    "category": "Main Patch",
+    "variant": "O30"
+  },
+  {
+    "name": "SL PATCH v29.34 - V30",
+    "file": "SL_PATCH.29.34_-_V30.btp",
+    "definition": "V30_Switch_Patch.29.33.V2.json",
+    "category": "Main Patch",
+    "variant": "V30"
+  },
+  {
+    "name": "SL HSL v1.1 - A05",
+    "file": "SL_HSL_v1.1_-_A05.btp",
+    "category": "HSL",
+    "variant": "A05"
+  },
+  {
+    "name": "SL HSL v1.1 - A10",
+    "file": "SL_HSL_v1.1_-_A10.btp",
+    "category": "HSL",
+    "variant": "A10"
+  },
+  {
+    "name": "SL HSL v1.1 - H51",
+    "file": "SL_HSL_v1.1_-_H51.btp",
+    "category": "HSL",
+    "variant": "H51"
+  },
+  {
+    "name": "SL HSL v1.1 - H65",
+    "file": "SL_HSL_v1.1_-_H65.btp",
+    "category": "HSL",
+    "variant": "H65"
+  },
+  {
+    "name": "SL HSL v1.1 - H6G",
+    "file": "SL_HSL_v1.1_-_H6G.btp",
+    "category": "HSL",
+    "variant": "H6G"
+  },
+  {
+    "name": "SL HSL v1.1 - H85",
+    "file": "SL_HSL_v1.1_-_H85.btp",
+    "category": "HSL",
+    "variant": "H85"
+  },
+  {
+    "name": "SL HSL v1.1 - LB6",
+    "file": "SL_HSL_v1.1_-_LB6.btp",
+    "category": "HSL",
+    "variant": "LB6"
+  },
+  {
+    "name": "SL HSL v1.1 - LB7",
+    "file": "SL_HSL_v1.1_-_LB7.btp",
+    "category": "HSL",
+    "variant": "LB7"
+  },
+  {
+    "name": "SL HSL v1.1 - O30",
+    "file": "SL_HSL_v1.1_-_O30.btp",
+    "category": "HSL",
+    "variant": "O30"
+  },
+  {
+    "name": "SL HSL v1.1 - O40",
+    "file": "SL_HSL_v1.1_-_O40.btp",
+    "category": "HSL",
+    "variant": "O40"
+  },
+  {
+    "name": "SL HSL v1.1 - S50",
+    "file": "SL_HSL_v1.1_-_S50.btp",
+    "category": "HSL",
+    "variant": "S50"
+  },
+  {
+    "name": "SL HSL v1.1 - V30",
+    "file": "SL_HSL_v1.1_-_V30.btp",
+    "category": "HSL",
+    "variant": "V30"
+  },
+  {
+    "name": "SL HSL v1.1 - VC1",
+    "file": "SL_HSL_v1.1_-_VC1.btp",
+    "category": "HSL",
+    "variant": "VC1"
+  },
+  {
+    "name": "Immo v2 - A05",
+    "file": "Immo_v2_-_A05.btp",
+    "category": "Immo",
+    "variant": "A05"
+  },
+  {
+    "name": "Immo v2 - A10",
+    "file": "Immo_v2_-_A10.btp",
+    "category": "Immo",
+    "variant": "A10"
+  },
+  {
+    "name": "Immo v2 - AB0",
+    "file": "Immo_v2_-_AB0.btp",
+    "category": "Immo",
+    "variant": "AB0"
+  },
+  {
+    "name": "Immo v2 - O30",
+    "file": "Immo_v2_-_O30.btp",
+    "category": "Immo",
+    "variant": "O30"
+  },
+  {
+    "name": "Immo v2 - O40",
+    "file": "Immo_v2_-_O40.btp",
+    "category": "Immo",
+    "variant": "O40"
+  },
+  {
+    "name": "Immo v2 - S50",
+    "file": "Immo_v2_-_S50.btp",
+    "category": "Immo",
+    "variant": "S50"
+  },
+  {
+    "name": "Immo v2 - V30",
+    "file": "Immo_v2_-_V30.btp",
+    "category": "Immo",
+    "variant": "V30"
+  },
+  {
+    "name": "SWG - A05",
+    "file": "SWG_-_A05.btp",
+    "category": "SWG",
+    "variant": "A05"
+  },
+  {
+    "name": "SWG - A10",
+    "file": "SWG_-_A10.btp",
+    "category": "SWG",
+    "variant": "A10"
+  },
+  {
+    "name": "SWG - H65",
+    "file": "SWG_-_H65.btp",
+    "category": "SWG",
+    "variant": "H65"
+  },
+  {
+    "name": "SWG - H6G",
+    "file": "SWG_-_H6G.btp",
+    "category": "SWG",
+    "variant": "H6G"
+  },
+  {
+    "name": "SWG - H85",
+    "file": "SWG_-_H85.btp",
+    "category": "SWG",
+    "variant": "H85"
+  },
+  {
+    "name": "SWG - LB6",
+    "file": "SWG_-_LB6.btp",
+    "category": "SWG",
+    "variant": "LB6"
+  },
+  {
+    "name": "SWG - O30",
+    "file": "SWG_-_O30.btp",
+    "definition": "O30_SWG.json",
+    "category": "SWG",
+    "variant": "O30"
+  },
+  {
+    "name": "SWG - O40",
+    "file": "SWG_-_O40.btp",
+    "category": "SWG",
+    "variant": "O40"
+  },
+  {
+    "name": "SWG - S50",
+    "file": "SWG_-_S50.btp",
+    "category": "SWG",
+    "variant": "S50"
+  },
+  {
+    "name": "SWG - V30",
+    "file": "SWG_-_V30.btp",
+    "category": "SWG",
+    "variant": "V30"
+  },
+  {
+    "name": "SL CBRICK v1.2 - A05",
+    "file": "SL_CBRICK_v1.2_-_A05.btp",
+    "category": "CBRICK",
+    "variant": "A05"
+  },
+  {
+    "name": "SL CBRICK v1.2 - A10",
+    "file": "SL_CBRICK_v1.2_-_A10.btp",
+    "category": "CBRICK",
+    "variant": "A10"
+  },
+  {
+    "name": "SL CBRICK v1.2 - H6G",
+    "file": "SL_CBRICK_v1.2_-_H6G.btp",
+    "category": "CBRICK",
+    "variant": "H6G"
+  },
+  {
+    "name": "SL CBRICK v1.2 - LB6",
+    "file": "SL_CBRICK_v1.2_-_LB6.btp",
+    "category": "CBRICK",
+    "variant": "LB6"
+  },
+  {
+    "name": "SL CBRICK v1.2 - LB7",
+    "file": "SL_CBRICK_v1.2_-_LB7.btp",
+    "category": "CBRICK",
+    "variant": "LB7"
+  },
+  {
+    "name": "SL CBRICK v1.2 - O30",
+    "file": "SL_CBRICK_v1.2_-_O30.btp",
+    "category": "CBRICK",
+    "variant": "O30"
+  },
+  {
+    "name": "SL CBRICK v1.2 - S50",
+    "file": "SL_CBRICK_v1.2_-_S50.btp",
+    "category": "CBRICK",
+    "variant": "S50"
+  },
+  {
+    "name": "SL CBRICK v1.2 - V30",
+    "file": "SL_CBRICK_v1.2_-_V30.btp",
+    "category": "CBRICK",
+    "variant": "V30"
+  },
+  {
+    "name": "SL CBRICK v1.2 - V32",
+    "file": "SL_CBRICK_v1.2_-_V32.btp",
+    "category": "CBRICK",
+    "variant": "V32"
+  },
+  {
+    "name": "FREE SAP - A05",
+    "file": "FREE_SAP_-_A05.btp",
+    "category": "FREE SAP",
+    "variant": "A05"
+  },
+  {
+    "name": "FREE SAP - O30",
+    "file": "FREE_SAP_-_O30.btp",
+    "category": "FREE SAP",
+    "variant": "O30"
+  },
+  {
+    "name": "FREE SAP - S50",
+    "file": "FREE_SAP_-_S50.btp",
+    "category": "FREE SAP",
+    "variant": "S50"
+  },
+  {
+    "name": "FREE SAP - V30",
+    "file": "FREE_SAP_-_V30.btp",
+    "category": "FREE SAP",
+    "variant": "V30"
+  },
+  {
+    "name": "CAT patch - A05",
+    "file": "CAT_patch_-_A05.btp",
+    "category": "CAT",
+    "variant": "A05"
+  },
+  {
+    "name": "CAT patch - S50",
+    "file": "CAT_patch_-_S50.btp",
+    "category": "CAT",
+    "variant": "S50"
+  },
+  {
+    "name": "DQ250 HSL - F43M",
+    "file": "DQ250_HSL_-_F43M.btp",
+    "category": "DSG HSL",
+    "variant": "F43M"
+  },
+  {
+    "name": "DQ250 HSL - F45M",
+    "file": "DQ250_HSL_-_F45M.btp",
+    "category": "DSG HSL",
+    "variant": "F45M"
+  },
+  {
+    "name": "DQ250 HSL - F49M",
+    "file": "DQ250_HSL_-_F49M.btp",
+    "category": "DSG HSL",
+    "variant": "F49M"
+  },
+  {
+    "name": "DQ250 HSL - F50M",
+    "file": "DQ250_HSL_-_F50M.btp",
+    "category": "DSG HSL",
+    "variant": "F50M"
+  },
+  {
+    "name": "DQ250 HSL - F52M",
+    "file": "DQ250_HSL_-_F52M.btp",
+    "category": "DSG HSL",
+    "variant": "F52M"
+  },
+  {
+    "name": "Torque Limit - F40M",
+    "file": "Torque_Limit_-_F40M.btp",
+    "category": "DSG Torque Limit",
+    "variant": "F40M"
+  },
+  {
+    "name": "Torque Limit - F43M",
+    "file": "Torque_Limit_-_F43M.btp",
+    "category": "DSG Torque Limit",
+    "variant": "F43M"
+  },
+  {
+    "name": "Torque Limit - F45M",
+    "file": "Torque_Limit_-_F45M.btp",
+    "category": "DSG Torque Limit",
+    "variant": "F45M"
+  },
+  {
+    "name": "Torque Limit - F49M",
+    "file": "Torque_Limit_-_F49M.btp",
+    "category": "DSG Torque Limit",
+    "variant": "F49M"
+  },
+  {
+    "name": "Torque Limit - F50M",
+    "file": "Torque_Limit_-_F50M.btp",
+    "category": "DSG Torque Limit",
+    "variant": "F50M"
+  },
+  {
+    "name": "Torque Limit - F52M",
+    "file": "Torque_Limit_-_F52M.btp",
+    "category": "DSG Torque Limit",
+    "variant": "F52M"
+  },
+  {
+    "name": "Torque Limit - F55M",
+    "file": "Torque_Limit_-_F55M.btp",
+    "category": "DSG Torque Limit",
+    "variant": "F55M"
+  },
+  {
+    "name": "DQ250 IMMO - F49M",
+    "file": "DQ250_IMMO_-_F49M.btp",
+    "category": "DSG IMMO",
+    "variant": "F49M"
+  }
 ]
