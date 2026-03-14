@@ -1,4 +1,4 @@
-import {useState, useCallback, useMemo} from 'preact/hooks';
+import {useState, useCallback, useMemo, useEffect} from 'preact/hooks';
 import type {Definition} from './types';
 import {track} from './lib/track';
 import {FileLoader} from './components/FileLoader';
@@ -39,6 +39,17 @@ function classifyFile(name: string): 'json' | 'bin' | 'csv' | 'xdf' | null {
 
 export function App() {
     const appState = useAppState();
+
+    // Warn before closing with unsaved changes
+    useEffect(() => {
+        const handler = (e: BeforeUnloadEvent) => {
+            if (appState.modified) {
+                e.preventDefault();
+            }
+        };
+        window.addEventListener('beforeunload', handler);
+        return () => window.removeEventListener('beforeunload', handler);
+    }, [appState.modified]);
 
     // Vehicle settings (local to App — only used by Settings and BLE)
     const [vehicleSettings, setVehicleSettings] = useState<VehicleSettings>(loadSettings);
