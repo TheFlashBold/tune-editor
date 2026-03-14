@@ -1,23 +1,40 @@
 import {useState, useMemo, useEffect, useCallback, useRef} from 'preact/hooks';
 import type {IDefinitionParameter} from '../types';
 
-// function tokenMatch(text: string, pattern: string): boolean {
-//     const textParts = text.toLowerCase().split(/[\s_]+/);
-//     const patternParts = pattern.toLowerCase().split(/[\s_]+/);
-//
-//     return patternParts.every((part) => textParts.includes(part));
-// }
-
-function fuzzyMatch(text: string, pattern: string): boolean {
+/**
+ * Score how well `text` matches `pattern`. Higher = better match.
+ * Returns 0 for no match.
+ *
+ * Scoring: base score + position bonus (earlier match = higher score)
+ *  - Exact case match: 1000 + position bonus
+ *  - Case-insensitive match: 800 + position bonus
+ *  - Multi-token (space-separated), all found: 600 + position bonus
+ *  - Position bonus: 0–199 (match at start = 199, match at end = 0)
+ */
+function matchScore(text: string, pattern: string): number {
     const t = text.toLowerCase();
-    const p = pattern.toLowerCase();
-    let ti = 0;
-    for (let pi = 0; pi < p.length; pi++) {
-        const idx = t.indexOf(p[pi], ti);
-        if (idx === -1) return false;
-        ti = idx + 1;
+    const p = pattern.toLowerCase().trim();
+    if (!p) return 1;
+
+    // Position bonus: earlier match in string scores higher
+    const posBonus = (idx: number) => Math.max(0, 199 - idx);
+
+    // Exact case substring
+    const exactIdx = text.indexOf(pattern);
+    if (exactIdx >= 0) return 1000 + posBonus(exactIdx);
+
+    // Case-insensitive substring
+    const ciIdx = t.indexOf(p);
+    if (ciIdx >= 0) return 800 + posBonus(ciIdx);
+
+    // Multi-token: all tokens must be found as substrings
+    const tokens = p.split(/\s+/).filter(Boolean);
+    if (tokens.length > 1 && tokens.every(tok => t.includes(tok))) {
+        // Use position of first token as bonus
+        return 600 + posBonus(t.indexOf(tokens[0]));
     }
-    return true;
+
+    return 0;
 }
 
 interface TreeNode {
@@ -166,16 +183,14 @@ export function CategoryTree({parameters, onSelect, selectedParam}: Props) {
     }, [filter]);
 
     const tree = useMemo(() => {
-        const filtered = debouncedFilter
-            ? parameters.filter(p =>
-                    // tokenMatch(p.name, debouncedFilter) ||
-                    // tokenMatch(p.description, debouncedFilter) ||
-                    // (p.customName && tokenMatch(p.name, debouncedFilter))
-                fuzzyMatch(p.name, debouncedFilter) ||
-                fuzzyMatch(p.description, debouncedFilter) ||
-                (p.customName && fuzzyMatch(p.customName, debouncedFilter))
-            )
-            : parameters;
+        if (!debouncedFilter) return buildTree(parameters);
+
+        const filtered = parameters.filter(p =>
+            matchScore(p.name, debouncedFilter) > 0 ||
+            matchScore(p.description, debouncedFilter) > 0 ||
+            (p.customName && matchScore(p.customName, debouncedFilter) > 0)
+        );
+
         return buildTree(filtered);
     }, [parameters, debouncedFilter]);
 
