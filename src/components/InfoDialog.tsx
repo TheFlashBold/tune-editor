@@ -21,6 +21,17 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.4.0',
+        date: '14.03.2026',
+        changes: [
+            'Mobile-friendly UI with hamburger menu and full-screen parameter view',
+            'Touch-enabled 3D surface graph rotation',
+            'Unsaved changes warning before closing the browser',
+            'Improved search — substring matching instead of fuzzy, multi-word support',
+            'New DQ250 MQB immo patch',
+        ]
+    },
+    {
         version: '1.3.0',
         date: '12.03.2026',
         changes: [
