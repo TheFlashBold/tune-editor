@@ -5,7 +5,7 @@ export function Sidebar() {
     const ctx = useAppContext();
 
     return (
-        <aside className="w-80 flex flex-col bg-zinc-100 dark:bg-zinc-800 border-r border-zinc-300 dark:border-zinc-700">
+        <aside className={`w-full sm:w-80 flex flex-col bg-zinc-100 dark:bg-zinc-800 border-r border-zinc-300 dark:border-zinc-700 ${ctx.selectedParam ? 'hidden sm:flex' : 'flex'}`}>
             {ctx.definition ? (
                 <>
                     <div className="flex justify-between px-4 py-3 border-b border-zinc-300 dark:border-zinc-700 font-semibold">

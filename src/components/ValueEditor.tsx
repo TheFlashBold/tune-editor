@@ -559,7 +559,6 @@ function SurfaceGraph({
         if (!isDragging || !dragStart.current) return;
         const dx = e.clientX - dragStart.current.x;
         const dy = e.clientY - dragStart.current.y;
-        // Horizontal drag = rotation, vertical drag = tilt (down = tilt down)
         setRotation((dragStart.current.rotation + dx * 0.5) % 360);
         setTilt(Math.max(-60, Math.min(60, dragStart.current.tilt + dy * 0.3)));
     };
@@ -569,14 +568,42 @@ function SurfaceGraph({
         dragStart.current = null;
     };
 
-    // Attach global mouse events when dragging
+    // Touch drag handlers
+    const handleTouchStart = (e: TouchEvent) => {
+        if (e.touches.length !== 1) return;
+        const t = e.touches[0];
+        setIsDragging(true);
+        dragStart.current = {x: t.clientX, y: t.clientY, rotation, tilt};
+        e.preventDefault();
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+        if (!isDragging || !dragStart.current || e.touches.length !== 1) return;
+        const t = e.touches[0];
+        const dx = t.clientX - dragStart.current.x;
+        const dy = t.clientY - dragStart.current.y;
+        setRotation((dragStart.current.rotation + dx * 0.5) % 360);
+        setTilt(Math.max(-60, Math.min(60, dragStart.current.tilt + dy * 0.3)));
+        e.preventDefault();
+    };
+
+    const handleTouchEnd = () => {
+        setIsDragging(false);
+        dragStart.current = null;
+    };
+
+    // Attach global mouse/touch events when dragging
     useEffect(() => {
         if (isDragging) {
             window.addEventListener('mousemove', handleMouseMove);
             window.addEventListener('mouseup', handleMouseUp);
+            window.addEventListener('touchmove', handleTouchMove, {passive: false});
+            window.addEventListener('touchend', handleTouchEnd);
             return () => {
                 window.removeEventListener('mousemove', handleMouseMove);
                 window.removeEventListener('mouseup', handleMouseUp);
+                window.removeEventListener('touchmove', handleTouchMove);
+                window.removeEventListener('touchend', handleTouchEnd);
             };
         }
     }, [isDragging]);
@@ -775,9 +802,10 @@ function SurfaceGraph({
             <svg
                 viewBox={`0 0 ${width} ${height}`}
                 class="w-full font-mono text-xs select-none"
-                style={{maxHeight: '70vh', cursor: isDragging ? 'move' : 'move'}}
+                style={{maxHeight: '70vh', cursor: 'move', touchAction: 'none'}}
                 preserveAspectRatio="xMidYMid meet"
                 onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchStart}
             >
                 {/* Filled quads (main + overlay depth-sorted together) */}
                 {quads.map((q, i) => (

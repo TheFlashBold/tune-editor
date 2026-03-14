@@ -19,6 +19,7 @@ export interface IAppContext {
     // Derived
     baseAddress: number;
     bigEndian: boolean;
+    modified: boolean;
 
     // Patches
     patchResults: PatchCheckResult[];

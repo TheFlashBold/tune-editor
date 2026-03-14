@@ -567,6 +567,7 @@ export function useAppState(): IAppContext {
         detectedMode,
         baseAddress,
         bigEndian,
+        modified,
         patchResults,
         definitionMatches,
         allDefinitions,
