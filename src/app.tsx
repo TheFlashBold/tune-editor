@@ -4,21 +4,17 @@ import {track} from './lib/track';
 import {FileLoader} from './components/FileLoader';
 import {XdfLoader} from './components/XdfLoader';
 import {LogViewer} from './components/LogViewer';
-import {BLEConnector} from './components/BLEConnector';
 import {Modal} from './components/Modal';
 import {PatchManager} from './components/PatchManager';
 import {parseEcuInfo, getCalFileOffset} from './lib/btpParser';
 import {MenuBar} from './components/MenuBar';
 import {Sidebar} from './components/Sidebar';
 import {MainArea} from './components/MainArea';
-import {SettingsModal} from './components/SettingsModal';
 import {ChangesModal} from './components/ChangesModal';
 import {CrossCompareModal} from './components/CrossCompareModal';
 import {DefinitionPickerModal} from './components/DefinitionPickerModal';
 import {AppContext} from './context/app';
 import {useAppState} from './hooks/useAppState';
-import {loadSettings, saveSettings, calculateWheelCircumference} from './lib/vehicleSettings';
-import type {VehicleSettings} from './lib/vehicleSettings';
 import {loadDefinition} from './lib/definitionLoader';
 import {isS19File, isHexFile} from './lib/s19Parser';
 import {XDFParser} from './lib/xdfParser';
@@ -51,31 +47,15 @@ export function App() {
         return () => window.removeEventListener('beforeunload', handler);
     }, [appState.modified]);
 
-    // Vehicle settings (local to App — only used by Settings and BLE)
-    const [vehicleSettings, setVehicleSettings] = useState<VehicleSettings>(loadSettings);
-
     // Modal visibility flags
     const [showConverter, setShowConverter] = useState(false);
     const [showXdfConverter, setShowXdfConverter] = useState(false);
-    const [showSettings, setShowSettings] = useState(false);
     const [showLogViewer, setShowLogViewer] = useState(false);
-    const [showBLEConnector, setShowBLEConnector] = useState(false);
     const [showDefinitions, setShowDefinitions] = useState(false);
     const [showChanges, setShowChanges] = useState(false);
     const [showCrossCompare, setShowCrossCompare] = useState(false);
     const [showPatchManager, setShowPatchManager] = useState(false);
     const [logViewerData, setLogViewerData] = useState<string | null>(null);
-
-    const updateVehicleSettings = useCallback((updates: Partial<VehicleSettings>) => {
-        setVehicleSettings(prev => {
-            const next = {...prev, ...updates};
-            if (!next.useManualCircumference && ('tireWidth' in updates || 'tireAspect' in updates || 'rimDiameter' in updates)) {
-                next.wheelCircumference = calculateWheelCircumference(next.tireWidth, next.tireAspect, next.rimDiameter);
-            }
-            saveSettings(next);
-            return next;
-        });
-    }, []);
 
     const handleDefinitionLoad = useCallback((def: Definition) => {
         appState.setExternalDefinition(def);
@@ -138,9 +118,7 @@ export function App() {
                 <MenuBar
                     onShowConverter={() => setShowConverter(true)}
                     onShowXdfConverter={() => setShowXdfConverter(true)}
-                    onShowSettings={() => setShowSettings(true)}
                     onShowLogViewer={() => { setShowLogViewer(true); track('Open Log Viewer'); }}
-                    onShowBLEConnector={() => setShowBLEConnector(true)}
                     onShowDefinitions={(defs) => {
                         appState.setAllDefinitions(defs);
                         setShowDefinitions(true);
@@ -179,19 +157,6 @@ export function App() {
                     />
                 )}
 
-                {/* BLE Connector Modal */}
-                {showBLEConnector && (
-                    <BLEConnector
-                        onClose={() => setShowBLEConnector(false)}
-                        onLogData={(csv) => {
-                            setShowBLEConnector(false);
-                            setLogViewerData(csv);
-                            setShowLogViewer(true);
-                        }}
-                        vehicleSettings={vehicleSettings}
-                    />
-                )}
-
                 {/* Changes Modal */}
                 {showChanges && (
                     <ChangesModal onClose={() => setShowChanges(false)}/>
@@ -200,15 +165,6 @@ export function App() {
                 {/* Cross-Compare Modal */}
                 {showCrossCompare && (
                     <CrossCompareModal onClose={() => setShowCrossCompare(false)}/>
-                )}
-
-                {/* Settings Modal */}
-                {showSettings && (
-                    <SettingsModal
-                        settings={vehicleSettings}
-                        onUpdate={updateVehicleSettings}
-                        onClose={() => setShowSettings(false)}
-                    />
                 )}
 
                 {/* Definition Picker Modal (auto-shown when multiple matches) */}

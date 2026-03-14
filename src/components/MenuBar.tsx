@@ -6,9 +6,7 @@ import {useState, useRef, useCallback} from "preact/hooks";
 interface MenuBarProps {
     onShowConverter: () => void;
     onShowXdfConverter: () => void;
-    onShowSettings: () => void;
     onShowLogViewer: () => void;
-    onShowBLEConnector: () => void;
     onShowDefinitions: (defs: any[]) => void;
     onShowPatchManager: () => void;
     onShowChanges: () => void;
@@ -18,9 +16,7 @@ interface MenuBarProps {
 export function MenuBar({
     onShowConverter,
     onShowXdfConverter,
-    onShowSettings,
     onShowLogViewer,
-    onShowBLEConnector,
     onShowDefinitions,
     onShowPatchManager,
     onShowChanges,
@@ -218,9 +214,7 @@ export function MenuBar({
                     )}
                 </div>
 
-                <button onClick={onShowSettings} className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Settings</button>
                 <button onClick={onShowLogViewer} className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Log Viewer</button>
-                <button onClick={onShowBLEConnector} className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Connect to ISO-TP Bridge</button>
                 <button onClick={async () => { try { const defs = await loadDefinitionIndex(); onShowDefinitions(defs); } catch (err) { console.error('Failed to load definitions:', err); } }}
                     className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Definitions</button>
                 <button onClick={onShowPatchManager} disabled={!ctx.bin}
@@ -237,6 +231,8 @@ export function MenuBar({
                         Cross-Compare ({ctx.crossCompareDiffs.length})
                     </button>
                 )}
+                <a href="https://simos.app/" target="_blank" rel="noopener noreferrer"
+                   className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Get the iOS Logging App</a>
             </div>
 
             {/* Status badges + spacer */}
@@ -287,9 +283,7 @@ export function MenuBar({
                         <button onClick={mobileAction(onShowXdfConverter)} className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">XDF Converter</button>
 
                         <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
-                        <button onClick={mobileAction(onShowSettings)} className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">Settings</button>
                         <button onClick={mobileAction(onShowLogViewer)} className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">Log Viewer</button>
-                        <button onClick={mobileAction(onShowBLEConnector)} className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">ISO-TP Bridge</button>
                         <button onClick={mobileAction(async () => { try { const defs = await loadDefinitionIndex(); onShowDefinitions(defs); } catch {} })}
                             className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">Definitions</button>
                         <button onClick={mobileAction(onShowPatchManager)} disabled={!ctx.bin}
@@ -306,6 +300,11 @@ export function MenuBar({
                                 Cross-Compare ({ctx.crossCompareDiffs.length})
                             </button>
                         )}
+                        <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
+                        <a href="https://simos.app/" target="_blank" rel="noopener noreferrer"
+                            className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
+                            Get the iOS Logging App
+                        </a>
                     </div>
                 </>
             )}
