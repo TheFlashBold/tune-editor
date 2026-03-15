@@ -7,6 +7,7 @@ interface MenuBarProps {
     onShowConverter: () => void;
     onShowXdfConverter: () => void;
     onShowLogViewer: () => void;
+    onOpenOLS: (file: File) => void;
     onShowDefinitions: (defs: any[]) => void;
     onShowPatchManager: () => void;
     onShowChanges: () => void;
@@ -17,6 +18,7 @@ export function MenuBar({
     onShowConverter,
     onShowXdfConverter,
     onShowLogViewer,
+    onOpenOLS,
     onShowDefinitions,
     onShowPatchManager,
     onShowChanges,
@@ -34,6 +36,16 @@ export function MenuBar({
     const binInputRef = useRef<HTMLInputElement>(null);
     const originalBinInputRef = useRef<HTMLInputElement>(null);
     const crossCompareBinInputRef = useRef<HTMLInputElement>(null);
+    const olsInputRef = useRef<HTMLInputElement>(null);
+
+    const handleOpenOLS = useCallback(() => {
+        const file = olsInputRef.current?.files?.[0];
+        if (!file) return;
+        onOpenOLS(file);
+        setShowFileMenu(false);
+        setShowMobileMenu(false);
+        if (olsInputRef.current) olsInputRef.current.value = '';
+    }, [onOpenOLS]);
 
     const handleOpenJson = useCallback(async () => {
         const file = jsonInputRef.current?.files?.[0];
@@ -175,6 +187,10 @@ export function MenuBar({
                                     Open Crosscompare BIN...
                                     <input type="file" accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex" ref={crossCompareBinInputRef} onChange={handleOpenCrossCompareBin} className="hidden"/>
                                 </label>
+                                <label className="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
+                                    Open OLS Project...
+                                    <input type="file" accept=".ols" ref={olsInputRef} onChange={handleOpenOLS} className="hidden"/>
+                                </label>
                                 <div className="border-t border-zinc-400 dark:border-zinc-600 my-1"/>
                                 <button onClick={handleSaveBin} disabled={!ctx.bin}
                                     className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent">
@@ -267,6 +283,10 @@ export function MenuBar({
                         <label className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
                             Open Crosscompare BIN...
                             <input type="file" accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex" ref={crossCompareBinInputRef} onChange={handleOpenCrossCompareBin} className="hidden"/>
+                        </label>
+                        <label className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
+                            Open OLS Project...
+                            <input type="file" accept=".ols" ref={olsInputRef} onChange={handleOpenOLS} className="hidden"/>
                         </label>
                         <button onClick={handleSaveBin} disabled={!ctx.bin}
                             className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 active:bg-zinc-300 dark:active:bg-zinc-600">

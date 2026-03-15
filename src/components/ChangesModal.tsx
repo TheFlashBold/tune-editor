@@ -1,5 +1,6 @@
 import {useAppContext} from '../context/app';
 import {formatValue, writeParameterValue, writeTableCell, writeAxisValue} from '../lib/binUtils';
+import {track} from "../lib/track.ts";
 
 interface ChangesModalProps {
     onClose: () => void;
@@ -70,6 +71,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                     if (!ctx.bin) return;
                                                     writeParameterValue(ctx.bin.data, param, originalValue as number, ctx.calOffset, ctx.baseAddress, ctx.bigEndian);
                                                     ctx.markModified();
+                                                    track('Revert Parameter', {type: param.type, name: param.name});
                                                 }}
                                                 className="ml-auto px-3 py-1 text-xs font-medium rounded bg-red-600/80 text-white hover:bg-red-500 cursor-pointer"
                                             >
@@ -221,6 +223,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                             }
                                                         }
                                                         ctx.markModified();
+                                                        track('Revert Parameter', {type: param.type, name: param.name});
                                                     }}
                                                     className="px-3 py-1 text-xs font-medium rounded bg-red-600/80 text-white hover:bg-red-500 cursor-pointer"
                                                 >

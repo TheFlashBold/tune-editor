@@ -18,16 +18,20 @@ import {useAppState} from './hooks/useAppState';
 import {loadDefinition} from './lib/definitionLoader';
 import {isS19File, isHexFile} from './lib/s19Parser';
 import {XDFParser} from './lib/xdfParser';
+import {parseOLS, extractBinary, olsToDefinition} from './lib/olsParser';
+import type {OLSFile, OLSBinaryVersion} from './lib/olsParser';
+import {OLSPickerModal} from './components/OLSPickerModal';
 import {InfoDialog} from './components/InfoDialog.tsx';
 import './app.css';
 
 const BIN_EXTENSIONS = ['.bin', '.ori', '.mod'];
 
-function classifyFile(name: string): 'json' | 'bin' | 'csv' | 'xdf' | null {
+function classifyFile(name: string): 'json' | 'bin' | 'csv' | 'xdf' | 'ols' | null {
     const lower = name.toLowerCase();
     if (lower.endsWith('.json')) return 'json';
     if (lower.endsWith('.xdf')) return 'xdf';
     if (lower.endsWith('.csv')) return 'csv';
+    if (lower.endsWith('.ols')) return 'ols';
     if (BIN_EXTENSIONS.some(ext => lower.endsWith(ext))) return 'bin';
     if (isS19File(name) || isHexFile(name)) return 'bin';
     return null;
@@ -56,6 +60,7 @@ export function App() {
     const [showCrossCompare, setShowCrossCompare] = useState(false);
     const [showPatchManager, setShowPatchManager] = useState(false);
     const [logViewerData, setLogViewerData] = useState<string | null>(null);
+    const [olsData, setOlsData] = useState<{ols: OLSFile, buffer: ArrayBuffer} | null>(null);
 
     const handleDefinitionLoad = useCallback((def: Definition) => {
         appState.setExternalDefinition(def);
@@ -83,6 +88,16 @@ export function App() {
             appState.setSelectedParam(null);
         } else if (type === 'bin') {
             await appState.loadBin(file);
+        } else if (type === 'ols') {
+            const buffer = await file.arrayBuffer();
+            try {
+                const ols = parseOLS(buffer, file.name);
+                console.log(`OLS: ${ols.parameters.length} parameters, ${ols.binaryVersions.length} binaries from ${file.name}`);
+                setOlsData({ols, buffer});
+                track('Load OLS', {params: ols.parameters.length, bins: ols.binaryVersions.length});
+            } catch (err) {
+                console.error('Failed to parse OLS:', err);
+            }
         } else if (type === 'csv') {
             const text = await file.text();
             const firstHeader = text.split('\n')[0] ?? '';
@@ -97,6 +112,22 @@ export function App() {
     const preventDefaults = useCallback((e: DragEvent) => {
         e.preventDefault();
     }, []);
+
+    const handleOLSSelect = useCallback((version: OLSBinaryVersion | null) => {
+        if (!olsData) return;
+        const def = olsToDefinition(olsData.ols);
+        appState.setExternalDefinition(def);
+        appState.setSelectedParam(null);
+
+        if (version) {
+            // Extract and load the selected binary
+            const binData = extractBinary(olsData.buffer, version);
+            appState.loadBinData(binData, version.name || 'ols_binary.bin');
+        }
+
+        setOlsData(null);
+        track('Load OLS Definition', {name: def.name, withBin: !!version});
+    }, [olsData, appState]);
 
     // Show definition picker when matches > 1
     const showDefinitionPicker = appState.definitionMatches.length > 1;
@@ -119,6 +150,17 @@ export function App() {
                     onShowConverter={() => setShowConverter(true)}
                     onShowXdfConverter={() => setShowXdfConverter(true)}
                     onShowLogViewer={() => { setShowLogViewer(true); track('Open Log Viewer'); }}
+                    onOpenOLS={async (file) => {
+                        const buffer = await file.arrayBuffer();
+                        try {
+                            const ols = parseOLS(buffer, file.name);
+                            console.log(`OLS: ${ols.parameters.length} parameters, ${ols.binaryVersions.length} binaries from ${file.name}`);
+                            setOlsData({ols, buffer});
+                            track('Load OLS', {params: ols.parameters.length, bins: ols.binaryVersions.length});
+                        } catch (err) {
+                            console.error('Failed to parse OLS:', err);
+                        }
+                    }}
                     onShowDefinitions={(defs) => {
                         appState.setAllDefinitions(defs);
                         setShowDefinitions(true);
@@ -244,6 +286,14 @@ export function App() {
                         onPatchResultsChange={appState.setPatchResults}
                         definition={appState.definition}
                         onDefinitionUpdate={appState.setDefinition}
+                    />
+                )}
+                {/* OLS Picker Modal */}
+                {olsData && (
+                    <OLSPickerModal
+                        ols={olsData.ols}
+                        onSelect={handleOLSSelect}
+                        onClose={() => setOlsData(null)}
                     />
                 )}
                 {/* What's New Dialog */}

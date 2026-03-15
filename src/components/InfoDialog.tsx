@@ -13,13 +13,20 @@ interface ChangelogEntry {
 
 
 const tips: string[] = [
-    'Drag & drop .bin, .xdf, .json or .csv files anywhere to open them',
+    'Drag & drop .bin, .ols, .xdf, .json or .csv files anywhere to open them',
     'Use load original to diff two bins',
     'Use the cross-compare feature to diff two bins with different definitions, matched by name',
     'XDF files are automatically converted — no need to convert to JSON first',
 ];
 
 const changelog: ChangelogEntry[] = [
+    {
+        version: '1.5.0',
+        date: '15.03.2026',
+        changes: [
+            'Experimental .ols project file parsing (parameters, folders, binary extraction)',
+        ]
+    },
     {
         version: '1.4.0',
         date: '14.03.2026',

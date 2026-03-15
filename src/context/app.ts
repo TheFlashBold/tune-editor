@@ -36,6 +36,7 @@ export interface IAppContext {
 
     // Actions
     loadBin: (file: File) => Promise<void>;
+    loadBinData: (data: Uint8Array, name: string) => void;
     loadOriginalBin: (file: File) => Promise<void>;
     loadCrossCompareBin: (file: File) => Promise<void>;
     saveBin: () => void;
