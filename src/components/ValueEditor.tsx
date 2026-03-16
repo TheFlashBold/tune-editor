@@ -690,9 +690,6 @@ function SurfaceGraph({
         if (!gl || !program || !buf || !canvas) return;
         if (zData.length === 0 || zData[0].length === 0) return;
 
-        const rows = zData.length;
-        const cols = zData[0].length;
-
         // Overlay setup
         const origXD = originalXData && originalXData.length > 0 ? originalXData : xData;
         const origYD = originalYData && originalYData.length > 0 ? originalYData : yData;
