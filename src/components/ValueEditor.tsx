@@ -336,6 +336,7 @@ interface CurveGraphProps {
     xData: number[];
     yData: number[];
     originalYData?: number[] | null;
+    originalXData?: number[] | null;
     compareYData?: number[] | null;
     compareXData?: number[] | null;
     xUnit: string;
@@ -346,6 +347,7 @@ function CurveGraph({
                         xData,
                         yData,
                         originalYData,
+                        originalXData,
                         compareYData,
                         compareXData,
                         xUnit,
@@ -361,9 +363,17 @@ function CurveGraph({
 
     if (xData.length === 0 || yData.length === 0) return null;
 
-    // Calculate ranges
-    const xMin = Math.min(...xData);
-    const xMax = Math.max(...xData);
+    const origXData = originalXData && originalXData.length > 0 ? originalXData : xData;
+    const cmpXData = compareXData && compareXData.length > 0 ? compareXData : xData;
+
+    // Calculate ranges including all visible x axes
+    const allXValues = [
+        ...xData,
+        ...(showOriginal && originalYData ? origXData : []),
+        ...(showCompare && compareYData ? cmpXData : []),
+    ];
+    const xMin = Math.min(...allXValues);
+    const xMax = Math.max(...allXValues);
     const allYValues = [
         ...yData,
         ...(showOriginal && originalYData ? originalYData : []),
@@ -376,14 +386,18 @@ function CurveGraph({
     const yMinPadded = yMin - yPadding;
     const yMaxPadded = yMax + yPadding;
 
+    // Consistent decimal places matching the table
+    const xDecimals = getConsistentDecimals(allXValues, 2);
+    const yDecimals = getConsistentDecimals(allYValues, 2);
+
     // Scale functions
     const scaleX = (val: number) => padding.left + ((val - xMin) / (xMax - xMin || 1)) * plotWidth;
     const scaleY = (val: number) => padding.top + plotHeight - ((val - yMinPadded) / (yMaxPadded - yMinPadded)) * plotHeight;
 
-    // Generate path
-    const generatePath = (values: number[]) => {
+    // Generate path using specific x data
+    const generatePath = (values: number[], xVals: number[]) => {
         return values.map((y, i) => {
-            const x = xData[i] ?? i;
+            const x = xVals[i] ?? i;
             const px = scaleX(x);
             const py = scaleY(y);
             return `${i === 0 ? 'M' : 'L'} ${px} ${py}`;
@@ -430,7 +444,7 @@ function CurveGraph({
                     const x = scaleX(val);
                     return (
                         <text key={`xl${i}`} x={x} y={height - padding.bottom + 20} fill="#a1a1aa" text-anchor="middle">
-                            {formatValue(val, 1)}
+                            {formatValueConsistent(val, xDecimals)}
                         </text>
                     );
                 })}
@@ -444,7 +458,7 @@ function CurveGraph({
                     const y = scaleY(val);
                     return (
                         <text key={`yl${i}`} x={padding.left - 10} y={y + 4} fill="#a1a1aa" text-anchor="end">
-                            {formatValue(val, 1)}
+                            {formatValueConsistent(val, yDecimals)}
                         </text>
                     );
                 })}
@@ -456,10 +470,10 @@ function CurveGraph({
                 {/* Original curve (if showing) */}
                 {showOriginal && originalYData && (
                     <>
-                        <path d={generatePath(originalYData)} fill="none" stroke="#71717a" stroke-width="2"
+                        <path d={generatePath(originalYData, origXData)} fill="none" stroke="#71717a" stroke-width="2"
                               stroke-dasharray="5,5"/>
                         {originalYData.map((y, i) => {
-                            const x = xData[i] ?? i;
+                            const x = origXData[i] ?? i;
                             return <circle key={`oc${i}`} cx={scaleX(x)} cy={scaleY(y)} r="3" fill="#71717a"/>;
                         })}
                     </>
@@ -467,15 +481,9 @@ function CurveGraph({
 
                 {/* Compare curve (if showing) */}
                 {showCompare && compareYData && (() => {
-                    const cmpXData = compareXData && compareXData.length > 0 ? compareXData : xData;
                     return (
                         <>
-                            <path d={compareYData.map((y, i) => {
-                                const x = cmpXData[i] ?? i;
-                                const px = scaleX(x);
-                                const py = scaleY(y);
-                                return `${i === 0 ? 'M' : 'L'} ${px} ${py}`;
-                            }).join(' ')} fill="none" stroke="#14b8a6" stroke-width="2" stroke-dasharray="5,5"/>
+                            <path d={generatePath(compareYData, cmpXData)} fill="none" stroke="#14b8a6" stroke-width="2" stroke-dasharray="5,5"/>
                             {compareYData.map((y, i) => {
                                 const x = cmpXData[i] ?? i;
                                 return <circle key={`cc${i}`} cx={scaleX(x)} cy={scaleY(y)} r="3" fill="#14b8a6"/>;
@@ -485,7 +493,7 @@ function CurveGraph({
                 })()}
 
                 {/* Current curve */}
-                <path d={generatePath(yData)} fill="none" stroke="#3b82f6" stroke-width="2"/>
+                <path d={generatePath(yData, xData)} fill="none" stroke="#3b82f6" stroke-width="2"/>
                 {yData.map((y, i) => {
                     const x = xData[i] ?? i;
                     return <circle key={`c${i}`} cx={scaleX(x)} cy={scaleY(y)} r="4" fill="#3b82f6"/>;
@@ -522,6 +530,8 @@ interface SurfaceGraphProps {
     yData: number[];
     zData: number[][];
     originalZData?: number[][] | null;
+    originalXData?: number[] | null;
+    originalYData?: number[] | null;
     compareZData?: number[][] | null;
     compareXData?: number[] | null;
     compareYData?: number[] | null;
@@ -530,12 +540,56 @@ interface SurfaceGraphProps {
     zUnit: string;
 }
 
+// WebGL helpers
+const VERT_SRC = `
+attribute vec3 a_pos;
+attribute vec4 a_color;
+varying vec4 v_color;
+void main() {
+    gl_Position = vec4(a_pos.xy, a_pos.z, 1.0);
+    v_color = a_color;
+}`;
+
+const FRAG_SRC = `
+precision mediump float;
+varying vec4 v_color;
+void main() {
+    gl_FragColor = v_color;
+}`;
+
+function compileShader(gl: WebGL2RenderingContext, type: number, src: string): WebGLShader {
+    const s = gl.createShader(type)!;
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+}
+
+function createProgram(gl: WebGL2RenderingContext): WebGLProgram {
+    const p = gl.createProgram()!;
+    gl.attachShader(p, compileShader(gl, gl.VERTEX_SHADER, VERT_SRC));
+    gl.attachShader(p, compileShader(gl, gl.FRAGMENT_SHADER, FRAG_SRC));
+    gl.linkProgram(p);
+    return p;
+}
+
+function hslToRgb(h: number, s: number, l: number): [number, number, number] {
+    s /= 100; l /= 100;
+    const k = (n: number) => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = (n: number) => l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
+    return [f(0), f(8), f(4)];
+}
+
 function SurfaceGraph({
                           xData,
                           yData,
                           zData,
                           originalZData,
+                          originalXData,
+                          originalYData,
                           compareZData,
+                          compareXData,
+                          compareYData,
                           xUnit,
                           yUnit,
                           zUnit
@@ -547,6 +601,10 @@ function SurfaceGraph({
     const [isDragging, setIsDragging] = useState(false);
     const dragStart = useRef<{ x: number; y: number; rotation: number; tilt: number } | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const glRef = useRef<WebGL2RenderingContext | null>(null);
+    const programRef = useRef<WebGLProgram | null>(null);
+    const bufRef = useRef<WebGLBuffer | null>(null);
 
     // Mouse drag handlers
     const handleMouseDown = (e: MouseEvent) => {
@@ -608,264 +666,387 @@ function SurfaceGraph({
         }
     }, [isDragging]);
 
+    // Init WebGL once
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const gl = canvas.getContext('webgl2', {antialias: true, alpha: true});
+        if (!gl) return;
+        glRef.current = gl;
+        programRef.current = createProgram(gl);
+        bufRef.current = gl.createBuffer();
+        return () => {
+            if (bufRef.current) gl.deleteBuffer(bufRef.current);
+            if (programRef.current) gl.deleteProgram(programRef.current);
+        };
+    }, []);
+
+    // Render scene
+    useEffect(() => {
+        const gl = glRef.current;
+        const program = programRef.current;
+        const buf = bufRef.current;
+        const canvas = canvasRef.current;
+        if (!gl || !program || !buf || !canvas) return;
+        if (zData.length === 0 || zData[0].length === 0) return;
+
+        const rows = zData.length;
+        const cols = zData[0].length;
+
+        // Overlay setup
+        const origXD = originalXData && originalXData.length > 0 ? originalXData : xData;
+        const origYD = originalYData && originalYData.length > 0 ? originalYData : yData;
+        const cmpXD = compareXData && compareXData.length > 0 ? compareXData : xData;
+        const cmpYD = compareYData && compareYData.length > 0 ? compareYData : yData;
+
+        type Overlay = { z: number[][]; xAx: number[]; yAx: number[]; isCompare: boolean };
+        const overlays: Overlay[] = [];
+        if (showOriginal && originalZData) overlays.push({z: originalZData, xAx: origXD, yAx: origYD, isCompare: false});
+        if (showCompare && compareZData) overlays.push({z: compareZData, xAx: cmpXD, yAx: cmpYD, isCompare: true});
+
+        // Common axis ranges
+        const allXVals = [...xData, ...overlays.flatMap(o => o.xAx)];
+        const allYVals = [...yData, ...overlays.flatMap(o => o.yAx)];
+        const axXMin = Math.min(...allXVals);
+        const axXMax = Math.max(...allXVals);
+        const axYMin = Math.min(...allYVals);
+        const axYMax = Math.max(...allYVals);
+
+        const allZ = [...zData.flat(), ...overlays.flatMap(o => o.z.flat())];
+        const zMin = Math.min(...allZ);
+        const zMax = Math.max(...allZ);
+
+        const norm = (v: number, mn: number, mx: number) => (mx - mn) ? (v - mn) / (mx - mn) : 0.5;
+
+        // Canvas sizing
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        const cw = Math.round(rect.width * dpr);
+        const ch = Math.round(rect.height * dpr);
+        if (canvas.width !== cw || canvas.height !== ch) {
+            canvas.width = cw;
+            canvas.height = ch;
+        }
+        gl.viewport(0, 0, cw, ch);
+
+        const w = rect.width;
+        const h = rect.height;
+
+        // Projection: 3D → clip space [-1,1]
+        const scale = Math.min(w, h) * 0.4;
+        const cx = w / 2;
+        const cy = h / 2 + h * 0.12;
+        const radRot = (rotation * Math.PI) / 180;
+        const radTilt = (tilt * Math.PI) / 180;
+        const cosR = Math.cos(radRot), sinR = Math.sin(radRot);
+        const cosT = Math.cos(radTilt), sinT = Math.sin(radTilt);
+
+        const proj = (x: number, y: number, z: number) => {
+            const rx = x * cosR - y * sinR;
+            const ry = x * sinR + y * cosR;
+            const ty = ry * cosT - z * sinT;
+            const tz = ry * sinT + z * cosT;
+            const px = cx + rx * scale;
+            const py = cy - ty * scale - tz * scale * 0.8;
+            // Convert to clip space
+            const clipX = (px / w) * 2 - 1;
+            const clipY = 1 - (py / h) * 2;
+            // Depth: map tz to [0,1] range (near=1, far=0 for depth test LEQUAL)
+            const depth = 0.5 - tz * 0.4;
+            return {clipX, clipY, depth};
+        };
+
+        // Build vertex data: 7 floats per vertex (x, y, z, r, g, b, a)
+        const triVerts: number[] = [];
+        const lineVerts: number[] = [];
+
+        // Helper: project grid point
+        const gridPoint = (xAx: number[], yAx: number[], zGrid: number[][], r: number, c: number) => {
+            const nx = norm(xAx[c] ?? c, axXMin, axXMax) - 0.5;
+            const ny = norm(yAx[r] ?? r, axYMin, axYMax) - 0.5;
+            const nz = norm(zGrid[r][c], zMin, zMax);
+            return proj(nx, ny, nz);
+        };
+
+        // Push a triangle
+        const pushTri = (verts: number[],
+                         p1: {clipX: number; clipY: number; depth: number},
+                         p2: {clipX: number; clipY: number; depth: number},
+                         p3: {clipX: number; clipY: number; depth: number},
+                         r: number, g: number, b: number, a: number) => {
+            verts.push(p1.clipX, p1.clipY, p1.depth, r, g, b, a);
+            verts.push(p2.clipX, p2.clipY, p2.depth, r, g, b, a);
+            verts.push(p3.clipX, p3.clipY, p3.depth, r, g, b, a);
+        };
+
+        // Push a line
+        const pushLine = (p1: {clipX: number; clipY: number; depth: number},
+                          p2: {clipX: number; clipY: number; depth: number},
+                          r: number, g: number, b: number, a: number) => {
+            lineVerts.push(p1.clipX, p1.clipY, p1.depth, r, g, b, a);
+            lineVerts.push(p2.clipX, p2.clipY, p2.depth, r, g, b, a);
+        };
+
+        // Build surface for a grid
+        const buildSurface = (xAx: number[], yAx: number[], zGrid: number[][],
+                              colorFn: (t: number) => [number, number, number, number]) => {
+            const gRows = zGrid.length;
+            const gCols = zGrid[0].length;
+            for (let r = 0; r < gRows - 1; r++) {
+                for (let c = 0; c < gCols - 1; c++) {
+                    const p1 = gridPoint(xAx, yAx, zGrid, r, c);
+                    const p2 = gridPoint(xAx, yAx, zGrid, r, c + 1);
+                    const p3 = gridPoint(xAx, yAx, zGrid, r + 1, c + 1);
+                    const p4 = gridPoint(xAx, yAx, zGrid, r + 1, c);
+                    const avgZ = (zGrid[r][c] + zGrid[r][c + 1] + zGrid[r + 1][c + 1] + zGrid[r + 1][c]) / 4;
+                    const t = (zMax - zMin) ? (avgZ - zMin) / (zMax - zMin) : 0.5;
+                    const [cr, cg, cb, ca] = colorFn(t);
+                    pushTri(triVerts, p1, p2, p3, cr, cg, cb, ca);
+                    pushTri(triVerts, p1, p3, p4, cr, cg, cb, ca);
+                }
+            }
+        };
+
+        // Build wireframe for a grid
+        const buildWireframe = (xAx: number[], yAx: number[], zGrid: number[][],
+                                r: number, g: number, b: number, a: number) => {
+            const gRows = zGrid.length;
+            const gCols = zGrid[0].length;
+            for (let row = 0; row < gRows; row++) {
+                for (let c = 0; c < gCols - 1; c++) {
+                    pushLine(gridPoint(xAx, yAx, zGrid, row, c), gridPoint(xAx, yAx, zGrid, row, c + 1), r, g, b, a);
+                }
+            }
+            for (let row = 0; row < gRows - 1; row++) {
+                for (let c = 0; c < gCols; c++) {
+                    pushLine(gridPoint(xAx, yAx, zGrid, row, c), gridPoint(xAx, yAx, zGrid, row + 1, c), r, g, b, a);
+                }
+            }
+        };
+
+        // Main surface: green-to-red heatmap
+        buildSurface(xData, yData, zData, (t) => {
+            const [r, g, b] = hslToRgb((1 - t) * 120, 70, 50);
+            return [r, g, b, 0.7];
+        });
+        buildWireframe(xData, yData, zData, 0, 0, 0, 0.3);
+
+        // Overlay surfaces
+        for (const ov of overlays) {
+            if (ov.isCompare) {
+                buildSurface(ov.xAx, ov.yAx, ov.z, (t) => {
+                    const [r, g, b] = hslToRgb(174, 60, 75 - t * 45);
+                    return [r, g, b, 0.55];
+                });
+                buildWireframe(ov.xAx, ov.yAx, ov.z, 0, 0.31, 0.27, 0.4);
+            } else {
+                buildSurface(ov.xAx, ov.yAx, ov.z, (t) => {
+                    const l = (75 - t * 45) / 100;
+                    return [l, l, l, 0.55];
+                });
+                buildWireframe(ov.xAx, ov.yAx, ov.z, 0, 0, 0, 0.3);
+            }
+        }
+
+        // Axis lines (drawn as lines, no depth test)
+        const origin = proj(-0.6, -0.6, 0);
+        const xE = proj(0.6, -0.6, 0);
+        const yE = proj(-0.6, 0.6, 0);
+        const zE = proj(-0.6, -0.6, 1.2);
+        const axisVerts: number[] = [];
+        // X axis - red
+        axisVerts.push(origin.clipX, origin.clipY, 0, 0.94, 0.27, 0.27, 1);
+        axisVerts.push(xE.clipX, xE.clipY, 0, 0.94, 0.27, 0.27, 1);
+        // Y axis - green
+        axisVerts.push(origin.clipX, origin.clipY, 0, 0.13, 0.77, 0.37, 1);
+        axisVerts.push(yE.clipX, yE.clipY, 0, 0.13, 0.77, 0.37, 1);
+        // Z axis - blue
+        axisVerts.push(origin.clipX, origin.clipY, 0, 0.23, 0.51, 0.96, 1);
+        axisVerts.push(zE.clipX, zE.clipY, 0, 0.23, 0.51, 0.96, 1);
+
+        // X axis ticks
+        for (let i = 0; i < xData.length; i++) {
+            const t = norm(xData[i], axXMin, axXMax);
+            const p = proj(-0.5 + t, -0.6, 0);
+            const p2 = proj(-0.5 + t, -0.63, 0);
+            axisVerts.push(p.clipX, p.clipY, 0, 0.94, 0.27, 0.27, 1);
+            axisVerts.push(p2.clipX, p2.clipY, 0, 0.94, 0.27, 0.27, 1);
+        }
+        // Y axis ticks
+        for (let i = 0; i < yData.length; i++) {
+            const t = norm(yData[i], axYMin, axYMax);
+            const p = proj(-0.6, -0.5 + t, 0);
+            const p2 = proj(-0.63, -0.5 + t, 0);
+            axisVerts.push(p.clipX, p.clipY, 0, 0.13, 0.77, 0.37, 1);
+            axisVerts.push(p2.clipX, p2.clipY, 0, 0.13, 0.77, 0.37, 1);
+        }
+        // Z axis ticks
+        for (let i = 0; i < 5; i++) {
+            const t = i / 4;
+            const p = proj(-0.6, -0.6, t);
+            const p2 = proj(-0.63, -0.6, t);
+            axisVerts.push(p.clipX, p.clipY, 0, 0.23, 0.51, 0.96, 1);
+            axisVerts.push(p2.clipX, p2.clipY, 0, 0.23, 0.51, 0.96, 1);
+        }
+
+        // --- Draw ---
+        gl.useProgram(program);
+        const aPos = gl.getAttribLocation(program, 'a_pos');
+        const aColor = gl.getAttribLocation(program, 'a_color');
+        const stride = 7 * 4; // 7 floats × 4 bytes
+
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        gl.enable(gl.DEPTH_TEST);
+        gl.depthFunc(gl.LEQUAL);
+        gl.enable(gl.BLEND);
+        gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+
+        const drawBatch = (data: Float32Array, mode: number) => {
+            gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_DRAW);
+            gl.enableVertexAttribArray(aPos);
+            gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, stride, 0);
+            gl.enableVertexAttribArray(aColor);
+            gl.vertexAttribPointer(aColor, 4, gl.FLOAT, false, stride, 3 * 4);
+            gl.drawArrays(mode, 0, data.length / 7);
+        };
+
+        // 1. Triangles (surfaces) with depth write + test
+        if (triVerts.length > 0) {
+            gl.depthMask(true);
+            drawBatch(new Float32Array(triVerts), gl.TRIANGLES);
+        }
+
+        // 2. Wireframe lines with depth test but no depth write (so they sit on surfaces)
+        if (lineVerts.length > 0) {
+            gl.depthMask(false);
+            drawBatch(new Float32Array(lineVerts), gl.LINES);
+        }
+
+        // 3. Axis lines on top (no depth test)
+        if (axisVerts.length > 0) {
+            gl.disable(gl.DEPTH_TEST);
+            gl.depthMask(true);
+            drawBatch(new Float32Array(axisVerts), gl.LINES);
+        }
+
+    }, [zData, xData, yData, rotation, tilt, showOriginal, showCompare,
+        originalZData, originalXData, originalYData, compareZData, compareXData, compareYData]);
+
     if (zData.length === 0 || zData[0].length === 0) return null;
 
-    // Overlay layers: always show both original and compare when available
-    const overlays: { z: number[][]; label: string; isCompare: boolean }[] = [];
-    if (showOriginal && originalZData) overlays.push({z: originalZData, label: 'Original', isCompare: false});
-    if (showCompare && compareZData) overlays.push({z: compareZData, label: 'Compare', isCompare: true});
-
+    // Compute axis tick screen positions for HTML overlay
     const rows = zData.length;
     const cols = zData[0].length;
 
-    // Aspect ratio based on data dimensions
-    const baseSize = 600;
-    const aspectRatio = cols / rows;
-    const width = aspectRatio >= 1 ? baseSize * Math.min(aspectRatio, 2) : baseSize;
-    const height = aspectRatio < 1 ? baseSize / Math.max(aspectRatio, 0.5) : baseSize;
-    const centerX = width / 2;
-    const centerY = height / 2 + 100;
+    const origXD = originalXData && originalXData.length > 0 ? originalXData : xData;
+    const origYD = originalYData && originalYData.length > 0 ? originalYData : yData;
+    const cmpXD = compareXData && compareXData.length > 0 ? compareXData : xData;
+    const cmpYD = compareYData && compareYData.length > 0 ? compareYData : yData;
 
-    // Calculate Z range (include overlay for consistent scale)
-    const allZ = [...zData.flat(), ...overlays.flatMap(o => o.z.flat())];
+    const ovAxes: number[][] = [];
+    if (showOriginal && originalZData) { ovAxes.push(origXD); ovAxes.push(origYD); }
+    if (showCompare && compareZData) { ovAxes.push(cmpXD); ovAxes.push(cmpYD); }
+    const allXVals = [...xData, ...ovAxes.filter((_, i) => i % 2 === 0).flat()];
+    const allYVals = [...yData, ...ovAxes.filter((_, i) => i % 2 === 1).flat()];
+    const axXMin = Math.min(...allXVals);
+    const axXMax = Math.max(...allXVals);
+    const axYMin = Math.min(...allYVals);
+    const axYMax = Math.max(...allYVals);
+
+    const allZ = [...zData.flat(),
+        ...(showOriginal && originalZData ? originalZData.flat() : []),
+        ...(showCompare && compareZData ? compareZData.flat() : [])];
     const zMin = Math.min(...allZ);
     const zMax = Math.max(...allZ);
 
-    // Normalize data to 0-1 range
-    const normalize = (val: number, min: number, max: number) => (max - min) ? (val - min) / (max - min) : 0.5;
+    const norm = (v: number, mn: number, mx: number) => (mx - mn) ? (v - mn) / (mx - mn) : 0.5;
 
-    // 3D to 2D projection with rotation (isometric, square cells)
-    const project = (x: number, y: number, z: number) => {
-        const scale = Math.min(width, height) * 0.4;
+    // Screen-space project (percentage-based for overlay)
+    const projScreen = (x: number, y: number, z: number) => {
+        const baseSize = 600;
+        const aspectRatio = cols / rows;
+        const w = aspectRatio >= 1 ? baseSize * Math.min(aspectRatio, 2) : baseSize;
+        const h = aspectRatio < 1 ? baseSize / Math.max(aspectRatio, 0.5) : baseSize;
+        const sc = Math.min(w, h) * 0.4;
+        const cxp = w / 2;
+        const cyp = h / 2 + h * 0.12;
         const radRot = (rotation * Math.PI) / 180;
         const radTilt = (tilt * Math.PI) / 180;
-
-        // Rotate around Z axis
         const rx = x * Math.cos(radRot) - y * Math.sin(radRot);
         const ry = x * Math.sin(radRot) + y * Math.cos(radRot);
-
-        // Apply tilt (rotation around X axis)
         const ty = ry * Math.cos(radTilt) - z * Math.sin(radTilt);
-        const tz = ry * Math.sin(radTilt) + z * Math.cos(radTilt);
-
-        // Project to 2D - same scale for X and Y to keep cells square
-        return {
-            x: centerX + rx * scale,
-            y: centerY - ty * scale - tz * scale * 0.8,
-            depth: tz
-        };
+        const px = cxp + rx * sc;
+        const py = cyp - ty * sc - (ry * Math.sin(radTilt) + z * Math.cos(radTilt)) * sc * 0.8;
+        return {xPct: (px / w) * 100, yPct: (py / h) * 100};
     };
 
-    // Generate grid points
-    const points: { x: number; y: number; depth: number; row: number; col: number; z: number }[][] = [];
-    for (let r = 0; r < rows; r++) {
-        points[r] = [];
-        for (let c = 0; c < cols; c++) {
-            const nx = normalize(c, 0, cols - 1) - 0.5;
-            const ny = normalize(r, 0, rows - 1) - 0.5;
-            const nz = normalize(zData[r][c], zMin, zMax);
-            const p = project(nx, ny, nz);
-            points[r][c] = {...p, row: r, col: c, z: zData[r][c]};
-        }
-    }
-
-    // Generate all quads in a flat list with projected depth for sorting.
-    // Each quad carries its own depth from its own projected corners.
-    type Quad = { path: string; depth: number; color: string; opacity: number };
-    const quads: Quad[] = [];
-
-    // Build overlay points for each overlay layer
-    const overlayPoints: { points: { x: number; y: number; depth: number }[][]; overlay: typeof overlays[0] }[] = [];
-    for (const ov of overlays) {
-        const oRows = ov.z.length;
-        const oCols = ov.z[0].length;
-        const oPoints: { x: number; y: number; depth: number }[][] = [];
-        for (let r = 0; r < oRows; r++) {
-            oPoints[r] = [];
-            for (let c = 0; c < oCols; c++) {
-                const nx = normalize(c, 0, oCols - 1) - 0.5;
-                const ny = normalize(r, 0, oRows - 1) - 0.5;
-                const nz = normalize(ov.z[r][c], zMin, zMax);
-                oPoints[r][c] = project(nx, ny, nz);
-            }
-        }
-        overlayPoints.push({points: oPoints, overlay: ov});
-    }
-
-    for (let r = 0; r < rows - 1; r++) {
-        for (let c = 0; c < cols - 1; c++) {
-            // Main quad
-            const p1 = points[r][c];
-            const p2 = points[r][c + 1];
-            const p3 = points[r + 1][c + 1];
-            const p4 = points[r + 1][c];
-            const mainZ = (zData[r][c] + zData[r][c + 1] + zData[r + 1][c + 1] + zData[r + 1][c]) / 4;
-            const mainT = linearNormalize(mainZ, zMin, zMax);
-            const hue = (1 - mainT) * 120;
-            const mainDepth = (p1.depth + p2.depth + p3.depth + p4.depth) / 4;
-            const mainPath = `M ${p1.x} ${p1.y} L ${p2.x} ${p2.y} L ${p3.x} ${p3.y} L ${p4.x} ${p4.y} Z`;
-            quads.push({path: mainPath, depth: mainDepth, color: `hsl(${hue}, 70%, 50%)`, opacity: 0.7});
-
-            // Overlay quads
-            for (const {points: oPoints, overlay: ov} of overlayPoints) {
-                if (r < ov.z.length - 1 && c < ov.z[0].length - 1) {
-                    const op1 = oPoints[r][c];
-                    const op2 = oPoints[r][c + 1];
-                    const op3 = oPoints[r + 1][c + 1];
-                    const op4 = oPoints[r + 1][c];
-                    const ovZ = (ov.z[r][c] + ov.z[r][c + 1] + ov.z[r + 1][c + 1] + ov.z[r + 1][c]) / 4;
-                    const ovT = linearNormalize(ovZ, zMin, zMax);
-                    const ovColor = ov.isCompare
-                        ? `hsl(174, 60%, ${75 - ovT * 45}%)`
-                        : `hsl(0, 0%, ${75 - ovT * 45}%)`;
-                    const ovDepth = (op1.depth + op2.depth + op3.depth + op4.depth) / 4;
-                    const ovPath = `M ${op1.x} ${op1.y} L ${op2.x} ${op2.y} L ${op3.x} ${op3.y} L ${op4.x} ${op4.y} Z`;
-                    quads.push({path: ovPath, depth: ovDepth, color: ovColor, opacity: 0.55});
-                }
-            }
-        }
-    }
-
-    // Sort all quads back-to-front by their own projected depth
-    quads.sort((a, b) => a.depth - b.depth);
-
-    // Generate wireframe — flat list, each line uses its own projected depth
-    type WireLine = { x1: number; y1: number; x2: number; y2: number; depth: number; stroke: string };
-    const lines: WireLine[] = [];
-    const mainStroke = 'rgba(0,0,0,0.3)';
-
-    // Main wireframe
-    for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols - 1; c++) {
-            const p1 = points[r][c], p2 = points[r][c + 1];
-            lines.push({x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, depth: (p1.depth + p2.depth) / 2, stroke: mainStroke});
-        }
-    }
-    for (let r = 0; r < rows - 1; r++) {
-        for (let c = 0; c < cols; c++) {
-            const p1 = points[r][c], p2 = points[r + 1][c];
-            lines.push({x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, depth: (p1.depth + p2.depth) / 2, stroke: mainStroke});
-        }
-    }
-    // Overlay wireframes
-    for (const {points: oPoints, overlay: ov} of overlayPoints) {
-        const oRows = ov.z.length, oCols = ov.z[0].length;
-        const overlayStroke = ov.isCompare ? 'rgba(0,80,70,0.4)' : 'rgba(0,0,0,0.3)';
-        for (let r = 0; r < oRows; r++) {
-            for (let c = 0; c < oCols - 1; c++) {
-                const p1 = oPoints[r][c], p2 = oPoints[r][c + 1];
-                lines.push({x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, depth: (p1.depth + p2.depth) / 2, stroke: overlayStroke});
-            }
-        }
-        for (let r = 0; r < oRows - 1; r++) {
-            for (let c = 0; c < oCols; c++) {
-                const p1 = oPoints[r][c], p2 = oPoints[r + 1][c];
-                lines.push({x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y, depth: (p1.depth + p2.depth) / 2, stroke: overlayStroke});
-            }
-        }
-    }
-    lines.sort((a, b) => a.depth - b.depth);
-
-    // Axis lines
-    const origin = project(-0.6, -0.6, 0);
-    const xEnd = project(0.6, -0.6, 0);
-    const yEnd = project(-0.6, 0.6, 0);
-    const zEnd = project(-0.6, -0.6, 1.2);
-
-    // Generate axis ticks from actual data values
-    const xTicks = xData.map((val, i) => {
-        const t = cols > 1 ? i / (cols - 1) : 0.5;
-        const pos = project(-0.5 + t, -0.6, 0);
-        return {val, pos};
+    const xTicks = xData.map((val) => {
+        const t = norm(val, axXMin, axXMax);
+        return {val, pos: projScreen(-0.5 + t, -0.63, 0)};
     });
-    const yTicks = yData.map((val, i) => {
-        const t = rows > 1 ? i / (rows - 1) : 0.5;
-        const pos = project(-0.6, -0.5 + t, 0);
-        return {val, pos};
+    const yTicks = yData.map((val) => {
+        const t = norm(val, axYMin, axYMax);
+        return {val, pos: projScreen(-0.63, -0.5 + t, 0)};
     });
-    // Z axis: show 5 ticks for the value range
-    const numZTicks = 5;
-    const zTicks = Array.from({length: numZTicks}, (_, i) => {
-        const t = i / (numZTicks - 1);
+    const zTicks = Array.from({length: 5}, (_, i) => {
+        const t = i / 4;
         const val = zMin + t * (zMax - zMin);
-        const pos = project(-0.6, -0.6, t);
-        return {val, pos};
+        return {val, pos: projScreen(-0.63, -0.6, t)};
     });
 
+    const xEndPos = projScreen(0.65, -0.6, 0);
+    const yEndPos = projScreen(-0.6, 0.65, 0);
+    const zEndPos = projScreen(-0.6, -0.6, 1.25);
 
-    const zDecimals = useMemo(() => getConsistentDecimals(zTicks.map(({val}) => val), 2), [zTicks]);
-    const xDecimals = useMemo(() => getConsistentDecimals(xTicks.map(({val}) => val), 2), [xTicks]);
-    const yDecimals = useMemo(() => getConsistentDecimals(yTicks.map(({val}) => val), 2), [yTicks]);
+    const xDecimals = getConsistentDecimals(xData, 2);
+    const yDecimals = getConsistentDecimals(yData, 2);
+    const zDecimals = getConsistentDecimals(zTicks.map(t => t.val), 2);
 
     return (
         <div ref={containerRef} class="mt-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg p-4">
-            <svg
-                viewBox={`0 0 ${width} ${height}`}
-                class="w-full font-mono text-xs select-none"
-                style={{maxHeight: '70vh', cursor: 'move', touchAction: 'none'}}
-                preserveAspectRatio="xMidYMid meet"
-                onMouseDown={handleMouseDown}
-                onTouchStart={handleTouchStart}
-            >
-                {/* Filled quads (main + overlay depth-sorted together) */}
-                {quads.map((q, i) => (
-                    <path key={`q${i}`} d={q.path} fill={q.color} fill-opacity={q.opacity} stroke="none"/>
-                ))}
-
-                {/* Wireframe (main + overlay depth-sorted together) */}
-                {lines.map((l, i) => (
-                    <line
-                        key={`l${i}`}
-                        x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2}
-                        stroke={l.stroke}
-                        stroke-width="0.5"
-                    />
-                ))}
-
-                {/* Axes */}
-                <line x1={origin.x} y1={origin.y} x2={xEnd.x} y2={xEnd.y} stroke="#ef4444" stroke-width="2"/>
-                <line x1={origin.x} y1={origin.y} x2={yEnd.x} y2={yEnd.y} stroke="#22c55e" stroke-width="2"/>
-                <line x1={origin.x} y1={origin.y} x2={zEnd.x} y2={zEnd.y} stroke="#3b82f6" stroke-width="2"/>
-
-                {/* X axis ticks and values */}
-                {xTicks.map((tick, i) => (
-                    <g key={`xt${i}`}>
-                        <line x1={tick.pos.x} y1={tick.pos.y} x2={tick.pos.x} y2={tick.pos.y + 6} stroke="#ef4444"
-                              stroke-width="1"/>
-                        <text x={tick.pos.x} y={tick.pos.y + 18} fill="#a1a1aa" font-size="9" text-anchor="middle">
+            <div class="relative" style={{aspectRatio: `${cols / rows >= 1 ? Math.min(cols / rows, 2) : 1} / ${cols / rows < 1 ? 1 / Math.max(cols / rows, 0.5) : 1}`, maxHeight: '70vh'}}>
+                <canvas
+                    ref={canvasRef}
+                    class="w-full h-full rounded select-none"
+                    style={{cursor: 'move', touchAction: 'none'}}
+                    onMouseDown={handleMouseDown}
+                    onTouchStart={handleTouchStart}
+                />
+                {/* Axis tick labels as HTML overlay */}
+                <div class="absolute inset-0 pointer-events-none font-mono" style={{fontSize: '9px'}}>
+                    {xTicks.map((tick, i) => (
+                        <span key={`xt${i}`} class="absolute text-zinc-400"
+                              style={{left: `${tick.pos.xPct}%`, top: `${tick.pos.yPct}%`, transform: 'translate(-50%, 2px)'}}>
                             {formatValueConsistent(tick.val, xDecimals)}
-                        </text>
-                    </g>
-                ))}
-
-                {/* Y axis ticks and values */}
-                {yTicks.map((tick, i) => (
-                    <g key={`yt${i}`}>
-                        <line x1={tick.pos.x} y1={tick.pos.y} x2={tick.pos.x - 6} y2={tick.pos.y} stroke="#22c55e"
-                              stroke-width="1"/>
-                        <text x={tick.pos.x - 10} y={tick.pos.y + 3} fill="#a1a1aa" font-size="9" text-anchor="end">
+                        </span>
+                    ))}
+                    {yTicks.map((tick, i) => (
+                        <span key={`yt${i}`} class="absolute text-zinc-400"
+                              style={{left: `${tick.pos.xPct}%`, top: `${tick.pos.yPct}%`, transform: 'translate(-100%, -50%)', paddingRight: '4px'}}>
                             {formatValueConsistent(tick.val, yDecimals)}
-                        </text>
-                    </g>
-                ))}
-
-                {/* Z axis ticks and values */}
-                {zTicks.map((tick, i) => (
-                    <g key={`zt${i}`}>
-                        <line x1={tick.pos.x} y1={tick.pos.y} x2={tick.pos.x - 6} y2={tick.pos.y} stroke="#3b82f6"
-                              stroke-width="1"/>
-                        <text x={tick.pos.x - 10} y={tick.pos.y + 3} fill="#a1a1aa" font-size="9" text-anchor="end">
+                        </span>
+                    ))}
+                    {zTicks.map((tick, i) => (
+                        <span key={`zt${i}`} class="absolute text-zinc-400"
+                              style={{left: `${tick.pos.xPct}%`, top: `${tick.pos.yPct}%`, transform: 'translate(-100%, -50%)', paddingRight: '4px'}}>
                             {formatValueConsistent(tick.val, zDecimals)}
-                        </text>
-                    </g>
-                ))}
-
-                {/* Axis labels */}
-                <text x={xEnd.x + 10} y={xEnd.y} fill="#ef4444" font-size="11">{xUnit || 'X'}</text>
-                <text x={yEnd.x - 10 - (11 * (yUnit || "Y").length / 2)} y={yEnd.y} fill="#22c55e"
-                      font-size="11">{yUnit || 'Y'}</text>
-                <text x={zEnd.x - 5} y={zEnd.y - 5} fill="#3b82f6" font-size="11">{zUnit || 'Z'}</text>
-            </svg>
+                        </span>
+                    ))}
+                    {/* Axis unit labels */}
+                    <span class="absolute text-red-400 font-sans" style={{left: `${xEndPos.xPct}%`, top: `${xEndPos.yPct}%`, fontSize: '11px', transform: 'translate(4px, -50%)'}}>
+                        {xUnit || 'X'}
+                    </span>
+                    <span class="absolute text-green-400 font-sans" style={{left: `${yEndPos.xPct}%`, top: `${yEndPos.yPct}%`, fontSize: '11px', transform: 'translate(-100%, -50%)'}}>
+                        {yUnit || 'Y'}
+                    </span>
+                    <span class="absolute text-blue-400 font-sans" style={{left: `${zEndPos.xPct}%`, top: `${zEndPos.yPct}%`, fontSize: '11px', transform: 'translate(-50%, -100%)'}}>
+                        {zUnit || 'Z'}
+                    </span>
+                </div>
+            </div>
 
             {/* Color legend */}
             <div class="flex items-center gap-2 mt-2 text-xs text-zinc-600 dark:text-zinc-400">
@@ -1762,6 +1943,7 @@ function TableEditor({
                     xData={xAxisData.length > 0 ? xAxisData : Array.from({length: tableData[0].length}, (_, i) => i)}
                     yData={tableData[0]}
                     originalYData={originalTableData ? originalTableData[0] : null}
+                    originalXData={originalXAxis}
                     compareYData={compareTableData ? compareTableData[0] : null}
                     compareXData={compareXAxis}
                     xUnit={parameter.xAxis?.unit || 'X'}
@@ -1776,6 +1958,8 @@ function TableEditor({
                     yData={yAxisData.length > 0 ? yAxisData : Array.from({length: tableData.length}, (_, i) => i)}
                     zData={tableData}
                     originalZData={originalTableData}
+                    originalXData={originalXAxis}
+                    originalYData={originalYAxis}
                     compareZData={compareTableData}
                     compareXData={compareXAxis}
                     compareYData={compareYAxis}

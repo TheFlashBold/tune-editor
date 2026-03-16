@@ -50,6 +50,7 @@ export function useAppState(): IAppContext {
     const [crossCompareBin, setCrossCompareBin] = useState<ILoadedBin | null>(null);
     const [selectedParam, setSelectedParam] = useState<IDefinitionParameter | null>(null);
     const [modified, setModified] = useState(false);
+    const [modRevision, setModRevision] = useState(0);
     const [detectedMode, setDetectedMode] = useState<BinaryMode | null>(null);
     const [calOffset, setCalOffset] = useState<number>(0);
     const [patchResults, setPatchResults] = useState<PatchCheckResult[]>([]);
@@ -76,6 +77,7 @@ export function useAppState(): IAppContext {
 
     const markModified = useCallback(() => {
         setModified(true);
+        setModRevision(r => r + 1);
     }, []);
 
     const clearDefinitionMatches = useCallback(() => {
@@ -476,7 +478,7 @@ export function useAppState(): IAppContext {
         }
 
         return diffs;
-    }, [definition, binData, originalBinData, calOffset]);
+    }, [definition, binData, originalBinData, calOffset, modRevision]);
 
     // Calculate differences between current bin and cross-compare bin
     const crossCompareDiffs = useMemo((): ParamDiff[] => {
@@ -582,7 +584,7 @@ export function useAppState(): IAppContext {
         }
 
         return diffs;
-    }, [definition, binData, crossCompareBin, calOffset]);
+    }, [definition, binData, crossCompareBin, calOffset, modRevision]);
 
     return {
         bin,

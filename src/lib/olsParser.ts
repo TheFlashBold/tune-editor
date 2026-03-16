@@ -639,6 +639,7 @@ class SeqReader {
         if (this.has(476)) { this.readU32(); this.readU32Array(); this.readStringArray(); }
         if (this.has(503)) { this.readU32(); this.readF64(); }
         if (this.has(596)) this.readU32();
+        if (this.has(822)) this.readU32();
 
         // Derive type and dimensions
         let paramType: 'VALUE' | 'CURVE' | 'MAP';
@@ -698,7 +699,10 @@ function extractParameters(data: DataView, buf: Uint8Array, version: number): OL
 
     for (let i = 0; i < count; i++) {
         try {
-            parameters.push(reader.readMap());
+            const p = reader.readMap();
+            // Skip Hexdump entries — not real parameters
+            if (p.description === 'Hexdump' && !p.name) continue;
+            parameters.push(p);
         } catch {
             break;
         }

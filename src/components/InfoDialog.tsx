@@ -21,6 +21,15 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.6.0',
+        date: '16.03.2026',
+        changes: [
+            'WebGL 3D surface graph with proper depth buffering (fixes rendering artifacts)',
+            'Compare graphs now use their own axis values for correct visual comparison',
+            'Changes list updates live after reverting a parameter',
+        ]
+    },
+    {
         version: '1.5.0',
         date: '15.03.2026',
         changes: [

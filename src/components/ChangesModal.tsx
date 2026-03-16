@@ -52,10 +52,14 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                             className="inline-flex justify-center items-center w-5 h-5 text-xs font-semibold rounded bg-zinc-300 dark:bg-zinc-600 text-zinc-700 dark:text-zinc-300">
                                             {param.type[0]}
                                         </span>
-                                        <span className="font-medium">
-                                            {param.customName || param.description || param.name}
-                                        </span>
-                                        <span className="text-xs text-zinc-500">→ click to edit</span>
+                                        <div className="flex flex-col">
+                                            <span className="font-medium">
+                                                {param.customName || param.name}
+                                            </span>
+                                            {param.description && (
+                                                <span className="text-xs text-zinc-500">{param.description}</span>
+                                            )}
+                                        </div>
                                     </div>
                                     {param.type === 'VALUE' ? (
                                         <div className="flex items-center gap-4 text-sm font-mono">
