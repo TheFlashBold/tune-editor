@@ -4,11 +4,21 @@ import type {Definition, IDefinitionParameter, ILoadedBin, BinaryMode, ParamDiff
 import type {PatchCheckResult} from "../lib/btpParser";
 import type {DefinitionIndexEntry} from "../lib/definitionLoader";
 
+export interface UnknownBinInfo {
+    data: Uint8Array;
+    name: string;
+    epk: string;
+}
+
 export interface IAppContext {
     // Binary
     bin: ILoadedBin | null;
     originalBin: ILoadedBin | null;
     crossCompareBin: ILoadedBin | null;
+
+    // Unknown bin (no definition found)
+    unknownBin: UnknownBinInfo | null;
+    clearUnknownBin: () => void;
 
     // Definition
     definition: Definition | null;

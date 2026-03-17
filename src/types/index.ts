@@ -1,3 +1,4 @@
+export type GenericObject = Record<string, any>;
 
 export type DataType = 'UBYTE' | 'SBYTE' | 'UWORD' | 'SWORD' | 'ULONG' | 'SLONG' | 'FLOAT32';
 

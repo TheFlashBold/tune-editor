@@ -22,6 +22,7 @@ import {parseOLS, extractBinary, olsToDefinition} from './lib/olsParser';
 import type {OLSFile, OLSBinaryVersion} from './lib/olsParser';
 import {OLSPickerModal} from './components/OLSPickerModal';
 import {InfoDialog} from './components/InfoDialog.tsx';
+import {UploadBinModal} from './components/UploadBinModal';
 import './app.css';
 
 const BIN_EXTENSIONS = ['.bin', '.ori', '.mod'];
@@ -294,6 +295,13 @@ export function App() {
                         ols={olsData.ols}
                         onSelect={handleOLSSelect}
                         onClose={() => setOlsData(null)}
+                    />
+                )}
+                {/* Upload Unknown BIN Modal */}
+                {appState.unknownBin && (
+                    <UploadBinModal
+                        info={appState.unknownBin}
+                        onClose={() => appState.clearUnknownBin()}
                     />
                 )}
                 {/* What's New Dialog */}

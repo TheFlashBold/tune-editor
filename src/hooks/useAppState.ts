@@ -3,6 +3,7 @@ import {track} from '../lib/track';
 import {DATA_TYPE_INFO, ILoadedBin} from '../types';
 import type {Definition, IDefinitionParameter, BinaryMode, CellDiff, AxisDiff, ParamDiff} from '../types';
 import type {PatchCheckResult} from '../lib/btpParser';
+import type {UnknownBinInfo} from '../context/app';
 import {parseBtp, verifyCrc32, checkPatchBlockAware, buildBtp, parseEcuInfo, getCalFileOffset} from '../lib/btpParser';
 import {
     readParameterValue,
@@ -57,6 +58,9 @@ export function useAppState(): IAppContext {
     const [definitionMatches, setDefinitionMatches] = useState<{ entry: DefinitionIndexEntry; mode: BinaryMode }[]>([]);
     const [allDefinitions, setAllDefinitions] = useState<DefinitionIndexEntry[]>([]);
     const [customDefinition, setCustomDefinition] = useState(false);
+    const [unknownBin, setUnknownBin] = useState<UnknownBinInfo | null>(null);
+
+    const clearUnknownBin = useCallback(() => setUnknownBin(null), []);
 
     // Derived
     const baseAddress = definition?.baseAddress ?? 0xa0000000;
@@ -210,6 +214,7 @@ export function useAppState(): IAppContext {
                     }
                 }
                 track('No Definition Match', {size: data.length, epk});
+                setUnknownBin({data, name: displayName, epk});
             }
         } catch (err) {
             console.error('Definition auto-detect failed:', err);
@@ -619,5 +624,7 @@ export function useAppState(): IAppContext {
         setSelectedParam,
         setPatchResults,
         detectPatches,
+        unknownBin,
+        clearUnknownBin,
     };
 }
