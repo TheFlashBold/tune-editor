@@ -25,7 +25,7 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
         const name = info.name.endsWith('.bin') ? info.name : info.name + '.bin';
 
         try {
-            const blob = new Blob([info.data]);
+            const blob = new Blob([info.data.buffer]);
             await TuningService.uploadBin(blob, {
                 name,
                 onProgress: (pct) => setProgress(Math.round(pct)),

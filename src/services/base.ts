@@ -68,7 +68,7 @@ export class BaseService {
             return res.json();
         }
 
-        return null
+        return null as T
     }
 
     static async postJSON<T>(path: string, queryParams: GenericObject = {}, body: GenericObject = {}): Promise<T> {
@@ -84,7 +84,7 @@ export class BaseService {
         let errorMessage = "";
         if (res.headers.get("content-type")?.includes("application/json")) {
             try {
-                const {error, translation} = await res.json() as { error: string, translation?: string };
+                const {error} = await res.json() as { error: string };
                 errorMessage = error;
             } catch (e) {
                 errorMessage = await res.text() ?? res.status.toString();
