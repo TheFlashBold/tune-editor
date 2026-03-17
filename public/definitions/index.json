@@ -1,7 +1,7 @@
 [
   {
     "name": "F40M",
-    "file": "0D9300040J_4027_F40M_DQ250.json",
+    "file": "F40M.json",
     "verification": {
       "calOffset": 0,
       "expected": "F40M"
@@ -10,7 +10,7 @@
   },
   {
     "name": "F43M",
-    "file": "0D9300040S_4311_F43M_DQ250.json",
+    "file": "F43M.json",
     "verification": {
       "calOffset": 0,
       "expected": "F43M"
@@ -19,7 +19,7 @@
   },
   {
     "name": "F45M",
-    "file": "0D9300012L_4517_F45M_DQ250.json",
+    "file": "F45M.json",
     "verification": {
       "calOffset": 0,
       "expected": "F45M"
@@ -28,7 +28,7 @@
   },
   {
     "name": "F49M",
-    "file": "0D9300012_4930_F49M_DQ250.json",
+    "file": "F49M.json",
     "verification": {
       "calOffset": 0,
       "expected": "F49M"
@@ -37,7 +37,7 @@
   },
   {
     "name": "F50M",
-    "file": "0D9300014N_5002_F50M_DQ250.json",
+    "file": "F50M.json",
     "verification": {
       "calOffset": 0,
       "expected": "F50M"
@@ -46,7 +46,7 @@
   },
   {
     "name": "F52M",
-    "file": "0D9300018D_5201_F52M_DQ250.json",
+    "file": "F52M.json",
     "verification": {
       "calOffset": 0,
       "expected": "F52M"
@@ -55,7 +55,7 @@
   },
   {
     "name": "SC100CF0",
-    "file": "8V0906264E_0003_SC1CF00_SC1Z0CE0_SC1Z0CF0_SC100CF0.json",
+    "file": "SC1CF00.json",
     "verification": {
       "calOffset": 262144,
       "expected": "SC1CF00"
@@ -64,7 +64,7 @@
   },
   {
     "name": "SC800F90",
-    "file": "5G0906259_0010_SC8F900_SC800F90.json",
+    "file": "SC8F900.json",
     "verification": {
       "calOffset": 8388608,
       "expected": "SC8F900"
@@ -73,7 +73,7 @@
   },
   {
     "name": "SC8O30",
-    "file": "8V0906264H__0003_SC8O30.json",
+    "file": "SC8O30.json",
     "verification": {
       "calOffset": 2097152,
       "expected": "SC8O30"
@@ -82,7 +82,7 @@
   },
   {
     "name": "SC800LB7",
-    "file": "5G0906259P_X621_SC8LB70_SC800LB7.json",
+    "file": "SC8LB70.json",
     "verification": {
       "calOffset": 8388608,
       "expected": "SC8LB70"
@@ -91,7 +91,7 @@
   },
   {
     "name": "SC800O20",
-    "file": "5G0906259F_0001_SC8O200_SC800O20.json",
+    "file": "SC8O200.json",
     "verification": {
       "calOffset": 8388608,
       "expected": "SC8O200"
@@ -100,7 +100,7 @@
   },
   {
     "name": "SC8H64",
-    "file": "5G0906259A_0004_SC8H64.json",
+    "file": "SC8H64.json",
     "verification": {
       "calOffset": 8388608,
       "expected": "SC8H64"
@@ -109,7 +109,7 @@
   },
   {
     "name": "SC8H65",
-    "file": "8V0906259A_0004_SC8H65.json",
+    "file": "SC8H65.json",
     "verification": {
       "calOffset": 8388608,
       "expected": "SC8H65"
@@ -118,7 +118,7 @@
   },
   {
     "name": "SC8H85",
-    "file": "8U0906259A_0003_SC8H85.json",
+    "file": "SC8H85.json",
     "verification": {
       "calOffset": 8388608,
       "expected": "SC8H85"
@@ -127,7 +127,7 @@
   },
   {
     "name": "SC800S50",
-    "file": "8V0906264K_0003_SC8S500_SC8I0S00_SC8I0S50_SC800S50.json",
+    "file": "SC8S500.json",
     "verification": {
       "calOffset": 2097152,
       "expected": "SC8S500"
@@ -136,7 +136,7 @@
   },
   {
     "name": "SC8V30",
-    "file": "06K906071C_8100_SC8V30.json",
+    "file": "SC8V30.json",
     "verification": {
       "calOffset": 8388608,
       "expected": "SC8V30"
@@ -145,7 +145,7 @@
   },
   {
     "name": "SCG910",
-    "file": "3GD906259B_0003_SCG910.json",
+    "file": "SCG910.json",
     "verification": {
       "calOffset": 8519680,
       "expected": "SCG910"
@@ -154,7 +154,7 @@
   },
   {
     "name": "SCGA05",
-    "file": "3G0906259G_0004_SCGA05.json",
+    "file": "SCGA05.json",
     "verification": {
       "calOffset": 8519680,
       "expected": "SCGA05"
@@ -163,7 +163,7 @@
   },
   {
     "name": "SCGA10",
-    "file": "5G0906259S_0002_SCGA10.json",
+    "file": "SCGA10.json",
     "verification": {
       "calOffset": 8519680,
       "expected": "SCGA10"
