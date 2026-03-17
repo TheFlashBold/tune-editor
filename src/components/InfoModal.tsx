@@ -21,6 +21,14 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.7.0',
+        date: '17.03.2026',
+        changes: [
+            'Fixed DQ250 DSG definition detection',
+            'Allow upload of unknown bins when no definition is found'
+        ]
+    },
+    {
         version: '1.6.0',
         date: '16.03.2026',
         changes: [
@@ -89,7 +97,7 @@ const changelog: ChangelogEntry[] = [
     },
 ];
 
-export function InfoDialog() {
+export function InfoModal() {
     const [visible, setVisible] = useState(false);
     useEffect(() => {
         const seen = localStorage.getItem(STORAGE_KEY);

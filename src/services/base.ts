@@ -1,6 +1,19 @@
 import {GenericObject} from "../types";
 import {LoginState} from "./auth";
 
+function getCurrentLocalStorage<T>(key: string, defaultValue: T): T {
+    try {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : defaultValue;
+    } catch {
+        return defaultValue;
+    }
+}
+
+export function getLoginState(): LoginState | null {
+    return getCurrentLocalStorage<LoginState | null>("login", null);
+}
+
 export function buildSearchParams(queryParams: GenericObject = {}) {
     const searchParams = new URLSearchParams();
 
@@ -38,7 +51,7 @@ export class BaseService {
         const res = await fetch(url, {
             ...init,
             headers: {
-                ...(authToken && {Authorization: authToken}),
+                ...(authToken && {Authorization: `Bearer ${authToken}`}),
                 "Content-Type": "application/json",
             }
         });
@@ -54,6 +67,8 @@ export class BaseService {
         if (res.headers.get("content-type")?.includes("application/json")) {
             return res.json();
         }
+
+        return null
     }
 
     static async postJSON<T>(path: string, queryParams: GenericObject = {}, body: GenericObject = {}): Promise<T> {
@@ -69,7 +84,7 @@ export class BaseService {
         let errorMessage = "";
         if (res.headers.get("content-type")?.includes("application/json")) {
             try {
-                const {error, translation} = await res.json();
+                const {error, translation} = await res.json() as { error: string, translation?: string };
                 errorMessage = error;
             } catch (e) {
                 errorMessage = await res.text() ?? res.status.toString();

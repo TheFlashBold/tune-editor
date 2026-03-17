@@ -217,12 +217,8 @@ function isDsgEpk(epk: string): boolean {
  * DSG bins have version info block around 0x4ff00-0x50100
  */
 function findDsgEpk(data: Uint8Array, expected: string): { offset: number; found: string } | null {
-    // DSG version info is typically around offset 0x4ff00-0x50100
-    // Search multiple regions where EPK might appear
     const searchRegions = [
-        {start: 0, length: 4096},           // First 4KB
-        {start: 0x4ff00, length: 512},      // DSG version block ~320KB
-        {start: 0x30000, length: 4096},     // Some DSG files have info here
+        {start: 0x4ff00, length: 256}, // DQ250
     ];
 
     for (const region of searchRegions) {
@@ -234,8 +230,7 @@ function findDsgEpk(data: Uint8Array, expected: string): { offset: number; found
 
         // Look for the expected EPK preceded by space or underscore
         const patterns = [
-            new RegExp(`[\\s_](${expected})(?:[\\s\\x00]|$)`),  // EPK after space/underscore
-            new RegExp(`(${expected})[\\s\\x00]`),              // EPK followed by space/null
+            new RegExp(`[\\s_](${expected})`),
         ];
 
         for (const pattern of patterns) {

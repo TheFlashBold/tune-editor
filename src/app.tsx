@@ -21,7 +21,7 @@ import {XDFParser} from './lib/xdfParser';
 import {parseOLS, extractBinary, olsToDefinition} from './lib/olsParser';
 import type {OLSFile, OLSBinaryVersion} from './lib/olsParser';
 import {OLSPickerModal} from './components/OLSPickerModal';
-import {InfoDialog} from './components/InfoDialog.tsx';
+import {InfoModal} from './components/InfoModal.tsx';
 import {UploadBinModal} from './components/UploadBinModal';
 import './app.css';
 
@@ -305,7 +305,7 @@ export function App() {
                     />
                 )}
                 {/* What's New Dialog */}
-                <InfoDialog />
+                <InfoModal />
             </div>
         </AppContext.Provider>
     );
