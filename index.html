@@ -18,7 +18,36 @@
     <title>Tune Editor</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div id="splash" class="splash">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48" class="splash-logo">
+          <rect x="8" y="38" width="48" height="4" rx="1" fill="#52525b"/>
+          <rect x="12" y="12" width="40" height="26" rx="2" fill="#3f3f46"/>
+          <rect x="14" y="14" width="36" height="22" rx="1" class="splash-screen"/>
+          <path d="M36 8L22 32h10l-4 18 18-26H34l2-16z" fill="#d4a855" opacity="0.95"/>
+          <path d="M35 10L23 30h9l-3.5 15 15-22H33l2-13z" fill="#e8c468"/>
+        </svg>
+        <div class="splash-text">Tune Editor</div>
+        <div class="splash-track">
+          <div class="splash-bar"></div>
+        </div>
+      </div>
+    </div>
+    <style>
+      .splash{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#fff;color:#71717a;font-family:system-ui,sans-serif;gap:16px}
+      .splash-logo{width:96px;height:96px;opacity:0;animation:splash-in .4s ease-out forwards}
+      .splash-screen{fill:#fff}
+      .splash-text{font-size:14px;font-weight:500;opacity:0;animation:splash-in .4s ease-out .15s forwards}
+      .splash-track{width:180px;height:3px;background:#e4e4e7;border-radius:1px;overflow:hidden;opacity:0;animation:splash-in .4s ease-out .3s forwards}
+      .splash-bar{height:100%;width:30%;background:#d4a855;border-radius:1px;animation:splash-bar 1.2s ease-in-out infinite}
+      @media(prefers-color-scheme:dark){
+        .splash{background:#18181b;color:#a1a1aa}
+        .splash-screen{fill:#18181b}
+        .splash-track{background:#27272a}
+      }
+      @keyframes splash-in{to{opacity:1}}
+      @keyframes splash-bar{0%{transform:translateX(-100%)}50%{transform:translateX(250%)}100%{transform:translateX(-100%)}}
+    </style>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
