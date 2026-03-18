@@ -504,7 +504,7 @@ export function MenuBar({
                             <div class="text-sm text-zinc-500">v{APP_VERSION}</div>
                         </div>
                         <a
-                            href="https://github.com/nicobenz/tune-editor"
+                            href="https://github.com/theFlashBold/tune-editor"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="flex items-center gap-2 px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors"
