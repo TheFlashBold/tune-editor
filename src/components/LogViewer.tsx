@@ -1,6 +1,7 @@
 import {useState, useMemo, useRef, useEffect} from 'preact/hooks';
 import {createPortal} from 'preact/compat';
 import {track} from '../lib/track';
+import {GPSMap} from './GPSMap';
 
 // Left axis: warm colors (dark mode)
 const COLORS_LEFT_DARK = [
@@ -121,6 +122,38 @@ function CSVViewer({text}: CSVViewerProps) {
         }
     }, [fields, initialized]);
 
+    const [showMap, setShowMap] = useState(false);
+
+    // Detect GPS columns
+    const gpsColumns = useMemo(() => {
+        let latIdx = -1, lonIdx = -1;
+        for (let i = 0; i < fields.length; i++) {
+            const lower = fields[i].toLowerCase().replace(/[\s_-]/g, '');
+            if (latIdx === -1 && (lower.includes('latitude') || lower === 'gpslat' || lower === 'lat')) latIdx = i;
+            if (lonIdx === -1 && (lower.includes('longitude') || lower === 'gpslon' || lower === 'lon' || lower === 'lng')) lonIdx = i;
+        }
+        if (latIdx === -1 || lonIdx === -1) return null;
+        return {latIdx, lonIdx};
+    }, [fields]);
+
+    // GPS points for map (filter out zeros/invalid), with index mapping back to data rows
+    const {gpsPoints, gpsPointIndices} = useMemo(() => {
+        if (!gpsColumns) return {gpsPoints: [] as [number, number][], gpsPointIndices: [] as number[]};
+        const pts: [number, number][] = [];
+        const indices: number[] = [];
+        for (let i = 0; i < data.length; i++) {
+            const lat = data[i][gpsColumns.latIdx];
+            const lon = data[i][gpsColumns.lonIdx];
+            if (lat !== 0 && lon !== 0 && Math.abs(lat) <= 90 && Math.abs(lon) <= 180) {
+                pts.push([lat, lon]);
+                indices.push(i);
+            }
+        }
+        return {gpsPoints: pts, gpsPointIndices: indices};
+    }, [data, gpsColumns]);
+
+    const hasGPS = gpsPoints.length > 1;
+
     // Find time column index
     const timeColumnIndex = useMemo(() => {
         const timeNames = ['time', 'zeit', 'timestamp', 't'];
@@ -239,6 +272,18 @@ function CSVViewer({text}: CSVViewerProps) {
             return COLORS_LEFT[idxInAxis % COLORS_LEFT.length];
         }
     };
+
+    // Field info for GPS map hover tooltip
+    const gpsFieldInfos = useMemo(() => {
+        return showFields.map(field => {
+            const fieldIndex = fields.indexOf(field);
+            return {
+                name: field,
+                color: getFieldColor(field),
+                values: data.map(row => row[fieldIndex] ?? 0),
+            };
+        });
+    }, [showFields, fields, data, getFieldColor]);
 
     // Precompute smoothed data for each shown field
     const smoothedData = useMemo(() => {
@@ -625,6 +670,18 @@ function CSVViewer({text}: CSVViewerProps) {
             <div class="flex flex-col h-full">
                 <div class="text-xs text-zinc-600 dark:text-zinc-400 mb-2 flex items-center gap-4">
                     <span>{data.length} samples | Zoom: {zoom.toFixed(1)}x</span>
+                    {hasGPS && (
+                        <button
+                            onClick={() => setShowMap(v => !v)}
+                            class={`px-3 py-1 text-xs font-medium rounded transition-colors ${
+                                showMap
+                                    ? 'bg-blue-600 text-white'
+                                    : 'bg-zinc-300 dark:bg-zinc-600 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-400 dark:hover:bg-zinc-500'
+                            }`}
+                        >
+                            {showMap ? 'Chart' : 'Map'}
+                        </button>
+                    )}
                     <span class="flex items-center gap-2">
                         Smoothing:
                         <input
@@ -655,10 +712,13 @@ function CSVViewer({text}: CSVViewerProps) {
                         </>
                     )}
                 </div>
+                {showMap && hasGPS ? (
+                    <div class="flex-1 min-h-0 rounded border border-zinc-400 dark:border-zinc-600 overflow-hidden">
+                        <GPSMap points={gpsPoints} pointIndices={gpsPointIndices} fields={gpsFieldInfos} />
+                    </div>
+                ) : (<>
                 <div class="flex gap-x-2 flex-1 min-h-0">
-                    {/* Y-axis scale left */}
                     <div class="flex flex-col h-full py-2 text-xs text-zinc-500 dark:text-zinc-500 w-14 text-right">
-                        {/* Color indicators for left axis fields */}
                         <div class="flex gap-0.5 justify-end mb-1">
                             {leftAxis.fields.map((field) => (
                                 <div
@@ -676,7 +736,6 @@ function CSVViewer({text}: CSVViewerProps) {
                         </div>
                     </div>
 
-                    {/* Graph container */}
                     <div
                         ref={containerRef}
                         class="flex-1 overflow-x-auto overflow-y-hidden border border-zinc-400 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 rounded"
@@ -704,14 +763,13 @@ function CSVViewer({text}: CSVViewerProps) {
                                     vectorEffect="non-scaling-stroke"
                                 />
                             ))}
-                            {/* Vertical line at mouse position */}
                             {isHovering && (
                                 <line
                                     x1={index}
                                     y1={leftAxis.min}
                                     x2={index}
                                     y2={leftAxis.max}
-                                    stroke="white"
+                                    stroke="currentColor"
                                     strokeWidth={1}
                                     strokeOpacity={0.5}
                                     vectorEffect="non-scaling-stroke"
@@ -720,10 +778,8 @@ function CSVViewer({text}: CSVViewerProps) {
                         </svg>
                     </div>
 
-                    {/* Y-axis scale right (only if dual axis) */}
                     {rightAxis.fields.length > 0 && (
                         <div class="flex flex-col h-full py-2 text-xs text-zinc-600 dark:text-zinc-400 w-14 text-left">
-                            {/* Color indicators for right axis fields */}
                             <div class="flex gap-0.5 mb-1">
                                 {rightAxis.fields.map((field) => (
                                     <div
@@ -743,7 +799,6 @@ function CSVViewer({text}: CSVViewerProps) {
                     )}
                 </div>
 
-                {/* X-axis time labels */}
                 {timeColumnIndex !== -1 && (
                     <div class={`flex mt-1 ${rightAxis.fields.length > 0 ? 'ml-14 mr-14' : 'ml-14'}`}>
                         <div class="flex-1 flex justify-between text-xs text-zinc-500 dark:text-zinc-500 font-mono">
@@ -773,7 +828,6 @@ function CSVViewer({text}: CSVViewerProps) {
                         preserveAspectRatio="none"
                         onMouseDown={handlePreviewMouseDown}
                     >
-                        {/* Downsampled lines */}
                         {showFields.map((field) => (
                             <polyline
                                 key={field}
@@ -785,7 +839,6 @@ function CSVViewer({text}: CSVViewerProps) {
                                 vectorEffect="non-scaling-stroke"
                             />
                         ))}
-                        {/* Viewport indicator */}
                         <rect
                             x={(scrollOffset / data.length) * previewData.length}
                             y={0}
@@ -800,8 +853,8 @@ function CSVViewer({text}: CSVViewerProps) {
                         />
                     </svg>
                 </div>
+                </>)}
 
-                {/* Field selector */}
                 <div class="flex gap-1.5 flex-wrap mt-3 max-h-32 overflow-y-auto">
                     {fields.map((field) => {
                         const isSelected = showFields.includes(field);
@@ -828,7 +881,6 @@ function CSVViewer({text}: CSVViewerProps) {
                 </div>
             </div>
 
-            {/* Hover popup */}
             {isHovering && createPortal(
                 <div
                     ref={popupRef}

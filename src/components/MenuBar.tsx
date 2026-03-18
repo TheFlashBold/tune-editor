@@ -6,6 +6,9 @@ import {getLoginState} from "../services/base.ts";
 import {AuthService} from "../services/auth.ts";
 import type {LoginState} from "../services/auth.ts";
 import {LoginModal} from "./LoginModal.tsx";
+import {Modal} from "./Modal.tsx";
+
+const APP_VERSION = __APP_VERSION__;
 
 interface MenuBarProps {
     onShowConverter: () => void;
@@ -33,6 +36,7 @@ export function MenuBar({
     const [showToolsMenu, setShowToolsMenu] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
+    const [showAbout, setShowAbout] = useState(false);
     const [loginState, setLoginState] = useState<LoginState | null>(() => getLoginState());
 
     const handleLogout = useCallback(() => {
@@ -320,6 +324,10 @@ export function MenuBar({
                 <a href="https://simos.app/" target="_blank" rel="noopener noreferrer"
                    className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Get the
                     iOS Logging App</a>
+                <button onClick={() => setShowAbout(true)}
+                        className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
+                    About
+                </button>
             </div>
 
             {/* Spacer */}
@@ -454,6 +462,10 @@ export function MenuBar({
                            className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
                             Get the iOS Logging App
                         </a>
+                        <button onClick={mobileAction(() => setShowAbout(true))}
+                                className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
+                            About
+                        </button>
                         <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
                         {loginState ? (
                             <div className="flex items-center justify-between px-4 py-3">
@@ -480,6 +492,33 @@ export function MenuBar({
                     onClose={() => setShowLogin(false)}
                     onLogin={(state) => setLoginState(state)}
                 />
+            )}
+
+            {/* About Modal */}
+            {showAbout && (
+                <Modal title="About" onClose={() => setShowAbout(false)} width="sm">
+                    <div class="flex flex-col items-center gap-4 py-4">
+                        <img src="logo.svg" alt="Tune Editor" class="w-16 h-16" />
+                        <div class="text-center">
+                            <div class="text-lg font-semibold">Tune Editor</div>
+                            <div class="text-sm text-zinc-500">v{APP_VERSION}</div>
+                        </div>
+                        <a
+                            href="https://github.com/nicobenz/tune-editor"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center gap-2 px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors"
+                        >
+                            <svg class="w-5 h-5" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                            GitHub
+                        </a>
+                        <div class="text-xs text-zinc-400 dark:text-zinc-500 text-center pt-2">
+                            Built with Preact, TypeScript, Tailwind CSS, Vite & WebGL
+                        </div>
+                    </div>
+                </Modal>
             )}
         </header>
     );
