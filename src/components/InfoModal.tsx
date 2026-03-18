@@ -21,6 +21,15 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.8.0',
+        date: '18.03.2026',
+        changes: [
+            'GPS map in Log Viewer with speed-colored path and hover PID display',
+            'Splash screen on startup',
+            'About dialog with version and tech stack',
+        ]
+    },
+    {
         version: '1.7.0',
         date: '17.03.2026',
         changes: [
