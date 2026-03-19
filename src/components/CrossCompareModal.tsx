@@ -101,7 +101,7 @@ export function CrossCompareModal({onClose}: CrossCompareModalProps) {
                                                                                 return (
                                                                                     <th key={i}
                                                                                         className={`px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-right font-normal ${isChanged ? 'text-teal-400' : 'text-zinc-500'}`}>
-                                                                                        {formatValue(val, 1)}
+                                                                                        {param.xAxis?.labels?.[i] ?? formatValue(val, 1)}
                                                                                     </th>
                                                                                 );
                                                                             })}
@@ -113,7 +113,7 @@ export function CrossCompareModal({onClose}: CrossCompareModalProps) {
                                                                         <tr key={rowIdx}>
                                                                             {ccYAxis && ccYAxis.length > 0 && (
                                                                                 <td className={`px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-right ${yDiff?.changedIndices.includes(rowIdx) ? 'text-teal-400' : 'text-zinc-500'}`}>
-                                                                                    {formatValue(ccYAxis[rowIdx], 1)}
+                                                                                    {param.yAxis?.labels?.[rowIdx] ?? formatValue(ccYAxis[rowIdx], 1)}
                                                                                 </td>
                                                                             )}
                                                                             {row.map((cell, colIdx) => {
@@ -154,7 +154,7 @@ export function CrossCompareModal({onClose}: CrossCompareModalProps) {
                                                                                 return (
                                                                                     <th key={i}
                                                                                         className={`px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-right font-normal ${isChanged ? 'text-blue-400' : 'text-zinc-500'}`}>
-                                                                                        {formatValue(val, 1)}
+                                                                                        {param.xAxis?.labels?.[i] ?? formatValue(val, 1)}
                                                                                     </th>
                                                                                 );
                                                                             })}
@@ -166,7 +166,7 @@ export function CrossCompareModal({onClose}: CrossCompareModalProps) {
                                                                         <tr key={rowIdx}>
                                                                             {yAxis && yAxis.length > 0 && (
                                                                                 <td className={`px-1.5 py-0.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-right ${yDiff?.changedIndices.includes(rowIdx) ? 'text-blue-400' : 'text-zinc-500'}`}>
-                                                                                    {formatValue(yAxis[rowIdx], 1)}
+                                                                                    {param.yAxis?.labels?.[rowIdx] ?? formatValue(yAxis[rowIdx], 1)}
                                                                                 </td>
                                                                             )}
                                                                             {row.map((cell, colIdx) => {

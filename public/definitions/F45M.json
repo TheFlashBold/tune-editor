@@ -4,8 +4,8 @@
   "baseAddress": 0,
   "parameters": [
     {
-      "name": "Target Shift Times in D (Eco)",
-      "description": "Target Shift Times in D (Eco)",
+      "name": "switching times in D (Eco)",
+      "description": "switching times in D (Eco)",
       "address": 301284,
       "type": "MAP",
       "dataType": "SWORD",
@@ -14,7 +14,9 @@
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "Switching Times - All Modes (Block 1)"
+      ],
       "cols": 5,
       "rows": 5,
       "xAxis": {
@@ -28,18 +30,16 @@
         "factor": 0.1
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
-      "name": "Target Shift Times in S (Sport)",
-      "description": "Target Shift Times in S (Sport)",
+      "name": "switching times in S (Sport)",
+      "description": "switching times in S (Sport)",
       "address": 301336,
       "type": "MAP",
       "dataType": "SWORD",
@@ -48,7 +48,9 @@
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "Switching Times - All Modes (Block 1)"
+      ],
       "cols": 5,
       "rows": 5,
       "xAxis": {
@@ -62,18 +64,16 @@
         "factor": 0.1
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
-      "name": "Target Shift Times in Tiptronic",
-      "description": "Target Shift Times in Tiptronic",
+      "name": "switching times in Tiptronic",
+      "description": "switching times in Tiptronic",
       "address": 301388,
       "type": "MAP",
       "dataType": "SWORD",
@@ -82,7 +82,9 @@
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "Switching Times - All Modes (Block 1)"
+      ],
       "cols": 5,
       "rows": 5,
       "xAxis": {
@@ -96,51 +98,16 @@
         "factor": 0.1
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
-      "name": "Target Shift Times in D (Eco) With Torque Mgmt (RPM Based)",
-      "description": "Target Shift Times in D (Eco) With Torque Mgmt (RPM Based)",
-      "address": 302220,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 5,
-      "rows": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "U/min",
-        "address": 302208,
-        "dataType": "SWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Target Shift Times in D (Eco) With Torque Mgmt",
-      "description": "Target Shift Times in D (Eco) With Torque Mgmt",
+      "name": "switching times in D (Eco) with torque reduction",
+      "description": "switching times in D (Eco) with torque reduction",
       "address": 301440,
       "type": "MAP",
       "dataType": "SWORD",
@@ -149,7 +116,9 @@
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "Switching Times - All Modes (Block 1)"
+      ],
       "cols": 5,
       "rows": 5,
       "xAxis": {
@@ -163,51 +132,16 @@
         "factor": 0.1
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
-      "name": "Target Shift Times in D (Normal) With Torque Mgmt (RPM Based)",
-      "description": "Target Shift Times in D (Normal) With Torque Mgmt (RPM Based)",
-      "address": 302272,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 5,
-      "rows": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "U/min",
-        "address": 302208,
-        "dataType": "SWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Target Shift Times in D (Normal) With Torque Mgmt",
-      "description": "Target Shift Times in D (Normal) With Torque Mgmt",
+      "name": "switching times in D (Normal) with torque reduction",
+      "description": "switching times in D (Normal) with torque reduction",
       "address": 301492,
       "type": "MAP",
       "dataType": "SWORD",
@@ -216,7 +150,9 @@
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "Switching Times - All Modes (Block 1)"
+      ],
       "cols": 5,
       "rows": 5,
       "xAxis": {
@@ -230,51 +166,16 @@
         "factor": 0.1
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
-      "name": "Target Shift Times in S (Sport) With Torque Mgmt (RPM Based)",
-      "description": "Target Shift Times in S (Sport) With Torque Mgmt (RPM Based)",
-      "address": 302324,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 5,
-      "rows": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "U/min",
-        "address": 302208,
-        "dataType": "SWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Target Shift Times in S (Sport) With Torque Mgmt",
-      "description": "Target Shift Times in S (Sport) With Torque Mgmt",
+      "name": "switching times in S (Sport) with torque reduction",
+      "description": "switching times in S (Sport) with torque reduction",
       "address": 301544,
       "type": "MAP",
       "dataType": "SWORD",
@@ -283,7 +184,9 @@
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "Switching Times - All Modes (Block 1)"
+      ],
       "cols": 5,
       "rows": 5,
       "xAxis": {
@@ -297,19 +200,17 @@
         "factor": 0.1
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
-      "name": "Target Shift Times in Tiptronic With Torque Mgmt (RPM Based)",
-      "description": "Target Shift Times in Tiptronic With Torque Mgmt (RPM Based)",
-      "address": 302376,
+      "name": "switching times in Tiptronic with torque reduction",
+      "description": "switching times in Tiptronic with torque reduction",
+      "address": 301596,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -317,7 +218,43 @@
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "Switching Times - All Modes (Block 1)"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 301272,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 5,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in D (Eco) with torque reduction",
+      "description": "switching times in D (Eco) with torque reduction",
+      "address": 302220,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
       "cols": 5,
       "rows": 5,
       "xAxis": {
@@ -330,53 +267,17 @@
         "dataType": "SWORD"
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
-      "name": "Target Shift Times in Tiptronic With Torque Mgmt",
-      "description": "Target Shift Times in Tiptronic With Torque Mgmt",
-      "address": 301596,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 5,
-      "rows": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 301272,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Maximum Downshift Time Eco Mode",
-      "description": "Maximum Downshift Time Eco Mode",
-      "address": 299548,
+      "name": "switching times in D (Normal) with torque reduction",
+      "description": "switching times in D (Normal) with torque reduction",
+      "address": 302272,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -385,7 +286,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Torque Management"
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
       ],
       "cols": 5,
       "rows": 5,
@@ -394,25 +295,22 @@
         "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "Nm",
-        "address": 299472,
-        "dataType": "SWORD",
-        "factor": 0.1
+        "unit": "U/min",
+        "address": 302208,
+        "dataType": "SWORD"
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Gang",
-        "address": 299484,
-        "dataType": "SWORD"
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
-      "name": "Maximum Downshift Time Sport Mode",
-      "description": "Maximum Downshift Time Sport Mode",
-      "address": 299600,
+      "name": "switching times in S (Sport) with torque reduction",
+      "description": "switching times in S (Sport) with torque reduction",
+      "address": 302324,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -421,7 +319,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Torque Management"
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
       ],
       "cols": 5,
       "rows": 5,
@@ -430,25 +328,22 @@
         "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "Nm",
-        "address": 299472,
-        "dataType": "SWORD",
-        "factor": 0.1
+        "unit": "U/min",
+        "address": 302208,
+        "dataType": "SWORD"
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Gang",
-        "address": 299484,
-        "dataType": "SWORD"
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
-      "name": "Maxumum Downsift Time Manual Mode",
-      "description": "Maxumum Downsift Time Manual Mode",
-      "address": 299496,
+      "name": "switching times in Tiptronic with torque reduction",
+      "description": "switching times in Tiptronic with torque reduction",
+      "address": 302376,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -457,7 +352,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Torque Management"
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
       ],
       "cols": 5,
       "rows": 5,
@@ -466,496 +361,21 @@
         "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "Nm",
-        "address": 299472,
-        "dataType": "SWORD",
-        "factor": 0.1
+        "unit": "U/min",
+        "address": 302208,
+        "dataType": "SWORD"
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Gang",
-        "address": 299484,
-        "dataType": "SWORD"
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
-      "name": "Drehzahlgradient in U/min/s",
-      "description": "Maximum Clutch Apply Rate Eco",
-      "address": 299688,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min/s",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 5,
-      "rows": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 299472,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Gang",
-        "address": 299484,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Drehzahlgradient in U/min/s",
-      "description": "Maximum Clutch Apply Rate Sport",
-      "address": 299740,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min/s",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 5,
-      "rows": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 299472,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Gang",
-        "address": 299484,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Drehzahlgradient in U/min/s",
-      "description": "Maximum Clutch Apply Rate Manual",
-      "address": 299792,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min/s",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 5,
-      "rows": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 299472,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Gang",
-        "address": 299484,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 1->2 Eco",
-      "description": "Upshift 1->2 Eco",
-      "address": 270952,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Uphill"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276748,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 2->3 Eco",
-      "description": "Upshift 2->3 Eco",
-      "address": 271048,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Uphill"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276756,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 3->4 Eco",
-      "description": "Upshift 3->4 Eco",
-      "address": 271144,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Uphill"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276764,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 4->5 Eco",
-      "description": "Upshift 4->5 Eco",
-      "address": 271240,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Uphill"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276772,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 5->6 Eco",
-      "description": "Upshift 5->6 Eco",
-      "address": 271336,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Uphill"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276780,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 2->1 Eco",
-      "description": "Downshift 2->1 Eco",
-      "address": 271912,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Uphill"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276748,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 3->2 Eco",
-      "description": "Downshift 3->2 Eco",
-      "address": 272008,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Uphill"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276756,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 4->3 Eco",
-      "description": "Downshift 4->3 Eco",
-      "address": 272104,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Uphill"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276764,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 5->4 Eco",
-      "description": "Downshift 5->4 Eco",
-      "address": 272200,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Uphill"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276772,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 6->5 Eco",
-      "description": "Downshift 6->5 Eco",
-      "address": 272296,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Uphill"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276780,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 1->2 Uphill",
-      "description": "Upshift 1->2 Uphill",
+      "name": "high shift map 1->2 Winter",
+      "description": "high shift map 1->2 Winter",
       "address": 274792,
       "type": "MAP",
       "dataType": "SWORD",
@@ -965,8 +385,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Normal"
+        "Upshift Points - Winter"
       ],
       "cols": 12,
       "rows": 4,
@@ -991,8 +410,8 @@
       }
     },
     {
-      "name": "Upshift 2->3 Uphill",
-      "description": "Upshift 2->3 Uphill",
+      "name": "high shift map 2->3 Winter",
+      "description": "high shift map 2->3 Winter",
       "address": 274888,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1002,8 +421,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Normal"
+        "Upshift Points - Winter"
       ],
       "cols": 12,
       "rows": 4,
@@ -1028,8 +446,8 @@
       }
     },
     {
-      "name": "Upshift 3->4 Uphill",
-      "description": "Upshift 3->4 Uphill",
+      "name": "high shift map 3->4 Winter",
+      "description": "high shift map 3->4 Winter",
       "address": 274984,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1039,8 +457,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Normal"
+        "Upshift Points - Winter"
       ],
       "cols": 12,
       "rows": 4,
@@ -1065,8 +482,8 @@
       }
     },
     {
-      "name": "Upshift 4->5 Uphill",
-      "description": "Upshift 4->5 Uphill",
+      "name": "high shift map 4->5 Winter",
+      "description": "high shift map 4->5 Winter",
       "address": 275080,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1076,8 +493,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Normal"
+        "Upshift Points - Winter"
       ],
       "cols": 12,
       "rows": 4,
@@ -1102,8 +518,8 @@
       }
     },
     {
-      "name": "Upshift 5->6 Uphill",
-      "description": "Upshift 5->6 Uphill",
+      "name": "high shift map 5->6 Winter",
+      "description": "high shift map 5->6 Winter",
       "address": 275176,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1113,8 +529,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Normal"
+        "Upshift Points - Winter"
       ],
       "cols": 12,
       "rows": 4,
@@ -1139,8 +554,8 @@
       }
     },
     {
-      "name": "Downshift 2->1 Uphill",
-      "description": "Downshift 2->1 Uphill",
+      "name": "switchback map- 2->1 Winter",
+      "description": "switchback map- 2->1 Winter",
       "address": 275272,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1150,8 +565,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Normal"
+        "Downshift Points - Winter"
       ],
       "cols": 12,
       "rows": 4,
@@ -1161,7 +575,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 276712,
+        "address": 267868,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -1176,8 +590,8 @@
       }
     },
     {
-      "name": "Downshift 3->2 Uphill",
-      "description": "Downshift 3->2 Uphill",
+      "name": "switchback map- 3->2 Winter",
+      "description": "switchback map- 3->2 Winter",
       "address": 275368,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1187,8 +601,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Normal"
+        "Downshift Points - Winter"
       ],
       "cols": 12,
       "rows": 4,
@@ -1198,7 +611,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 276712,
+        "address": 267868,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -1213,8 +626,8 @@
       }
     },
     {
-      "name": "Downshift 4->3 Uphill",
-      "description": "Downshift 4->3 Uphill",
+      "name": "switchback map- 4->3 Winter",
+      "description": "switchback map- 4->3 Winter",
       "address": 275464,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1224,8 +637,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Normal"
+        "Downshift Points - Winter"
       ],
       "cols": 12,
       "rows": 4,
@@ -1235,7 +647,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 276712,
+        "address": 267868,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -1250,8 +662,8 @@
       }
     },
     {
-      "name": "Downshift 5->4 Uphill",
-      "description": "Downshift 5->4 Uphill",
+      "name": "switchback map- 5->4 Winter",
+      "description": "switchback map- 5->4 Winter",
       "address": 275560,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1261,8 +673,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Normal"
+        "Downshift Points - Winter"
       ],
       "cols": 12,
       "rows": 4,
@@ -1272,7 +683,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 276712,
+        "address": 267868,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -1287,8 +698,8 @@
       }
     },
     {
-      "name": "Downshift 6->5 Uphill",
-      "description": "Downshift 6->5 Uphill",
+      "name": "switchback map- 6->5 Winter",
+      "description": "switchback map- 6->5 Winter",
       "address": 275656,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1298,8 +709,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Normal"
+        "Downshift Points - Winter"
       ],
       "cols": 12,
       "rows": 4,
@@ -1309,7 +719,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 276712,
+        "address": 267868,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -1324,1254 +734,552 @@
       }
     },
     {
-      "name": "Upshift 1->2 Normal",
-      "description": "Upshift 1->2 Normal",
-      "address": 271432,
-      "type": "MAP",
+      "name": "Downshift speed, At GRA relative On the target gear",
+      "description": "Downshift speed, At GRA relative On the target gear",
+      "address": 271828,
+      "type": "CURVE",
       "dataType": "SWORD",
-      "unit": "%",
+      "unit": "U/min",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Offroad"
+        "GRA: \"\""
       ],
-      "cols": 12,
-      "rows": 4,
+      "cols": 4,
       "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
         "type": "COM_AXIS",
         "points": 4,
         "min": 0.0,
         "max": 0.0,
-        "unit": "Nm",
-        "address": 276748,
-        "dataType": "SWORD"
+        "unit": "m/s*s",
+        "address": 276864,
+        "dataType": "SWORD",
+        "factor": 0.001
       }
     },
     {
-      "name": "Upshift 2->3 Normal",
-      "description": "Upshift 2->3 Normal",
-      "address": 271528,
-      "type": "MAP",
+      "name": "downshift speed At GRA",
+      "description": "downshift speed At GRA",
+      "address": 271820,
+      "type": "CURVE",
       "dataType": "SWORD",
-      "unit": "%",
+      "unit": "U/min",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Offroad"
+        "GRA: \"\""
       ],
-      "cols": 12,
-      "rows": 4,
+      "cols": 4,
       "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
         "type": "COM_AXIS",
         "points": 4,
         "min": 0.0,
         "max": 0.0,
-        "unit": "Nm",
-        "address": 276756,
-        "dataType": "SWORD"
+        "unit": "m/s*s",
+        "address": 276864,
+        "dataType": "SWORD",
+        "factor": 0.001
       }
     },
     {
-      "name": "Upshift 3->4 Normal",
-      "description": "Upshift 3->4 Normal",
-      "address": 271624,
-      "type": "MAP",
+      "name": "Downshift speed, At GRA relative On the target gear",
+      "description": "Downshift speed, At GRA relative On the target gear",
+      "address": 269844,
+      "type": "CURVE",
       "dataType": "SWORD",
-      "unit": "%",
+      "unit": "U/min",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Offroad"
+        "GRA: \"\""
       ],
-      "cols": 12,
-      "rows": 4,
+      "cols": 4,
       "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
         "type": "COM_AXIS",
         "points": 4,
         "min": 0.0,
         "max": 0.0,
-        "unit": "Nm",
-        "address": 276764,
-        "dataType": "SWORD"
+        "unit": "m/s*s",
+        "address": 276864,
+        "dataType": "SWORD",
+        "factor": 0.001
       }
     },
     {
-      "name": "Upshift 4->5 Normal",
-      "description": "Upshift 4->5 Normal",
-      "address": 271720,
+      "name": "max. set gradient for singlebit-Downshifts im Economic-Operation",
+      "description": "max. set gradient for singlebit-Downshifts im Economic-Operation — Drehzahlgradient in U/min/s",
+      "address": 299688,
       "type": "MAP",
       "dataType": "SWORD",
-      "unit": "%",
+      "unit": "U/min/s",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Offroad"
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
       ],
-      "cols": 12,
-      "rows": 4,
+      "cols": 5,
+      "rows": 5,
       "xAxis": {
         "type": "COM_AXIS",
-        "points": 12,
+        "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "%",
-        "address": 276688,
+        "unit": "Nm",
+        "address": 299472,
         "dataType": "SWORD",
         "factor": 0.1
       },
       "yAxis": {
         "type": "COM_AXIS",
-        "points": 4,
+        "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "Nm",
-        "address": 276772,
+        "unit": "Gang",
+        "address": 299484,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Upshift 5->6 Normal",
-      "description": "Upshift 5->6 Normal",
-      "address": 271816,
+      "name": "max. set gradient for singlebit-Downshifts im Sport-Operation",
+      "description": "max. set gradient for singlebit-Downshifts im Sport-Operation — Drehzahlgradient in U/min/s",
+      "address": 299740,
       "type": "MAP",
       "dataType": "SWORD",
-      "unit": "%",
+      "unit": "U/min/s",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Offroad"
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
       ],
-      "cols": 12,
-      "rows": 4,
+      "cols": 5,
+      "rows": 5,
       "xAxis": {
         "type": "COM_AXIS",
-        "points": 12,
+        "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "%",
-        "address": 276688,
+        "unit": "Nm",
+        "address": 299472,
         "dataType": "SWORD",
         "factor": 0.1
       },
       "yAxis": {
         "type": "COM_AXIS",
-        "points": 4,
+        "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "Nm",
-        "address": 276780,
+        "unit": "Gang",
+        "address": 299484,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Downshift 2->1 Normal",
-      "description": "Downshift 2->1 Normal",
-      "address": 272392,
+      "name": "max. set gradient for singlebit-Downshifts im Tiptronic-Operation",
+      "description": "max. set gradient for singlebit-Downshifts im Tiptronic-Operation — Drehzahlgradient in U/min/s",
+      "address": 299792,
       "type": "MAP",
       "dataType": "SWORD",
-      "unit": "%",
+      "unit": "U/min/s",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)",
-        "Offroad"
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
       ],
-      "cols": 12,
-      "rows": 4,
+      "cols": 5,
+      "rows": 5,
       "xAxis": {
         "type": "COM_AXIS",
-        "points": 12,
+        "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "%",
-        "address": 276712,
+        "unit": "Nm",
+        "address": 299472,
         "dataType": "SWORD",
         "factor": 0.1
       },
       "yAxis": {
         "type": "COM_AXIS",
-        "points": 4,
+        "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "Nm",
-        "address": 276748,
+        "unit": "Gang",
+        "address": 299484,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Downshift 3->2 Normal",
-      "description": "Downshift 3->2 Normal",
-      "address": 272488,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Offroad"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276756,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 4->3 Normal",
-      "description": "Downshift 4->3 Normal",
-      "address": 272584,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Offroad"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276764,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 5->4 Normal",
-      "description": "Downshift 5->4 Normal",
-      "address": 272680,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Offroad"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276772,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 6->5 Normal",
-      "description": "Downshift 6->5 Normal",
-      "address": 272776,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Offroad"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276780,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 1->2 Offroad",
-      "description": "Upshift 1->2 Offroad",
-      "address": 273832,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Sport"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276748,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 2->3 Offroad",
-      "description": "Upshift 2->3 Offroad",
-      "address": 273928,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Sport"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276756,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 3->4 Offroad",
-      "description": "Upshift 3->4 Offroad",
-      "address": 274024,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Sport"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276764,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 4->5 Offroad",
-      "description": "Upshift 4->5 Offroad",
-      "address": 274120,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Sport"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276772,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 5->6 Offroad",
-      "description": "Upshift 5->6 Offroad",
-      "address": 274216,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Sport"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276780,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 2->1 Offroad",
-      "description": "Downshift 2->1 Offroad",
-      "address": 274312,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Sport"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276748,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 3->2 Offroad",
-      "description": "Downshift 3->2 Offroad",
-      "address": 274408,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Sport"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276756,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 4->3 Offroad",
-      "description": "Downshift 4->3 Offroad",
-      "address": 274504,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Sport"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276764,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 5->4 Offroad",
-      "description": "Downshift 5->4 Offroad",
-      "address": 274600,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Sport"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276772,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 6->5 Offroad",
-      "description": "Downshift 6->5 Offroad",
-      "address": 274696,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Sport"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276780,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 1->2 Sport",
-      "description": "Upshift 1->2 Sport",
-      "address": 272872,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Manual"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276748,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 2->3 Sport",
-      "description": "Upshift 2->3 Sport",
-      "address": 272968,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Manual"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276756,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 3->4 Sport",
-      "description": "Upshift 3->4 Sport",
-      "address": 273064,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Manual"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276764,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 4->5 Sport",
-      "description": "Upshift 4->5 Sport",
-      "address": 273160,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Manual"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276772,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Upshift 5->6 Sport",
-      "description": "Upshift 5->6 Sport",
-      "address": 273256,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Manual"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276688,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276780,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 2->1 Sport",
-      "description": "Downshift 2->1 Sport",
-      "address": 273352,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Manual"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276748,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 3->2 Sport",
-      "description": "Downshift 3->2 Sport",
-      "address": 273448,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Manual"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276756,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 4->3 Sport",
-      "description": "Downshift 4->3 Sport",
-      "address": 273544,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Manual"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276764,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 5->4 Sport",
-      "description": "Downshift 5->4 Sport",
-      "address": 273640,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Manual"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276772,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Downshift 6->5 Sport",
-      "description": "Downshift 6->5 Sport",
-      "address": 273736,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)",
-        "Manual"
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 276712,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276780,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Duration of Torque Managment in Eco",
-      "description": "Duration of Torque Managment in Eco",
-      "address": 301932,
+      "name": "Maximum switching times for Downshifts im Economic-Operation",
+      "description": "Maximum switching times for Downshifts im Economic-Operation",
+      "address": 299548,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
       "min": 0.0,
       "max": 255.0,
-      "factor": 10.0,
+      "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
-      "cols": 4,
-      "rows": 4,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
       "xAxis": {
         "type": "COM_AXIS",
-        "points": 4,
+        "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "%",
-        "address": 301916,
+        "unit": "Nm",
+        "address": 299472,
         "dataType": "SWORD",
         "factor": 0.1
       },
       "yAxis": {
         "type": "COM_AXIS",
-        "points": 4,
+        "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "ï¿½C",
-        "address": 301924,
+        "unit": "Gang",
+        "address": 299484,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Duration of Torque Managment in Normal",
-      "description": "Duration of Torque Managment in Normal",
-      "address": 302028,
+      "name": "Maximum switching times for Downshifts im Sport-Operation",
+      "description": "Maximum switching times for Downshifts im Sport-Operation",
+      "address": 299600,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
       "min": 0.0,
       "max": 255.0,
-      "factor": 10.0,
+      "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
-      "cols": 4,
-      "rows": 4,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
       "xAxis": {
         "type": "COM_AXIS",
-        "points": 4,
+        "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "%",
-        "address": 301916,
+        "unit": "Nm",
+        "address": 299472,
         "dataType": "SWORD",
         "factor": 0.1
       },
       "yAxis": {
         "type": "COM_AXIS",
-        "points": 4,
+        "points": 5,
         "min": 0.0,
         "max": 0.0,
-        "unit": "ï¿½C",
-        "address": 301924,
+        "unit": "Gang",
+        "address": 299484,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Duration of Torque Managment in Sport",
-      "description": "Duration of Torque Managment in Sport",
-      "address": 301964,
+      "name": "Maximum switching times for Downshifts for Tiptronic-Operation",
+      "description": "Maximum switching times for Downshifts for Tiptronic-Operation",
+      "address": 299496,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
       "min": 0.0,
       "max": 255.0,
-      "factor": 10.0,
+      "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 299472,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gang",
+        "address": 299484,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Maximum Gradient the to speed change",
+      "description": "Maximum Gradient the to speed change — Drehzahl in U/min",
+      "address": 279744,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KanAppNreg: \"application sizes Nreg Approach\""
+      ],
       "cols": 4,
-      "rows": 4,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 4,
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 301916,
+        "address": 279736,
         "dataType": "SWORD",
         "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "ï¿½C",
-        "address": 301924,
-        "dataType": "SWORD"
       }
     },
     {
-      "name": "Duration of Torque Managment in Manual",
-      "description": "Duration of Torque Managment in Manual",
-      "address": 301996,
-      "type": "MAP",
+      "name": "Factor for the engine moment At one LaunchControl-approach with control",
+      "description": "Factor for the engine moment At one LaunchControl-approach with control",
+      "address": 279982,
+      "type": "CURVE",
       "dataType": "SWORD",
-      "unit": "ms",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KanAppLaunchControl: \"application sizes for LaunchControl-special functions\""
+      ],
+      "cols": 2,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 2,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Activation the control over engine moment At one approach with LaunchControl",
+      "description": "Activation the control over engine moment At one approach with LaunchControl — 0: Nein, 1: Ja",
+      "address": 279998,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 2.0,
+      "offset": 0.0,
+      "categories": [
+        "KanAppLaunchControl: \"application sizes for LaunchControl-special functions\""
+      ]
+    },
+    {
+      "name": "Activation the control over engine moment At one approach with LaunchControl",
+      "description": "Activation the control over engine moment At one approach with LaunchControl — 0: Nein, 1: Ja",
+      "address": 279998,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KanAppLaunchControl: \"application sizes for LaunchControl-special functions\""
+      ]
+    },
+    {
+      "name": "Release for special functions At one AMax-approach",
+      "description": "Release for special functions At one AMax-approach — 0: Nein, 1: Ja",
+      "address": 279999,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 2.0,
+      "offset": 0.0,
+      "categories": [
+        "KanAppLaunchControl: \"application sizes for LaunchControl-special functions\""
+      ]
+    },
+    {
+      "name": "Release for special functions At one AMax-approach",
+      "description": "Release for special functions At one AMax-approach — 0: Nein, 1: Ja",
+      "address": 279999,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KanAppLaunchControl: \"application sizes for LaunchControl-special functions\""
+      ]
+    },
+    {
+      "name": "reduction At Switching 'Maximum Acceleration' and LaunchControl",
+      "description": "reduction At Switching 'Maximum Acceleration' and LaunchControl",
+      "address": 302726,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.390625,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplAMax: \"Application parameters for mode 'Maximum Acceleration'\""
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 5,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Release for The Calculation of maximum torque increase From the Characteristic",
+      "description": "Release for The Calculation of maximum torque increase From the Characteristic — 0: Nein, 1: Ja",
+      "address": 280000,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KanAppLaunchControl: \"application sizes for LaunchControl-special functions\""
+      ],
+      "cols": 1,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 1,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "build ramp max. engine moment separately for LaunchControl",
+      "description": "build ramp max. engine moment separately for LaunchControl",
+      "address": 270066,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
       "min": 0.0,
       "max": 255.0,
       "factor": 10.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "MmrApplikation: \"Application parameters\""
+      ],
+      "cols": 3,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 3,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "ï¿½",
+        "address": 270060,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "HdrPHauptZuI_kf_z",
+      "description": "Target current for main pressure valve",
+      "address": 270132,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "mA",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Pressure Control"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "bar",
+        "address": 270108,
+        "dataType": "SWORD",
+        "factor": 0.01
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 270120,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "HdrPMainMax_kl",
+      "description": "Maximum main pressure",
+      "address": 270224,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Pressure Control"
+      ],
       "cols": 4,
-      "rows": 4,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 4,
         "min": 0.0,
         "max": 0.0,
-        "unit": "%",
-        "address": 301916,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "ï¿½C",
-        "address": 301924,
+        "unit": "min-1",
+        "address": 270216,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Line Pressure Offset",
-      "description": "Line Pressure Offset",
+      "name": "Map for main pressure offset From drive speed and temperature",
+      "description": "Map for main pressure offset From drive speed and temperature",
       "address": 270272,
       "type": "MAP",
       "dataType": "SWORD",
@@ -2580,7 +1288,9 @@
       "max": 255.0,
       "factor": 0.01,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "HauptdruckSteuerungApp: \"main pressure control\""
+      ],
       "cols": 4,
       "rows": 8,
       "xAxis": {
@@ -2603,9 +1313,35 @@
       }
     },
     {
-      "name": "Forced Upshift 1->2 in Manual",
-      "description": "Forced Upshift 1->2 in Manual",
-      "address": 302744,
+      "name": "HdrMomentZuPHaupt_kl",
+      "description": "Data moment to main pressure KL",
+      "address": 270192,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "HauptdruckSteuerungApp: \"main pressure control\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 270184,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "upshift-Characteristics At AMax for HS 1->2 in Sport",
+      "description": "upshift-Characteristics At AMax for HS 1->2 in Sport",
+      "address": 276384,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -2614,7 +1350,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)"
+        "A_Max: \"\""
       ],
       "cols": 4,
       "xAxis": {
@@ -2628,9 +1364,9 @@
       }
     },
     {
-      "name": "Forced Upshift 2->3 in Manual",
-      "description": "Forced Upshift 2->3 in Manual",
-      "address": 302752,
+      "name": "upshift-Characteristics At AMax for HS 1->2 in Tip",
+      "description": "upshift-Characteristics At AMax for HS 1->2 in Tip",
+      "address": 276424,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -2639,132 +1375,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)"
-      ],
-      "cols": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276756,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Forced Upshift 3->4 in Manual",
-      "description": "Forced Upshift 3->4 in Manual",
-      "address": 302760,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/Min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)"
-      ],
-      "cols": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276764,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Forced Upshift 4->5 in Manual",
-      "description": "Forced Upshift 4->5 in Manual",
-      "address": 302768,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/Min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)"
-      ],
-      "cols": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276772,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Forced Upshift 5->6 in Manual",
-      "description": "Forced Upshift 5->6 in Manual",
-      "address": 302776,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/Min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)"
-      ],
-      "cols": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 276780,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Max RPM for Manual Downshift",
-      "description": "Max RPM for Manual Downshift",
-      "address": 302848,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)"
-      ],
-      "cols": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "RS",
-        "address": 196608,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Offset From Target Idle for Forced Downshift 2->1",
-      "description": "Offset From Target Idle for Forced Downshift 2->1",
-      "address": 302784,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/Min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Target Shift Times (Downshift)"
+        "A_Max: \"\""
       ],
       "cols": 4,
       "xAxis": {
@@ -2778,9 +1389,9 @@
       }
     },
     {
-      "name": "Offset From Target Idle for Forced Downshift 3->2",
-      "description": "Offset From Target Idle for Forced Downshift 3->2",
-      "address": 302792,
+      "name": "upshift-Characteristic At AMax for HS 1->2",
+      "description": "upshift-Characteristic At AMax for HS 1->2",
+      "address": 276344,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -2789,7 +1400,32 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)"
+        "A_Max: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276748,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "upshift-Characteristics At AMax for HS 2->3 in Sport",
+      "description": "upshift-Characteristics At AMax for HS 2->3 in Sport",
+      "address": 276392,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "A_Max: \"\""
       ],
       "cols": 4,
       "xAxis": {
@@ -2803,9 +1439,9 @@
       }
     },
     {
-      "name": "Offset From Target Idle for Forced Downshift 4->3",
-      "description": "Offset From Target Idle for Forced Downshift 4->3",
-      "address": 302800,
+      "name": "upshift-Characteristics At AMax for HS 2->3 in Tip",
+      "description": "upshift-Characteristics At AMax for HS 2->3 in Tip",
+      "address": 276432,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -2814,7 +1450,57 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)"
+        "A_Max: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "upshift-Characteristic At AMax for HS 2->3",
+      "description": "upshift-Characteristic At AMax for HS 2->3",
+      "address": 276352,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "A_Max: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "upshift-Characteristics At AMax for HS 3->4 in Sport",
+      "description": "upshift-Characteristics At AMax for HS 3->4 in Sport",
+      "address": 276400,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "A_Max: \"\""
       ],
       "cols": 4,
       "xAxis": {
@@ -2828,9 +1514,9 @@
       }
     },
     {
-      "name": "Offset From Target Idle for Forced Downshift 5->4",
-      "description": "Offset From Target Idle for Forced Downshift 5->4",
-      "address": 302808,
+      "name": "upshift-Characteristics At AMax for HS 3->4 in Tip",
+      "description": "upshift-Characteristics At AMax for HS 3->4 in Tip",
+      "address": 276440,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -2839,7 +1525,57 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)"
+        "A_Max: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "upshift-Characteristic At AMax for HS 3->4",
+      "description": "upshift-Characteristic At AMax for HS 3->4",
+      "address": 276360,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "A_Max: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "upshift-Characteristics At AMax for HS 4->5 in Sport",
+      "description": "upshift-Characteristics At AMax for HS 4->5 in Sport",
+      "address": 276408,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "A_Max: \"\""
       ],
       "cols": 4,
       "xAxis": {
@@ -2853,9 +1589,9 @@
       }
     },
     {
-      "name": "Offset From Target Idle for Forced Downshift 6->5",
-      "description": "Offset From Target Idle for Forced Downshift 6->5",
-      "address": 302816,
+      "name": "upshift-Characteristics At AMax for HS 4->5 in Tip",
+      "description": "upshift-Characteristics At AMax for HS 4->5 in Tip",
+      "address": 276448,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -2864,7 +1600,57 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)"
+        "A_Max: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "upshift-Characteristic At AMax for HS 4->5",
+      "description": "upshift-Characteristic At AMax for HS 4->5",
+      "address": 276368,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "A_Max: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "upshift-Characteristics At AMax for HS 5->6 in Sport",
+      "description": "upshift-Characteristics At AMax for HS 5->6 in Sport",
+      "address": 276416,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "A_Max: \"\""
       ],
       "cols": 4,
       "xAxis": {
@@ -2878,8 +1664,58 @@
       }
     },
     {
-      "name": "Downshift on Kickdown Switch 2->1 in Manual",
-      "description": "Downshift on Kickdown Switch 2->1 in Manual",
+      "name": "upshift-Characteristics At AMax for HS 5->6 in Tip",
+      "description": "upshift-Characteristics At AMax for HS 5->6 in Tip",
+      "address": 276456,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "A_Max: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "upshift-Characteristic At AMax for HS 5->6",
+      "description": "upshift-Characteristic At AMax for HS 5->6",
+      "address": 276376,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "A_Max: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KD-switchback-Characteristic for RS 2->1 in TT",
+      "description": "KD-switchback-Characteristic for RS 2->1 in TT",
       "address": 276464,
       "type": "CURVE",
       "dataType": "SWORD",
@@ -2889,7 +1725,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)"
+        "KD_ZwangsHSRS: \"\""
       ],
       "cols": 4,
       "xAxis": {
@@ -2903,8 +1739,8 @@
       }
     },
     {
-      "name": "Downshift on Kickdown Switch 3->2 in Manual",
-      "description": "Downshift on Kickdown Switch 3->2 in Manual",
+      "name": "KD-switchback-Characteristic for RS 3->2 in TT",
+      "description": "KD-switchback-Characteristic for RS 3->2 in TT",
       "address": 276472,
       "type": "CURVE",
       "dataType": "SWORD",
@@ -2914,7 +1750,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)"
+        "KD_ZwangsHSRS: \"\""
       ],
       "cols": 4,
       "xAxis": {
@@ -2928,8 +1764,8 @@
       }
     },
     {
-      "name": "Downshift on Kickdown Switch 4->3 in Manual",
-      "description": "Downshift on Kickdown Switch 4->3 in Manual",
+      "name": "KD-switchback-Characteristic for RS 4->3 in TT",
+      "description": "KD-switchback-Characteristic for RS 4->3 in TT",
       "address": 276480,
       "type": "CURVE",
       "dataType": "SWORD",
@@ -2939,7 +1775,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)"
+        "KD_ZwangsHSRS: \"\""
       ],
       "cols": 4,
       "xAxis": {
@@ -2953,8 +1789,8 @@
       }
     },
     {
-      "name": "Downshift on Kickdown Switch 5->4 in Manual",
-      "description": "Downshift on Kickdown Switch 5->4 in Manual",
+      "name": "KD-switchback-Characteristic for RS 5->4 in TT",
+      "description": "KD-switchback-Characteristic for RS 5->4 in TT",
       "address": 276488,
       "type": "CURVE",
       "dataType": "SWORD",
@@ -2964,7 +1800,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)"
+        "KD_ZwangsHSRS: \"\""
       ],
       "cols": 4,
       "xAxis": {
@@ -2978,8 +1814,8 @@
       }
     },
     {
-      "name": "Downshift on Kickdown Switch 6->5 in Manual",
-      "description": "Downshift on Kickdown Switch 6->5 in Manual",
+      "name": "KD-switchback-Characteristic for RS 6->5 in TT",
+      "description": "KD-switchback-Characteristic for RS 6->5 in TT",
       "address": 276496,
       "type": "CURVE",
       "dataType": "SWORD",
@@ -2989,7 +1825,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Target Shift Times (Downshift)"
+        "KD_ZwangsHSRS: \"\""
       ],
       "cols": 4,
       "xAxis": {
@@ -3003,97 +1839,1825 @@
       }
     },
     {
-      "name": "Gear Teeth",
-      "description": "Gear Teeth",
-      "address": 263688,
+      "name": "high shift map 1->2 Eco",
+      "description": "high shift map 1->2 Eco",
+      "address": 270952,
       "type": "MAP",
-      "dataType": "SBYTE",
-      "unit": "",
+      "dataType": "SWORD",
+      "unit": "%",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
-      "cols": 2,
-      "rows": 8,
+      "categories": [
+        "Upshift Points - ECO"
+      ],
+      "cols": 12,
+      "rows": 4,
       "xAxis": {
         "type": "COM_AXIS",
-        "points": 1,
+        "points": 12,
         "min": 0.0,
         "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
       },
       "yAxis": {
         "type": "COM_AXIS",
-        "points": 1,
+        "points": 4,
         "min": 0.0,
         "max": 0.0,
-        "unit": "Gear",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "unit": "Nm",
+        "address": 276748,
+        "dataType": "SWORD"
       }
     },
     {
-      "name": "Output Shaft Teeth",
-      "description": "Output Shaft Teeth",
-      "address": 263704,
+      "name": "high shift map 1->2 Normal",
+      "description": "high shift map 1->2 Normal",
+      "address": 271432,
       "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "",
+      "dataType": "SWORD",
+      "unit": "%",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
-      "cols": 2,
-      "rows": 2,
+      "categories": [
+        "Upshift Points - Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
       "xAxis": {
         "type": "COM_AXIS",
-        "points": 1,
+        "points": 12,
         "min": 0.0,
         "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
       },
       "yAxis": {
         "type": "COM_AXIS",
-        "points": 1,
+        "points": 4,
         "min": 0.0,
         "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "unit": "Nm",
+        "address": 276748,
+        "dataType": "SWORD"
       }
     },
     {
-      "name": "Intermediate Shaft Teeth",
-      "description": "Intermediate Shaft Teeth",
-      "address": 263708,
+      "name": "high shift map 2->3 Eco",
+      "description": "high shift map 2->3 Eco",
+      "address": 271048,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - ECO"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 2->3 Normal",
+      "description": "high shift map 2->3 Normal",
+      "address": 271528,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 3->4 Eco",
+      "description": "high shift map 3->4 Eco",
+      "address": 271144,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - ECO"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 3->4 Normal",
+      "description": "high shift map 3->4 Normal",
+      "address": 271624,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 4->5 Eco",
+      "description": "high shift map 4->5 Eco",
+      "address": 271240,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - ECO"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 4->5 Normal",
+      "description": "high shift map 4->5 Normal",
+      "address": 271720,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 5->6 Eco",
+      "description": "high shift map 5->6 Eco",
+      "address": 271336,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - ECO"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 5->6 Normal",
+      "description": "high shift map 5->6 Normal",
+      "address": 271816,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 2->1 Eco",
+      "description": "switchback map- 2->1 Eco",
+      "address": 271912,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - ECO"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276748,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 3->2 Eco",
+      "description": "switchback map- 3->2 Eco",
+      "address": 272008,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - ECO"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 4->3 Eco",
+      "description": "switchback map- 4->3 Eco",
+      "address": 272104,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - ECO"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 5->4 Eco",
+      "description": "switchback map- 5->4 Eco",
+      "address": 272200,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - ECO"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 6->5 Eco",
+      "description": "switchback map- 6->5 Eco",
+      "address": 272296,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - ECO"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 1->2 offroad",
+      "description": "high shift map 1->2 offroad",
+      "address": 273832,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Off Road"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276748,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 1->2 Sport",
+      "description": "high shift map 1->2 Sport",
+      "address": 272872,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276748,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 2->3 offroad",
+      "description": "high shift map 2->3 offroad",
+      "address": 273928,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Off Road"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 2->3 Sport",
+      "description": "high shift map 2->3 Sport",
+      "address": 272968,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 3->4 offroad",
+      "description": "high shift map 3->4 offroad",
+      "address": 274024,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Off Road"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 3->4 Sport",
+      "description": "high shift map 3->4 Sport",
+      "address": 273064,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 4->5 offroad",
+      "description": "high shift map 4->5 offroad",
+      "address": 274120,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Off Road"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 4->5 Sport",
+      "description": "high shift map 4->5 Sport",
+      "address": 273160,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 5->6 offroad",
+      "description": "high shift map 5->6 offroad",
+      "address": 274216,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Off Road"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "high shift map 5->6 Sport",
+      "description": "high shift map 5->6 Sport",
+      "address": 273256,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Upshift Points - Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 276688,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 2->1 Normal",
+      "description": "switchback map- 2->1 Normal",
+      "address": 272392,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276748,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 2->1 offroad",
+      "description": "switchback map- 2->1 offroad",
+      "address": 274312,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Off Road"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276748,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 2->1 Sport",
+      "description": "switchback map- 2->1 Sport",
+      "address": 273352,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276748,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 3->2 Normal",
+      "description": "switchback map- 3->2 Normal",
+      "address": 272488,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 3->2 offroad",
+      "description": "switchback map- 3->2 offroad",
+      "address": 274408,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Off Road"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 3->2 Sport",
+      "description": "switchback map- 3->2 Sport",
+      "address": 273448,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 4->3 Normal",
+      "description": "switchback map- 4->3 Normal",
+      "address": 272584,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 4->3 offroad",
+      "description": "switchback map- 4->3 offroad",
+      "address": 274504,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Off Road"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 4->3 Sport",
+      "description": "switchback map- 4->3 Sport",
+      "address": 273544,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 5->4 Normal",
+      "description": "switchback map- 5->4 Normal",
+      "address": 272680,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 5->4 offroad",
+      "description": "switchback map- 5->4 offroad",
+      "address": 274600,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Off Road"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 5->4 Sport",
+      "description": "switchback map- 5->4 Sport",
+      "address": 273640,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 6->5 Normal",
+      "description": "switchback map- 6->5 Normal",
+      "address": 272776,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Normal"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 6->5 offroad",
+      "description": "switchback map- 6->5 offroad",
+      "address": 274696,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Off Road"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switchback map- 6->5 Sport",
+      "description": "switchback map- 6->5 Sport",
+      "address": 273736,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Downshift Points - Sport"
+      ],
+      "cols": 12,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 12,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 267868,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Downshift speed, At GRA relative On the target gear",
+      "description": "Downshift speed, At GRA relative On the target gear",
+      "address": 270868,
       "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "",
+      "dataType": "SWORD",
+      "unit": "U/min",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
-      "cols": 2,
+      "categories": [
+        "GRA: \"\""
+      ],
+      "cols": 4,
       "xAxis": {
         "type": "COM_AXIS",
-        "points": 1,
+        "points": 4,
         "min": 0.0,
         "max": 0.0,
-        "unit": "",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "unit": "m/s*s",
+        "address": 276864,
+        "dataType": "SWORD",
+        "factor": 0.001
       }
     },
     {
-      "name": "Drehzahl in U/min\r\nStalldrehzahl LC Anfahrt mit aktiviertem ESP",
-      "description": "Stall Speed During Launch Control ESP On",
+      "name": "downshift speed At GRA",
+      "description": "downshift speed At GRA",
+      "address": 270860,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GRA: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "m/s*s",
+        "address": 276864,
+        "dataType": "SWORD",
+        "factor": 0.001
+      }
+    },
+    {
+      "name": "Downshift speed, At GRA relative On the target gear",
+      "description": "Downshift speed, At GRA relative On the target gear",
+      "address": 270868,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GRA: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "m/s*s",
+        "address": 276864,
+        "dataType": "SWORD",
+        "factor": 0.001
+      }
+    },
+    {
+      "name": "downshift speed At GRA",
+      "description": "downshift speed At GRA",
+      "address": 270860,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GRA: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "m/s*s",
+        "address": 276864,
+        "dataType": "SWORD",
+        "factor": 0.001
+      }
+    },
+    {
+      "name": "max speed for gear",
+      "description": "max speed for gear",
+      "address": 268976,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max RPM in Gear"
+      ],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "mandatory-upshift-Characteristic for HS 1->2 in TT",
+      "description": "mandatory-upshift-Characteristic for HS 1->2 in TT",
+      "address": 302744,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GesVarianten: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276748,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "mandatory-upshift-Characteristic for HS 2->3 in TT",
+      "description": "mandatory-upshift-Characteristic for HS 2->3 in TT",
+      "address": 302752,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GesVarianten: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "mandatory-upshift-Characteristic for HS 3->4 in TT",
+      "description": "mandatory-upshift-Characteristic for HS 3->4 in TT",
+      "address": 302760,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GesVarianten: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "mandatory-upshift-Characteristic for HS 4->5 in TT",
+      "description": "mandatory-upshift-Characteristic for HS 4->5 in TT",
+      "address": 302768,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GesVarianten: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "mandatory-upshift-Characteristic for HS 5->6 in TT",
+      "description": "mandatory-upshift-Characteristic for HS 5->6 in TT",
+      "address": 302776,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GesVarianten: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "mandatory-upshift-Characteristic for HS 1->2 in TT",
+      "description": "mandatory-upshift-Characteristic for HS 1->2 in TT",
+      "address": 319128,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GesVarianten: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276748,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "mandatory-upshift-Characteristic for HS 2->3 in TT",
+      "description": "mandatory-upshift-Characteristic for HS 2->3 in TT",
+      "address": 319136,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GesVarianten: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276756,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "mandatory-upshift-Characteristic for HS 3->4 in TT",
+      "description": "mandatory-upshift-Characteristic for HS 3->4 in TT",
+      "address": 319144,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GesVarianten: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276764,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "mandatory-upshift-Characteristic for HS 4->5 in TT",
+      "description": "mandatory-upshift-Characteristic for HS 4->5 in TT",
+      "address": 319152,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GesVarianten: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276772,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "mandatory-upshift-Characteristic for HS 5->6 in TT",
+      "description": "mandatory-upshift-Characteristic for HS 5->6 in TT",
+      "address": 319160,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/Min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "GesVarianten: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 276780,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KusLaunchNstallESP_kl",
+      "description": "stall speed LC approach with activated ESP",
       "address": 264424,
       "type": "CURVE",
       "dataType": "SWORD",
@@ -3102,7 +3666,9 @@
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "LaunchControl"
+      ],
       "cols": 8,
       "xAxis": {
         "type": "COM_AXIS",
@@ -3116,8 +3682,8 @@
       }
     },
     {
-      "name": "Drehzahl in U/min\r\nStalldrehzahl LC Anfahrt",
-      "description": "Stall Speed During Launch Control",
+      "name": "KusLaunchNstall_kl",
+      "description": "stall speed LC approach",
       "address": 264408,
       "type": "CURVE",
       "dataType": "SWORD",
@@ -3126,7 +3692,9 @@
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "LaunchControl"
+      ],
       "cols": 8,
       "xAxis": {
         "type": "COM_AXIS",
@@ -3140,8 +3708,8 @@
       }
     },
     {
-      "name": "Motormoment in Nm\r\nMotormoment ï¿½ber Fahrgeschwindigkeit",
-      "description": "Torque Limit vs Speed",
+      "name": "engine moment over Speed",
+      "description": "engine moment over Speed — Motormoment in Nm",
       "address": 264776,
       "type": "CURVE",
       "dataType": "SWORD",
@@ -3150,7 +3718,9 @@
       "max": 255.0,
       "factor": 0.1,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "Torque Limiters"
+      ],
       "cols": 6,
       "xAxis": {
         "type": "COM_AXIS",
@@ -3164,30 +3734,1144 @@
       }
     },
     {
-      "name": "0: Nein, 1: Ja\r\nFreigabe fï¿½r eine Launch-Control-Anfahrt mit aktiviertem ESP",
-      "description": "Allow Launch Control With ESP on",
+      "name": "Release for a Launch-Control-approach with activated ESP",
+      "description": "Release for a Launch-Control-approach with activated ESP — 0: Nein, 1: Ja",
       "address": 265470,
-      "type": "VALUE",
-      "dataType": "UWORD",
+      "type": "MAP",
+      "dataType": "UBYTE",
       "unit": "",
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "LaunchControl"
+      ],
+      "cols": 1,
+      "rows": 8,
       "xAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 1,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "-",
-        "address": 196608,
-        "dataType": "UBYTE"
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": ""
       }
     },
     {
-      "name": "0.01 ms in s\r\nMaximale Dauer des Vorspannens bei Launch-Control",
-      "description": "Launch Control Time-Out",
+      "name": "Maximum switching times for Downshifts im Economic-Operation",
+      "description": "Maximum switching times for Downshifts im Economic-Operation",
+      "address": 299548,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 299472,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gang",
+        "address": 299484,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Maximum switching times for Downshifts im Sport-Operation",
+      "description": "Maximum switching times for Downshifts im Sport-Operation",
+      "address": 299600,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 299472,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gang",
+        "address": 299484,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Maximum switching times for Downshifts for Tiptronic-Operation",
+      "description": "Maximum switching times for Downshifts for Tiptronic-Operation",
+      "address": 299496,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 299472,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gang",
+        "address": 299484,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "max. set gradient for singlebit-Downshifts im Economic-Operation",
+      "description": "max. set gradient for singlebit-Downshifts im Economic-Operation — Drehzahlgradient in U/min/s",
+      "address": 299688,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min/s",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 299472,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gang",
+        "address": 299484,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "max. set gradient for singlebit-Downshifts im Sport-Operation",
+      "description": "max. set gradient for singlebit-Downshifts im Sport-Operation — Drehzahlgradient in U/min/s",
+      "address": 299740,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min/s",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 299472,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gang",
+        "address": 299484,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "max. set gradient for singlebit-Downshifts im Tiptronic-Operation",
+      "description": "max. set gradient for singlebit-Downshifts im Tiptronic-Operation — Drehzahlgradient in U/min/s",
+      "address": 299792,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min/s",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 299472,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gang",
+        "address": 299484,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Ges_HSMaxUmwMLast_ar",
+      "description": "Max. load torque above which no upshift takes place = f(gear)",
+      "address": 276736,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "HauptdruckSteuerungApp: \"main pressure control\""
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gear",
+        "address": 0,
+        "dataType": "SWORD",
+        "labels": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      }
+    },
+    {
+      "name": "Data moment to main pressure KL - Nm x axis",
+      "description": "Data moment to main pressure KL - Nm x axis",
+      "address": 270184,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "HauptdruckSteuerungApp: \"main pressure control\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 4,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "KusAMaxStallLwDisable_kl",
+      "description": "Steering angle to deactivate the AMax function after approaching a stall",
+      "address": 264644,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KusAppAFzgMax"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "km/h",
+        "address": 264636,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KusAMaxLCLwDisable_kl",
+      "description": "Steering angle to deactivate the AMax function after LaunchControl approach",
+      "address": 264652,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KusAppAFzgMax"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "km/h",
+        "address": 264636,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KreMsr_ParaTempKp_kl[Einlauf]",
+      "description": "Gear-dependent characteristics with the gain of the P controller",
+      "address": 266040,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 4,
+      "rows": 7,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 0,
+        "dataType": "SWORD",
+        "labels": [
+          "-30.0",
+          "60.0",
+          "80.0",
+          "140.0"
+        ]
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "De2K1IzuPMax_kl",
+      "description": "Current to pressure characteristic pressure too high clutch 1",
+      "address": 269064,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 25.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Pressure Control"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "mA",
+        "address": 269072,
+        "dataType": "UWORD"
+      }
+    },
+    {
+      "name": "De2K2IzuPMax_kl",
+      "description": "Current to pressure characteristic pressure too high clutch 2",
+      "address": 269080,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 25.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Pressure Control"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "mA",
+        "address": 269088,
+        "dataType": "UWORD"
+      }
+    },
+    {
+      "name": "De2K1IzuPMin_kl",
+      "description": "Current to pressure characteristic pressure too low clutch 1",
+      "address": 269096,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Pressure Control"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "mA",
+        "address": 269104,
+        "dataType": "UWORD"
+      }
+    },
+    {
+      "name": "De2K2IzuPMin_kl",
+      "description": "Current to pressure characteristic pressure too low clutch 2",
+      "address": 269112,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Pressure Control"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "mA",
+        "address": 269120,
+        "dataType": "UWORD"
+      }
+    },
+    {
+      "name": "MmrDmmoMaxAnf_kf",
+      "description": "maximum torque increase when starting",
+      "address": 269904,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "MmrDmmoApplikation"
+      ],
+      "cols": 8,
+      "rows": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 269872,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "C",
+        "address": 269888,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "MmrMAufbauLaunch_kl",
+      "description": "Build-up ramp max. engine torque separately for LaunchControl",
+      "address": 270066,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "MmrApplikation: \"Application parameters\""
+      ],
+      "cols": 3,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 3,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 270060,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "GssMpxTWaitMpxOn_kf",
+      "description": "Map for multiplexer time",
+      "address": 278548,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Multiplexer"
+      ],
+      "cols": 4,
+      "rows": 4,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "C",
+        "address": 278532,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "bar",
+        "address": 278540,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "GssMpxTWaitMpxOff_kl",
+      "description": "Waiting time for multiplexers when switching off the multiplexer valve",
+      "address": 278580,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Multiplexer"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "C",
+        "address": 278532,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KanNregMvorstAufbau_kf",
+      "description": "Body limitation pre-control torque in Nreg",
+      "address": 279304,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KanAppNreg: \"application sizes Nreg Approach\""
+      ],
+      "cols": 4,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 279288,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min/s",
+        "address": 279296,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KandMAnstiegR_kf",
+      "description": "Rise limitation of clutch setpoint torque starting in R",
+      "address": 279516,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KanAppdMom: \"application sizes rise limiting Approach\""
+      ],
+      "cols": 4,
+      "rows": 6,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 279508,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 279496,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KandMAnstiegD_kf",
+      "description": "Rise limit clutch target torque starting gear 1,3,5",
+      "address": 279564,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KanAppdMom: \"application sizes rise limiting Approach\""
+      ],
+      "cols": 4,
+      "rows": 6,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 279508,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 279496,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KandMAnstiegNAn_ko",
+      "description": "Minimum engine speed Limit rise in pre-control torque to KandMAnstiegMax during the start-up",
+      "address": 279612,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm/s",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KanAppdMom: \"application sizes rise limiting Approach\""
+      ],
+      "cols": 4,
+      "rows": 6,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 279508,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 279496,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "BEGRENZUNGSMOMENT_NN",
+      "description": "Limiting torque determined at sea level",
+      "address": 284608,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 17,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 0,
+        "dataType": "SWORD",
+        "labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17"
+        ]
+      }
+    },
+    {
+      "name": "ISTMOMENT_NN",
+      "description": "Actual torque for gearbox at sea level at 20°C",
+      "address": 284648,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 17,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 0,
+        "dataType": "SWORD",
+        "labels": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17"
+        ]
+      }
+    },
+    {
+      "name": "KrsSchaltzeitTip_kf",
+      "description": "Maximum shift times for downshifts for Tiptronic operation",
+      "address": 299496,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 299472,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Gang",
+        "address": 299484,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KhsTSchaltAFzgMax_ko",
+      "description": "Shift time for shifts in the special mode 'maximum acceleration",
+      "address": 302576,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplAMax: \"Application parameters for mode 'Maximum Acceleration'\""
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 0,
+        "dataType": "SWORD",
+        "labels": [
+          "1 -> 2",
+          "2 -> 3",
+          "3 -> 4",
+          "4 -> 5",
+          "5 -> 6"
+        ]
+      }
+    },
+    {
+      "name": "KhsTSchaltAFzgMax_ko",
+      "description": "Shift time for shifts in the special mode 'maximum acceleration",
+      "address": 318960,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplAMax: \"Application parameters for mode 'Maximum Acceleration'\""
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 0,
+        "dataType": "SWORD",
+        "labels": [
+          "1 -> 2",
+          "2 -> 3",
+          "3 -> 4",
+          "4 -> 5",
+          "5 -> 6"
+        ]
+      }
+    },
+    {
+      "name": "Kad_DAnteil_kf",
+      "description": "10ms D component set current during creeping/starting",
+      "address": 303456,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 8,
+      "rows": 8,
+      "columnDir": true,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 303584,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "ms",
+        "address": 303600,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KscQKuehlKr_kl",
+      "description": "Cooling oil volume flow is creeping",
+      "address": 265524,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "l/min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Cooling"
+      ],
+      "cols": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 265500,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KscQKuehlAnf_k",
+      "description": "Cooling oil volume flow for starting",
+      "address": 265536,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "l/min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Cooling"
+      ],
+      "cols": 6,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 265500,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U / min",
+        "address": 265512,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KscQKuehlFahren_kf",
+      "description": "Cooling oil volume flow for driving",
+      "address": 265596,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "l/min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Cooling"
+      ],
+      "cols": 6,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 265500,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U / min",
+        "address": 265512,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "KkrLC_MKupVorspann_kf",
+      "description": "Preload torque for launch control",
+      "address": 268160,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.02,
+      "offset": 0.0,
+      "categories": [
+        "LaunchControl"
+      ],
+      "cols": 3,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 3,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 268146,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 268152,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Torque offset at LaunchControl (with / without ESP)",
+      "description": "Torque offset at LaunchControl (with / without ESP) — Kupplungsmoment in Nm\r\nKanLC_MOffset_kl",
+      "address": 279692,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.02,
+      "offset": 0.0,
+      "categories": [
+        "LaunchControl"
+      ],
+      "cols": 5,
+      "rows": 2,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 279680,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 2,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "KkrLC_TMaxVorspannen_kl",
+      "description": "Maximum Duration of Preloads At Launch-Control",
       "address": 268184,
       "type": "CURVE",
       "dataType": "SWORD",
@@ -3196,45 +4880,23 @@
       "max": 255.0,
       "factor": 0.01,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "LaunchControl"
+      ],
       "cols": 4,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 4,
         "min": 0.0,
         "max": 0.0,
-        "unit": "ï¿½C",
+        "unit": "°C",
         "address": 268152,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Aufbaurampe max. Motormoment gesondert fï¿½r LaunchControl",
-      "description": "Max Torque Ramp",
-      "address": 270066,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "Nm/s",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 10.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 3,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 3,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "ï¿½",
-        "address": 270060,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "Kennline fï¿½r maximalen Momentenanstieg bei einer LaunchControl-Anfahrt",
-      "description": "Max Torque Increase",
+      "name": "KanLC_dMMax_kl",
+      "description": "Characteristic curve for maximum moment increase during a launch control approach",
       "address": 279724,
       "type": "CURVE",
       "dataType": "SWORD",
@@ -3243,7 +4905,9 @@
       "max": 255.0,
       "factor": 2.0,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "LaunchControl"
+      ],
       "cols": 5,
       "xAxis": {
         "type": "COM_AXIS",
@@ -3255,21 +4919,50 @@
         "dataType": "SWORD",
         "factor": 0.1
       }
+    },
+    {
+      "name": "KhsAMax_EnControl_ko",
+      "description": "Release for control in AMax circuits",
+      "address": 302735,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 1.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": []
+    },
+    {
+      "name": "KusKdFuerAFzgMax_ko",
+      "description": "Kickdown required for switching mode 'Maximum acceleration'",
+      "address": 265448,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 1.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": []
+    },
+    {
+      "name": "KusAMaxEnable_ko",
+      "description": "Release for the switching mode 'Maximum acceleration'",
+      "address": 265449,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 2.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": []
     }
   ],
   "_source": "XDF",
-  "offset": 196608,
   "verification": {
     "calOffset": 0,
     "expected": "F45M"
-  },
-  "binInfo": {
-    "type": "TCU",
-    "binFile": "0D9300012L_4517_F45M.bin",
-    "binPath": "dsg/0D9300012L_4517_F45M.bin",
-    "epk": "F45M",
-    "hwNumber": "0D9300012L",
-    "swVersion": "4517",
-    "tcuType": "DQ250"
   }
 }

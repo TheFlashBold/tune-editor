@@ -5,7 +5,7 @@
   "parameters": [
     {
       "name": "Ges_NAnHS12Eco_kf",
-      "description": "Hochschaltkennfeld 1->2 Eco",
+      "description": "Upshift map 1->2 Eco",
       "address": 205164,
       "type": "MAP",
       "dataType": "SWORD",
@@ -15,11 +15,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Normal"
+        "Eco"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -43,7 +43,7 @@
     },
     {
       "name": "Ges_NAnHS12Normal_kf",
-      "description": "Hochschaltkennfeld 1->2 Normal",
+      "description": "Upshift map 1->2 Normal",
       "address": 205644,
       "type": "MAP",
       "dataType": "SWORD",
@@ -53,11 +53,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Sport"
+        "Normal"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -81,7 +81,7 @@
     },
     {
       "name": "Ges_NAnHS12Sport_kf",
-      "description": "Hochschaltkennfeld 1->2 Sport",
+      "description": "Upshift map 1->2 Sport",
       "address": 207084,
       "type": "MAP",
       "dataType": "SWORD",
@@ -91,11 +91,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "DSG Line Pressure"
+        "Sport"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -119,7 +119,7 @@
     },
     {
       "name": "Ges_NAnHS23Eco_kf",
-      "description": "Hochschaltkennfeld 2->3 Eco",
+      "description": "Upshift map 2->3 Eco",
       "address": 205260,
       "type": "MAP",
       "dataType": "SWORD",
@@ -129,11 +129,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Normal"
+        "Eco"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -157,7 +157,7 @@
     },
     {
       "name": "Ges_NAnHS23Normal_kf",
-      "description": "Hochschaltkennfeld 2->3 Normal",
+      "description": "Upshift map 2->3 Normal",
       "address": 205740,
       "type": "MAP",
       "dataType": "SWORD",
@@ -167,11 +167,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Sport"
+        "Normal"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -195,7 +195,7 @@
     },
     {
       "name": "Ges_NAnHS23Sport_kf",
-      "description": "Hochschaltkennfeld 2->3 Sport",
+      "description": "Upshift map 2->3 Sport",
       "address": 207180,
       "type": "MAP",
       "dataType": "SWORD",
@@ -205,11 +205,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "DSG Line Pressure"
+        "Sport"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -233,7 +233,7 @@
     },
     {
       "name": "Ges_NAnHS34Eco_kf",
-      "description": "Hochschaltkennfeld 3->4 Eco",
+      "description": "Upshift map 3->4 Eco",
       "address": 205356,
       "type": "MAP",
       "dataType": "SWORD",
@@ -243,11 +243,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Normal"
+        "Eco"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -271,7 +271,7 @@
     },
     {
       "name": "Ges_NAnHS34Normal_kf",
-      "description": "Hochschaltkennfeld 3->4 Normal",
+      "description": "Upshift map 3->4 Normal",
       "address": 205836,
       "type": "MAP",
       "dataType": "SWORD",
@@ -281,11 +281,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Sport"
+        "Normal"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -309,7 +309,7 @@
     },
     {
       "name": "Ges_NAnHS34Sport_kf",
-      "description": "Hochschaltkennfeld 3->4 Sport",
+      "description": "Upshift map 3->4 Sport",
       "address": 207276,
       "type": "MAP",
       "dataType": "SWORD",
@@ -319,11 +319,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "DSG Line Pressure"
+        "Sport"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -347,7 +347,7 @@
     },
     {
       "name": "Ges_NAnHS45Eco_kf",
-      "description": "Hochschaltkennfeld 4->5 Eco",
+      "description": "Upshift map 4->5 Eco",
       "address": 205452,
       "type": "MAP",
       "dataType": "SWORD",
@@ -357,11 +357,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Normal"
+        "Eco"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -385,7 +385,7 @@
     },
     {
       "name": "Ges_NAnHS45Normal_kf",
-      "description": "Hochschaltkennfeld 4->5 Normal",
+      "description": "Upshift map 4->5 Normal",
       "address": 205932,
       "type": "MAP",
       "dataType": "SWORD",
@@ -395,11 +395,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Sport"
+        "Normal"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -423,7 +423,7 @@
     },
     {
       "name": "Ges_NAnHS45Sport_kf",
-      "description": "Hochschaltkennfeld 4->5 Sport",
+      "description": "Upshift map 4->5 Sport",
       "address": 207372,
       "type": "MAP",
       "dataType": "SWORD",
@@ -433,11 +433,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "DSG Line Pressure"
+        "Sport"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -461,7 +461,7 @@
     },
     {
       "name": "Ges_NAnHS56Eco_kf",
-      "description": "Hochschaltkennfeld 5->6 Eco",
+      "description": "Upshift map 5->6 Eco",
       "address": 205548,
       "type": "MAP",
       "dataType": "SWORD",
@@ -471,11 +471,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Normal"
+        "Eco"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -499,7 +499,7 @@
     },
     {
       "name": "Ges_NAnHS56Normal_kf",
-      "description": "Hochschaltkennfeld 5->6 Normal",
+      "description": "Upshift map 5->6 Normal",
       "address": 206028,
       "type": "MAP",
       "dataType": "SWORD",
@@ -509,11 +509,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Sport"
+        "Normal"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -537,7 +537,7 @@
     },
     {
       "name": "Ges_NAnHS56Sport_kf",
-      "description": "Hochschaltkennfeld 5->6 Sport",
+      "description": "Upshift map 5->6 Sport",
       "address": 207468,
       "type": "MAP",
       "dataType": "SWORD",
@@ -547,11 +547,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "DSG Line Pressure"
+        "Sport"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -585,11 +585,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Normal"
+        "Eco"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -613,7 +613,7 @@
     },
     {
       "name": "Ges_NAnRS21Normal_kf",
-      "description": "Rckschaltkennfeld 2->1 Normal",
+      "description": "Downshift map 2->1 Normal",
       "address": 206604,
       "type": "MAP",
       "dataType": "SWORD",
@@ -623,11 +623,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Sport"
+        "Normal"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -651,7 +651,7 @@
     },
     {
       "name": "Ges_NAnRS21Sport_kf",
-      "description": "Rckschaltkennfeld 2->1 Sport",
+      "description": "Downshift map 2->1 Sport",
       "address": 207564,
       "type": "MAP",
       "dataType": "SWORD",
@@ -661,11 +661,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "DSG Line Pressure"
+        "Sport"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -689,7 +689,7 @@
     },
     {
       "name": "Ges_NAnRS32Eco_kf",
-      "description": "Rckschaltkennfeld 3->2 Eco",
+      "description": "Downshift map 3->2 Eco",
       "address": 206220,
       "type": "MAP",
       "dataType": "SWORD",
@@ -699,11 +699,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Normal"
+        "Eco"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -727,7 +727,7 @@
     },
     {
       "name": "Ges_NAnRS32Normal_kf",
-      "description": "Rckschaltkennfeld 3->2 Normal",
+      "description": "Downshift map 3->2 Normal",
       "address": 206700,
       "type": "MAP",
       "dataType": "SWORD",
@@ -737,11 +737,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Sport"
+        "Normal"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -765,7 +765,7 @@
     },
     {
       "name": "Ges_NAnRS32Sport_kf",
-      "description": "Rckschaltkennfeld 3->2 Sport",
+      "description": "Downshift map 3->2 Sport",
       "address": 207660,
       "type": "MAP",
       "dataType": "SWORD",
@@ -775,11 +775,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "DSG Line Pressure"
+        "Sport"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -803,7 +803,7 @@
     },
     {
       "name": "Ges_NAnRS43Eco_kf",
-      "description": "Rckschaltkennfeld 4->3 Eco",
+      "description": "Downshift map 4->3 Eco",
       "address": 206316,
       "type": "MAP",
       "dataType": "SWORD",
@@ -813,11 +813,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Normal"
+        "Eco"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -841,7 +841,7 @@
     },
     {
       "name": "Ges_NAnRS43Normal_kf",
-      "description": "Rckschaltkennfeld 4->3 Normal",
+      "description": "Downshift map 4->3 Normal",
       "address": 206796,
       "type": "MAP",
       "dataType": "SWORD",
@@ -851,11 +851,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Sport"
+        "Normal"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -879,7 +879,7 @@
     },
     {
       "name": "Ges_NAnRS43Sport_kf",
-      "description": "Rckschaltkennfeld 4->3 Sport",
+      "description": "Downshift map 4->3 Sport",
       "address": 207756,
       "type": "MAP",
       "dataType": "SWORD",
@@ -889,11 +889,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "DSG Line Pressure"
+        "Sport"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -917,7 +917,7 @@
     },
     {
       "name": "Ges_NAnRS54Eco_kf",
-      "description": "Rckschaltkennfeld 5->4 Eco",
+      "description": "Downshift map 5->4 Eco",
       "address": 206412,
       "type": "MAP",
       "dataType": "SWORD",
@@ -927,11 +927,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Normal"
+        "Eco"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -955,7 +955,7 @@
     },
     {
       "name": "Ges_NAnRS54Normal_kf",
-      "description": "Rckschaltkennfeld 5->4 Normal",
+      "description": "Downshift map 5->4 Normal",
       "address": 206892,
       "type": "MAP",
       "dataType": "SWORD",
@@ -965,11 +965,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Sport"
+        "Normal"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -993,7 +993,7 @@
     },
     {
       "name": "Ges_NAnRS54Sport_kf",
-      "description": "Rckschaltkennfeld 5->4 Sport",
+      "description": "Downshift map 5->4 Sport",
       "address": 207852,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1003,11 +1003,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "DSG Line Pressure"
+        "Sport"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -1031,7 +1031,7 @@
     },
     {
       "name": "Ges_NAnRS65Eco_kf",
-      "description": "Rckschaltkennfeld 6->5 Eco",
+      "description": "Downshift map 6->5 Eco",
       "address": 206508,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1041,11 +1041,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Normal"
+        "Eco"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -1069,7 +1069,7 @@
     },
     {
       "name": "Ges_NAnRS65Normal_kf",
-      "description": "Rckschaltkennfeld 6->5 Normal",
+      "description": "Downshift map 6->5 Normal",
       "address": 206988,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1079,11 +1079,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Sport"
+        "Normal"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -1107,7 +1107,7 @@
     },
     {
       "name": "Ges_NAnRS65Sport_kf",
-      "description": "Rckschaltkennfeld 6->5 Sport",
+      "description": "Downshift map 6->5 Sport",
       "address": 207948,
       "type": "MAP",
       "dataType": "SWORD",
@@ -1117,11 +1117,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "DSG Line Pressure"
+        "Sport"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -1155,11 +1155,11 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "My map"
+        "DSG Line Pressure"
       ],
       "cols": 5,
       "rows": 5,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 5,
@@ -1193,8 +1193,7 @@
       "factor": 0.01,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "My map"
+        "DSG Line Pressure"
       ],
       "cols": 4,
       "xAxis": {
@@ -1204,7 +1203,7 @@
         "max": 0.0,
         "unit": "Nm",
         "address": 204396,
-        "dataType": "SWORD",
+        "dataType": "UWORD",
         "factor": 0.1
       }
     },
@@ -1220,8 +1219,7 @@
       "factor": 0.01,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "My map"
+        "DSG Line Pressure"
       ],
       "cols": 4,
       "xAxis": {
@@ -1231,7 +1229,7 @@
         "max": 0.0,
         "unit": "min-1",
         "address": 204428,
-        "dataType": "SWORD"
+        "dataType": "UWORD"
       }
     },
     {
@@ -1246,8 +1244,7 @@
       "factor": 0.01,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "My map"
+        "DSG Line Pressure"
       ],
       "cols": 4,
       "xAxis": {
@@ -1257,7 +1254,7 @@
         "max": 0.0,
         "unit": "bar",
         "address": 204468,
-        "dataType": "SWORD",
+        "dataType": "UWORD",
         "factor": 0.01
       }
     },
@@ -1273,11 +1270,11 @@
       "factor": 10.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Launch Contro"
+        "My map"
       ],
       "cols": 8,
       "rows": 8,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 8,
@@ -1309,8 +1306,7 @@
       "factor": 10.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Launch Contro"
+        "My map"
       ]
     },
     {
@@ -1325,8 +1321,7 @@
       "factor": 10.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Launch Contro"
+        "My map"
       ]
     },
     {
@@ -1341,8 +1336,7 @@
       "factor": 10.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+        "Launch Control"
       ],
       "cols": 3,
       "xAxis": {
@@ -1352,7 +1346,7 @@
         "max": 0.0,
         "unit": "",
         "address": 204272,
-        "dataType": "SWORD",
+        "dataType": "UWORD",
         "factor": 0.1
       }
     },
@@ -1368,8 +1362,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Launch Contro"
+        "My map"
       ]
     },
     {
@@ -1384,8 +1377,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Launch Contro"
+        "My map"
       ]
     },
     {
@@ -1400,8 +1392,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Launch Contro"
+        "My map"
       ]
     },
     {
@@ -1416,8 +1407,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Launch Contro"
+        "My map"
       ]
     },
     {
@@ -1432,8 +1422,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Kiss Poin"
+        "Shift Time with Torque Reduction"
       ],
       "cols": 5,
       "xAxis": {
@@ -1458,8 +1447,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Kiss Poin"
+        "Shift Time with Torque Reduction"
       ],
       "cols": 5,
       "xAxis": {
@@ -1484,8 +1472,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Kiss Poin"
+        "Shift Time with Torque Reduction"
       ],
       "cols": 5,
       "xAxis": {
@@ -1510,8 +1497,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Kiss Poin"
+        "Shift Time with Torque Reduction"
       ],
       "cols": 5,
       "xAxis": {
@@ -1536,8 +1522,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+        "Launch Control"
       ]
     },
     {
@@ -1552,8 +1537,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+        "Launch Control"
       ]
     },
     {
@@ -1568,8 +1552,7 @@
       "factor": 0.01,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+        "Launch Control"
       ]
     },
     {
@@ -1584,8 +1567,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Launch Contro"
+        "My map"
       ]
     },
     {
@@ -1600,8 +1582,7 @@
       "factor": 0.01,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "My map"
+        "DSG Line Pressure"
       ]
     },
     {
@@ -1616,8 +1597,7 @@
       "factor": 2.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+        "Launch Control"
       ]
     },
     {
@@ -1632,11 +1612,11 @@
       "factor": 2.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Torque limite"
+        "Kiss Point"
       ],
       "cols": 4,
       "rows": 6,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 4,
@@ -1670,8 +1650,7 @@
       "factor": 2.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+        "Launch Control"
       ],
       "cols": 5,
       "xAxis": {
@@ -1681,7 +1660,7 @@
         "max": 0.0,
         "unit": "%",
         "address": 212880,
-        "dataType": "SWORD",
+        "dataType": "UWORD",
         "factor": 0.1
       }
     },
@@ -1697,8 +1676,7 @@
       "factor": 0.02,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+        "Launch Control"
       ],
       "cols": 5,
       "xAxis": {
@@ -1723,11 +1701,11 @@
       "factor": 2.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Torque Maximu"
+        "Torque limiter"
       ],
       "cols": 4,
       "rows": 6,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 4,
@@ -1761,11 +1739,11 @@
       "factor": 2.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Torque Maximu"
+        "Torque limiter"
       ],
       "cols": 4,
       "rows": 6,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 4,
@@ -1799,11 +1777,11 @@
       "factor": 2.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Torque Maximu"
+        "Torque limiter"
       ],
       "cols": 4,
       "rows": 6,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 4,
@@ -1837,11 +1815,11 @@
       "factor": 0.02,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Temperature Range Limit"
+        "Torque Maximum"
       ],
       "cols": 4,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 4,
@@ -1862,8 +1840,8 @@
       }
     },
     {
-      "name": "KusLaunchNstal",
-      "description": "Stall speed LC approach - Stalldrehzahl LC Anfahrt ",
+      "name": "Stall speed LC approach - Stalldrehzahl LC Anfahrt ",
+      "description": "Stall speed LC approach - Stalldrehzahl LC Anfahrt  — KusLaunchNstal",
       "address": 198632,
       "type": "CURVE",
       "dataType": "SWORD",
@@ -1873,8 +1851,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+        "Launch Control"
       ],
       "cols": 8,
       "xAxis": {
@@ -1884,7 +1861,7 @@
         "max": 0.0,
         "unit": "%",
         "address": 198296,
-        "dataType": "SWORD",
+        "dataType": "UWORD",
         "factor": 0.1
       }
     },
@@ -1900,8 +1877,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Potentielle Kennfelder\\Shift Time with Torque Reductio"
+        "Launch Control"
       ],
       "cols": 8,
       "xAxis": {
@@ -1911,7 +1887,7 @@
         "max": 0.0,
         "unit": "%",
         "address": 198296,
-        "dataType": "SWORD",
+        "dataType": "UWORD",
         "factor": 0.1
       }
     },
@@ -1927,8 +1903,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "My map"
+        "DSG Line Pressure"
       ]
     },
     {
@@ -1943,8 +1918,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "My map"
+        "DSG Line Pressure"
       ]
     },
     {
@@ -1959,8 +1933,7 @@
       "factor": 0.02,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "My map"
+        "DSG Line Pressure"
       ]
     },
     {
@@ -1975,8 +1948,7 @@
       "factor": 0.02,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "My map"
+        "DSG Line Pressure"
       ]
     },
     {
@@ -1991,8 +1963,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Oil Flo"
+        "Temperature Range Limit"
       ]
     },
     {
@@ -2007,8 +1978,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Oil Flo"
+        "Temperature Range Limit"
       ]
     },
     {
@@ -2023,8 +1993,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Oil Flo"
+        "Temperature Range Limit"
       ]
     },
     {
@@ -2039,8 +2008,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Torque Maximu"
+        "Torque limiter"
       ],
       "cols": 6,
       "xAxis": {
@@ -2050,7 +2018,7 @@
         "max": 0.0,
         "unit": "km/h",
         "address": 198988,
-        "dataType": "SWORD",
+        "dataType": "UWORD",
         "factor": 0.01
       }
     },
@@ -2066,8 +2034,7 @@
       "factor": 2.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Oil Flo"
+        "Temperature Range Limit"
       ],
       "cols": 4,
       "xAxis": {
@@ -2077,7 +2044,7 @@
         "max": 0.0,
         "unit": "%",
         "address": 198820,
-        "dataType": "SWORD",
+        "dataType": "UWORD",
         "factor": 0.1
       }
     },
@@ -2093,8 +2060,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Launch Contro"
+        "My map"
       ],
       "cols": 4,
       "xAxis": {
@@ -2104,7 +2070,7 @@
         "max": 0.0,
         "unit": "km/h",
         "address": 198860,
-        "dataType": "SWORD",
+        "dataType": "UWORD",
         "factor": 0.1
       }
     },
@@ -2120,8 +2086,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Launch Contro"
+        "My map"
       ],
       "cols": 4,
       "xAxis": {
@@ -2131,7 +2096,7 @@
         "max": 0.0,
         "unit": "km/h",
         "address": 198860,
-        "dataType": "SWORD",
+        "dataType": "UWORD",
         "factor": 0.1
       }
     },
@@ -2147,11 +2112,11 @@
       "factor": 0.01,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Shift Time"
+        "Oil Flow"
       ],
       "cols": 6,
       "rows": 5,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 6,
@@ -2183,11 +2148,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Up/Downshift Map"
+        "Shift Time"
       ],
       "cols": 5,
       "rows": 5,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 5,
@@ -2221,11 +2186,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Up/Downshift Map"
+        "Shift Time"
       ],
       "cols": 5,
       "rows": 5,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 5,
@@ -2259,11 +2224,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Up/Downshift Map"
+        "Shift Time"
       ],
       "cols": 5,
       "rows": 5,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 5,
@@ -2297,8 +2262,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Up/Downshift Map"
+        "Shift Time"
       ],
       "cols": 5,
       "xAxis": {
@@ -2324,8 +2288,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Up/Downshift Map"
+        "Shift Time"
       ],
       "cols": 5,
       "xAxis": {
@@ -2351,8 +2314,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Up/Downshift Map"
+        "Shift Time"
       ],
       "cols": 5,
       "xAxis": {
@@ -2378,8 +2340,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Up/Downshift Map"
+        "Shift Time"
       ],
       "cols": 5,
       "xAxis": {
@@ -2405,8 +2366,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Up/Downshift Map"
+        "Shift Time"
       ],
       "cols": 5,
       "xAxis": {
@@ -2432,8 +2392,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Up/Downshift Map"
+        "Shift Time"
       ],
       "cols": 5,
       "xAxis": {
@@ -2459,8 +2418,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "Up/Downshift Map"
+        "Shift Time"
       ],
       "cols": 5,
       "xAxis": {
@@ -2486,11 +2444,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplikation"
+        "Up/Downshift Map"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -2524,11 +2482,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplikation"
+        "Up/Downshift Map"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -2562,11 +2520,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplikation"
+        "Up/Downshift Map"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -2600,11 +2558,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplikation"
+        "Up/Downshift Map"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -2638,11 +2596,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplikation"
+        "Up/Downshift Map"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -2676,11 +2634,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplikation"
+        "Up/Downshift Map"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -2714,11 +2672,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplikation"
+        "Up/Downshift Map"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -2752,11 +2710,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplikation"
+        "Up/Downshift Map"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -2790,11 +2748,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplikation"
+        "Up/Downshift Map"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -2828,11 +2786,11 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplikation"
+        "Up/Downshift Map"
       ],
       "cols": 12,
       "rows": 4,
+      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 12,
@@ -2866,8 +2824,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrDmmoApplikation"
+        "MmrApplikation"
       ],
       "cols": 2,
       "xAxis": {
@@ -2892,8 +2849,7 @@
       "factor": 10.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrDmmoApplikation"
+        "MmrApplikation"
       ]
     },
     {
@@ -2908,8 +2864,7 @@
       "factor": 10.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrDmmoApplikation"
+        "MmrApplikation"
       ]
     },
     {
@@ -2924,8 +2879,7 @@
       "factor": 10.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrDmmoApplikation"
+        "MmrApplikation"
       ]
     },
     {
@@ -2940,8 +2894,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplBefuellen"
+        "MmrDmmoApplikation"
       ]
     },
     {
@@ -2956,8 +2909,7 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrApplBefuellen"
+        "MmrDmmoApplikation"
       ]
     },
     {
@@ -2972,7 +2924,6 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-"
       ]
     },
     {
@@ -2987,7 +2938,6 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-"
       ]
     },
     {
@@ -2995,15 +2945,14 @@
       "description": "Schalter fr die Auswahl des Moments zum Bestimmen des Ende des Eingriffs",
       "address": 204318,
       "type": "VALUE",
-      "dataType": "SWORD",
+      "dataType": "UWORD",
       "unit": "",
       "min": 0.0,
       "max": 0.0,
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrDmmoApplikation"
+        "MmrApplikation"
       ]
     },
     {
@@ -3018,7 +2967,6 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-"
       ]
     },
     {
@@ -3033,8 +2981,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrDmmoApplikation"
+        "MmrApplikation"
       ]
     },
     {
@@ -3049,8 +2996,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrDmmoApplikation"
+        "MmrApplikation"
       ]
     },
     {
@@ -3065,8 +3011,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrDmmoApplikation"
+        "MmrApplikation"
       ]
     },
     {
@@ -3081,8 +3026,7 @@
       "factor": 0.1,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrDmmoApplikation"
+        "MmrApplikation"
       ]
     },
     {
@@ -3097,8 +3041,7 @@
       "factor": 10.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrDmmoApplikation"
+        "MmrApplikation"
       ]
     },
     {
@@ -3113,8 +3056,7 @@
       "factor": 10.0,
       "offset": 0.0,
       "categories": [
-        "Eco-",
-        "MmrDmmoApplikation"
+        "MmrApplikation"
       ]
     }
   ],
@@ -3122,14 +3064,5 @@
   "verification": {
     "calOffset": -65536,
     "expected": "F40M"
-  },
-  "binInfo": {
-    "type": "TCU",
-    "binFile": "0D9300040J_4027_F40M.bin",
-    "binPath": "dsg/0D9300040J_4027_F40M.bin",
-    "epk": "F40M",
-    "hwNumber": "0D9300040J",
-    "swVersion": "4027",
-    "tcuType": "DQ250"
   }
 }

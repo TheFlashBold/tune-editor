@@ -31,6 +31,7 @@ export interface AxisDefinition {
     offset?: number;
     formula?: RationalFormula;  // Non-linear conversion: (a*X+b)/(c+d*X)
     dataOffset?: number; // Byte offset where axis data starts
+    labels?: string[];   // Fixed labels for FIX_AXIS (e.g. ["1->2", "2->3", "3->4"])
 }
 
 export interface IDefinitionParameter {

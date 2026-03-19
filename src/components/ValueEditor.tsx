@@ -1811,7 +1811,7 @@ function TableEditor({
                                                 class="w-full bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-mono text-xs text-right outline-none border border-blue-500 rounded px-1"
                                             />
                                         ) : (
-                                            formatValueConsistent(displayValue, xDecimals)
+                                            parameter.xAxis?.labels?.[i] ?? formatValueConsistent(displayValue, xDecimals)
                                         )}
                                     </th>
                                 );
@@ -1821,7 +1821,7 @@ function TableEditor({
                                     key={i}
                                     class="p-1.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-medium text-right"
                                 >
-                                    {i}
+                                    {parameter.xAxis?.labels?.[i] ?? i}
                                 </th>
                             ))}
                     </tr>
@@ -1872,7 +1872,7 @@ function TableEditor({
                                                 class="w-full bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-mono text-xs text-right outline-none border border-blue-500 rounded px-1"
                                             />
                                         ) : (
-                                            formatValueConsistent(displayValue, yDecimals)
+                                            parameter.yAxis?.labels?.[rowIdx] ?? formatValueConsistent(displayValue, yDecimals)
                                         )}
                                     </td>
                                 );
