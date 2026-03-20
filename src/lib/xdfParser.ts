@@ -96,6 +96,7 @@ interface ParsedAxis {
     formula?: RationalFormula;
     embedded: boolean;
     points?: number;
+    labels?: string[];
 }
 
 function parseAxisElement(axisEl: Element): ParsedAxis | null {
@@ -112,7 +113,10 @@ function parseAxisElement(axisEl: Element): ParsedAxis | null {
 
     // 0xFFFFFFFF is a sentinel for "no address" (e.g., DSG y-axis placeholders)
     if (address === 0xFFFFFFFF) {
-        return {address: 0, dataType: 'UWORD', cols: points, rows: 1, unit: '', factor: 1, offset: 0, min: 0, max: 0, embedded: false, points};
+        const labels = Array.from(axisEl.querySelectorAll('LABEL'))
+            .sort((a, b) => parseInt(a.getAttribute('index') || '0') - parseInt(b.getAttribute('index') || '0'))
+            .map(l => l.getAttribute('value') || '');
+        return {address: 0, dataType: 'UWORD', cols: points, rows: 1, unit: '', factor: 1, offset: 0, min: 0, max: 0, embedded: false, points, labels: labels.length > 0 ? labels : undefined};
     }
 
     const sizeBits = parseInt(embed.getAttribute('mmedelementsizebits') || '16', 10);
@@ -228,7 +232,7 @@ export class XDFParser {
         for (const catMem of element.querySelectorAll(':scope > CATEGORYMEM')) {
             const level = parseInt(catMem.getAttribute('index') || '0', 10);
             const catIdx = parseInt(catMem.getAttribute('category') || '0', 10);
-            const catName = this.categoryMap.get(catIdx);
+            const catName = this.categoryMap.get(catIdx - 1);
             if (catName && catName !== 'Axis') entries.push([level, catName]);
         }
         entries.sort((a, b) => a[0] - b[0]);
@@ -324,9 +328,12 @@ export class XDFParser {
             };
             if (xAxisData.factor !== 1) axis.factor = xAxisData.factor;
             if (xAxisData.offset !== 0) axis.offset = xAxisData.offset;
+            if (xAxisData.labels) axis.labels = xAxisData.labels;
             param.xAxis = axis;
         } else if (xAxisData && !xAxisData.embedded && type !== 'VALUE') {
-            param.xAxis = {type: 'FIX_AXIS', points: xAxisData.points ?? cols, min: 0, max: 0, unit: ''};
+            const axis: AxisDefinition = {type: 'FIX_AXIS', points: xAxisData.points ?? cols, min: 0, max: 0, unit: ''};
+            if (xAxisData.labels) axis.labels = xAxisData.labels;
+            param.xAxis = axis;
         }
 
         // Y axis
@@ -342,9 +349,12 @@ export class XDFParser {
             };
             if (yAxisData.factor !== 1) axis.factor = yAxisData.factor;
             if (yAxisData.offset !== 0) axis.offset = yAxisData.offset;
+            if (yAxisData.labels) axis.labels = yAxisData.labels;
             param.yAxis = axis;
         } else if (yAxisData && !yAxisData.embedded && type === 'MAP') {
-            param.yAxis = {type: 'FIX_AXIS', points: yAxisData.points ?? rows, min: 0, max: 0, unit: ''};
+            const axis: AxisDefinition = {type: 'FIX_AXIS', points: yAxisData.points ?? rows, min: 0, max: 0, unit: ''};
+            if (yAxisData.labels) axis.labels = yAxisData.labels;
+            param.yAxis = axis;
         }
 
         return param;
