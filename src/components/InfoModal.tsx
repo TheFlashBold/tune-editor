@@ -21,6 +21,16 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.9.0',
+        date: '20.03.2026',
+        changes: [
+            'Fixed off-by-one category assignments in all DSG definitions',
+            'Axis labels support for FIX_AXIS (e.g. gear shift labels "1->2", "2->3")',
+            'Regenerated all DSG definitions (F40M–F52M) from XDF sources with corrected categories, decoded umlauts, and removed invalid bigEndian flag',
+            'Fixed XDF parser category mapping in both Python and browser parsers',
+        ]
+    },
+    {
         version: '1.8.0',
         date: '18.03.2026',
         changes: [
