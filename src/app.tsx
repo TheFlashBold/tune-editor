@@ -41,6 +41,24 @@ function classifyFile(name: string): 'json' | 'bin' | 'csv' | 'xdf' | 'ols' | nu
 export function App() {
     const appState = useAppState();
 
+    // Load log from URL parameter ?log=<id>
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const logId = params.get('log');
+        if (!logId) return;
+        fetch(`https://simos.app/api/files/download?id=${encodeURIComponent(logId)}`)
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.text();
+            })
+            .then(text => {
+                setLogViewerData(text);
+                setShowLogViewer(true);
+                track('Load Log URL', {id: logId, size: text.length});
+            })
+            .catch(err => console.error('Failed to load log:', err));
+    }, []);
+
     // Warn before closing with unsaved changes
     useEffect(() => {
         const handler = (e: BeforeUnloadEvent) => {

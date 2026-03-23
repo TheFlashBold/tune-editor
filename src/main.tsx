@@ -2,7 +2,7 @@ import { render } from 'preact'
 import './index.css'
 import { App } from './app.tsx'
 
-const MIN_SPLASH_MS = 1600;
+const MIN_SPLASH_MS = 1000;
 const splashStart = performance.now();
 
 function mount() {
