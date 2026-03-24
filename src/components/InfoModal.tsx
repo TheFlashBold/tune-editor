@@ -21,6 +21,15 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.10.0',
+        date: '24.03.2026',
+        changes: [
+            'Fixed DQ250 F52M definition detection',
+            'Fixed EPK detection & added box code parsing for unknown bins',
+            'Added upgrade suggestion message to unknown bin modal',
+        ]
+    },
+    {
         version: '1.9.0',
         date: '20.03.2026',
         changes: [

@@ -1,4 +1,11 @@
-import {DataType, DATA_TYPE_INFO, IDefinitionParameter, AxisDefinition, DefinitionVerification, BinaryMode} from '../types';
+import {
+    DataType,
+    DATA_TYPE_INFO,
+    IDefinitionParameter,
+    AxisDefinition,
+    DefinitionVerification,
+    BinaryMode
+} from '../types';
 
 const DEFAULT_BASE_ADDRESS = 0xa0000000; // Simos ECU flash base address (default)
 
@@ -218,6 +225,7 @@ function isDsgEpk(epk: string): boolean {
  */
 function findDsgEpk(data: Uint8Array, expected: string): { offset: number; found: string } | null {
     const searchRegions = [
+        {start: 0x3ff00, length: 256}, // DQ250
         {start: 0x4ff00, length: 256}, // DQ250
     ];
 
@@ -294,18 +302,56 @@ export function detectBinaryMode(
     };
 }
 
-/**
- * Read CAL version string from binary (typically at start of CAL block for Simos 12/18)
- */
-export function readCalVersion(data: Uint8Array, offset: number, maxLength: number = 20): string {
-    const bytes: number[] = [];
-    for (let i = 0; i < maxLength && offset + i < data.length; i++) {
-        const b = data[offset + i];
-        // Stop at null or non-printable character
-        if (b === 0 || b < 0x20 || b > 0x7e) break;
-        bytes.push(b);
+function readStringSafe(data: Uint8Array, index: number, maxLength: number): string {
+    const bytes: number[] = []
+
+    for (let i = 0; i < maxLength; i++) {
+        const byte = data[index + i];
+        if (byte === 0 || byte < 0x20 || byte > 0x7e) {
+            break;
+        }
+        bytes.push(byte);
     }
-    return String.fromCharCode(...bytes);
+
+    return String.fromCharCode(...bytes).trim();
+
+}
+
+// simos 12.1/18.1/18.4/18.10
+const CAL_SIZES = [0x6FC00, 0x7FC00, 0x9FC00];
+// simos 12.1/18.1/18.4/18.10
+const CAL_OFFSETS = [0x40000, 0x200000, 0x220000];
+
+export function readBoxCode(data: Uint8Array, maxLength: number = 14): string {
+    for (const offset of CAL_OFFSETS) {
+        if (data.length > offset) {
+            const boxCode = readStringSafe(data, offset + 0x60, maxLength);
+            if (boxCode) {
+                return boxCode;
+            }
+        }
+    }
+
+    // cal simos 18.1/18.4/18.10
+    if (CAL_SIZES.includes(data.length)) {
+        return readStringSafe(data, 0x60, maxLength);
+    }
+}
+
+export function readEPK(data: Uint8Array) {
+    for (const offset of CAL_OFFSETS) {
+        if (data.length > offset) {
+            const epk = readStringSafe(data, offset + 0x02, 6);
+            if (epk) {
+                return epk;
+            }
+        }
+    }
+
+    // cal simos 12.1/18.1/18.4/18.10
+    if (CAL_SIZES.includes(data.length)) {
+        return readStringSafe(data, 0x02, 6);
+    }
 }
 
 /**

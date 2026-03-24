@@ -45,10 +45,14 @@ export function App() {
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const logId = params.get('log');
-        if (!logId) return;
+        if (!logId) {
+            return;
+        }
         fetch(`https://simos.app/api/files/download?id=${encodeURIComponent(logId)}`)
             .then(res => {
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
                 return res.text();
             })
             .then(text => {

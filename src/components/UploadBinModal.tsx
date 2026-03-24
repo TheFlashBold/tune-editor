@@ -1,8 +1,9 @@
-import {useState, useRef} from 'preact/hooks';
+import {useState, useRef, useEffect} from 'preact/hooks';
 import {Modal} from './Modal';
 import {TuningService, TuningRateLimitedException} from '../services/tuning';
 import {track} from '../lib/track';
 import type {UnknownBinInfo} from '../context/app';
+import {IBinUpgrade, upgradeMatrix} from "../lib/upgradeMatrix.ts";
 
 interface UploadBinModalProps {
     info: UnknownBinInfo;
@@ -14,7 +15,23 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [done, setDone] = useState(false);
+    const [upgradeInfo, setUpgradeInfo] = useState<IBinUpgrade | null>(null);
     const abortRef = useRef<AbortController | null>(null);
+
+    useEffect(() => {
+        if (!info.boxCode) {
+            if (upgradeInfo) {
+                setUpgradeInfo(null);
+            }
+            return;
+        }
+
+        const upgrade = upgradeMatrix.find(({from}) => from.includes(info.boxCode));
+        if (upgrade?.to.epk !== info.epk) {
+            setUpgradeInfo(upgrade);
+            // @TODO: suggest simos.app with upgrade bin flashing
+        }
+    }, [info])
 
     const handleUpload = async () => {
         setUploading(true);
@@ -23,16 +40,17 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
         abortRef.current = new AbortController();
 
         const name = info.name.endsWith('.bin') ? info.name : info.name + '.bin';
+        const prefix = [info.boxCode, info.epk].filter(Boolean).join(" ");
 
         try {
             const blob = new Blob([info.data.buffer as ArrayBuffer]);
             await TuningService.uploadBin(blob, {
-                name,
+                name: [prefix, name].filter(Boolean).join(" "),
                 onProgress: (pct) => setProgress(Math.round(pct)),
                 signal: abortRef.current.signal,
             });
             setDone(true);
-            track('Upload Unknown BIN', {name, epk: info.epk, size: info.data.length});
+            track('Upload Unknown BIN', {name, epk: info.epk, boxCode: info.boxCode, size: info.data.length});
         } catch (err) {
             if (err instanceof TuningRateLimitedException) {
                 setError(`Rate limited. Try again in ${err.retryAfterSeconds} seconds.`);
@@ -62,6 +80,11 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                 <p class="text-sm text-zinc-600 dark:text-zinc-400">
                     No definition found for this binary. Submit it so we can add support.
                 </p>
+                {upgradeInfo && <div>
+                    <p className="text-sm text-blue-500">
+                        Instead you should update to "{upgradeInfo.to.label}" with "{upgradeInfo.to.epk}" which is supported.
+                    </p>
+                </div>}
 
                 <div class="text-sm space-y-1">
                     <div class="flex justify-between">
@@ -76,6 +99,12 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                         <div class="flex justify-between">
                             <span class="text-zinc-500">EPK</span>
                             <span class="font-mono">{info.epk}</span>
+                        </div>
+                    )}
+                    {info.boxCode && (
+                        <div class="flex justify-between">
+                            <span class="text-zinc-500">Box Code</span>
+                            <span class="font-mono">{info.boxCode}</span>
                         </div>
                     )}
                 </div>

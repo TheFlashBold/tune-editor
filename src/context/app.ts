@@ -8,6 +8,7 @@ export interface UnknownBinInfo {
     data: Uint8Array;
     name: string;
     epk: string;
+    boxCode: string;
 }
 
 export interface IAppContext {

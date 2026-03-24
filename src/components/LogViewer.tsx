@@ -101,23 +101,38 @@ function CSVViewer({text}: CSVViewerProps) {
         return {fields, data};
     }, [text]);
 
-    // Auto-select some fields on first load
+    // Auto-select fields on first load: saved > defaults > first 5
     useMemo(() => {
         if (!initialized && fields.length > 0) {
-            const defaultFields = fields.filter(f =>
-                f.toLowerCase().includes('speed') ||
-                f.toLowerCase().includes('rpm') ||
-                f.toLowerCase().includes('torque') ||
-                f.toLowerCase().includes('hp') ||
-                f.toLowerCase().includes('boost') ||
-                f.toLowerCase().includes('throttle')
-            ).slice(0, 5);
+            let selected: string[] = [];
 
-            if (defaultFields.length > 0) {
-                setShowFields(defaultFields);
-            } else {
-                setShowFields(fields.slice(0, Math.min(5, fields.length)));
+            // Try saved fields from localStorage
+            try {
+                const saved = JSON.parse(localStorage.getItem('log-viewer-fields') || '[]');
+                if (Array.isArray(saved)) {
+                    selected = saved.filter((f: string) => fields.includes(f));
+                }
+            } catch { /* ignore */
             }
+
+            // Fallback to defaults
+            if (selected.length === 0) {
+                selected = fields.filter((field) =>
+                    field.toLowerCase() === 'boost' ||
+                    field.toLowerCase() === 'engine speed' ||
+                    field.toLowerCase() === 'torque' ||
+                    field.toLowerCase() === 'calc hp' ||
+                    field.toLowerCase() === 'pedal pos' ||
+                    field.toLowerCase() === 'lambda'
+                ).slice(0, 5);
+            }
+
+            // Fallback to first 5
+            if (selected.length === 0) {
+                selected = fields.slice(0, Math.min(5, fields.length));
+            }
+
+            setShowFields(selected);
             setInitialized(true);
         }
     }, [fields, initialized]);
@@ -311,6 +326,7 @@ function CSVViewer({text}: CSVViewerProps) {
         }
 
         setShowFields(nextFields);
+        localStorage.setItem('log-viewer-fields', JSON.stringify(nextFields));
     }
 
     function dataToPoints(field: string): string {
@@ -714,74 +730,13 @@ function CSVViewer({text}: CSVViewerProps) {
                 </div>
                 {showMap && hasGPS ? (
                     <div class="flex-1 min-h-0 rounded border border-zinc-400 dark:border-zinc-600 overflow-hidden">
-                        <GPSMap points={gpsPoints} pointIndices={gpsPointIndices} fields={gpsFieldInfos} />
+                        <GPSMap points={gpsPoints} pointIndices={gpsPointIndices} fields={gpsFieldInfos}/>
                     </div>
                 ) : (<>
-                <div class="flex gap-x-2 flex-1 min-h-0">
-                    <div class="flex flex-col h-full py-2 text-xs text-zinc-500 dark:text-zinc-500 w-14 text-right">
-                        <div class="flex gap-0.5 justify-end mb-1">
-                            {leftAxis.fields.map((field) => (
-                                <div
-                                    key={field}
-                                    class="w-3 h-1 rounded-sm"
-                                    style={{backgroundColor: getFieldColor(field)}}
-                                    title={field}
-                                />
-                            ))}
-                        </div>
-                        <div class="flex flex-col justify-between flex-1">
-                            {yAxisLabelsLeft.map((label, i) => (
-                                <div key={i}>{label.toFixed(0)}</div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div
-                        ref={containerRef}
-                        class="flex-1 overflow-x-auto overflow-y-hidden border border-zinc-400 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 rounded"
-                        style={{touchAction: 'none'}}
-                        onWheel={onWheel}
-                        onTouchStart={onTouchStart}
-                        onTouchMove={onTouchMove}
-                        onTouchEnd={onTouchEnd}
-                    >
-                        <svg
-                            viewBox={`${viewBoxX} ${leftAxis.min} ${viewBoxWidth} ${leftAxis.max - leftAxis.min}`}
-                            onMouseMove={onMouseMove}
-                            onMouseEnter={() => setIsHovering(true)}
-                            onMouseLeave={() => setIsHovering(false)}
-                            class="h-full w-full"
-                            preserveAspectRatio="none"
-                        >
-                            {showFields.map((field) => (
-                                <polyline
-                                    key={field}
-                                    fill="none"
-                                    stroke={getFieldColor(field)}
-                                    strokeWidth={1.5}
-                                    points={dataToPoints(field)}
-                                    vectorEffect="non-scaling-stroke"
-                                />
-                            ))}
-                            {isHovering && (
-                                <line
-                                    x1={index}
-                                    y1={leftAxis.min}
-                                    x2={index}
-                                    y2={leftAxis.max}
-                                    stroke="currentColor"
-                                    strokeWidth={1}
-                                    strokeOpacity={0.5}
-                                    vectorEffect="non-scaling-stroke"
-                                />
-                            )}
-                        </svg>
-                    </div>
-
-                    {rightAxis.fields.length > 0 && (
-                        <div class="flex flex-col h-full py-2 text-xs text-zinc-600 dark:text-zinc-400 w-14 text-left">
-                            <div class="flex gap-0.5 mb-1">
-                                {rightAxis.fields.map((field) => (
+                    <div class="flex gap-x-2 flex-1 min-h-0">
+                        <div class="flex flex-col h-full py-2 text-xs text-zinc-500 dark:text-zinc-500 w-14 text-right">
+                            <div class="flex gap-0.5 justify-end mb-1">
+                                {leftAxis.fields.map((field) => (
                                     <div
                                         key={field}
                                         class="w-3 h-1 rounded-sm"
@@ -791,68 +746,130 @@ function CSVViewer({text}: CSVViewerProps) {
                                 ))}
                             </div>
                             <div class="flex flex-col justify-between flex-1">
-                                {yAxisLabelsRight.map((label, i) => (
+                                {yAxisLabelsLeft.map((label, i) => (
                                     <div key={i}>{label.toFixed(0)}</div>
                                 ))}
                             </div>
                         </div>
-                    )}
-                </div>
 
-                {timeColumnIndex !== -1 && (
-                    <div class={`flex mt-1 ${rightAxis.fields.length > 0 ? 'ml-14 mr-14' : 'ml-14'}`}>
-                        <div class="flex-1 flex justify-between text-xs text-zinc-500 dark:text-zinc-500 font-mono">
-                            {(() => {
-                                const numLabels = 7;
-                                const startIdx = Math.floor(scrollOffset);
-                                const endIdx = Math.min(Math.floor(scrollOffset + visibleDataPoints), data.length - 1);
-
-                                const labels = [];
-                                for (let i = 0; i < numLabels; i++) {
-                                    const idx = Math.floor(startIdx + (i / (numLabels - 1)) * (endIdx - startIdx));
-                                    const time = data[idx]?.[timeColumnIndex] ?? 0;
-                                    labels.push(<span key={i}>{time.toFixed(2)}</span>);
-                                }
-                                return labels;
-                            })()}
+                        <div
+                            ref={containerRef}
+                            class="flex-1 overflow-x-auto overflow-y-hidden border border-zinc-400 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 rounded"
+                            style={{touchAction: 'none'}}
+                            onWheel={onWheel}
+                            onTouchStart={onTouchStart}
+                            onTouchMove={onTouchMove}
+                            onTouchEnd={onTouchEnd}
+                        >
+                            <svg
+                                viewBox={`${viewBoxX} ${leftAxis.min} ${viewBoxWidth} ${leftAxis.max - leftAxis.min}`}
+                                onMouseMove={onMouseMove}
+                                onMouseEnter={() => setIsHovering(true)}
+                                onMouseLeave={() => setIsHovering(false)}
+                                class="h-full w-full"
+                                preserveAspectRatio="none"
+                            >
+                                {showFields.map((field) => (
+                                    <polyline
+                                        key={field}
+                                        fill="none"
+                                        stroke={getFieldColor(field)}
+                                        strokeWidth={1.5}
+                                        points={dataToPoints(field)}
+                                        vectorEffect="non-scaling-stroke"
+                                    />
+                                ))}
+                                {isHovering && (
+                                    <line
+                                        x1={index}
+                                        y1={leftAxis.min}
+                                        x2={index}
+                                        y2={leftAxis.max}
+                                        stroke="currentColor"
+                                        strokeWidth={1}
+                                        strokeOpacity={0.5}
+                                        vectorEffect="non-scaling-stroke"
+                                    />
+                                )}
+                            </svg>
                         </div>
-                    </div>
-                )}
 
-                {/* Preview / Minimap */}
-                <div class="mt-2 relative">
-                    <svg
-                        ref={previewRef}
-                        viewBox={`0 0 ${previewData.length} 1`}
-                        class="w-full h-12 bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded cursor-pointer"
-                        preserveAspectRatio="none"
-                        onMouseDown={handlePreviewMouseDown}
-                    >
-                        {showFields.map((field) => (
-                            <polyline
-                                key={field}
-                                fill="none"
-                                stroke={getFieldColor(field)}
+                        {rightAxis.fields.length > 0 && (
+                            <div
+                                class="flex flex-col h-full py-2 text-xs text-zinc-600 dark:text-zinc-400 w-14 text-left">
+                                <div class="flex gap-0.5 mb-1">
+                                    {rightAxis.fields.map((field) => (
+                                        <div
+                                            key={field}
+                                            class="w-3 h-1 rounded-sm"
+                                            style={{backgroundColor: getFieldColor(field)}}
+                                            title={field}
+                                        />
+                                    ))}
+                                </div>
+                                <div class="flex flex-col justify-between flex-1">
+                                    {yAxisLabelsRight.map((label, i) => (
+                                        <div key={i}>{label.toFixed(0)}</div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {timeColumnIndex !== -1 && (
+                        <div class={`flex mt-1 ${rightAxis.fields.length > 0 ? 'ml-14 mr-14' : 'ml-14'}`}>
+                            <div class="flex-1 flex justify-between text-xs text-zinc-500 dark:text-zinc-500 font-mono">
+                                {(() => {
+                                    const numLabels = 7;
+                                    const startIdx = Math.floor(scrollOffset);
+                                    const endIdx = Math.min(Math.floor(scrollOffset + visibleDataPoints), data.length - 1);
+
+                                    const labels = [];
+                                    for (let i = 0; i < numLabels; i++) {
+                                        const idx = Math.floor(startIdx + (i / (numLabels - 1)) * (endIdx - startIdx));
+                                        const time = data[idx]?.[timeColumnIndex] ?? 0;
+                                        labels.push(<span key={i}>{time.toFixed(2)}</span>);
+                                    }
+                                    return labels;
+                                })()}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Preview / Minimap */}
+                    <div class="mt-2 relative">
+                        <svg
+                            ref={previewRef}
+                            viewBox={`0 0 ${previewData.length} 1`}
+                            class="w-full h-12 bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded cursor-pointer"
+                            preserveAspectRatio="none"
+                            onMouseDown={handlePreviewMouseDown}
+                        >
+                            {showFields.map((field) => (
+                                <polyline
+                                    key={field}
+                                    fill="none"
+                                    stroke={getFieldColor(field)}
+                                    strokeWidth={1}
+                                    strokeOpacity={0.5}
+                                    points={previewToPoints(field)}
+                                    vectorEffect="non-scaling-stroke"
+                                />
+                            ))}
+                            <rect
+                                x={(scrollOffset / data.length) * previewData.length}
+                                y={0}
+                                width={(visibleDataPoints / data.length) * previewData.length}
+                                height={1}
+                                fill="white"
+                                fillOpacity={0.15}
+                                stroke="white"
                                 strokeWidth={1}
                                 strokeOpacity={0.5}
-                                points={previewToPoints(field)}
                                 vectorEffect="non-scaling-stroke"
                             />
-                        ))}
-                        <rect
-                            x={(scrollOffset / data.length) * previewData.length}
-                            y={0}
-                            width={(visibleDataPoints / data.length) * previewData.length}
-                            height={1}
-                            fill="white"
-                            fillOpacity={0.15}
-                            stroke="white"
-                            strokeWidth={1}
-                            strokeOpacity={0.5}
-                            vectorEffect="non-scaling-stroke"
-                        />
-                    </svg>
-                </div>
+                        </svg>
+                    </div>
                 </>)}
 
                 <div class="flex gap-1.5 flex-wrap mt-3 max-h-32 overflow-y-auto">

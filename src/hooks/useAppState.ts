@@ -10,7 +10,7 @@ import {
     readTableData,
     readAxisData,
     addressToOffset,
-    detectBinaryMode,
+    detectBinaryMode, readBoxCode, readEPK,
 } from '../lib/binUtils';
 import {
     loadDefinitionIndex,
@@ -196,25 +196,10 @@ export function useAppState(): IAppContext {
             } else if (matches.length > 1) {
                 setDefinitionMatches(matches);
             } else {
-                // Try to find EPK string at known CAL offsets
-                const calOffsets = [0x0, 0x40000, 0x100000, 0x800000, 0x820000];
-                let epk = '';
-                for (const off of calOffsets) {
-                    if (off + 16 > data.length) {
-                        continue;
-                    }
-                    // CAS header: "CAS" + 5 chars, EPK at +8
-                    if (data[off] === 0x43 && data[off + 1] === 0x41 && data[off + 2] === 0x53) {
-                        const bytes = data.subarray(off + 8, off + 15);
-                        const s = String.fromCharCode(...bytes).replace(/\0.*$/, '');
-                        if (s.length >= 6 && /^S[A-Z][0-9A-Z]+$/.test(s)) {
-                            epk = s;
-                            break;
-                        }
-                    }
-                }
-                track('No Definition Match', {size: data.length, epk});
-                setUnknownBin({data, name: displayName, epk});
+                const boxCode = readBoxCode(data);
+                const epk = readEPK(data);
+                track('No Definition Match', {size: data.length, epk, boxCode});
+                setUnknownBin({data, name: displayName, epk, boxCode});
             }
         } catch (err) {
             console.error('Definition auto-detect failed:', err);
