@@ -61,6 +61,7 @@ export interface DefinitionVerification {
     calOffset: number;     // Offset in full bin where CAL block starts (e.g. 0x340000)
     expected: string;      // Expected string at start of CAL block (e.g. "SC8LB4")
     length?: number;       // Length to check (default: expected.length)
+    isDSG?: boolean;
 }
 
 export interface Definition {

@@ -54,6 +54,36 @@
     "paramCount": 1398
   },
   {
+    "name": "14XX",
+    "file": "14XX.json",
+    "verification": {
+      "calOffset": 0,
+      "expected": "14",
+      "isDSG": true
+    },
+    "paramCount": 989
+  },
+  {
+    "name": "23XX",
+    "file": "23XX.json",
+    "verification": {
+      "calOffset": 0,
+      "expected": "23",
+      "isDSG": true
+    },
+    "paramCount": 231
+  },
+  {
+    "name": "24XX",
+    "file": "24XX.json",
+    "verification": {
+      "calOffset": 0,
+      "expected": "24",
+      "isDSG": true
+    },
+    "paramCount": 242
+  },
+  {
     "name": "SC100CF0",
     "file": "SC1CF00.json",
     "verification": {

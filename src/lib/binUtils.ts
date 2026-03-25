@@ -215,18 +215,29 @@ const SIMOS_EPK_OFFSET = 8;
  * Check if a string looks like a DSG/TCU EPK (F45M, F49M, VPB9, etc.)
  */
 function isDsgEpk(epk: string): boolean {
-    return /^[FV][A-Z0-9]{3}$/.test(epk);
+    // DQ250 FXXM
+    if (/^[FV][A-Z0-9]{3}$/.test(epk)) {
+        return true;
+    }
+
+    // DQ381 23XX ...
+    if (/\d\dXX/.test(epk)) {
+        return true;
+    }
+
+    return false
 }
 
 /**
  * Search for DSG/TCU EPK pattern in binary data
- * Pattern: HWNumber_Version_Code EPK (e.g., "0D9300012H_4518_OTJD F45M")
+ * Pattern: HWNumber_Version_Code EPK (e.g., "0D9300012H_4518_OTJD F45M") FL_0GC300012L_2303_cTCA.par
  * DSG bins have version info block around 0x4ff00-0x50100
  */
 function findDsgEpk(data: Uint8Array, expected: string): { offset: number; found: string } | null {
     const searchRegions = [
         {start: 0x3ff00, length: 256}, // DQ250
         {start: 0x4ff00, length: 256}, // DQ250
+        {start: 0x16C00D, length: 3} // DQ381
     ];
 
     for (const region of searchRegions) {
@@ -265,10 +276,10 @@ export function detectBinaryMode(
     data: Uint8Array,
     verification: DefinitionVerification
 ): { mode: BinaryMode; calOffset: number; valid: boolean; found: string } {
-    const {calOffset, expected, length = expected.length} = verification;
+    const {calOffset, isDSG, expected, length = expected.length} = verification;
 
     // Check if this is a DSG/TCU definition (EPK like F45M, F49M, etc.)
-    if (isDsgEpk(expected)) {
+    if (isDSG || isDsgEpk(expected)) {
         // DSG bins - use calOffset from definition (can be negative for bins with data offset)
         const dsgMatch = findDsgEpk(data, expected);
         if (dsgMatch) {
@@ -302,7 +313,7 @@ export function detectBinaryMode(
     };
 }
 
-function readStringSafe(data: Uint8Array, index: number, maxLength: number): string {
+function readStringSafe(data: Uint8Array, index: number, maxLength: number, minLength: number = 1): string {
     const bytes: number[] = []
 
     for (let i = 0; i < maxLength; i++) {
@@ -313,8 +324,10 @@ function readStringSafe(data: Uint8Array, index: number, maxLength: number): str
         bytes.push(byte);
     }
 
-    return String.fromCharCode(...bytes).trim();
-
+    const string = String.fromCharCode(...bytes).trim();
+    if (!minLength || string.length >= minLength) {
+        return string;
+    }
 }
 
 // simos 12.1/18.1/18.4/18.10
@@ -322,10 +335,10 @@ const CAL_SIZES = [0x6FC00, 0x7FC00, 0x9FC00];
 // simos 12.1/18.1/18.4/18.10
 const CAL_OFFSETS = [0x40000, 0x200000, 0x220000];
 
-export function readBoxCode(data: Uint8Array, maxLength: number = 14): string {
+export function readBoxCode(data: Uint8Array): string {
     for (const offset of CAL_OFFSETS) {
         if (data.length > offset) {
-            const boxCode = readStringSafe(data, offset + 0x60, maxLength);
+            const boxCode = readStringSafe(data, offset + 0x60, 12, 10);
             if (boxCode) {
                 return boxCode;
             }
@@ -334,14 +347,25 @@ export function readBoxCode(data: Uint8Array, maxLength: number = 14): string {
 
     // cal simos 18.1/18.4/18.10
     if (CAL_SIZES.includes(data.length)) {
-        return readStringSafe(data, 0x60, maxLength);
+        const boxCode = readStringSafe(data, 0x60, 12, 10);
+        if (boxCode) {
+            return boxCode;
+        }
+    }
+
+    // DQ381
+    if (data.length > 0x16C003) {
+        const boxCode = readStringSafe(data, 0x16C003, 10, 10);
+        if (boxCode) {
+            return boxCode;
+        }
     }
 }
 
 export function readEPK(data: Uint8Array) {
     for (const offset of CAL_OFFSETS) {
         if (data.length > offset) {
-            const epk = readStringSafe(data, offset + 0x02, 6);
+            const epk = readStringSafe(data, offset + 0x02, 6, 6);
             if (epk) {
                 return epk;
             }
@@ -350,7 +374,18 @@ export function readEPK(data: Uint8Array) {
 
     // cal simos 12.1/18.1/18.4/18.10
     if (CAL_SIZES.includes(data.length)) {
-        return readStringSafe(data, 0x02, 6);
+        const epk = readStringSafe(data, 0x02, 6, 6);
+        if (epk) {
+            return epk;
+        }
+    }
+
+    // DQ381
+    if (data.length > 0x16C00E) {
+        const epk = readStringSafe(data, 0x16C00E, 2, 2);
+        if (epk) {
+            return epk;
+        }
     }
 }
 

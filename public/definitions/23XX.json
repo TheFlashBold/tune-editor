@@ -1,0 +1,6400 @@
+{
+  "name": "DQ381 23XX",
+  "version": "1.0",
+  "baseAddress": 0,
+  "parameters": [
+    {
+      "name": "Shift Schedule Downhill",
+      "description": "Shift Schedule Downhill — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1357455,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Shift Schedule Hybrid"
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "turn table At BOOST-Operation",
+      "description": "turn table At BOOST-Operation — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1364074,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_City_Sport: \"\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Shift Schedule Uphill",
+      "description": "Shift Schedule Uphill — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1357014,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Shift Schedule Hybrid"
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching-Table 'CITY'*",
+      "description": "switching-Table 'CITY'* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1356112,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Shift Schedule Hybrid"
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching-Table 'Hybrid Depleting'",
+      "description": "switching-Table 'Hybrid Depleting' — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1362310,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_City_Sport: \"\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching-Table 'Efficiency-uphill'",
+      "description": "switching-Table 'Efficiency-uphill' — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1358341,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_extrem_kalt: \"Prevention of 1. gangs At deep Temperatures\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching-Table 'Efficiency-DPF'",
+      "description": "switching-Table 'Efficiency-DPF' — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1360105,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_extrem_kalt: \"Prevention of 1. gangs At deep Temperatures\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching-Table 'Efficiency-downhill'*",
+      "description": "switching-Table 'Efficiency-downhill'* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1358762,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_extrem_kalt: \"Prevention of 1. gangs At deep Temperatures\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching-Table 'Efficiency-hot'*",
+      "description": "switching-Table 'Efficiency-hot'* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1359644,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_extrem_kalt: \"Prevention of 1. gangs At deep Temperatures\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching-Table 'Efficiency-Warm-up'*",
+      "description": "switching-Table 'Efficiency-Warm-up'* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1359203,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_extrem_kalt: \"Prevention of 1. gangs At deep Temperatures\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "turn table E-drive*",
+      "description": "turn table E-drive* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1362731,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_City_Sport: \"\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Shift Schedule Sport (Extreme)*",
+      "description": "Shift Schedule Sport (Extreme)* — switching-Table for 'S' (extreme)\r\n1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1356553,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Shift Schedule Hybrid"
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "turn table Hybrid E-drive boost*",
+      "description": "turn table Hybrid E-drive boost* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1363172,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_City_Sport: \"\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "turn table Hybrid E-drive recuperation*",
+      "description": "turn table Hybrid E-drive recuperation* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1363613,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_City_Sport: \"\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Shift Schedule Hot*",
+      "description": "Shift Schedule Hot* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1357876,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Shift Schedule Hybrid"
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "offroad switching-Table uphill*",
+      "description": "offroad switching-Table uphill* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1360967,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplEek: \"Application parameters for The Eek-functionality\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "offroad switching-Table downhill*",
+      "description": "offroad switching-Table downhill* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1361408,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplEek: \"Application parameters for The Eek-functionality\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "offroad switching-Table*",
+      "description": "offroad switching-Table* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1360526,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplEek: \"Application parameters for The Eek-functionality\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Shift Schedule Drive*",
+      "description": "Shift Schedule Drive* — switching-Table 'ECO'\r\n1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1355230,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Shift Schedule Hybrid"
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Shift Schedule Sport*",
+      "description": "Shift Schedule Sport* — switching-Table high sportsmanship factor (SPORT)\r\n1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen*",
+      "address": 1355671,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Shift Schedule Hybrid"
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Shift Schedule Snow Mode*",
+      "description": "Shift Schedule Snow Mode* — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1361849,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Shift Schedule Hybrid"
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times with torque reduction At activated Eek-functionality",
+      "description": "switching times with torque reduction At activated Eek-functionality",
+      "address": 1410616,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplUeberschneidung: \"application sizes for The Overlap\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1410320,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "percentage distribution of control moment On The upcoming Clutch in Dependence of Moments the outgoing Clutch",
+      "description": "percentage distribution of control moment On The upcoming Clutch in Dependence of Moments the outgoing Clutch",
+      "address": 1411222,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplReg: \"application sizes for the Rules\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1411214,
+        "dataType": "SWORD",
+        "factor": 0.09765625
+      }
+    },
+    {
+      "name": "Characteristic for Temperature correction of I-Share (OPL_2922)",
+      "description": "Characteristic for Temperature correction of I-Share (OPL_2922) — Aufloesung 0.001 ohne Einheit",
+      "address": 1411096,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.001,
+      "offset": 0.0,
+      "categories": [
+        "Target Shift Completion Times"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 1411088,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Reinforcement of I-Regulator At RoughRoad",
+      "description": "Reinforcement of I-Regulator At RoughRoad",
+      "address": 1410596,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.0001,
+      "offset": 0.0,
+      "categories": [
+        "Target Shift Completion Times"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1410320,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Reinforcement I controller of gradient controller",
+      "description": "Reinforcement I controller of gradient controller",
+      "address": 1410586,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.0001,
+      "offset": 0.0,
+      "categories": [
+        "Target Shift Completion Times"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1410320,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Selector for Interpolation the switching time with torque reduction in Eco",
+      "description": "Selector for Interpolation the switching time with torque reduction in Eco",
+      "address": 1410927,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ]
+    },
+    {
+      "name": "Selector for Interpolation the switching time with torque reduction in Sport",
+      "description": "Selector for Interpolation the switching time with torque reduction in Sport",
+      "address": 1410927,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 2.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ]
+    },
+    {
+      "name": "Selector for Interpolation the switching time with torque reduction in Tip",
+      "description": "Selector for Interpolation the switching time with torque reduction in Tip",
+      "address": 1410927,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 4.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ]
+    },
+    {
+      "name": "minimum Moment the outgoing am end the fast Overlap, gear-dependent.",
+      "description": "minimum Moment the outgoing am end the fast Overlap, gear-dependent. — Motor/Kupplungsmoment",
+      "address": 1411104,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ],
+      "cols": 6,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Moments-Offset On in-depth Clutch for Torque threshold to Demolition after fill",
+      "description": "Moments-Offset On in-depth Clutch for Torque threshold to Demolition after fill — Motor/Kupplungsmoment",
+      "address": 1411080,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1410960,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Var.1: the Moment the outgoing made early drive out.",
+      "description": "Var.1: the Moment the outgoing made early drive out. — Wert 0 = Aus /  Wert 1 = Ein",
+      "address": 1411200,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 8.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ]
+    },
+    {
+      "name": "Selector in Tip for The principle selectively of Befuellvorganges",
+      "description": "Selector in Tip for The principle selectively of Befuellvorganges",
+      "address": 1411200,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ]
+    },
+    {
+      "name": "Selector able The Use one own speed-dependent Factor On the Ueberschneidungsmoment, if The upcoming Clutch already prefilled Is. (OPL_2832)",
+      "description": "Selector able The Use one own speed-dependent Factor On the Ueberschneidungsmoment, if The upcoming Clutch already prefilled Is. (OPL_2832) — Umrechnungsregel fuer Auswahl Kennlinie bei vorbefuellter Kupplung",
+      "address": 1411200,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 16.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ]
+    },
+    {
+      "name": "Selector for The Use of effective filling level At the Calculation of Ueberschneidungsmomentes; otherwise is the normal fill level used (OPL_2831)",
+      "description": "Selector for The Use of effective filling level At the Calculation of Ueberschneidungsmomentes; otherwise is the normal fill level used (OPL_2831) — Umrechnungsregel fuer Auswahl des zu verwendenden Befuellgrades",
+      "address": 1411200,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 4.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ]
+    },
+    {
+      "name": "Selector for the disclosed moment the outgoing Clutch At faster Overlap",
+      "description": "Selector for the disclosed moment the outgoing Clutch At faster Overlap",
+      "address": 1411200,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 2.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ]
+    },
+    {
+      "name": "Correction factor On the From the outgoing herauszufahrende Moment, speed-dependent Influence and Temperature compensation (OPL_2567, OPL_2832)",
+      "description": "Correction factor On the From the outgoing herauszufahrende Moment, speed-dependent Influence and Temperature compensation (OPL_2567, OPL_2832) — Prozentwert in 100/1024",
+      "address": 1411126,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ],
+      "cols": 3,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 3,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 1411120,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Correction factor On the From the outgoing herauszufahrende Moment, speed-dependent Influence and Temperature compensation At pre-filled Clutch (OPL_2832)",
+      "description": "Correction factor On the From the outgoing herauszufahrende Moment, speed-dependent Influence and Temperature compensation At pre-filled Clutch (OPL_2832) — Prozentwert in 100/1024",
+      "address": 1411162,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ],
+      "cols": 3,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 3,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 1411120,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Factor, with the The Moments-Reduction On the outgoing Clutch schwächer made is, dependent From engine moment and Engine speed.",
+      "description": "Factor, with the The Moments-Reduction On the outgoing Clutch schwächer made is, dependent From engine moment and Engine speed. — Prozentwert in 100/1024",
+      "address": 1411024,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ],
+      "cols": 4,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1411016,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1411056,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Factor, with the The Moments-Reduction On the outgoing Clutch schwächer made is, if slip On the Clutch Is.",
+      "description": "Factor, with the The Moments-Reduction On the outgoing Clutch schwächer made is, if slip On the Clutch Is. — Prozentwert in 100/1024",
+      "address": 1411082,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1411074,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Factor, with the The upcoming Clutch over the engine moment addition driven will can.",
+      "description": "Factor, with the The upcoming Clutch over the engine moment addition driven will can. — Prozentwert in 100/1024",
+      "address": 1411008,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1410968,
+        "dataType": "SWORD",
+        "factor": 0.09765625
+      }
+    },
+    {
+      "name": "Factor with the The Momentenübertragung Of the outgoing On The upcoming Clutch in terms of of filling level controlled is.  the Factor can for various (estimated) Tragfähigkeiten the coming Clutch weighted will.",
+      "description": "Factor with the The Momentenübertragung Of the outgoing On The upcoming Clutch in terms of of filling level controlled is.  the Factor can for various (estimated) Tragfähigkeiten the coming Clutch weighted will. — Prozentwert in 100/1024",
+      "address": 1410976,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ],
+      "cols": 4,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1410960,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1410968,
+        "dataType": "SWORD",
+        "factor": 0.09765625
+      }
+    },
+    {
+      "name": "how much percent of Pressure (M_Kup = M_Mot) will in terms of of filling level expected?; can as Map for various Moment spanned will.",
+      "description": "how much percent of Pressure (M_Kup = M_Mot) will in terms of of filling level expected?; can as Map for various Moment spanned will. — Prozentwert in 100/1024",
+      "address": 1410928,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "DSP_KSHV: \"\""
+      ],
+      "cols": 4,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1410960,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1411056,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "switching time for Amax circuits (gradient controls) dependent Of MMotOE, is in Dependence Of Khs_Modus_TSchaltSchub_ko used*",
+      "description": "switching time for Amax circuits (gradient controls) dependent Of MMotOE, is in Dependence Of Khs_Modus_TSchaltSchub_ko used*",
+      "address": 1410854,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1410594,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "percentage Change the overlap time depending Of the Mechatroniktemperatur",
+      "description": "percentage Change the overlap time depending Of the Mechatroniktemperatur",
+      "address": 1411302,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplReg: \"application sizes for the Rules\""
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 1411292,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "moment distribution On The in-depth Clutch While the Overlap",
+      "description": "moment distribution On The in-depth Clutch While the Overlap — Faktor 2^-10 in Prozent",
+      "address": 1411268,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplReg: \"application sizes for the Rules\""
+      ],
+      "cols": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1411220,
+        "dataType": "SWORD",
+        "factor": 0.09765625
+      }
+    },
+    {
+      "name": "moment distribution On The in-depth Clutch While the Overlap",
+      "description": "moment distribution On The in-depth Clutch While the Overlap — Faktor 2^-10 in Prozent",
+      "address": 1411280,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplUeberschneidung: \"application sizes for The Overlap\""
+      ],
+      "cols": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1411220,
+        "dataType": "SWORD",
+        "factor": 0.09765625
+      }
+    },
+    {
+      "name": "moment distribution On The in-depth Clutch While the Overlap",
+      "description": "moment distribution On The in-depth Clutch While the Overlap — Faktor 2^-10 in Prozent",
+      "address": 1411232,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplReg: \"application sizes for the Rules\""
+      ],
+      "cols": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1411220,
+        "dataType": "SWORD",
+        "factor": 0.09765625
+      }
+    },
+    {
+      "name": "moment distribution On The in-depth Clutch While the Overlap",
+      "description": "moment distribution On The in-depth Clutch While the Overlap — Faktor 2^-10 in Prozent",
+      "address": 1411244,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplReg: \"application sizes for the Rules\""
+      ],
+      "cols": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1411220,
+        "dataType": "SWORD",
+        "factor": 0.09765625
+      }
+    },
+    {
+      "name": "moment distribution On The in-depth Clutch While the Overlap",
+      "description": "moment distribution On The in-depth Clutch While the Overlap — Faktor 2^-10 in Prozent",
+      "address": 1411256,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.09765625,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplReg: \"application sizes for the Rules\""
+      ],
+      "cols": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1411220,
+        "dataType": "SWORD",
+        "factor": 0.09765625
+      }
+    },
+    {
+      "name": "moment gradient to Opening the outgoing Clutch am end the overlap",
+      "description": "moment gradient to Opening the outgoing Clutch am end the overlap — Momenten-Gradient in Nm/10ms",
+      "address": 1411342,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "Nm/10ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplReg: \"application sizes for the Rules\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1411322,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 1382616,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "there an zu how much percent the Kalt-Map in Calculation with flows (OPL_2821)",
+      "description": "there an zu how much percent the Kalt-Map in Calculation with flows (OPL_2821) — Auflösung 0.1%",
+      "address": 1411312,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplReg: \"application sizes for the Rules\""
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 1411292,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Characteristic for temperature-dependent Schaltzeitkorrektur",
+      "description": "Characteristic for temperature-dependent Schaltzeitkorrektur",
+      "address": 1410578,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 1410570,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "switching times in D (Eco) im relapsing, is in Dependence Of Khs_Modus_TSchaltSchub_ko used",
+      "description": "switching times in D (Eco) im relapsing, is in Dependence Of Khs_Modus_TSchaltSchub_ko used",
+      "address": 1409950,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1409880,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in D (Eco)",
+      "description": "switching times in D (Eco)",
+      "address": 1409890,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1409880,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in D (Eco) At RoughRoad",
+      "description": "switching times in D (Eco) At RoughRoad",
+      "address": 1410250,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1409880,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in S (Sport) im relapsing, is in Dependence Of Khs_Modus_TSchaltSchub_ko used",
+      "description": "switching times in S (Sport) im relapsing, is in Dependence Of Khs_Modus_TSchaltSchub_ko used",
+      "address": 1410070,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1409880,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in S (Sport)",
+      "description": "switching times in S (Sport)",
+      "address": 1410010,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1409880,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in Tiptronic im relapsing, is in Dependence Of Khs_Modus_TSchaltSchub_ko used",
+      "description": "switching times in Tiptronic im relapsing, is in Dependence Of Khs_Modus_TSchaltSchub_ko used",
+      "address": 1410190,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1409880,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in Tiptronic",
+      "description": "switching times in Tiptronic",
+      "address": 1410130,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1409880,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching-Table 'Efficiency-base'",
+      "description": "switching-Table 'Efficiency-base' — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1342811,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DSP_extrem_kalt: \"Prevention of 1. gangs At deep Temperatures\""
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Shift Schedule Altitude",
+      "description": "Shift Schedule Altitude — 1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen",
+      "address": 1349726,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Shift Schedule Hybrid"
+      ],
+      "cols": 21,
+      "rows": 21,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 21,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "interpolation if MP_INTERPOLATION_NICHT_LINEAR = 1",
+      "description": "interpolation if MP_INTERPOLATION_NICHT_LINEAR = 1",
+      "address": 1350194,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "DAM_Ganganzeige: \"\""
+      ],
+      "cols": 17,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 17,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "1: In the Gear 'S' is im Station wagon nevertheless 'D' appropriate",
+      "description": "1: In the Gear 'S' is im Station wagon nevertheless 'D' appropriate",
+      "address": 1354685,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": []
+    },
+    {
+      "name": "TG-Target pressure in Dependence the temperature for Clutch torque above Threshold (OPL_2916)",
+      "description": "TG-Target pressure in Dependence the temperature for Clutch torque above Threshold (OPL_2916) — Druck",
+      "address": 1334816,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "bar",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "FSI_Parameter: \"\""
+      ],
+      "cols": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "°C",
+        "address": 1334840,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Speed gradient for Construction Engine speed On stall speed in ACC*",
+      "description": "Speed gradient for Construction Engine speed On stall speed in ACC*",
+      "address": 1335958,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min/sec",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1334866,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Speed gradient for Construction Engine speed On stall speed transition 2 (sampling point 0/0 negative bedatet serves to Deactivate of Characteristic map)*",
+      "description": "Speed gradient for Construction Engine speed On stall speed transition 2 (sampling point 0/0 negative bedatet serves to Deactivate of Characteristic map)*",
+      "address": 1335882,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min/sec",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%/sec",
+        "address": 1334986,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1334866,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Speed gradient for Construction Engine speed On stall speed in WH-Position Tip/S transition 2 (sampling point 0/0 negative bedatet serves to Deactivate of Characteristic map)",
+      "description": "Speed gradient for Construction Engine speed On stall speed in WH-Position Tip/S transition 2 (sampling point 0/0 negative bedatet serves to Deactivate of Characteristic map)",
+      "address": 1335834,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min/sec",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%/sec",
+        "address": 1334986,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1334866,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Speed gradient for Construction Engine speed On stall speed in WH-Position Tip/S transition 1 (sampling point 0/0 negative bedatet serves to Deactivate of Characteristic map)",
+      "description": "Speed gradient for Construction Engine speed On stall speed in WH-Position Tip/S transition 1 (sampling point 0/0 negative bedatet serves to Deactivate of Characteristic map)",
+      "address": 1335708,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min/sec",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%/sec",
+        "address": 1334986,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1334866,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Speed gradient for Construction Engine speed On stall speed",
+      "description": "Speed gradient for Construction Engine speed On stall speed",
+      "address": 1334910,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min/sec",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KrsApplSollgradient: \"Application set gradient for  Number of revolutions/gradient controls\""
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%/sec",
+        "address": 1334986,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1334866,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "max. Gradient of control moment  i.A. of clutch pressure Of K1*",
+      "description": "max. Gradient of control moment  i.A. of clutch pressure Of K1*",
+      "address": 1446038,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm/10ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "bar",
+        "address": 1446038,
+        "dataType": "SWORD",
+        "factor": 0.01
+      }
+    },
+    {
+      "name": "max. Gradient of control moment  i.A. of clutch pressure Of K2*",
+      "description": "max. Gradient of control moment  i.A. of clutch pressure Of K2*",
+      "address": 1446046,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "Nm/10ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "bar",
+        "address": 1446038,
+        "dataType": "SWORD",
+        "factor": 0.01
+      }
+    },
+    {
+      "name": "max. set gradient for singlebit-resettings im Economic-Operation (OPL_2642)",
+      "description": "max. set gradient for singlebit-resettings im Economic-Operation (OPL_2642) — Drehzahlgradient in U/min/s",
+      "address": 1445310,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min/s",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "max. set gradient for singlebit-resettings At RRD im Eskalationslevel Quick (OPL_2674, OPL_2642)",
+      "description": "max. set gradient for singlebit-resettings At RRD im Eskalationslevel Quick (OPL_2674, OPL_2642) — Drehzahlgradient",
+      "address": 1445830,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min / sec",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "max. set gradient for singlebit-resettings At RRD im Eskalationslevel Slow (OPL_2674, OPL_2642)",
+      "description": "max. set gradient for singlebit-resettings At RRD im Eskalationslevel Slow (OPL_2674, OPL_2642) — Drehzahlgradient",
+      "address": 1445770,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min / sec",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Drive) 1->2",
+      "description": "Overlap Time RPM (Drive) 1->2",
+      "address": 1423786,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Sport"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Drive) 2->3",
+      "description": "Overlap Time RPM (Drive) 2->3",
+      "address": 1423836,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Sport"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Drive) 3->4",
+      "description": "Overlap Time RPM (Drive) 3->4",
+      "address": 1423886,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Sport"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Drive) 4->5",
+      "description": "Overlap Time RPM (Drive) 4->5",
+      "address": 1423936,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Sport"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Drive) 5->6",
+      "description": "Overlap Time RPM (Drive) 5->6",
+      "address": 1423986,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Sport"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Drive) 6->7",
+      "description": "Overlap Time RPM (Drive) 6->7",
+      "address": 1424036,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Sport"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Drive) Minimum",
+      "description": "Overlap Time RPM (Drive) Minimum",
+      "address": 1424086,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Sport"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Sport) 1->2*",
+      "description": "Overlap Time RPM (Sport) 1->2* — Overlap Time RPM (Sport) 1->2",
+      "address": 1423424,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Base"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Sport) 2->3*",
+      "description": "Overlap Time RPM (Sport) 2->3* — Overlap Time RPM (Sport) 2->3",
+      "address": 1423474,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Base"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Sport) 3->4*",
+      "description": "Overlap Time RPM (Sport) 3->4* — Overlap Time RPM (Sport) 3->4",
+      "address": 1423524,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Base"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Sport) 4->5*",
+      "description": "Overlap Time RPM (Sport) 4->5* — Overlap Time RPM (Sport) 4->5",
+      "address": 1423574,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Base"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Sport) 5->6*",
+      "description": "Overlap Time RPM (Sport) 5->6* — Overlap Time RPM (Sport) 5->6",
+      "address": 1423624,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Base"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Sport) 6->7*",
+      "description": "Overlap Time RPM (Sport) 6->7* — Overlap Time RPM (Sport) 6->7",
+      "address": 1423674,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Base"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time RPM (Sport) Minimum*",
+      "description": "Overlap Time RPM (Sport) Minimum* — Overlap Time RPM (Sport) Minimum",
+      "address": 1423724,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Base"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time Pedal (Base w/TM) 1->2*",
+      "description": "Overlap Time Pedal (Base w/TM) 1->2* — Overlap Time Pedal (Base w/TM) 1->2",
+      "address": 1422934,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Manual"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time Pedal (Base w/TM) 2->3*",
+      "description": "Overlap Time Pedal (Base w/TM) 2->3* — Overlap Time Pedal (Base w/TM) 2->3",
+      "address": 1422984,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Manual"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time Pedal (Base w/TM) 3->4*",
+      "description": "Overlap Time Pedal (Base w/TM) 3->4* — Overlap Time Pedal (Base w/TM) 3->4",
+      "address": 1423034,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Manual"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time Pedal (Base w/TM) 4->5*",
+      "description": "Overlap Time Pedal (Base w/TM) 4->5* — Overlap Time Pedal (Base w/TM) 4->5",
+      "address": 1423084,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Manual"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time Pedal (Base w/TM) 5->6*",
+      "description": "Overlap Time Pedal (Base w/TM) 5->6* — Overlap Time Pedal (Base w/TM) 5->6",
+      "address": 1423134,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Manual"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time Pedal (Base w/TM) 6->7*",
+      "description": "Overlap Time Pedal (Base w/TM) 6->7* — Overlap Time Pedal (Base w/TM) 6->7",
+      "address": 1423184,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Manual"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time Pedal (Base w/TM) Minimum*",
+      "description": "Overlap Time Pedal (Base w/TM) Minimum* — Overlap Time Pedal (Base w/TM) Minimum",
+      "address": 1423234,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Overlap Manual"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "max. set gradient for singlebit-resettings im Sport-Operation (OPL_2642)",
+      "description": "max. set gradient for singlebit-resettings im Sport-Operation (OPL_2642) — Drehzahlgradient in U/min/s",
+      "address": 1445370,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min/s",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "max. set gradient for singlebit-resettings im Tiptronic-Operation (OPL_2642)",
+      "description": "max. set gradient for singlebit-resettings im Tiptronic-Operation (OPL_2642) — Drehzahlgradient in U/min/s",
+      "address": 1445430,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min/s",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "minimum gradient of Speed controller over engine moment without intervention in S/Tip",
+      "description": "minimum gradient of Speed controller over engine moment without intervention in S/Tip — Drehzahlgradient in U/min/s",
+      "address": 1446032,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min/s",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1446012,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "minimum gradient of Speed controller over engine moment without intervention in D",
+      "description": "minimum gradient of Speed controller over engine moment without intervention in D — Drehzahlgradient in U/min/s",
+      "address": 1446022,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min/s",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1446012,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "relative Jump of desired gradient At First Initialization",
+      "description": "relative Jump of desired gradient At First Initialization",
+      "address": 1445912,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445892,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1445902,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "relative Jump of desired gradient At Reinitialization",
+      "description": "relative Jump of desired gradient At Reinitialization",
+      "address": 1445962,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445892,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1445902,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Maximum switching times for resettings im Economic-Operation (OPL_2642)",
+      "description": "Maximum switching times for resettings im Economic-Operation (OPL_2642)",
+      "address": 1445110,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Maximum switching times for resettings At RRD im Eskalationslevel Quick (OPL_2674, OPL_2642)",
+      "description": "Maximum switching times for resettings At RRD im Eskalationslevel Quick (OPL_2674, OPL_2642) — ms in Auflösung 1 ms",
+      "address": 1445710,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Maximum switching times for resettings At RRD im Eskalationslevel Slow (OPL_2674, OPL_2642)",
+      "description": "Maximum switching times for resettings At RRD im Eskalationslevel Slow (OPL_2674, OPL_2642) — ms in Auflösung 1 ms",
+      "address": 1445650,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Maximum switching times for resettings im Sport-Operation (OPL_2642)",
+      "description": "Maximum switching times for resettings im Sport-Operation (OPL_2642)",
+      "address": 1445170,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Maximum switching times for resettings for Tiptronic-Operation (OPL_2642)",
+      "description": "Maximum switching times for resettings for Tiptronic-Operation (OPL_2642)",
+      "address": 1445050,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Offset On The target speed to Calculation of desired gradient From the Speed controller and Fortschrittsüberwachung While Insert, fill and Wait-synchronously",
+      "description": "Offset On The target speed to Calculation of desired gradient From the Speed controller and Fortschrittsüberwachung While Insert, fill and Wait-synchronously — Drehzahl",
+      "address": 1445520,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "U/min",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1445510,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Map to Determination of P-Beiwerts i.A. Of target gear and engine moment for The approximately phase in S/Tip (OPL_2667)",
+      "description": "Map to Determination of P-Beiwerts i.A. Of target gear and engine moment for The approximately phase in S/Tip (OPL_2667)",
+      "address": 1446144,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Map to Determination of P-Beiwerts i.A. Of target gear and engine moment for The approximately phase in D (OPL_2667)",
+      "description": "Map to Determination of P-Beiwerts i.A. Of target gear and engine moment for The approximately phase in D (OPL_2667)",
+      "address": 1446084,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "minimum gradient the advanced control over engine moment without intervention",
+      "description": "minimum gradient the advanced control over engine moment without intervention — Drehzahlgradient",
+      "address": 1446074,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min / sec",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1446012,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Gain of Speed controller to Calculation of Solldrehzahlgradienten without Mindesmomentenanforderung",
+      "description": "Gain of Speed controller to Calculation of Solldrehzahlgradienten without Mindesmomentenanforderung",
+      "address": 1445570,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 7,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Gradientenoffset On the calculated Drehzahlsollgradienten From the Speed controller without Mindestgradientenanforderung",
+      "description": "Gradientenoffset On the calculated Drehzahlsollgradienten From the Speed controller without Mindestgradientenanforderung",
+      "address": 1445640,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "U/min / sec",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "switching time for zero gas for 2-1 and 3-2 Downshift",
+      "description": "switching time for zero gas for 2-1 and 3-2 Downshift",
+      "address": 1445490,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 2,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 2,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Map to Determination the switching time At 2fach-RS",
+      "description": "Map to Determination the switching time At 2fach-RS",
+      "address": 1445230,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 2,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 2,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1445034,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Map to Determination the switching time At 3fach-RS",
+      "description": "Map to Determination the switching time At 3fach-RS",
+      "address": 1445250,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 2,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 2,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1445038,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Map to Determination the switching time At 4fach-RS",
+      "description": "Map to Determination the switching time At 4fach-RS",
+      "address": 1445270,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 2,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 2,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1445042,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Map to Determination the switching time At 5fach-RS",
+      "description": "Map to Determination the switching time At 5fach-RS",
+      "address": 1445290,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Target Clutch Overlap Time"
+      ],
+      "cols": 5,
+      "rows": 2,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1445024,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 2,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1445046,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Launch Control RPM Axis*",
+      "description": "Launch Control RPM Axis* — Stalldrehzahl LC Anfahrt",
+      "address": 1324830,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1324830,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Launch Control RPM*",
+      "description": "Launch Control RPM* — Stalldrehzahl LC Anfahrt",
+      "address": 1325224,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1325224,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Forced Upshift Eco?",
+      "description": "Forced Upshift Eco?",
+      "address": 1348284,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Forced Upshift Eco 2",
+      "description": "Forced Upshift Eco 2",
+      "address": 1348298,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Forced Upshift Eco 3",
+      "description": "Forced Upshift Eco 3",
+      "address": 1348386,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Forced Upshift Eco 4",
+      "description": "Forced Upshift Eco 4",
+      "address": 1349144,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Forced Upshift Eco 5",
+      "description": "Forced Upshift Eco 5",
+      "address": 1353774,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Forced Upshift Eco 6",
+      "description": "Forced Upshift Eco 6",
+      "address": 1353788,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Manual (TT)l Forced Upshift*",
+      "description": "Manual (TT)l Forced Upshift*",
+      "address": 1396898,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Forced Upshift Eco 7",
+      "description": "Forced Upshift Eco 7",
+      "address": 1347860,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Forced Upshift Eco 8",
+      "description": "Forced Upshift Eco 8",
+      "address": 1347970,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Forced Upshift Eco 9",
+      "description": "Forced Upshift Eco 9",
+      "address": 1347562,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Forced Upshift Eco 9",
+      "description": "Forced Upshift Eco 9",
+      "address": 1347859,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "A-Max Shifting Enable?*",
+      "description": "A-Max Shifting Enable?*",
+      "address": 1420096,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": []
+    },
+    {
+      "name": "Overlap Time (Tip) 1->2*",
+      "description": "Overlap Time (Tip) 1->2* — Zeit für die Ueberschneidung (Tip) in den 2. Gang",
+      "address": 1422584,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time (Tip) 2->3*",
+      "description": "Overlap Time (Tip) 2->3* — Zeit für die Ueberschneidung (Tip) in den 3. Gang",
+      "address": 1422634,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time (Tip) 3->4*",
+      "description": "Overlap Time (Tip) 3->4* — Zeit für die Ueberschneidung (Tip) in den 3. Gang",
+      "address": 1422684,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time (Tip) 4->5*",
+      "description": "Overlap Time (Tip) 4->5* — Zeit für die Ueberschneidung (Tip) in den 3. Gang",
+      "address": 1422734,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time (Tip) 5->6*",
+      "description": "Overlap Time (Tip) 5->6* — Zeit für die Ueberschneidung (Tip) in den 3. Gang",
+      "address": 1422784,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time (Tip) 6->7*",
+      "description": "Overlap Time (Tip) 6->7* — Zeit für die Ueberschneidung (Tip) in den 3. Gang",
+      "address": 1422834,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Minimum Overlap Time (Tip)*",
+      "description": "Minimum Overlap Time (Tip)* — Minimale Zeit für die Ueberschneidung",
+      "address": 1422884,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422224,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1422214,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time (Tip) (RPM) 1->2*",
+      "description": "Overlap Time (Tip) (RPM) 1->2* — Zeit für die Ueberschneidung (Tip) in den 2. Gang",
+      "address": 1424124,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time (Tip) (RPM) 2->3*",
+      "description": "Overlap Time (Tip) (RPM) 2->3* — Zeit für die Ueberschneidung (Tip) in den 2. Gang",
+      "address": 1424174,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time (Tip) (RPM) 3->4*",
+      "description": "Overlap Time (Tip) (RPM) 3->4* — Zeit für die Ueberschneidung (Tip) in den 2. Gang",
+      "address": 1424224,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time (Tip) (RPM) 4->5*",
+      "description": "Overlap Time (Tip) (RPM) 4->5* — Zeit für die Ueberschneidung (Tip) in den 2. Gang",
+      "address": 1424274,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time (Tip) (RPM) 5->6*",
+      "description": "Overlap Time (Tip) (RPM) 5->6* — Zeit für die Ueberschneidung (Tip) in den 2. Gang",
+      "address": 1424324,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Overlap Time (Tip) (RPM) 6->7*",
+      "description": "Overlap Time (Tip) (RPM) 6->7* — Zeit für die Ueberschneidung (Tip) in den 2. Gang",
+      "address": 1424374,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Minimum Overlap Time (Tip) (RPM)*",
+      "description": "Minimum Overlap Time (Tip) (RPM)* — Zeit für die Ueberschneidung (Tip) in den 2. Gang",
+      "address": 1424424,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [
+        "Overlap Drive",
+        "Max RPM By Gear Eco"
+      ],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423414,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1423404,
+        "dataType": "SWORD",
+        "factor": 0.05
+      }
+    },
+    {
+      "name": "Delay Before Torque Reduction - Eco",
+      "description": "Delay Before Torque Reduction - Eco",
+      "address": 1450546,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 4,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1450530,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1450538,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Delay Before Torque Reduction - Sport",
+      "description": "Delay Before Torque Reduction - Sport",
+      "address": 1450578,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 4,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1450530,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1450538,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Delay Before Torque Reduction - Tip",
+      "description": "Delay Before Torque Reduction - Tip",
+      "address": 1450610,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 10.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 4,
+      "rows": 4,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1450530,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1450538,
+        "dataType": "SWORD"
+      }
+    },
+    {
+      "name": "Maximum Speed for Sailing / Neutral Cost",
+      "description": "Maximum Speed for Sailing / Neutral Cost",
+      "address": 1326532,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": []
+    },
+    {
+      "name": "Target Shift Times In Max Acceleration",
+      "description": "Target Shift Times In Max Acceleration",
+      "address": 1410854,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1410594,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Limiting torque determined at sea level*",
+      "description": "Limiting torque determined at sea level* — Begrenzungsmoment ermittelt bei NN\r\nKeine Umrechnung, keine Maßeinheit",
+      "address": 1341834,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Adaptation"
+      ],
+      "cols": 17,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 17,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GANG_1_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GANG_1_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352234,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GANG_2_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GANG_2_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352251,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GANG_3_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GANG_3_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352268,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GANG_4_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GANG_4_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352285,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GANG_5_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GANG_5_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352302,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GANG_6_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GANG_6_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352319,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GANG_7_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GANG_7_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352335,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_1_KL",
+      "description": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_1_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352472,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_2_KL",
+      "description": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_2_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352489,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352480,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_3_KL",
+      "description": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_3_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352506,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352497,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_4_KL",
+      "description": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_4_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352523,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352514,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_5_KL",
+      "description": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_5_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352540,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352531,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_6_KL",
+      "description": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_6_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352557,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352548,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_7_KL",
+      "description": "ANK_HOEHE_DIREKT_EFF_N_MAX_GAS_GANG_7_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352574,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352565,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_1_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_1_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352353,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_2_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_2_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352370,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_3_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_3_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352387,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_4_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_4_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352404,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_5_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_5_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352421,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_6_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_6_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352438,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_7_KL",
+      "description": "ANK_HOEHE_DIREKT_N_MAX_GAS_GANG_7_KL — Maximale Motordrehzahl in Abhngigkeit des Motorleistungsfaktors mot_lstg im Efficiency-Modus.",
+      "address": 1352455,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "1/min",
+      "min": 0.0,
+      "max": 0.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Max Clutch Pressure"
+      ],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1352463,
+        "dataType": "UBYTE"
+      }
+    },
+    {
+      "name": "Max Clutch Torque K1*",
+      "description": "Max Clutch Torque K1*",
+      "address": 1379462,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Clutch Torque K2*",
+      "description": "Max Clutch Torque K2*",
+      "address": 1379464,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Pressure K1*",
+      "description": "Max Pressure K1*",
+      "address": 1379466,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Pressure K2*",
+      "description": "Max Pressure K2*",
+      "address": 1379468,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Clutch Torque K1 Entry 2*",
+      "description": "Max Clutch Torque K1 Entry 2*",
+      "address": 1408178,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Clutch Torque K2 Entry 2*",
+      "description": "Max Clutch Torque K2 Entry 2*",
+      "address": 1408180,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Pressure K1 Entry 2*",
+      "description": "Max Pressure K1 Entry 2*",
+      "address": 1408182,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Pressure K2 Entry 2*",
+      "description": "Max Pressure K2 Entry 2*",
+      "address": 1408184,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Clutch Torque K1 Entry 3*",
+      "description": "Max Clutch Torque K1 Entry 3*",
+      "address": 1436894,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Clutch Torque K2 Entry 3*",
+      "description": "Max Clutch Torque K2 Entry 3*",
+      "address": 1436896,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Pressure K1 Entry 3*",
+      "description": "Max Pressure K1 Entry 3*",
+      "address": 1436898,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Pressure K2 Entry 3*",
+      "description": "Max Pressure K2 Entry 3*",
+      "address": 1436900,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Upper Target Pressure During Handoff*",
+      "description": "Upper Target Pressure During Handoff*",
+      "address": 1335114,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Upper Saturation Pressure*",
+      "description": "Upper Saturation Pressure*",
+      "address": 1376998,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Max Torque When Clutch is Open*",
+      "description": "Max Torque When Clutch is Open*",
+      "address": 1334064,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Adaptation"
+      ]
+    },
+    {
+      "name": "Maximum torque for transmission protection by gear*",
+      "description": "Maximum torque for transmission protection by gear*",
+      "address": 1332374,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Adaptation"
+      ],
+      "cols": 9,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 9,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Limiting torque in 'efficiency mode' *",
+      "description": "Limiting torque in 'efficiency mode' * — Begrenzungsmoment im 'efficiency-Modus'\r\nKeine Umrechnung, keine Maßeinheit",
+      "address": 1341852,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Adaptation"
+      ],
+      "cols": 17,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 17,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Limiting torque in depleting mode*",
+      "description": "Limiting torque in depleting mode* — Begrenzungsmoment im Depleting-Modus\r\nKeine Umrechnung, keine Maßeinheit",
+      "address": 1341870,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Adaptation"
+      ],
+      "cols": 17,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 17,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Characteristic for the Maximum positive engine moment im  'efficiency-mode'*",
+      "description": "Characteristic for the Maximum positive engine moment im  'efficiency-mode'* — Keine Umrechnung, keine Maßeinheit",
+      "address": 1341907,
+      "type": "CURVE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Adaptation"
+      ],
+      "cols": 17,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 17,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Standardization for actual torque At MQB im Depleting-mode*",
+      "description": "Standardization for actual torque At MQB im Depleting-mode*",
+      "address": 1341924,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Adaptation"
+      ],
+      "cols": 1,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 17,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 1,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Max Torque limit 1*",
+      "description": "Max Torque limit 1*",
+      "address": 1321162,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Adaptation"
+      ]
+    },
+    {
+      "name": "Max Torque limit 2*",
+      "description": "Max Torque limit 2*",
+      "address": 1321164,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Adaptation"
+      ]
+    },
+    {
+      "name": "Ksc_MMot_Schwelle_max_ko",
+      "description": "Maximum engine torque at which Ksc may become active*",
+      "address": 1324374,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Clutch Adaptation"
+      ]
+    },
+    {
+      "name": "K1 Target Pressure for P4 (End of adaptation curve)*",
+      "description": "K1 Target Pressure for P4 (End of adaptation curve)* — Solldruck fuer P4",
+      "address": 1392162,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Stall Speed"
+      ]
+    },
+    {
+      "name": "K2 Target Pressure for P4 (End of adaptation curve)*",
+      "description": "K2 Target Pressure for P4 (End of adaptation curve)* — Solldruck fuer P4",
+      "address": 1392164,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Stall Speed"
+      ]
+    },
+    {
+      "name": "K1 Target Torque for P4 (End of adaptation curve)*",
+      "description": "K1 Target Torque for P4 (End of adaptation curve)* — Solldruck fuer P4",
+      "address": 1392166,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Stall Speed"
+      ]
+    },
+    {
+      "name": "K2 Target Torque for P4 (End of adaptation curve)*",
+      "description": "K2 Target Torque for P4 (End of adaptation curve)* — Solldruck fuer P4",
+      "address": 1392166,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Stall Speed"
+      ]
+    },
+    {
+      "name": "Maximum threshold for actual pressure monitoring*",
+      "description": "Maximum threshold for actual pressure monitoring* — Maximum-Schwelle fuer Istdruckueberwachung\r\nAhd_PKupIst_MaxSchwelle_ko",
+      "address": 1376492,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Limitation of valve compensation function: maximum current for clutch valves*",
+      "description": "Limitation of valve compensation function: maximum current for clutch valves* — Begrenzung Ventilausgleichsfunktion: Maximalstrom fuer Kupplungsventile\r\nVtm_DataKup_BegrAf_ko.I_PhysMax",
+      "address": 1408494,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.1,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Maximum permitted clutch pressure (Emergency Mode)*",
+      "description": "Maximum permitted clutch pressure (Emergency Mode)* — Maximal zulaessiger Kupplungsdruck (OPL_2767)\r\nKsf_PKupMax_ko",
+      "address": 1379420,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "amc_p_maxCutOff_bar",
+      "description": "Pressure cutoff for clutch protection*",
+      "address": 1377022,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "amc_p_MaxClt_bar",
+      "description": "maximum clutch pressure for AM (Current Holding Clutch)*",
+      "address": 1377024,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "De2_PKupMax_ADC_ko",
+      "description": "max. ADC-Wert für Kupplungsdruc*",
+      "address": 1397078,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "Pst_PHdSoll_DiagAbrissMax_ko",
+      "description": "Upper limit of the target main pressure from which the tear diagnosis is no longer carried out*",
+      "address": 1317652,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "Torque Limitation"
+      ]
+    },
+    {
+      "name": "K1 Max Pressure for P3 (Upper adaptation Curve)*",
+      "description": "K1 Max Pressure for P3 (Upper adaptation Curve)* — Maximal zulaessiger Druck fuer P3\r\nAkgLin_PKupMin_P3Abs_ko",
+      "address": 1392098,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Stall Speed"
+      ]
+    },
+    {
+      "name": "K2 Max Pressure for P3 (Upper adaptation Curve)*",
+      "description": "K2 Max Pressure for P3 (Upper adaptation Curve)* — Maximal zulaessiger Druck fuer P3\r\nAkgLin_PKupMin_P3Abs_ko",
+      "address": 1392100,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.01,
+      "offset": 0.0,
+      "categories": [
+        "Stall Speed"
+      ]
+    },
+    {
+      "name": "ECO-KD Forced upshifts because SPEED is too high",
+      "description": "ECO-KD Forced upshifts because SPEED is too high — ECO-KD Zwangshochschaltungen, da GESCHW zu hoch\r\n1:1 Umrechnung mit Einheit km/h ohne Nachkommastellen\r\nTIP_HOCH_KD",
+      "address": 1353760,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 7,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 7,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "1: Switch on shift point reduction via rated desired engine speed; 2: higher priority for MDR compared to MAX_MOTDRZ",
+      "description": "1: Switch on shift point reduction via rated desired engine speed; 2: higher priority for MDR compared to MAX_MOTDRZ — 1: Schaltpunktreduzierung über bewertete Motorwunschdrehzahl einschalten; 2: höhere Prio für MDR ggü. MAX_MOTDRZ",
+      "address": 1342496,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": []
+    },
+    {
+      "name": "Entry Conditions for Sailing / Neutral Cost",
+      "description": "Entry Conditions for Sailing / Neutral Cost",
+      "address": 1326544,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": []
+    },
+    {
+      "name": "Stall Speed Gradient",
+      "description": "Stall Speed Gradient — Drehzahlgradient für Aufbau Motordrehzahl auf Stalldrehzahl\r\nKas_dNStallSoll_Max_kf",
+      "address": 1334910,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Pedal",
+        "address": 1334986,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1334866,
+        "dataType": "UWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Stall Speed Gradient Manual / Sport",
+      "description": "Stall Speed Gradient Manual / Sport — Drehzahlgradient für Aufbau Motordrehzahl auf Stalldrehzahl in WH-Position Tip/S Gang 1 (Stützstelle 0/0 negativ bedatet dient zum Deaktivieren des Kennfelds)\r\nKas_dNStallSoll_Max_TipS_kf",
+      "address": 1335716,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Pedal",
+        "address": 1334986,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1334866,
+        "dataType": "UWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Stall Speed Gradient Manual / Sport Gear 2",
+      "description": "Stall Speed Gradient Manual / Sport Gear 2 — Drehzahlgradient für Aufbau Motordrehzahl auf Stalldrehzahl in WH-Position Tip/S Gang 2 (Stützstelle 0/0 negativ bedatet dient zum Deaktivieren des Kennfelds)\r\nKas_dNStallSoll_Max_TipS_G2_kf",
+      "address": 1335854,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Pedal",
+        "address": 1334986,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1334866,
+        "dataType": "UWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Stall Speed Gradient Gear 2",
+      "description": "Stall Speed Gradient Gear 2 — Drehzahlgradient für Aufbau Motordrehzahl auf Stalldrehzahl Gang 2 (Stützstelle 0/0 negativ bedatet dient zum Deaktivieren des Kennfelds)\r\nKas_dNStallSoll_Max_G2_kf",
+      "address": 1335904,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 5,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Pedal",
+        "address": 1334986,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1334866,
+        "dataType": "UWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "Stall Speed Gear 1 D*",
+      "description": "Stall Speed Gear 1 D* — Stalldrehzahlkennlinien 1.Gang, D-Modus,  Temperaturbereiche 1 und 2 werden auch in Tiptronic und Sport verwendet\r\nKus_N_Stall_kl",
+      "address": 1324856,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 8,
+      "rows": 3,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1324830,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 3,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Stall Speed Gear 2*",
+      "description": "Stall Speed Gear 2* — Stalldrehzahlkennlinien fuer 2.Gang\r\nKus_N_StallGang2_kl",
+      "address": 1324904,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 8,
+      "rows": 3,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1324830,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 3,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Stall Speed Gear 1 S*",
+      "description": "Stall Speed Gear 1 S* — Stalldrehzahlkennlinien 1.Gang, Sport-Modus (OPL_2942)\r\nKus_N_StallSport_kl",
+      "address": 1324952,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 8,
+      "rows": 3,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1324830,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 3,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Stall Speed Tip*",
+      "description": "Stall Speed Tip* — Stalldrehzahlen im Tiptronic Programm für Temperaturbereich_0\r\nKus_N_StallTipT0_kl",
+      "address": 1325000,
+      "type": "CURVE",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 8,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1324830,
+        "dataType": "SWORD",
+        "factor": 0.1
+      }
+    },
+    {
+      "name": "switching times in D (Eco) with torque reduction dependent From Accelerator",
+      "description": "switching times in D (Eco) with torque reduction dependent From Accelerator",
+      "address": 1381614,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1381604,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in D (Eco) with torque reduction At RoughRoad",
+      "description": "switching times in D (Eco) with torque reduction At RoughRoad",
+      "address": 1381794,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1381604,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in S (Sport) with torque reduction dependent From Accelerator",
+      "description": "switching times in S (Sport) with torque reduction dependent From Accelerator",
+      "address": 1381674,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1381604,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "aswitching times in Tiptronic with torque reduction dependent From Accelerator",
+      "description": "aswitching times in Tiptronic with torque reduction dependent From Accelerator",
+      "address": 1381734,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "%",
+        "address": 1381604,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in D (Eco) with torque reduction dependent Of the target speed",
+      "description": "switching times in D (Eco) with torque reduction dependent Of the target speed",
+      "address": 1382030,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1410676,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in S (Sport) with torque reduction dependent Of the target speed",
+      "description": "switching times in S (Sport) with torque reduction dependent Of the target speed",
+      "address": 1382090,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1410676,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching times in Tiptronic with torque reduction dependent Of the target speed",
+      "description": "switching times in Tiptronic with torque reduction dependent Of the target speed",
+      "address": 1381970,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "U/min",
+        "address": 1410676,
+        "dataType": "SWORD"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "switching time for Amax circuits (gradient controls) dependent Of MMotOE, is in Dependence Of Khs_Modus_TSchaltSchub_ko used*",
+      "description": "switching time for Amax circuits (gradient controls) dependent Of MMotOE, is in Dependence Of Khs_Modus_TSchaltSchub_ko used*",
+      "address": 1382138,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "ms",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
+      ],
+      "cols": 5,
+      "rows": 6,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 5,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "Nm",
+        "address": 1410582,
+        "dataType": "SWORD",
+        "factor": 0.05
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 6,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "Max Stall Speed Gears 3-7",
+      "description": "Max Stall Speed Gears 3-7 — max. Stalldrehzahl fuer 3. bis 7.Gang, reale Stalldrehzahl wird nach wie vor aus Stalldrehzahl 2.Gang abgeleitet und auf Wert aus diesem KF begrenzt\r\nKus_NMax_StallUebrFpG37_kf",
+      "address": 1325882,
+      "type": "MAP",
+      "dataType": "SWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [],
+      "cols": 8,
+      "rows": 5,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 8,
+        "min": 0.0,
+        "max": 0.0,
+        "unit": "",
+        "address": 1325866,
+        "dataType": "SWORD",
+        "factor": 0.1
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 5,
+        "min": 0,
+        "max": 0,
+        "unit": ""
+      }
+    },
+    {
+      "name": "K1 Target Torque for P3 (Upper of adaptation curve)*",
+      "description": "K1 Target Torque for P3 (Upper of adaptation curve)* — Default Wert fuer P3\r\nAkgLin_MKup_Default_ko[K1][P3]",
+      "address": 1392122,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Stall Speed"
+      ]
+    },
+    {
+      "name": "K2 Target Torque for P3 (Upper of adaptation curve)*",
+      "description": "K2 Target Torque for P3 (Upper of adaptation curve)* — Default Wert fuer P3\r\nAkgLin_MKup_Default_ko[K2][P3]",
+      "address": 1392128,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 0.05,
+      "offset": 0.0,
+      "categories": [
+        "Stall Speed"
+      ]
+    }
+  ],
+  "verification": {
+    "calOffset": 0,
+    "expected": "23",
+    "isDSG": true
+  },
+  "_source": "XDF",
+  "offset": 1311232,
+  "bigEndian": true
+}
