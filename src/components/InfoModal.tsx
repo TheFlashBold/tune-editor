@@ -21,6 +21,14 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.11.0',
+        date: '25.03.2026',
+        changes: [
+            'Added DQ381 detection',
+            'Added DQ381 14XX, 16XX (Experimental), 23XX and 24XX definitions'
+        ]
+    },
+    {
         version: '1.10.0',
         date: '24.03.2026',
         changes: [
