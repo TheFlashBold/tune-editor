@@ -209,5 +209,14 @@
       "expected": "SCGA10"
     },
     "paramCount": 3944
+  },
+  {
+    "name": "SC8LB6",
+    "file": "SC8LB6.json",
+    "verification": {
+      "calOffset": 2097152,
+      "expected": "SC8LB6"
+    },
+    "paramCount": 32525
   }
 ]
