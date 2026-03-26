@@ -322,8 +322,13 @@ export function MenuBar({
                     </button>
                 )}
                 <a href="https://simos.app/" target="_blank" rel="noopener noreferrer"
-                   className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Get the
-                    iOS Logging App</a>
+                   className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
+                    Get the iOS Logging App
+                </a>
+                <a href="https://github.com/TheFlashBold/tune-editor/issues/new"  target="_blank" rel="noopener noreferrer"
+                   className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
+                    Create Issue
+                </a>
                 <button onClick={() => setShowAbout(true)}
                         className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
                     About
@@ -462,26 +467,30 @@ export function MenuBar({
                            className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
                             Get the iOS Logging App
                         </a>
+                        <a href="https://github.com/TheFlashBold/tune-editor/issues/new"  target="_blank" rel="noopener noreferrer"
+                           className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
+                            Create Issue
+                        </a>
                         <button onClick={mobileAction(() => setShowAbout(true))}
                                 className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
                             About
                         </button>
                         <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
-                        {loginState ? (
-                            <div className="flex items-center justify-between px-4 py-3">
-                                <span
-                                    className="text-sm text-zinc-600 dark:text-zinc-400">{loginState.user.fullName || loginState.user.login}</span>
-                                <button onClick={mobileAction(handleLogout)}
-                                        className="px-3 py-1 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer">
-                                    Logout
-                                </button>
-                            </div>
-                        ) : (
-                            <button onClick={mobileAction(() => setShowLogin(true))}
-                                    className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
-                                Login
-                            </button>
-                        )}
+                        {/*{loginState ? (*/}
+                        {/*    <div className="flex items-center justify-between px-4 py-3">*/}
+                        {/*        <span*/}
+                        {/*            className="text-sm text-zinc-600 dark:text-zinc-400">{loginState.user.fullName || loginState.user.login}</span>*/}
+                        {/*        <button onClick={mobileAction(handleLogout)}*/}
+                        {/*                className="px-3 py-1 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer">*/}
+                        {/*            Logout*/}
+                        {/*        </button>*/}
+                        {/*    </div>*/}
+                        {/*) : (*/}
+                        {/*    <button onClick={mobileAction(() => setShowLogin(true))}*/}
+                        {/*            className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">*/}
+                        {/*        Login*/}
+                        {/*    </button>*/}
+                        {/*)}*/}
                     </div>
                 </>
             )}
