@@ -27,7 +27,7 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
         }
 
         const upgrade = upgradeMatrix.find(({from}) => from.includes(info.boxCode));
-        if (upgrade?.to.epk !== info.epk) {
+        if (upgrade && upgrade?.to.epk !== info.epk) {
             setUpgradeInfo(upgrade);
             track("Upgrade Info", {
                 fromBoxCode: info.boxCode,

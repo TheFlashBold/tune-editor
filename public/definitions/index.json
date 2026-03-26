@@ -205,7 +205,7 @@
     "name": "SCGA10",
     "file": "SCGA10.json",
     "verification": {
-      "calOffset": 8519680,
+      "calOffset": 2228224,
       "expected": "SCGA10"
     },
     "paramCount": 3944
