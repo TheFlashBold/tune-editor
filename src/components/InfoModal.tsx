@@ -21,6 +21,14 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.12.0',
+        date: '26.03.2026',
+        changes: [
+            'Fixed SCGA10 detection & updated definition',
+            'Added SC8LB6 definition'
+        ]
+    },
+    {
         version: '1.11.0',
         date: '25.03.2026',
         changes: [
