@@ -29,6 +29,12 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
         const upgrade = upgradeMatrix.find(({from}) => from.includes(info.boxCode));
         if (upgrade?.to.epk !== info.epk) {
             setUpgradeInfo(upgrade);
+            track("Upgrade Info", {
+                fromBoxCode: info.boxCode,
+                fromEPK: info.epk,
+                toBoxCode: upgrade.to.label,
+                toEPK: upgrade.to.epk,
+            });
             // @TODO: suggest simos.app with upgrade bin flashing
         }
     }, [info])
@@ -82,7 +88,8 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                 </p>
                 {upgradeInfo && <div>
                     <p className="text-sm text-blue-500">
-                        Instead you should update to "{upgradeInfo.to.label}" with "{upgradeInfo.to.epk}" which is supported.
+                        Instead you should update to "{upgradeInfo.to.label}" with "{upgradeInfo.to.epk}" which is
+                        supported.
                     </p>
                 </div>}
 
