@@ -174,10 +174,13 @@ export function useAppState(): IAppContext {
         const {data, displayName} = await parseFileData(file);
         const fileType = isS19File(file.name) ? 's19' : isHexFile(file.name) ? 'hex' : 'bin';
 
+        const boxCode = readBoxCode(data);
+        const epk = readEPK(data);
+
         setBinData(data);
         setBinFileName(displayName);
         setModified(false);
-        track('Load BIN', {size: data.length, type: fileType});
+        track('Load BIN', {size: data.length, type: fileType, boxCode, epk});
 
         // Auto-detect definition
         let loadedDef: Definition | null = null;
@@ -192,12 +195,10 @@ export function useAppState(): IAppContext {
                 setCalOffset(match.calOffset);
                 setSelectedParam(null);
                 loadedDef = def;
-                track('Definition Matched', {name: def.name, mode: match.mode});
+                track('Definition Matched', {name: def.name, mode: match.mode, boxCode, epk});
             } else if (matches.length > 1) {
                 setDefinitionMatches(matches);
             } else {
-                const boxCode = readBoxCode(data);
-                const epk = readEPK(data);
                 track('No Definition Match', {size: data.length, epk, boxCode});
                 setUnknownBin({data, name: displayName, epk, boxCode});
             }
