@@ -163,10 +163,18 @@ export function readBoxCode(data: Uint8Array): string {
     }
 
     // DQ381
-    if (data.length > 0x16C003) {
+    if (data.length > 0x16C00C) {
         const boxCode = readStringSafe(data, 0x16C003, 10, 10);
         if (boxCode) {
             return boxCode;
+        }
+    }
+
+    // DQ250 MQB
+    if (data.length > 0x3FFBA) {
+        const epk = readStringSafe(data, 0x3FFB0, 10, 10);
+        if (epk) {
+            return epk;
         }
     }
 
@@ -200,8 +208,16 @@ export function readEPK(data: Uint8Array) {
     }
 
     // DQ381
-    if (data.length > 0x16C00E) {
+    if (data.length > 0x16C010) {
         const epk = readStringSafe(data, 0x16C00E, 2, 2);
+        if (epk) {
+            return epk;
+        }
+    }
+
+    // DQ250 MQB
+    if (data.length > 0x3FFE4) {
+        const epk = readStringSafe(data, 0x3FFE0, 4, 4);
         if (epk) {
             return epk;
         }
