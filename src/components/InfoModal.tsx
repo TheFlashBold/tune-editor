@@ -21,6 +21,15 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.13.0',
+        date: '27.03.2026',
+        changes: [
+            'Fixed 5G0906259 boxcode detection',
+            'Added SC8 F83 5G0906259 to the upgrade matrix (upgrades to SC8 F90)',
+            'Added new version update banner'
+        ]
+    },
+    {
         version: '1.12.0',
         date: '26.03.2026',
         changes: [
