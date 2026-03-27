@@ -7,31 +7,35 @@ interface IExportModalProps {
     onExport: () => void;
 }
 
-type SupportType = 'per-export' | 'once' | 'subscription';
+type SupportType = 'per-export' | 'once' | 'subscription' | 'i-am-broke';
 
 const presets: Record<SupportType, number[]> = {
     'per-export': [2, 5, 10],
     'once': [20, 50, 100],
     'subscription': [5, 10, 20],
+    'i-am-broke': [0]
 };
 
 const labels: Record<SupportType, string> = {
     'per-export': 'Pay per export',
     'once': 'Pay once',
     'subscription': 'Monthly subscription',
+    'i-am-broke': "I am broke"
 };
 
 export function ExportModal({onClose, onExport}: IExportModalProps) {
     const [supportType, setSupportType] = useState<SupportType | null>(null);
     const [amount, setAmount] = useState<number | null>(null);
-    const [customAmount, setCustomAmount] = useState('');
+    const [customAmount, setCustomAmount] = useState(null);
 
     const handleExport = () => {
         const finalAmount = amount ?? (customAmount ? parseFloat(customAmount) : 0);
         if (supportType && finalAmount > 0) {
             track(labels[supportType], {amount: finalAmount});
         }
+
         localStorage.setItem('support-answered', '1');
+
         onExport();
         onClose();
     };
@@ -41,7 +45,7 @@ export function ExportModal({onClose, onExport}: IExportModalProps) {
             <div class="flex justify-end">
                 <button
                     onClick={handleExport}
-                    disabled={!supportType || (!amount && !customAmount)}
+                    disabled={!supportType || (amount == null && customAmount == null)}
                     class="cursor-pointer px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                     Export
@@ -59,7 +63,11 @@ export function ExportModal({onClose, onExport}: IExportModalProps) {
                     {(Object.keys(labels) as SupportType[]).map(type => (
                         <button
                             key={type}
-                            onClick={() => { setSupportType(type); setAmount(null); setCustomAmount(''); }}
+                            onClick={() => {
+                                setSupportType(type);
+                                setAmount(null);
+                                setCustomAmount('');
+                            }}
                             class={`px-3 py-2 text-xs rounded border transition-colors cursor-pointer ${
                                 supportType === type
                                     ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
@@ -77,7 +85,10 @@ export function ExportModal({onClose, onExport}: IExportModalProps) {
                         {presets[supportType].map(value => (
                             <button
                                 key={value}
-                                onClick={() => { setAmount(value); setCustomAmount(''); }}
+                                onClick={() => {
+                                    setAmount(value);
+                                    setCustomAmount('');
+                                }}
                                 class={`flex-1 px-3 py-2 text-sm rounded border transition-colors cursor-pointer ${
                                     amount === value
                                         ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
@@ -87,7 +98,7 @@ export function ExportModal({onClose, onExport}: IExportModalProps) {
                                 {value}€{supportType === 'subscription' ? '/mo' : ''}
                             </button>
                         ))}
-                        <div class="flex-1 relative">
+                        {supportType !== "i-am-broke" && <div class="flex-1 relative">
                             <input
                                 type="number"
                                 placeholder="Custom"
@@ -103,7 +114,7 @@ export function ExportModal({onClose, onExport}: IExportModalProps) {
                                 }`}
                             />
                             <span class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-zinc-400">€</span>
-                        </div>
+                        </div>}
                     </div>
                 )}
             </div>

@@ -147,7 +147,7 @@ const CAL_OFFSETS = [0x40000, 0x200000, 0x220000];
 export function readBoxCode(data: Uint8Array): string {
     for (const offset of CAL_OFFSETS) {
         if (data.length > offset) {
-            const boxCode = readStringSafe(data, offset + 0x60, 12, 10);
+            const boxCode = readStringSafe(data, offset + 0x60, 12, 9);
             if (boxCode) {
                 return boxCode;
             }
@@ -156,7 +156,7 @@ export function readBoxCode(data: Uint8Array): string {
 
     // cal simos 18.1/18.4/18.10
     if (CAL_SIZES.includes(data.length)) {
-        const boxCode = readStringSafe(data, 0x60, 12, 10);
+        const boxCode = readStringSafe(data, 0x60, 12, 9);
         if (boxCode) {
             return boxCode;
         }

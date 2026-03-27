@@ -38,5 +38,12 @@ export const upgradeMatrix: IBinUpgrade[] = [
             label: "8V0906264E__0003",
             epk: "SC1CF0"
         }
+    },
+    {
+        from: ["5G0906259"],
+        to: {
+            label: "5G0906259__0009 or 5G0906259__0010",
+            epk: "SC8F90"
+        }
     }
 ]

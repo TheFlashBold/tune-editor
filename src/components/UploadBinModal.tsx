@@ -91,12 +91,19 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                 <p class="text-sm text-zinc-600 dark:text-zinc-400">
                     No definition found for this binary. Submit it so we can add support.
                 </p>
-                {upgradeInfo && <div>
-                    <p className="text-sm text-blue-500">
-                        Instead you should update to "{upgradeInfo.to.label}" with "{upgradeInfo.to.epk}" which is
-                        supported.
-                    </p>
-                </div>}
+                {upgradeInfo && (
+                    <div class="rounded-lg border border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/30 p-3 space-y-1">
+                        <div class="flex items-center gap-2 text-blue-700 dark:text-blue-300 font-medium text-sm">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                            Upgrade available
+                        </div>
+                        <p class="text-sm text-blue-600 dark:text-blue-400">
+                            Update to <span class="font-mono font-medium">{upgradeInfo.to.label}</span> ({upgradeInfo.to.epk}) for full editor support.
+                        </p>
+                    </div>
+                )}
 
                 <div class="text-sm space-y-1">
                     <div class="flex justify-between gap-x-2">

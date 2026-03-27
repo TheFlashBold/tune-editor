@@ -25,6 +25,8 @@ import {InfoModal} from './components/InfoModal.tsx';
 import {UploadBinModal} from './components/UploadBinModal';
 import './app.css';
 
+const APP_VERSION = __APP_VERSION__;
+
 const BIN_EXTENSIONS = ['.bin', '.ori', '.mod'];
 
 function classifyFile(name: string): 'json' | 'bin' | 'csv' | 'xdf' | 'ols' | null {
@@ -40,6 +42,26 @@ function classifyFile(name: string): 'json' | 'bin' | 'csv' | 'xdf' | 'ols' | nu
 
 export function App() {
     const appState = useAppState();
+    const [versionAvailable, setVersionAvailable] = useState<string | null>(null);
+    const [updateDismissed, setUpdateDismissed] = useState<boolean>(false);
+
+    // Check for new version periodically
+    useEffect(() => {
+        const check = () => {
+            fetch(`version.json?t=${Date.now()}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.version && data.version !== APP_VERSION) {
+                        setVersionAvailable(data.version);
+                    }
+                })
+                .catch(() => {
+                });
+        };
+        check();
+        const interval = setInterval(check, 5 * 60 * 1000);
+        return () => clearInterval(interval);
+    }, []);
 
     // Load log from URL parameter ?log=<id>
     useEffect(() => {
@@ -83,7 +105,7 @@ export function App() {
     const [showCrossCompare, setShowCrossCompare] = useState(false);
     const [showPatchManager, setShowPatchManager] = useState(false);
     const [logViewerData, setLogViewerData] = useState<string | null>(null);
-    const [olsData, setOlsData] = useState<{ols: OLSFile, buffer: ArrayBuffer} | null>(null);
+    const [olsData, setOlsData] = useState<{ ols: OLSFile, buffer: ArrayBuffer } | null>(null);
 
     const handleDefinitionLoad = useCallback((def: Definition) => {
         appState.setExternalDefinition(def);
@@ -169,10 +191,31 @@ export function App() {
                 onDragOver={preventDefaults}
                 onDrop={handleGlobalDrop}
             >
+                {versionAvailable && !updateDismissed && (
+                    <div
+                        class="bg-blue-600 text-white text-sm text-center py-2 px-4 flex items-center justify-center gap-3">
+                        <span>Version {versionAvailable} is available.</span>
+                        <button
+                            onClick={() => location.reload()}
+                            class="px-3 py-1 bg-white text-blue-600 rounded font-medium text-xs hover:bg-blue-50 cursor-pointer"
+                        >
+                            Update now
+                        </button>
+                        <button
+                            onClick={() => setUpdateDismissed(true)}
+                            class="px-3 py-1 text-blue-200 hover:text-white text-xs cursor-pointer"
+                        >
+                            Later
+                        </button>
+                    </div>
+                )}
                 <MenuBar
                     onShowConverter={() => setShowConverter(true)}
                     onShowXdfConverter={() => setShowXdfConverter(true)}
-                    onShowLogViewer={() => { setShowLogViewer(true); track('Open Log Viewer'); }}
+                    onShowLogViewer={() => {
+                        setShowLogViewer(true);
+                        track('Open Log Viewer');
+                    }}
                     onOpenOLS={async (file) => {
                         const buffer = await file.arrayBuffer();
                         try {
@@ -327,7 +370,7 @@ export function App() {
                     />
                 )}
                 {/* What's New Dialog */}
-                <InfoModal />
+                <InfoModal/>
             </div>
         </AppContext.Provider>
     );
