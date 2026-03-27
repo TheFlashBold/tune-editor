@@ -332,8 +332,16 @@ export function useAppState(): IAppContext {
         a.download = binFileName.replace(/\.[^.]+$/, '_mod.bin');
         a.click();
         URL.revokeObjectURL(url);
+
         setModified(false);
-        track('Save BIN', {definition: customDefinition ? 'Custom' : (definition?.name ?? '')});
+
+        const exportCount = Number(localStorage.getItem("exportCount") || "0") + 1;
+        localStorage.setItem("exportCount", JSON.stringify(exportCount));
+
+        track('Save BIN', {
+            definition: customDefinition ? 'Custom' : (definition?.name ?? ''),
+            exportCount
+        });
     }, [binData, binFileName, definition, customDefinition]);
 
     const exportBtp = useCallback(() => {
