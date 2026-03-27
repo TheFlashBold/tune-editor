@@ -1,5 +1,5 @@
 {
-  "name": "SCG910",
+  "name": "SCG 910",
   "version": "1.0",
   "baseAddress": 0,
   "parameters": [
@@ -880,7 +880,7 @@
       "unit": "mg/stk",
       "min": 0.0,
       "max": 20000.0,
-      "factor": 1.0,
+      "factor": 1000000.0,
       "offset": 0.0,
       "categories": [
         "Boost Control"
@@ -910,7 +910,7 @@
       "unit": "hPa",
       "min": -10000.0,
       "max": 10000.0,
-      "factor": 1.0,
+      "factor": 0.01,
       "offset": 0.0,
       "categories": [
         "Boost Control"
@@ -925,7 +925,7 @@
       "unit": "hPa",
       "min": 0.0,
       "max": 10000.0,
-      "factor": 1.0,
+      "factor": 0.01,
       "offset": 0.0,
       "categories": [
         "Boost Control"

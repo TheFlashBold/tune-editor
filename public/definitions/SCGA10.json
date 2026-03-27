@@ -1,5 +1,5 @@
 {
-  "name": "SCGA10",
+  "name": "SCG A10",
   "version": "1.0",
   "baseAddress": 0,
   "parameters": [
@@ -879,7 +879,7 @@
       "unit": "mg/stk",
       "min": 0.0,
       "max": 20000.0,
-      "factor": 1.0,
+      "factor": 1000000.0,
       "offset": 0.0,
       "categories": [
         "Limiter"
