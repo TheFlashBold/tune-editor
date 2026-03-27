@@ -2,6 +2,8 @@ import {BaseService} from "./base";
 
 export interface TuningUploadOptions {
     name: string;
+    notes?: string;
+    version?: string;
     onProgress?: (progress: number, bytes: number) => void;
     signal?: AbortSignal;
 }
@@ -19,17 +21,21 @@ export interface TuningRateLimitError {
 export class TuningService extends BaseService {
 
     static async uploadBin(data: Blob, options: TuningUploadOptions): Promise<TuningUploadResult> {
-        const {name, onProgress, signal} = options;
+        const {name, notes, version, onProgress, signal} = options;
 
         if (!name.endsWith(".bin")) {
             throw new Error("Only .bin files are allowed");
         }
 
+        const params: Record<string, string> = {name};
+        if (notes) params.notes = notes;
+        if (version) params.version = version;
+
         return new Promise<TuningUploadResult>((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             const totalBytes = data.size;
 
-            xhr.open("POST", BaseService.buildRequestUrl("tuning/upload", {name}));
+            xhr.open("POST", BaseService.buildRequestUrl("tuning/upload", params));
             xhr.setRequestHeader("Content-Type", "application/octet-stream");
 
             xhr.upload.onprogress = (event) => {

@@ -5,6 +5,8 @@ import {track} from '../lib/track';
 import type {UnknownBinInfo} from '../context/app';
 import {IBinUpgrade, upgradeMatrix} from "../lib/upgradeMatrix.ts";
 
+const APP_VERSION = __APP_VERSION__;
+
 interface UploadBinModalProps {
     info: UnknownBinInfo;
     onClose: () => void;
@@ -16,6 +18,7 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
     const [error, setError] = useState<string | null>(null);
     const [done, setDone] = useState(false);
     const [upgradeInfo, setUpgradeInfo] = useState<IBinUpgrade | null>(null);
+    const [notes, setNotes] = useState('');
     const abortRef = useRef<AbortController | null>(null);
 
     useEffect(() => {
@@ -52,11 +55,13 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
             const blob = new Blob([info.data.buffer as ArrayBuffer]);
             await TuningService.uploadBin(blob, {
                 name: [prefix, name].filter(Boolean).join(" "),
+                notes,
+                version: APP_VERSION,
                 onProgress: (pct) => setProgress(Math.round(pct)),
                 signal: abortRef.current.signal,
             });
             setDone(true);
-            track('Upload Unknown BIN', {name, epk: info.epk, boxCode: info.boxCode, size: info.data.length});
+            track('Upload Unknown BIN', {name, epk: info.epk, boxCode: info.boxCode, size: info.data.length, version: APP_VERSION});
         } catch (err) {
             if (err instanceof TuningRateLimitedException) {
                 setError(`Rate limited. Try again in ${err.retryAfterSeconds} seconds.`);
@@ -94,27 +99,35 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                 </div>}
 
                 <div class="text-sm space-y-1">
-                    <div class="flex justify-between">
+                    <div class="flex justify-between gap-x-2">
                         <span class="text-zinc-500">File</span>
-                        <span class="font-mono">{info.name}</span>
+                        <span class="font-mono break-all">{info.name}</span>
                     </div>
-                    <div class="flex justify-between">
+                    <div class="flex justify-between gap-x-2">
                         <span class="text-zinc-500">Size</span>
                         <span class="font-mono">{sizeKB} KB</span>
                     </div>
                     {info.epk && (
-                        <div class="flex justify-between">
+                        <div class="flex justify-between gap-x-2">
                             <span class="text-zinc-500">EPK</span>
                             <span class="font-mono">{info.epk}</span>
                         </div>
                     )}
                     {info.boxCode && (
-                        <div class="flex justify-between">
+                        <div class="flex justify-between gap-x-2">
                             <span class="text-zinc-500">Box Code</span>
                             <span class="font-mono">{info.boxCode}</span>
                         </div>
                     )}
                 </div>
+
+                <textarea
+                    placeholder="Additional info (ECU type, vehicle, etc.)"
+                    value={notes}
+                    onInput={(e) => setNotes((e.target as HTMLTextAreaElement).value)}
+                    class="w-full px-3 py-2 text-sm rounded border border-zinc-300 dark:border-zinc-600 bg-transparent resize-none"
+                    rows={2} maxLength={100}
+                />
 
                 {uploading && (
                     <div class="space-y-1">

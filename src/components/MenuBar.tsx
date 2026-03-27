@@ -206,7 +206,7 @@ export function MenuBar({
             </button>
 
             {/* Desktop menu items */}
-            <div className="hidden sm:flex items-center gap-1">
+            <div className="hidden sm:flex items-center gap-1 text-nowrap">
                 {/* File Menu */}
                 <div className="relative">
                     <button
