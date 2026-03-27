@@ -76188,18 +76188,10 @@
       }
     }
   ],
+  "offset": 2097152,
   "_source": "XDF",
   "verification": {
-    "calOffset": 8388608,
+    "calOffset": 2097152,
     "expected": "SC8H64"
-  },
-  "binInfo": {
-    "type": "ECU",
-    "binFile": "5G0906259A__0004_SC8H64.bin",
-    "binPath": "5G0906259A__0004_SC8H64.bin",
-    "epk": "SC8H64",
-    "calVersion": "",
-    "boxCode": "5G0906259A",
-    "boxVersion": "0004"
   }
 }

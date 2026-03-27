@@ -644902,14 +644902,5 @@
   "verification": {
     "calOffset": 2097152,
     "expected": "SC8LB6"
-  },
-  "binInfo": {
-    "binFile": "8S0906259B__0004_SC8LB6.bin",
-    "epk": "SC8LB60",
-    "calVersion": "SC800LB6",
-    "cbootVersion": "SC8C0L00",
-    "aswVersion": "SC8C0LB6",
-    "boxCode": "8S0906259B",
-    "boxVersion": "0004"
   }
 }

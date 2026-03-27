@@ -76191,16 +76191,7 @@
   "_source": "XDF",
   "offset": 2097152,
   "verification": {
-    "calOffset": 8388608,
+    "calOffset": 2097152,
     "expected": "SC8H65"
-  },
-  "binInfo": {
-    "type": "ECU",
-    "binFile": "8V0906259A__0004_SC8H65.bin",
-    "binPath": "8V0906259A__0004_SC8H65.bin",
-    "epk": "SC8H65",
-    "calVersion": "",
-    "boxCode": "8V0906259A",
-    "boxVersion": "0004"
   }
 }

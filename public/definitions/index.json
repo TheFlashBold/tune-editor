@@ -71,6 +71,7 @@
       "expected": "16",
       "isDSG": true
     },
+    "nonFree": true,
     "paramCount": 868
   },
   {
@@ -94,20 +95,21 @@
     "paramCount": 242
   },
   {
-    "name": "SC100CF0",
-    "file": "SC1CF00.json",
+    "name": "SC1CF0",
+    "file": "SC1CF0.json",
     "verification": {
       "calOffset": 262144,
-      "expected": "SC1CF00"
+      "expected": "SC1CF0"
     },
+    "nonFree": true,
     "paramCount": 25364
   },
   {
-    "name": "SC800F90",
-    "file": "SC8F900.json",
+    "name": "SC8F90",
+    "file": "SC8F90.json",
     "verification": {
-      "calOffset": 8388608,
-      "expected": "SC8F900"
+      "calOffset": 2097152,
+      "expected": "SC8F90"
     },
     "paramCount": 3300
   },
@@ -121,20 +123,20 @@
     "paramCount": 3894
   },
   {
-    "name": "SC800LB7",
-    "file": "SC8LB70.json",
+    "name": "SC8LB7",
+    "file": "SC8LB7.json",
     "verification": {
-      "calOffset": 8388608,
-      "expected": "SC8LB70"
+      "calOffset": 2097152,
+      "expected": "SC8LB7"
     },
     "paramCount": 3807
   },
   {
-    "name": "SC800O20",
-    "file": "SC8O200.json",
+    "name": "SC8O20",
+    "file": "SC8O20.json",
     "verification": {
-      "calOffset": 8388608,
-      "expected": "SC8O200"
+      "calOffset": 2097152,
+      "expected": "SC8O20"
     },
     "paramCount": 3880
   },
@@ -142,7 +144,7 @@
     "name": "SC8H64",
     "file": "SC8H64.json",
     "verification": {
-      "calOffset": 8388608,
+      "calOffset": 2097152,
       "expected": "SC8H64"
     },
     "paramCount": 3593
@@ -151,7 +153,7 @@
     "name": "SC8H65",
     "file": "SC8H65.json",
     "verification": {
-      "calOffset": 8388608,
+      "calOffset": 2097152,
       "expected": "SC8H65"
     },
     "paramCount": 3593
@@ -160,17 +162,17 @@
     "name": "SC8H85",
     "file": "SC8H85.json",
     "verification": {
-      "calOffset": 8388608,
+      "calOffset": 2097152,
       "expected": "SC8H85"
     },
     "paramCount": 3617
   },
   {
-    "name": "SC800S50",
-    "file": "SC8S500.json",
+    "name": "SC8S50",
+    "file": "SC8S50.json",
     "verification": {
       "calOffset": 2097152,
-      "expected": "SC8S500"
+      "expected": "SC8S50"
     },
     "paramCount": 33140
   },
@@ -178,16 +180,46 @@
     "name": "SC8V30",
     "file": "SC8V30.json",
     "verification": {
-      "calOffset": 8388608,
+      "calOffset": 2097152,
       "expected": "SC8V30"
     },
     "paramCount": 3809
   },
   {
+    "name": "SC8LB6",
+    "file": "SC8LB6.json",
+    "verification": {
+      "calOffset": 2097152,
+      "expected": "SC8LB6"
+    },
+    "nonFree": true,
+    "paramCount": 32525
+  },
+  {
+    "name": "SC8LB4",
+    "file": "SC8LB4.json",
+    "verification": {
+      "calOffset": 2097152,
+      "expected": "SC8LB4"
+    },
+    "nonFree": true,
+    "paramCount": 32399
+  },
+  {
+    "name": "SC8LB3",
+    "file": "SC8LB3.json",
+    "verification": {
+      "calOffset": 2097152,
+      "expected": "SC8LB3"
+    },
+    "nonFree": true,
+    "paramCount": 32303
+  },
+  {
     "name": "SCG910",
     "file": "SCG910.json",
     "verification": {
-      "calOffset": 8519680,
+      "calOffset": 2228224,
       "expected": "SCG910"
     },
     "paramCount": 3944
@@ -196,7 +228,7 @@
     "name": "SCGA05",
     "file": "SCGA05.json",
     "verification": {
-      "calOffset": 8519680,
+      "calOffset": 2228224,
       "expected": "SCGA05"
     },
     "paramCount": 3944
@@ -208,15 +240,7 @@
       "calOffset": 2228224,
       "expected": "SCGA10"
     },
+    "nonFree": true,
     "paramCount": 3944
-  },
-  {
-    "name": "SC8LB6",
-    "file": "SC8LB6.json",
-    "verification": {
-      "calOffset": 2097152,
-      "expected": "SC8LB6"
-    },
-    "paramCount": 32525
   }
 ]

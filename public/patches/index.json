@@ -388,6 +388,7 @@
     "name": "DQ250 IMMO - F49M",
     "file": "DQ250_IMMO_-_F49M.btp",
     "category": "DSG IMMO",
-    "variant": "F49M"
+    "variant": "F49M",
+    "nonFree": true
   }
 ]

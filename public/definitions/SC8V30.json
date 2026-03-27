@@ -79930,16 +79930,7 @@
   "_source": "XDF",
   "offset": 2097152,
   "verification": {
-    "calOffset": 8388608,
+    "calOffset": 2097152,
     "expected": "SC8V30"
-  },
-  "binInfo": {
-    "type": "ECU",
-    "binFile": "06K906071C__8100_SC8V30.bin",
-    "binPath": "06K906071C__8100_SC8V30.bin",
-    "epk": "SC8V30",
-    "calVersion": "",
-    "boxCode": "06K906071C",
-    "boxVersion": "8100"
   }
 }

@@ -655363,17 +655363,9 @@
       "columnDir": true
     }
   ],
+  "_source": "XDF",
   "verification": {
     "calOffset": 2097152,
-    "expected": "SC8S500"
-  },
-  "binInfo": {
-    "binFile": "8V0906264K__0003_SC8S50.bin",
-    "epk": "SC8S500",
-    "calVersion": "SC800S50",
-    "cbootVersion": "SC8I0S00",
-    "aswVersion": "SC8I0S50",
-    "boxCode": "8V0906264K",
-    "boxVersion": "0003"
+    "expected": "SC8S50"
   }
 }

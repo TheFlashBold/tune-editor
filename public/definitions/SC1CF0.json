@@ -514998,14 +514998,5 @@
   "verification": {
     "calOffset": 262144,
     "expected": "SC1CF00"
-  },
-  "binInfo": {
-    "binFile": "DESKTOP-9T8M570_10009_Original.bin",
-    "epk": "SC1CF00",
-    "calVersion": "SC100CF0",
-    "cbootVersion": "SC1Z0CE0",
-    "aswVersion": "SC1Z0CF0",
-    "boxCode": "8V0906264E",
-    "boxVersion": "0003"
   }
 }

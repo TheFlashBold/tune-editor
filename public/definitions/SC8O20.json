@@ -81365,16 +81365,7 @@
   "_source": "XDF",
   "offset": 2097152,
   "verification": {
-    "calOffset": 8388608,
+    "calOffset": 2097152,
     "expected": "SC8O200"
-  },
-  "binInfo": {
-    "type": "ECU",
-    "binFile": "0001_5G0906259F__0001.bin",
-    "binPath": "0001_5G0906259F__0001.bin",
-    "epk": "SC8O200",
-    "calVersion": "SC800O20",
-    "boxCode": "5G0906259F",
-    "boxVersion": "0001"
   }
 }

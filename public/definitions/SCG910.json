@@ -82455,16 +82455,7 @@
   "_source": "XDF",
   "offset": 2228224,
   "verification": {
-    "calOffset": 8519680,
+    "calOffset": 2228224,
     "expected": "SCG910"
-  },
-  "binInfo": {
-    "type": "ECU",
-    "binFile": "3GD906259B__0003_SCG910.bin",
-    "binPath": "3GD906259B__0003_SCG910.bin",
-    "epk": "SCG910",
-    "calVersion": "",
-    "boxCode": "3GD906259B",
-    "boxVersion": "0003"
   }
 }
