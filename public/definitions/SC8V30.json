@@ -1,5 +1,5 @@
 {
-  "name": "SC8V30",
+  "name": "SC8 V30",
   "version": "1.0",
   "baseAddress": 0,
   "parameters": [
@@ -1303,7 +1303,7 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Limiter"
       ],
       "cols": 12,
       "xAxis": {
@@ -1351,7 +1351,7 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Limiter"
       ],
       "cols": 12,
       "xAxis": {
@@ -1721,7 +1721,7 @@
       "address": 2292176,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°TPS",
+      "unit": "\u00b0TPS",
       "min": 0.0,
       "max": 119.5,
       "factor": 0.00729414637123848,
@@ -2049,7 +2049,7 @@
       "address": 2424454,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
@@ -2132,7 +2132,7 @@
       "address": 2424526,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
@@ -2169,7 +2169,7 @@
       "address": 2424598,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
@@ -2206,7 +2206,7 @@
       "address": 2424670,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
@@ -2243,13 +2243,13 @@
       "address": 2424742,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
       "offset": -256.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -2280,13 +2280,13 @@
       "address": 2424814,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
       "offset": -256.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -2317,7 +2317,7 @@
       "address": 2426134,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
@@ -2400,7 +2400,7 @@
       "address": 2426230,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
@@ -2437,7 +2437,7 @@
       "address": 2426326,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
@@ -2474,7 +2474,7 @@
       "address": 2426422,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
@@ -2511,7 +2511,7 @@
       "address": 2426518,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
@@ -2594,7 +2594,7 @@
       "address": 2426646,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
@@ -2631,13 +2631,13 @@
       "address": 2426974,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
       "offset": -256.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 16,
       "rows": 12,
@@ -2714,13 +2714,13 @@
       "address": 2427358,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
       "offset": -256.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 16,
       "rows": 12,
@@ -2751,13 +2751,13 @@
       "address": 2427742,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
       "offset": -256.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 16,
       "rows": 12,
@@ -2788,13 +2788,13 @@
       "address": 2428126,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
       "offset": -256.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 16,
       "rows": 12,
@@ -2850,7 +2850,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2133397,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -2886,7 +2886,7 @@
       "address": 2133397,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -3097,7 +3097,7 @@
       "address": 2109414,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -3253,7 +3253,9 @@
       "factor": 0.0625,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -3262,13 +3264,15 @@
       "address": 2116050,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -3277,13 +3281,15 @@
       "address": 2116052,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -33.0,
       "max": 990.984375,
       "factor": 0.015625,
       "offset": -33.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -3292,13 +3298,15 @@
       "address": 2116054,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -3307,7 +3315,7 @@
       "address": 2100686,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -3322,7 +3330,7 @@
       "address": 2100687,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -3337,7 +3345,7 @@
       "address": 2116064,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -3352,7 +3360,7 @@
       "address": 2116065,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -3403,7 +3411,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -3418,7 +3427,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -3433,7 +3443,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -3448,7 +3459,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -3463,7 +3475,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -3478,7 +3491,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -3583,7 +3597,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3598,7 +3613,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3613,7 +3629,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3628,7 +3645,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3643,7 +3661,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3658,7 +3677,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3673,7 +3693,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3688,7 +3709,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3703,7 +3725,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3718,7 +3741,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3733,7 +3757,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3748,7 +3773,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3763,7 +3789,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3778,7 +3805,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3793,7 +3821,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3808,7 +3837,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3823,7 +3853,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3838,7 +3869,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3853,7 +3885,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3868,7 +3901,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3883,7 +3917,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3898,7 +3933,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3913,7 +3949,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3928,7 +3965,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3943,7 +3981,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3958,7 +3997,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3973,7 +4013,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -3988,7 +4029,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4003,7 +4045,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4018,7 +4061,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4033,7 +4077,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4048,7 +4093,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4063,7 +4109,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4078,7 +4125,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4093,7 +4141,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4108,7 +4157,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4123,7 +4173,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4138,7 +4189,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4153,7 +4205,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4168,7 +4221,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4183,7 +4237,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4198,7 +4253,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4213,7 +4269,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4228,7 +4285,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4243,7 +4301,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4258,7 +4317,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4273,7 +4333,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4288,7 +4349,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4303,7 +4365,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Inhibit"
       ]
     },
     {
@@ -4318,7 +4381,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ]
     },
     {
@@ -4333,7 +4396,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ]
     },
     {
@@ -4348,7 +4411,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ]
     },
     {
@@ -4363,7 +4426,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ]
     },
     {
@@ -4378,7 +4441,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ]
     },
     {
@@ -4393,7 +4456,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ]
     },
     {
@@ -4408,7 +4471,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ]
     },
     {
@@ -4423,7 +4486,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ]
     },
     {
@@ -4438,7 +4501,8 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -4453,7 +4517,8 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -4468,7 +4533,8 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -4483,7 +4549,8 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -4498,7 +4565,8 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -4513,7 +4581,8 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Operating Point"
       ]
     },
     {
@@ -4528,7 +4597,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4543,7 +4613,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4558,7 +4629,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4573,7 +4645,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4588,7 +4661,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4603,7 +4677,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4618,7 +4693,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4633,7 +4709,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4648,7 +4725,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4663,7 +4741,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4678,7 +4757,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4693,7 +4773,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4708,7 +4789,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4723,7 +4805,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4738,7 +4821,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4753,7 +4837,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4768,7 +4853,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4783,7 +4869,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4798,7 +4885,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4813,7 +4901,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4828,7 +4917,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4843,7 +4933,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4858,7 +4949,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4873,7 +4965,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4888,7 +4981,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4903,7 +4997,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4918,7 +5013,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4933,7 +5029,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4948,7 +5045,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4963,7 +5061,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4978,7 +5077,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -4993,7 +5093,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5008,7 +5109,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5023,7 +5125,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5038,7 +5141,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5053,7 +5157,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5068,7 +5173,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5083,7 +5189,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5098,7 +5205,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5113,7 +5221,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5128,7 +5237,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5143,7 +5253,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5158,7 +5269,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5173,7 +5285,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5188,7 +5301,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5203,7 +5317,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5218,7 +5333,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5233,7 +5349,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5248,7 +5365,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI",
+        "Cmb Pri"
       ]
     },
     {
@@ -5963,7 +6081,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -6323,7 +6443,9 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -6338,7 +6460,9 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -8438,7 +8562,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -8453,7 +8579,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -11198,7 +11326,9 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -11228,7 +11358,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -12068,7 +12200,9 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -12098,7 +12232,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -12278,7 +12414,9 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -12353,7 +12491,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -28328,7 +28468,9 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -28343,7 +28485,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -40111,7 +40255,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40159,7 +40303,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40184,7 +40328,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40209,7 +40353,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40234,7 +40378,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40259,7 +40403,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40284,7 +40428,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40309,7 +40453,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40334,7 +40478,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40359,7 +40503,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40384,7 +40528,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40409,7 +40553,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40434,7 +40578,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40459,7 +40603,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40484,7 +40628,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40509,7 +40653,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40534,7 +40678,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40559,7 +40703,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40682,7 +40826,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40707,7 +40851,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40732,7 +40876,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40757,7 +40901,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40782,7 +40926,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40807,7 +40951,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40832,7 +40976,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40857,7 +41001,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40882,7 +41026,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 9,
       "xAxis": {
@@ -40907,7 +41051,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -40991,7 +41135,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41029,7 +41173,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41067,7 +41211,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41105,7 +41249,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41143,7 +41287,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41181,7 +41325,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41219,7 +41363,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41257,7 +41401,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41295,7 +41439,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41333,7 +41477,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41371,7 +41515,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41409,7 +41553,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41447,7 +41591,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41485,7 +41629,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41523,7 +41667,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41561,7 +41705,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41599,7 +41743,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41637,7 +41781,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41675,7 +41819,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41713,7 +41857,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41751,7 +41895,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41789,7 +41933,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41827,7 +41971,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41865,7 +42009,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41903,7 +42047,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41941,7 +42085,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -41979,7 +42123,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -42017,7 +42161,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -42055,7 +42199,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -42093,7 +42237,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -42131,7 +42275,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -42169,7 +42313,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -42207,7 +42351,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -42245,7 +42389,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -42283,7 +42427,7 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Misc"
       ],
       "cols": 6,
       "rows": 6,
@@ -42338,7 +42482,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "Flex Fuel"
       ]
     },
     {
@@ -42639,7 +42784,7 @@
       "address": 2139678,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -42672,7 +42817,9 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 4,
       "xAxis": {
@@ -42754,7 +42901,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2109685,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -42776,7 +42923,7 @@
       "address": 2109685,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -42838,7 +42985,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2109685,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -42876,7 +43023,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2109685,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -42904,7 +43051,9 @@
       "factor": 32.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Drive Mode",
+        "Eco"
       ],
       "cols": 6,
       "rows": 8,
@@ -42914,7 +43063,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2109685,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -42942,7 +43091,9 @@
       "factor": 32.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Drive Mode",
+        "Eco"
       ],
       "cols": 6,
       "rows": 8,
@@ -42952,7 +43103,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2109685,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -42980,7 +43131,9 @@
       "factor": 32.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Drive Mode",
+        "Eco"
       ],
       "cols": 6,
       "rows": 8,
@@ -42990,7 +43143,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2109685,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -43135,7 +43288,7 @@
       "address": 2132201,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -43150,7 +43303,7 @@
       "address": 2133182,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -43166,7 +43319,7 @@
       "address": 2133183,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -43179,7 +43332,7 @@
     },
     {
       "name": "Codewort fuer BKS",
-      "description": "Codewort fuer BKS — CWBKS",
+      "description": "Codewort fuer BKS \u2014 CWBKS",
       "address": 2144695,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -43194,7 +43347,7 @@
     },
     {
       "name": "Codewort 3 fuer BKS",
-      "description": "Codewort 3 fuer BKS — CWBKS3",
+      "description": "Codewort 3 fuer BKS \u2014 CWBKS3",
       "address": 2144697,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -43209,7 +43362,7 @@
     },
     {
       "name": "Codewort 4 fuer BKS",
-      "description": "Codewort 4 fuer BKS — CWBKS4",
+      "description": "Codewort 4 fuer BKS \u2014 CWBKS4",
       "address": 2144698,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -43224,7 +43377,7 @@
     },
     {
       "name": "Codewort fuer BKS-Predrive",
-      "description": "Codewort fuer BKS-Predrive — CWPRDRV",
+      "description": "Codewort fuer BKS-Predrive \u2014 CWPRDRV",
       "address": 2144702,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -43328,7 +43481,7 @@
       "address": 2252586,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -180.0,
       "max": 540.0,
       "factor": 0.37499999999999994,
@@ -43411,7 +43564,7 @@
       "address": 2256490,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": 0.0,
       "max": 720.0,
       "factor": 0.37499999999999994,
@@ -43494,7 +43647,7 @@
       "address": 2118788,
       "type": "CURVE",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": 180.0,
       "max": 900.0,
       "factor": 0.37499999999999994,
@@ -43543,7 +43696,7 @@
       "address": 2257066,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -360.0,
       "max": 360.0,
       "factor": 0.37499999999999994,
@@ -43773,7 +43926,7 @@
         "points": 4,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2099290,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -43786,7 +43939,7 @@
       "address": 2099290,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -43840,7 +43993,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "MPI"
       ],
       "cols": 16,
       "rows": 16,
@@ -43923,7 +44077,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "MPI"
       ],
       "cols": 16,
       "rows": 16,
@@ -43960,7 +44115,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "MPI"
       ],
       "cols": 16,
       "rows": 16,
@@ -43997,7 +44153,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "MPI"
       ],
       "cols": 16,
       "rows": 16,
@@ -44082,7 +44239,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2116897,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -44105,7 +44262,7 @@
       "address": 2116897,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -44166,7 +44323,7 @@
         "points": 12,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2118322,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -44179,13 +44336,15 @@
       "address": 2118322,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
       "offset": -48.000000000000014,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 12,
       "xAxis": {
@@ -44317,7 +44476,7 @@
         "points": 4,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2117462,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -44353,7 +44512,7 @@
       "address": 2117462,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -44401,7 +44560,7 @@
         "points": 4,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2117462,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -44701,7 +44860,8 @@
       "factor": 5.3067215991454955,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "HPFP"
       ],
       "cols": 12,
       "rows": 13,
@@ -44739,7 +44899,8 @@
       "factor": 5.3067215991454955,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "HPFP"
       ],
       "cols": 12,
       "rows": 13,
@@ -44777,7 +44938,8 @@
       "factor": 5.3067215991454955,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "HPFP"
       ],
       "cols": 12,
       "rows": 13,
@@ -44855,7 +45017,8 @@
       "factor": 5.3067215991454955,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "HPFP"
       ],
       "cols": 12,
       "rows": 13,
@@ -44893,7 +45056,8 @@
       "factor": 5.3067215991454955,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "HPFP"
       ],
       "cols": 12,
       "rows": 13,
@@ -44931,7 +45095,8 @@
       "factor": 5.3067215991454955,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "HPFP"
       ],
       "cols": 12,
       "rows": 13,
@@ -44969,7 +45134,8 @@
       "factor": 5.3067215991454955,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "HPFP"
       ],
       "cols": 12,
       "rows": 13,
@@ -45007,7 +45173,8 @@
       "factor": 5.3067215991454955,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "HPFP"
       ],
       "cols": 12,
       "rows": 13,
@@ -45045,7 +45212,8 @@
       "factor": 5.3067215991454955,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "HPFP"
       ],
       "cols": 12,
       "rows": 13,
@@ -45083,7 +45251,8 @@
       "factor": 5.3067215991454955,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "HPFP"
       ],
       "cols": 12,
       "rows": 13,
@@ -45130,7 +45299,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2142451,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -45144,7 +45313,7 @@
       "address": 2142451,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -45320,7 +45489,8 @@
       "factor": 0.000976562500038148,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "Lambda Control"
       ],
       "cols": 12,
       "rows": 8,
@@ -45358,7 +45528,8 @@
       "factor": 0.000976562500038148,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Fuel",
+        "Lambda Control"
       ],
       "cols": 12,
       "rows": 8,
@@ -45899,7 +46070,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2128895,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -45912,7 +46083,7 @@
       "address": 2128895,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -46179,7 +46350,7 @@
         "points": 12,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2116844,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -46216,7 +46387,7 @@
       "address": 2116844,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -46265,7 +46436,7 @@
         "points": 12,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2116844,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -46305,7 +46476,7 @@
         "points": 12,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2116584,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -46342,7 +46513,7 @@
       "address": 2116584,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -46391,7 +46562,7 @@
         "points": 12,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2116864,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -46405,7 +46576,7 @@
       "address": 2116864,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -46454,7 +46625,7 @@
         "points": 12,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2116935,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -46468,7 +46639,7 @@
       "address": 2116935,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -46517,7 +46688,7 @@
         "points": 12,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2116935,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -46557,7 +46728,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2116857,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -46571,7 +46742,7 @@
       "address": 2116857,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -46620,7 +46791,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2116857,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -46948,7 +47119,7 @@
       "address": 2258642,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -180.0,
       "max": 540.0,
       "factor": 0.37499999999999994,
@@ -46985,7 +47156,7 @@
       "address": 2258354,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -180.0,
       "max": 540.0,
       "factor": 0.37499999999999994,
@@ -47022,7 +47193,7 @@
       "address": 2258930,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -180.0,
       "max": 540.0,
       "factor": 0.37499999999999994,
@@ -47059,7 +47230,7 @@
       "address": 2262098,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -180.0,
       "max": 540.0,
       "factor": 0.37499999999999994,
@@ -47096,7 +47267,7 @@
       "address": 2261810,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -180.0,
       "max": 540.0,
       "factor": 0.37499999999999994,
@@ -47133,7 +47304,7 @@
       "address": 2264402,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -180.0,
       "max": 540.0,
       "factor": 0.37499999999999994,
@@ -47170,7 +47341,7 @@
       "address": 2264114,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -180.0,
       "max": 540.0,
       "factor": 0.37499999999999994,
@@ -47207,7 +47378,7 @@
       "address": 2264818,
       "type": "CURVE",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -180.0,
       "max": 540.0,
       "factor": 0.37499999999999994,
@@ -47504,11 +47675,11 @@
     },
     {
       "name": "IP_TI_EFF_MFF_TEMP_H",
-      "description": "Effective injection time map (80°C)",
+      "description": "Effective injection time map (80\u00b0C)",
       "address": 2266242,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "µs",
+      "unit": "\u00b5s",
       "min": 0.0,
       "max": 52428.0,
       "factor": 0.8,
@@ -47543,7 +47714,7 @@
     },
     {
       "name": "ldpm_mff_sp_cosi_0_injr",
-      "description": "Effective injection time map (80°C) : x axis : ldpm_mff_sp_cosi_0_injr",
+      "description": "Effective injection time map (80\u00b0C) : x axis : ldpm_mff_sp_cosi_0_injr",
       "address": 2247778,
       "type": "CURVE",
       "dataType": "UWORD",
@@ -47566,7 +47737,7 @@
     },
     {
       "name": "ldpm_prs_cosi_2_injr",
-      "description": "Effective injection time map (80°C) : y axis : ldpm_prs_cosi_2_injr",
+      "description": "Effective injection time map (80\u00b0C) : y axis : ldpm_prs_cosi_2_injr",
       "address": 2247912,
       "type": "CURVE",
       "dataType": "UWORD",
@@ -47589,11 +47760,11 @@
     },
     {
       "name": "IP_TI_EFF_MFF_TEMP_L",
-      "description": "Effective injection time map (-20°C)",
+      "description": "Effective injection time map (-20\u00b0C)",
       "address": 2266682,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "µs",
+      "unit": "\u00b5s",
       "min": 0.0,
       "max": 52428.0,
       "factor": 0.8,
@@ -47628,11 +47799,11 @@
     },
     {
       "name": "IP_TI_EFF_MFF_TEMP_MID_1",
-      "description": "Effective injection time map (20°C)",
+      "description": "Effective injection time map (20\u00b0C)",
       "address": 2267122,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "µs",
+      "unit": "\u00b5s",
       "min": 0.0,
       "max": 52428.0,
       "factor": 0.8,
@@ -47677,7 +47848,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -47696,7 +47867,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -47732,7 +47903,7 @@
       "address": 2131861,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -47761,7 +47932,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -47780,7 +47951,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -47799,7 +47970,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -47818,7 +47989,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -47837,7 +48008,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -47856,7 +48027,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -47875,7 +48046,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -47894,7 +48065,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -47913,7 +48084,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -47932,7 +48103,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -47951,7 +48122,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -47970,7 +48141,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -47989,7 +48160,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -48008,7 +48179,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -48027,7 +48198,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -48046,7 +48217,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -48065,7 +48236,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -48084,7 +48255,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -48103,7 +48274,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -48122,7 +48293,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -48141,7 +48312,7 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ],
       "cols": 12,
       "rows": 6,
@@ -48160,7 +48331,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131861,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -48169,7 +48340,7 @@
     },
     {
       "name": "PWM-Wert abh. von Einspritzmenge und Solldruck",
-      "description": "PWM-Wert abh. von Einspritzmenge und Solldruck — KFFLAF\nX: LDP_KFFLAF_x\nY: LDP_KFFLAF_y",
+      "description": "PWM-Wert abh. von Einspritzmenge und Solldruck \u2014 KFFLAF\nX: LDP_KFFLAF_x\nY: LDP_KFFLAF_y",
       "address": 2464816,
       "type": "MAP",
       "dataType": "UWORD",
@@ -48253,7 +48424,7 @@
     },
     {
       "name": "PWM-Wert abh. von Einspritzmenge und Solldruck (4WD)",
-      "description": "PWM-Wert abh. von Einspritzmenge und Solldruck (4WD) — KFFLAF4\nX: LDP_KFFLAF_x\nY: LDP_KFFLAF_y",
+      "description": "PWM-Wert abh. von Einspritzmenge und Solldruck (4WD) \u2014 KFFLAF4\nX: LDP_KFFLAF_x\nY: LDP_KFFLAF_y",
       "address": 2464928,
       "type": "MAP",
       "dataType": "UWORD",
@@ -48291,7 +48462,7 @@
     },
     {
       "name": "Solldruck in Abhaengigkeit der HDP- Temperatur und der Drehzahl",
-      "description": "Solldruck in Abhaengigkeit der HDP- Temperatur und der Drehzahl — KFNTBKS\nX: LDP_KFNTBKS_x\nY: LDP_KFNTBKS_y",
+      "description": "Solldruck in Abhaengigkeit der HDP- Temperatur und der Drehzahl \u2014 KFNTBKS\nX: LDP_KFNTBKS_x\nY: LDP_KFNTBKS_y",
       "address": 2465262,
       "type": "MAP",
       "dataType": "UWORD",
@@ -48311,7 +48482,7 @@
         "points": 10,
         "min": -48.0,
         "max": 143.25,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2141051,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -48334,7 +48505,7 @@
       "address": 2141051,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 143.25,
       "factor": 0.7500000000000002,
@@ -48376,7 +48547,7 @@
     },
     {
       "name": "Kennfeld fuer Korrekturfaktor zur Solldruckbestimmung im Start und in der Nachstartphase",
-      "description": "Kennfeld fuer Korrekturfaktor zur Solldruckbestimmung im Start und in der Nachstartphase — KFPSNS\nX: LDP_KFPSNS_x\nY: LDP_KFPSNS_y",
+      "description": "Kennfeld fuer Korrekturfaktor zur Solldruckbestimmung im Start und in der Nachstartphase \u2014 KFPSNS\nX: LDP_KFPSNS_x\nY: LDP_KFPSNS_y",
       "address": 2465422,
       "type": "MAP",
       "dataType": "UWORD",
@@ -48396,7 +48567,7 @@
         "points": 8,
         "min": -48.0,
         "max": 143.25,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2141062,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -48419,7 +48590,7 @@
       "address": 2141062,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 143.25,
       "factor": 0.7500000000000002,
@@ -48461,7 +48632,7 @@
     },
     {
       "name": "Kennlinie Solldruck im Start, nur abh. von Motorstarttemperatur",
-      "description": "Kennlinie Solldruck im Start, nur abh. von Motorstarttemperatur — KLKFPSS\nX: LDP_KLKFPSS_x",
+      "description": "Kennlinie Solldruck im Start, nur abh. von Motorstarttemperatur \u2014 KLKFPSS\nX: LDP_KLKFPSS_x",
       "address": 2143236,
       "type": "CURVE",
       "dataType": "UWORD",
@@ -48479,7 +48650,7 @@
         "points": 5,
         "min": -48.0,
         "max": 143.25,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2141195,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -48492,7 +48663,7 @@
       "address": 2141195,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 143.25,
       "factor": 0.7500000000000002,
@@ -48511,7 +48682,7 @@
     },
     {
       "name": "Kennlinie Wichtung P-Anteil abh. von pbksdiff_w (PI-Adaption)",
-      "description": "Kennlinie Wichtung P-Anteil abh. von pbksdiff_w (PI-Adaption) — KLKPBKSR\nX: LDP_KLKPBKSR_x",
+      "description": "Kennlinie Wichtung P-Anteil abh. von pbksdiff_w (PI-Adaption) \u2014 KLKPBKSR\nX: LDP_KLKPBKSR_x",
       "address": 2143246,
       "type": "CURVE",
       "dataType": "UWORD",
@@ -48561,7 +48732,7 @@
     },
     {
       "name": "Kennlinie zur Bestimmung des maximalen Solldruckwertes in Abh. der gefilterten Einspritzmenge",
-      "description": "Kennlinie zur Bestimmung des maximalen Solldruckwertes in Abh. der gefilterten Einspritzmenge — KLPSKRMX\nX: LDP_KLPSKRMX_x",
+      "description": "Kennlinie zur Bestimmung des maximalen Solldruckwertes in Abh. der gefilterten Einspritzmenge \u2014 KLPSKRMX\nX: LDP_KLPSKRMX_x",
       "address": 2143294,
       "type": "CURVE",
       "dataType": "UWORD",
@@ -48610,7 +48781,7 @@
     },
     {
       "name": "Kennlinie Begrenzung der max. Foerderleistungsanforderung EKP in Abhaengigkeit der Bordnetzspannung",
-      "description": "Kennlinie Begrenzung der max. Foerderleistungsanforderung EKP in Abhaengigkeit der Bordnetzspannung — KLUBLEMX\nX: LDP_KLUBLEMX_x",
+      "description": "Kennlinie Begrenzung der max. Foerderleistungsanforderung EKP in Abhaengigkeit der Bordnetzspannung \u2014 KLUBLEMX\nX: LDP_KLUBLEMX_x",
       "address": 2143324,
       "type": "CURVE",
       "dataType": "UWORD",
@@ -48659,7 +48830,7 @@
     },
     {
       "name": "Kennlinie Foerderleistungsanforderung in % im Startbetrieb der EKP in Abghaengigkeit von ub",
-      "description": "Kennlinie Foerderleistungsanforderung in % im Startbetrieb der EKP in Abghaengigkeit von ub — KLUBSTBKS\nX: LDP_KLUBSTBKS_x",
+      "description": "Kennlinie Foerderleistungsanforderung in % im Startbetrieb der EKP in Abghaengigkeit von ub \u2014 KLUBSTBKS\nX: LDP_KLUBSTBKS_x",
       "address": 2143332,
       "type": "CURVE",
       "dataType": "UWORD",
@@ -48708,7 +48879,7 @@
     },
     {
       "name": "minimales Tastverhaeltnis Eingang Leistungsendstufe",
-      "description": "minimales Tastverhaeltnis Eingang Leistungsendstufe — LEPWMMN",
+      "description": "minimales Tastverhaeltnis Eingang Leistungsendstufe \u2014 LEPWMMN",
       "address": 2144760,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -48723,7 +48894,7 @@
     },
     {
       "name": "maximales Tastverhaeltnis Eingang Leistungsendstufe",
-      "description": "maximales Tastverhaeltnis Eingang Leistungsendstufe — LEPWMMX",
+      "description": "maximales Tastverhaeltnis Eingang Leistungsendstufe \u2014 LEPWMMX",
       "address": 2144762,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -48738,7 +48909,7 @@
     },
     {
       "name": "Kraftstoffsolldruck konstante Vorgabe",
-      "description": "Kraftstoffsolldruck konstante Vorgabe — PSKBKS",
+      "description": "Kraftstoffsolldruck konstante Vorgabe \u2014 PSKBKS",
       "address": 2144830,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -48753,7 +48924,7 @@
     },
     {
       "name": "Solldruck Kraftstoff maximal",
-      "description": "Solldruck Kraftstoff maximal — PSKRMX",
+      "description": "Solldruck Kraftstoff maximal \u2014 PSKRMX",
       "address": 2144834,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -48768,7 +48939,7 @@
     },
     {
       "name": "Solldruck bei Heissstart oder LL-Phase",
-      "description": "Solldruck bei Heissstart oder LL-Phase — PSNHSLL",
+      "description": "Solldruck bei Heissstart oder LL-Phase \u2014 PSNHSLL",
       "address": 2144836,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -48868,7 +49039,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Idle",
+        "Base"
       ],
       "cols": 6,
       "rows": 6,
@@ -48878,7 +49050,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111869,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -48889,7 +49061,7 @@
         "points": 6,
         "min": -40.0,
         "max": 160.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111876,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -48901,7 +49073,7 @@
       "address": 2111869,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -48924,7 +49096,7 @@
       "address": 2111876,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -40.0,
       "max": 160.0,
       "factor": 1.0,
@@ -48953,7 +49125,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Idle",
+        "Base"
       ],
       "cols": 6,
       "rows": 6,
@@ -48963,7 +49136,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111869,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -48974,7 +49147,7 @@
         "points": 6,
         "min": -40.0,
         "max": 160.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111876,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -48992,7 +49165,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Idle",
+        "Base"
       ],
       "cols": 6,
       "rows": 6,
@@ -49002,7 +49176,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111869,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -49013,7 +49187,7 @@
         "points": 6,
         "min": -40.0,
         "max": 160.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111876,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -49031,7 +49205,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Idle",
+        "Base"
       ],
       "cols": 6,
       "rows": 6,
@@ -49041,7 +49216,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111869,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -49052,7 +49227,7 @@
         "points": 6,
         "min": -40.0,
         "max": 160.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111876,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -49070,7 +49245,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Idle",
+        "Base"
       ],
       "cols": 6,
       "rows": 6,
@@ -49080,7 +49256,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111869,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -49091,7 +49267,7 @@
         "points": 6,
         "min": -40.0,
         "max": 160.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111876,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -49109,7 +49285,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Idle",
+        "Base"
       ],
       "cols": 6,
       "rows": 6,
@@ -49119,7 +49296,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111869,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -49130,7 +49307,7 @@
         "points": 6,
         "min": -40.0,
         "max": 160.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111876,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -49148,7 +49325,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Idle",
+        "Base"
       ],
       "cols": 6,
       "rows": 6,
@@ -49158,7 +49336,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111869,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -49169,7 +49347,7 @@
         "points": 6,
         "min": -40.0,
         "max": 160.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111876,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -49187,7 +49365,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Idle",
+        "Base"
       ],
       "cols": 6,
       "rows": 6,
@@ -49197,7 +49376,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111869,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -49208,7 +49387,7 @@
         "points": 6,
         "min": -40.0,
         "max": 160.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111876,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -49236,7 +49415,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2115383,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -49247,7 +49426,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2115399,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -49260,7 +49439,7 @@
       "address": 2115383,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -49283,7 +49462,7 @@
       "address": 2115399,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -49323,7 +49502,7 @@
         "points": 14,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111899,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -49347,7 +49526,7 @@
       "address": 2111899,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -49410,7 +49589,7 @@
         "points": 14,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111899,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -49451,7 +49630,7 @@
         "points": 4,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111813,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -49475,7 +49654,7 @@
       "address": 2111813,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -49796,7 +49975,7 @@
       "address": 2109882,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -49811,7 +49990,7 @@
       "address": 2109884,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
@@ -49826,7 +50005,7 @@
       "address": 2109886,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
@@ -49841,13 +50020,15 @@
       "address": 2129312,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -49856,7 +50037,7 @@
       "address": 2116056,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
@@ -49871,7 +50052,7 @@
       "address": 2116058,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
@@ -49886,7 +50067,7 @@
       "address": 2109888,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
@@ -49901,7 +50082,7 @@
       "address": 2109890,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
@@ -50029,7 +50210,7 @@
         "points": 4,
         "min": -273.15,
         "max": 1774.7875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2109610,
         "dataType": "UWORD",
         "factor": 0.0625,
@@ -50042,13 +50223,15 @@
       "address": 2109610,
       "type": "CURVE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 4,
       "xAxis": {
@@ -50065,7 +50248,7 @@
       "address": 2305504,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
@@ -50150,7 +50333,7 @@
       "address": 2305604,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
@@ -50189,7 +50372,7 @@
       "address": 2305704,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
@@ -50228,7 +50411,7 @@
       "address": 2305804,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
@@ -50273,7 +50456,8 @@
       "factor": 0.01,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Impulse Combustion",
+        "Duration"
       ],
       "cols": 5,
       "rows": 10,
@@ -50355,7 +50539,8 @@
       "factor": 0.01,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Impulse Combustion",
+        "Duration"
       ],
       "cols": 5,
       "rows": 10,
@@ -50391,7 +50576,8 @@
       "factor": 0.01,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Impulse Combustion",
+        "Duration"
       ],
       "cols": 5,
       "rows": 10,
@@ -50427,7 +50613,8 @@
       "factor": 0.01,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Impulse Combustion",
+        "Duration"
       ],
       "cols": 5,
       "rows": 10,
@@ -50463,7 +50650,8 @@
       "factor": 0.01,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Impulse Combustion",
+        "Duration"
       ],
       "cols": 5,
       "rows": 10,
@@ -50499,7 +50687,8 @@
       "factor": 0.01,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Impulse Combustion",
+        "Duration"
       ],
       "cols": 5,
       "rows": 10,
@@ -50535,7 +50724,8 @@
       "factor": 0.01,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Impulse Combustion",
+        "Duration"
       ],
       "cols": 5,
       "rows": 10,
@@ -50571,7 +50761,8 @@
       "factor": 0.01,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Impulse Combustion",
+        "Duration"
       ],
       "cols": 5,
       "rows": 10,
@@ -50691,7 +50882,7 @@
         "points": 5,
         "min": -273.15,
         "max": 1774.7875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2109620,
         "dataType": "UWORD",
         "factor": 0.0625,
@@ -50704,13 +50895,15 @@
       "address": 2109620,
       "type": "CURVE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 5,
       "xAxis": {
@@ -52739,7 +52932,7 @@
       "address": 2126517,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -53027,7 +53220,7 @@
       "address": 2126216,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": 0.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -53053,7 +53246,7 @@
       "address": 2126224,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": 0.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -53079,7 +53272,7 @@
       "address": 2126232,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": 0.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -53105,7 +53298,7 @@
       "address": 2335390,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 0.0,
       "factor": 0.37499999999999994,
@@ -53143,7 +53336,7 @@
       "address": 2335518,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 0.0,
       "factor": 0.37499999999999994,
@@ -53183,7 +53376,7 @@
       "address": 2335550,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": 0.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -53210,7 +53403,7 @@
         "points": 4,
         "min": -48.0,
         "max": 0.0,
-        "unit": "°CRK",
+        "unit": "\u00b0CRK",
         "address": 2125347,
         "dataType": "UBYTE",
         "factor": 0.37499999999999994,
@@ -53224,7 +53417,7 @@
       "address": 2125347,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 0.0,
       "factor": 0.37499999999999994,
@@ -53247,7 +53440,7 @@
       "address": 2335614,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 0.0,
       "factor": 0.37499999999999994,
@@ -53301,7 +53494,7 @@
         "points": 2,
         "min": -3276.8,
         "max": 3276.7,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2601826,
         "dataType": "UWORD",
         "factor": 0.1
@@ -53323,7 +53516,7 @@
       "address": 2601826,
       "type": "CURVE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -3276.8,
       "max": 3276.7,
       "factor": 0.1,
@@ -54464,7 +54657,7 @@
       "address": 2119274,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": 180.0,
       "max": 900.0,
       "factor": 0.37499999999999994,
@@ -54515,12 +54708,12 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "MPI"
       ]
     },
     {
       "name": "Codeword MPI modes (Bit0: Switching DI/MPI-mixed mode for BKS, Bit1: Switch for Wobbling during MPI-mode, Bit2..7 not used)",
-      "description": "Codeword MPI modes (Bit0: Switching DI/MPI-mixed mode for BKS, Bit1: Switch for Wobbling during MPI-mode, Bit2..7 not used) — CWBKSMPI",
+      "description": "Codeword MPI modes (Bit0: Switching DI/MPI-mixed mode for BKS, Bit1: Switch for Wobbling during MPI-mode, Bit2..7 not used) \u2014 CWBKSMPI",
       "address": 2144700,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -54555,7 +54748,7 @@
         "points": 3,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2101001,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -54566,7 +54759,7 @@
         "points": 3,
         "min": -40.0,
         "max": 160.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2101005,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -54578,7 +54771,7 @@
       "address": 2101001,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -54601,7 +54794,7 @@
       "address": 2101005,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -40.0,
       "max": 160.0,
       "factor": 1.0,
@@ -54839,7 +55032,9 @@
       "factor": 0.000244140625,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 12,
       "xAxis": {
@@ -54847,7 +55042,7 @@
         "points": 12,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2117885,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -54860,13 +55055,15 @@
       "address": 2117885,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
       "offset": -48.000000000000014,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 12,
       "xAxis": {
@@ -54883,7 +55080,7 @@
       "address": 2170226,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 0.0,
       "factor": 0.37499999999999994,
@@ -54981,7 +55178,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2100984,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -54995,7 +55192,7 @@
       "address": 2100984,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -55169,7 +55366,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2117898,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -55192,7 +55389,7 @@
       "address": 2117898,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -55221,7 +55418,9 @@
       "factor": 0.02119478141451133,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 4,
       "xAxis": {
@@ -55304,7 +55503,7 @@
       "address": 2130579,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -55344,7 +55543,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2130625,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -55380,7 +55579,7 @@
       "address": 2130625,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -55428,7 +55627,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2130625,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -55466,7 +55665,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2130625,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -55504,7 +55703,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2130625,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -55542,7 +55741,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2130625,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -55580,7 +55779,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2130625,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -55593,7 +55792,7 @@
       "address": 2362426,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°TPS",
+      "unit": "\u00b0TPS",
       "min": 0.0,
       "max": 119.5,
       "factor": 0.00729414637123848,
@@ -55618,7 +55817,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2130586,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -55654,7 +55853,7 @@
       "address": 2130586,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -55677,7 +55876,7 @@
       "address": 2130744,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°TPS",
+      "unit": "\u00b0TPS",
       "min": 0.0,
       "max": 119.5,
       "factor": 0.00729414637123848,
@@ -55716,7 +55915,7 @@
       "address": 2130595,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -55731,7 +55930,7 @@
       "address": 2362554,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°TPS",
+      "unit": "\u00b0TPS",
       "min": 0.0,
       "max": 119.5,
       "factor": 0.00729414637123848,
@@ -55872,7 +56071,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -55962,7 +56163,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -56052,7 +56255,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -56142,7 +56347,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -56232,7 +56439,9 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -56322,7 +56531,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -56412,7 +56623,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ]
     },
     {
@@ -56759,7 +56972,7 @@
     },
     {
       "name": "C_T_MIN_ST_PRMS_PLAUS_KL15",
-      "description": "Min. Verzögerung Zündung an für Startwunschplausibilisierung",
+      "description": "Min. Verz\u00f6gerung Z\u00fcndung an f\u00fcr Startwunschplausibilisierung",
       "address": 2113676,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -56997,7 +57210,7 @@
       "address": 2101180,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -360.0,
       "max": 360.0,
       "factor": 0.37499999999999994,
@@ -57012,7 +57225,7 @@
       "address": 2101182,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -360.0,
       "max": 360.0,
       "factor": 0.37499999999999994,
@@ -57027,7 +57240,7 @@
       "address": 2101186,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -360.0,
       "max": 360.0,
       "factor": 0.37499999999999994,
@@ -57952,7 +58165,7 @@
       "address": 2318128,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
@@ -57978,7 +58191,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2124845,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -58015,7 +58228,7 @@
       "address": 2124845,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -58038,7 +58251,7 @@
       "address": 2318176,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
@@ -58064,7 +58277,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2125029,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -58101,7 +58314,7 @@
       "address": 2125029,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -58583,7 +58796,7 @@
         "points": 4,
         "min": -40.0,
         "max": 215.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2101731,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -58595,13 +58808,15 @@
       "address": 2101731,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -40.0,
       "max": 215.0,
       "factor": 1.0,
       "offset": -40.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 4,
       "xAxis": {
@@ -58632,7 +58847,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2100215,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -58645,7 +58860,7 @@
       "address": 2100215,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -58684,7 +58899,7 @@
         "points": 4,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2152945,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -58706,7 +58921,7 @@
       "address": 2152945,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -58812,7 +59027,7 @@
       "address": 2146353,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -60085,7 +60300,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2112452,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -60098,7 +60313,7 @@
       "address": 2112452,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -60136,7 +60351,7 @@
         "points": 4,
         "min": -40.0,
         "max": 160.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2112475,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -60148,7 +60363,7 @@
       "address": 2112475,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -40.0,
       "max": 160.0,
       "factor": 1.0,
@@ -60271,13 +60486,14 @@
       "address": 2299896,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60354,13 +60570,14 @@
       "address": 2300152,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60391,13 +60608,14 @@
       "address": 2300408,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60428,13 +60646,14 @@
       "address": 2300664,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60465,13 +60684,14 @@
       "address": 2300920,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60502,13 +60722,14 @@
       "address": 2301176,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60539,13 +60760,14 @@
       "address": 2301432,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60576,13 +60798,14 @@
       "address": 2301688,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60613,13 +60836,14 @@
       "address": 2301944,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60650,13 +60874,14 @@
       "address": 2302200,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60687,13 +60912,14 @@
       "address": 2302456,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60724,13 +60950,14 @@
       "address": 2302712,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60761,13 +60988,14 @@
       "address": 2302968,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60798,13 +61026,14 @@
       "address": 2303224,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60835,13 +61064,14 @@
       "address": 2303480,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60872,13 +61102,14 @@
       "address": 2303736,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60909,13 +61140,14 @@
       "address": 2303992,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60946,13 +61178,14 @@
       "address": 2304248,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -60983,13 +61216,14 @@
       "address": 2318836,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61020,13 +61254,14 @@
       "address": 2319092,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61057,13 +61292,14 @@
       "address": 2319348,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61094,13 +61330,14 @@
       "address": 2319604,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61131,13 +61368,14 @@
       "address": 2319860,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61168,13 +61406,14 @@
       "address": 2320116,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61205,13 +61444,14 @@
       "address": 2320372,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61242,13 +61482,14 @@
       "address": 2320628,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61279,13 +61520,14 @@
       "address": 2320884,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61316,13 +61558,14 @@
       "address": 2321140,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61353,13 +61596,14 @@
       "address": 2321396,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61390,13 +61634,14 @@
       "address": 2321652,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61427,13 +61672,14 @@
       "address": 2321908,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61464,13 +61710,14 @@
       "address": 2322164,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61501,13 +61748,14 @@
       "address": 2322420,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61538,13 +61786,14 @@
       "address": 2322676,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61575,13 +61824,14 @@
       "address": 2322932,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61612,13 +61862,14 @@
       "address": 2323188,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Base - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -61786,13 +62037,14 @@
       "address": 2312176,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -61869,13 +62121,14 @@
       "address": 2312432,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -61906,13 +62159,14 @@
       "address": 2312688,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -61943,13 +62197,14 @@
       "address": 2312944,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -61980,13 +62235,14 @@
       "address": 2313200,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62017,13 +62273,14 @@
       "address": 2313456,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62054,13 +62311,14 @@
       "address": 2313712,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62091,13 +62349,14 @@
       "address": 2313968,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62128,13 +62387,14 @@
       "address": 2314224,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62165,13 +62425,14 @@
       "address": 2314480,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62202,13 +62463,14 @@
       "address": 2314736,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62239,13 +62501,14 @@
       "address": 2314992,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62276,13 +62539,14 @@
       "address": 2315248,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62313,13 +62577,14 @@
       "address": 2315504,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62350,13 +62615,14 @@
       "address": 2315760,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62387,13 +62653,14 @@
       "address": 2316016,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62424,13 +62691,14 @@
       "address": 2316272,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62461,13 +62729,14 @@
       "address": 2316528,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -62498,13 +62767,14 @@
       "address": 2327540,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62535,13 +62805,14 @@
       "address": 2327796,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62572,13 +62843,14 @@
       "address": 2328052,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62609,13 +62881,14 @@
       "address": 2328308,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62646,13 +62919,14 @@
       "address": 2328564,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62683,13 +62957,14 @@
       "address": 2328820,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62720,13 +62995,14 @@
       "address": 2329076,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62757,13 +63033,14 @@
       "address": 2329332,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62794,13 +63071,14 @@
       "address": 2329588,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62831,13 +63109,14 @@
       "address": 2329844,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62868,13 +63147,14 @@
       "address": 2330100,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62905,13 +63185,14 @@
       "address": 2330356,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62942,13 +63223,14 @@
       "address": 2330612,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -62979,13 +63261,14 @@
       "address": 2330868,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -63016,13 +63299,14 @@
       "address": 2331124,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -63053,13 +63337,14 @@
       "address": 2331380,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -63090,13 +63375,14 @@
       "address": 2331636,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -63127,13 +63413,14 @@
       "address": 2331892,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "MBT - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -63164,13 +63451,14 @@
       "address": 2306000,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63248,13 +63536,14 @@
       "address": 2306256,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63286,13 +63575,14 @@
       "address": 2306512,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63324,13 +63614,14 @@
       "address": 2306768,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63362,13 +63653,14 @@
       "address": 2307024,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63400,13 +63692,14 @@
       "address": 2307280,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63438,13 +63731,14 @@
       "address": 2307536,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63476,13 +63770,14 @@
       "address": 2307792,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63514,13 +63809,14 @@
       "address": 2308048,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63552,13 +63848,14 @@
       "address": 2308304,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63590,13 +63887,14 @@
       "address": 2308560,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63628,13 +63926,14 @@
       "address": 2308816,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63666,13 +63965,14 @@
       "address": 2309072,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63704,13 +64004,14 @@
       "address": 2309328,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63742,13 +64043,14 @@
       "address": 2309584,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63780,13 +64082,14 @@
       "address": 2309840,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -63818,13 +64121,14 @@
       "address": 2323444,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -63856,13 +64160,14 @@
       "address": 2323700,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -63894,13 +64199,14 @@
       "address": 2323956,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -63932,13 +64238,14 @@
       "address": 2324212,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -63970,13 +64277,14 @@
       "address": 2324468,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64008,13 +64316,14 @@
       "address": 2324724,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64046,13 +64355,14 @@
       "address": 2324980,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64084,13 +64394,14 @@
       "address": 2325236,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64122,13 +64433,14 @@
       "address": 2325492,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64160,13 +64472,14 @@
       "address": 2325748,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64198,13 +64511,14 @@
       "address": 2326004,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64236,13 +64550,14 @@
       "address": 2326260,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64274,13 +64589,14 @@
       "address": 2326516,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64312,13 +64628,14 @@
       "address": 2326772,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64350,13 +64667,14 @@
       "address": 2327028,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64388,13 +64706,14 @@
       "address": 2327284,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -35.625,
       "max": 60.0,
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Other"
+        "Spark",
+        "Minimum - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -64426,7 +64745,7 @@
       "address": 2125230,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -64441,7 +64760,7 @@
       "address": 2125231,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -64456,7 +64775,7 @@
       "address": 2125232,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -64471,7 +64790,7 @@
       "address": 2125233,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -64486,7 +64805,7 @@
       "address": 2125234,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -64501,7 +64820,7 @@
       "address": 2616026,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 143.25,
       "factor": 0.75,
@@ -64515,7 +64834,7 @@
         "points": 5,
         "min": -128.0,
         "max": 127.0,
-        "unit": "°",
+        "unit": "\u00b0",
         "address": 2615705,
         "dataType": "UBYTE"
       }
@@ -64526,7 +64845,7 @@
       "address": 2615705,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°",
+      "unit": "\u00b0",
       "min": -128.0,
       "max": 127.0,
       "factor": 1.0,
@@ -64563,7 +64882,7 @@
         "points": 16,
         "min": -95.625,
         "max": 0.0,
-        "unit": "°CRK",
+        "unit": "\u00b0CRK",
         "address": 2383707,
         "dataType": "UBYTE",
         "factor": -0.37499999999999994
@@ -64575,7 +64894,7 @@
       "address": 2383707,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -95.625,
       "max": 0.0,
       "factor": -0.37499999999999994,
@@ -64598,13 +64917,13 @@
       "address": 2297748,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Other"
+        "Spark"
       ],
       "cols": 16,
       "rows": 16,
@@ -64682,13 +65001,13 @@
       "address": 2298004,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Other"
+        "Spark"
       ],
       "cols": 16,
       "rows": 16,
@@ -64720,13 +65039,13 @@
       "address": 2298260,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Other"
+        "Spark"
       ],
       "cols": 16,
       "rows": 16,
@@ -64758,13 +65077,13 @@
       "address": 2298516,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Other"
+        "Spark"
       ],
       "cols": 16,
       "rows": 16,
@@ -64796,13 +65115,13 @@
       "address": 2298772,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Other"
+        "Spark"
       ],
       "cols": 16,
       "rows": 16,
@@ -64834,13 +65153,13 @@
       "address": 2299028,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Other"
+        "Spark"
       ],
       "cols": 16,
       "rows": 16,
@@ -64872,13 +65191,13 @@
       "address": 2299284,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Other"
+        "Spark"
       ],
       "cols": 16,
       "rows": 16,
@@ -64910,13 +65229,13 @@
       "address": 2299540,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Other"
+        "Spark"
       ],
       "cols": 16,
       "rows": 16,
@@ -64948,7 +65267,7 @@
       "address": 2304604,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -64974,7 +65293,7 @@
         "points": 10,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2125059,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -65011,7 +65330,7 @@
       "address": 2125059,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -65135,13 +65454,15 @@
       "address": 2305004,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 10,
       "rows": 10,
@@ -65161,7 +65482,7 @@
         "points": 10,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2125038,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -65174,7 +65495,7 @@
       "address": 2125038,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -65203,7 +65524,9 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 10,
       "rows": 10,
@@ -65241,7 +65564,9 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 10,
       "rows": 10,
@@ -65269,11 +65594,11 @@
     },
     {
       "name": "IP_IGA_DIF_TQ_REQ_VVL_CAM_H[STND][1][1]",
-      "description": "Setpoint subtrahend ignition angle, valve lift - and CAM´s - selective for high port flaps position",
+      "description": "Setpoint subtrahend ignition angle, valve lift - and CAM\u00b4s - selective for high port flaps position",
       "address": 2392610,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -95.625,
       "max": 0.0,
       "factor": -0.37499999999999994,
@@ -65295,7 +65620,7 @@
     },
     {
       "name": "ldpm_eff_iga_sp_ip_iga_dif_tq",
-      "description": "Setpoint subtrahend ignition angle, valve lift - and CAM´s - selective for high port flaps position : x axis : ldpm_eff_iga_sp_ip_iga_dif_tq",
+      "description": "Setpoint subtrahend ignition angle, valve lift - and CAM\u00b4s - selective for high port flaps position : x axis : ldpm_eff_iga_sp_ip_iga_dif_tq",
       "address": 2383656,
       "type": "CURVE",
       "dataType": "UWORD",
@@ -65318,11 +65643,11 @@
     },
     {
       "name": "IP_IGA_DIF_TQ_REQ_VVL_CAM_L[STND][1][1]",
-      "description": "Setpoint subtrahend ignition angle, valve lift - and CAM´s - selective for low port flaps position",
+      "description": "Setpoint subtrahend ignition angle, valve lift - and CAM\u00b4s - selective for low port flaps position",
       "address": 2392802,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -95.625,
       "max": 0.0,
       "factor": -0.37499999999999994,
@@ -65348,7 +65673,7 @@
       "address": 2310128,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -65386,7 +65711,7 @@
       "address": 2310384,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -65424,7 +65749,7 @@
       "address": 2310640,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -65462,7 +65787,7 @@
       "address": 2310896,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -65500,7 +65825,7 @@
       "address": 2311152,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -65538,7 +65863,7 @@
       "address": 2311408,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -65576,7 +65901,7 @@
       "address": 2311664,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -65614,7 +65939,7 @@
       "address": 2311920,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -65652,7 +65977,7 @@
       "address": 2317204,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -65678,7 +66003,7 @@
         "points": 10,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2125059,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -65770,13 +66095,15 @@
       "address": 2317604,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 10,
       "rows": 10,
@@ -65796,7 +66123,7 @@
         "points": 10,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2125038,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -66184,7 +66511,7 @@
       "address": 2615990,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 143.25,
       "factor": 0.75,
@@ -66268,7 +66595,7 @@
       "address": 2616037,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 143.25,
       "factor": 0.75,
@@ -66332,7 +66659,7 @@
       "address": 2611642,
       "type": "CURVE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 143.9970703125,
       "factor": 0.0029296875,
@@ -66346,7 +66673,7 @@
         "points": 8,
         "min": -48.0,
         "max": 143.9970703125,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2611626,
         "dataType": "UWORD",
         "factor": 0.0029296875,
@@ -66359,7 +66686,7 @@
       "address": 2611626,
       "type": "CURVE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 143.9970703125,
       "factor": 0.0029296875,
@@ -66398,7 +66725,7 @@
         "points": 2,
         "min": -192.0,
         "max": 190.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2613526,
         "dataType": "UBYTE",
         "factor": 1.5
@@ -66420,7 +66747,7 @@
       "address": 2613526,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -192.0,
       "max": 190.5,
       "factor": 1.5,
@@ -66482,7 +66809,7 @@
         "points": 2,
         "min": -192.0,
         "max": 190.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2613526,
         "dataType": "UBYTE",
         "factor": 1.5
@@ -66520,7 +66847,7 @@
         "points": 2,
         "min": -192.0,
         "max": 190.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2613526,
         "dataType": "UBYTE",
         "factor": 1.5
@@ -66588,7 +66915,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131566,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -66610,7 +66937,7 @@
       "address": 2131566,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -66806,7 +67133,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Management",
+        "Transmission"
       ]
     },
     {
@@ -66821,7 +67149,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Management",
+        "Transmission"
       ]
     },
     {
@@ -66836,7 +67165,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Management",
+        "Transmission"
       ]
     },
     {
@@ -66969,7 +67299,7 @@
       "address": 2296528,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -67055,7 +67385,7 @@
       "address": 2296720,
       "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "°CRK",
+      "unit": "\u00b0CRK",
       "min": -48.0,
       "max": 47.625,
       "factor": 0.37499999999999994,
@@ -67350,7 +67680,7 @@
       "address": 2105176,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 335.994141,
       "factor": 0.005859375005722132,
@@ -67367,7 +67697,7 @@
       "address": 2105178,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 335.994141,
       "factor": 0.005859375005722132,
@@ -67450,7 +67780,7 @@
       "factor": 4.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Limiter"
       ]
     },
     {
@@ -67465,7 +67795,7 @@
       "factor": 4.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Limiter"
       ]
     },
     {
@@ -67480,7 +67810,7 @@
       "factor": 4.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Limiter"
       ]
     },
     {
@@ -67495,7 +67825,7 @@
       "factor": 4.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Limiter"
       ]
     },
     {
@@ -67980,7 +68310,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131630,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -68003,7 +68333,7 @@
       "address": 2131630,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -68065,7 +68395,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131630,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -68104,7 +68434,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131630,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -68143,7 +68473,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131630,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -68182,7 +68512,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131630,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -68221,7 +68551,7 @@
         "points": 8,
         "min": -40.0,
         "max": 160.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131649,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -68231,7 +68561,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131603,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -68244,7 +68574,7 @@
       "address": 2131649,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -40.0,
       "max": 160.0,
       "factor": 1.0,
@@ -68267,7 +68597,7 @@
       "address": 2131603,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -68306,7 +68636,7 @@
         "points": 6,
         "min": -256.0,
         "max": 255.9921875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131848,
         "dataType": "UWORD",
         "factor": 0.0078125,
@@ -68328,7 +68658,7 @@
       "address": 2131848,
       "type": "CURVE",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
@@ -68390,7 +68720,7 @@
         "points": 6,
         "min": -256.0,
         "max": 255.9921875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131848,
         "dataType": "UWORD",
         "factor": 0.0078125,
@@ -68428,7 +68758,7 @@
         "points": 6,
         "min": -256.0,
         "max": 255.9921875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131848,
         "dataType": "UWORD",
         "factor": 0.0078125,
@@ -68466,7 +68796,7 @@
         "points": 6,
         "min": -256.0,
         "max": 255.9921875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131848,
         "dataType": "UWORD",
         "factor": 0.0078125,
@@ -68504,7 +68834,7 @@
         "points": 6,
         "min": -256.0,
         "max": 255.9921875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131848,
         "dataType": "UWORD",
         "factor": 0.0078125,
@@ -68542,7 +68872,7 @@
         "points": 6,
         "min": -256.0,
         "max": 255.9921875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131848,
         "dataType": "UWORD",
         "factor": 0.0078125,
@@ -68580,7 +68910,7 @@
         "points": 6,
         "min": -256.0,
         "max": 255.9921875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131848,
         "dataType": "UWORD",
         "factor": 0.0078125,
@@ -68618,7 +68948,7 @@
         "points": 6,
         "min": -256.0,
         "max": 255.9921875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131848,
         "dataType": "UWORD",
         "factor": 0.0078125,
@@ -68656,7 +68986,7 @@
         "points": 6,
         "min": -256.0,
         "max": 255.9921875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131848,
         "dataType": "UWORD",
         "factor": 0.0078125,
@@ -68694,7 +69024,7 @@
         "points": 6,
         "min": -256.0,
         "max": 255.9921875,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2131848,
         "dataType": "UWORD",
         "factor": 0.0078125,
@@ -68742,7 +69072,7 @@
         "points": 4,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111777,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -68778,7 +69108,7 @@
       "address": 2111777,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -68827,7 +69157,7 @@
         "points": 4,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111782,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -68863,7 +69193,7 @@
       "address": 2111782,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -68912,7 +69242,7 @@
         "points": 6,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2111787,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -68948,7 +69278,7 @@
       "address": 2111787,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -70428,7 +70758,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Airflow to Torque - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -70504,7 +70835,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Airflow to Torque - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -70541,7 +70873,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Airflow to Torque - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -70578,7 +70911,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Airflow to Torque - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -70654,7 +70988,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Airflow to Torque - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -70730,7 +71065,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Airflow to Torque - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -70767,7 +71103,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Airflow to Torque - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -70804,7 +71141,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Airflow to Torque - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -70841,7 +71179,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -70901,7 +71240,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -70938,7 +71278,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -70975,7 +71316,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -71012,7 +71354,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -71049,7 +71392,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -71086,7 +71430,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -71123,7 +71468,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -71160,7 +71506,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -71197,7 +71544,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -71234,7 +71582,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -71271,7 +71620,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap High"
       ],
       "cols": 16,
       "rows": 16,
@@ -71308,7 +71658,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -71345,7 +71696,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -71382,7 +71734,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -71419,7 +71772,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -71456,7 +71810,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -71493,7 +71848,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -71530,7 +71886,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -71567,7 +71924,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -71604,7 +71962,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -71641,7 +72000,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -71678,7 +72038,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -71715,7 +72076,8 @@
       "factor": 0.04238956282902266,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "Torque Model",
+        "Torque to Airflow - Port Flap Low"
       ],
       "cols": 16,
       "rows": 16,
@@ -72871,7 +73233,9 @@
       "factor": 0.03125,
       "offset": -1024.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Drive Mode",
+        "Eco"
       ],
       "cols": 12,
       "rows": 10,
@@ -72907,7 +73271,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Drive Mode",
+        "Eco"
       ],
       "cols": 12,
       "xAxis": {
@@ -72930,7 +73296,9 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Drive Mode",
+        "Eco"
       ],
       "cols": 10,
       "xAxis": {
@@ -72953,7 +73321,9 @@
       "factor": 0.03125,
       "offset": -1024.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Drive Mode",
+        "Eco"
       ],
       "cols": 12,
       "rows": 10,
@@ -72989,7 +73359,9 @@
       "factor": 0.03125,
       "offset": -1024.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Drive Mode",
+        "Eco"
       ],
       "cols": 12,
       "rows": 10,
@@ -73025,7 +73397,9 @@
       "factor": 0.03125,
       "offset": -1024.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Drive Mode",
+        "Eco"
       ],
       "cols": 12,
       "rows": 10,
@@ -73061,7 +73435,9 @@
       "factor": 0.03125,
       "offset": -1024.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Drive Mode",
+        "Eco"
       ],
       "cols": 12,
       "rows": 10,
@@ -74853,7 +75229,7 @@
         "points": 8,
         "min": -48.0,
         "max": 142.5,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2103436,
         "dataType": "UBYTE",
         "factor": 0.7500000000000002,
@@ -74890,7 +75266,7 @@
       "address": 2103436,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -48.0,
       "max": 142.5,
       "factor": 0.7500000000000002,
@@ -74992,7 +75368,7 @@
       "address": 2215756,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": 0.0,
       "max": 1774.8125,
       "factor": 0.0625,
@@ -75075,7 +75451,7 @@
       "address": 2215884,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -273.15,
       "max": 1774.7875,
       "factor": 0.0625,
@@ -75912,7 +76288,7 @@
         "points": 10,
         "min": -40.0,
         "max": 215.0,
-        "unit": "°C",
+        "unit": "\u00b0C",
         "address": 2101589,
         "dataType": "UBYTE",
         "offset": -40.0
@@ -75924,13 +76300,15 @@
       "address": 2101589,
       "type": "CURVE",
       "dataType": "UBYTE",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "min": -40.0,
       "max": 215.0,
       "factor": 1.0,
       "offset": -40.0,
       "categories": [
-        "Other"
+        "DSG",
+        "Sensors",
+        "Temperature"
       ],
       "cols": 10,
       "xAxis": {
@@ -76029,7 +76407,7 @@
   "_source": "XDF",
   "offset": 2097152,
   "verification": {
-    "calOffset": 8388608,
+    "calOffset": 2097152,
     "expected": "SC8V30"
   },
   "binInfo": {

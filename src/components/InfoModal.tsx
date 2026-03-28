@@ -21,6 +21,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.14.0',
+        date: '28.03.2026',
+        changes: [
+            'Added SC1 CC5, SC8 O40, SC8 V33 and SC8 VC1 definitions',
+        ]
+    },
+    {
         version: '1.13.0',
         date: '27.03.2026',
         changes: [
