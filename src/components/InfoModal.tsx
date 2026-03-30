@@ -21,6 +21,15 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.15.0',
+        date: '30.03.2026',
+        changes: [
+            'Regenerated SCG 910 definition',
+            'Added ST3 L00 DQ500 MQB definition',
+            'Added 5G0906259E & 8V0906259A to upgrade matrix'
+        ]
+    },
+    {
         version: '1.14.0',
         date: '28.03.2026',
         changes: [
