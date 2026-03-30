@@ -1,5 +1,5 @@
 const DOMAIN = 'theflashbold.github.io';
-const API = 'https://plausible.overhttps.com/api/event';
+const API = 'https://signals.holzer-consulting.ch/api/event';
 const V = 33;
 
 let ignorePageview = false;
