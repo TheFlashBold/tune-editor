@@ -7,7 +7,6 @@ import {AuthService} from "../services/auth.ts";
 import type {LoginState} from "../services/auth.ts";
 import {LoginModal} from "./LoginModal.tsx";
 import {Modal} from "./Modal.tsx";
-import {ExportModal} from "./ExportModal.tsx";
 
 const APP_VERSION = __APP_VERSION__;
 
@@ -38,7 +37,6 @@ export function MenuBar({
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
     const [showAbout, setShowAbout] = useState(false);
-    const [showExport, setShowExport] = useState(false);
     const [loginState, setLoginState] = useState<LoginState | null>(() => getLoginState());
 
     const handleLogout = useCallback(() => {
@@ -123,11 +121,8 @@ export function MenuBar({
     }, [ctx]);
 
     const handleSaveBin = useCallback(() => {
-        if (localStorage.getItem('support-answered')) {
-            ctx.saveBin();
-        } else {
-            setShowExport(true);
-        }
+        ctx.saveBin();
+
         setShowFileMenu(false);
         setShowMobileMenu(false);
     }, [ctx]);
@@ -534,14 +529,6 @@ export function MenuBar({
                         </div>
                     </div>
                 </Modal>
-            )}
-
-            {/* Export Modal */}
-            {showExport && (
-                <ExportModal
-                    onClose={() => setShowExport(false)}
-                    onExport={() => ctx.saveBin()}
-                />
             )}
         </header>
     );
