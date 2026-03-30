@@ -177,6 +177,8 @@ export function useAppState(): IAppContext {
         const boxCode = readBoxCode(data);
         const epk = readEPK(data);
 
+        console.log(boxCode, epk)
+
         setBinData(data);
         setBinFileName(displayName);
         setModified(false);

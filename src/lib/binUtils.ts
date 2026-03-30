@@ -141,8 +141,8 @@ function readStringSafe(data: Uint8Array, index: number, maxLength: number, minL
 
 // simos 12.1/18.1/18.4/18.10
 const CAL_SIZES = [0x6FC00, 0x7FC00, 0x9FC00];
-// simos 12.1/18.1/18.4/18.10
-const CAL_OFFSETS = [0x40000, 0x200000, 0x220000];
+// simos DQ500 MQB/12.1/18.1/18.4/18.10
+const CAL_OFFSETS = [0x20000, 0x40000, 0x200000, 0x220000];
 
 export function readBoxCode(data: Uint8Array): string {
     for (const offset of CAL_OFFSETS) {
@@ -157,6 +157,14 @@ export function readBoxCode(data: Uint8Array): string {
     // cal simos 18.1/18.4/18.10
     if (CAL_SIZES.includes(data.length)) {
         const boxCode = readStringSafe(data, 0x60, 12, 9);
+        if (boxCode) {
+            return boxCode;
+        }
+    }
+
+    // DQ500 MQB
+    if (data.length > (0x20218 + 0x0A)) {
+        const boxCode = readStringSafe(data, 0x20218, 0x0A, 0x0A);
         if (boxCode) {
             return boxCode;
         }
@@ -191,7 +199,7 @@ export function readBoxCode(data: Uint8Array): string {
 
 export function readEPK(data: Uint8Array) {
     for (const offset of CAL_OFFSETS) {
-        if (data.length > offset) {
+        if (data.length > (offset + 0x02)) {
             const epk = readStringSafe(data, offset + 0x02, 6, 6);
             if (epk) {
                 return epk;

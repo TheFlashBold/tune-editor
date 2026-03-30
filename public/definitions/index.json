@@ -278,5 +278,14 @@
       "expected": "SC8VC1"
     },
     "paramCount": 5273
+  },
+  {
+    "name": "ST3 L00",
+    "file": "ST3L00.json",
+    "verification": {
+      "calOffset": 131072,
+      "expected": "ST3L00"
+    },
+    "paramCount": 7846
   }
 ]
