@@ -146,7 +146,7 @@ const CAL_OFFSETS = [0x20000, 0x40000, 0x200000, 0x220000];
 
 export function readBoxCode(data: Uint8Array): string {
     for (const offset of CAL_OFFSETS) {
-        if (data.length > offset) {
+        if (data.length > (offset + 0x60 + 9)) {
             const boxCode = readStringSafe(data, offset + 0x60, 12, 9);
             if (boxCode) {
                 return boxCode;
@@ -171,7 +171,7 @@ export function readBoxCode(data: Uint8Array): string {
     }
 
     // DQ381
-    if (data.length > 0x16C00C) {
+    if (data.length > (0x16C00C + 10)) {
         const boxCode = readStringSafe(data, 0x16C003, 10, 10);
         if (boxCode) {
             return boxCode;
@@ -179,19 +179,19 @@ export function readBoxCode(data: Uint8Array): string {
     }
 
     // DQ250 MQB
-    if (data.length > 0x3FFBA) {
-        const epk = readStringSafe(data, 0x3FFB0, 10, 10);
-        if (epk) {
-            return epk;
+    if (data.length > (0x3FFBA + 10)) {
+        const boxCode = readStringSafe(data, 0x3FFB0, 10, 10);
+        if (boxCode) {
+            return boxCode;
         }
     }
 
     // Bosch MED/EDC: HW part number (10-digit) near CBOOT header
-    for (const offset of [0x401a, 0x1401a]) {
-        if (data.length > offset + 12) {
-            const hw = readStringSafe(data, offset, 12, 10);
-            if (hw && /^\d{10}$/.test(hw)) {
-                return hw;
+    for (const offset of [0x401a, 0x1401a, 0x1C948E]) {
+        if (data.length > (offset + 12)) {
+            const boxCode = readStringSafe(data, offset, 12, 10);
+            if (boxCode) {
+                return boxCode;
             }
         }
     }
@@ -199,7 +199,7 @@ export function readBoxCode(data: Uint8Array): string {
 
 export function readEPK(data: Uint8Array) {
     for (const offset of CAL_OFFSETS) {
-        if (data.length > (offset + 0x02)) {
+        if (data.length > (offset + 0x2000)) {
             const epk = readStringSafe(data, offset + 0x02, 6, 6);
             if (epk) {
                 return epk;
@@ -216,7 +216,7 @@ export function readEPK(data: Uint8Array) {
     }
 
     // DQ381
-    if (data.length > 0x16C010) {
+    if (data.length > (0x16C00E + 2)) {
         const epk = readStringSafe(data, 0x16C00E, 2, 2);
         if (epk) {
             return epk;
@@ -224,7 +224,7 @@ export function readEPK(data: Uint8Array) {
     }
 
     // DQ250 MQB
-    if (data.length > 0x3FFE4) {
+    if (data.length > (0x3FFE0 + 4)) {
         const epk = readStringSafe(data, 0x3FFE0, 4, 4);
         if (epk) {
             return epk;
@@ -233,17 +233,18 @@ export function readEPK(data: Uint8Array) {
 
     // Bosch MED/EDC: "CB " EPK in CBOOT header, or ECU type string
     for (const region of [{start: 0x4090, len: 40}, {start: 0x14090, len: 40}]) {
-        if (data.length > region.start + region.len) {
+        if (data.length > (region.start + region.len)) {
             const s = readStringSafe(data, region.start, region.len, 6);
             if (s?.startsWith('CB ')) {
                 return s;
             }
         }
     }
+
     // Bosch: EDC17/MED17 type string
-    for (const offset of [0x38721]) {
-        if (data.length > offset + 30) {
-            const s = readStringSafe(data, offset, 30, 6);
+    for (const offset of [0x38721, 0x1C94B7]) {
+        if (data.length > (offset + 6)) {
+            const s = readStringSafe(data, offset, 16, 6);
             if (s && /^(EDC|MED)\d/.test(s)) {
                 return s;
             }

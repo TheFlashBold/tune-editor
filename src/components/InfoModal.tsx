@@ -21,6 +21,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.15.1',
+        date: '30.03.2026',
+        changes: [
+            'Regenerated SC8 H65 definition'
+        ]
+    },
+    {
         version: '1.15.0',
         date: '30.03.2026',
         changes: [
