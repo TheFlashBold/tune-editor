@@ -162,6 +162,12 @@
     "variant": "V30"
   },
   {
+    "name": "Immo v2 - H65",
+    "file": "Immo_v2_-_H65.btp",
+    "category": "Immo",
+    "variant": "H65"
+  },
+  {
     "name": "SWG - A05",
     "file": "SWG_-_A05.btp",
     "category": "SWG",
