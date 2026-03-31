@@ -21,11 +21,12 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
-        version: '1.15.2',
+        version: '1.15.3',
         date: '31.03.2026',
         changes: [
             'Added SC8 V32 definition',
-            'Regenerated SC8 V33 & SC8 VC1 definition'
+            'Regenerated SC8 V33 & SC8 VC1 definition',
+            'Added SC8 H65 immo patch'
         ]
     },
     {
