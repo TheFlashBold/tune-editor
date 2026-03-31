@@ -178,6 +178,14 @@ export function readBoxCode(data: Uint8Array): string {
         }
     }
 
+    // VL381
+    if (data.length > (0x60004 + 10)) {
+        const boxCode = readStringSafe(data, 0x16C004, 10, 9);
+        if (boxCode) {
+            return boxCode;
+        }
+    }
+
     // DQ250 MQB
     if (data.length > (0x3FFBA + 10)) {
         const boxCode = readStringSafe(data, 0x3FFB0, 10, 10);
