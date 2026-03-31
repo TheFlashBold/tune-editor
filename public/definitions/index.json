@@ -195,13 +195,22 @@
     "paramCount": 3809
   },
   {
+    "name": "SC8 V32",
+    "file": "SC8V32.json",
+    "verification": {
+      "calOffset": 2097152,
+      "expected": "SC8V32"
+    },
+    "paramCount": 1094
+  },
+  {
     "name": "SC8 V33",
     "file": "SC8V33.json",
     "verification": {
       "calOffset": 2097152,
       "expected": "SC8V33"
     },
-    "paramCount": 1011
+    "paramCount": 1093
   },
   {
     "name": "SC8 LB6",
@@ -277,7 +286,7 @@
       "calOffset": 2097152,
       "expected": "SC8VC1"
     },
-    "paramCount": 5273
+    "paramCount": 6314
   },
   {
     "name": "DQ500 17XX",

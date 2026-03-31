@@ -210,7 +210,7 @@ function ScalarEditor(props: IValueEditorProps) {
                             was {originalValue === 1 ? 'Enabled' : 'Disabled'}
                         </span>
                     )}
-                    {showCompare && compareValue !== null && (
+                    {compareValue !== null && (
                         <span class="text-sm text-teal-400">
                             Compare: {compareValue === 1 ? 'Enabled' : 'Disabled'}
                         </span>
@@ -249,7 +249,7 @@ function ScalarEditor(props: IValueEditorProps) {
                             <span class="text-base text-zinc-500">{parameter.unit}</span>
                         </div>
                     )}
-                    {showCompare && compareValue !== null && (
+                    {compareValue !== null && (
                         <div
                             class="inline-flex items-baseline gap-2 px-6 py-4 bg-zinc-200 dark:bg-zinc-700 rounded-lg border-2 border-dashed border-teal-600">
                             <span
