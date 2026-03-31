@@ -1,6 +1,6 @@
 [
   {
-    "name": "F40M",
+    "name": "DQ250 F40M",
     "file": "F40M.json",
     "verification": {
       "calOffset": 0,
@@ -9,7 +9,7 @@
     "paramCount": 109
   },
   {
-    "name": "F43M",
+    "name": "DQ250 F43M",
     "file": "F43M.json",
     "verification": {
       "calOffset": 0,
@@ -18,7 +18,7 @@
     "paramCount": 3548
   },
   {
-    "name": "F45M",
+    "name": "DQ250 F45M",
     "file": "F45M.json",
     "verification": {
       "calOffset": 0,
@@ -27,7 +27,7 @@
     "paramCount": 98
   },
   {
-    "name": "F49M",
+    "name": "DQ250 F49M",
     "file": "F49M.json",
     "verification": {
       "calOffset": 0,
@@ -36,7 +36,7 @@
     "paramCount": 188
   },
   {
-    "name": "F50M",
+    "name": "DQ250 F50M",
     "file": "F50M.json",
     "verification": {
       "calOffset": 0,
@@ -45,7 +45,7 @@
     "paramCount": 1402
   },
   {
-    "name": "F52M",
+    "name": "DQ250 F52M",
     "file": "F52M.json",
     "verification": {
       "calOffset": 0,
@@ -54,7 +54,7 @@
     "paramCount": 1398
   },
   {
-    "name": "14XX",
+    "name": "DQ381 14XX",
     "file": "14XX.json",
     "verification": {
       "calOffset": 0,
@@ -64,7 +64,7 @@
     "paramCount": 989
   },
   {
-    "name": "16XX",
+    "name": "DQ381 16XX",
     "file": "16XX.json",
     "verification": {
       "calOffset": 0,
@@ -75,7 +75,7 @@
     "paramCount": 868
   },
   {
-    "name": "23XX",
+    "name": "DQ381 23XX",
     "file": "23XX.json",
     "verification": {
       "calOffset": 0,
@@ -85,7 +85,7 @@
     "paramCount": 231
   },
   {
-    "name": "24XX",
+    "name": "DQ381 24XX",
     "file": "24XX.json",
     "verification": {
       "calOffset": 0,
@@ -280,12 +280,21 @@
     "paramCount": 5273
   },
   {
-    "name": "ST3 L00",
+    "name": "DQ500 17XX",
     "file": "ST3L00.json",
     "verification": {
       "calOffset": 131072,
       "expected": "ST3L00"
     },
     "paramCount": 7846
+  },
+  {
+    "name": "DQ500 18XX",
+    "file": "ST3L10.json",
+    "verification": {
+      "calOffset": 131072,
+      "expected": "ST3L10"
+    },
+    "paramCount": 7254
   }
 ]
