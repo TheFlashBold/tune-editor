@@ -21,6 +21,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.16.0',
+        date: '01.04.2026',
+        changes: [
+            'Added SC8 VC1 immo patch'
+        ]
+    },
+    {
         version: '1.15.4',
         date: '31.03.2026',
         changes: [

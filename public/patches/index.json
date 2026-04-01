@@ -162,6 +162,12 @@
     "variant": "V30"
   },
   {
+    "name": "Immo v2 - VC1",
+    "file": "Immo_v2_-_VC1.btp",
+    "category": "Immo",
+    "variant": "VC1"
+  },
+  {
     "name": "Immo v2 - H65",
     "file": "Immo_v2_-_H65.btp",
     "category": "Immo",
