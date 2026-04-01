@@ -298,6 +298,15 @@
     "paramCount": 6314
   },
   {
+    "name": "SCB Q50",
+    "file": "SCBQ50.json",
+    "verification": {
+      "calOffset": 2228224,
+      "expected": "SCBQ50"
+    },
+    "paramCount": 33987
+  },
+  {
     "name": "DQ500 17XX",
     "file": "ST3L00.json",
     "verification": {
