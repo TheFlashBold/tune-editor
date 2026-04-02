@@ -3062,7 +3062,7 @@
   ],
   "_source": "XDF",
   "verification": {
-    "calOffset": -65536,
+    "position": 327648,
     "expected": "F40M"
   }
 }

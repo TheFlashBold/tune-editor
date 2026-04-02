@@ -6390,7 +6390,7 @@
     }
   ],
   "verification": {
-    "calOffset": 0,
+    "position": 0,
     "expected": "23",
     "isDSG": true
   },

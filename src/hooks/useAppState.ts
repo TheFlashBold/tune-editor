@@ -10,12 +10,12 @@ import {
     readTableData,
     readAxisData,
     addressToOffset,
-    detectBinaryMode, readBoxCode, readEPK,
+    readBoxCode, readEPK, readString,
 } from '../lib/binUtils';
 import {
     loadDefinitionIndex,
     loadDefinition,
-    findMatchingDefinitions,
+    findMatchingDefinition,
     type DefinitionIndexEntry,
 } from '../lib/definitionLoader';
 import {mergeDefinitions} from '../components/PatchManager';
@@ -63,7 +63,6 @@ export function useAppState(): IAppContext {
     const clearUnknownBin = useCallback(() => setUnknownBin(null), []);
 
     // Derived
-    const baseAddress = definition?.baseAddress ?? 0xa0000000;
     const bigEndian = definition?.bigEndian ?? false;
 
     // ILoadedBin wrappers
@@ -177,29 +176,25 @@ export function useAppState(): IAppContext {
         const boxCode = readBoxCode(data);
         const epk = readEPK(data);
 
-        console.log(boxCode, epk)
-
         setBinData(data);
         setBinFileName(displayName);
         setModified(false);
         track('Load BIN', {size: data.length, type: fileType, boxCode, epk});
 
-        // Auto-detect definition
+        // Auto-detect definition by EPK
         let loadedDef: Definition | null = null;
         try {
-            const matches = await findMatchingDefinitions(data);
-            if (matches.length === 1) {
-                const match = matches[0];
-                const def = await loadDefinition(match.entry.file);
+            const match = epk ? await findMatchingDefinition(epk) : null;
+            if (match) {
+                const def = await loadDefinition(match.file);
+                const isCal = readString(data, 0, 3) === 'CAS';
                 setDefinition(def);
                 setCustomDefinition(false);
-                setDetectedMode(match.mode);
-                setCalOffset(match.calOffset);
+                setDetectedMode(isCal ? 'cal' : 'full');
+                setCalOffset(isCal ? 0 : (def.baseAddress ?? 0));
                 setSelectedParam(null);
                 loadedDef = def;
-                track('Definition Matched', {name: def.name, mode: match.mode, boxCode, epk});
-            } else if (matches.length > 1) {
-                setDefinitionMatches(matches);
+                track('Definition Matched', {name: def.name, mode: isCal ? 'cal' : 'full', boxCode, epk});
             } else {
                 track('No Definition Match', {size: data.length, epk, boxCode});
                 setUnknownBin({data, name: displayName, epk, boxCode});
@@ -233,13 +228,13 @@ export function useAppState(): IAppContext {
             data,
         };
 
-        const matches = await findMatchingDefinitions(data);
-        if (matches.length === 1) {
-            const match = matches[0];
-            const def = await loadDefinition(match.entry.file);
+        const ccEpk = readEPK(data);
+        const match = ccEpk ? await findMatchingDefinition(ccEpk) : null;
+        if (match) {
+            const def = await loadDefinition(match.file);
+            const isCal = readString(data, 0, 3) === 'CAS';
             newBin.definition = def;
-            newBin.type = match.mode === 'cal' ? 'CAL' : 'FULL';
-            newBin.calOffset = match.calOffset;
+            newBin.calOffset = isCal ? 0 : (def.baseAddress ?? 0);
         }
 
         setCrossCompareBin(newBin);
@@ -256,14 +251,9 @@ export function useAppState(): IAppContext {
             setDetectedMode(null);
             return;
         }
-        if (def.verification) {
-            const result = detectBinaryMode(binData, def.verification);
-            setDetectedMode(result.mode);
-            setCalOffset(result.calOffset);
-        } else {
-            setCalOffset(def.offset ?? 0);
-            setDetectedMode(null);
-        }
+        const isCal = readString(binData, 0, 3) === 'CAS';
+        setCalOffset(isCal ? 0 : (def.baseAddress ?? 0));
+        setDetectedMode(isCal ? 'cal' : 'full');
     }, [binData]);
 
     const loadDefinitionJson = useCallback(async (file: File) => {
@@ -276,7 +266,6 @@ export function useAppState(): IAppContext {
 
     const getParamByteRanges = useCallback((): { offset: number; length: number }[] => {
         if (!definition || !binData) return [];
-        const defBaseAddress = definition.baseAddress ?? 0xa0000000;
         const ranges: { offset: number; length: number }[] = [];
         const seen = new Set<string>();
 
@@ -293,19 +282,19 @@ export function useAppState(): IAppContext {
             const cols = param.cols || 1;
             const typeSize = DATA_TYPE_INFO[param.dataType].size;
             const dataOffset = param.dataOffset ?? 0;
-            const fileOffset = addressToOffset(param.address, calOffset, defBaseAddress) + dataOffset;
+            const fileOffset = addressToOffset(param.address, calOffset) + dataOffset;
             addRange(fileOffset, rows * cols * typeSize);
 
             if (param.xAxis?.address) {
                 const axType = DATA_TYPE_INFO[param.xAxis.dataType ?? param.dataType].size;
                 const axDataOffset = param.xAxis.dataOffset ?? 0;
-                const axFileOffset = addressToOffset(param.xAxis.address, calOffset, defBaseAddress) + axDataOffset;
+                const axFileOffset = addressToOffset(param.xAxis.address, calOffset) + axDataOffset;
                 addRange(axFileOffset, param.xAxis.points * axType);
             }
             if (param.yAxis?.address) {
                 const axType = DATA_TYPE_INFO[param.yAxis.dataType ?? param.dataType].size;
                 const axDataOffset = param.yAxis.dataOffset ?? 0;
-                const axFileOffset = addressToOffset(param.yAxis.address, calOffset, defBaseAddress) + axDataOffset;
+                const axFileOffset = addressToOffset(param.yAxis.address, calOffset) + axDataOffset;
                 addRange(axFileOffset, param.yAxis.points * axType);
             }
         }
@@ -369,33 +358,15 @@ export function useAppState(): IAppContext {
         track('Export BTP', {blocks: blockCount});
     }, [binData, originalBinData, definition, binFileName, getParamByteRanges]);
 
-    const selectDefinitionMatch = useCallback(async (entry: DefinitionIndexEntry, mode: BinaryMode) => {
-        try {
-            const def = await loadDefinition(entry.file);
-            setDefinition(def);
-            setCustomDefinition(false);
-            setDetectedMode(mode);
-            if (binData && def.verification) {
-                const result = detectBinaryMode(binData, def.verification);
-                setCalOffset(result.calOffset);
-            } else {
-                setCalOffset(def.offset ?? entry.verification?.calOffset ?? 0);
-            }
-            setSelectedParam(null);
-            setDefinitionMatches([]);
-        } catch (err) {
-            console.error('Failed to load definition:', err);
-        }
-    }, [binData]);
-
     const searchDefinitions = useCallback(async () => {
         if (!binData) return {
-            matches: [] as { entry: DefinitionIndexEntry; mode: BinaryMode }[],
+            matches: [] as DefinitionIndexEntry[],
             all: [] as DefinitionIndexEntry[]
         };
-        const matches = await findMatchingDefinitions(binData);
         const all = await loadDefinitionIndex();
-        return {matches, all};
+        const epk = readEPK(binData);
+        const match = epk ? await findMatchingDefinition(epk) : null;
+        return {matches: match ? [match] : [], all};
     }, [binData]);
 
     // Calculate differences between original and current BIN
@@ -403,19 +374,18 @@ export function useAppState(): IAppContext {
         if (!definition || !binData || !originalBinData) return [];
 
         const diffs: ParamDiff[] = [];
-        const defBaseAddress = definition.baseAddress ?? 0xa0000000;
         const defBigEndian = definition.bigEndian ?? false;
 
         for (const param of definition.parameters) {
             if (param.type === 'VALUE') {
-                const originalValue = readParameterValue(originalBinData, param, calOffset, defBaseAddress, defBigEndian);
-                const currentValue = readParameterValue(binData, param, calOffset, defBaseAddress, defBigEndian);
+                const originalValue = readParameterValue(originalBinData, param, calOffset, defBigEndian);
+                const currentValue = readParameterValue(binData, param, calOffset, defBigEndian);
                 if (Math.abs(originalValue - currentValue) > 0.0001) {
                     diffs.push({param, originalValue, currentValue});
                 }
             } else {
-                const originalTable = readTableData(originalBinData, param, calOffset, defBaseAddress, defBigEndian);
-                const currentTable = readTableData(binData, param, calOffset, defBaseAddress, defBigEndian);
+                const originalTable = readTableData(originalBinData, param, calOffset, defBigEndian);
+                const currentTable = readTableData(binData, param, calOffset, defBigEndian);
                 const cellDiffs: CellDiff[] = [];
 
                 for (let r = 0; r < originalTable.length; r++) {
@@ -434,8 +404,8 @@ export function useAppState(): IAppContext {
                 const axisDiffs: AxisDiff[] = [];
 
                 if (param.xAxis?.address) {
-                    const originalXAxis = readAxisData(originalBinData, param.xAxis, calOffset, defBaseAddress, defBigEndian);
-                    const currentXAxis = readAxisData(binData, param.xAxis, calOffset, defBaseAddress, defBigEndian);
+                    const originalXAxis = readAxisData(originalBinData, param.xAxis, calOffset, defBigEndian);
+                    const currentXAxis = readAxisData(binData, param.xAxis, calOffset, defBigEndian);
                     const changedIndices: number[] = [];
                     for (let i = 0; i < originalXAxis.length; i++) {
                         if (Math.abs(originalXAxis[i] - currentXAxis[i]) > 0.0001) {
@@ -448,8 +418,8 @@ export function useAppState(): IAppContext {
                 }
 
                 if (param.yAxis?.address) {
-                    const originalYAxis = readAxisData(originalBinData, param.yAxis, calOffset, defBaseAddress, defBigEndian);
-                    const currentYAxis = readAxisData(binData, param.yAxis, calOffset, defBaseAddress, defBigEndian);
+                    const originalYAxis = readAxisData(originalBinData, param.yAxis, calOffset, defBigEndian);
+                    const currentYAxis = readAxisData(binData, param.yAxis, calOffset, defBigEndian);
                     const changedIndices: number[] = [];
                     for (let i = 0; i < originalYAxis.length; i++) {
                         if (Math.abs(originalYAxis[i] - currentYAxis[i]) > 0.0001) {
@@ -462,8 +432,8 @@ export function useAppState(): IAppContext {
                 }
 
                 if (cellDiffs.length > 0 || axisDiffs.length > 0) {
-                    const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset, defBaseAddress, defBigEndian) : undefined;
-                    const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset, defBaseAddress, defBigEndian) : undefined;
+                    const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset, defBigEndian) : undefined;
+                    const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset, defBigEndian) : undefined;
 
                     diffs.push({
                         param,
@@ -486,11 +456,9 @@ export function useAppState(): IAppContext {
         if (!definition || !binData || !crossCompareBin?.data || !crossCompareBin.definition) return [];
 
         const diffs: ParamDiff[] = [];
-        const curBaseAddress = definition.baseAddress ?? 0xa0000000;
         const curBigEndian = definition.bigEndian ?? false;
         const ccDef = crossCompareBin.definition;
         const ccCalOffset = crossCompareBin.calOffset ?? 0;
-        const ccBaseAddress = ccDef.baseAddress ?? 0xa0000000;
         const ccBigEndian = ccDef.bigEndian ?? false;
 
         // Build lookup of cross-compare params by lowercase name
@@ -510,14 +478,14 @@ export function useAppState(): IAppContext {
             }
 
             if (param.type === 'VALUE') {
-                const currentValue = readParameterValue(binData, param, calOffset, curBaseAddress, curBigEndian);
-                const ccValue = readParameterValue(crossCompareBin.data, ccParam, ccCalOffset, ccBaseAddress, ccBigEndian);
+                const currentValue = readParameterValue(binData, param, calOffset, curBigEndian);
+                const ccValue = readParameterValue(crossCompareBin.data, ccParam, ccCalOffset, ccBigEndian);
                 if (Math.abs(ccValue - currentValue) > 0.0001) {
                     diffs.push({param, originalValue: ccValue, currentValue});
                 }
             } else {
-                const currentTable = readTableData(binData, param, calOffset, curBaseAddress, curBigEndian);
-                const ccTable = readTableData(crossCompareBin.data, ccParam, ccCalOffset, ccBaseAddress, ccBigEndian);
+                const currentTable = readTableData(binData, param, calOffset, curBigEndian);
+                const ccTable = readTableData(crossCompareBin.data, ccParam, ccCalOffset, ccBigEndian);
                 const cellDiffs: CellDiff[] = [];
 
                 for (let r = 0; r < currentTable.length; r++) {
@@ -536,8 +504,8 @@ export function useAppState(): IAppContext {
                 const axisDiffs: AxisDiff[] = [];
 
                 if (param.xAxis?.address && ccParam.xAxis?.address) {
-                    const currentXAxis = readAxisData(binData, param.xAxis, calOffset, curBaseAddress, curBigEndian);
-                    const ccXAxis = readAxisData(crossCompareBin.data, ccParam.xAxis, ccCalOffset, ccBaseAddress, ccBigEndian);
+                    const currentXAxis = readAxisData(binData, param.xAxis, calOffset, curBigEndian);
+                    const ccXAxis = readAxisData(crossCompareBin.data, ccParam.xAxis, ccCalOffset, ccBigEndian);
                     if (currentXAxis.length === ccXAxis.length) {
                         const changedIndices: number[] = [];
                         for (let i = 0; i < currentXAxis.length; i++) {
@@ -552,8 +520,8 @@ export function useAppState(): IAppContext {
                 }
 
                 if (param.yAxis?.address && ccParam.yAxis?.address) {
-                    const currentYAxis = readAxisData(binData, param.yAxis, calOffset, curBaseAddress, curBigEndian);
-                    const ccYAxis = readAxisData(crossCompareBin.data, ccParam.yAxis, ccCalOffset, ccBaseAddress, ccBigEndian);
+                    const currentYAxis = readAxisData(binData, param.yAxis, calOffset, curBigEndian);
+                    const ccYAxis = readAxisData(crossCompareBin.data, ccParam.yAxis, ccCalOffset, ccBigEndian);
                     if (currentYAxis.length === ccYAxis.length) {
                         const changedIndices: number[] = [];
                         for (let i = 0; i < currentYAxis.length; i++) {
@@ -568,8 +536,8 @@ export function useAppState(): IAppContext {
                 }
 
                 if (cellDiffs.length > 0 || axisDiffs.length > 0) {
-                    const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset, curBaseAddress, curBigEndian) : undefined;
-                    const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset, curBaseAddress, curBigEndian) : undefined;
+                    const xAxis = param.xAxis ? readAxisData(binData, param.xAxis, calOffset, curBigEndian) : undefined;
+                    const yAxis = param.yAxis ? readAxisData(binData, param.yAxis, calOffset, curBigEndian) : undefined;
 
                     diffs.push({
                         param,
@@ -595,7 +563,6 @@ export function useAppState(): IAppContext {
         selectedParam,
         calOffset,
         detectedMode,
-        baseAddress,
         bigEndian,
         modified,
         patchResults,
@@ -615,7 +582,6 @@ export function useAppState(): IAppContext {
         loadDefinitionJson,
         setDefinition,
         setExternalDefinition,
-        selectDefinitionMatch,
         searchDefinitions,
         setSelectedParam,
         setPatchResults,

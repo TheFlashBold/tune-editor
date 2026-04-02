@@ -24393,5 +24393,10 @@
   ],
   "baseAddress": 0,
   "offset": 1311232,
-  "bigEndian": true
+  "bigEndian": true,
+  "verification": {
+    "position": 0,
+    "expected": "16",
+    "isDSG": true
+  }
 }

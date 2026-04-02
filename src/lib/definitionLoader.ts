@@ -1,5 +1,4 @@
 import type {Definition, DefinitionVerification} from '../types';
-import {detectBinaryMode} from './binUtils';
 
 export interface DefinitionIndexEntry {
     name: string;
@@ -10,9 +9,6 @@ export interface DefinitionIndexEntry {
 
 let definitionIndex: DefinitionIndexEntry[] | null = null;
 
-/**
- * Load the definition index from the server
- */
 export async function loadDefinitionIndex(): Promise<DefinitionIndexEntry[]> {
     if (definitionIndex) return definitionIndex;
 
@@ -26,37 +22,16 @@ export async function loadDefinitionIndex(): Promise<DefinitionIndexEntry[]> {
 }
 
 /**
- * Find matching definitions for a binary file
- * Returns all matches sorted by confidence
+ * Find matching definition for a binary file by EPK string.
  */
-export async function findMatchingDefinitions(
-    binData: Uint8Array
-): Promise<{ entry: DefinitionIndexEntry; mode: 'full' | 'cal'; calOffset: number; confidence: 'exact' | 'partial' }[]> {
+export async function findMatchingDefinition(
+    epk: string
+): Promise<DefinitionIndexEntry | null> {
     const index = await loadDefinitionIndex();
-    const matches: { entry: DefinitionIndexEntry; mode: 'full' | 'cal'; calOffset: number; confidence: 'exact' | 'partial' }[] = [];
-
-    for (const entry of index) {
-        const result = detectBinaryMode(binData, entry.verification);
-
-        if (result.valid) {
-            matches.push({
-                entry,
-                mode: result.mode,
-                calOffset: result.calOffset,
-                confidence: 'exact'
-            });
-        }
-    }
-
-    // Sort by name for consistent ordering
-    matches.sort((a, b) => a.entry.name.localeCompare(b.entry.name));
-
-    return matches;
+    return index.find(e => e.verification.expected === epk) ?? null;
 }
 
-/**
- * Load a specific definition by filename
- */
+
 export async function loadDefinition(filename: string): Promise<Definition> {
     const response = await fetch(`./definitions/${filename}`);
     if (!response.ok) {
@@ -66,9 +41,6 @@ export async function loadDefinition(filename: string): Promise<Definition> {
     return response.json();
 }
 
-/**
- * Get all available definitions (for manual selection)
- */
 export async function getAllDefinitions(): Promise<DefinitionIndexEntry[]> {
     return loadDefinitionIndex();
 }

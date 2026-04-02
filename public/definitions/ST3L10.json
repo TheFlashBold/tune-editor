@@ -3,7 +3,7 @@
   "version": "1.0",
   "baseAddress": 2684354560,
   "verification": {
-    "calOffset": 131072,
+    "position": 131072,
     "expected": "ST3L10"
   },
   "parameters": [

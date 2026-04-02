@@ -28,7 +28,6 @@ export interface IAppContext {
     detectedMode: BinaryMode | null;
 
     // Derived
-    baseAddress: number;
     bigEndian: boolean;
     modified: boolean;
 
@@ -56,9 +55,8 @@ export interface IAppContext {
     loadDefinitionJson: (file: File) => Promise<void>;
     setDefinition: (def: Definition | null) => void;
     setExternalDefinition: (def: Definition | null) => void;
-    selectDefinitionMatch: (entry: DefinitionIndexEntry, mode: BinaryMode) => Promise<void>;
     searchDefinitions: () => Promise<{
-        matches: { entry: DefinitionIndexEntry; mode: BinaryMode }[];
+        matches: DefinitionIndexEntry[];
         all: DefinitionIndexEntry[];
     }>;
     setSelectedParam: (param: IDefinitionParameter | null) => void;

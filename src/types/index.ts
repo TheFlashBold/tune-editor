@@ -58,8 +58,8 @@ export interface IDefinitionParameter {
 }
 
 export interface DefinitionVerification {
-    calOffset: number;     // Offset in full bin where CAL block starts (e.g. 0x340000)
-    expected: string;      // Expected string at start of CAL block (e.g. "SC8LB4")
+    position: number;      // File position of EPK string in full bin (e.g. 0x200008 for SC8)
+    expected: string;      // Expected EPK string (e.g. "SC8LB4")
     length?: number;       // Length to check (default: expected.length)
     isDSG?: boolean;
 }

@@ -20,7 +20,6 @@ export function MainArea() {
             data: ctx.crossCompareBin.data,
             param: ccParam,
             calOffset: ctx.crossCompareBin.calOffset ?? 0,
-            baseAddress: ccDef.baseAddress ?? 0xa0000000,
             bigEndian: ccDef.bigEndian ?? false,
         };
     }, [ctx.crossCompareBin, ctx.selectedParam]);
@@ -80,7 +79,6 @@ export function MainArea() {
                         binData={ctx.bin.data}
                         originalBinData={ctx.originalBin?.data}
                         calOffset={ctx.calOffset}
-                        baseAddress={ctx.baseAddress}
                         bigEndian={ctx.bigEndian}
                         onModify={ctx.markModified}
                         crossCompare={crossCompare}

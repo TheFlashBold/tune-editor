@@ -124519,7 +124519,7 @@
     }
   ],
   "verification": {
-    "calOffset": 131072,
+    "position": 131072,
     "expected": "ST3L00"
   }
 }

@@ -5783,7 +5783,7 @@
   ],
   "_source": "XDF",
   "verification": {
-    "calOffset": 0,
+    "position": 0,
     "expected": "F43M"
   }
 }

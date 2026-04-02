@@ -73,7 +73,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (!ctx.bin) return;
-                                                    writeParameterValue(ctx.bin.data, param, originalValue as number, ctx.calOffset, ctx.baseAddress, ctx.bigEndian);
+                                                    writeParameterValue(ctx.bin.data, param, originalValue as number, ctx.calOffset, ctx.bigEndian);
                                                     ctx.markModified();
                                                     track('Revert Parameter', {type: param.type, name: param.name});
                                                 }}
@@ -211,19 +211,19 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                         const origTable = originalValue as number[][];
                                                         for (let r = 0; r < origTable.length; r++) {
                                                             for (let c = 0; c < origTable[r].length; c++) {
-                                                                writeTableCell(ctx.bin.data, param, r, c, origTable[r][c], ctx.calOffset, ctx.baseAddress, ctx.bigEndian);
+                                                                writeTableCell(ctx.bin.data, param, r, c, origTable[r][c], ctx.calOffset, ctx.bigEndian);
                                                             }
                                                         }
                                                         const xDiff = axisDiffs?.find(d => d.axis === 'x');
                                                         const yDiff = axisDiffs?.find(d => d.axis === 'y');
                                                         if (xDiff && param.xAxis) {
                                                             for (let i = 0; i < xDiff.original.length; i++) {
-                                                                writeAxisValue(ctx.bin.data, param.xAxis, i, xDiff.original[i], ctx.calOffset, ctx.baseAddress, ctx.bigEndian);
+                                                                writeAxisValue(ctx.bin.data, param.xAxis, i, xDiff.original[i], ctx.calOffset, ctx.bigEndian);
                                                             }
                                                         }
                                                         if (yDiff && param.yAxis) {
                                                             for (let i = 0; i < yDiff.original.length; i++) {
-                                                                writeAxisValue(ctx.bin.data, param.yAxis, i, yDiff.original[i], ctx.calOffset, ctx.baseAddress, ctx.bigEndian);
+                                                                writeAxisValue(ctx.bin.data, param.yAxis, i, yDiff.original[i], ctx.calOffset, ctx.bigEndian);
                                                             }
                                                         }
                                                         ctx.markModified();

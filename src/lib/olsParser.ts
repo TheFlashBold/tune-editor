@@ -790,7 +790,7 @@ export function olsToDefinition(ols: OLSFile): Definition {
             name = v.epk;
             epk = v.epk;
             verification = {
-                calOffset: 0,
+                position: 0,
                 expected: v.epk,
             };
             if (v.epkOffset > 0) {
@@ -857,9 +857,9 @@ export function olsToDefinition(ols: OLSFile): Definition {
         return param;
     });
 
-    // Set verification calOffset for binary mode detection
+    // Set verification position for binary mode detection
     if (verification && memCalOffset > 0) {
-        verification.calOffset = memCalOffset;
+        verification.position = memCalOffset;
     }
 
     return {

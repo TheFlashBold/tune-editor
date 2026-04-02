@@ -6926,7 +6926,7 @@
   "_source": "XDF",
   "offset": 65536,
   "verification": {
-    "calOffset": 0,
+    "position": 0,
     "expected": "F52M"
   }
 }

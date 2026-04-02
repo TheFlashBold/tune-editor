@@ -7186,7 +7186,7 @@
   "offset": 1311232,
   "bigEndian": true,
   "verification": {
-    "calOffset": 0,
+    "position": 0,
     "expected": "24",
     "isDSG": true
   }

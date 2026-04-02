@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/definition.schema.json",
+  "title": "Definition",
+  "type": "object",
+  "$defs": {
+    "DataType": {
+      "type": "string",
+      "enum": ["UBYTE", "SBYTE", "UWORD", "SWORD", "ULONG", "SLONG", "FLOAT32"]
+    },
+    "RationalFormula": {
+      "type": "object",
+      "description": "physical = (a*X + b) / (c + d*X)",
+      "properties": {
+        "a": { "type": "number" },
+        "b": { "type": "number" },
+        "c": { "type": "number" },
+        "d": { "type": "number" }
+      },
+      "required": ["a", "b", "c", "d"],
+      "additionalProperties": false
+    },
+    "AxisDefinition": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["STD_AXIS", "COM_AXIS", "FIX_AXIS"]
+        },
+        "points":      { "type": "integer", "minimum": 1 },
+        "min":         { "type": "number" },
+        "max":         { "type": "number" },
+        "unit":        { "type": "string" },
+        "address":     { "type": "integer" },
+        "dataType":    { "$ref": "#/$defs/DataType" },
+        "factor":      { "type": "number" },
+        "offset":      { "type": "number" },
+        "formula":     { "$ref": "#/$defs/RationalFormula" },
+        "dataOffset":  { "type": "integer" },
+        "labels": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["type", "points", "min", "max", "unit"],
+      "additionalProperties": false
+    },
+    "IDefinitionParameter": {
+      "type": "object",
+      "properties": {
+        "name":        { "type": "string" },
+        "description": { "type": "string" },
+        "address":     { "type": "integer" },
+        "type": {
+          "type": "string",
+          "enum": ["VALUE", "CURVE", "MAP"]
+        },
+        "dataType":    { "$ref": "#/$defs/DataType" },
+        "unit":        { "type": "string" },
+        "min":         { "type": "number" },
+        "max":         { "type": "number" },
+        "factor":      { "type": "number" },
+        "offset":      { "type": "number" },
+        "formula":     { "$ref": "#/$defs/RationalFormula" },
+        "xAxis":       { "$ref": "#/$defs/AxisDefinition" },
+        "yAxis":       { "$ref": "#/$defs/AxisDefinition" },
+        "rows":        { "type": "integer", "minimum": 1 },
+        "cols":        { "type": "integer", "minimum": 1 },
+        "columnDir":   { "type": "boolean" },
+        "dataOffset":  { "type": "integer" },
+        "categories": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "customName":  { "type": "string" },
+        "bitLabels": {
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^[0-9]+$"
+          },
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "required": [
+        "name", "description", "address", "type",
+        "dataType", "unit", "min", "max",
+        "factor", "offset", "categories"
+      ],
+      "additionalProperties": false
+    },
+    "DefinitionVerification": {
+      "type": "object",
+      "properties": {
+        "position": { "type": "integer" },
+        "expected": { "type": "string" },
+        "length":   { "type": "integer", "minimum": 1 },
+        "isDSG":    { "type": "boolean" }
+      },
+      "required": ["position", "expected"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "name":        { "type": "string" },
+    "version":     { "type": "string" },
+    "verification": { "$ref": "#/$defs/DefinitionVerification" },
+    "offset":       { "type": "integer" },
+    "baseAddress":  { "type": "integer" },
+    "bigEndian":    { "type": "boolean" },
+    "parameters": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/IDefinitionParameter" },
+      "minItems": 1
+    }
+  },
+  "required": ["name", "version", "parameters"],
+  "additionalProperties": true
+}

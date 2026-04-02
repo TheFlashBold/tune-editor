@@ -219,7 +219,7 @@ export class XDFParser {
         if (this.bigEndian && isSimos) def.bigEndian = true;
         if (epkMatch) {
             def.verification = {
-                calOffset: this.baseOffset,
+                position: this.baseOffset,
                 expected: epkMatch[1].replace(/\.a2l$/i, ''),
             };
         }

@@ -297,10 +297,10 @@ export function App() {
                                                             {entry.verification?.expected && ` · ${entry.verification.expected}`}
                                                         </div>
                                                     </div>
-                                                    {entry.verification?.calOffset !== undefined && (
+                                                    {entry.verification?.position !== undefined && (
                                                         <div class="text-xs text-zinc-500">
                                                             CAL @
-                                                            0x{entry.verification.calOffset.toString(16).toUpperCase()}
+                                                            0x{entry.verification.position.toString(16).toUpperCase()}
                                                         </div>
                                                     )}
                                                 </div>
