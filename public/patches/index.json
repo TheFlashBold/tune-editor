@@ -912,5 +912,59 @@
     "file": "CAT_patch_-_SC8VC1.btp",
     "category": "CAT",
     "variant": "VC1"
+  },
+  {
+    "name": "CAT patch - SCG910",
+    "file": "CAT_patch_-_SCG910.btp",
+    "category": "CAT",
+    "variant": "910"
+  },
+  {
+    "name": "CAT patch - SCG920",
+    "file": "CAT_patch_-_SCG920.btp",
+    "category": "CAT",
+    "variant": "920"
+  },
+  {
+    "name": "CAT patch - SCGA05",
+    "file": "CAT_patch_-_SCGA05.btp",
+    "category": "CAT",
+    "variant": "A05"
+  },
+  {
+    "name": "CAT patch - SCGA10",
+    "file": "CAT_patch_-_SCGA10.btp",
+    "category": "CAT",
+    "variant": "A10"
+  },
+  {
+    "name": "CAT patch - SCGAB0",
+    "file": "CAT_patch_-_SCGAB0.btp",
+    "category": "CAT",
+    "variant": "AB0"
+  },
+  {
+    "name": "CAT patch - SCGAE0",
+    "file": "CAT_patch_-_SCGAE0.btp",
+    "category": "CAT",
+    "variant": "AE0"
+  },
+  {
+    "name": "CAT patch - SCGB10",
+    "file": "CAT_patch_-_SCGB10.btp",
+    "category": "CAT",
+    "variant": "B10"
+  },
+  {
+    "name": "CAT patch - SCGG10",
+    "file": "CAT_patch_-_SCGG10.btp",
+    "category": "CAT",
+    "variant": "G10"
+  },
+  {
+    "name": "CAT patch - SCGH10",
+    "file": "CAT_patch_-_SCGH10.btp",
+    "category": "CAT",
+    "variant": "H10"
   }
 ]
