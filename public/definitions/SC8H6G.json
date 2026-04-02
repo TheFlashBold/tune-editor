@@ -186743,7 +186743,7 @@
       ]
     },
     {
-      "name": "c_maf_sp_tqi_hys_ef[0][pow_ef_0]",
+      "name": "c_maf_sp_tqi_hys_ef[0][0]",
       "description": "Hysteresis of engine load to switch exhaust flap",
       "address": 7370,
       "type": "VALUE",
@@ -186758,7 +186758,7 @@
       ]
     },
     {
-      "name": "c_maf_sp_tqi_hys_ef[0][pow_ef_1]",
+      "name": "c_maf_sp_tqi_hys_ef[0][1]",
       "description": "Hysteresis of engine load to switch exhaust flap",
       "address": 7372,
       "type": "VALUE",
@@ -186773,7 +186773,7 @@
       ]
     },
     {
-      "name": "c_maf_sp_tqi_hys_ef[0][pow_ef_2]",
+      "name": "c_maf_sp_tqi_hys_ef[0][2]",
       "description": "Hysteresis of engine load to switch exhaust flap",
       "address": 7374,
       "type": "VALUE",
@@ -186788,7 +186788,7 @@
       ]
     },
     {
-      "name": "c_maf_sp_tqi_hys_ef[1][pow_ef_0]",
+      "name": "c_maf_sp_tqi_hys_ef[1][0]",
       "description": "Hysteresis of engine load to switch exhaust flap",
       "address": 7376,
       "type": "VALUE",
@@ -186803,7 +186803,7 @@
       ]
     },
     {
-      "name": "c_maf_sp_tqi_hys_ef[1][pow_ef_1]",
+      "name": "c_maf_sp_tqi_hys_ef[1][1]",
       "description": "Hysteresis of engine load to switch exhaust flap",
       "address": 7378,
       "type": "VALUE",
@@ -186818,7 +186818,7 @@
       ]
     },
     {
-      "name": "c_maf_sp_tqi_hys_ef[1][pow_ef_2]",
+      "name": "c_maf_sp_tqi_hys_ef[1][2]",
       "description": "Hysteresis of engine load to switch exhaust flap",
       "address": 7380,
       "type": "VALUE",
@@ -186833,7 +186833,7 @@
       ]
     },
     {
-      "name": "c_n_32_hys_ef[0][pow_ef_0]",
+      "name": "c_n_32_hys_ef[0][0]",
       "description": "Hysteresis of engine speed to switch exhaust flap",
       "address": 7382,
       "type": "VALUE",
@@ -186848,7 +186848,7 @@
       ]
     },
     {
-      "name": "c_n_32_hys_ef[0][pow_ef_1]",
+      "name": "c_n_32_hys_ef[0][1]",
       "description": "Hysteresis of engine speed to switch exhaust flap",
       "address": 7383,
       "type": "VALUE",
@@ -186863,7 +186863,7 @@
       ]
     },
     {
-      "name": "c_n_32_hys_ef[0][pow_ef_2]",
+      "name": "c_n_32_hys_ef[0][2]",
       "description": "Hysteresis of engine speed to switch exhaust flap",
       "address": 7384,
       "type": "VALUE",
@@ -186878,7 +186878,7 @@
       ]
     },
     {
-      "name": "c_n_32_hys_ef[1][pow_ef_0]",
+      "name": "c_n_32_hys_ef[1][0]",
       "description": "Hysteresis of engine speed to switch exhaust flap",
       "address": 7385,
       "type": "VALUE",
@@ -186893,7 +186893,7 @@
       ]
     },
     {
-      "name": "c_n_32_hys_ef[1][pow_ef_1]",
+      "name": "c_n_32_hys_ef[1][1]",
       "description": "Hysteresis of engine speed to switch exhaust flap",
       "address": 7386,
       "type": "VALUE",
@@ -186908,7 +186908,7 @@
       ]
     },
     {
-      "name": "c_n_32_hys_ef[1][pow_ef_2]",
+      "name": "c_n_32_hys_ef[1][2]",
       "description": "Hysteresis of engine speed to switch exhaust flap",
       "address": 7387,
       "type": "VALUE",
@@ -186923,7 +186923,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_close[0][pow_ef_0]",
+      "name": "c_pwm_ef_el_close[0][0]",
       "description": "PWM value for exhaust flap close (lv_ef = 1) with range 51%-100%",
       "address": 7392,
       "type": "VALUE",
@@ -186938,7 +186938,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_close[0][pow_ef_1]",
+      "name": "c_pwm_ef_el_close[0][1]",
       "description": "PWM value for exhaust flap close (lv_ef = 1) with range 51%-100%",
       "address": 7394,
       "type": "VALUE",
@@ -186953,7 +186953,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_close[0][pow_ef_2]",
+      "name": "c_pwm_ef_el_close[0][2]",
       "description": "PWM value for exhaust flap close (lv_ef = 1) with range 51%-100%",
       "address": 7396,
       "type": "VALUE",
@@ -186968,7 +186968,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_close[1][pow_ef_0]",
+      "name": "c_pwm_ef_el_close[1][0]",
       "description": "PWM value for exhaust flap close (lv_ef = 1) with range 51%-100%",
       "address": 7398,
       "type": "VALUE",
@@ -186983,7 +186983,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_close[1][pow_ef_1]",
+      "name": "c_pwm_ef_el_close[1][1]",
       "description": "PWM value for exhaust flap close (lv_ef = 1) with range 51%-100%",
       "address": 7400,
       "type": "VALUE",
@@ -186998,7 +186998,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_close[1][pow_ef_2]",
+      "name": "c_pwm_ef_el_close[1][2]",
       "description": "PWM value for exhaust flap close (lv_ef = 1) with range 51%-100%",
       "address": 7402,
       "type": "VALUE",
@@ -187013,7 +187013,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_open[0][pow_ef_0]",
+      "name": "c_pwm_ef_el_open[0][0]",
       "description": "PWM value for exhaust flap open (lv_ef = 0) with range 0%-50%",
       "address": 7404,
       "type": "VALUE",
@@ -187028,7 +187028,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_open[0][pow_ef_1]",
+      "name": "c_pwm_ef_el_open[0][1]",
       "description": "PWM value for exhaust flap open (lv_ef = 0) with range 0%-50%",
       "address": 7406,
       "type": "VALUE",
@@ -187043,7 +187043,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_open[0][pow_ef_2]",
+      "name": "c_pwm_ef_el_open[0][2]",
       "description": "PWM value for exhaust flap open (lv_ef = 0) with range 0%-50%",
       "address": 7408,
       "type": "VALUE",
@@ -187058,7 +187058,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_open[1][pow_ef_0]",
+      "name": "c_pwm_ef_el_open[1][0]",
       "description": "PWM value for exhaust flap open (lv_ef = 0) with range 0%-50%",
       "address": 7410,
       "type": "VALUE",
@@ -187073,7 +187073,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_open[1][pow_ef_1]",
+      "name": "c_pwm_ef_el_open[1][1]",
       "description": "PWM value for exhaust flap open (lv_ef = 0) with range 0%-50%",
       "address": 7412,
       "type": "VALUE",
@@ -187088,7 +187088,7 @@
       ]
     },
     {
-      "name": "c_pwm_ef_el_open[1][pow_ef_2]",
+      "name": "c_pwm_ef_el_open[1][2]",
       "description": "PWM value for exhaust flap open (lv_ef = 0) with range 0%-50%",
       "address": 7414,
       "type": "VALUE",
@@ -187103,7 +187103,7 @@
       ]
     },
     {
-      "name": "c_tam_hys_ef_ena[0][pow_ef_0]",
+      "name": "c_tam_hys_ef_ena[0][0]",
       "description": "Hysteresis of ambient temperature for deactivation",
       "address": 7425,
       "type": "VALUE",
@@ -187118,7 +187118,7 @@
       ]
     },
     {
-      "name": "c_tam_hys_ef_ena[0][pow_ef_1]",
+      "name": "c_tam_hys_ef_ena[0][1]",
       "description": "Hysteresis of ambient temperature for deactivation",
       "address": 7426,
       "type": "VALUE",
@@ -187133,7 +187133,7 @@
       ]
     },
     {
-      "name": "c_tam_hys_ef_ena[0][pow_ef_2]",
+      "name": "c_tam_hys_ef_ena[0][2]",
       "description": "Hysteresis of ambient temperature for deactivation",
       "address": 7427,
       "type": "VALUE",
@@ -187148,7 +187148,7 @@
       ]
     },
     {
-      "name": "c_tam_hys_ef_ena[1][pow_ef_0]",
+      "name": "c_tam_hys_ef_ena[1][0]",
       "description": "Hysteresis of ambient temperature for deactivation",
       "address": 7428,
       "type": "VALUE",
@@ -187163,7 +187163,7 @@
       ]
     },
     {
-      "name": "c_tam_hys_ef_ena[1][pow_ef_1]",
+      "name": "c_tam_hys_ef_ena[1][1]",
       "description": "Hysteresis of ambient temperature for deactivation",
       "address": 7429,
       "type": "VALUE",
@@ -187178,7 +187178,7 @@
       ]
     },
     {
-      "name": "c_tam_hys_ef_ena[1][pow_ef_2]",
+      "name": "c_tam_hys_ef_ena[1][2]",
       "description": "Hysteresis of ambient temperature for deactivation",
       "address": 7430,
       "type": "VALUE",
@@ -187193,7 +187193,7 @@
       ]
     },
     {
-      "name": "c_tam_min_ef_ena[0][pow_ef_0]",
+      "name": "c_tam_min_ef_ena[0][0]",
       "description": "Minimum ambient temperature for activation",
       "address": 7431,
       "type": "VALUE",
@@ -187208,7 +187208,7 @@
       ]
     },
     {
-      "name": "c_tam_min_ef_ena[0][pow_ef_1]",
+      "name": "c_tam_min_ef_ena[0][1]",
       "description": "Minimum ambient temperature for activation",
       "address": 7432,
       "type": "VALUE",
@@ -187223,7 +187223,7 @@
       ]
     },
     {
-      "name": "c_tam_min_ef_ena[0][pow_ef_2]",
+      "name": "c_tam_min_ef_ena[0][2]",
       "description": "Minimum ambient temperature for activation",
       "address": 7433,
       "type": "VALUE",
@@ -187238,7 +187238,7 @@
       ]
     },
     {
-      "name": "c_tam_min_ef_ena[1][pow_ef_0]",
+      "name": "c_tam_min_ef_ena[1][0]",
       "description": "Minimum ambient temperature for activation",
       "address": 7434,
       "type": "VALUE",
@@ -187253,7 +187253,7 @@
       ]
     },
     {
-      "name": "c_tam_min_ef_ena[1][pow_ef_1]",
+      "name": "c_tam_min_ef_ena[1][1]",
       "description": "Minimum ambient temperature for activation",
       "address": 7435,
       "type": "VALUE",
@@ -187268,7 +187268,7 @@
       ]
     },
     {
-      "name": "c_tam_min_ef_ena[1][pow_ef_2]",
+      "name": "c_tam_min_ef_ena[1][2]",
       "description": "Minimum ambient temperature for activation",
       "address": 7436,
       "type": "VALUE",
@@ -187283,7 +187283,7 @@
       ]
     },
     {
-      "name": "c_tco_hys_ef_ena[0][pow_ef_0]",
+      "name": "c_tco_hys_ef_ena[0][0]",
       "description": "Hysteresis of coolant temperature for deactivation",
       "address": 7437,
       "type": "VALUE",
@@ -187298,7 +187298,7 @@
       ]
     },
     {
-      "name": "c_tco_hys_ef_ena[0][pow_ef_1]",
+      "name": "c_tco_hys_ef_ena[0][1]",
       "description": "Hysteresis of coolant temperature for deactivation",
       "address": 7438,
       "type": "VALUE",
@@ -187313,7 +187313,7 @@
       ]
     },
     {
-      "name": "c_tco_hys_ef_ena[0][pow_ef_2]",
+      "name": "c_tco_hys_ef_ena[0][2]",
       "description": "Hysteresis of coolant temperature for deactivation",
       "address": 7439,
       "type": "VALUE",
@@ -187328,7 +187328,7 @@
       ]
     },
     {
-      "name": "c_tco_hys_ef_ena[1][pow_ef_0]",
+      "name": "c_tco_hys_ef_ena[1][0]",
       "description": "Hysteresis of coolant temperature for deactivation",
       "address": 7440,
       "type": "VALUE",
@@ -187343,7 +187343,7 @@
       ]
     },
     {
-      "name": "c_tco_hys_ef_ena[1][pow_ef_1]",
+      "name": "c_tco_hys_ef_ena[1][1]",
       "description": "Hysteresis of coolant temperature for deactivation",
       "address": 7441,
       "type": "VALUE",
@@ -187358,7 +187358,7 @@
       ]
     },
     {
-      "name": "c_tco_hys_ef_ena[1][pow_ef_2]",
+      "name": "c_tco_hys_ef_ena[1][2]",
       "description": "Hysteresis of coolant temperature for deactivation",
       "address": 7442,
       "type": "VALUE",
@@ -187373,7 +187373,7 @@
       ]
     },
     {
-      "name": "c_tco_min_ef_ena[0][pow_ef_0]",
+      "name": "c_tco_min_ef_ena[0][0]",
       "description": "Minimum coolant temperature for exhaust flap activation",
       "address": 7443,
       "type": "VALUE",
@@ -187388,7 +187388,7 @@
       ]
     },
     {
-      "name": "c_tco_min_ef_ena[0][pow_ef_1]",
+      "name": "c_tco_min_ef_ena[0][1]",
       "description": "Minimum coolant temperature for exhaust flap activation",
       "address": 7444,
       "type": "VALUE",
@@ -187403,7 +187403,7 @@
       ]
     },
     {
-      "name": "c_tco_min_ef_ena[0][pow_ef_2]",
+      "name": "c_tco_min_ef_ena[0][2]",
       "description": "Minimum coolant temperature for exhaust flap activation",
       "address": 7445,
       "type": "VALUE",
@@ -187418,7 +187418,7 @@
       ]
     },
     {
-      "name": "c_tco_min_ef_ena[1][pow_ef_0]",
+      "name": "c_tco_min_ef_ena[1][0]",
       "description": "Minimum coolant temperature for exhaust flap activation",
       "address": 7446,
       "type": "VALUE",
@@ -187433,7 +187433,7 @@
       ]
     },
     {
-      "name": "c_tco_min_ef_ena[1][pow_ef_1]",
+      "name": "c_tco_min_ef_ena[1][1]",
       "description": "Minimum coolant temperature for exhaust flap activation",
       "address": 7447,
       "type": "VALUE",
@@ -187448,7 +187448,7 @@
       ]
     },
     {
-      "name": "c_tco_min_ef_ena[1][pow_ef_2]",
+      "name": "c_tco_min_ef_ena[1][2]",
       "description": "Minimum coolant temperature for exhaust flap activation",
       "address": 7448,
       "type": "VALUE",
@@ -187493,7 +187493,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[0][pow_ef_0][noise_ef_silent]",
+      "name": "c_vs_hys_ef_ena[0][0][noise_ef_silent]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77872,
       "type": "VALUE",
@@ -187508,7 +187508,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[0][pow_ef_0][noise_ef_dyn]",
+      "name": "c_vs_hys_ef_ena[0][0][noise_ef_dyn]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77873,
       "type": "VALUE",
@@ -187523,7 +187523,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[0][pow_ef_0][noise_ef_normal]",
+      "name": "c_vs_hys_ef_ena[0][0][noise_ef_normal]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77874,
       "type": "VALUE",
@@ -187538,7 +187538,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[0][pow_ef_1][noise_ef_silent]",
+      "name": "c_vs_hys_ef_ena[0][1][noise_ef_silent]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77875,
       "type": "VALUE",
@@ -187553,7 +187553,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[0][pow_ef_1][noise_ef_dyn]",
+      "name": "c_vs_hys_ef_ena[0][1][noise_ef_dyn]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77876,
       "type": "VALUE",
@@ -187568,7 +187568,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[0][pow_ef_1][noise_ef_normal]",
+      "name": "c_vs_hys_ef_ena[0][1][noise_ef_normal]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77877,
       "type": "VALUE",
@@ -187583,7 +187583,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[0][pow_ef_2][noise_ef_silent]",
+      "name": "c_vs_hys_ef_ena[0][2][noise_ef_silent]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77878,
       "type": "VALUE",
@@ -187598,7 +187598,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[0][pow_ef_2][noise_ef_dyn]",
+      "name": "c_vs_hys_ef_ena[0][2][noise_ef_dyn]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77879,
       "type": "VALUE",
@@ -187613,7 +187613,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[0][pow_ef_2][noise_ef_normal]",
+      "name": "c_vs_hys_ef_ena[0][2][noise_ef_normal]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77880,
       "type": "VALUE",
@@ -187628,7 +187628,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[1][pow_ef_0][noise_ef_silent]",
+      "name": "c_vs_hys_ef_ena[1][0][noise_ef_silent]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77881,
       "type": "VALUE",
@@ -187643,7 +187643,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[1][pow_ef_0][noise_ef_dyn]",
+      "name": "c_vs_hys_ef_ena[1][0][noise_ef_dyn]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77882,
       "type": "VALUE",
@@ -187658,7 +187658,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[1][pow_ef_0][noise_ef_normal]",
+      "name": "c_vs_hys_ef_ena[1][0][noise_ef_normal]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77883,
       "type": "VALUE",
@@ -187673,7 +187673,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[1][pow_ef_1][noise_ef_silent]",
+      "name": "c_vs_hys_ef_ena[1][1][noise_ef_silent]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77884,
       "type": "VALUE",
@@ -187688,7 +187688,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[1][pow_ef_1][noise_ef_dyn]",
+      "name": "c_vs_hys_ef_ena[1][1][noise_ef_dyn]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77885,
       "type": "VALUE",
@@ -187703,7 +187703,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[1][pow_ef_1][noise_ef_normal]",
+      "name": "c_vs_hys_ef_ena[1][1][noise_ef_normal]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77886,
       "type": "VALUE",
@@ -187718,7 +187718,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[1][pow_ef_2][noise_ef_silent]",
+      "name": "c_vs_hys_ef_ena[1][2][noise_ef_silent]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77887,
       "type": "VALUE",
@@ -187733,7 +187733,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[1][pow_ef_2][noise_ef_dyn]",
+      "name": "c_vs_hys_ef_ena[1][2][noise_ef_dyn]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77888,
       "type": "VALUE",
@@ -187748,7 +187748,7 @@
       ]
     },
     {
-      "name": "c_vs_hys_ef_ena[1][pow_ef_2][noise_ef_normal]",
+      "name": "c_vs_hys_ef_ena[1][2][noise_ef_normal]",
       "description": "Hysteresis of vehicle speed for deactivation",
       "address": 77889,
       "type": "VALUE",
@@ -187763,7 +187763,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[0][pow_ef_0][noise_ef_silent]",
+      "name": "c_vs_min_ef_ena[0][0][noise_ef_silent]",
       "description": "Minimum vehicle speed for activation",
       "address": 77892,
       "type": "VALUE",
@@ -187778,7 +187778,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[0][pow_ef_0][noise_ef_dyn]",
+      "name": "c_vs_min_ef_ena[0][0][noise_ef_dyn]",
       "description": "Minimum vehicle speed for activation",
       "address": 77893,
       "type": "VALUE",
@@ -187793,7 +187793,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[0][pow_ef_0][noise_ef_normal]",
+      "name": "c_vs_min_ef_ena[0][0][noise_ef_normal]",
       "description": "Minimum vehicle speed for activation",
       "address": 77894,
       "type": "VALUE",
@@ -187808,7 +187808,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[0][pow_ef_1][noise_ef_silent]",
+      "name": "c_vs_min_ef_ena[0][1][noise_ef_silent]",
       "description": "Minimum vehicle speed for activation",
       "address": 77895,
       "type": "VALUE",
@@ -187823,7 +187823,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[0][pow_ef_1][noise_ef_dyn]",
+      "name": "c_vs_min_ef_ena[0][1][noise_ef_dyn]",
       "description": "Minimum vehicle speed for activation",
       "address": 77896,
       "type": "VALUE",
@@ -187838,7 +187838,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[0][pow_ef_1][noise_ef_normal]",
+      "name": "c_vs_min_ef_ena[0][1][noise_ef_normal]",
       "description": "Minimum vehicle speed for activation",
       "address": 77897,
       "type": "VALUE",
@@ -187853,7 +187853,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[0][pow_ef_2][noise_ef_silent]",
+      "name": "c_vs_min_ef_ena[0][2][noise_ef_silent]",
       "description": "Minimum vehicle speed for activation",
       "address": 77898,
       "type": "VALUE",
@@ -187868,7 +187868,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[0][pow_ef_2][noise_ef_dyn]",
+      "name": "c_vs_min_ef_ena[0][2][noise_ef_dyn]",
       "description": "Minimum vehicle speed for activation",
       "address": 77899,
       "type": "VALUE",
@@ -187883,7 +187883,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[0][pow_ef_2][noise_ef_normal]",
+      "name": "c_vs_min_ef_ena[0][2][noise_ef_normal]",
       "description": "Minimum vehicle speed for activation",
       "address": 77900,
       "type": "VALUE",
@@ -187898,7 +187898,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[1][pow_ef_0][noise_ef_silent]",
+      "name": "c_vs_min_ef_ena[1][0][noise_ef_silent]",
       "description": "Minimum vehicle speed for activation",
       "address": 77901,
       "type": "VALUE",
@@ -187913,7 +187913,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[1][pow_ef_0][noise_ef_dyn]",
+      "name": "c_vs_min_ef_ena[1][0][noise_ef_dyn]",
       "description": "Minimum vehicle speed for activation",
       "address": 77902,
       "type": "VALUE",
@@ -187928,7 +187928,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[1][pow_ef_0][noise_ef_normal]",
+      "name": "c_vs_min_ef_ena[1][0][noise_ef_normal]",
       "description": "Minimum vehicle speed for activation",
       "address": 77903,
       "type": "VALUE",
@@ -187943,7 +187943,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[1][pow_ef_1][noise_ef_silent]",
+      "name": "c_vs_min_ef_ena[1][1][noise_ef_silent]",
       "description": "Minimum vehicle speed for activation",
       "address": 77904,
       "type": "VALUE",
@@ -187958,7 +187958,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[1][pow_ef_1][noise_ef_dyn]",
+      "name": "c_vs_min_ef_ena[1][1][noise_ef_dyn]",
       "description": "Minimum vehicle speed for activation",
       "address": 77905,
       "type": "VALUE",
@@ -187973,7 +187973,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[1][pow_ef_1][noise_ef_normal]",
+      "name": "c_vs_min_ef_ena[1][1][noise_ef_normal]",
       "description": "Minimum vehicle speed for activation",
       "address": 77906,
       "type": "VALUE",
@@ -187988,7 +187988,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[1][pow_ef_2][noise_ef_silent]",
+      "name": "c_vs_min_ef_ena[1][2][noise_ef_silent]",
       "description": "Minimum vehicle speed for activation",
       "address": 77907,
       "type": "VALUE",
@@ -188003,7 +188003,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[1][pow_ef_2][noise_ef_dyn]",
+      "name": "c_vs_min_ef_ena[1][2][noise_ef_dyn]",
       "description": "Minimum vehicle speed for activation",
       "address": 77908,
       "type": "VALUE",
@@ -188018,7 +188018,7 @@
       ]
     },
     {
-      "name": "c_vs_min_ef_ena[1][pow_ef_2][noise_ef_normal]",
+      "name": "c_vs_min_ef_ena[1][2][noise_ef_normal]",
       "description": "Minimum vehicle speed for activation",
       "address": 77909,
       "type": "VALUE",
@@ -188033,7 +188033,7 @@
       ]
     },
     {
-      "name": "id_gear_max_ef_lock_open[0][pow_ef_0][noise_ef_silent]",
+      "name": "id_gear_max_ef_lock_open[0][0][noise_ef_silent]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75868,
       "type": "CURVE",
@@ -188081,7 +188081,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[0][pow_ef_0][noise_ef_dyn]",
+      "name": "id_gear_max_ef_lock_open[0][0][noise_ef_dyn]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75877,
       "type": "CURVE",
@@ -188106,7 +188106,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[0][pow_ef_0][noise_ef_normal]",
+      "name": "id_gear_max_ef_lock_open[0][0][noise_ef_normal]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75886,
       "type": "CURVE",
@@ -188131,7 +188131,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[0][pow_ef_1][noise_ef_silent]",
+      "name": "id_gear_max_ef_lock_open[0][1][noise_ef_silent]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75895,
       "type": "CURVE",
@@ -188156,7 +188156,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[0][pow_ef_1][noise_ef_dyn]",
+      "name": "id_gear_max_ef_lock_open[0][1][noise_ef_dyn]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75904,
       "type": "CURVE",
@@ -188181,7 +188181,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[0][pow_ef_1][noise_ef_normal]",
+      "name": "id_gear_max_ef_lock_open[0][1][noise_ef_normal]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75913,
       "type": "CURVE",
@@ -188206,7 +188206,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[0][pow_ef_2][noise_ef_silent]",
+      "name": "id_gear_max_ef_lock_open[0][2][noise_ef_silent]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75922,
       "type": "CURVE",
@@ -188231,7 +188231,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[0][pow_ef_2][noise_ef_dyn]",
+      "name": "id_gear_max_ef_lock_open[0][2][noise_ef_dyn]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75931,
       "type": "CURVE",
@@ -188256,7 +188256,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[0][pow_ef_2][noise_ef_normal]",
+      "name": "id_gear_max_ef_lock_open[0][2][noise_ef_normal]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75940,
       "type": "CURVE",
@@ -188281,7 +188281,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[1][pow_ef_0][noise_ef_silent]",
+      "name": "id_gear_max_ef_lock_open[1][0][noise_ef_silent]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75949,
       "type": "CURVE",
@@ -188306,7 +188306,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[1][pow_ef_0][noise_ef_dyn]",
+      "name": "id_gear_max_ef_lock_open[1][0][noise_ef_dyn]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75958,
       "type": "CURVE",
@@ -188331,7 +188331,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[1][pow_ef_0][noise_ef_normal]",
+      "name": "id_gear_max_ef_lock_open[1][0][noise_ef_normal]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75967,
       "type": "CURVE",
@@ -188356,7 +188356,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[1][pow_ef_1][noise_ef_silent]",
+      "name": "id_gear_max_ef_lock_open[1][1][noise_ef_silent]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75976,
       "type": "CURVE",
@@ -188381,7 +188381,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[1][pow_ef_1][noise_ef_dyn]",
+      "name": "id_gear_max_ef_lock_open[1][1][noise_ef_dyn]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75985,
       "type": "CURVE",
@@ -188406,7 +188406,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[1][pow_ef_1][noise_ef_normal]",
+      "name": "id_gear_max_ef_lock_open[1][1][noise_ef_normal]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 75994,
       "type": "CURVE",
@@ -188431,7 +188431,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[1][pow_ef_2][noise_ef_silent]",
+      "name": "id_gear_max_ef_lock_open[1][2][noise_ef_silent]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 76003,
       "type": "CURVE",
@@ -188456,7 +188456,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[1][pow_ef_2][noise_ef_dyn]",
+      "name": "id_gear_max_ef_lock_open[1][2][noise_ef_dyn]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 76012,
       "type": "CURVE",
@@ -188481,7 +188481,7 @@
       }
     },
     {
-      "name": "id_gear_max_ef_lock_open[1][pow_ef_2][noise_ef_normal]",
+      "name": "id_gear_max_ef_lock_open[1][2][noise_ef_normal]",
       "description": "Control of exhaust flap function with gear dependency",
       "address": 76021,
       "type": "CURVE",
@@ -188506,7 +188506,7 @@
       }
     },
     {
-      "name": "id_state_gear_ef_mod_sel[pow_ef_0][noise_ef_silent]",
+      "name": "id_state_gear_ef_mod_sel[0][noise_ef_silent]",
       "description": "Operating mode selection of exhaust flap depending on gear shift",
       "address": 76032,
       "type": "CURVE",
@@ -188531,7 +188531,7 @@
       }
     },
     {
-      "name": "id_state_gear_ef_mod_sel[pow_ef_0][noise_ef_dyn]",
+      "name": "id_state_gear_ef_mod_sel[0][noise_ef_dyn]",
       "description": "Operating mode selection of exhaust flap depending on gear shift",
       "address": 76041,
       "type": "CURVE",
@@ -188556,7 +188556,7 @@
       }
     },
     {
-      "name": "id_state_gear_ef_mod_sel[pow_ef_0][noise_ef_normal]",
+      "name": "id_state_gear_ef_mod_sel[0][noise_ef_normal]",
       "description": "Operating mode selection of exhaust flap depending on gear shift",
       "address": 76050,
       "type": "CURVE",
@@ -188581,7 +188581,7 @@
       }
     },
     {
-      "name": "id_state_gear_ef_mod_sel[pow_ef_1][noise_ef_silent]",
+      "name": "id_state_gear_ef_mod_sel[1][noise_ef_silent]",
       "description": "Operating mode selection of exhaust flap depending on gear shift",
       "address": 76059,
       "type": "CURVE",
@@ -188606,7 +188606,7 @@
       }
     },
     {
-      "name": "id_state_gear_ef_mod_sel[pow_ef_1][noise_ef_dyn]",
+      "name": "id_state_gear_ef_mod_sel[1][noise_ef_dyn]",
       "description": "Operating mode selection of exhaust flap depending on gear shift",
       "address": 76068,
       "type": "CURVE",
@@ -188631,7 +188631,7 @@
       }
     },
     {
-      "name": "id_state_gear_ef_mod_sel[pow_ef_1][noise_ef_normal]",
+      "name": "id_state_gear_ef_mod_sel[1][noise_ef_normal]",
       "description": "Operating mode selection of exhaust flap depending on gear shift",
       "address": 76077,
       "type": "CURVE",
@@ -188656,7 +188656,7 @@
       }
     },
     {
-      "name": "id_state_gear_ef_mod_sel[pow_ef_2][noise_ef_silent]",
+      "name": "id_state_gear_ef_mod_sel[2][noise_ef_silent]",
       "description": "Operating mode selection of exhaust flap depending on gear shift",
       "address": 76086,
       "type": "CURVE",
@@ -188681,7 +188681,7 @@
       }
     },
     {
-      "name": "id_state_gear_ef_mod_sel[pow_ef_2][noise_ef_dyn]",
+      "name": "id_state_gear_ef_mod_sel[2][noise_ef_dyn]",
       "description": "Operating mode selection of exhaust flap depending on gear shift",
       "address": 76095,
       "type": "CURVE",
@@ -188706,7 +188706,7 @@
       }
     },
     {
-      "name": "id_state_gear_ef_mod_sel[pow_ef_2][noise_ef_normal]",
+      "name": "id_state_gear_ef_mod_sel[2][noise_ef_normal]",
       "description": "Operating mode selection of exhaust flap depending on gear shift",
       "address": 76104,
       "type": "CURVE",
@@ -188731,7 +188731,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[0][pow_ef_0][noise_ef_silent]",
+      "name": "id_state_sp_ef[0][0][noise_ef_silent]",
       "description": "Map for exhaust flap setpoint",
       "address": 76116,
       "type": "MAP",
@@ -188815,7 +188815,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[0][pow_ef_0][noise_ef_dyn]",
+      "name": "id_state_sp_ef[0][0][noise_ef_dyn]",
       "description": "Map for exhaust flap setpoint",
       "address": 76152,
       "type": "MAP",
@@ -188853,7 +188853,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[0][pow_ef_0][noise_ef_normal]",
+      "name": "id_state_sp_ef[0][0][noise_ef_normal]",
       "description": "Map for exhaust flap setpoint",
       "address": 76188,
       "type": "MAP",
@@ -188891,7 +188891,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[0][pow_ef_1][noise_ef_silent]",
+      "name": "id_state_sp_ef[0][1][noise_ef_silent]",
       "description": "Map for exhaust flap setpoint",
       "address": 76224,
       "type": "MAP",
@@ -188929,7 +188929,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[0][pow_ef_1][noise_ef_dyn]",
+      "name": "id_state_sp_ef[0][1][noise_ef_dyn]",
       "description": "Map for exhaust flap setpoint",
       "address": 76260,
       "type": "MAP",
@@ -188967,7 +188967,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[0][pow_ef_1][noise_ef_normal]",
+      "name": "id_state_sp_ef[0][1][noise_ef_normal]",
       "description": "Map for exhaust flap setpoint",
       "address": 76296,
       "type": "MAP",
@@ -189005,7 +189005,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[0][pow_ef_2][noise_ef_silent]",
+      "name": "id_state_sp_ef[0][2][noise_ef_silent]",
       "description": "Map for exhaust flap setpoint",
       "address": 76332,
       "type": "MAP",
@@ -189043,7 +189043,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[0][pow_ef_2][noise_ef_dyn]",
+      "name": "id_state_sp_ef[0][2][noise_ef_dyn]",
       "description": "Map for exhaust flap setpoint",
       "address": 76368,
       "type": "MAP",
@@ -189081,7 +189081,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[0][pow_ef_2][noise_ef_normal]",
+      "name": "id_state_sp_ef[0][2][noise_ef_normal]",
       "description": "Map for exhaust flap setpoint",
       "address": 76404,
       "type": "MAP",
@@ -189119,7 +189119,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[1][pow_ef_0][noise_ef_silent]",
+      "name": "id_state_sp_ef[1][0][noise_ef_silent]",
       "description": "Map for exhaust flap setpoint",
       "address": 76440,
       "type": "MAP",
@@ -189157,7 +189157,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[1][pow_ef_0][noise_ef_dyn]",
+      "name": "id_state_sp_ef[1][0][noise_ef_dyn]",
       "description": "Map for exhaust flap setpoint",
       "address": 76476,
       "type": "MAP",
@@ -189195,7 +189195,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[1][pow_ef_0][noise_ef_normal]",
+      "name": "id_state_sp_ef[1][0][noise_ef_normal]",
       "description": "Map for exhaust flap setpoint",
       "address": 76512,
       "type": "MAP",
@@ -189233,7 +189233,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[1][pow_ef_1][noise_ef_silent]",
+      "name": "id_state_sp_ef[1][1][noise_ef_silent]",
       "description": "Map for exhaust flap setpoint",
       "address": 76548,
       "type": "MAP",
@@ -189271,7 +189271,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[1][pow_ef_1][noise_ef_dyn]",
+      "name": "id_state_sp_ef[1][1][noise_ef_dyn]",
       "description": "Map for exhaust flap setpoint",
       "address": 76584,
       "type": "MAP",
@@ -189309,7 +189309,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[1][pow_ef_1][noise_ef_normal]",
+      "name": "id_state_sp_ef[1][1][noise_ef_normal]",
       "description": "Map for exhaust flap setpoint",
       "address": 76620,
       "type": "MAP",
@@ -189347,7 +189347,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[1][pow_ef_2][noise_ef_silent]",
+      "name": "id_state_sp_ef[1][2][noise_ef_silent]",
       "description": "Map for exhaust flap setpoint",
       "address": 76656,
       "type": "MAP",
@@ -189385,7 +189385,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[1][pow_ef_2][noise_ef_dyn]",
+      "name": "id_state_sp_ef[1][2][noise_ef_dyn]",
       "description": "Map for exhaust flap setpoint",
       "address": 76692,
       "type": "MAP",
@@ -189423,7 +189423,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef[1][pow_ef_2][noise_ef_normal]",
+      "name": "id_state_sp_ef[1][2][noise_ef_normal]",
       "description": "Map for exhaust flap setpoint",
       "address": 76728,
       "type": "MAP",
@@ -189461,7 +189461,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[0][pow_ef_0][noise_ef_silent]",
+      "name": "id_state_sp_ef_aux[0][0][noise_ef_silent]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 76764,
       "type": "MAP",
@@ -189499,7 +189499,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[0][pow_ef_0][noise_ef_dyn]",
+      "name": "id_state_sp_ef_aux[0][0][noise_ef_dyn]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 76800,
       "type": "MAP",
@@ -189537,7 +189537,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[0][pow_ef_0][noise_ef_normal]",
+      "name": "id_state_sp_ef_aux[0][0][noise_ef_normal]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 76836,
       "type": "MAP",
@@ -189575,7 +189575,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[0][pow_ef_1][noise_ef_silent]",
+      "name": "id_state_sp_ef_aux[0][1][noise_ef_silent]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 76872,
       "type": "MAP",
@@ -189613,7 +189613,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[0][pow_ef_1][noise_ef_dyn]",
+      "name": "id_state_sp_ef_aux[0][1][noise_ef_dyn]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 76908,
       "type": "MAP",
@@ -189651,7 +189651,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[0][pow_ef_1][noise_ef_normal]",
+      "name": "id_state_sp_ef_aux[0][1][noise_ef_normal]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 76944,
       "type": "MAP",
@@ -189689,7 +189689,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[0][pow_ef_2][noise_ef_silent]",
+      "name": "id_state_sp_ef_aux[0][2][noise_ef_silent]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 76980,
       "type": "MAP",
@@ -189727,7 +189727,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[0][pow_ef_2][noise_ef_dyn]",
+      "name": "id_state_sp_ef_aux[0][2][noise_ef_dyn]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 77016,
       "type": "MAP",
@@ -189765,7 +189765,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[0][pow_ef_2][noise_ef_normal]",
+      "name": "id_state_sp_ef_aux[0][2][noise_ef_normal]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 77052,
       "type": "MAP",
@@ -189803,7 +189803,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[1][pow_ef_0][noise_ef_silent]",
+      "name": "id_state_sp_ef_aux[1][0][noise_ef_silent]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 77088,
       "type": "MAP",
@@ -189841,7 +189841,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[1][pow_ef_0][noise_ef_dyn]",
+      "name": "id_state_sp_ef_aux[1][0][noise_ef_dyn]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 77124,
       "type": "MAP",
@@ -189879,7 +189879,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[1][pow_ef_0][noise_ef_normal]",
+      "name": "id_state_sp_ef_aux[1][0][noise_ef_normal]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 77160,
       "type": "MAP",
@@ -189917,7 +189917,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[1][pow_ef_1][noise_ef_silent]",
+      "name": "id_state_sp_ef_aux[1][1][noise_ef_silent]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 77196,
       "type": "MAP",
@@ -189955,7 +189955,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[1][pow_ef_1][noise_ef_dyn]",
+      "name": "id_state_sp_ef_aux[1][1][noise_ef_dyn]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 77232,
       "type": "MAP",
@@ -189993,7 +189993,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[1][pow_ef_1][noise_ef_normal]",
+      "name": "id_state_sp_ef_aux[1][1][noise_ef_normal]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 77268,
       "type": "MAP",
@@ -190031,7 +190031,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[1][pow_ef_2][noise_ef_silent]",
+      "name": "id_state_sp_ef_aux[1][2][noise_ef_silent]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 77304,
       "type": "MAP",
@@ -190069,7 +190069,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[1][pow_ef_2][noise_ef_dyn]",
+      "name": "id_state_sp_ef_aux[1][2][noise_ef_dyn]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 77340,
       "type": "MAP",
@@ -190107,7 +190107,7 @@
       }
     },
     {
-      "name": "id_state_sp_ef_aux[1][pow_ef_2][noise_ef_normal]",
+      "name": "id_state_sp_ef_aux[1][2][noise_ef_normal]",
       "description": "Auxiliary map for exhaust flap setpoint depending on gear shift",
       "address": 77376,
       "type": "MAP",
@@ -190145,7 +190145,7 @@
       }
     },
     {
-      "name": "ip_t_dly_ef_off[0][pow_ef_0]",
+      "name": "ip_t_dly_ef_off[0][0]",
       "description": "Time delay for closing exhaust flap depending on engine speed gradient and mass air flow setpoint for torque intervention",
       "address": 77440,
       "type": "MAP",
@@ -190231,7 +190231,7 @@
       }
     },
     {
-      "name": "ip_t_dly_ef_off[0][pow_ef_1]",
+      "name": "ip_t_dly_ef_off[0][1]",
       "description": "Time delay for closing exhaust flap depending on engine speed gradient and mass air flow setpoint for torque intervention",
       "address": 77512,
       "type": "MAP",
@@ -190271,7 +190271,7 @@
       }
     },
     {
-      "name": "ip_t_dly_ef_off[0][pow_ef_2]",
+      "name": "ip_t_dly_ef_off[0][2]",
       "description": "Time delay for closing exhaust flap depending on engine speed gradient and mass air flow setpoint for torque intervention",
       "address": 77584,
       "type": "MAP",
@@ -190311,7 +190311,7 @@
       }
     },
     {
-      "name": "ip_t_dly_ef_off[1][pow_ef_0]",
+      "name": "ip_t_dly_ef_off[1][0]",
       "description": "Time delay for closing exhaust flap depending on engine speed gradient and mass air flow setpoint for torque intervention",
       "address": 77656,
       "type": "MAP",
@@ -190351,7 +190351,7 @@
       }
     },
     {
-      "name": "ip_t_dly_ef_off[1][pow_ef_1]",
+      "name": "ip_t_dly_ef_off[1][1]",
       "description": "Time delay for closing exhaust flap depending on engine speed gradient and mass air flow setpoint for torque intervention",
       "address": 77728,
       "type": "MAP",
@@ -190391,7 +190391,7 @@
       }
     },
     {
-      "name": "ip_t_dly_ef_off[1][pow_ef_2]",
+      "name": "ip_t_dly_ef_off[1][2]",
       "description": "Time delay for closing exhaust flap depending on engine speed gradient and mass air flow setpoint for torque intervention",
       "address": 77800,
       "type": "MAP",
@@ -600034,7 +600034,7 @@
       ]
     },
     {
-      "name": "ip_fac_tqi_pow_max_err_min[pow_0]",
+      "name": "ip_fac_tqi_pow_max_err_min[0]",
       "description": "Factor bottom limitation in case of error for torque power limitations",
       "address": 200280,
       "type": "CURVE",
@@ -600083,7 +600083,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_err_min[pow_1]",
+      "name": "ip_fac_tqi_pow_max_err_min[1]",
       "description": "Factor bottom limitation in case of error for torque power limitations",
       "address": 200292,
       "type": "CURVE",
@@ -600109,7 +600109,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_err_min[pow_2]",
+      "name": "ip_fac_tqi_pow_max_err_min[2]",
       "description": "Factor bottom limitation in case of error for torque power limitations",
       "address": 200304,
       "type": "CURVE",
@@ -600135,7 +600135,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_err_min[pow_3]",
+      "name": "ip_fac_tqi_pow_max_err_min[3]",
       "description": "Factor bottom limitation in case of error for torque power limitations",
       "address": 200316,
       "type": "CURVE",
@@ -600161,7 +600161,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_err_min[pow_4]",
+      "name": "ip_fac_tqi_pow_max_err_min[4]",
       "description": "Factor bottom limitation in case of error for torque power limitations",
       "address": 200328,
       "type": "CURVE",
@@ -602935,7 +602935,7 @@
       }
     },
     {
-      "name": "ip_fac_amp_n_cor[pow_0]",
+      "name": "ip_fac_amp_n_cor[0]",
       "description": "Factor to consider limitations for AMP",
       "address": 198944,
       "type": "MAP",
@@ -603018,7 +603018,7 @@
       }
     },
     {
-      "name": "ip_fac_amp_n_cor[pow_1]",
+      "name": "ip_fac_amp_n_cor[1]",
       "description": "Factor to consider limitations for AMP",
       "address": 199040,
       "type": "MAP",
@@ -603055,7 +603055,7 @@
       }
     },
     {
-      "name": "ip_fac_amp_n_cor[pow_2]",
+      "name": "ip_fac_amp_n_cor[2]",
       "description": "Factor to consider limitations for AMP",
       "address": 199136,
       "type": "MAP",
@@ -603092,7 +603092,7 @@
       }
     },
     {
-      "name": "ip_fac_amp_n_cor[pow_3]",
+      "name": "ip_fac_amp_n_cor[3]",
       "description": "Factor to consider limitations for AMP",
       "address": 199232,
       "type": "MAP",
@@ -603129,7 +603129,7 @@
       }
     },
     {
-      "name": "ip_fac_amp_n_cor[pow_4]",
+      "name": "ip_fac_amp_n_cor[4]",
       "description": "Factor to consider limitations for AMP",
       "address": 199328,
       "type": "MAP",
@@ -603648,7 +603648,7 @@
       }
     },
     {
-      "name": "ip_fac_pow_max_toil[pow_0]",
+      "name": "ip_fac_pow_max_toil[0]",
       "description": "Factor for torque limitation correction based on oil temperature",
       "address": 197664,
       "type": "MAP",
@@ -603731,7 +603731,7 @@
       }
     },
     {
-      "name": "ip_fac_pow_max_toil[pow_1]",
+      "name": "ip_fac_pow_max_toil[1]",
       "description": "Factor for torque limitation correction based on oil temperature",
       "address": 197760,
       "type": "MAP",
@@ -603768,7 +603768,7 @@
       }
     },
     {
-      "name": "ip_fac_pow_max_toil[pow_2]",
+      "name": "ip_fac_pow_max_toil[2]",
       "description": "Factor for torque limitation correction based on oil temperature",
       "address": 197856,
       "type": "MAP",
@@ -603805,7 +603805,7 @@
       }
     },
     {
-      "name": "ip_fac_pow_max_toil[pow_3]",
+      "name": "ip_fac_pow_max_toil[3]",
       "description": "Factor for torque limitation correction based on oil temperature",
       "address": 197952,
       "type": "MAP",
@@ -603842,7 +603842,7 @@
       }
     },
     {
-      "name": "ip_fac_pow_max_toil[pow_4]",
+      "name": "ip_fac_pow_max_toil[4]",
       "description": "Factor for torque limitation correction based on oil temperature",
       "address": 198048,
       "type": "MAP",
@@ -603963,7 +603963,7 @@
       }
     },
     {
-      "name": "ip_fac_tia_n_cor[pow_0]",
+      "name": "ip_fac_tia_n_cor[0]",
       "description": "Factor to consider limitations for TIA",
       "address": 199636,
       "type": "MAP",
@@ -604047,7 +604047,7 @@
       }
     },
     {
-      "name": "ip_fac_tia_n_cor[pow_1]",
+      "name": "ip_fac_tia_n_cor[1]",
       "description": "Factor to consider limitations for TIA",
       "address": 199732,
       "type": "MAP",
@@ -604085,7 +604085,7 @@
       }
     },
     {
-      "name": "ip_fac_tia_n_cor[pow_2]",
+      "name": "ip_fac_tia_n_cor[2]",
       "description": "Factor to consider limitations for TIA",
       "address": 199828,
       "type": "MAP",
@@ -604123,7 +604123,7 @@
       }
     },
     {
-      "name": "ip_fac_tia_n_cor[pow_3]",
+      "name": "ip_fac_tia_n_cor[3]",
       "description": "Factor to consider limitations for TIA",
       "address": 199924,
       "type": "MAP",
@@ -604161,7 +604161,7 @@
       }
     },
     {
-      "name": "ip_fac_tia_n_cor[pow_4]",
+      "name": "ip_fac_tia_n_cor[4]",
       "description": "Factor to consider limitations for TIA",
       "address": 200020,
       "type": "MAP",
@@ -604332,7 +604332,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_tco_acc_cor[pow_0]",
+      "name": "ip_fac_tqi_pow_max_tco_acc_cor[0]",
       "description": "Factor to consider limitations for TIA",
       "address": 200340,
       "type": "MAP",
@@ -604416,7 +604416,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_tco_acc_cor[pow_1]",
+      "name": "ip_fac_tqi_pow_max_tco_acc_cor[1]",
       "description": "Factor to consider limitations for TIA",
       "address": 200436,
       "type": "MAP",
@@ -604454,7 +604454,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_tco_acc_cor[pow_2]",
+      "name": "ip_fac_tqi_pow_max_tco_acc_cor[2]",
       "description": "Factor to consider limitations for TIA",
       "address": 200532,
       "type": "MAP",
@@ -604492,7 +604492,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_tco_acc_cor[pow_3]",
+      "name": "ip_fac_tqi_pow_max_tco_acc_cor[3]",
       "description": "Factor to consider limitations for TIA",
       "address": 200628,
       "type": "MAP",
@@ -604530,7 +604530,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_tco_acc_cor[pow_4]",
+      "name": "ip_fac_tqi_pow_max_tco_acc_cor[4]",
       "description": "Factor to consider limitations for TIA",
       "address": 200724,
       "type": "MAP",
@@ -604568,7 +604568,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_tco_hot_am[pow_0]",
+      "name": "ip_fac_tqi_pow_max_tco_hot_am[0]",
       "description": "Factor for torque limitation correction based on coolant temperature to be used under warm ambient conditions",
       "address": 200820,
       "type": "MAP",
@@ -604606,7 +604606,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_tco_hot_am[pow_1]",
+      "name": "ip_fac_tqi_pow_max_tco_hot_am[1]",
       "description": "Factor for torque limitation correction based on coolant temperature to be used under warm ambient conditions",
       "address": 200916,
       "type": "MAP",
@@ -604644,7 +604644,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_tco_hot_am[pow_2]",
+      "name": "ip_fac_tqi_pow_max_tco_hot_am[2]",
       "description": "Factor for torque limitation correction based on coolant temperature to be used under warm ambient conditions",
       "address": 201012,
       "type": "MAP",
@@ -604682,7 +604682,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_tco_hot_am[pow_3]",
+      "name": "ip_fac_tqi_pow_max_tco_hot_am[3]",
       "description": "Factor for torque limitation correction based on coolant temperature to be used under warm ambient conditions",
       "address": 201108,
       "type": "MAP",
@@ -604720,7 +604720,7 @@
       }
     },
     {
-      "name": "ip_fac_tqi_pow_max_tco_hot_am[pow_4]",
+      "name": "ip_fac_tqi_pow_max_tco_hot_am[4]",
       "description": "Factor for torque limitation correction based on coolant temperature to be used under warm ambient conditions",
       "address": 201204,
       "type": "MAP",
@@ -604976,7 +604976,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_0][0]",
+      "name": "ip_tq_pow_max_at[0][0]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 201932,
       "type": "MAP",
@@ -605058,7 +605058,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_0][1]",
+      "name": "ip_tq_pow_max_at[0][1]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 202292,
       "type": "MAP",
@@ -605094,7 +605094,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_0][2]",
+      "name": "ip_tq_pow_max_at[0][2]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 202652,
       "type": "MAP",
@@ -605130,7 +605130,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_1][0]",
+      "name": "ip_tq_pow_max_at[1][0]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 203012,
       "type": "MAP",
@@ -605166,7 +605166,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_1][1]",
+      "name": "ip_tq_pow_max_at[1][1]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 203372,
       "type": "MAP",
@@ -605202,7 +605202,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_1][2]",
+      "name": "ip_tq_pow_max_at[1][2]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 203732,
       "type": "MAP",
@@ -605238,7 +605238,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_2][0]",
+      "name": "ip_tq_pow_max_at[2][0]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 204092,
       "type": "MAP",
@@ -605274,7 +605274,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_2][1]",
+      "name": "ip_tq_pow_max_at[2][1]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 204452,
       "type": "MAP",
@@ -605310,7 +605310,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_2][2]",
+      "name": "ip_tq_pow_max_at[2][2]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 204812,
       "type": "MAP",
@@ -605346,7 +605346,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_3][0]",
+      "name": "ip_tq_pow_max_at[3][0]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 205172,
       "type": "MAP",
@@ -605382,7 +605382,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_3][1]",
+      "name": "ip_tq_pow_max_at[3][1]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 205532,
       "type": "MAP",
@@ -605418,7 +605418,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_3][2]",
+      "name": "ip_tq_pow_max_at[3][2]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 205892,
       "type": "MAP",
@@ -605454,7 +605454,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_4][0]",
+      "name": "ip_tq_pow_max_at[4][0]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 206252,
       "type": "MAP",
@@ -605490,7 +605490,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_4][1]",
+      "name": "ip_tq_pow_max_at[4][1]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 206612,
       "type": "MAP",
@@ -605526,7 +605526,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_at[pow_4][2]",
+      "name": "ip_tq_pow_max_at[4][2]",
       "description": "Maximum allowed torque at clutch AT",
       "address": 206972,
       "type": "MAP",
@@ -605623,7 +605623,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_mt[pow_0][0]",
+      "name": "ip_tq_pow_max_mt[0][0]",
       "description": "Maximum allowed torque at clutch MT",
       "address": 209012,
       "type": "MAP",
@@ -605682,7 +605682,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_mt[pow_0][1]",
+      "name": "ip_tq_pow_max_mt[0][1]",
       "description": "Maximum allowed torque at clutch MT",
       "address": 209292,
       "type": "MAP",
@@ -605718,7 +605718,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_mt[pow_1][0]",
+      "name": "ip_tq_pow_max_mt[1][0]",
       "description": "Maximum allowed torque at clutch MT",
       "address": 209572,
       "type": "MAP",
@@ -605754,7 +605754,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_mt[pow_1][1]",
+      "name": "ip_tq_pow_max_mt[1][1]",
       "description": "Maximum allowed torque at clutch MT",
       "address": 209852,
       "type": "MAP",
@@ -605790,7 +605790,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_mt[pow_2][0]",
+      "name": "ip_tq_pow_max_mt[2][0]",
       "description": "Maximum allowed torque at clutch MT",
       "address": 210132,
       "type": "MAP",
@@ -605826,7 +605826,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_mt[pow_2][1]",
+      "name": "ip_tq_pow_max_mt[2][1]",
       "description": "Maximum allowed torque at clutch MT",
       "address": 210412,
       "type": "MAP",
@@ -605862,7 +605862,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_mt[pow_3][0]",
+      "name": "ip_tq_pow_max_mt[3][0]",
       "description": "Maximum allowed torque at clutch MT",
       "address": 210692,
       "type": "MAP",
@@ -605898,7 +605898,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_mt[pow_3][1]",
+      "name": "ip_tq_pow_max_mt[3][1]",
       "description": "Maximum allowed torque at clutch MT",
       "address": 210972,
       "type": "MAP",
@@ -605934,7 +605934,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_mt[pow_4][0]",
+      "name": "ip_tq_pow_max_mt[4][0]",
       "description": "Maximum allowed torque at clutch MT",
       "address": 211252,
       "type": "MAP",
@@ -605970,7 +605970,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_mt[pow_4][1]",
+      "name": "ip_tq_pow_max_mt[4][1]",
       "description": "Maximum allowed torque at clutch MT",
       "address": 211532,
       "type": "MAP",
@@ -606054,7 +606054,7 @@
       }
     },
     {
-      "name": "ip_tqi_pow_max_bas[pow_0]",
+      "name": "ip_tqi_pow_max_bas[0]",
       "description": "Maximum allowed indicated torque for torque limitation",
       "address": 211812,
       "type": "MAP",
@@ -606090,7 +606090,7 @@
       }
     },
     {
-      "name": "ip_tqi_pow_max_bas[pow_1]",
+      "name": "ip_tqi_pow_max_bas[1]",
       "description": "Maximum allowed indicated torque for torque limitation",
       "address": 212092,
       "type": "MAP",
@@ -606126,7 +606126,7 @@
       }
     },
     {
-      "name": "ip_tqi_pow_max_bas[pow_2]",
+      "name": "ip_tqi_pow_max_bas[2]",
       "description": "Maximum allowed indicated torque for torque limitation",
       "address": 212372,
       "type": "MAP",
@@ -606162,7 +606162,7 @@
       }
     },
     {
-      "name": "ip_tqi_pow_max_bas[pow_3]",
+      "name": "ip_tqi_pow_max_bas[3]",
       "description": "Maximum allowed indicated torque for torque limitation",
       "address": 212652,
       "type": "MAP",
@@ -606198,7 +606198,7 @@
       }
     },
     {
-      "name": "ip_tqi_pow_max_bas[pow_4]",
+      "name": "ip_tqi_pow_max_bas[4]",
       "description": "Maximum allowed indicated torque for torque limitation",
       "address": 212932,
       "type": "MAP",
@@ -606234,7 +606234,7 @@
       }
     },
     {
-      "name": "ip_tqi_pow_max_bas_gr_tran[pow_0]",
+      "name": "ip_tqi_pow_max_bas_gr_tran[0]",
       "description": "Maximum allowed indicated torque for torque limitation if transmission-ratio spread available",
       "address": 213212,
       "type": "MAP",
@@ -606270,7 +606270,7 @@
       }
     },
     {
-      "name": "ip_tqi_pow_max_bas_gr_tran[pow_1]",
+      "name": "ip_tqi_pow_max_bas_gr_tran[1]",
       "description": "Maximum allowed indicated torque for torque limitation if transmission-ratio spread available",
       "address": 213492,
       "type": "MAP",
@@ -606306,7 +606306,7 @@
       }
     },
     {
-      "name": "ip_tqi_pow_max_bas_gr_tran[pow_2]",
+      "name": "ip_tqi_pow_max_bas_gr_tran[2]",
       "description": "Maximum allowed indicated torque for torque limitation if transmission-ratio spread available",
       "address": 213772,
       "type": "MAP",
@@ -606342,7 +606342,7 @@
       }
     },
     {
-      "name": "ip_tqi_pow_max_bas_gr_tran[pow_3]",
+      "name": "ip_tqi_pow_max_bas_gr_tran[3]",
       "description": "Maximum allowed indicated torque for torque limitation if transmission-ratio spread available",
       "address": 214052,
       "type": "MAP",
@@ -606378,7 +606378,7 @@
       }
     },
     {
-      "name": "ip_tqi_pow_max_bas_gr_tran[pow_4]",
+      "name": "ip_tqi_pow_max_bas_gr_tran[4]",
       "description": "Maximum allowed indicated torque for torque limitation if transmission-ratio spread available",
       "address": 214332,
       "type": "MAP",
@@ -606671,7 +606671,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_eco[pow_0]",
+      "name": "ip_tq_pow_max_eco[0]",
       "description": "Target torque limitation at clutch during active efficiency mode",
       "address": 207812,
       "type": "MAP",
@@ -606753,7 +606753,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_eco[pow_1]",
+      "name": "ip_tq_pow_max_eco[1]",
       "description": "Target torque limitation at clutch during active efficiency mode",
       "address": 208052,
       "type": "MAP",
@@ -606789,7 +606789,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_eco[pow_2]",
+      "name": "ip_tq_pow_max_eco[2]",
       "description": "Target torque limitation at clutch during active efficiency mode",
       "address": 208292,
       "type": "MAP",
@@ -606825,7 +606825,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_eco[pow_3]",
+      "name": "ip_tq_pow_max_eco[3]",
       "description": "Target torque limitation at clutch during active efficiency mode",
       "address": 208532,
       "type": "MAP",
@@ -606861,7 +606861,7 @@
       }
     },
     {
-      "name": "ip_tq_pow_max_eco[pow_4]",
+      "name": "ip_tq_pow_max_eco[4]",
       "description": "Target torque limitation at clutch during active efficiency mode",
       "address": 208772,
       "type": "MAP",
