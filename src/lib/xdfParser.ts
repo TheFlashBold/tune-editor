@@ -67,10 +67,14 @@ function getDataType(sizeBits: number, typeFlags: number): DataType {
     const signed = (typeFlags & 0x01) !== 0;
     if ((typeFlags & 0x10000) && sizeBits === 32) return 'FLOAT32';
     switch (sizeBits) {
-        case 8:  return signed ? 'SBYTE' : 'UBYTE';
-        case 16: return signed ? 'SWORD' : 'UWORD';
-        case 32: return signed ? 'SLONG' : 'ULONG';
-        default: return 'UWORD';
+        case 8:
+            return signed ? 'SBYTE' : 'UBYTE';
+        case 16:
+            return signed ? 'SWORD' : 'UWORD';
+        case 32:
+            return signed ? 'SLONG' : 'ULONG';
+        default:
+            return 'UWORD';
     }
 }
 
@@ -106,7 +110,19 @@ function parseAxisElement(axisEl: Element): ParsedAxis | null {
 
     // No embedded data or no address/typeflags → non-embedded axis
     if (!embed || (!embed.getAttribute('mmedaddress') && !embed.getAttribute('mmedtypeflags'))) {
-        return {address: 0, dataType: 'UWORD', cols: points, rows: 1, unit: '', factor: 1, offset: 0, min: 0, max: 0, embedded: false, points};
+        return {
+            address: 0,
+            dataType: 'UWORD',
+            cols: points,
+            rows: 1,
+            unit: '',
+            factor: 1,
+            offset: 0,
+            min: 0,
+            max: 0,
+            embedded: false,
+            points
+        };
     }
 
     const address = parseAddress(embed.getAttribute('mmedaddress')) ?? 0;
@@ -116,7 +132,20 @@ function parseAxisElement(axisEl: Element): ParsedAxis | null {
         const labels = Array.from(axisEl.querySelectorAll('LABEL'))
             .sort((a, b) => parseInt(a.getAttribute('index') || '0') - parseInt(b.getAttribute('index') || '0'))
             .map(l => l.getAttribute('value') || '');
-        return {address: 0, dataType: 'UWORD', cols: points, rows: 1, unit: '', factor: 1, offset: 0, min: 0, max: 0, embedded: false, points, labels: labels.length > 0 ? labels : undefined};
+        return {
+            address: 0,
+            dataType: 'UWORD',
+            cols: points,
+            rows: 1,
+            unit: '',
+            factor: 1,
+            offset: 0,
+            min: 0,
+            max: 0,
+            embedded: false,
+            points,
+            labels: labels.length > 0 ? labels : undefined
+        };
     }
 
     const sizeBits = parseInt(embed.getAttribute('mmedelementsizebits') || '16', 10);
@@ -125,7 +154,10 @@ function parseAxisElement(axisEl: Element): ParsedAxis | null {
     const rows = parseInt(embed.getAttribute('mmedrowcount') || '1', 10);
 
     const mathEl = axisEl.querySelector('MATH');
-    const {factor, offset, formula} = mathEl ? parseMathEquation(mathEl.getAttribute('equation') || 'X') : {factor: 1, offset: 0};
+    const {factor, offset, formula} = mathEl ? parseMathEquation(mathEl.getAttribute('equation') || 'X') : {
+        factor: 1,
+        offset: 0
+    };
 
     const unit = axisEl.querySelector('units')?.textContent || '';
     const min = parseFloat(axisEl.querySelector('min')?.textContent || '0');
@@ -163,7 +195,7 @@ export class XDFParser {
         const baseEl = header.querySelector('BASEOFFSET');
         if (baseEl) {
             const offsetStr = baseEl.getAttribute('offset') || '0';
-            const parsed = parseInt(offsetStr, 10);
+            const parsed = parseInt(offsetStr, offsetStr.startsWith('0x') ? 16 : 10);
             if (!isNaN(parsed)) this.baseOffset = parsed;
         }
 
@@ -204,25 +236,11 @@ export class XDFParser {
         const def: Definition = {
             name: name || this.title,
             version: '1.0',
-            baseAddress: 0,
+            baseAddress: this.baseOffset,
             parameters,
         };
 
-        if (this.baseOffset) (def as any).offset = this.baseOffset;
-
-        // Extract EPK from title for verification
-        const epkMatch = this.title.match(/^(SC[18G]\w+|SA\w+|SC4\w+|S8\w+|F\w{3})/i);
-        const isSimos = epkMatch && /^S/i.test(epkMatch[1]);
-
-        // Only trust lsbfirst=0 (big endian) for Simos ECUs — DSG/TCU XDFs
-        // report lsbfirst=0 but actual binary data is always little-endian
-        if (this.bigEndian && isSimos) def.bigEndian = true;
-        if (epkMatch) {
-            def.verification = {
-                position: this.baseOffset,
-                expected: epkMatch[1].replace(/\.a2l$/i, ''),
-            };
-        }
+        if (this.bigEndian) def.bigEndian = true;
 
         return def;
     }
@@ -296,7 +314,7 @@ export class XDFParser {
         const param: IDefinitionParameter = {
             name,
             description,
-            address: zAxisData.address + this.baseOffset,
+            address: zAxisData.address,
             type,
             dataType: zAxisData.dataType,
             unit: zAxisData.unit,
@@ -323,7 +341,7 @@ export class XDFParser {
                 min: xAxisData.min,
                 max: xAxisData.max,
                 unit: xAxisData.unit,
-                address: xAxisData.address + this.baseOffset,
+                address: xAxisData.address,
                 dataType: xAxisData.dataType,
             };
             if (xAxisData.factor !== 1) axis.factor = xAxisData.factor;
@@ -344,7 +362,7 @@ export class XDFParser {
                 min: yAxisData.min,
                 max: yAxisData.max,
                 unit: yAxisData.unit,
-                address: yAxisData.address + this.baseOffset,
+                address: yAxisData.address,
                 dataType: yAxisData.dataType,
             };
             if (yAxisData.factor !== 1) axis.factor = yAxisData.factor;
@@ -380,7 +398,11 @@ export class XDFParser {
         const typeFlags = parseInt(embed.getAttribute('mmedtypeflags') || '0', 16);
 
         const mathEl = element.querySelector('MATH');
-        const {factor, offset, formula} = mathEl ? parseMathEquation(mathEl.getAttribute('equation') || 'X') : {factor: 1, offset: 0};
+        const {
+            factor,
+            offset,
+            formula
+        } = mathEl ? parseMathEquation(mathEl.getAttribute('equation') || 'X') : {factor: 1, offset: 0};
 
         const unit = element.querySelector('units')?.textContent || '';
         const min = parseFloat(element.querySelector('min')?.textContent || '0');
@@ -391,7 +413,7 @@ export class XDFParser {
         return {
             name,
             description,
-            address: address + this.baseOffset,
+            address: address,
             type: 'VALUE',
             dataType: getDataType(sizeBits, typeFlags),
             unit, min, max, factor, offset, formula,
