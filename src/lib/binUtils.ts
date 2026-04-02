@@ -179,6 +179,14 @@ export function readBoxCode(data: Uint8Array): string {
         }
     }
 
+    // DQ250 MQB
+    if (data.length > (0x4FFBA + 10)) {
+        const boxCode = readStringSafe(data, 0x4FFB0, 10, 10);
+        if (boxCode) {
+            return boxCode;
+        }
+    }
+
     // Bosch MED/EDC: HW part number (10-digit) near CBOOT header
     for (const offset of [0x401a, 0x1401a, 0x1C948E]) {
         if (data.length > (offset + 12)) {
@@ -219,6 +227,14 @@ export function readEPK(data: Uint8Array) {
     // DQ250 MQB
     if (data.length > (0x3FFE0 + 4)) {
         const epk = readStringSafe(data, 0x3FFE0, 4, 4);
+        if (epk) {
+            return epk;
+        }
+    }
+
+    // DQ250 MQB
+    if (data.length > (0x4FFE0 + 4)) {
+        const epk = readStringSafe(data, 0x4FFE0, 4, 4);
         if (epk) {
             return epk;
         }
