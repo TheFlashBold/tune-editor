@@ -331,7 +331,7 @@ export function MenuBar({
                    className="text-nowrap px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
                     Create Issue
                 </a>
-                <a href="https://ko-fi.com/theflashbold"
+                <a href="https://ko-fi.com/theflashbold" target="_blank"
                    className="text-nowrap px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
                     Support me
                 </a>
