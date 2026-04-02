@@ -21,11 +21,12 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
-        version: '1.17.0',
+        version: '1.17.1',
         date: '02.04.2026',
         changes: [
             'Definition restructure & cleanup',
-            'Added SC8 L60, L70 & L86 definitions'
+            'Added SC8 L60, L70 & L86 & H6G definitions',
+            'Generated patches for IMMO & CAT for most SC8 & SCG versions'
         ]
     },
     {
