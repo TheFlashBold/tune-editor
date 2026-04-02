@@ -3,7 +3,7 @@
   "version": "1.0",
   "baseAddress": 262144,
   "verification": {
-    "position": 262152,
+    "position": 262146,
     "expected": "SC1CC5"
   },
   "parameters": [

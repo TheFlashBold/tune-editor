@@ -3,7 +3,7 @@
   "version": "1.0",
   "baseAddress": 2097152,
   "verification": {
-    "position": 2097160,
+    "position": 2097154,
     "expected": "SC8L70"
   },
   "parameters": [

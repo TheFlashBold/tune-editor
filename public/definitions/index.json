@@ -97,7 +97,7 @@
     "name": "SC1 CC5",
     "file": "SC1CC5.json",
     "verification": {
-      "position": 262152,
+      "position": 262146,
       "expected": "SC1CC5"
     },
     "paramCount": 13637
@@ -106,7 +106,7 @@
     "name": "SC1 CF0",
     "file": "SC1CF0.json",
     "verification": {
-      "position": 262152,
+      "position": 262146,
       "expected": "SC1CF0"
     },
     "paramCount": 25364
@@ -115,7 +115,7 @@
     "name": "SC8 F90",
     "file": "SC8F90.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8F90"
     },
     "paramCount": 30210
@@ -124,7 +124,7 @@
     "name": "SC8 H64",
     "file": "SC8H64.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8H64"
     },
     "paramCount": 3593
@@ -133,16 +133,25 @@
     "name": "SC8 H65",
     "file": "SC8H65.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8H65"
     },
-    "paramCount": 3593
+    "paramCount": 34653
+  },
+  {
+    "name": "SC8 H6G",
+    "file": "SC8H6G.json",
+    "verification": {
+      "position": 2097154,
+      "expected": "SC8H6G"
+    },
+    "paramCount": 34653
   },
   {
     "name": "SC8 H83",
     "file": "SC8H83.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8H83"
     },
     "paramCount": 10817
@@ -151,7 +160,7 @@
     "name": "SC8 H85",
     "file": "SC8H85.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8H85"
     },
     "paramCount": 31448
@@ -160,7 +169,7 @@
     "name": "SC8 L60",
     "file": "SC8L60.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8L60"
     },
     "paramCount": 32435
@@ -169,7 +178,7 @@
     "name": "SC8 L70",
     "file": "SC8L70.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8L70"
     },
     "paramCount": 5595
@@ -178,7 +187,7 @@
     "name": "SC8 L86",
     "file": "SC8L86.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8L86"
     },
     "paramCount": 3807
@@ -187,7 +196,7 @@
     "name": "SC8 LB3",
     "file": "SC8LB3.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8LB3"
     },
     "paramCount": 32303
@@ -196,7 +205,7 @@
     "name": "SC8 LB4",
     "file": "SC8LB4.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8LB4"
     },
     "paramCount": 32399
@@ -205,7 +214,7 @@
     "name": "SC8 LB6",
     "file": "SC8LB6.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8LB6"
     },
     "paramCount": 32525
@@ -214,7 +223,7 @@
     "name": "SC8 LB7",
     "file": "SC8LB7.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8LB7"
     },
     "paramCount": 32474
@@ -223,7 +232,7 @@
     "name": "SC8 O20",
     "file": "SC8O20.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8O20"
     },
     "paramCount": 32732
@@ -232,7 +241,7 @@
     "name": "SC8 O30",
     "file": "SC8O30.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8O30"
     },
     "paramCount": 3894
@@ -241,7 +250,7 @@
     "name": "SC8 O40",
     "file": "SC8O40.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8O40"
     },
     "paramCount": 3894
@@ -250,7 +259,7 @@
     "name": "SC8 S50",
     "file": "SC8S50.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8S50"
     },
     "paramCount": 33140
@@ -259,7 +268,7 @@
     "name": "SC8 V30",
     "file": "SC8V30.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8V30"
     },
     "paramCount": 3809
@@ -268,7 +277,7 @@
     "name": "SC8 V32",
     "file": "SC8V32.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8V32"
     },
     "paramCount": 1094
@@ -277,7 +286,7 @@
     "name": "SC8 V33",
     "file": "SC8V33.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8V33"
     },
     "paramCount": 1094
@@ -286,7 +295,7 @@
     "name": "SC8 VC1",
     "file": "SC8VC1.json",
     "verification": {
-      "position": 2097160,
+      "position": 2097154,
       "expected": "SC8VC1"
     },
     "paramCount": 5790
@@ -295,7 +304,7 @@
     "name": "SCB Q50",
     "file": "SCBQ50.json",
     "verification": {
-      "position": 2228232,
+      "position": 2228226,
       "expected": "SCBQ50"
     },
     "paramCount": 33987
@@ -304,7 +313,7 @@
     "name": "SCG00910",
     "file": "SCG910.json",
     "verification": {
-      "position": 2228232,
+      "position": 2228226,
       "expected": "SCG910"
     },
     "paramCount": 38222
@@ -313,7 +322,7 @@
     "name": "SCG A05",
     "file": "SCGA05.json",
     "verification": {
-      "position": 2228232,
+      "position": 2228226,
       "expected": "SCGA05"
     },
     "paramCount": 3944
@@ -322,7 +331,7 @@
     "name": "SCG A10",
     "file": "SCGA10.json",
     "verification": {
-      "position": 2228232,
+      "position": 2228226,
       "expected": "SCGA10"
     },
     "paramCount": 3944

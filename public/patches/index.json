@@ -259,18 +259,6 @@
     "variant": "V30"
   },
   {
-    "name": "CAT patch - A05",
-    "file": "CAT_patch_-_A05.btp",
-    "category": "CAT",
-    "variant": "A05"
-  },
-  {
-    "name": "CAT patch - S50",
-    "file": "CAT_patch_-_S50.btp",
-    "category": "CAT",
-    "variant": "S50"
-  },
-  {
     "name": "DQ250 HSL - F43M",
     "file": "DQ250_HSL_-_F43M.btp",
     "category": "DSG HSL",
@@ -672,5 +660,257 @@
     "file": "Immo_v2_-_SCGH10.btp",
     "category": "Immo",
     "variant": "H10"
+  },
+  {
+    "name": "CAT patch - SC8F84",
+    "file": "CAT_patch_-_SC8F84.btp",
+    "category": "CAT",
+    "variant": "F84"
+  },
+  {
+    "name": "CAT patch - SC8F90",
+    "file": "CAT_patch_-_SC8F90.btp",
+    "category": "CAT",
+    "variant": "F90"
+  },
+  {
+    "name": "CAT patch - SC8H14",
+    "file": "CAT_patch_-_SC8H14.btp",
+    "category": "CAT",
+    "variant": "H14"
+  },
+  {
+    "name": "CAT patch - SC8H51",
+    "file": "CAT_patch_-_SC8H51.btp",
+    "category": "CAT",
+    "variant": "H51"
+  },
+  {
+    "name": "CAT patch - SC8H53",
+    "file": "CAT_patch_-_SC8H53.btp",
+    "category": "CAT",
+    "variant": "H53"
+  },
+  {
+    "name": "CAT patch - SC8H55",
+    "file": "CAT_patch_-_SC8H55.btp",
+    "category": "CAT",
+    "variant": "H55"
+  },
+  {
+    "name": "CAT patch - SC8H62",
+    "file": "CAT_patch_-_SC8H62.btp",
+    "category": "CAT",
+    "variant": "H62"
+  },
+  {
+    "name": "CAT patch - SC8H63",
+    "file": "CAT_patch_-_SC8H63.btp",
+    "category": "CAT",
+    "variant": "H63"
+  },
+  {
+    "name": "CAT patch - SC8H64",
+    "file": "CAT_patch_-_SC8H64.btp",
+    "category": "CAT",
+    "variant": "H64"
+  },
+  {
+    "name": "CAT patch - SC8H65",
+    "file": "CAT_patch_-_SC8H65.btp",
+    "category": "CAT",
+    "variant": "H65"
+  },
+  {
+    "name": "CAT patch - SC8H6G",
+    "file": "CAT_patch_-_SC8H6G.btp",
+    "category": "CAT",
+    "variant": "H6G"
+  },
+  {
+    "name": "CAT patch - SC8H80",
+    "file": "CAT_patch_-_SC8H80.btp",
+    "category": "CAT",
+    "variant": "H80"
+  },
+  {
+    "name": "CAT patch - SC8H82",
+    "file": "CAT_patch_-_SC8H82.btp",
+    "category": "CAT",
+    "variant": "H82"
+  },
+  {
+    "name": "CAT patch - SC8H83",
+    "file": "CAT_patch_-_SC8H83.btp",
+    "category": "CAT",
+    "variant": "H83"
+  },
+  {
+    "name": "CAT patch - SC8H84",
+    "file": "CAT_patch_-_SC8H84.btp",
+    "category": "CAT",
+    "variant": "H84"
+  },
+  {
+    "name": "CAT patch - SC8H85",
+    "file": "CAT_patch_-_SC8H85.btp",
+    "category": "CAT",
+    "variant": "H85"
+  },
+  {
+    "name": "CAT patch - SC8L00",
+    "file": "CAT_patch_-_SC8L00.btp",
+    "category": "CAT",
+    "variant": "L00"
+  },
+  {
+    "name": "CAT patch - SC8L09",
+    "file": "CAT_patch_-_SC8L09.btp",
+    "category": "CAT",
+    "variant": "L09"
+  },
+  {
+    "name": "CAT patch - SC8L20",
+    "file": "CAT_patch_-_SC8L20.btp",
+    "category": "CAT",
+    "variant": "L20"
+  },
+  {
+    "name": "CAT patch - SC8L30",
+    "file": "CAT_patch_-_SC8L30.btp",
+    "category": "CAT",
+    "variant": "L30"
+  },
+  {
+    "name": "CAT patch - SC8L40",
+    "file": "CAT_patch_-_SC8L40.btp",
+    "category": "CAT",
+    "variant": "L40"
+  },
+  {
+    "name": "CAT patch - SC8L50",
+    "file": "CAT_patch_-_SC8L50.btp",
+    "category": "CAT",
+    "variant": "L50"
+  },
+  {
+    "name": "CAT patch - SC8L70",
+    "file": "CAT_patch_-_SC8L70.btp",
+    "category": "CAT",
+    "variant": "L70"
+  },
+  {
+    "name": "CAT patch - SC8L86",
+    "file": "CAT_patch_-_SC8L86.btp",
+    "category": "CAT",
+    "variant": "L86"
+  },
+  {
+    "name": "CAT patch - SC8LB4",
+    "file": "CAT_patch_-_SC8LB4.btp",
+    "category": "CAT",
+    "variant": "LB4"
+  },
+  {
+    "name": "CAT patch - SC8LB5",
+    "file": "CAT_patch_-_SC8LB5.btp",
+    "category": "CAT",
+    "variant": "LB5"
+  },
+  {
+    "name": "CAT patch - SC8LB6",
+    "file": "CAT_patch_-_SC8LB6.btp",
+    "category": "CAT",
+    "variant": "LB6"
+  },
+  {
+    "name": "CAT patch - SC8LB7",
+    "file": "CAT_patch_-_SC8LB7.btp",
+    "category": "CAT",
+    "variant": "LB7"
+  },
+  {
+    "name": "CAT patch - SC8LB9",
+    "file": "CAT_patch_-_SC8LB9.btp",
+    "category": "CAT",
+    "variant": "LB9"
+  },
+  {
+    "name": "CAT patch - SC8O20",
+    "file": "CAT_patch_-_SC8O20.btp",
+    "category": "CAT",
+    "variant": "O20"
+  },
+  {
+    "name": "CAT patch - SC8O30",
+    "file": "CAT_patch_-_SC8O30.btp",
+    "category": "CAT",
+    "variant": "O30"
+  },
+  {
+    "name": "CAT patch - SC8O40",
+    "file": "CAT_patch_-_SC8O40.btp",
+    "category": "CAT",
+    "variant": "O40"
+  },
+  {
+    "name": "CAT patch - SC8O50",
+    "file": "CAT_patch_-_SC8O50.btp",
+    "category": "CAT",
+    "variant": "O50"
+  },
+  {
+    "name": "CAT patch - SC8S50",
+    "file": "CAT_patch_-_SC8S50.btp",
+    "category": "CAT",
+    "variant": "S50"
+  },
+  {
+    "name": "CAT patch - SC8V30",
+    "file": "CAT_patch_-_SC8V30.btp",
+    "category": "CAT",
+    "variant": "V30"
+  },
+  {
+    "name": "CAT patch - SC8V31",
+    "file": "CAT_patch_-_SC8V31.btp",
+    "category": "CAT",
+    "variant": "V31"
+  },
+  {
+    "name": "CAT patch - SC8V32",
+    "file": "CAT_patch_-_SC8V32.btp",
+    "category": "CAT",
+    "variant": "V32"
+  },
+  {
+    "name": "CAT patch - SC8V33",
+    "file": "CAT_patch_-_SC8V33.btp",
+    "category": "CAT",
+    "variant": "V33"
+  },
+  {
+    "name": "CAT patch - SC8V71",
+    "file": "CAT_patch_-_SC8V71.btp",
+    "category": "CAT",
+    "variant": "V71"
+  },
+  {
+    "name": "CAT patch - SC8V72",
+    "file": "CAT_patch_-_SC8V72.btp",
+    "category": "CAT",
+    "variant": "V72"
+  },
+  {
+    "name": "CAT patch - SC8V82",
+    "file": "CAT_patch_-_SC8V82.btp",
+    "category": "CAT",
+    "variant": "V82"
+  },
+  {
+    "name": "CAT patch - SC8VC1",
+    "file": "CAT_patch_-_SC8VC1.btp",
+    "category": "CAT",
+    "variant": "VC1"
   }
 ]
