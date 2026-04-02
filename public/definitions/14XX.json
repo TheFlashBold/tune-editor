@@ -1,4 +1,5 @@
 {
+  "$schema": "https://theflashbold.github.io/tune-editor/definition-schema.json",
   "name": "DQ381 14XX",
   "version": "0.1",
   "baseAddress": 0,

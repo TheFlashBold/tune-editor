@@ -120,60 +120,6 @@
     "variant": "VC1"
   },
   {
-    "name": "Immo v2 - A05",
-    "file": "Immo_v2_-_A05.btp",
-    "category": "Immo",
-    "variant": "A05"
-  },
-  {
-    "name": "Immo v2 - A10",
-    "file": "Immo_v2_-_A10.btp",
-    "category": "Immo",
-    "variant": "A10"
-  },
-  {
-    "name": "Immo v2 - AB0",
-    "file": "Immo_v2_-_AB0.btp",
-    "category": "Immo",
-    "variant": "AB0"
-  },
-  {
-    "name": "Immo v2 - O30",
-    "file": "Immo_v2_-_O30.btp",
-    "category": "Immo",
-    "variant": "O30"
-  },
-  {
-    "name": "Immo v2 - O40",
-    "file": "Immo_v2_-_O40.btp",
-    "category": "Immo",
-    "variant": "O40"
-  },
-  {
-    "name": "Immo v2 - S50",
-    "file": "Immo_v2_-_S50.btp",
-    "category": "Immo",
-    "variant": "S50"
-  },
-  {
-    "name": "Immo v2 - V30",
-    "file": "Immo_v2_-_V30.btp",
-    "category": "Immo",
-    "variant": "V30"
-  },
-  {
-    "name": "Immo v2 - VC1",
-    "file": "Immo_v2_-_VC1.btp",
-    "category": "Immo",
-    "variant": "VC1"
-  },
-  {
-    "name": "Immo v2 - H65",
-    "file": "Immo_v2_-_H65.btp",
-    "category": "Immo",
-    "variant": "H65"
-  },
-  {
     "name": "SWG - A05",
     "file": "SWG_-_A05.btp",
     "category": "SWG",
@@ -402,5 +348,329 @@
     "category": "DSG IMMO",
     "variant": "F49M",
     "nonFree": true
+  },
+  {
+    "name": "Immo v2 - SC8F84",
+    "file": "Immo_v2_-_SC8F84.btp",
+    "category": "Immo",
+    "variant": "F84"
+  },
+  {
+    "name": "Immo v2 - SC8F90",
+    "file": "Immo_v2_-_SC8F90.btp",
+    "category": "Immo",
+    "variant": "F90"
+  },
+  {
+    "name": "Immo v2 - SC8H14",
+    "file": "Immo_v2_-_SC8H14.btp",
+    "category": "Immo",
+    "variant": "H14"
+  },
+  {
+    "name": "Immo v2 - SC8H51",
+    "file": "Immo_v2_-_SC8H51.btp",
+    "category": "Immo",
+    "variant": "H51"
+  },
+  {
+    "name": "Immo v2 - SC8H53",
+    "file": "Immo_v2_-_SC8H53.btp",
+    "category": "Immo",
+    "variant": "H53"
+  },
+  {
+    "name": "Immo v2 - SC8H55",
+    "file": "Immo_v2_-_SC8H55.btp",
+    "category": "Immo",
+    "variant": "H55"
+  },
+  {
+    "name": "Immo v2 - SC8H62",
+    "file": "Immo_v2_-_SC8H62.btp",
+    "category": "Immo",
+    "variant": "H62"
+  },
+  {
+    "name": "Immo v2 - SC8H63",
+    "file": "Immo_v2_-_SC8H63.btp",
+    "category": "Immo",
+    "variant": "H63"
+  },
+  {
+    "name": "Immo v2 - SC8H64",
+    "file": "Immo_v2_-_SC8H64.btp",
+    "category": "Immo",
+    "variant": "H64"
+  },
+  {
+    "name": "Immo v2 - SC8H65",
+    "file": "Immo_v2_-_SC8H65.btp",
+    "category": "Immo",
+    "variant": "H65"
+  },
+  {
+    "name": "Immo v2 - SC8H6G",
+    "file": "Immo_v2_-_SC8H6G.btp",
+    "category": "Immo",
+    "variant": "H6G"
+  },
+  {
+    "name": "Immo v2 - SC8H80",
+    "file": "Immo_v2_-_SC8H80.btp",
+    "category": "Immo",
+    "variant": "H80"
+  },
+  {
+    "name": "Immo v2 - SC8H82",
+    "file": "Immo_v2_-_SC8H82.btp",
+    "category": "Immo",
+    "variant": "H82"
+  },
+  {
+    "name": "Immo v2 - SC8H83",
+    "file": "Immo_v2_-_SC8H83.btp",
+    "category": "Immo",
+    "variant": "H83"
+  },
+  {
+    "name": "Immo v2 - SC8H84",
+    "file": "Immo_v2_-_SC8H84.btp",
+    "category": "Immo",
+    "variant": "H84"
+  },
+  {
+    "name": "Immo v2 - SC8H85",
+    "file": "Immo_v2_-_SC8H85.btp",
+    "category": "Immo",
+    "variant": "H85"
+  },
+  {
+    "name": "Immo v2 - SC8L00",
+    "file": "Immo_v2_-_SC8L00.btp",
+    "category": "Immo",
+    "variant": "L00"
+  },
+  {
+    "name": "Immo v2 - SC8L09",
+    "file": "Immo_v2_-_SC8L09.btp",
+    "category": "Immo",
+    "variant": "L09"
+  },
+  {
+    "name": "Immo v2 - SC8L20",
+    "file": "Immo_v2_-_SC8L20.btp",
+    "category": "Immo",
+    "variant": "L20"
+  },
+  {
+    "name": "Immo v2 - SC8L30",
+    "file": "Immo_v2_-_SC8L30.btp",
+    "category": "Immo",
+    "variant": "L30"
+  },
+  {
+    "name": "Immo v2 - SC8L40",
+    "file": "Immo_v2_-_SC8L40.btp",
+    "category": "Immo",
+    "variant": "L40"
+  },
+  {
+    "name": "Immo v2 - SC8L50",
+    "file": "Immo_v2_-_SC8L50.btp",
+    "category": "Immo",
+    "variant": "L50"
+  },
+  {
+    "name": "Immo v2 - SC8L70",
+    "file": "Immo_v2_-_SC8L70.btp",
+    "category": "Immo",
+    "variant": "L70"
+  },
+  {
+    "name": "Immo v2 - SC8L86",
+    "file": "Immo_v2_-_SC8L86.btp",
+    "category": "Immo",
+    "variant": "L86"
+  },
+  {
+    "name": "Immo v2 - SC8LB4",
+    "file": "Immo_v2_-_SC8LB4.btp",
+    "category": "Immo",
+    "variant": "LB4"
+  },
+  {
+    "name": "Immo v2 - SC8LB5",
+    "file": "Immo_v2_-_SC8LB5.btp",
+    "category": "Immo",
+    "variant": "LB5"
+  },
+  {
+    "name": "Immo v2 - SC8LB6",
+    "file": "Immo_v2_-_SC8LB6.btp",
+    "category": "Immo",
+    "variant": "LB6"
+  },
+  {
+    "name": "Immo v2 - SC8LB7",
+    "file": "Immo_v2_-_SC8LB7.btp",
+    "category": "Immo",
+    "variant": "LB7"
+  },
+  {
+    "name": "Immo v2 - SC8LB9",
+    "file": "Immo_v2_-_SC8LB9.btp",
+    "category": "Immo",
+    "variant": "LB9"
+  },
+  {
+    "name": "Immo v2 - SC8O20",
+    "file": "Immo_v2_-_SC8O20.btp",
+    "category": "Immo",
+    "variant": "O20"
+  },
+  {
+    "name": "Immo v2 - SC8O30",
+    "file": "Immo_v2_-_SC8O30.btp",
+    "category": "Immo",
+    "variant": "O30"
+  },
+  {
+    "name": "Immo v2 - SC8O40",
+    "file": "Immo_v2_-_SC8O40.btp",
+    "category": "Immo",
+    "variant": "O40"
+  },
+  {
+    "name": "Immo v2 - SC8O50",
+    "file": "Immo_v2_-_SC8O50.btp",
+    "category": "Immo",
+    "variant": "O50"
+  },
+  {
+    "name": "Immo v2 - SC8S50",
+    "file": "Immo_v2_-_SC8S50.btp",
+    "category": "Immo",
+    "variant": "S50"
+  },
+  {
+    "name": "Immo v2 - SC8V30",
+    "file": "Immo_v2_-_SC8V30.btp",
+    "category": "Immo",
+    "variant": "V30"
+  },
+  {
+    "name": "Immo v2 - SC8V31",
+    "file": "Immo_v2_-_SC8V31.btp",
+    "category": "Immo",
+    "variant": "V31"
+  },
+  {
+    "name": "Immo v2 - SC8V32",
+    "file": "Immo_v2_-_SC8V32.btp",
+    "category": "Immo",
+    "variant": "V32"
+  },
+  {
+    "name": "Immo v2 - SC8V33",
+    "file": "Immo_v2_-_SC8V33.btp",
+    "category": "Immo",
+    "variant": "V33"
+  },
+  {
+    "name": "Immo v2 - SC8V71",
+    "file": "Immo_v2_-_SC8V71.btp",
+    "category": "Immo",
+    "variant": "V71"
+  },
+  {
+    "name": "Immo v2 - SC8V72",
+    "file": "Immo_v2_-_SC8V72.btp",
+    "category": "Immo",
+    "variant": "V72"
+  },
+  {
+    "name": "Immo v2 - SC8V82",
+    "file": "Immo_v2_-_SC8V82.btp",
+    "category": "Immo",
+    "variant": "V82"
+  },
+  {
+    "name": "Immo v2 - SC8VC1",
+    "file": "Immo_v2_-_SC8VC1.btp",
+    "category": "Immo",
+    "variant": "VC1"
+  },
+  {
+    "name": "Immo v2 - SCG510",
+    "file": "Immo_v2_-_SCG510.btp",
+    "category": "Immo",
+    "variant": "510"
+  },
+  {
+    "name": "Immo v2 - SCG530",
+    "file": "Immo_v2_-_SCG530.btp",
+    "category": "Immo",
+    "variant": "530"
+  },
+  {
+    "name": "Immo v2 - SCG540",
+    "file": "Immo_v2_-_SCG540.btp",
+    "category": "Immo",
+    "variant": "540"
+  },
+  {
+    "name": "Immo v2 - SCG910",
+    "file": "Immo_v2_-_SCG910.btp",
+    "category": "Immo",
+    "variant": "910"
+  },
+  {
+    "name": "Immo v2 - SCG920",
+    "file": "Immo_v2_-_SCG920.btp",
+    "category": "Immo",
+    "variant": "920"
+  },
+  {
+    "name": "Immo v2 - SCGA05",
+    "file": "Immo_v2_-_SCGA05.btp",
+    "category": "Immo",
+    "variant": "A05"
+  },
+  {
+    "name": "Immo v2 - SCGA10",
+    "file": "Immo_v2_-_SCGA10.btp",
+    "category": "Immo",
+    "variant": "A10"
+  },
+  {
+    "name": "Immo v2 - SCGAB0",
+    "file": "Immo_v2_-_SCGAB0.btp",
+    "category": "Immo",
+    "variant": "AB0"
+  },
+  {
+    "name": "Immo v2 - SCGAE0",
+    "file": "Immo_v2_-_SCGAE0.btp",
+    "category": "Immo",
+    "variant": "AE0"
+  },
+  {
+    "name": "Immo v2 - SCGB10",
+    "file": "Immo_v2_-_SCGB10.btp",
+    "category": "Immo",
+    "variant": "B10"
+  },
+  {
+    "name": "Immo v2 - SCGG10",
+    "file": "Immo_v2_-_SCGG10.btp",
+    "category": "Immo",
+    "variant": "G10"
+  },
+  {
+    "name": "Immo v2 - SCGH10",
+    "file": "Immo_v2_-_SCGH10.btp",
+    "category": "Immo",
+    "variant": "H10"
   }
 ]
