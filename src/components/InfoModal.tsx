@@ -21,6 +21,14 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.17.0',
+        date: '02.04.2026',
+        changes: [
+            'Definition restructure & cleanup',
+            'Added SC8 L60, L70 & L86 definitions'
+        ]
+    },
+    {
         version: '1.16.1',
         date: '01.04.2026',
         changes: [
