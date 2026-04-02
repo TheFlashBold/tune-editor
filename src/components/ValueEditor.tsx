@@ -39,7 +39,9 @@ export function ValueEditor(props: IValueEditorProps) {
     const tracked = useRef(false);
 
     // Reset tracking flag when parameter changes
-    useEffect(() => { tracked.current = false; }, [parameter.name]);
+    useEffect(() => {
+        tracked.current = false;
+    }, [parameter.name]);
 
     const onModifyTracked = useCallback(() => {
         onModify();
@@ -175,7 +177,8 @@ function ScalarEditor(props: IValueEditorProps) {
                     )}
                 </div>
 
-                <div class="flex gap-4 p-3 bg-zinc-200 dark:bg-zinc-800 rounded text-xs text-zinc-600 dark:text-zinc-400">
+                <div
+                    class="flex gap-4 p-3 bg-zinc-200 dark:bg-zinc-800 rounded text-xs text-zinc-600 dark:text-zinc-400">
                     <span>Address: 0x{parameter.address.toString(16).toUpperCase()}</span>
                     <span>Type: {parameter.dataType}</span>
                     <span>Unit: {parameter.unit || '-'}</span>
@@ -263,7 +266,12 @@ function ScalarEditor(props: IValueEditorProps) {
             )}
 
             {isBitmask && (() => {
-                const bitCount = ({'UWORD': 16, 'SWORD': 16, 'ULONG': 32, 'SLONG': 32} as Record<string, number>)[parameter.dataType] || 8;
+                const bitCount = ({
+                    'UWORD': 16,
+                    'SWORD': 16,
+                    'ULONG': 32,
+                    'SLONG': 32
+                } as Record<string, number>)[parameter.dataType] || 8;
                 const hexPad = bitCount / 4;
                 const rawValue = Math.round(value);
                 const origRaw = originalValue !== null ? Math.round(originalValue) : null;
@@ -285,7 +293,8 @@ function ScalarEditor(props: IValueEditorProps) {
                                             isSet ? 'bg-green-900/50' : 'bg-zinc-100 dark:bg-zinc-800'
                                         } ${bitChanged ? 'ring-1 ring-amber-500' : ''}`}
                                     >
-                                        <span class="text-xs font-mono text-zinc-500">{labels ? labels[String(i)] : i}</span>
+                                        <span
+                                            class="text-xs font-mono text-zinc-500">{labels ? labels[String(i)] : i}</span>
                                         <input
                                             type="checkbox"
                                             checked={isSet}
@@ -483,7 +492,8 @@ function CurveGraph({
                 {showCompare && compareYData && (() => {
                     return (
                         <>
-                            <path d={generatePath(compareYData, cmpXData)} fill="none" stroke="#14b8a6" stroke-width="2" stroke-dasharray="5,5"/>
+                            <path d={generatePath(compareYData, cmpXData)} fill="none" stroke="#14b8a6" stroke-width="2"
+                                  stroke-dasharray="5,5"/>
                             {compareYData.map((y, i) => {
                                 const x = cmpXData[i] ?? i;
                                 return <circle key={`cc${i}`} cx={scaleX(x)} cy={scaleY(y)} r="3" fill="#14b8a6"/>;
@@ -507,14 +517,16 @@ function CurveGraph({
                     </span>
                     {originalYData && (
                         <label class="flex items-center gap-1 cursor-pointer select-none">
-                            <input type="checkbox" checked={showOriginal} onChange={() => setShowOriginal(!showOriginal)} class="cursor-pointer" />
+                            <input type="checkbox" checked={showOriginal}
+                                   onChange={() => setShowOriginal(!showOriginal)} class="cursor-pointer"/>
                             <span class="w-4 h-0.5 inline-block"
                                   style="background: repeating-linear-gradient(90deg, #71717a 0, #71717a 4px, transparent 4px, transparent 8px)"></span> Original
                         </label>
                     )}
                     {compareYData && (
                         <label class="flex items-center gap-1 cursor-pointer select-none">
-                            <input type="checkbox" checked={showCompare} onChange={() => setShowCompare(!showCompare)} class="cursor-pointer" />
+                            <input type="checkbox" checked={showCompare} onChange={() => setShowCompare(!showCompare)}
+                                   class="cursor-pointer"/>
                             <span class="w-4 h-0.5 inline-block"
                                   style="background: repeating-linear-gradient(90deg, #14b8a6 0, #14b8a6 4px, transparent 4px, transparent 8px)"></span> Compare
                         </label>
@@ -573,7 +585,8 @@ function createProgram(gl: WebGL2RenderingContext): WebGLProgram {
 }
 
 function hslToRgb(h: number, s: number, l: number): [number, number, number] {
-    s /= 100; l /= 100;
+    s /= 100;
+    l /= 100;
     const k = (n: number) => (n + h / 30) % 12;
     const a = s * Math.min(l, 1 - l);
     const f = (n: number) => l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
@@ -698,7 +711,12 @@ function SurfaceGraph({
 
         type Overlay = { z: number[][]; xAx: number[]; yAx: number[]; isCompare: boolean };
         const overlays: Overlay[] = [];
-        if (showOriginal && originalZData) overlays.push({z: originalZData, xAx: origXD, yAx: origYD, isCompare: false});
+        if (showOriginal && originalZData) overlays.push({
+            z: originalZData,
+            xAx: origXD,
+            yAx: origYD,
+            isCompare: false
+        });
         if (showCompare && compareZData) overlays.push({z: compareZData, xAx: cmpXD, yAx: cmpYD, isCompare: true});
 
         // Common axis ranges
@@ -767,9 +785,9 @@ function SurfaceGraph({
 
         // Push a triangle
         const pushTri = (verts: number[],
-                         p1: {clipX: number; clipY: number; depth: number},
-                         p2: {clipX: number; clipY: number; depth: number},
-                         p3: {clipX: number; clipY: number; depth: number},
+                         p1: { clipX: number; clipY: number; depth: number },
+                         p2: { clipX: number; clipY: number; depth: number },
+                         p3: { clipX: number; clipY: number; depth: number },
                          r: number, g: number, b: number, a: number) => {
             verts.push(p1.clipX, p1.clipY, p1.depth, r, g, b, a);
             verts.push(p2.clipX, p2.clipY, p2.depth, r, g, b, a);
@@ -777,8 +795,8 @@ function SurfaceGraph({
         };
 
         // Push a line
-        const pushLine = (p1: {clipX: number; clipY: number; depth: number},
-                          p2: {clipX: number; clipY: number; depth: number},
+        const pushLine = (p1: { clipX: number; clipY: number; depth: number },
+                          p2: { clipX: number; clipY: number; depth: number },
                           r: number, g: number, b: number, a: number) => {
             lineVerts.push(p1.clipX, p1.clipY, p1.depth, r, g, b, a);
             lineVerts.push(p2.clipX, p2.clipY, p2.depth, r, g, b, a);
@@ -944,8 +962,14 @@ function SurfaceGraph({
     const cmpYD = compareYData && compareYData.length > 0 ? compareYData : yData;
 
     const ovAxes: number[][] = [];
-    if (showOriginal && originalZData) { ovAxes.push(origXD); ovAxes.push(origYD); }
-    if (showCompare && compareZData) { ovAxes.push(cmpXD); ovAxes.push(cmpYD); }
+    if (showOriginal && originalZData) {
+        ovAxes.push(origXD);
+        ovAxes.push(origYD);
+    }
+    if (showCompare && compareZData) {
+        ovAxes.push(cmpXD);
+        ovAxes.push(cmpYD);
+    }
     const allXVals = [...xData, ...ovAxes.filter((_, i) => i % 2 === 0).flat()];
     const allYVals = [...yData, ...ovAxes.filter((_, i) => i % 2 === 1).flat()];
     const axXMin = Math.min(...allXVals);
@@ -1004,7 +1028,10 @@ function SurfaceGraph({
 
     return (
         <div ref={containerRef} class="mt-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg p-4">
-            <div class="relative" style={{aspectRatio: `${cols / rows >= 1 ? Math.min(cols / rows, 2) : 1} / ${cols / rows < 1 ? 1 / Math.max(cols / rows, 0.5) : 1}`, maxHeight: '70vh'}}>
+            <div class="relative" style={{
+                aspectRatio: `${cols / rows >= 1 ? Math.min(cols / rows, 2) : 1} / ${cols / rows < 1 ? 1 / Math.max(cols / rows, 0.5) : 1}`,
+                maxHeight: '70vh'
+            }}>
                 <canvas
                     ref={canvasRef}
                     class="w-full h-full rounded select-none"
@@ -1016,30 +1043,59 @@ function SurfaceGraph({
                 <div class="absolute inset-0 pointer-events-none font-mono" style={{fontSize: '9px'}}>
                     {xTicks.map((tick, i) => (
                         <span key={`xt${i}`} class="absolute text-zinc-400"
-                              style={{left: `${tick.pos.xPct}%`, top: `${tick.pos.yPct}%`, transform: 'translate(-50%, 2px)'}}>
+                              style={{
+                                  left: `${tick.pos.xPct}%`,
+                                  top: `${tick.pos.yPct}%`,
+                                  transform: 'translate(-50%, 2px)'
+                              }}>
                             {formatValueConsistent(tick.val, xDecimals)}
                         </span>
                     ))}
                     {yTicks.map((tick, i) => (
                         <span key={`yt${i}`} class="absolute text-zinc-400"
-                              style={{left: `${tick.pos.xPct}%`, top: `${tick.pos.yPct}%`, transform: 'translate(-100%, -50%)', paddingRight: '4px'}}>
+                              style={{
+                                  left: `${tick.pos.xPct}%`,
+                                  top: `${tick.pos.yPct}%`,
+                                  transform: 'translate(-100%, -50%)',
+                                  paddingRight: '4px'
+                              }}>
                             {formatValueConsistent(tick.val, yDecimals)}
                         </span>
                     ))}
                     {zTicks.map((tick, i) => (
                         <span key={`zt${i}`} class="absolute text-zinc-400"
-                              style={{left: `${tick.pos.xPct}%`, top: `${tick.pos.yPct}%`, transform: 'translate(-100%, -50%)', paddingRight: '4px'}}>
+                              style={{
+                                  left: `${tick.pos.xPct}%`,
+                                  top: `${tick.pos.yPct}%`,
+                                  transform: 'translate(-100%, -50%)',
+                                  paddingRight: '4px'
+                              }}>
                             {formatValueConsistent(tick.val, zDecimals)}
                         </span>
                     ))}
                     {/* Axis unit labels */}
-                    <span class="absolute text-red-400 font-sans" style={{left: `${xEndPos.xPct}%`, top: `${xEndPos.yPct}%`, fontSize: '11px', transform: 'translate(4px, -50%)'}}>
+                    <span class="absolute text-red-400 font-sans" style={{
+                        left: `${xEndPos.xPct}%`,
+                        top: `${xEndPos.yPct}%`,
+                        fontSize: '11px',
+                        transform: 'translate(4px, -50%)'
+                    }}>
                         {xUnit || 'X'}
                     </span>
-                    <span class="absolute text-green-400 font-sans" style={{left: `${yEndPos.xPct}%`, top: `${yEndPos.yPct}%`, fontSize: '11px', transform: 'translate(-100%, -50%)'}}>
+                    <span class="absolute text-green-400 font-sans" style={{
+                        left: `${yEndPos.xPct}%`,
+                        top: `${yEndPos.yPct}%`,
+                        fontSize: '11px',
+                        transform: 'translate(-100%, -50%)'
+                    }}>
                         {yUnit || 'Y'}
                     </span>
-                    <span class="absolute text-blue-400 font-sans" style={{left: `${zEndPos.xPct}%`, top: `${zEndPos.yPct}%`, fontSize: '11px', transform: 'translate(-50%, -100%)'}}>
+                    <span class="absolute text-blue-400 font-sans" style={{
+                        left: `${zEndPos.xPct}%`,
+                        top: `${zEndPos.yPct}%`,
+                        fontSize: '11px',
+                        transform: 'translate(-50%, -100%)'
+                    }}>
                         {zUnit || 'Z'}
                     </span>
                 </div>
@@ -1054,7 +1110,8 @@ function SurfaceGraph({
                 <span class="ml-2 text-zinc-500">{zUnit}</span>
                 {originalZData && (
                     <label class="ml-4 flex items-center gap-1 cursor-pointer select-none">
-                        <input type="checkbox" checked={showOriginal} onChange={() => setShowOriginal(!showOriginal)} class="cursor-pointer" />
+                        <input type="checkbox" checked={showOriginal} onChange={() => setShowOriginal(!showOriginal)}
+                               class="cursor-pointer"/>
                         <span class="w-8 h-3 rounded inline-block"
                               style="background: linear-gradient(90deg, hsl(0,0%,75%), hsl(0,0%,55%), hsl(0,0%,30%))"></span>
                         Original
@@ -1062,7 +1119,8 @@ function SurfaceGraph({
                 )}
                 {compareZData && (
                     <label class="ml-4 flex items-center gap-1 cursor-pointer select-none">
-                        <input type="checkbox" checked={showCompare} onChange={() => setShowCompare(!showCompare)} class="cursor-pointer" />
+                        <input type="checkbox" checked={showCompare} onChange={() => setShowCompare(!showCompare)}
+                               class="cursor-pointer"/>
                         <span class="w-8 h-3 rounded inline-block"
                               style="background: linear-gradient(90deg, hsl(174,60%,75%), hsl(174,60%,45%), hsl(174,60%,30%))"></span>
                         Compare
@@ -1576,6 +1634,7 @@ function TableEditor({
     // Keyboard handler for copy/paste and selection editing
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
+            console.log(e.key)
             if ((e.ctrlKey || e.metaKey) && e.key === 'c' && (selection || axisSelection)) {
                 e.preventDefault();
                 copySelection();
@@ -1593,6 +1652,15 @@ function TableEditor({
             if (e.key === 'Enter' && (selection || axisSelection) && !editCell && !editAxisCell && !showModifyInput) {
                 e.preventDefault();
                 setShowModifyInput('set');
+            }
+            // +/- keys to increment/decrement selected cells by 1 unit
+            if (e.key === '+' && (selection || axisSelection) && !editCell && !editAxisCell && !showModifyInput) {
+                e.preventDefault();
+                modifySelection('add', 1);
+            }
+            if (e.key === '-' && (selection || axisSelection) && !editCell && !editAxisCell && !showModifyInput) {
+                e.preventDefault();
+                modifySelection('add', -1);
             }
         };
         window.addEventListener('keydown', handleKeyDown);
@@ -1615,31 +1683,32 @@ function TableEditor({
                     </div>
                     <div class="flex gap-x-2">
                         {hasChanged && originalBinData &&
-                            <button class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600"
-                                    onClick={() => {
-                                        if (!originalTableData) return;
-                                        for (let r = 0; r < originalTableData.length; r++) {
-                                            for (let c = 0; c < originalTableData[r].length; c++) {
-                                                writeTableCell(binData, parameter, r, c, originalTableData[r][c], calOffset, baseAddress, bigEndian);
-                                            }
+                            <button
+                                class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600"
+                                onClick={() => {
+                                    if (!originalTableData) return;
+                                    for (let r = 0; r < originalTableData.length; r++) {
+                                        for (let c = 0; c < originalTableData[r].length; c++) {
+                                            writeTableCell(binData, parameter, r, c, originalTableData[r][c], calOffset, baseAddress, bigEndian);
                                         }
-                                        if (originalXAxis && parameter.xAxis) {
-                                            for (let i = 0; i < originalXAxis.length; i++) {
-                                                writeAxisValue(binData, parameter.xAxis, i, originalXAxis[i], calOffset, baseAddress, bigEndian);
-                                            }
+                                    }
+                                    if (originalXAxis && parameter.xAxis) {
+                                        for (let i = 0; i < originalXAxis.length; i++) {
+                                            writeAxisValue(binData, parameter.xAxis, i, originalXAxis[i], calOffset, baseAddress, bigEndian);
                                         }
-                                        if (originalYAxis && parameter.yAxis) {
-                                            for (let i = 0; i < originalYAxis.length; i++) {
-                                                writeAxisValue(binData, parameter.yAxis, i, originalYAxis[i], calOffset, baseAddress, bigEndian);
-                                            }
+                                    }
+                                    if (originalYAxis && parameter.yAxis) {
+                                        for (let i = 0; i < originalYAxis.length; i++) {
+                                            writeAxisValue(binData, parameter.yAxis, i, originalYAxis[i], calOffset, baseAddress, bigEndian);
                                         }
-                                        setTableData(originalTableData.map(row => [...row]));
-                                        if (originalXAxis) setXAxisData([...originalXAxis]);
-                                        if (originalYAxis) setYAxisData([...originalYAxis]);
-                                        onModify();
-                                        const type = parameter.type === 'CURVE' ? '1D' : '2D';
-                                        track('Revert Parameter', {type, name: parameter.name});
-                                    }}>
+                                    }
+                                    setTableData(originalTableData.map(row => [...row]));
+                                    if (originalXAxis) setXAxisData([...originalXAxis]);
+                                    if (originalYAxis) setYAxisData([...originalYAxis]);
+                                    onModify();
+                                    const type = parameter.type === 'CURVE' ? '1D' : '2D';
+                                    track('Revert Parameter', {type, name: parameter.name});
+                                }}>
                                 Revert
                             </button>}
                         {originalBinData && (
@@ -1665,7 +1734,8 @@ function TableEditor({
                     </div>
                 </div>
 
-                <div class="flex flex-wrap items-center gap-4 p-3 bg-zinc-200 dark:bg-zinc-800 rounded text-xs text-zinc-600 dark:text-zinc-400">
+                <div
+                    class="flex flex-wrap items-center gap-4 p-3 bg-zinc-200 dark:bg-zinc-800 rounded text-xs text-zinc-600 dark:text-zinc-400">
                     <span>Address: 0x{parameter.address.toString(16).toUpperCase()}</span>
                     <span>Size: {parameter.rows || 1} x {parameter.cols || 1}</span>
                     <span>Z: {parameter.unit || '-'}</span>
@@ -1764,7 +1834,8 @@ function TableEditor({
                                 {parameter.unit || 'Z'}
                             </th>
                         )}
-                        {yAxisData.length > 0 && <th class="border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800"></th>}
+                        {yAxisData.length > 0 &&
+                            <th class="border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800"></th>}
                         <th
                             colSpan={parameter.cols || 1}
                             class="p-1 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-zinc-500 font-normal text-center"
@@ -1773,8 +1844,10 @@ function TableEditor({
                         </th>
                     </tr>
                     <tr>
-                        {yAxisData.length > 0 && <th class="border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800"></th>}
-                        {yAxisData.length > 0 && <th class="border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-700"></th>}
+                        {yAxisData.length > 0 &&
+                            <th class="border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800"></th>}
+                        {yAxisData.length > 0 &&
+                            <th class="border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-700"></th>}
                         {xAxisData.length > 0
                             ? xAxisData.map((val, i) => {
                                 const isEditing = editAxisCell?.axis === 'x' && editAxisCell?.index === i;

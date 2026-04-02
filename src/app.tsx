@@ -12,7 +12,6 @@ import {Sidebar} from './components/Sidebar';
 import {MainArea} from './components/MainArea';
 import {ChangesModal} from './components/ChangesModal';
 import {CrossCompareModal} from './components/CrossCompareModal';
-import {DefinitionPickerModal} from './components/DefinitionPickerModal';
 import {AppContext} from './context/app';
 import {useAppState} from './hooks/useAppState';
 import {loadDefinition} from './lib/definitionLoader';
@@ -174,9 +173,6 @@ export function App() {
         track('Load OLS Definition', {name: def.name, withBin: !!version});
     }, [olsData, appState]);
 
-    // Show definition picker when matches > 1
-    const showDefinitionPicker = appState.definitionMatches.length > 1;
-
     // CAL file offset for block-aware patch checking
     const calFileOffset = useMemo(() => {
         const epk = appState.definition?.verification?.expected;
@@ -275,18 +271,6 @@ export function App() {
                     <CrossCompareModal onClose={() => setShowCrossCompare(false)}/>
                 )}
 
-                {/* Definition Picker Modal (auto-shown when multiple matches) */}
-                {showDefinitionPicker && (
-                    <DefinitionPickerModal
-                        matches={appState.definitionMatches}
-                        allDefinitions={appState.allDefinitions}
-                        onSelect={(entry, mode) => {
-                            appState.selectDefinitionMatch(entry, mode);
-                        }}
-                        onClose={() => appState.clearDefinitionMatches()}
-                    />
-                )}
-
                 {/* Definitions Browser Modal */}
                 {showDefinitions && (
                     <Modal title="Definitions" onClose={() => setShowDefinitions(false)} width="lg">
@@ -302,19 +286,7 @@ export function App() {
                                     </div>
                                     <div class="max-h-96 overflow-y-auto space-y-1">
                                         {appState.allDefinitions.map((entry) => (
-                                            <button
-                                                key={entry.file}
-                                                onClick={async () => {
-                                                    try {
-                                                        const def = await loadDefinition(entry.file);
-                                                        appState.setExternalDefinition(def);
-                                                        appState.setSelectedParam(null);
-                                                        setShowDefinitions(false);
-                                                        track('Load Definition', {name: def.name});
-                                                    } catch (err) {
-                                                        console.error('Failed to load definition:', err);
-                                                    }
-                                                }}
+                                            <div
                                                 class="w-full text-left p-3 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:bg-zinc-600 rounded border border-zinc-400 dark:border-zinc-600 transition-colors"
                                             >
                                                 <div class="flex items-center justify-between">
@@ -332,7 +304,7 @@ export function App() {
                                                         </div>
                                                     )}
                                                 </div>
-                                            </button>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
