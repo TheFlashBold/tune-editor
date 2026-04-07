@@ -99,7 +99,7 @@ function TreeNodeView({
     const totalCount = countAllParameters(node);
 
     return (
-        <div style={{paddingLeft: depth * 16}}>
+        <div class={depth > 0 && "pl-4"}>
             {node.name !== 'Root' && (
                 <div
                     class={`flex items-center gap-1 px-2 py-1 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-700 ${hasChildren ? 'text-zinc-900 dark:text-zinc-100 font-medium' : 'text-zinc-600 dark:text-zinc-400'}`}
@@ -144,10 +144,9 @@ function TreeNodeView({
                                 <div
                                     key={paramId}
                                     data-param={paramId}
-                                    class={`flex items-center gap-1.5 px-2 py-1 cursor-pointer ${
+                                    class={`flex items-center gap-1.5 px-2 py-1 cursor-pointer pl-6 ${
                                         isSelected ? 'bg-blue-500 text-white' : 'hover:bg-zinc-200 dark:hover:bg-zinc-700'
                                     }`}
-                                    style={{paddingLeft: (depth + 1) * 16}}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onSelect(param);

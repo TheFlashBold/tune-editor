@@ -71,12 +71,23 @@ function PatchRow({result, selected, onToggle}: {
 export function mergeDefinitions(baseDef: Definition, patchDef: Definition, _patchName?: string): Definition {
     const existingNames = new Set(baseDef.parameters.map(p => p.name));
 
+    // Rebase patch addresses: patch defs may use absolute file offsets (baseAddress=0)
+    // while base def uses CAL-relative addresses with baseAddress as calOffset
+    const rebase = (baseDef.baseAddress ?? 0) > 0 && (patchDef.baseAddress ?? 0) === 0
+        ? (baseDef.baseAddress ?? 0) : 0;
+
+    const rebaseAxis = (axis: IDefinitionParameter['xAxis']): IDefinitionParameter['xAxis'] => {
+        if (!axis || !rebase || !axis.address) return axis;
+        return {...axis, address: axis.address - rebase};
+    };
+
     const patchParams: IDefinitionParameter[] = patchDef.parameters.map(p => {
         // Prefix categories with "Patch"
         const categories = ['Patch', ...p.categories];
         // Handle name collision
         const name = existingNames.has(p.name) ? `${p.name} (Patch)` : p.name;
-        return {...p, name, categories};
+        const address = rebase ? p.address - rebase : p.address;
+        return {...p, name, categories, address, xAxis: rebaseAxis(p.xAxis), yAxis: rebaseAxis(p.yAxis)};
     });
 
     return {
