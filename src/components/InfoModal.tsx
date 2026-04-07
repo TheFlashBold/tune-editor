@@ -21,6 +21,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.18.0',
+        date: '07.04.2026',
+        changes: [
+            'Fixed patch parameter addresses'
+        ]
+    },
+    {
         version: '1.17.2',
         date: '02.04.2026',
         changes: [
