@@ -10,7 +10,7 @@ import {
     readTableData,
     readAxisData,
     addressToOffset,
-    readBoxCode, readEPK, readString, readVersion, getEntropy,
+    readBoxCode, readEPK, readString, readVersion,
 } from '../lib/binUtils';
 import {
     loadDefinitionIndex,

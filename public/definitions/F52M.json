@@ -1,12 +1,12 @@
 {
-  "name": "DQ250 F52M",
+  "name": "F52 M_DSG_v1.002",
   "version": "1.0",
-  "baseAddress": 0,
+  "baseAddress": 65536,
   "parameters": [
     {
-      "name": "upshift-Characteristics At AMax for HS 1->2 in Sport",
+      "name": "upshift-characteristics at amax for hs 1->2 in sport",
       "description": "upshift-Characteristics At AMax for HS 1->2 in Sport",
-      "address": 272012,
+      "address": 206476,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -24,14 +24,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristics At AMax for HS 1->2 in Tip",
+      "name": "upshift-characteristics at amax for hs 1->2 in tip",
       "description": "upshift-Characteristics At AMax for HS 1->2 in Tip",
-      "address": 272052,
+      "address": 206516,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -49,14 +49,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristic At AMax for HS 1->2",
+      "name": "upshift-characteristic at amax for hs 1->2",
       "description": "upshift-Characteristic At AMax for HS 1->2",
-      "address": 271972,
+      "address": 206436,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -74,14 +74,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristics At AMax for HS 2->3 in Sport",
+      "name": "upshift-characteristics at amax for hs 2->3 in sport",
       "description": "upshift-Characteristics At AMax for HS 2->3 in Sport",
-      "address": 272020,
+      "address": 206484,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -99,14 +99,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristics At AMax for HS 2->3 in Tip",
+      "name": "upshift-characteristics at amax for hs 2->3 in tip",
       "description": "upshift-Characteristics At AMax for HS 2->3 in Tip",
-      "address": 272060,
+      "address": 206524,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -124,14 +124,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristic At AMax for HS 2->3",
+      "name": "upshift-characteristic at amax for hs 2->3",
       "description": "upshift-Characteristic At AMax for HS 2->3",
-      "address": 271980,
+      "address": 206444,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -149,14 +149,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristics At AMax for HS 3->4 in Sport",
+      "name": "upshift-characteristics at amax for hs 3->4 in sport",
       "description": "upshift-Characteristics At AMax for HS 3->4 in Sport",
-      "address": 272028,
+      "address": 206492,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -174,14 +174,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristics At AMax for HS 3->4 in Tip",
+      "name": "upshift-characteristics at amax for hs 3->4 in tip",
       "description": "upshift-Characteristics At AMax for HS 3->4 in Tip",
-      "address": 272068,
+      "address": 206532,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -199,14 +199,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristic At AMax for HS 3->4",
+      "name": "upshift-characteristic at amax for hs 3->4",
       "description": "upshift-Characteristic At AMax for HS 3->4",
-      "address": 271988,
+      "address": 206452,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -224,14 +224,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristics At AMax for HS 4->5 in Sport",
+      "name": "upshift-characteristics at amax for hs 4->5 in sport",
       "description": "upshift-Characteristics At AMax for HS 4->5 in Sport",
-      "address": 272036,
+      "address": 206500,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -249,14 +249,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272400,
+        "address": 206864,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristics At AMax for HS 4->5 in Tip",
+      "name": "upshift-characteristics at amax for hs 4->5 in tip",
       "description": "upshift-Characteristics At AMax for HS 4->5 in Tip",
-      "address": 272076,
+      "address": 206540,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -274,14 +274,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272400,
+        "address": 206864,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristic At AMax for HS 4->5",
+      "name": "upshift-characteristic at amax for hs 4->5",
       "description": "upshift-Characteristic At AMax for HS 4->5",
-      "address": 271996,
+      "address": 206460,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -299,14 +299,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272400,
+        "address": 206864,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristics At AMax for HS 5->6 in Sport",
+      "name": "upshift-characteristics at amax for hs 5->6 in sport",
       "description": "upshift-Characteristics At AMax for HS 5->6 in Sport",
-      "address": 272044,
+      "address": 206508,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -324,14 +324,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272408,
+        "address": 206872,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristics At AMax for HS 5->6 in Tip",
+      "name": "upshift-characteristics at amax for hs 5->6 in tip",
       "description": "upshift-Characteristics At AMax for HS 5->6 in Tip",
-      "address": 272084,
+      "address": 206548,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -349,14 +349,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272408,
+        "address": 206872,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "upshift-Characteristic At AMax for HS 5->6",
+      "name": "upshift-characteristic at amax for hs 5->6",
       "description": "upshift-Characteristic At AMax for HS 5->6",
-      "address": 272004,
+      "address": 206468,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -374,14 +374,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272408,
+        "address": 206872,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "KD-switchback-Characteristic for RS 2->1 in TT",
+      "name": "kd-switchback-characteristic for rs 2->1 in tt",
       "description": "KD-switchback-Characteristic for RS 2->1 in TT",
-      "address": 272092,
+      "address": 206556,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -399,14 +399,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "KD-switchback-Characteristic for RS 3->2 in TT",
+      "name": "kd-switchback-characteristic for rs 3->2 in tt",
       "description": "KD-switchback-Characteristic for RS 3->2 in TT",
-      "address": 272100,
+      "address": 206564,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -424,14 +424,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "KD-switchback-Characteristic for RS 4->3 in TT",
+      "name": "kd-switchback-characteristic for rs 4->3 in tt",
       "description": "KD-switchback-Characteristic for RS 4->3 in TT",
-      "address": 272108,
+      "address": 206572,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -449,14 +449,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "KD-switchback-Characteristic for RS 5->4 in TT",
+      "name": "kd-switchback-characteristic for rs 5->4 in tt",
       "description": "KD-switchback-Characteristic for RS 5->4 in TT",
-      "address": 272116,
+      "address": 206580,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -474,14 +474,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272400,
+        "address": 206864,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "KD-switchback-Characteristic for RS 6->5 in TT",
+      "name": "kd-switchback-characteristic for rs 6->5 in tt",
       "description": "KD-switchback-Characteristic for RS 6->5 in TT",
-      "address": 272124,
+      "address": 206588,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -499,14 +499,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272408,
+        "address": 206872,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "minimal negative speed derivative i.A. load torque",
+      "name": "minimal negative speed derivative i.a. load torque",
       "description": "minimal negative speed derivative i.A. load torque",
-      "address": 272132,
+      "address": 206596,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -524,7 +524,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 65536,
+        "address": 0,
         "dataType": "UWORD",
         "labels": [
           "",
@@ -535,9 +535,9 @@
       }
     },
     {
-      "name": "switching times in D (Eco)",
+      "name": "switching times in d (eco)",
       "description": "switching times in D (Eco)",
-      "address": 296188,
+      "address": 230652,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -556,7 +556,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 296176,
+        "address": 230640,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -569,9 +569,9 @@
       }
     },
     {
-      "name": "switching times in S (Sport)",
+      "name": "switching times in s (sport)",
       "description": "switching times in S (Sport)",
-      "address": 296240,
+      "address": 230704,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -590,7 +590,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 296176,
+        "address": 230640,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -603,9 +603,9 @@
       }
     },
     {
-      "name": "switching times in Tiptronic",
+      "name": "switching times in tiptronic",
       "description": "switching times in Tiptronic",
-      "address": 296292,
+      "address": 230756,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -624,7 +624,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 296176,
+        "address": 230640,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -637,9 +637,9 @@
       }
     },
     {
-      "name": "switching times in D (Eco) with torque reduction",
+      "name": "switching times in d (eco) with torque reduction",
       "description": "switching times in D (Eco) with torque reduction",
-      "address": 296344,
+      "address": 230808,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -658,7 +658,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 296176,
+        "address": 230640,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -671,9 +671,9 @@
       }
     },
     {
-      "name": "switching times in D (Normal) with torque reduction",
+      "name": "switching times in d (normal) with torque reduction",
       "description": "switching times in D (Normal) with torque reduction",
-      "address": 296396,
+      "address": 230860,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -692,7 +692,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 296176,
+        "address": 230640,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -705,9 +705,9 @@
       }
     },
     {
-      "name": "switching times in S (Sport) with torque reduction",
+      "name": "switching times in s (sport) with torque reduction",
       "description": "switching times in S (Sport) with torque reduction",
-      "address": 296448,
+      "address": 230912,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -726,7 +726,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 296176,
+        "address": 230640,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -739,9 +739,9 @@
       }
     },
     {
-      "name": "switching times in Tiptronic with torque reduction",
+      "name": "switching times in tiptronic with torque reduction",
       "description": "switching times in Tiptronic with torque reduction",
-      "address": 296500,
+      "address": 230964,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -760,7 +760,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 296176,
+        "address": 230640,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -773,9 +773,9 @@
       }
     },
     {
-      "name": "Maximum switching times for Downshifts for Tiptronic-Operation",
+      "name": "maximum switching times for downshifts for tiptronic-operation",
       "description": "Maximum switching times for Downshifts for Tiptronic-Operation",
-      "address": 298748,
+      "address": 233212,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -794,7 +794,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 298724,
+        "address": 233188,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -804,14 +804,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Gang",
-        "address": 298736,
+        "address": 233200,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Maximum switching times for Downshifts im Economic-Operation",
+      "name": "maximum switching times for downshifts im economic-operation",
       "description": "Maximum switching times for Downshifts im Economic-Operation",
-      "address": 298800,
+      "address": 233264,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -830,7 +830,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 298724,
+        "address": 233188,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -840,14 +840,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Gang",
-        "address": 298736,
+        "address": 233200,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Maximum switching times for Downshifts im Sport-Operation",
+      "name": "maximum switching times for downshifts im sport-operation",
       "description": "Maximum switching times for Downshifts im Sport-Operation",
-      "address": 298852,
+      "address": 233316,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -866,7 +866,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 298724,
+        "address": 233188,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -876,14 +876,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Gang",
-        "address": 298736,
+        "address": 233200,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Maximum switching times for double circuits",
+      "name": "maximum switching times for double circuits",
       "description": "Maximum switching times for double circuits",
-      "address": 298904,
+      "address": 233368,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "ms",
@@ -901,15 +901,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 298724,
+        "address": 233188,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "Maximum switching times for triple circuits",
+      "name": "maximum switching times for triple circuits",
       "description": "Maximum switching times for triple circuits",
-      "address": 298916,
+      "address": 233380,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "ms",
@@ -927,15 +927,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 298724,
+        "address": 233188,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "Maximum switching times for four-way circuits",
+      "name": "maximum switching times for four-way circuits",
       "description": "Maximum switching times for four-way circuits",
-      "address": 298928,
+      "address": 233392,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "ms",
@@ -953,15 +953,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 298724,
+        "address": 233188,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "max. set gradient for singlebit-Downshifts im Economic-Operation",
+      "name": "max. set gradient for singlebit-downshifts im economic-operation",
       "description": "max. set gradient for singlebit-Downshifts im Economic-Operation — Drehzahlgradient in U/min/s",
-      "address": 298940,
+      "address": 233404,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min/s",
@@ -980,7 +980,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 298724,
+        "address": 233188,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -990,14 +990,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Gang",
-        "address": 298736,
+        "address": 233200,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "max. set gradient for singlebit-Downshifts im Sport-Operation",
+      "name": "max. set gradient for singlebit-downshifts im sport-operation",
       "description": "max. set gradient for singlebit-Downshifts im Sport-Operation — Drehzahlgradient in U/min/s",
-      "address": 298992,
+      "address": 233456,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min/s",
@@ -1016,7 +1016,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 298724,
+        "address": 233188,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -1026,14 +1026,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Gang",
-        "address": 298736,
+        "address": 233200,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "max. set gradient for singlebit-Downshifts im Tiptronic-Operation",
+      "name": "max. set gradient for singlebit-downshifts im tiptronic-operation",
       "description": "max. set gradient for singlebit-Downshifts im Tiptronic-Operation — Drehzahlgradient in U/min/s",
-      "address": 299044,
+      "address": 233508,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min/s",
@@ -1052,7 +1052,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 298724,
+        "address": 233188,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -1062,14 +1062,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Gang",
-        "address": 298736,
+        "address": 233200,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "engine moment over Speed",
+      "name": "engine moment over speed",
       "description": "engine moment over Speed — Motormoment in Nm",
-      "address": 279260,
+      "address": 213724,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "Nm",
@@ -1087,15 +1087,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "km/h",
-        "address": 279248,
+        "address": 213712,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "switching time for circuits im SPECIAL MODE 'Maximum Acceleration'",
+      "name": "switching time for circuits im special mode 'maximum acceleration'",
       "description": "switching time for circuits im SPECIAL MODE 'Maximum Acceleration'",
-      "address": 297460,
+      "address": 231924,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "ms",
@@ -1114,9 +1114,9 @@
       }
     },
     {
-      "name": "mandatory-upshift-Characteristic for HS 1->2 in TT",
+      "name": "mandatory-upshift-characteristic for hs 1->2 in tt",
       "description": "mandatory-upshift-Characteristic for HS 1->2 in TT",
-      "address": 296048,
+      "address": 230512,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -1134,14 +1134,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 270032,
+        "address": 204496,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "mandatory-upshift-Characteristic for HS 2->3 in TT",
+      "name": "mandatory-upshift-characteristic for hs 2->3 in tt",
       "description": "mandatory-upshift-Characteristic for HS 2->3 in TT",
-      "address": 296056,
+      "address": 230520,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -1159,14 +1159,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 270064,
+        "address": 204528,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "mandatory-upshift-Characteristic for HS 3->4 in TT",
+      "name": "mandatory-upshift-characteristic for hs 3->4 in tt",
       "description": "mandatory-upshift-Characteristic for HS 3->4 in TT",
-      "address": 296064,
+      "address": 230528,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -1184,14 +1184,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 270072,
+        "address": 204536,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "mandatory-upshift-Characteristic for HS 4->5 in TT",
+      "name": "mandatory-upshift-characteristic for hs 4->5 in tt",
       "description": "mandatory-upshift-Characteristic for HS 4->5 in TT",
-      "address": 296072,
+      "address": 230536,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -1209,14 +1209,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 270080,
+        "address": 204544,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "mandatory-upshift-Characteristic for HS 5->6 in TT",
+      "name": "mandatory-upshift-characteristic for hs 5->6 in tt",
       "description": "mandatory-upshift-Characteristic for HS 5->6 in TT",
-      "address": 296080,
+      "address": 230544,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -1234,14 +1234,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 270088,
+        "address": 204552,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Maximum torque for protection of transmission",
+      "name": "maximum torque for protection of transmission",
       "description": "Maximum torque for protection of transmission — Motormoment in Nm",
-      "address": 274016,
+      "address": 208480,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "Nm",
@@ -1260,9 +1260,9 @@
       }
     },
     {
-      "name": "pressureCurrent zu pressure Characteristic Pressure zu high Clutch 1",
+      "name": "pressurecurrent zu pressure characteristic pressure zu high clutch 1",
       "description": "pressureCurrent zu pressure Characteristic Pressure zu high Clutch 1 — Hauptdruck in bar",
-      "address": 274376,
+      "address": 208840,
       "type": "CURVE",
       "dataType": "UWORD",
       "unit": "bar",
@@ -1280,15 +1280,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "mA",
-        "address": 274384,
+        "address": 208848,
         "dataType": "UWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "pressureCurrent zu pressure Characteristic Pressure zu high Clutch 2",
+      "name": "pressurecurrent zu pressure characteristic pressure zu high clutch 2",
       "description": "pressureCurrent zu pressure Characteristic Pressure zu high Clutch 2 — Hauptdruck in bar",
-      "address": 274392,
+      "address": 208856,
       "type": "CURVE",
       "dataType": "UWORD",
       "unit": "bar",
@@ -1306,15 +1306,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "mA",
-        "address": 274400,
+        "address": 208864,
         "dataType": "UWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "Data Moment zu main pressure KL",
+      "name": "data moment zu main pressure kl",
       "description": "Data Moment zu main pressure KL",
-      "address": 273428,
+      "address": 207892,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "bar",
@@ -1332,41 +1332,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 273420,
+        "address": 207884,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "Data Moment zu main pressure KL",
-      "description": "Data Moment zu main pressure KL",
-      "address": 273428,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "bar",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 0.01,
-      "offset": 0.0,
-      "categories": [
-        "HauptdruckSteuerungApp: \"main pressure control\""
-      ],
-      "cols": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 273420,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "Temperature compensation",
+      "name": "temperature compensation",
       "description": "Temperature compensation",
-      "address": 273444,
+      "address": 207908,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "bar",
@@ -1384,39 +1358,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "°C",
-        "address": 273436,
+        "address": 207900,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Temperature compensation",
-      "description": "Temperature compensation",
-      "address": 273444,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "bar",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 0.01,
-      "offset": 0.0,
-      "categories": [
-        "HauptdruckSteuerungApp: \"main pressure control\""
-      ],
-      "cols": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "°C",
-        "address": 273436,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Max. engine moment motor intervention Overtemperature",
+      "name": "max. engine moment motor intervention overtemperature",
       "description": "Max. engine moment motor intervention Overtemperature — Motormoment in Nm",
-      "address": 273776,
+      "address": 208240,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "Nm",
@@ -1434,39 +1383,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Grad",
-        "address": 273772,
+        "address": 208236,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Max. engine moment motor intervention Overtemperature",
-      "description": "Max. engine moment motor intervention Overtemperature — Motormoment in Nm",
-      "address": 273776,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 0.1,
-      "offset": 0.0,
-      "categories": [
-        "MmrApplikation: \"Application parameters\""
-      ],
-      "cols": 2,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 2,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Grad",
-        "address": 273772,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "max Permitted nsynchronous after TT-Downshift",
+      "name": "max permitted nsynchronous after tt-downshift",
       "description": "max Permitted nsynchronous after TT-Downshift",
-      "address": 296152,
+      "address": 230616,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -1487,32 +1411,9 @@
       }
     },
     {
-      "name": "max Permitted nsynchronous after TT-Downshift",
-      "description": "max Permitted nsynchronous after TT-Downshift",
-      "address": 296152,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "GesVarianten: \"\""
-      ],
-      "cols": 5,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 5,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "Number the highly circuits The in Tiptronic saved will can",
+      "name": "number the highly circuits the in tiptronic saved will can",
       "description": "Number the highly circuits The in Tiptronic saved will can",
-      "address": 273229,
+      "address": 207693,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "",
@@ -1541,40 +1442,9 @@
       }
     },
     {
-      "name": "Number the highly circuits The in Tiptronic saved will can",
-      "description": "Number the highly circuits The in Tiptronic saved will can",
-      "address": 273229,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Tiptronic: \"\""
-      ],
-      "cols": 1,
-      "rows": 8,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 1,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 8,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "time for HS-Tip-suppression in TT",
+      "name": "time for hs-tip-suppression in tt",
       "description": "time for HS-Tip-suppression in TT",
-      "address": 273230,
+      "address": 207694,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "sec",
@@ -1603,40 +1473,9 @@
       }
     },
     {
-      "name": "time for HS-Tip-suppression in TT",
-      "description": "time for HS-Tip-suppression in TT",
-      "address": 273230,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "sec",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Tiptronic: \"\""
-      ],
-      "cols": 1,
-      "rows": 8,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 1,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 8,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "time, in the a TT-gear selector Active Is",
+      "name": "time, in the a tt-gear selector active is",
       "description": "time, in the a TT-gear selector Active Is",
-      "address": 273228,
+      "address": 207692,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "sec",
@@ -1665,40 +1504,9 @@
       }
     },
     {
-      "name": "time, in the a TT-gear selector Active Is",
-      "description": "time, in the a TT-gear selector Active Is",
-      "address": 273228,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "sec",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Tiptronic: \"\""
-      ],
-      "cols": 1,
-      "rows": 8,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 1,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 8,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "Map for multiplexer time",
+      "name": "map for multiplexer time",
       "description": "Map for multiplexer time",
-      "address": 264020,
+      "address": 198484,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -1717,7 +1525,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "°C",
-        "address": 264004,
+        "address": 198468,
         "dataType": "SWORD"
       },
       "yAxis": {
@@ -1726,51 +1534,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "bar",
-        "address": 264012,
+        "address": 198476,
         "dataType": "SWORD",
         "factor": 0.01
       }
     },
     {
-      "name": "Map for multiplexer time",
-      "description": "Map for multiplexer time",
-      "address": 264020,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 10.0,
-      "offset": 0.0,
-      "categories": [
-        "multiplexer: \"control of speed controller-multiplexers\""
-      ],
-      "cols": 4,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "°C",
-        "address": 264004,
-        "dataType": "SWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "bar",
-        "address": 264012,
-        "dataType": "SWORD",
-        "factor": 0.01
-      }
-    },
-    {
-      "name": "curve resistance at worth i.A. turning radius and VFzg",
+      "name": "curve resistance at worth i.a. turning radius and vfzg",
       "description": "curve resistance at worth i.A. turning radius and VFzg",
-      "address": 264456,
+      "address": 198920,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "",
@@ -1789,7 +1561,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 264948,
+        "address": 199412,
         "dataType": "UWORD"
       },
       "yAxis": {
@@ -1798,51 +1570,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "",
-        "address": 264964,
+        "address": 199428,
         "dataType": "UWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "curve resistance at worth i.A. turning radius and VFzg",
-      "description": "curve resistance at worth i.A. turning radius and VFzg",
-      "address": 264456,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 0.001,
-      "offset": 0.0,
-      "categories": [
-        "load torque: \"\""
-      ],
-      "cols": 8,
-      "rows": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 264948,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 264964,
-        "dataType": "UWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "height offset On load torque",
+      "name": "height offset on load torque",
       "description": "height offset On load torque",
-      "address": 264820,
+      "address": 199284,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "Nm",
@@ -1861,7 +1597,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "U/min",
-        "address": 265028,
+        "address": 199492,
         "dataType": "SWORD"
       },
       "yAxis": {
@@ -1870,49 +1606,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "hPa",
-        "address": 265036,
+        "address": 199500,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "height offset On load torque",
-      "description": "height offset On load torque",
-      "address": 264820,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "load torque: \"\""
-      ],
-      "cols": 4,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "U/min",
-        "address": 265028,
-        "dataType": "SWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "hPa",
-        "address": 265036,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 1->2 Eco",
+      "name": "high shift map 1->2 eco",
       "description": "high shift map 1->2 Eco",
-      "address": 265620,
+      "address": 200084,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -1931,7 +1632,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -1941,50 +1642,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 1->2 Eco",
-      "description": "high shift map 1->2 Eco",
-      "address": 265620,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Eco: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272376,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 1->2 Normal",
+      "name": "high shift map 1->2 normal",
       "description": "high shift map 1->2 Normal",
-      "address": 266100,
+      "address": 200564,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2003,7 +1668,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2013,50 +1678,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 1->2 Normal",
-      "description": "high shift map 1->2 Normal",
-      "address": 266100,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Normal: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272376,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 2->3 Eco",
+      "name": "high shift map 2->3 eco",
       "description": "high shift map 2->3 Eco",
-      "address": 265716,
+      "address": 200180,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2075,7 +1704,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2085,50 +1714,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 2->3 Eco",
-      "description": "high shift map 2->3 Eco",
-      "address": 265716,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Eco: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272384,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 2->3 Normal",
+      "name": "high shift map 2->3 normal",
       "description": "high shift map 2->3 Normal",
-      "address": 266196,
+      "address": 200660,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2147,7 +1740,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2157,50 +1750,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 2->3 Normal",
-      "description": "high shift map 2->3 Normal",
-      "address": 266196,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Normal: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272384,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 3->4 Eco",
+      "name": "high shift map 3->4 eco",
       "description": "high shift map 3->4 Eco",
-      "address": 265812,
+      "address": 200276,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2219,7 +1776,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2229,50 +1786,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 3->4 Eco",
-      "description": "high shift map 3->4 Eco",
-      "address": 265812,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Eco: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272392,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 4->5 Eco",
+      "name": "high shift map 4->5 eco",
       "description": "high shift map 4->5 Eco",
-      "address": 265908,
+      "address": 200372,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2291,7 +1812,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2301,50 +1822,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272400,
+        "address": 206864,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 4->5 Eco",
-      "description": "high shift map 4->5 Eco",
-      "address": 265908,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Eco: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272400,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 5->6 Eco",
+      "name": "high shift map 5->6 eco",
       "description": "high shift map 5->6 Eco",
-      "address": 266004,
+      "address": 200468,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2363,7 +1848,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2373,50 +1858,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272408,
+        "address": 206872,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 5->6 Eco",
-      "description": "high shift map 5->6 Eco",
-      "address": 266004,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Eco: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272408,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Offset On The target speed At the Calculation the Drehzahldiffenz to engine",
+      "name": "offset on the target speed at the calculation the drehzahldiffenz to engine",
       "description": "Offset On The target speed At the Calculation the Drehzahldiffenz to engine — Drehzahl in U/min",
-      "address": 266400,
+      "address": 200864,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -2434,39 +1883,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "U/min",
-        "address": 279380,
+        "address": 213844,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Offset On The target speed At the Calculation the Drehzahldiffenz to engine",
-      "description": "Offset On The target speed At the Calculation the Drehzahldiffenz to engine — Drehzahl in U/min",
-      "address": 266400,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "KusAppSegeln: \"Application parameters for the sailing\""
-      ],
-      "cols": 2,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 2,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "U/min",
-        "address": 279380,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 5->4 Eco",
+      "name": "switchback map- 5->4 eco",
       "description": "switchback map- 5->4 Eco",
-      "address": 266868,
+      "address": 201332,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2485,7 +1909,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2495,50 +1919,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272400,
+        "address": 206864,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 5->4 Eco",
-      "description": "switchback map- 5->4 Eco",
-      "address": 266868,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Eco: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 271380,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272400,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 4->3 Eco",
+      "name": "switchback map- 4->3 eco",
       "description": "switchback map- 4->3 Eco",
-      "address": 266772,
+      "address": 201236,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2557,7 +1945,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2567,50 +1955,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 4->3 Eco",
-      "description": "switchback map- 4->3 Eco",
-      "address": 266772,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Eco: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 271380,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272392,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 3->2 Eco",
+      "name": "switchback map- 3->2 eco",
       "description": "switchback map- 3->2 Eco",
-      "address": 266676,
+      "address": 201140,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2629,7 +1981,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2639,50 +1991,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 3->2 Eco",
-      "description": "switchback map- 3->2 Eco",
-      "address": 266676,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Eco: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 271380,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272384,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 3->4 Normal",
+      "name": "high shift map 3->4 normal",
       "description": "high shift map 3->4 Normal",
-      "address": 266292,
+      "address": 200756,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2701,7 +2017,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2711,50 +2027,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 3->4 Normal",
-      "description": "high shift map 3->4 Normal",
-      "address": 266292,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Normal: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272392,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 4->5 Normal",
+      "name": "high shift map 4->5 normal",
       "description": "high shift map 4->5 Normal",
-      "address": 266388,
+      "address": 200852,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2773,7 +2053,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2783,50 +2063,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272400,
+        "address": 206864,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 4->5 Normal",
-      "description": "high shift map 4->5 Normal",
-      "address": 266388,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Normal: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272400,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 5->6 Normal",
+      "name": "high shift map 5->6 normal",
       "description": "high shift map 5->6 Normal",
-      "address": 266484,
+      "address": 200948,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2845,7 +2089,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2855,50 +2099,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272408,
+        "address": 206872,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 5->6 Normal",
-      "description": "high shift map 5->6 Normal",
-      "address": 266484,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Normal: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272408,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 2->1 Eco",
+      "name": "switchback map- 2->1 eco",
       "description": "switchback map- 2->1 Eco",
-      "address": 266580,
+      "address": 201044,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2917,7 +2125,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272340,
+        "address": 206804,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2927,50 +2135,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 2->1 Eco",
-      "description": "switchback map- 2->1 Eco",
-      "address": 266580,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Eco: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272340,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272376,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 6->5 Eco",
+      "name": "switchback map- 6->5 eco",
       "description": "switchback map- 6->5 Eco",
-      "address": 266964,
+      "address": 201428,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -2989,7 +2161,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -2999,50 +2171,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272408,
+        "address": 206872,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 6->5 Eco",
-      "description": "switchback map- 6->5 Eco",
-      "address": 266964,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Eco: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 271380,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272408,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 6->5 Normal",
+      "name": "switchback map- 6->5 normal",
       "description": "switchback map- 6->5 Normal",
-      "address": 267444,
+      "address": 201908,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3061,7 +2197,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3071,50 +2207,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272408,
+        "address": 206872,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 6->5 Normal",
-      "description": "switchback map- 6->5 Normal",
-      "address": 267444,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Normal: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 271380,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272408,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 5->4 Normal",
+      "name": "switchback map- 5->4 normal",
       "description": "switchback map- 5->4 Normal",
-      "address": 267348,
+      "address": 201812,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3133,7 +2233,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3143,50 +2243,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272400,
+        "address": 206864,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 5->4 Normal",
-      "description": "switchback map- 5->4 Normal",
-      "address": 267348,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Normal: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 271380,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272400,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 4->3 Normal",
+      "name": "switchback map- 4->3 normal",
       "description": "switchback map- 4->3 Normal",
-      "address": 267252,
+      "address": 201716,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3205,7 +2269,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3215,50 +2279,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 4->3 Normal",
-      "description": "switchback map- 4->3 Normal",
-      "address": 267252,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Normal: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 271380,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272392,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 3->2 Normal",
+      "name": "switchback map- 3->2 normal",
       "description": "switchback map- 3->2 Normal",
-      "address": 267156,
+      "address": 201620,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3277,7 +2305,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3287,50 +2315,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 3->2 Normal",
-      "description": "switchback map- 3->2 Normal",
-      "address": 267156,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Normal: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 271380,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272384,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 2->1 Normal",
+      "name": "switchback map- 2->1 normal",
       "description": "switchback map- 2->1 Normal",
-      "address": 267060,
+      "address": 201524,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3349,7 +2341,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3359,50 +2351,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 2->1 Normal",
-      "description": "switchback map- 2->1 Normal",
-      "address": 267060,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Normal: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 271380,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272376,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 1->2 Sport",
+      "name": "high shift map 1->2 sport",
       "description": "high shift map 1->2 Sport",
-      "address": 267540,
+      "address": 202004,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3421,7 +2377,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3431,50 +2387,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 1->2 Sport",
-      "description": "high shift map 1->2 Sport",
-      "address": 267540,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Sport: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272376,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 2->3 Sport",
+      "name": "high shift map 2->3 sport",
       "description": "high shift map 2->3 Sport",
-      "address": 267636,
+      "address": 202100,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3493,7 +2413,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3503,50 +2423,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 2->3 Sport",
-      "description": "high shift map 2->3 Sport",
-      "address": 267636,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Sport: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272384,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 3->4 Sport",
+      "name": "high shift map 3->4 sport",
       "description": "high shift map 3->4 Sport",
-      "address": 267732,
+      "address": 202196,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3565,7 +2449,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3575,50 +2459,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 3->4 Sport",
-      "description": "high shift map 3->4 Sport",
-      "address": 267732,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Sport: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272392,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 4->5 Sport",
+      "name": "high shift map 4->5 sport",
       "description": "high shift map 4->5 Sport",
-      "address": 267828,
+      "address": 202292,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3637,7 +2485,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3647,50 +2495,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272400,
+        "address": 206864,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 4->5 Sport",
-      "description": "high shift map 4->5 Sport",
-      "address": 267828,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Sport: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272400,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 5->6 Sport",
+      "name": "high shift map 5->6 sport",
       "description": "high shift map 5->6 Sport",
-      "address": 267924,
+      "address": 202388,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3709,7 +2521,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3719,50 +2531,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272408,
+        "address": 206872,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 5->6 Sport",
-      "description": "high shift map 5->6 Sport",
-      "address": 267924,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Sport: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272408,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 2->1 Sport",
+      "name": "switchback map- 2->1 sport",
       "description": "switchback map- 2->1 Sport",
-      "address": 268020,
+      "address": 202484,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3781,7 +2557,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3791,50 +2567,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 2->1 Sport",
-      "description": "switchback map- 2->1 Sport",
-      "address": 268020,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Sport: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 271380,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
       "name": "high shift map 1->2 offroad",
       "description": "high shift map 1->2 offroad",
-      "address": 268500,
+      "address": 202964,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3853,7 +2593,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3863,50 +2603,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "high shift map 1->2 offroad",
-      "description": "high shift map 1->2 offroad",
-      "address": 268500,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "offroad: \"shift maps for offroad\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
       "name": "high shift map 2->3 offroad",
       "description": "high shift map 2->3 offroad",
-      "address": 268596,
+      "address": 203060,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3925,7 +2629,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -3935,50 +2639,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 2->3 offroad",
-      "description": "high shift map 2->3 offroad",
-      "address": 268596,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "offroad: \"shift maps for offroad\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272384,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 3->2 Sport",
+      "name": "switchback map- 3->2 sport",
       "description": "switchback map- 3->2 Sport",
-      "address": 268116,
+      "address": 202580,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -3997,7 +2665,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272340,
+        "address": 206804,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4007,50 +2675,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 3->2 Sport",
-      "description": "switchback map- 3->2 Sport",
-      "address": 268116,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Sport: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272340,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272384,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 4->3 Sport",
+      "name": "switchback map- 4->3 sport",
       "description": "switchback map- 4->3 Sport",
-      "address": 268212,
+      "address": 202676,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4069,7 +2701,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272340,
+        "address": 206804,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4079,50 +2711,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 4->3 Sport",
-      "description": "switchback map- 4->3 Sport",
-      "address": 268212,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Sport: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272340,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272392,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 5->4 Sport",
+      "name": "switchback map- 5->4 sport",
       "description": "switchback map- 5->4 Sport",
-      "address": 268308,
+      "address": 202772,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4141,7 +2737,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272340,
+        "address": 206804,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4151,50 +2747,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272400,
+        "address": 206864,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "switchback map- 5->4 Sport",
-      "description": "switchback map- 5->4 Sport",
-      "address": 268308,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Sport: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272340,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272400,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 6->5 Sport",
+      "name": "switchback map- 6->5 sport",
       "description": "switchback map- 6->5 Sport",
-      "address": 268404,
+      "address": 202868,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4213,7 +2773,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272340,
+        "address": 206804,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4223,50 +2783,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272408,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switchback map- 6->5 Sport",
-      "description": "switchback map- 6->5 Sport",
-      "address": 268404,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Sport: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272340,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272408,
+        "address": 206872,
         "dataType": "SWORD"
       }
     },
     {
       "name": "high shift map 3->4 offroad",
       "description": "high shift map 3->4 offroad",
-      "address": 268692,
+      "address": 203156,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4285,7 +2809,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4295,14 +2819,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
       "name": "high shift map 4->5 offroad",
       "description": "high shift map 4->5 offroad",
-      "address": 268788,
+      "address": 203252,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4321,7 +2845,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4331,14 +2855,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 271440,
+        "address": 205904,
         "dataType": "SWORD"
       }
     },
     {
       "name": "high shift map 5->6 offroad",
       "description": "high shift map 5->6 offroad",
-      "address": 268884,
+      "address": 203348,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4357,7 +2881,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4367,14 +2891,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 271448,
+        "address": 205912,
         "dataType": "SWORD"
       }
     },
     {
       "name": "switchback map- 2->1 offroad",
       "description": "switchback map- 2->1 offroad",
-      "address": 268980,
+      "address": 203444,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4393,7 +2917,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4403,14 +2927,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
       "name": "switchback map- 3->2 offroad",
       "description": "switchback map- 3->2 offroad",
-      "address": 269076,
+      "address": 203540,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4429,7 +2953,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4439,14 +2963,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
       "name": "switchback map- 4->3 offroad",
       "description": "switchback map- 4->3 offroad",
-      "address": 269172,
+      "address": 203636,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4465,7 +2989,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4475,14 +2999,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
       "name": "switchback map- 5->4 offroad",
       "description": "switchback map- 5->4 offroad",
-      "address": 269268,
+      "address": 203732,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4501,7 +3025,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4511,14 +3035,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 271440,
+        "address": 205904,
         "dataType": "SWORD"
       }
     },
     {
       "name": "switchback map- 6->5 offroad",
       "description": "switchback map- 6->5 offroad",
-      "address": 269364,
+      "address": 203828,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4537,7 +3061,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 271380,
+        "address": 205844,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4547,14 +3071,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 271448,
+        "address": 205912,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Minimum synchronous speed for forced downshift (gangabhg.) in TT",
+      "name": "minimum synchronous speed for forced downshift (gangabhg.) in tt",
       "description": "Minimum synchronous speed for forced downshift (gangabhg.) in TT",
-      "address": 296128,
+      "address": 230592,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -4575,9 +3099,9 @@
       }
     },
     {
-      "name": "Offset for Minimum synchronous speed On should-engine idle speed for a TT-forced downshift for RS 2->1",
+      "name": "offset for minimum synchronous speed on should-engine idle speed for a tt-forced downshift for rs 2->1",
       "description": "Offset for Minimum synchronous speed On should-engine idle speed for a TT-forced downshift for RS 2->1",
-      "address": 296088,
+      "address": 230552,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -4595,14 +3119,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272376,
+        "address": 206840,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Offset for Minimum synchronous speed On should-engine idle speed for a TT-forced downshift for RS 3->2",
+      "name": "offset for minimum synchronous speed on should-engine idle speed for a tt-forced downshift for rs 3->2",
       "description": "Offset for Minimum synchronous speed On should-engine idle speed for a TT-forced downshift for RS 3->2",
-      "address": 296096,
+      "address": 230560,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -4620,14 +3144,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272384,
+        "address": 206848,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Offset for Minimum synchronous speed On should-engine idle speed for a TT-forced downshift for RS 4->3",
+      "name": "offset for minimum synchronous speed on should-engine idle speed for a tt-forced downshift for rs 4->3",
       "description": "Offset for Minimum synchronous speed On should-engine idle speed for a TT-forced downshift for RS 4->3",
-      "address": 296104,
+      "address": 230568,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -4645,14 +3169,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272392,
+        "address": 206856,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Offset for Minimum synchronous speed On should-engine idle speed for a TT-forced downshift for RS 5->4",
+      "name": "offset for minimum synchronous speed on should-engine idle speed for a tt-forced downshift for rs 5->4",
       "description": "Offset for Minimum synchronous speed On should-engine idle speed for a TT-forced downshift for RS 5->4",
-      "address": 296112,
+      "address": 230576,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -4670,14 +3194,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 270076,
+        "address": 204540,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Offset for Minimum synchronous speed On should-engine idle speed for a TT-forced downshift for RS 6->5",
+      "name": "offset for minimum synchronous speed on should-engine idle speed for a tt-forced downshift for rs 6->5",
       "description": "Offset for Minimum synchronous speed On should-engine idle speed for a TT-forced downshift for RS 6->5",
-      "address": 296120,
+      "address": 230584,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/Min",
@@ -4695,14 +3219,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 270084,
+        "address": 204548,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "offset for Min. nsynchronous On should-engine idle speed",
+      "name": "offset for min. nsynchronous on should-engine idle speed",
       "description": "offset for Min. nsynchronous On should-engine idle speed",
-      "address": 296140,
+      "address": 230604,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -4723,9 +3247,9 @@
       }
     },
     {
-      "name": "high shift map 4->5 Eco",
+      "name": "high shift map 4->5 eco",
       "description": "high shift map 4->5 Eco",
-      "address": 265900,
+      "address": 200364,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "%",
@@ -4744,7 +3268,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 272316,
+        "address": 206780,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4754,50 +3278,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "Nm",
-        "address": 272400,
+        "address": 206864,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "high shift map 4->5 Eco",
-      "description": "high shift map 4->5 Eco",
-      "address": 265900,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "Eco: \"\""
-      ],
-      "cols": 12,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 272316,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "Nm",
-        "address": 272400,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "Maximum main pressure",
+      "name": "maximum main pressure",
       "description": "Maximum main pressure",
-      "address": 273460,
+      "address": 207924,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "bar",
@@ -4815,39 +3303,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "min-1",
-        "address": 273452,
+        "address": 207916,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Maximum main pressure",
-      "description": "Maximum main pressure",
-      "address": 273460,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "bar",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 0.01,
-      "offset": 0.0,
-      "categories": [
-        "HauptdruckSteuerungApp: \"main pressure control\""
-      ],
-      "cols": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "min-1",
-        "address": 273452,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "stall speed LC approach with activated ESP",
+      "name": "stall speed lc approach with activated esp",
       "description": "stall speed LC approach with activated ESP — Drehzahl in U/min",
-      "address": 278908,
+      "address": 213372,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -4863,39 +3326,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speed LC approach with activated ESP",
-      "description": "stall speed LC approach with activated ESP — Drehzahl in U/min",
-      "address": 278908,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speed LC approach",
+      "name": "stall speed lc approach",
       "description": "stall speed LC approach — Drehzahl in U/min",
-      "address": 278892,
+      "address": 213356,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -4911,39 +3350,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speed LC approach",
-      "description": "stall speed LC approach — Drehzahl in U/min",
-      "address": 278892,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds in D im 2. transition for temperature range 0-2",
+      "name": "stall speeds in d im 2. transition for temperature range 0-2",
       "description": "stall speeds in D im 2. transition for temperature range 0-2 — Drehzahl in U/min",
-      "address": 277852,
+      "address": 212316,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -4960,7 +3375,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -4973,41 +3388,9 @@
       }
     },
     {
-      "name": "stall speeds in D im 2. transition for temperature range 0-2",
-      "description": "stall speeds in D im 2. transition for temperature range 0-2 — Drehzahl in U/min",
-      "address": 277852,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "rows": 3,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 3,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "stall speeds in D in the transitions 3-6 for temperature range 0-2",
+      "name": "stall speeds in d in the transitions 3-6 for temperature range 0-2",
       "description": "stall speeds in D in the transitions 3-6 for temperature range 0-2 — Drehzahl in U/min",
-      "address": 277948,
+      "address": 212412,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5024,7 +3407,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -5037,41 +3420,9 @@
       }
     },
     {
-      "name": "stall speeds in D in the transitions 3-6 for temperature range 0-2",
-      "description": "stall speeds in D in the transitions 3-6 for temperature range 0-2 — Drehzahl in U/min",
-      "address": 277948,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "rows": 3,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 3,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "stall speeds in D im offroad-mode for temperature range 0-2",
+      "name": "stall speeds in d im offroad-mode for temperature range 0-2",
       "description": "stall speeds in D im offroad-mode for temperature range 0-2 — Drehzahl in U/min",
-      "address": 277900,
+      "address": 212364,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5088,7 +3439,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -5101,41 +3452,9 @@
       }
     },
     {
-      "name": "stall speeds in D im offroad-mode for temperature range 0-2",
-      "description": "stall speeds in D im offroad-mode for temperature range 0-2 — Drehzahl in U/min",
-      "address": 277900,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "rows": 3,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 3,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "stall speeds in D for Temperaturbereich_0",
+      "name": "stall speeds in d for temperaturbereich_0",
       "description": "stall speeds in D for Temperaturbereich_0 — Drehzahl in U/min",
-      "address": 277804,
+      "address": 212268,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5151,39 +3470,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds in D for Temperaturbereich_0",
-      "description": "stall speeds in D for Temperaturbereich_0 — Drehzahl in U/min",
-      "address": 277804,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds in D for Temperature Range 1",
+      "name": "stall speeds in d for temperature range 1",
       "description": "stall speeds in D for Temperature Range 1 — Drehzahl in U/min",
-      "address": 277820,
+      "address": 212284,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5199,39 +3494,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds in D for Temperature Range 1",
-      "description": "stall speeds in D for Temperature Range 1 — Drehzahl in U/min",
-      "address": 277820,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds in D for Temperature Range 2",
+      "name": "stall speeds in d for temperature range 2",
       "description": "stall speeds in D for Temperature Range 2 — Drehzahl in U/min",
-      "address": 277836,
+      "address": 212300,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5247,39 +3518,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds in D for Temperature Range 2",
-      "description": "stall speeds in D for Temperature Range 2 — Drehzahl in U/min",
-      "address": 277836,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds in R im offroad-mode for temperature range 0-2",
+      "name": "stall speeds in r im offroad-mode for temperature range 0-2",
       "description": "stall speeds in R im offroad-mode for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278428,
+      "address": 212892,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5296,7 +3543,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -5309,41 +3556,9 @@
       }
     },
     {
-      "name": "stall speeds in R im offroad-mode for temperature range 0-2",
-      "description": "stall speeds in R im offroad-mode for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278428,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "rows": 3,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 3,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "stall speeds in R for Temperature Range 0",
+      "name": "stall speeds in r for temperature range 0",
       "description": "stall speeds in R for Temperature Range 0 — Drehzahl in U/min",
-      "address": 278380,
+      "address": 212844,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5359,39 +3574,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds in R for Temperature Range 0",
-      "description": "stall speeds in R for Temperature Range 0 — Drehzahl in U/min",
-      "address": 278380,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds in R for Temperature Range 1",
+      "name": "stall speeds in r for temperature range 1",
       "description": "stall speeds in R for Temperature Range 1 — Drehzahl in U/min",
-      "address": 278396,
+      "address": 212860,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5407,39 +3598,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds in R for Temperature Range 1",
-      "description": "stall speeds in R for Temperature Range 1 — Drehzahl in U/min",
-      "address": 278396,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds in R for Temperature Range 2",
+      "name": "stall speeds in r for temperature range 2",
       "description": "stall speeds in R for Temperature Range 2 — Drehzahl in U/min",
-      "address": 278412,
+      "address": 212876,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5455,39 +3622,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds in R for Temperature Range 2",
-      "description": "stall speeds in R for Temperature Range 2 — Drehzahl in U/min",
-      "address": 278412,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds in Sport im 2. transition for temperature range 0-2",
+      "name": "stall speeds in sport im 2. transition for temperature range 0-2",
       "description": "stall speeds in Sport im 2. transition for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278044,
+      "address": 212508,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5504,7 +3647,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -5517,41 +3660,9 @@
       }
     },
     {
-      "name": "stall speeds in Sport im 2. transition for temperature range 0-2",
-      "description": "stall speeds in Sport im 2. transition for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278044,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "rows": 3,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 3,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "stall speeds in Sport in the transitions 3-6 for temperature range 0-2",
+      "name": "stall speeds in sport in the transitions 3-6 for temperature range 0-2",
       "description": "stall speeds in Sport in the transitions 3-6 for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278140,
+      "address": 212604,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5568,7 +3679,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -5581,41 +3692,9 @@
       }
     },
     {
-      "name": "stall speeds in Sport in the transitions 3-6 for temperature range 0-2",
-      "description": "stall speeds in Sport in the transitions 3-6 for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278140,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "rows": 3,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 3,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "stall speeds in Sport im offroad-mode for temperature range 0-2",
+      "name": "stall speeds in sport im offroad-mode for temperature range 0-2",
       "description": "stall speeds in Sport im offroad-mode for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278092,
+      "address": 212556,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5632,7 +3711,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -5645,41 +3724,9 @@
       }
     },
     {
-      "name": "stall speeds in Sport im offroad-mode for temperature range 0-2",
-      "description": "stall speeds in Sport im offroad-mode for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278092,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "rows": 3,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 3,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "stall speeds im sport program for Temperature Range 0",
+      "name": "stall speeds im sport program for temperature range 0",
       "description": "stall speeds im sport program for Temperature Range 0 — Drehzahl in U/min",
-      "address": 277996,
+      "address": 212460,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5695,39 +3742,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds im sport program for Temperature Range 0",
-      "description": "stall speeds im sport program for Temperature Range 0 — Drehzahl in U/min",
-      "address": 277996,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds im sport program for Temperature Range 1",
+      "name": "stall speeds im sport program for temperature range 1",
       "description": "stall speeds im sport program for Temperature Range 1 — Drehzahl in U/min",
-      "address": 278012,
+      "address": 212476,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5743,39 +3766,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds im sport program for Temperature Range 1",
-      "description": "stall speeds im sport program for Temperature Range 1 — Drehzahl in U/min",
-      "address": 278012,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds im sport program for Temperature Range 2",
+      "name": "stall speeds im sport program for temperature range 2",
       "description": "stall speeds im sport program for Temperature Range 2 — Drehzahl in U/min",
-      "address": 278028,
+      "address": 212492,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5791,39 +3790,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds im sport program for Temperature Range 2",
-      "description": "stall speeds im sport program for Temperature Range 2 — Drehzahl in U/min",
-      "address": 278028,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds in Tiptronic im 2. transition for temperature range 0-2",
+      "name": "stall speeds in tiptronic im 2. transition for temperature range 0-2",
       "description": "stall speeds in Tiptronic im 2. transition for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278236,
+      "address": 212700,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5840,7 +3815,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -5853,41 +3828,9 @@
       }
     },
     {
-      "name": "stall speeds in Tiptronic im 2. transition for temperature range 0-2",
-      "description": "stall speeds in Tiptronic im 2. transition for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278236,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "rows": 3,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 3,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "stall speeds in Tiptronic in the transitions 3-6 for temperature range 0-2",
+      "name": "stall speeds in tiptronic in the transitions 3-6 for temperature range 0-2",
       "description": "stall speeds in Tiptronic in the transitions 3-6 for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278332,
+      "address": 212796,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5904,7 +3847,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -5917,41 +3860,9 @@
       }
     },
     {
-      "name": "stall speeds in Tiptronic in the transitions 3-6 for temperature range 0-2",
-      "description": "stall speeds in Tiptronic in the transitions 3-6 for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278332,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "rows": 3,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 3,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "stall speeds in Tiptronic im offroad-mode for temperature range 0-2",
+      "name": "stall speeds in tiptronic im offroad-mode for temperature range 0-2",
       "description": "stall speeds in Tiptronic im offroad-mode for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278284,
+      "address": 212748,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -5968,7 +3879,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -5981,41 +3892,9 @@
       }
     },
     {
-      "name": "stall speeds in Tiptronic im offroad-mode for temperature range 0-2",
-      "description": "stall speeds in Tiptronic im offroad-mode for temperature range 0-2 — Drehzahl in U/min",
-      "address": 278284,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "rows": 3,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 3,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "stall speeds im Tiptronic program for Temperature Range 0",
+      "name": "stall speeds im tiptronic program for temperature range 0",
       "description": "stall speeds im Tiptronic program for Temperature Range 0 — Drehzahl in U/min",
-      "address": 278188,
+      "address": 212652,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -6031,39 +3910,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds im Tiptronic program for Temperature Range 0",
-      "description": "stall speeds im Tiptronic program for Temperature Range 0 — Drehzahl in U/min",
-      "address": 278188,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds im Tiptronic program for Temperature Range 1",
+      "name": "stall speeds im tiptronic program for temperature range 1",
       "description": "stall speeds im Tiptronic program for Temperature Range 1 — Drehzahl in U/min",
-      "address": 278204,
+      "address": 212668,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -6079,39 +3934,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds im Tiptronic program for Temperature Range 1",
-      "description": "stall speeds im Tiptronic program for Temperature Range 1 — Drehzahl in U/min",
-      "address": 278204,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "stall speeds im Tiptronic program for Temperature Range 2",
+      "name": "stall speeds im tiptronic program for temperature range 2",
       "description": "stall speeds im Tiptronic program for Temperature Range 2 — Drehzahl in U/min",
-      "address": 278220,
+      "address": 212684,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "U/min",
@@ -6127,39 +3958,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 277788,
+        "address": 212252,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "stall speeds im Tiptronic program for Temperature Range 2",
-      "description": "stall speeds im Tiptronic program for Temperature Range 2 — Drehzahl in U/min",
-      "address": 278220,
-      "type": "CURVE",
-      "dataType": "SWORD",
-      "unit": "U/min",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 277788,
-        "dataType": "SWORD",
-        "factor": 0.1
-      }
-    },
-    {
-      "name": "Gear Teeth Primary",
+      "name": "gear teeth primary",
       "description": "Gear Teeth Primary",
-      "address": 280109,
+      "address": 214573,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "",
@@ -6186,9 +3993,9 @@
       }
     },
     {
-      "name": "Gear Teeth Secondary",
+      "name": "gear teeth secondary",
       "description": "Gear Teeth Secondary",
-      "address": 280117,
+      "address": 214581,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "",
@@ -6215,9 +4022,9 @@
       }
     },
     {
-      "name": "Output Shaft Teeth",
+      "name": "output shaft teeth",
       "description": "Output Shaft Teeth",
-      "address": 280124,
+      "address": 214588,
       "type": "MAP",
       "dataType": "UBYTE",
       "unit": "",
@@ -6244,9 +4051,9 @@
       }
     },
     {
-      "name": "Intermediate Shaft Teeth",
+      "name": "intermediate shaft teeth",
       "description": "Intermediate Shaft Teeth",
-      "address": 280128,
+      "address": 214592,
       "type": "CURVE",
       "dataType": "UBYTE",
       "unit": "",
@@ -6265,9 +4072,9 @@
       }
     },
     {
-      "name": "Factor On main pressure offset From Target pressure",
+      "name": "factor on main pressure offset from target pressure",
       "description": "Factor On main pressure offset From Target pressure",
-      "address": 273500,
+      "address": 207964,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "",
@@ -6275,7 +4082,9 @@
       "max": 255.0,
       "factor": 0.01,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "New"
+      ],
       "cols": 4,
       "xAxis": {
         "type": "COM_AXIS",
@@ -6283,15 +4092,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "bar",
-        "address": 273492,
+        "address": 207956,
         "dataType": "SWORD",
         "factor": 0.01
       }
     },
     {
-      "name": "Target current for main pressure valve",
+      "name": "target current for main pressure valve",
       "description": "Target current for main pressure valve",
-      "address": 273368,
+      "address": 207832,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "mA",
@@ -6299,7 +4108,9 @@
       "max": 255.0,
       "factor": 0.1,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "New"
+      ],
       "cols": 5,
       "rows": 5,
       "xAxis": {
@@ -6308,7 +4119,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "bar",
-        "address": 273344,
+        "address": 207808,
         "dataType": "SWORD",
         "factor": 0.01
       },
@@ -6318,14 +4129,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "U/min",
-        "address": 273356,
+        "address": 207820,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "Current to pressure characteristic pressure too low clutch 1",
+      "name": "current to pressure characteristic pressure too low clutch 1",
       "description": "Current to pressure characteristic pressure too low clutch 1",
-      "address": 274408,
+      "address": 208872,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "bar",
@@ -6333,7 +4144,9 @@
       "max": 255.0,
       "factor": 0.01,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "New"
+      ],
       "cols": 4,
       "xAxis": {
         "type": "COM_AXIS",
@@ -6341,15 +4154,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "mA",
-        "address": 274416,
+        "address": 208880,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "Current to pressure characteristic pressure too low clutch 2",
+      "name": "current to pressure characteristic pressure too low clutch 2",
       "description": "Current to pressure characteristic pressure too low clutch 2",
-      "address": 274424,
+      "address": 208888,
       "type": "CURVE",
       "dataType": "SWORD",
       "unit": "bar",
@@ -6357,7 +4170,9 @@
       "max": 255.0,
       "factor": 0.01,
       "offset": 0.0,
-      "categories": [],
+      "categories": [
+        "New"
+      ],
       "cols": 4,
       "xAxis": {
         "type": "COM_AXIS",
@@ -6365,15 +4180,15 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "mA",
-        "address": 274432,
+        "address": 208896,
         "dataType": "SWORD",
         "factor": 0.1
       }
     },
     {
-      "name": "time to to Release the torque reduction At Switching Eco",
+      "name": "time to to release the torque reduction at switching eco",
       "description": "time to to Release the torque reduction At Switching Eco",
-      "address": 296836,
+      "address": 231300,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -6392,7 +4207,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 296820,
+        "address": 231284,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -6402,50 +4217,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "°C",
-        "address": 296828,
+        "address": 231292,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "time to to Release the torque reduction At Switching Eco",
-      "description": "time to to Release the torque reduction At Switching Eco",
-      "address": 296836,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 10.0,
-      "offset": 0.0,
-      "categories": [
-        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
-      ],
-      "cols": 4,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 296820,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "°C",
-        "address": 296828,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "time to to Release the torque reduction At Switching Sport",
+      "name": "time to to release the torque reduction at switching sport",
       "description": "time to to Release the torque reduction At Switching Sport",
-      "address": 296868,
+      "address": 231332,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -6464,7 +4243,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 296820,
+        "address": 231284,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -6474,50 +4253,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "°C",
-        "address": 296828,
+        "address": 231292,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "time to to Release the torque reduction At Switching Sport",
-      "description": "time to to Release the torque reduction At Switching Sport",
-      "address": 296868,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 10.0,
-      "offset": 0.0,
-      "categories": [
-        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
-      ],
-      "cols": 4,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 296820,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "°C",
-        "address": 296828,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "time to to Release the torque reduction At Switching Tiptronic",
+      "name": "time to to release the torque reduction at switching tiptronic",
       "description": "time to to Release the torque reduction At Switching Tiptronic",
-      "address": 296900,
+      "address": 231364,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -6536,7 +4279,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 296820,
+        "address": 231284,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -6546,50 +4289,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "°C",
-        "address": 296828,
+        "address": 231292,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "time to to Release the torque reduction At Switching Tiptronic",
-      "description": "time to to Release the torque reduction At Switching Tiptronic",
-      "address": 296900,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 10.0,
-      "offset": 0.0,
-      "categories": [
-        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
-      ],
-      "cols": 4,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 296820,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "°C",
-        "address": 296828,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "time to to Release the torque reduction At Switching Normal",
+      "name": "time to to release the torque reduction at switching normal",
       "description": "time to to Release the torque reduction At Switching Normal",
-      "address": 296932,
+      "address": 231396,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -6608,7 +4315,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "%",
-        "address": 296820,
+        "address": 231284,
         "dataType": "SWORD",
         "factor": 0.1
       },
@@ -6618,50 +4325,14 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "°C",
-        "address": 296828,
+        "address": 231292,
         "dataType": "SWORD"
       }
     },
     {
-      "name": "time to to Release the torque reduction At Switching Normal",
-      "description": "time to to Release the torque reduction At Switching Normal",
-      "address": 296932,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 10.0,
-      "offset": 0.0,
-      "categories": [
-        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
-      ],
-      "cols": 4,
-      "rows": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "%",
-        "address": 296820,
-        "dataType": "SWORD",
-        "factor": 0.1
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "°C",
-        "address": 296828,
-        "dataType": "SWORD"
-      }
-    },
-    {
-      "name": "switching times in D (Eco) with torque reduction",
+      "name": "switching times in d (eco) with torque reduction",
       "description": "switching times in D (Eco) with torque reduction",
-      "address": 297124,
+      "address": 231588,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -6680,7 +4351,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "U/min",
-        "address": 297112,
+        "address": 231576,
         "dataType": "SWORD"
       },
       "yAxis": {
@@ -6692,42 +4363,9 @@
       }
     },
     {
-      "name": "switching times in D (Eco) with torque reduction",
-      "description": "switching times in D (Eco) with torque reduction",
-      "address": 297124,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
-      ],
-      "cols": 5,
-      "rows": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "U/min",
-        "address": 297112,
-        "dataType": "SWORD"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 5,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "switching times in D (Normal) with torque reduction",
+      "name": "switching times in d (normal) with torque reduction",
       "description": "switching times in D (Normal) with torque reduction",
-      "address": 297176,
+      "address": 231640,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -6746,7 +4384,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "U/min",
-        "address": 297112,
+        "address": 231576,
         "dataType": "SWORD"
       },
       "yAxis": {
@@ -6758,42 +4396,9 @@
       }
     },
     {
-      "name": "switching times in D (Normal) with torque reduction",
-      "description": "switching times in D (Normal) with torque reduction",
-      "address": 297176,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
-      ],
-      "cols": 5,
-      "rows": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "U/min",
-        "address": 297112,
-        "dataType": "SWORD"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 5,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "switching times in S (Sport) with torque reduction",
+      "name": "switching times in s (sport) with torque reduction",
       "description": "switching times in S (Sport) with torque reduction",
-      "address": 297228,
+      "address": 231692,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -6812,7 +4417,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "U/min",
-        "address": 297112,
+        "address": 231576,
         "dataType": "SWORD"
       },
       "yAxis": {
@@ -6824,42 +4429,9 @@
       }
     },
     {
-      "name": "switching times in S (Sport) with torque reduction",
-      "description": "switching times in S (Sport) with torque reduction",
-      "address": 297228,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
-      ],
-      "cols": 5,
-      "rows": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "U/min",
-        "address": 297112,
-        "dataType": "SWORD"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 5,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "switching times in Tiptronic with torque reduction",
+      "name": "switching times in tiptronic with torque reduction",
       "description": "switching times in Tiptronic with torque reduction",
-      "address": 297280,
+      "address": 231744,
       "type": "MAP",
       "dataType": "SWORD",
       "unit": "ms",
@@ -6878,40 +4450,7 @@
         "min": 0.0,
         "max": 0.0,
         "unit": "U/min",
-        "address": 297112,
-        "dataType": "SWORD"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 5,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "switching times in Tiptronic with torque reduction",
-      "description": "switching times in Tiptronic with torque reduction",
-      "address": 297280,
-      "type": "MAP",
-      "dataType": "SWORD",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "KhsApplMRed: \"Application parameters for torque reduction the Upshift\""
-      ],
-      "cols": 5,
-      "rows": 5,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 5,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "U/min",
-        "address": 297112,
+        "address": 231576,
         "dataType": "SWORD"
       },
       "yAxis": {
@@ -6924,9 +4463,9 @@
     }
   ],
   "_source": "XDF",
-  "offset": 65536,
+  "bigEndian": true,
   "verification": {
-    "position": 0,
-    "expected": "F52M"
+    "position": 65538,
+    "expected": "F52M_D"
   }
 }
