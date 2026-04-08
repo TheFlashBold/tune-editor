@@ -37,6 +37,8 @@ export function MenuBar({
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
     const [showAbout, setShowAbout] = useState(false);
+    const [showSaveDialog, setShowSaveDialog] = useState(false);
+    const [saveFileName, setSaveFileName] = useState('');
     const [loginState, setLoginState] = useState<LoginState | null>(() => getLoginState());
 
     const handleLogout = useCallback(() => {
@@ -121,11 +123,17 @@ export function MenuBar({
     }, [ctx]);
 
     const handleSaveBin = useCallback(() => {
-        ctx.saveBin();
-
+        const defaultName = ctx.binFileName?.replace(/\.[^.]+$/, '_mod.bin') ?? 'output.bin';
+        setSaveFileName(defaultName);
+        setShowSaveDialog(true);
         setShowFileMenu(false);
         setShowMobileMenu(false);
     }, [ctx]);
+
+    const handleSaveConfirm = useCallback(() => {
+        ctx.saveBin(saveFileName);
+        setShowSaveDialog(false);
+    }, [ctx, saveFileName]);
 
     const handleExportBtp = useCallback(() => {
         ctx.exportBtp();
@@ -508,6 +516,40 @@ export function MenuBar({
                     onClose={() => setShowLogin(false)}
                     onLogin={(state) => setLoginState(state)}
                 />
+            )}
+
+            {/* Save BIN Dialog */}
+            {showSaveDialog && (
+                <Modal title="Save BIN" onClose={() => setShowSaveDialog(false)} width="sm"
+                    footer={
+                        <div class="flex justify-end gap-2">
+                            <button
+                                onClick={() => setShowSaveDialog(false)}
+                                class="px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleSaveConfirm}
+                                class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+                            >
+                                Save
+                            </button>
+                        </div>
+                    }
+                >
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium">Filename</label>
+                        <input
+                            type="text"
+                            value={saveFileName}
+                            onInput={(e) => setSaveFileName((e.target as HTMLInputElement).value)}
+                            onKeyDown={(e) => { if (e.key === 'Enter') handleSaveConfirm(); }}
+                            class="w-full px-3 py-2 text-sm rounded border border-zinc-400 dark:border-zinc-600 bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
+                            autoFocus
+                        />
+                    </div>
+                </Modal>
             )}
 
             {/* About Modal */}

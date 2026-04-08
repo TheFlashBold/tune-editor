@@ -10,7 +10,7 @@ import {
     readTableData,
     readAxisData,
     addressToOffset,
-    readBoxCode, readEPK, readString,
+    readBoxCode, readEPK, readString, readVersion, getEntropy,
 } from '../lib/binUtils';
 import {
     loadDefinitionIndex,
@@ -174,12 +174,13 @@ export function useAppState(): IAppContext {
         const fileType = isS19File(file.name) ? 's19' : isHexFile(file.name) ? 'hex' : 'bin';
 
         const boxCode = readBoxCode(data);
-        const epk = readEPK(data);
+        const [epk, epkAddress] = readEPK(data);
+        const version = readVersion(data);
 
         setBinData(data);
         setBinFileName(displayName);
         setModified(false);
-        track('Load BIN', {size: data.length, type: fileType, boxCode, epk});
+        track('Load BIN', {size: data.length, type: fileType, boxCode, epk, version});
 
         // Auto-detect definition by EPK
         let loadedDef: Definition | null = null;
@@ -188,10 +189,14 @@ export function useAppState(): IAppContext {
             if (match) {
                 const def = await loadDefinition(match.file);
                 const isCal = readString(data, 0, 3) === 'CAS';
+
+                // there are DQ250 versions with -0x10000 offset. should be 0x4FFBE
+                const dsgOffset = epkAddress === 0x3FFE0 ? -0x10000 : 0;
+
                 setDefinition(def);
                 setCustomDefinition(false);
                 setDetectedMode(isCal ? 'cal' : 'full');
-                setCalOffset(isCal ? 0 : (def.baseAddress ?? 0));
+                setCalOffset(isCal ? 0 : ((def.baseAddress ?? 0) + dsgOffset));
                 setSelectedParam(null);
                 loadedDef = def;
                 track('Definition Matched', {name: def.name, mode: isCal ? 'cal' : 'full', boxCode, epk});
@@ -228,7 +233,7 @@ export function useAppState(): IAppContext {
             data,
         };
 
-        const ccEpk = readEPK(data);
+        const [ccEpk, offset] = readEPK(data);
         const match = ccEpk ? await findMatchingDefinition(ccEpk) : null;
         if (match) {
             const def = await loadDefinition(match.file);
@@ -313,14 +318,15 @@ export function useAppState(): IAppContext {
         return merged;
     }, [definition, binData, calOffset]);
 
-    const saveBin = useCallback(() => {
+    const saveBin = useCallback((filename?: string) => {
         if (!binData || !binFileName) return;
 
+        const downloadName = filename || binFileName.replace(/\.[^.]+$/, '_mod.bin');
         const blob = new Blob([binData.buffer as ArrayBuffer], {type: 'application/octet-stream'});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = binFileName.replace(/\.[^.]+$/, '_mod.bin');
+        a.download = downloadName;
         a.click();
         URL.revokeObjectURL(url);
 
@@ -364,7 +370,7 @@ export function useAppState(): IAppContext {
             all: [] as DefinitionIndexEntry[]
         };
         const all = await loadDefinitionIndex();
-        const epk = readEPK(binData);
+        const [epk, address] = readEPK(binData);
         const match = epk ? await findMatchingDefinition(epk) : null;
         return {matches: match ? [match] : [], all};
     }, [binData]);
@@ -577,6 +583,7 @@ export function useAppState(): IAppContext {
         loadOriginalBin,
         loadCrossCompareBin,
         saveBin,
+        binFileName,
         exportBtp,
         markModified,
         loadDefinitionJson,

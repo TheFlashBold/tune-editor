@@ -55,6 +55,7 @@ export interface IDefinitionParameter {
     categories: string[];
     customName?: string;
     bitLabels?: Record<string, string>;  // bit index → label, e.g. {"0": "MIS", "3": "CAT"}
+    enumLabels?: Record<string, string>;  // value → label, e.g. {"0": "Off", "1": "Resume", "2": "Variable"}
 }
 
 export interface DefinitionVerification {

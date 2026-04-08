@@ -139,7 +139,6 @@ export function readBoxCode(data: Uint8Array): string {
         }
     }
 
-    // cal simos 18.1/18.4/18.10
     if (CAL_SIZES.includes(data.length)) {
         const boxCode = readStringSafe(data, 0x60, 12, 9);
         if (boxCode) {
@@ -198,21 +197,20 @@ export function readBoxCode(data: Uint8Array): string {
     }
 }
 
-export function readEPK(data: Uint8Array) {
+export function readEPK(data: Uint8Array): [string, number] | [] {
     for (const offset of CAL_OFFSETS) {
         if (data.length > (offset + 0x2000)) {
             const epk = readStringSafe(data, offset + 0x02, 6, 6);
             if (epk) {
-                return epk;
+                return [epk, offset + 0x02];
             }
         }
     }
 
-    // cal simos 12.1/18.1/18.4/18.10
     if (CAL_SIZES.includes(data.length)) {
         const epk = readStringSafe(data, 0x02, 6, 6);
         if (epk) {
-            return epk;
+            return [epk, 0x02];
         }
     }
 
@@ -220,7 +218,7 @@ export function readEPK(data: Uint8Array) {
     if (data.length > (0x16C00E + 2)) {
         const epk = readStringSafe(data, 0x16C00E, 2, 2);
         if (epk) {
-            return epk;
+            return [epk, 0x16C00E];
         }
     }
 
@@ -228,7 +226,7 @@ export function readEPK(data: Uint8Array) {
     if (data.length > (0x3FFE0 + 4)) {
         const epk = readStringSafe(data, 0x3FFE0, 4, 4);
         if (epk) {
-            return epk;
+            return [epk, 0x3FFE0];
         }
     }
 
@@ -236,7 +234,7 @@ export function readEPK(data: Uint8Array) {
     if (data.length > (0x4FFE0 + 4)) {
         const epk = readStringSafe(data, 0x4FFE0, 4, 4);
         if (epk) {
-            return epk;
+            return [epk, 0x4FFE0];
         }
     }
 
@@ -245,7 +243,7 @@ export function readEPK(data: Uint8Array) {
         if (data.length > (region.start + region.len)) {
             const s = readStringSafe(data, region.start, region.len, 6);
             if (s?.startsWith('CB ')) {
-                return s;
+                return [s, region.start];
             }
         }
     }
@@ -255,8 +253,28 @@ export function readEPK(data: Uint8Array) {
         if (data.length > (offset + 6)) {
             const s = readStringSafe(data, offset, 16, 6);
             if (s && /^(EDC|MED)\d/.test(s)) {
-                return s;
+                return [s, offset];
             }
+        }
+    }
+
+    return [];
+}
+
+export function readVersion(data: Uint8Array): string {
+    for (const offset of CAL_OFFSETS) {
+        if (data.length > (offset + 0x2000)) {
+            const epk = readStringSafe(data, offset + 0x80, 4, 4);
+            if (epk) {
+                return epk;
+            }
+        }
+    }
+
+    if (CAL_SIZES.includes(data.length)) {
+        const epk = readStringSafe(data, 0x80, 4, 4);
+        if (epk) {
+            return epk;
         }
     }
 }

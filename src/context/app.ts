@@ -49,7 +49,8 @@ export interface IAppContext {
     loadBinData: (data: Uint8Array, name: string) => void;
     loadOriginalBin: (file: File) => Promise<void>;
     loadCrossCompareBin: (file: File) => Promise<void>;
-    saveBin: () => void;
+    saveBin: (filename?: string) => void;
+    binFileName: string | null;
     exportBtp: () => void;
     markModified: () => void;
     loadDefinitionJson: (file: File) => Promise<void>;

@@ -17,7 +17,6 @@ export function XdfLoader({onDefinitionLoad}: Props) {
         await parser.parseXDF(file);
         const definition = parser.generateDefinition();
         const stats = parser.getStats();
-        console.log(`XDF: ${stats.tables} tables, ${stats.constants} constants → ${definition.parameters.length} parameters`);
 
         onDefinitionLoad(definition);
 

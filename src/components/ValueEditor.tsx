@@ -1,97 +1,127 @@
 import {useState, useEffect, useMemo, useRef, useCallback} from 'preact/hooks';
-import {IDefinitionParameter} from '../types';
 import {track} from '../lib/track';
 import {
-    readParameterValue,
-    writeParameterValue,
-    readTableData,
-    writeTableCell,
-    readAxisData,
-    writeAxisValue,
     formatValue,
     getConsistentDecimals,
     formatValueConsistent,
 } from '../lib/binUtils';
 
-export interface CrossCompareInfo {
-    data: Uint8Array;
-    param: IDefinitionParameter;
-    calOffset: number;
-    bigEndian: boolean;
+/** Display-only parameter metadata (no address/binary info) */
+export interface ParamInfo {
+    name: string;
+    customName?: string;
+    description: string;
+    type: 'VALUE' | 'CURVE' | 'MAP';
+    dataType: string;
+    unit: string;
+    min: number;
+    max: number;
+    rows?: number;
+    cols?: number;
+    bitLabels?: Record<string, string>;
+    enumLabels?: Record<string, string>;
+    xAxis?: { unit: string; labels?: string[]; editable: boolean };
+    yAxis?: { unit: string; labels?: string[]; editable: boolean };
 }
 
+export interface ScalarData {
+    value: number;
+    original?: number | null;
+    compare?: number | null;
+}
+
+export interface TableData {
+    cells: number[][];
+    xAxis: number[];
+    yAxis: number[];
+    original?: { cells: number[][]; xAxis?: number[] | null; yAxis?: number[] | null } | null;
+    compare?: { cells: number[][]; xAxis?: number[] | null; yAxis?: number[] | null } | null;
+}
+
+export type CellChange = { row: number; col: number; value: number };
+export type AxisChange = { axis: 'x' | 'y'; index: number; value: number };
+export type BulkChange = {
+    cells?: CellChange[];
+    axes?: AxisChange[];
+};
+
 interface IValueEditorProps {
-    parameter: IDefinitionParameter;
-    binData: Uint8Array;
-    originalBinData?: Uint8Array | null;
-    calOffset?: number;
-    bigEndian?: boolean;
-    onModify: () => void;
-    crossCompare?: CrossCompareInfo | null;
+    param: ParamInfo;
+    scalar?: ScalarData;
+    table?: TableData;
+    onScalarChange?: (value: number) => void;
+    onCellChange?: (row: number, col: number, value: number) => void;
+    onAxisChange?: (axis: 'x' | 'y', index: number, value: number) => void;
+    onBulkChange?: (changes: BulkChange) => void;
+    onRevert?: () => void;
 }
 
 export function ValueEditor(props: IValueEditorProps) {
-    const {parameter, onModify} = props;
+    const {param} = props;
     const tracked = useRef(false);
 
-    // Reset tracking flag when parameter changes
     useEffect(() => {
         tracked.current = false;
-    }, [parameter.name]);
+    }, [param.name]);
 
-    const onModifyTracked = useCallback(() => {
-        onModify();
+    const trackEdit = useCallback(() => {
         if (!tracked.current) {
             tracked.current = true;
-            const type = parameter.type === 'VALUE' ? 'Scalar' : parameter.type === 'CURVE' ? '1D' : '2D';
-            track('Edit Parameter', {type, name: parameter.name});
+            const type = param.type === 'VALUE' ? 'Scalar' : param.type === 'CURVE' ? '1D' : '2D';
+            track('Edit Parameter', {type, name: param.name});
         }
-    }, [onModify, parameter.type, parameter.name]);
+    }, [param.type, param.name]);
 
-    const trackedProps = {...props, onModify: onModifyTracked};
-    if (parameter.type === 'VALUE') {
-        return <ScalarEditor {...trackedProps} />;
+    if (param.type === 'VALUE' && props.scalar) {
+        return <ScalarEditor {...props} scalar={props.scalar} trackEdit={trackEdit}/>;
     }
-    return <TableEditor {...trackedProps}/>;
+    if (props.table) {
+        return <TableEditor {...props} table={props.table} trackEdit={trackEdit}/>;
+    }
+    return null;
 }
 
-function ScalarEditor(props: IValueEditorProps) {
-    const {
-        parameter,
-        binData,
-        originalBinData,
-        calOffset = 0,
-        bigEndian = false,
-        onModify,
-        crossCompare,
-    } = props;
-    const [value, setValue] = useState(() => readParameterValue(binData, parameter, calOffset, bigEndian));
+// ─── Scalar Editor ───────────────────────────────────────────────────────────
+
+interface ScalarEditorInternalProps extends IValueEditorProps {
+    scalar: ScalarData;
+    trackEdit: () => void;
+}
+
+function ScalarEditor({
+                          param,
+                          scalar,
+                          onScalarChange,
+                          onRevert,
+                          trackEdit,
+                      }: ScalarEditorInternalProps) {
+    const [value, setValue] = useState(scalar.value);
     const [editing, setEditing] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [showOriginalVal, setShowOriginalVal] = useState(false);
     const [showCompareVal, setShowCompareVal] = useState(false);
 
-    const originalValue = useMemo(
-        () => originalBinData ? readParameterValue(originalBinData, parameter, calOffset, bigEndian) : null,
-        [originalBinData, parameter, calOffset, bigEndian]
-    );
-
-    const compareValue = useMemo(
-        () => crossCompare ? readParameterValue(crossCompare.data, crossCompare.param, crossCompare.calOffset, crossCompare.bigEndian) : null,
-        [crossCompare]
-    );
+    const originalValue = scalar.original ?? null;
+    const compareValue = scalar.compare ?? null;
 
     const hasChanged = originalValue !== null && Math.abs(originalValue - value) > 0.0001;
     const hasCompareDiff = compareValue !== null && Math.abs(compareValue - value) > 0.0001;
     const showOriginal = showOriginalVal;
     const showCompare = showCompareVal;
-    const isBitmask = !!parameter.bitLabels || (parameter.dataType === 'UBYTE' && (/bitmask/i.test(parameter.name) || /bitmask/i.test(parameter.description)));
-    const isToggle = parameter.dataType === 'UBYTE' && parameter.min === 0 && parameter.max === 1 && !isBitmask
-        && /\b(enable|disable|activation switch)\b/i.test(parameter.description || parameter.customName || parameter.name);
+    const isBitmask = !!param.bitLabels || (param.dataType === 'UBYTE' && (/bitmask/i.test(param.name) || /bitmask/i.test(param.description)));
+    const isEnum = !!param.enumLabels;
+    const isToggle = !isEnum && param.dataType === 'UBYTE' && param.min === 0 && param.max === 1 && !isBitmask
+        && /\b(enable|disable|activation switch)\b/i.test(param.description || param.customName || param.name);
 
     useEffect(() => {
-        setValue(readParameterValue(binData, parameter, calOffset, bigEndian));
-    }, [parameter, binData, calOffset, bigEndian]);
+        setValue(scalar.value);
+    }, [scalar.value]);
+
+    const emitChange = useCallback((newValue: number) => {
+        setValue(newValue);
+        onScalarChange?.(newValue);
+        trackEdit();
+    }, [onScalarChange, trackEdit]);
 
     const handleDoubleClick = () => {
         setInputValue(formatValue(value, 4));
@@ -101,9 +131,7 @@ function ScalarEditor(props: IValueEditorProps) {
     const handleConfirm = () => {
         const newValue = parseFloat(inputValue);
         if (!isNaN(newValue)) {
-            writeParameterValue(binData, parameter, newValue, calOffset, bigEndian);
-            setValue(newValue);
-            onModify();
+            emitChange(newValue);
         }
         setEditing(false);
     };
@@ -116,9 +144,7 @@ function ScalarEditor(props: IValueEditorProps) {
     const handleBitToggle = (bit: number) => {
         const rawValue = Math.round(value);
         const newValue = rawValue ^ (1 << bit);
-        writeParameterValue(binData, parameter, newValue, calOffset, bigEndian);
-        setValue(newValue);
-        onModify();
+        emitChange(newValue);
     };
 
     return (
@@ -127,28 +153,25 @@ function ScalarEditor(props: IValueEditorProps) {
                 <div class="flex items-start justify-between mb-4">
                     <div>
                         <h2 class="text-lg font-semibold">
-                            {parameter.customName || parameter.description || parameter.name}
+                            {param.customName || param.description || param.name}
                         </h2>
-                        <code class="text-xs text-zinc-500">{parameter.name}</code>
+                        <code class="text-xs text-zinc-500">{param.name}</code>
                     </div>
-                    {(originalBinData || crossCompare) && (
+                    {(originalValue !== null || compareValue !== null) && (
                         <div class="flex gap-x-2">
-                            {hasChanged && originalBinData && (
+                            {hasChanged && onRevert && (
                                 <button
                                     onClick={() => {
-                                        if (originalValue !== null) {
-                                            writeParameterValue(binData, parameter, originalValue, calOffset, bigEndian);
-                                            setValue(originalValue);
-                                            onModify();
-                                            track('Revert Parameter', {type: 'Scalar', name: parameter.name});
-                                        }
+                                        onRevert();
+                                        setValue(originalValue!);
+                                        track('Revert Parameter', {type: 'Scalar', name: param.name});
                                     }}
                                     class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600"
                                 >
                                     Revert
                                 </button>
                             )}
-                            {originalBinData && (
+                            {originalValue !== null && (
                                 <button
                                     onClick={() => setShowOriginalVal(!showOriginalVal)}
                                     class={`px-3 py-1.5 text-sm rounded ${
@@ -158,7 +181,7 @@ function ScalarEditor(props: IValueEditorProps) {
                                     Original
                                 </button>
                             )}
-                            {crossCompare && (
+                            {compareValue !== null && (
                                 <button
                                     onClick={() => setShowCompareVal(!showCompareVal)}
                                     class={`px-3 py-1.5 text-sm rounded ${
@@ -174,22 +197,47 @@ function ScalarEditor(props: IValueEditorProps) {
 
                 <div
                     class="flex gap-4 p-3 bg-zinc-200 dark:bg-zinc-800 rounded text-xs text-zinc-600 dark:text-zinc-400">
-                    <span>Address: 0x{parameter.address.toString(16).toUpperCase()}</span>
-                    <span>Type: {parameter.dataType}</span>
-                    <span>Unit: {parameter.unit || '-'}</span>
-                    <span>Range: {parameter.min} - {parameter.max}</span>
+                    <span>Type: {param.dataType}</span>
+                    <span>Unit: {param.unit || '-'}</span>
+                    <span>Range: {param.min} - {param.max}</span>
                 </div>
             </div>
 
-            {isToggle ? (
+            {isEnum ? (() => {
+                const enumLabels = param.enumLabels!;
+                const entries = Object.entries(enumLabels).sort((a, b) => Number(a[0]) - Number(b[0]));
+                const origLabel = originalValue !== null ? enumLabels[String(Math.round(originalValue))] : null;
+                return (
+                    <div class="space-y-3">
+                        <div class="flex flex-wrap gap-2">
+                            {entries.map(([val, label]) => {
+                                const numVal = Number(val);
+                                const isActive = Math.round(value) === numVal;
+                                const wasOriginal = originalValue !== null && Math.round(originalValue) === numVal;
+                                return (
+                                    <button
+                                        key={val}
+                                        onClick={() => emitChange(numVal)}
+                                        class={`px-3 py-2 text-sm rounded transition-colors cursor-pointer ${
+                                            isActive
+                                                ? hasChanged ? 'bg-green-700 text-white ring-2 ring-green-500' : 'bg-blue-600 text-white'
+                                                : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-300 dark:hover:bg-zinc-700'
+                                        } ${wasOriginal && hasChanged ? 'ring-2 ring-amber-500' : ''}`}
+                                    >
+                                        {label}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        {originalValue !== null && hasChanged && (
+                            <span class="text-xs text-zinc-500">was: {origLabel ?? '?'}</span>
+                        )}
+                    </div>
+                );
+            })() : isToggle ? (
                 <div class="flex items-center gap-4">
                     <button
-                        onClick={() => {
-                            const newValue = value === 0 ? 1 : 0;
-                            writeParameterValue(binData, parameter, newValue, calOffset, bigEndian);
-                            setValue(newValue);
-                            onModify();
-                        }}
+                        onClick={() => emitChange(value === 0 ? 1 : 0)}
                         class={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors cursor-pointer ${
                             value === 1 ? 'bg-green-600' : 'bg-zinc-600'
                         } ${hasChanged ? 'ring-2 ring-amber-500' : ''}`}
@@ -235,7 +283,7 @@ function ScalarEditor(props: IValueEditorProps) {
                                 {formatValue(value, 4)}
                             </span>
                         )}
-                        <span class="text-base text-zinc-500">{parameter.unit}</span>
+                        <span class="text-base text-zinc-500">{param.unit}</span>
                     </div>
 
                     {originalValue !== null && (
@@ -244,7 +292,7 @@ function ScalarEditor(props: IValueEditorProps) {
                             <span class="text-3xl font-semibold font-mono text-zinc-600 dark:text-zinc-400">
                                 {formatValue(originalValue, 4)}
                             </span>
-                            <span class="text-base text-zinc-500">{parameter.unit}</span>
+                            <span class="text-base text-zinc-500">{param.unit}</span>
                         </div>
                     )}
                     {compareValue !== null && (
@@ -254,7 +302,7 @@ function ScalarEditor(props: IValueEditorProps) {
                                 class={`text-3xl font-semibold font-mono ${hasCompareDiff ? 'text-teal-400' : 'text-zinc-600 dark:text-zinc-400'}`}>
                                 {formatValue(compareValue, 4)}
                             </span>
-                            <span class="text-base text-zinc-500">{parameter.unit}</span>
+                            <span class="text-base text-zinc-500">{param.unit}</span>
                         </div>
                     )}
                 </div>
@@ -266,11 +314,11 @@ function ScalarEditor(props: IValueEditorProps) {
                     'SWORD': 16,
                     'ULONG': 32,
                     'SLONG': 32
-                } as Record<string, number>)[parameter.dataType] || 8;
+                } as Record<string, number>)[param.dataType] || 8;
                 const hexPad = bitCount / 4;
                 const rawValue = Math.round(value);
                 const origRaw = originalValue !== null ? Math.round(originalValue) : null;
-                const labels = parameter.bitLabels;
+                const labels = param.bitLabels;
                 const bits = labels
                     ? Object.keys(labels).map(Number).sort((a, b) => a - b)
                     : Array.from({length: bitCount}, (_, i) => i);
@@ -310,16 +358,7 @@ function ScalarEditor(props: IValueEditorProps) {
     );
 }
 
-// Logarithmic normalization for better color distribution
-// function logNormalize(value: number, min: number, max: number): number {
-//     if (min === max) return 0.5;
-//     // Shift values to be positive (add offset so min becomes 1)
-//     const offset = 1 - min;
-//     const logMin = Math.log(min + offset);
-//     const logMax = Math.log(max + offset);
-//     const logVal = Math.log(value + offset);
-//     return Math.max(0, Math.min(1, (logVal - logMin) / (logMax - logMin)));
-// }
+// ─── Graph helpers ───────────────────────────────────────────────────────────
 
 function linearNormalize(value: number, min: number, max: number): number {
     return (value - min) / (max - min);
@@ -329,9 +368,7 @@ function getCellColor(value: number, min: number, max: number): string {
     if (value == null || isNaN(value) || min === max) {
         return 'hsl(60, 50%, 75%)';
     }
-    // const t = logNormalize(value, min, max);
     const t = linearNormalize(value, min, max);
-    // Hue: 120 (green) to 0 (red)
     const hue = (1 - t) * 120;
     return `hsl(${hue}, 65%, 70%)`;
 }
@@ -370,7 +407,6 @@ function CurveGraph({
     const origXData = originalXData && originalXData.length > 0 ? originalXData : xData;
     const cmpXData = compareXData && compareXData.length > 0 ? compareXData : xData;
 
-    // Calculate ranges including all visible x axes
     const allXValues = [
         ...xData,
         ...(showOriginal && originalYData ? origXData : []),
@@ -390,15 +426,12 @@ function CurveGraph({
     const yMinPadded = yMin - yPadding;
     const yMaxPadded = yMax + yPadding;
 
-    // Consistent decimal places matching the table
     const xDecimals = getConsistentDecimals(allXValues, 2);
     const yDecimals = getConsistentDecimals(allYValues, 2);
 
-    // Scale functions
     const scaleX = (val: number) => padding.left + ((val - xMin) / (xMax - xMin || 1)) * plotWidth;
     const scaleY = (val: number) => padding.top + plotHeight - ((val - yMinPadded) / (yMaxPadded - yMinPadded)) * plotHeight;
 
-    // Generate path using specific x data
     const generatePath = (values: number[], xVals: number[]) => {
         return values.map((y, i) => {
             const x = xVals[i] ?? i;
@@ -408,7 +441,6 @@ function CurveGraph({
         }).join(' ');
     };
 
-    // Grid lines
     const xTicks = 5;
     const yTicks = 5;
     const xStep = (xMax - xMin) / xTicks;
@@ -471,7 +503,7 @@ function CurveGraph({
                     {yUnit}
                 </text>
 
-                {/* Original curve (if showing) */}
+                {/* Original curve */}
                 {showOriginal && originalYData && (
                     <>
                         <path d={generatePath(originalYData, origXData)} fill="none" stroke="#71717a" stroke-width="2"
@@ -483,7 +515,7 @@ function CurveGraph({
                     </>
                 )}
 
-                {/* Compare curve (if showing) */}
+                {/* Compare curve */}
                 {showCompare && compareYData && (() => {
                     return (
                         <>
@@ -532,6 +564,8 @@ function CurveGraph({
     );
 }
 
+// ─── Surface Graph (WebGL) ───────────────────────────────────────────────────
+
 interface SurfaceGraphProps {
     xData: number[];
     yData: number[];
@@ -547,7 +581,6 @@ interface SurfaceGraphProps {
     zUnit: string;
 }
 
-// WebGL helpers
 const VERT_SRC = `
 attribute vec3 a_pos;
 attribute vec4 a_color;
@@ -614,7 +647,6 @@ function SurfaceGraph({
     const programRef = useRef<WebGLProgram | null>(null);
     const bufRef = useRef<WebGLBuffer | null>(null);
 
-    // Mouse drag handlers
     const handleMouseDown = (e: MouseEvent) => {
         setIsDragging(true);
         dragStart.current = {x: e.clientX, y: e.clientY, rotation, tilt};
@@ -634,7 +666,6 @@ function SurfaceGraph({
         dragStart.current = null;
     };
 
-    // Touch drag handlers
     const handleTouchStart = (e: TouchEvent) => {
         if (e.touches.length !== 1) return;
         const t = e.touches[0];
@@ -658,7 +689,6 @@ function SurfaceGraph({
         dragStart.current = null;
     };
 
-    // Attach global mouse/touch events when dragging
     useEffect(() => {
         if (isDragging) {
             window.addEventListener('mousemove', handleMouseMove);
@@ -674,7 +704,6 @@ function SurfaceGraph({
         }
     }, [isDragging]);
 
-    // Init WebGL once
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -689,7 +718,6 @@ function SurfaceGraph({
         };
     }, []);
 
-    // Render scene
     useEffect(() => {
         const gl = glRef.current;
         const program = programRef.current;
@@ -698,7 +726,6 @@ function SurfaceGraph({
         if (!gl || !program || !buf || !canvas) return;
         if (zData.length === 0 || zData[0].length === 0) return;
 
-        // Overlay setup
         const origXD = originalXData && originalXData.length > 0 ? originalXData : xData;
         const origYD = originalYData && originalYData.length > 0 ? originalYData : yData;
         const cmpXD = compareXData && compareXData.length > 0 ? compareXData : xData;
@@ -714,7 +741,6 @@ function SurfaceGraph({
         });
         if (showCompare && compareZData) overlays.push({z: compareZData, xAx: cmpXD, yAx: cmpYD, isCompare: true});
 
-        // Common axis ranges
         const allXVals = [...xData, ...overlays.flatMap(o => o.xAx)];
         const allYVals = [...yData, ...overlays.flatMap(o => o.yAx)];
         const axXMin = Math.min(...allXVals);
@@ -728,7 +754,6 @@ function SurfaceGraph({
 
         const norm = (v: number, mn: number, mx: number) => (mx - mn) ? (v - mn) / (mx - mn) : 0.5;
 
-        // Canvas sizing
         const dpr = window.devicePixelRatio || 1;
         const rect = canvas.getBoundingClientRect();
         const cw = Math.round(rect.width * dpr);
@@ -742,7 +767,6 @@ function SurfaceGraph({
         const w = rect.width;
         const h = rect.height;
 
-        // Projection: 3D → clip space [-1,1]
         const scale = Math.min(w, h) * 0.4;
         const cx = w / 2;
         const cy = h / 2 + h * 0.12;
@@ -758,19 +782,15 @@ function SurfaceGraph({
             const tz = ry * sinT + z * cosT;
             const px = cx + rx * scale;
             const py = cy - ty * scale - tz * scale * 0.8;
-            // Convert to clip space
             const clipX = (px / w) * 2 - 1;
             const clipY = 1 - (py / h) * 2;
-            // Depth: map tz to [0,1] range (near=1, far=0 for depth test LEQUAL)
             const depth = 0.5 - tz * 0.4;
             return {clipX, clipY, depth};
         };
 
-        // Build vertex data: 7 floats per vertex (x, y, z, r, g, b, a)
         const triVerts: number[] = [];
         const lineVerts: number[] = [];
 
-        // Helper: project grid point
         const gridPoint = (xAx: number[], yAx: number[], zGrid: number[][], r: number, c: number) => {
             const nx = norm(xAx[c] ?? c, axXMin, axXMax) - 0.5;
             const ny = norm(yAx[r] ?? r, axYMin, axYMax) - 0.5;
@@ -778,7 +798,6 @@ function SurfaceGraph({
             return proj(nx, ny, nz);
         };
 
-        // Push a triangle
         const pushTri = (verts: number[],
                          p1: { clipX: number; clipY: number; depth: number },
                          p2: { clipX: number; clipY: number; depth: number },
@@ -789,7 +808,6 @@ function SurfaceGraph({
             verts.push(p3.clipX, p3.clipY, p3.depth, r, g, b, a);
         };
 
-        // Push a line
         const pushLine = (p1: { clipX: number; clipY: number; depth: number },
                           p2: { clipX: number; clipY: number; depth: number },
                           r: number, g: number, b: number, a: number) => {
@@ -797,7 +815,6 @@ function SurfaceGraph({
             lineVerts.push(p2.clipX, p2.clipY, p2.depth, r, g, b, a);
         };
 
-        // Build surface for a grid
         const buildSurface = (xAx: number[], yAx: number[], zGrid: number[][],
                               colorFn: (t: number) => [number, number, number, number]) => {
             const gRows = zGrid.length;
@@ -817,7 +834,6 @@ function SurfaceGraph({
             }
         };
 
-        // Build wireframe for a grid
         const buildWireframe = (xAx: number[], yAx: number[], zGrid: number[][],
                                 r: number, g: number, b: number, a: number) => {
             const gRows = zGrid.length;
@@ -834,14 +850,12 @@ function SurfaceGraph({
             }
         };
 
-        // Main surface: green-to-red heatmap
         buildSurface(xData, yData, zData, (t) => {
             const [r, g, b] = hslToRgb((1 - t) * 120, 70, 50);
             return [r, g, b, 0.7];
         });
         buildWireframe(xData, yData, zData, 0, 0, 0, 0.3);
 
-        // Overlay surfaces
         for (const ov of overlays) {
             if (ov.isCompare) {
                 buildSurface(ov.xAx, ov.yAx, ov.z, (t) => {
@@ -858,23 +872,18 @@ function SurfaceGraph({
             }
         }
 
-        // Axis lines (drawn as lines, no depth test)
         const origin = proj(-0.6, -0.6, 0);
         const xE = proj(0.6, -0.6, 0);
         const yE = proj(-0.6, 0.6, 0);
         const zE = proj(-0.6, -0.6, 1.2);
         const axisVerts: number[] = [];
-        // X axis - red
         axisVerts.push(origin.clipX, origin.clipY, 0, 0.94, 0.27, 0.27, 1);
         axisVerts.push(xE.clipX, xE.clipY, 0, 0.94, 0.27, 0.27, 1);
-        // Y axis - green
         axisVerts.push(origin.clipX, origin.clipY, 0, 0.13, 0.77, 0.37, 1);
         axisVerts.push(yE.clipX, yE.clipY, 0, 0.13, 0.77, 0.37, 1);
-        // Z axis - blue
         axisVerts.push(origin.clipX, origin.clipY, 0, 0.23, 0.51, 0.96, 1);
         axisVerts.push(zE.clipX, zE.clipY, 0, 0.23, 0.51, 0.96, 1);
 
-        // X axis ticks
         for (let i = 0; i < xData.length; i++) {
             const t = norm(xData[i], axXMin, axXMax);
             const p = proj(-0.5 + t, -0.6, 0);
@@ -882,7 +891,6 @@ function SurfaceGraph({
             axisVerts.push(p.clipX, p.clipY, 0, 0.94, 0.27, 0.27, 1);
             axisVerts.push(p2.clipX, p2.clipY, 0, 0.94, 0.27, 0.27, 1);
         }
-        // Y axis ticks
         for (let i = 0; i < yData.length; i++) {
             const t = norm(yData[i], axYMin, axYMax);
             const p = proj(-0.6, -0.5 + t, 0);
@@ -890,7 +898,6 @@ function SurfaceGraph({
             axisVerts.push(p.clipX, p.clipY, 0, 0.13, 0.77, 0.37, 1);
             axisVerts.push(p2.clipX, p2.clipY, 0, 0.13, 0.77, 0.37, 1);
         }
-        // Z axis ticks
         for (let i = 0; i < 5; i++) {
             const t = i / 4;
             const p = proj(-0.6, -0.6, t);
@@ -899,11 +906,10 @@ function SurfaceGraph({
             axisVerts.push(p2.clipX, p2.clipY, 0, 0.23, 0.51, 0.96, 1);
         }
 
-        // --- Draw ---
         gl.useProgram(program);
         const aPos = gl.getAttribLocation(program, 'a_pos');
         const aColor = gl.getAttribLocation(program, 'a_color');
-        const stride = 7 * 4; // 7 floats × 4 bytes
+        const stride = 7 * 4;
 
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -923,19 +929,16 @@ function SurfaceGraph({
             gl.drawArrays(mode, 0, data.length / 7);
         };
 
-        // 1. Triangles (surfaces) with depth write + test
         if (triVerts.length > 0) {
             gl.depthMask(true);
             drawBatch(new Float32Array(triVerts), gl.TRIANGLES);
         }
 
-        // 2. Wireframe lines with depth test but no depth write (so they sit on surfaces)
         if (lineVerts.length > 0) {
             gl.depthMask(false);
             drawBatch(new Float32Array(lineVerts), gl.LINES);
         }
 
-        // 3. Axis lines on top (no depth test)
         if (axisVerts.length > 0) {
             gl.disable(gl.DEPTH_TEST);
             gl.depthMask(true);
@@ -947,7 +950,6 @@ function SurfaceGraph({
 
     if (zData.length === 0 || zData[0].length === 0) return null;
 
-    // Compute axis tick screen positions for HTML overlay
     const rows = zData.length;
     const cols = zData[0].length;
 
@@ -980,7 +982,6 @@ function SurfaceGraph({
 
     const norm = (v: number, mn: number, mx: number) => (mx - mn) ? (v - mn) / (mx - mn) : 0.5;
 
-    // Screen-space project (percentage-based for overlay)
     const projScreen = (x: number, y: number, z: number) => {
         const baseSize = 600;
         const aspectRatio = cols / rows;
@@ -1034,7 +1035,6 @@ function SurfaceGraph({
                     onMouseDown={handleMouseDown}
                     onTouchStart={handleTouchStart}
                 />
-                {/* Axis tick labels as HTML overlay */}
                 <div class="absolute inset-0 pointer-events-none font-mono" style={{fontSize: '9px'}}>
                     {xTicks.map((tick, i) => (
                         <span key={`xt${i}`} class="absolute text-zinc-400"
@@ -1068,7 +1068,6 @@ function SurfaceGraph({
                             {formatValueConsistent(tick.val, zDecimals)}
                         </span>
                     ))}
-                    {/* Axis unit labels */}
                     <span class="absolute text-red-400 font-sans" style={{
                         left: `${xEndPos.xPct}%`,
                         top: `${xEndPos.yPct}%`,
@@ -1096,7 +1095,6 @@ function SurfaceGraph({
                 </div>
             </div>
 
-            {/* Color legend */}
             <div class="flex items-center gap-2 mt-2 text-xs text-zinc-600 dark:text-zinc-400">
                 <span>{formatValue(zMin, 1)}</span>
                 <div class="w-32 h-3 rounded"
@@ -1126,6 +1124,8 @@ function SurfaceGraph({
     );
 }
 
+// ─── Selection helpers ───────────────────────────────────────────────────────
+
 interface Selection {
     startRow: number;
     startCol: number;
@@ -1142,23 +1142,30 @@ function normalizeSelection(sel: Selection): Selection {
     };
 }
 
+// ─── Table Editor ────────────────────────────────────────────────────────────
+
+interface TableEditorInternalProps extends IValueEditorProps {
+    table: TableData;
+    trackEdit: () => void;
+}
+
 function TableEditor({
-                         parameter,
-                         binData,
-                         originalBinData,
-                         calOffset = 0,
-                         bigEndian = false,
-                         onModify,
-                         crossCompare,
-                     }: IValueEditorProps) {
-    const [tableData, setTableData] = useState<number[][]>([]);
+                         param,
+                         table,
+                         onCellChange,
+                         onAxisChange,
+                         onBulkChange,
+                         onRevert,
+                         trackEdit,
+                     }: TableEditorInternalProps) {
+    const [tableData, setTableData] = useState<number[][]>(table.cells);
     const [editCell, setEditCell] = useState<{ row: number; col: number } | null>(null);
     const [editAxisCell, setEditAxisCell] = useState<{ axis: 'x' | 'y'; index: number } | null>(null);
     const [inputValue, setInputValue] = useState('');
     const [showOriginalTable, setShowOriginalTable] = useState(false);
     const [showCompareTable, setShowCompareTable] = useState(false);
-    const [xAxisData, setXAxisData] = useState<number[]>([]);
-    const [yAxisData, setYAxisData] = useState<number[]>([]);
+    const [xAxisData, setXAxisData] = useState<number[]>(table.xAxis);
+    const [yAxisData, setYAxisData] = useState<number[]>(table.yAxis);
 
     // Selection state
     const [selection, setSelection] = useState<Selection | null>(null);
@@ -1168,7 +1175,6 @@ function TableEditor({
     const [showModifyInput, setShowModifyInput] = useState<'add' | 'multiply' | 'set' | null>(null);
     const modifyInputRef = useRef<HTMLInputElement>(null);
 
-    // Focus modify input when it becomes visible
     useEffect(() => {
         if (showModifyInput && modifyInputRef.current) {
             modifyInputRef.current.focus();
@@ -1179,39 +1185,24 @@ function TableEditor({
     const [axisSelection, setAxisSelection] = useState<{ axis: 'x' | 'y'; start: number; end: number } | null>(null);
     const [isAxisSelecting, setIsAxisSelecting] = useState(false);
     const [axisSelectionAnchor, setAxisSelectionAnchor] = useState<{ axis: 'x' | 'y'; index: number } | null>(null);
+    const tableContainerRef = useRef<HTMLDivElement>(null);
 
-    const originalTableData = useMemo(
-        () => originalBinData ? readTableData(originalBinData, parameter, calOffset, bigEndian) : null,
-        [originalBinData, parameter, calOffset, bigEndian]
-    );
-
-    const originalXAxis = useMemo(
-        () => originalBinData && parameter.xAxis ? readAxisData(originalBinData, parameter.xAxis, calOffset, bigEndian) : null,
-        [originalBinData, parameter, calOffset, bigEndian]
-    );
-
-    const originalYAxis = useMemo(
-        () => originalBinData && parameter.yAxis ? readAxisData(originalBinData, parameter.yAxis, calOffset, bigEndian) : null,
-        [originalBinData, parameter, calOffset, bigEndian]
-    );
-
-    const compareTableData = useMemo(
-        () => crossCompare ? readTableData(crossCompare.data, crossCompare.param, crossCompare.calOffset, crossCompare.bigEndian) : null,
-        [crossCompare]
-    );
-
-    const compareXAxis = useMemo(
-        () => crossCompare?.param.xAxis ? readAxisData(crossCompare.data, crossCompare.param.xAxis, crossCompare.calOffset, crossCompare.bigEndian) : null,
-        [crossCompare]
-    );
-
-    const compareYAxis = useMemo(
-        () => crossCompare?.param.yAxis ? readAxisData(crossCompare.data, crossCompare.param.yAxis, crossCompare.calOffset, crossCompare.bigEndian) : null,
-        [crossCompare]
-    );
+    const originalTableData = table.original?.cells ?? null;
+    const originalXAxis = table.original?.xAxis ?? null;
+    const originalYAxis = table.original?.yAxis ?? null;
+    const compareTableData = table.compare?.cells ?? null;
+    const compareXAxis = table.compare?.xAxis ?? null;
+    const compareYAxis = table.compare?.yAxis ?? null;
 
     const showOriginal = showOriginalTable;
     const showCompare = showCompareTable;
+
+    // Sync from props when param changes
+    useEffect(() => {
+        setTableData(table.cells);
+        setXAxisData(table.xAxis);
+        setYAxisData(table.yAxis);
+    }, [table.cells, table.xAxis, table.yAxis]);
 
     const hasChanged = useMemo(() => {
         if (!originalTableData || tableData.length === 0) return false;
@@ -1219,12 +1210,9 @@ function TableEditor({
             if (!originalTableData[r] || !tableData[r]) continue;
             for (let c = 0; c < tableData[r].length; c++) {
                 if (originalTableData[r][c] === undefined || tableData[r][c] === undefined) continue;
-                if (Math.abs(originalTableData[r][c] - tableData[r][c]) > 0.0001) {
-                    return true;
-                }
+                if (Math.abs(originalTableData[r][c] - tableData[r][c]) > 0.0001) return true;
             }
         }
-        // Check axis changes
         if (originalXAxis) {
             for (let i = 0; i < xAxisData.length; i++) {
                 if (originalXAxis[i] === undefined || xAxisData[i] === undefined) continue;
@@ -1252,23 +1240,6 @@ function TableEditor({
         return false;
     }, [compareTableData, tableData]);
 
-    // These are used for initial loading only
-    const xAxis = useMemo(
-        () => (parameter.xAxis ? readAxisData(binData, parameter.xAxis, calOffset, bigEndian) : []),
-        [parameter, binData, calOffset, bigEndian]
-    );
-
-    const yAxis = useMemo(
-        () => (parameter.yAxis ? readAxisData(binData, parameter.yAxis, calOffset, bigEndian) : []),
-        [parameter, binData, calOffset, bigEndian]
-    );
-
-    // Initialize axis data state
-    useEffect(() => {
-        setXAxisData(xAxis);
-        setYAxisData(yAxis);
-    }, [xAxis, yAxis]);
-
     const {minVal, maxVal} = useMemo(() => {
         if (tableData.length === 0) return {minVal: 0, maxVal: 1};
         const flat = tableData.flat();
@@ -1287,14 +1258,9 @@ function TableEditor({
         return {cmpMinVal: Math.min(...flat), cmpMaxVal: Math.max(...flat)};
     }, [compareTableData]);
 
-    // Consistent decimal places for each group
     const xDecimals = useMemo(() => getConsistentDecimals(xAxisData, 2), [xAxisData]);
     const yDecimals = useMemo(() => getConsistentDecimals(yAxisData, 2), [yAxisData]);
     const dataDecimals = useMemo(() => getConsistentDecimals(tableData.flat(), 2), [tableData]);
-
-    useEffect(() => {
-        setTableData(readTableData(binData, parameter, calOffset, bigEndian));
-    }, [parameter, binData, calOffset, bigEndian]);
 
     const handleCellDoubleClick = (row: number, col: number) => {
         setInputValue(formatValue(tableData[row][col], 4));
@@ -1313,31 +1279,28 @@ function TableEditor({
         if (editCell) {
             const newValue = parseFloat(inputValue);
             if (!isNaN(newValue)) {
-                writeTableCell(binData, parameter, editCell.row, editCell.col, newValue, calOffset, bigEndian);
                 const newData = [...tableData];
                 newData[editCell.row] = [...newData[editCell.row]];
                 newData[editCell.row][editCell.col] = newValue;
                 setTableData(newData);
-                onModify();
+                onCellChange?.(editCell.row, editCell.col, newValue);
+                trackEdit();
             }
             setEditCell(null);
         } else if (editAxisCell) {
             const newValue = parseFloat(inputValue);
             if (!isNaN(newValue)) {
-                const axisDef = editAxisCell.axis === 'x' ? parameter.xAxis : parameter.yAxis;
-                if (axisDef) {
-                    writeAxisValue(binData, axisDef, editAxisCell.index, newValue, calOffset, bigEndian);
-                    if (editAxisCell.axis === 'x') {
-                        const newAxisData = [...xAxisData];
-                        newAxisData[editAxisCell.index] = newValue;
-                        setXAxisData(newAxisData);
-                    } else {
-                        const newAxisData = [...yAxisData];
-                        newAxisData[editAxisCell.index] = newValue;
-                        setYAxisData(newAxisData);
-                    }
-                    onModify();
+                if (editAxisCell.axis === 'x') {
+                    const newAxisData = [...xAxisData];
+                    newAxisData[editAxisCell.index] = newValue;
+                    setXAxisData(newAxisData);
+                } else {
+                    const newAxisData = [...yAxisData];
+                    newAxisData[editAxisCell.index] = newValue;
+                    setYAxisData(newAxisData);
                 }
+                onAxisChange?.(editAxisCell.axis, editAxisCell.index, newValue);
+                trackEdit();
             }
             setEditAxisCell(null);
         }
@@ -1348,9 +1311,9 @@ function TableEditor({
             handleConfirm();
             if (editCell) {
                 const nextCol = editCell.col + 1;
-                if (nextCol < (parameter.cols || 1)) {
+                if (nextCol < (param.cols || 1)) {
                     setTimeout(() => handleCellDoubleClick(editCell.row, nextCol), 0);
-                } else if (editCell.row + 1 < (parameter.rows || 1)) {
+                } else if (editCell.row + 1 < (param.rows || 1)) {
                     setTimeout(() => handleCellDoubleClick(editCell.row + 1, 0), 0);
                 }
             }
@@ -1365,7 +1328,6 @@ function TableEditor({
         }
     };
 
-    // Check if axis value has changed
     const xAxisChanged = (index: number): boolean => {
         if (!originalXAxis || originalXAxis[index] === undefined || xAxisData[index] === undefined) return false;
         return Math.abs(originalXAxis[index] - xAxisData[index]) > 0.0001;
@@ -1376,7 +1338,6 @@ function TableEditor({
         return Math.abs(originalYAxis[index] - yAxisData[index]) > 0.0001;
     };
 
-    // Check if a specific cell has changed
     const cellChanged = (row: number, col: number): boolean => {
         if (!originalTableData || tableData.length === 0) return false;
         if (!originalTableData[row] || !tableData[row]) return false;
@@ -1384,7 +1345,6 @@ function TableEditor({
         return Math.abs(originalTableData[row][col] - tableData[row][col]) > 0.0001;
     };
 
-    // Check if a compare cell differs from current
     const cellCompareDiff = (row: number, col: number): boolean => {
         if (!compareTableData || tableData.length === 0) return false;
         if (!compareTableData[row] || !tableData[row]) return false;
@@ -1404,14 +1364,12 @@ function TableEditor({
         return Math.abs(compareYAxis[index] - yAxisData[index]) > 0.0001;
     };
 
-    // Check if a cell is in the current selection
     const isSelected = (row: number, col: number): boolean => {
         if (!selection) return false;
         const norm = normalizeSelection(selection);
         return row >= norm.startRow && row <= norm.endRow && col >= norm.startCol && col <= norm.endCol;
     };
 
-    // Get count of selected cells
     const selectionCount = useMemo(() => {
         if (axisSelection) {
             return Math.abs(axisSelection.end - axisSelection.start) + 1;
@@ -1421,7 +1379,6 @@ function TableEditor({
         return (norm.endRow - norm.startRow + 1) * (norm.endCol - norm.startCol + 1);
     }, [selection, axisSelection]);
 
-    // Check if an axis cell is selected
     const isAxisSelected = (axis: 'x' | 'y', index: number): boolean => {
         if (!axisSelection || axisSelection.axis !== axis) return false;
         const start = Math.min(axisSelection.start, axisSelection.end);
@@ -1429,14 +1386,11 @@ function TableEditor({
         return index >= start && index <= end;
     };
 
-    // Selection handlers
     const handleCellMouseDown = (row: number, col: number, e: MouseEvent) => {
-        // Clear axis selection when selecting table cells
         setAxisSelection(null);
         setAxisSelectionAnchor(null);
 
         if (e.shiftKey && selectionAnchor) {
-            // Extend selection from anchor
             setSelection({
                 startRow: selectionAnchor.row,
                 startCol: selectionAnchor.col,
@@ -1444,7 +1398,6 @@ function TableEditor({
                 endCol: col,
             });
         } else {
-            // Start new selection
             setSelectionAnchor({row, col});
             setSelection({startRow: row, startCol: col, endRow: row, endCol: col});
             setIsSelecting(true);
@@ -1467,17 +1420,13 @@ function TableEditor({
         setIsAxisSelecting(false);
     };
 
-    // Axis selection handlers
     const handleAxisMouseDown = (axis: 'x' | 'y', index: number, e: MouseEvent) => {
-        // Clear table selection when selecting axis
         setSelection(null);
         setSelectionAnchor(null);
 
         if (e.shiftKey && axisSelectionAnchor && axisSelectionAnchor.axis === axis) {
-            // Extend selection from anchor
             setAxisSelection({axis, start: axisSelectionAnchor.index, end: index});
         } else {
-            // Start new selection
             setAxisSelectionAnchor({axis, index});
             setAxisSelection({axis, start: index, end: index});
             setIsAxisSelecting(true);
@@ -1490,7 +1439,6 @@ function TableEditor({
         }
     };
 
-    // Copy selection to clipboard
     const copySelection = () => {
         if (axisSelection) {
             const axisData = axisSelection.axis === 'x' ? xAxisData : yAxisData;
@@ -1513,26 +1461,29 @@ function TableEditor({
         navigator.clipboard.writeText(rows.join('\n'));
     };
 
-    // Paste from clipboard
     const pasteSelection = async () => {
         if (axisSelection) {
             try {
                 const text = await navigator.clipboard.readText();
                 const values = text.trim().split(/[\t\n]/).map(v => parseFloat(v.trim()));
-                const axisDef = axisSelection.axis === 'x' ? parameter.xAxis : parameter.yAxis;
-                if (!axisDef?.address) return;
+                if (!param.xAxis?.editable && axisSelection.axis === 'x') return;
+                if (!param.yAxis?.editable && axisSelection.axis === 'y') return;
                 const axisData = axisSelection.axis === 'x' ? xAxisData : yAxisData;
                 const setAxisData = axisSelection.axis === 'x' ? setXAxisData : setYAxisData;
                 const newAxisData = [...axisData];
                 const start = Math.min(axisSelection.start, axisSelection.end);
+                const axisChanges: AxisChange[] = [];
                 for (let i = 0; i < values.length && start + i < axisData.length; i++) {
                     if (!isNaN(values[i])) {
-                        writeAxisValue(binData, axisDef, start + i, values[i], calOffset, bigEndian);
                         newAxisData[start + i] = values[i];
+                        axisChanges.push({axis: axisSelection.axis, index: start + i, value: values[i]});
                     }
                 }
                 setAxisData(newAxisData);
-                onModify();
+                if (axisChanges.length > 0) {
+                    onBulkChange?.({axes: axisChanges});
+                    trackEdit();
+                }
             } catch (e) {
                 console.error('Paste failed:', e);
             }
@@ -1545,32 +1496,34 @@ function TableEditor({
             const rows = text.trim().split('\n').map(r => r.split('\t').map(c => parseFloat(c.trim())));
 
             const newData = tableData.map(r => [...r]);
+            const cellChanges: CellChange[] = [];
             for (let r = 0; r < rows.length && norm.startRow + r < tableData.length; r++) {
                 for (let c = 0; c < rows[r].length && norm.startCol + c < tableData[0].length; c++) {
                     const value = rows[r][c];
                     if (!isNaN(value)) {
                         const targetRow = norm.startRow + r;
                         const targetCol = norm.startCol + c;
-                        writeTableCell(binData, parameter, targetRow, targetCol, value, calOffset, bigEndian);
                         newData[targetRow][targetCol] = value;
+                        cellChanges.push({row: targetRow, col: targetCol, value});
                     }
                 }
             }
             setTableData(newData);
-            onModify();
+            if (cellChanges.length > 0) {
+                onBulkChange?.({cells: cellChanges});
+                trackEdit();
+            }
         } catch (e) {
             console.error('Paste failed:', e);
         }
     };
 
-    // Modify selected cells (table or axis)
     const modifySelection = (operation: 'add' | 'multiply' | 'set', value: number) => {
         if (isNaN(value)) return;
 
-        // Handle axis selection
         if (axisSelection) {
-            const axisDef = axisSelection.axis === 'x' ? parameter.xAxis : parameter.yAxis;
-            if (!axisDef?.address) return;
+            if (!param.xAxis?.editable && axisSelection.axis === 'x') return;
+            if (!param.yAxis?.editable && axisSelection.axis === 'y') return;
 
             const axisData = axisSelection.axis === 'x' ? xAxisData : yAxisData;
             const setAxisData = axisSelection.axis === 'x' ? setXAxisData : setYAxisData;
@@ -1579,6 +1532,7 @@ function TableEditor({
             const start = Math.min(axisSelection.start, axisSelection.end);
             const end = Math.max(axisSelection.start, axisSelection.end);
 
+            const axisChanges: AxisChange[] = [];
             for (let i = start; i <= end; i++) {
                 let newValue: number;
                 if (operation === 'add') {
@@ -1588,20 +1542,21 @@ function TableEditor({
                 } else {
                     newValue = value;
                 }
-                writeAxisValue(binData, axisDef, i, newValue, calOffset, bigEndian);
                 newAxisData[i] = newValue;
+                axisChanges.push({axis: axisSelection.axis, index: i, value: newValue});
             }
             setAxisData(newAxisData);
-            onModify();
+            onBulkChange?.({axes: axisChanges});
+            trackEdit();
             setShowModifyInput(null);
             setModifyValue('');
             return;
         }
 
-        // Handle table selection
         if (!selection) return;
         const norm = normalizeSelection(selection);
         const newData = tableData.map(r => [...r]);
+        const cellChanges: CellChange[] = [];
 
         for (let r = norm.startRow; r <= norm.endRow; r++) {
             for (let c = norm.startCol; c <= norm.endCol; c++) {
@@ -1609,26 +1564,23 @@ function TableEditor({
                 if (operation === 'add') {
                     newValue = tableData[r][c] + value;
                 } else if (operation === 'multiply') {
-                    // 50 means 50% of current value
                     newValue = tableData[r][c] * (value / 100);
                 } else {
-                    // set to exact value
                     newValue = value;
                 }
-                writeTableCell(binData, parameter, r, c, newValue, calOffset, bigEndian);
                 newData[r][c] = newValue;
+                cellChanges.push({row: r, col: c, value: newValue});
             }
         }
         setTableData(newData);
-        onModify();
+        onBulkChange?.({cells: cellChanges});
+        trackEdit();
         setShowModifyInput(null);
         setModifyValue('');
     };
 
-    // Keyboard handler for copy/paste and selection editing
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            console.log(e.key)
             if ((e.ctrlKey || e.metaKey) && e.key === 'c' && (selection || axisSelection)) {
                 e.preventDefault();
                 copySelection();
@@ -1642,12 +1594,10 @@ function TableEditor({
                 setAxisSelection(null);
                 setShowModifyInput(null);
             }
-            // Enter key opens set input when cells are selected
             if (e.key === 'Enter' && (selection || axisSelection) && !editCell && !editAxisCell && !showModifyInput) {
                 e.preventDefault();
                 setShowModifyInput('set');
             }
-            // +/- keys to increment/decrement selected cells by 1 unit
             if (e.key === '+' && (selection || axisSelection) && !editCell && !editAxisCell && !showModifyInput) {
                 e.preventDefault();
                 modifySelection('add', 1);
@@ -1657,11 +1607,20 @@ function TableEditor({
                 modifySelection('add', -1);
             }
         };
+        const handleClickOutside = (e: MouseEvent) => {
+            if (tableContainerRef.current && !tableContainerRef.current.contains(e.target as Node)) {
+                setSelection(null);
+                setAxisSelection(null);
+                setShowModifyInput(null);
+            }
+        };
         window.addEventListener('keydown', handleKeyDown);
         window.addEventListener('mouseup', handleMouseUp);
+        window.addEventListener('mousedown', handleClickOutside);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('mousedown', handleClickOutside);
         };
     }, [selection, axisSelection, tableData, editCell, editAxisCell, showModifyInput]);
 
@@ -1671,41 +1630,25 @@ function TableEditor({
                 <div class="flex items-start justify-between mb-4">
                     <div>
                         <h2 class="text-lg font-semibold">
-                            {parameter.customName || parameter.description || parameter.name}
+                            {param.customName || param.description || param.name}
                         </h2>
-                        <code class="text-xs text-zinc-500">{parameter.name}</code>
+                        <code class="text-xs text-zinc-500">{param.name}</code>
                     </div>
                     <div class="flex gap-x-2">
-                        {hasChanged && originalBinData &&
+                        {hasChanged && onRevert &&
                             <button
                                 class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600"
                                 onClick={() => {
-                                    if (!originalTableData) return;
-                                    for (let r = 0; r < originalTableData.length; r++) {
-                                        for (let c = 0; c < originalTableData[r].length; c++) {
-                                            writeTableCell(binData, parameter, r, c, originalTableData[r][c], calOffset, bigEndian);
-                                        }
-                                    }
-                                    if (originalXAxis && parameter.xAxis) {
-                                        for (let i = 0; i < originalXAxis.length; i++) {
-                                            writeAxisValue(binData, parameter.xAxis, i, originalXAxis[i], calOffset, bigEndian);
-                                        }
-                                    }
-                                    if (originalYAxis && parameter.yAxis) {
-                                        for (let i = 0; i < originalYAxis.length; i++) {
-                                            writeAxisValue(binData, parameter.yAxis, i, originalYAxis[i], calOffset, bigEndian);
-                                        }
-                                    }
-                                    setTableData(originalTableData.map(row => [...row]));
+                                    onRevert();
+                                    if (originalTableData) setTableData(originalTableData.map(row => [...row]));
                                     if (originalXAxis) setXAxisData([...originalXAxis]);
                                     if (originalYAxis) setYAxisData([...originalYAxis]);
-                                    onModify();
-                                    const type = parameter.type === 'CURVE' ? '1D' : '2D';
-                                    track('Revert Parameter', {type, name: parameter.name});
+                                    const type = param.type === 'CURVE' ? '1D' : '2D';
+                                    track('Revert Parameter', {type, name: param.name});
                                 }}>
                                 Revert
                             </button>}
-                        {originalBinData && (
+                        {originalTableData && (
                             <button
                                 onClick={() => setShowOriginalTable(!showOriginalTable)}
                                 class={`px-3 py-1.5 text-sm rounded ${
@@ -1715,7 +1658,7 @@ function TableEditor({
                                 Original
                             </button>
                         )}
-                        {crossCompare && (
+                        {compareTableData && (
                             <button
                                 onClick={() => setShowCompareTable(!showCompareTable)}
                                 class={`px-3 py-1.5 text-sm rounded ${
@@ -1730,13 +1673,11 @@ function TableEditor({
 
                 <div
                     class="flex flex-wrap items-center gap-4 p-3 bg-zinc-200 dark:bg-zinc-800 rounded text-xs text-zinc-600 dark:text-zinc-400">
-                    <span>Address: 0x{parameter.address.toString(16).toUpperCase()}</span>
-                    <span>Size: {parameter.rows || 1} x {parameter.cols || 1}</span>
-                    <span>Z: {parameter.unit || '-'}</span>
-                    {parameter.xAxis && <span>X: {parameter.xAxis.unit || '-'}</span>}
-                    {parameter.yAxis && <span>Y: {parameter.yAxis.unit || '-'}</span>}
+                    <span>Size: {param.rows || 1} x {param.cols || 1}</span>
+                    <span>Z: {param.unit || '-'}</span>
+                    {param.xAxis && <span>X: {param.xAxis.unit || '-'}</span>}
+                    {param.yAxis && <span>Y: {param.yAxis.unit || '-'}</span>}
 
-                    {/* Selection info and modify buttons */}
                     {(selection || axisSelection) && selectionCount > 0 && (
                         <>
             <span class="border-l border-zinc-400 dark:border-zinc-600 pl-4 text-zinc-700 dark:text-zinc-300">
@@ -1812,12 +1753,12 @@ function TableEditor({
                 </div>
             </div>
 
-            <div class="overflow-auto max-h-[calc(100vh-200px)]">
+            <div ref={tableContainerRef} class="overflow-auto max-h-[calc(100vh-200px)]">
                 <table class="border-collapse font-mono text-xs table-fixed">
                     <colgroup>
                         {yAxisData.length > 0 && <col class="w-12"/>}
                         {yAxisData.length > 0 && <col class="w-16"/>}
-                        {Array.from({length: parameter.cols || 1}).map((_, i) => (
+                        {Array.from({length: param.cols || 1}).map((_, i) => (
                             <col key={i} class="w-16"/>
                         ))}
                     </colgroup>
@@ -1825,16 +1766,16 @@ function TableEditor({
                     <tr>
                         {yAxisData.length > 0 && (
                             <th class="p-1 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-zinc-500 font-normal text-left align-top">
-                                {parameter.unit || 'Z'}
+                                {param.unit || 'Z'}
                             </th>
                         )}
                         {yAxisData.length > 0 &&
                             <th class="border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800"></th>}
                         <th
-                            colSpan={parameter.cols || 1}
+                            colSpan={param.cols || 1}
                             class="p-1 border border-zinc-300 dark:border-zinc-700 bg-zinc-200 dark:bg-zinc-800 text-zinc-500 font-normal text-center"
                         >
-                            {parameter.xAxis?.unit || 'X'} →
+                            {param.xAxis?.unit || 'X'} →
                         </th>
                     </tr>
                     <tr>
@@ -1850,7 +1791,7 @@ function TableEditor({
                                 const isCellSelected = isAxisSelected('x', i);
                                 const displayValue = showCompare && compareXAxis ? compareXAxis[i]
                                     : showOriginal && originalXAxis ? originalXAxis[i] : val;
-                                const canEdit = parameter.xAxis?.address;
+                                const canEdit = param.xAxis?.editable;
                                 return (
                                     <th
                                         key={i}
@@ -1878,17 +1819,17 @@ function TableEditor({
                                                 class="w-full bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-mono text-xs text-right outline-none border border-blue-500 rounded px-1"
                                             />
                                         ) : (
-                                            parameter.xAxis?.labels?.[i] ?? formatValueConsistent(displayValue, xDecimals)
+                                            param.xAxis?.labels?.[i] ?? formatValueConsistent(displayValue, xDecimals)
                                         )}
                                     </th>
                                 );
                             })
-                            : Array.from({length: parameter.cols || 1}).map((_, i) => (
+                            : Array.from({length: param.cols || 1}).map((_, i) => (
                                 <th
                                     key={i}
                                     class="p-1.5 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-medium text-right"
                                 >
-                                    {parameter.xAxis?.labels?.[i] ?? i}
+                                    {param.xAxis?.labels?.[i] ?? i}
                                 </th>
                             ))}
                     </tr>
@@ -1902,7 +1843,7 @@ function TableEditor({
                                     class="p-1 border border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 text-zinc-500 font-normal text-center align-middle"
                                     style={{writingMode: 'vertical-rl', transform: 'rotate(180deg)'}}
                                 >
-                                    {parameter.yAxis?.unit || 'Y'} ↓
+                                    {param.yAxis?.unit || 'Y'} ↓
                                 </td>
                             )}
                             {yAxisData.length > 0 && (() => {
@@ -1912,7 +1853,7 @@ function TableEditor({
                                 const isCellSelected = isAxisSelected('y', rowIdx);
                                 const displayValue = showCompare && compareYAxis ? compareYAxis[rowIdx]
                                     : showOriginal && originalYAxis ? originalYAxis[rowIdx] : yAxisData[rowIdx];
-                                const canEdit = parameter.yAxis?.address;
+                                const canEdit = param.yAxis?.editable;
                                 return (
                                     <td
                                         class={`p-1.5 border border-zinc-300 dark:border-zinc-700 font-medium text-right select-none ${
@@ -1939,7 +1880,7 @@ function TableEditor({
                                                 class="w-full bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-mono text-xs text-right outline-none border border-blue-500 rounded px-1"
                                             />
                                         ) : (
-                                            parameter.yAxis?.labels?.[rowIdx] ?? formatValueConsistent(displayValue, yDecimals)
+                                            param.yAxis?.labels?.[rowIdx] ?? formatValueConsistent(displayValue, yDecimals)
                                         )}
                                     </td>
                                 );
@@ -2002,7 +1943,7 @@ function TableEditor({
             </div>
 
             {/* 2D Graph for CURVE type */}
-            {parameter.type === 'CURVE' && tableData.length > 0 && tableData[0] && (
+            {param.type === 'CURVE' && tableData.length > 0 && tableData[0] && (
                 <CurveGraph
                     xData={xAxisData.length > 0 ? xAxisData : Array.from({length: tableData[0].length}, (_, i) => i)}
                     yData={tableData[0]}
@@ -2010,13 +1951,13 @@ function TableEditor({
                     originalXData={originalXAxis}
                     compareYData={compareTableData ? compareTableData[0] : null}
                     compareXData={compareXAxis}
-                    xUnit={parameter.xAxis?.unit || 'X'}
-                    yUnit={parameter.unit || 'Y'}
+                    xUnit={param.xAxis?.unit || 'X'}
+                    yUnit={param.unit || 'Y'}
                 />
             )}
 
             {/* 3D Graph for MAP type */}
-            {parameter.type === 'MAP' && tableData.length > 0 && tableData[0] && (
+            {param.type === 'MAP' && tableData.length > 0 && tableData[0] && (
                 <SurfaceGraph
                     xData={xAxisData.length > 0 ? xAxisData : Array.from({length: tableData[0].length}, (_, i) => i)}
                     yData={yAxisData.length > 0 ? yAxisData : Array.from({length: tableData.length}, (_, i) => i)}
@@ -2027,9 +1968,9 @@ function TableEditor({
                     compareZData={compareTableData}
                     compareXData={compareXAxis}
                     compareYData={compareYAxis}
-                    xUnit={parameter.xAxis?.unit || 'X'}
-                    yUnit={parameter.yAxis?.unit || 'Y'}
-                    zUnit={parameter.unit || 'Z'}
+                    xUnit={param.xAxis?.unit || 'X'}
+                    yUnit={param.yAxis?.unit || 'Y'}
+                    zUnit={param.unit || 'Z'}
                 />
             )}
         </div>

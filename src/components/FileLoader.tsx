@@ -30,7 +30,6 @@ export function FileLoader({ onDefinitionLoad }: Props) {
     const stats = parser.getStats();
 
     const definition = parser.generateDefinition(a2lFile.name.replace('.a2l', ''));
-    console.log(`Converted: ${stats.matched}/${stats.characteristics} parameters`);
 
     onDefinitionLoad(definition);
 

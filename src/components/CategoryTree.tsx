@@ -1,5 +1,6 @@
 import {useState, useMemo, useEffect, useCallback, useRef} from 'preact/hooks';
 import type {IDefinitionParameter} from '../types';
+import {Fragment} from "preact";
 
 /**
  * Score how well `text` matches `pattern`. Higher = better match.
@@ -109,7 +110,10 @@ function TreeNodeView({
                     }}
                 >
                     {hasChildren && (
-                        <span class="w-3 text-[10px] text-zinc-500">{isExpanded ? '▼' : '▶'}</span>
+                        <svg class={`w-4 h-4 text-zinc-500 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
+                             viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M5 2l7 6-7 6z"/>
+                        </svg>
                     )}
                     <span class="flex-1">{node.name}</span>
                     {totalCount > 0 && (
@@ -119,7 +123,7 @@ function TreeNodeView({
             )}
 
             {(node.name === 'Root' || isExpanded) && (
-                <>
+                <Fragment key={node.path}>
                     {Array.from(node.children.values())
                         .sort((a, b) => a.name.localeCompare(b.name))
                         .map(child => (
@@ -150,22 +154,20 @@ function TreeNodeView({
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onSelect(param);
-                                    }}
-                                >
-                  <span
-                      class={`inline-flex justify-center items-center w-4 h-4 shrink-0 text-[10px] font-semibold rounded ${
-                          isSelected ? 'bg-white/20 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400'
-                      }`}
-                  >
-                    {param.type[0]}
-                  </span>
+                                    }}>
+                                    <span
+                                        class={`inline-flex justify-center items-center w-4 h-4 shrink-0 text-[10px] font-semibold rounded ${
+                                            isSelected ? 'bg-white/20 text-white' : 'bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400'
+                                        }`}>
+                                        {param.type[0]}
+                                    </span>
                                     <span class="truncate" title={param.name}>
-                    {param.customName || param.description || param.name}
-                  </span>
+                                        {param.customName || param.description || param.name}
+                                    </span>
                                 </div>
                             );
                         })}
-                </>
+                </Fragment>
             )}
         </div>
     );
