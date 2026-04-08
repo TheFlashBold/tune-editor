@@ -1,5 +1,5 @@
 {
-  "name": "F52 M_DSG_v1.002",
+  "name": "DQ250 F52M",
   "version": "1.0",
   "baseAddress": 65536,
   "parameters": [
@@ -4463,9 +4463,8 @@
     }
   ],
   "_source": "XDF",
-  "bigEndian": true,
   "verification": {
     "position": 65538,
-    "expected": "F52M_D"
+    "expected": "F52M"
   }
 }
