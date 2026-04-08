@@ -353,5 +353,23 @@
       "expected": "ST3L10"
     },
     "paramCount": 7254
+  },
+  {
+    "name": "SC8 O50",
+    "file": "SC8O50.json",
+    "verification": {
+      "position": 2097154,
+      "expected": "SC8O50"
+    },
+    "paramCount": 829
+  },
+  {
+    "name": "SC8 O50",
+    "file": "SC8O50_from_O40.json",
+    "verification": {
+      "position": 2097154,
+      "expected": "SC8O50"
+    },
+    "paramCount": 854
   }
 ]

@@ -71,42 +71,6 @@ function findDsgEpk(data: Uint8Array, expected: string): { offset: number; found
     return null;
 }
 
-/**
- * Detect binary mode (full bin or CAL block only) and verify definition matches.
- *
- * Address calculation: fileOffset = address + calOffset
- * - Full bin: calOffset = baseAddress (file offset of CAL start)
- * - CAL-only: calOffset = 0 (addresses are direct offsets within CAL file)
- * - DSG/TCU: calOffset = baseAddress
- */
-export function detectBinaryMode(
-    data: Uint8Array,
-    verification: DefinitionVerification,
-): { mode: BinaryMode; calOffset: number; valid: boolean; found: string } {
-    const {position, isDSG, expected, length = expected.length} = verification;
-
-    if (isDSG || isDsgEpk(expected)) {
-        return {mode: 'full', calOffset: 0, valid: false, found: ''};
-    }
-
-    if (readString(data, 0, 3) === "CAS") {
-        return {mode: 'cal', calOffset: 0, valid: false, found: ''};
-    }
-
-    // Full bin: EPK at verification.position
-    const foundAtFull = readString(data, position, length);
-    if (foundAtFull === expected) {
-        return {mode: 'full', calOffset: 0, valid: true, found: foundAtFull};
-    }
-
-    return {
-        mode: 'full',
-        calOffset: 0,
-        valid: false,
-        found: ''
-    };
-}
-
 function readStringSafe(data: Uint8Array, index: number, maxLength: number, minLength: number = 1): string {
     const bytes: number[] = []
 
@@ -130,19 +94,19 @@ const CAL_SIZES = [0x6FC00, 0x7FC00, 0x9FC00];
 const CAL_OFFSETS = [0x20000, 0x40000, 0x200000, 0x220000];
 
 export function readBoxCode(data: Uint8Array): string {
+    if (readStringSafe(data, 0, 3, 3) === "CAS") {
+        const boxCode = readStringSafe(data, 0x60, 12, 9);
+        if (boxCode) {
+            return boxCode;
+        }
+    }
+
     for (const offset of CAL_OFFSETS) {
         if (data.length > (offset + 0x60 + 9)) {
             const boxCode = readStringSafe(data, offset + 0x60, 12, 9);
             if (boxCode) {
                 return boxCode;
             }
-        }
-    }
-
-    if (CAL_SIZES.includes(data.length)) {
-        const boxCode = readStringSafe(data, 0x60, 12, 9);
-        if (boxCode) {
-            return boxCode;
         }
     }
 
@@ -198,6 +162,13 @@ export function readBoxCode(data: Uint8Array): string {
 }
 
 export function readEPK(data: Uint8Array): [string, number] | [] {
+    if (readStringSafe(data, 0, 3, 3) === "CAS") {
+        const epk = readStringSafe(data, 0x02, 6, 6);
+        if (epk) {
+            return [epk, 0x02];
+        }
+    }
+
     for (const offset of CAL_OFFSETS) {
         if (data.length > (offset + 0x2000)) {
             const epk = readStringSafe(data, offset + 0x02, 6, 6);
@@ -206,14 +177,6 @@ export function readEPK(data: Uint8Array): [string, number] | [] {
             }
         }
     }
-
-    if (CAL_SIZES.includes(data.length)) {
-        const epk = readStringSafe(data, 0x02, 6, 6);
-        if (epk) {
-            return [epk, 0x02];
-        }
-    }
-
     // DQ381
     if (data.length > (0x16C00E + 2)) {
         const epk = readStringSafe(data, 0x16C00E, 2, 2);

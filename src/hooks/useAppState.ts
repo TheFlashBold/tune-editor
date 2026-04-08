@@ -177,6 +177,8 @@ export function useAppState(): IAppContext {
         const [epk, epkAddress] = readEPK(data);
         const version = readVersion(data);
 
+        console.log(boxCode, epk, version)
+
         setBinData(data);
         setBinFileName(displayName);
         setModified(false);
