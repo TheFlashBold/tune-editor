@@ -195,7 +195,7 @@ export function readEPK(data: Uint8Array): [string, number] | [] {
 
     // DQ250 MQB
     if (data.length > (0x4FFDF + 5)) {
-        const epk = readStringSafe(data, 0x4FFDF, 4, 4);
+        const epk = readStringSafe(data, 0x4FFDF, 5, 4);
         if (epk) {
             return [epk, 0x4FFE0];
         }
