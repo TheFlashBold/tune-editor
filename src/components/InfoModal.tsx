@@ -20,12 +20,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
-        version: '1.18.1',
-        date: '07.04.2026',
+        version: '1.18.2',
+        date: '08.04.2026',
         changes: [
             'Fixed patch parameter addresses',
             'Fixed offset DQ250 -0x10000 loading',
-            'Deduplicated F52M parameters'
+            'Deduplicated F52M parameters',
+            'Added SC8 O50 definition'
         ]
     },
     {
