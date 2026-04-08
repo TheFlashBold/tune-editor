@@ -186,16 +186,16 @@ export function readEPK(data: Uint8Array): [string, number] | [] {
     }
 
     // DQ250 MQB
-    if (data.length > (0x3FFE0 + 4)) {
-        const epk = readStringSafe(data, 0x3FFE0, 4, 4);
+    if (data.length > (0x3FFDF + 5)) {
+        const epk = readStringSafe(data, 0x3FFDF, 5, 4);
         if (epk) {
             return [epk, 0x3FFE0];
         }
     }
 
     // DQ250 MQB
-    if (data.length > (0x4FFE0 + 4)) {
-        const epk = readStringSafe(data, 0x4FFE0, 4, 4);
+    if (data.length > (0x4FFDF + 5)) {
+        const epk = readStringSafe(data, 0x4FFDF, 4, 4);
         if (epk) {
             return [epk, 0x4FFE0];
         }
@@ -212,6 +212,8 @@ export function readEPK(data: Uint8Array): [string, number] | [] {
     }
 
     // Bosch: EDC17/MED17 type string
+    // 31/1/EDC17_C41/11/P_746//CK5/// 0x300A64 0x4683C
+    // 33/1/EDC17_CP09/11/P_574//V8KB/// 0x20C78 0x9D844
     for (const offset of [0x38721, 0x1C94B7]) {
         if (data.length > (offset + 6)) {
             const s = readStringSafe(data, offset, 16, 6);
