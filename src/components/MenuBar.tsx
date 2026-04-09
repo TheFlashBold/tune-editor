@@ -7,6 +7,7 @@ import {AuthService} from "../services/auth.ts";
 import type {LoginState} from "../services/auth.ts";
 import {LoginModal} from "./LoginModal.tsx";
 import {Modal} from "./Modal.tsx";
+import {WizardModal} from "./WizardModal.tsx";
 
 const APP_VERSION = __APP_VERSION__;
 
@@ -39,6 +40,7 @@ export function MenuBar({
     const [showAbout, setShowAbout] = useState(false);
     const [showSaveDialog, setShowSaveDialog] = useState(false);
     const [saveFileName, setSaveFileName] = useState('');
+    const [showWizards, setShowWizards] = useState(false);
     const [loginState, setLoginState] = useState<LoginState | null>(() => getLoginState());
 
     const handleLogout = useCallback(() => {
@@ -300,6 +302,11 @@ export function MenuBar({
                     )}
                 </div>
 
+                <button onClick={() => setShowWizards(true)}
+                        className="text-nowrap px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
+                        disabled={!ctx.bin || !ctx.definition}>
+                    Wizards
+                </button>
                 <button onClick={onShowLogViewer}
                         className="text-nowrap px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
                     Log Viewer
@@ -446,6 +453,12 @@ export function MenuBar({
                         </button>
 
                         <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
+                        <button onClick={mobileAction(() => setShowWizards(true))} disabled={!ctx.bin || !ctx.definition}
+                                className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 active:bg-zinc-300 dark:active:bg-zinc-600">
+                            Wizards
+                        </button>
+
+                        <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
                         <button onClick={mobileAction(onShowLogViewer)}
                                 className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">Log
                             Viewer
@@ -508,6 +521,11 @@ export function MenuBar({
                         {/*)}*/}
                     </div>
                 </>
+            )}
+
+            {/* Wizards Modal */}
+            {showWizards && (
+                <WizardModal onClose={() => setShowWizards(false)}/>
             )}
 
             {/* Login Modal */}
