@@ -1186,6 +1186,7 @@ function TableEditor({
     const [isAxisSelecting, setIsAxisSelecting] = useState(false);
     const [axisSelectionAnchor, setAxisSelectionAnchor] = useState<{ axis: 'x' | 'y'; index: number } | null>(null);
     const tableContainerRef = useRef<HTMLDivElement>(null);
+    const toolbarRef = useRef<HTMLDivElement>(null);
 
     const originalTableData = table.original?.cells ?? null;
     const originalXAxis = table.original?.xAxis ?? null;
@@ -1608,11 +1609,12 @@ function TableEditor({
             }
         };
         const handleClickOutside = (e: MouseEvent) => {
-            if (tableContainerRef.current && !tableContainerRef.current.contains(e.target as Node)) {
-                setSelection(null);
-                setAxisSelection(null);
-                setShowModifyInput(null);
-            }
+            const target = e.target as Node;
+            if (tableContainerRef.current?.contains(target)) return;
+            if (toolbarRef.current?.contains(target)) return;
+            setSelection(null);
+            setAxisSelection(null);
+            setShowModifyInput(null);
         };
         window.addEventListener('keydown', handleKeyDown);
         window.addEventListener('mouseup', handleMouseUp);
@@ -1672,6 +1674,7 @@ function TableEditor({
                 </div>
 
                 <div
+                    ref={toolbarRef}
                     class="flex flex-wrap items-center gap-4 p-3 bg-zinc-200 dark:bg-zinc-800 rounded text-xs text-zinc-600 dark:text-zinc-400">
                     <span>Size: {param.rows || 1} x {param.cols || 1}</span>
                     <span>Z: {param.unit || '-'}</span>
