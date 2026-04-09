@@ -70,6 +70,9 @@ export interface WizardDef {
     id: string;
     name: string;
     description: string;
+    product?: string;
+    /** Stripe product ID — if set, wizard requires purchase */
+    productId?: string;
     /** Parameter names that must exist in the definition for this wizard to work */
     requiredParams?: string[];
     controls: WizardControl[];

@@ -1,8 +1,23 @@
-import {useState, useMemo, useCallback} from 'preact/hooks';
+import {useState, useEffect, useMemo, useCallback, useRef} from 'preact/hooks';
 import {Modal} from './Modal';
+import {LoginModal} from './LoginModal';
 import {useAppContext} from '../context/app';
-import {readParameterValue, writeParameterValue, readTableData, writeTableCell, readAxisData, writeAxisValue, formatValue} from '../lib/binUtils';
+import {
+    readParameterValue,
+    writeParameterValue,
+    readTableData,
+    writeTableCell,
+    readAxisData,
+    writeAxisValue,
+    readBoxCode,
+    readEPK,
+    readVersion,
+    formatValue
+} from '../lib/binUtils';
 import {track} from '../lib/track';
+import {getLoginState} from '../services/base';
+import {TuningService} from '../services/tuning';
+import type {TuningUnlock} from '../services/tuning';
 import {WIZARDS} from '../lib/wizards/index';
 import type {WizardDef, WizardControl, WizardContext} from '../lib/wizards';
 import type {IDefinitionParameter} from '../types';
@@ -16,23 +31,76 @@ function findParam(params: IDefinitionParameter[], name: string): IDefinitionPar
     return params.find(p => p.name.toLowerCase() === lower);
 }
 
+function buildRef(binData: Uint8Array): string {
+    const boxCode = readBoxCode(binData);
+    const version = readVersion(binData);
+    const [epk] = readEPK(binData) || [''];
+    return [boxCode, version, epk].filter(Boolean).join('_');
+}
+
 export function WizardModal({onClose}: Props) {
     const ctx = useAppContext();
     const [activeWizard, setActiveWizard] = useState<WizardDef | null>(null);
     const [values, setValues] = useState<Record<string, number>>({});
+    const [unlocks, setUnlocks] = useState<TuningUnlock[] | null>(null);
+    const [loadingUnlocks, setLoadingUnlocks] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
+    const [loginState, setLoginState] = useState(() => getLoginState());
+    const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+    const isLoggedIn = !!loginState?.token;
+
+    // Fetch unlocks on mount and when returning from checkout
+    const fetchUnlocks = useCallback(async () => {
+        if (!isLoggedIn) return;
+        try {
+            setLoadingUnlocks(true);
+            const result = await TuningService.getUnlocks();
+            setUnlocks(result);
+        } catch {
+            setUnlocks([]);
+        } finally {
+            setLoadingUnlocks(false);
+        }
+    }, [isLoggedIn]);
+
+    useEffect(() => {
+        fetchUnlocks();
+    }, [fetchUnlocks]);
+
+    // Poll unlocks while wizard modal is open (to detect checkout completion)
+    useEffect(() => {
+        if (!isLoggedIn) return;
+        pollRef.current = setInterval(fetchUnlocks, 5000);
+        return () => {
+            if (pollRef.current) clearInterval(pollRef.current);
+        };
+    }, [isLoggedIn, fetchUnlocks]);
+
+    const ref = useMemo(() => ctx.bin ? buildRef(ctx.bin.data) : '', [ctx.bin]);
+
+    const isUnlocked = useCallback((wizard: WizardDef): boolean => {
+        if (!wizard.productId) return true;
+        if (!unlocks) return false;
+        return unlocks.some(u => u.product === wizard.product && u.ref === ref);
+    }, [unlocks, ref]);
+
+    const handleCheckout = useCallback((wizard: WizardDef) => {
+        if (!wizard.productId || !loginState?.token) return;
+        const url = TuningService.getCheckoutUrl(wizard.productId, ref, loginState.token);
+        window.open(url, '_blank');
+    }, [ref, loginState]);
 
     const readInitialValues = useCallback((wizard: WizardDef) => {
         if (!ctx.bin || !ctx.definition) return {};
         const initial: Record<string, number> = {};
 
-        // First set defaults
         for (const ctrl of wizard.controls) {
             if (ctrl.default !== undefined) {
                 initial[ctrl.key] = ctrl.default;
             }
         }
 
-        // Then read direct readFrom scalars
         for (const ctrl of wizard.controls) {
             if (ctrl.readFrom) {
                 const param = findParam(ctx.definition.parameters, ctrl.readFrom);
@@ -42,7 +110,6 @@ export function WizardModal({onClose}: Props) {
             }
         }
 
-        // Then derive state from bin (overrides defaults for virtual controls)
         if (wizard.readState) {
             const wizCtx: WizardContext = {
                 params: ctx.definition.parameters,
@@ -62,7 +129,6 @@ export function WizardModal({onClose}: Props) {
         setValues(readInitialValues(wizard));
     }, [readInitialValues]);
 
-    // Which controls have their readFrom param available
     const availableControls = useMemo(() => {
         if (!activeWizard || !ctx.definition) return new Set<string>();
         const available = new Set<string>();
@@ -72,7 +138,6 @@ export function WizardModal({onClose}: Props) {
                     available.add(ctrl.key);
                 }
             } else {
-                // Virtual controls (no readFrom) — check if at least referenced in apply output
                 available.add(ctrl.key);
             }
         }
@@ -99,7 +164,6 @@ export function WizardModal({onClose}: Props) {
         const result = activeWizard.apply(values, wizCtx);
         let changed = false;
 
-        // Write scalars
         for (const [name, value] of Object.entries(result.scalars)) {
             const param = findParam(ctx.definition.parameters, name);
             if (param && param.type === 'VALUE') {
@@ -108,7 +172,6 @@ export function WizardModal({onClose}: Props) {
             }
         }
 
-        // Fill tables
         for (const [name, fillValue] of Object.entries(result.tableFills)) {
             const param = findParam(ctx.definition.parameters, name);
             if (param && (param.type === 'MAP' || param.type === 'CURVE')) {
@@ -123,7 +186,6 @@ export function WizardModal({onClose}: Props) {
             }
         }
 
-        // Write specific cells
         if (result.tableCells) {
             for (const [name, cells] of Object.entries(result.tableCells)) {
                 const param = findParam(ctx.definition.parameters, name);
@@ -136,7 +198,6 @@ export function WizardModal({onClose}: Props) {
             }
         }
 
-        // Write axis breakpoints
         if (result.axisWrites) {
             for (const aw of result.axisWrites) {
                 const param = findParam(ctx.definition.parameters, aw.param);
@@ -166,29 +227,90 @@ export function WizardModal({onClose}: Props) {
             <Modal title="Wizards" onClose={onClose} width="md">
                 {!ctx.bin || !ctx.definition ? (
                     <p class="text-zinc-500 text-sm">Load a BIN file with a definition first.</p>
+                ) : !isLoggedIn ? (
+                    <div class="text-center py-4">
+                        <p class="text-zinc-500 text-sm mb-3">Please log in to use wizards.</p>
+                        <button
+                            onClick={() => setShowLogin(true)}
+                            class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer"
+                        >
+                            Log in
+                        </button>
+                        {showLogin && (
+                            <LoginModal
+                                onClose={() => setShowLogin(false)}
+                                onLogin={(state) => {
+                                    setLoginState(state);
+                                    setShowLogin(false);
+                                }}
+                            />
+                        )}
+                    </div>
+                ) : loadingUnlocks && !unlocks ? (
+                    <p class="text-zinc-500 text-sm">Loading...</p>
                 ) : (
-                    <div class="space-y-2">
+                    <div class="space-y-3">
                         {WIZARDS.map(w => {
                             const compatible = !w.requiredParams || w.requiredParams.every(
                                 name => findParam(ctx.definition!.parameters, name)
                             );
+                            const unlocked = isUnlocked(w);
+                            const canOpen = compatible && unlocked;
+                            const needsPurchase = compatible && !unlocked && !!w.productId;
                             return (
-                                <button
+                                <div
                                     key={w.id}
-                                    onClick={() => compatible && openWizard(w)}
-                                    disabled={!compatible}
-                                    class={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
-                                        compatible
-                                            ? 'bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer'
-                                            : 'bg-zinc-200/50 dark:bg-zinc-700/50 opacity-50 cursor-not-allowed'
+                                    class={`rounded-xl border overflow-hidden transition-all ${
+                                        !compatible
+                                            ? 'border-zinc-300 dark:border-zinc-700 opacity-40'
+                                            : needsPurchase
+                                                ? 'border-blue-500/30 dark:border-blue-500/20'
+                                                : 'border-zinc-300 dark:border-zinc-700 hover:border-blue-500/50'
                                     }`}
                                 >
-                                    <div class="flex items-center justify-between">
-                                        <span class="font-medium">{w.name}</span>
-                                        {!compatible && <span class="text-xs text-red-400">incompatible</span>}
+                                    <div class={`px-4 py-4 ${
+                                        !compatible
+                                            ? 'bg-zinc-200/50 dark:bg-zinc-800/50'
+                                            : 'bg-zinc-100 dark:bg-zinc-800'
+                                    }`}>
+                                        <div class="flex items-start justify-between gap-3">
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center gap-2">
+                                                    <span class="font-semibold text-base">{w.name}</span>
+                                                    {!compatible && (
+                                                        <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
+                                                            incompatible
+                                                        </span>
+                                                    )}
+                                                    {canOpen && !w.productId && (
+                                                        <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
+                                                            free
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <p class="text-xs text-zinc-500 mt-1 leading-relaxed">{w.description}</p>
+                                            </div>
+                                            <div class="shrink-0">
+                                                {needsPurchase && (
+                                                    <button
+                                                        onClick={() => handleCheckout(w)}
+                                                        class="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400 shadow-sm shadow-blue-500/25 cursor-pointer transition-all active:scale-95"
+                                                    >
+                                                        Unlock
+                                                    </button>
+                                                )}
+                                                {canOpen && (
+                                                    <button
+                                                        onClick={() => openWizard(w)}
+                                                        class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-500 cursor-pointer transition-all active:scale-95"
+                                                    >
+                                                        Open
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="text-xs text-zinc-500 mt-0.5">{w.description}</div>
-                                </button>
+                                </div>
                             );
                         })}
                     </div>
@@ -212,7 +334,8 @@ export function WizardModal({onClose}: Props) {
         <Modal
             title={activeWizard.name}
             titleRight={
-                <button onClick={() => setActiveWizard(null)} class="text-sm text-blue-500 hover:text-blue-400 cursor-pointer">
+                <button onClick={() => setActiveWizard(null)}
+                        class="text-sm text-blue-500 hover:text-blue-400 cursor-pointer">
                     Back
                 </button>
             }
@@ -221,10 +344,12 @@ export function WizardModal({onClose}: Props) {
             footer={
                 <div class="flex justify-between items-center">
                     <div class="flex gap-2">
-                        <button onClick={onClose} class="px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer">
+                        <button onClick={onClose}
+                                class="px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer">
                             Cancel
                         </button>
-                        <button onClick={applyChanges} class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer">
+                        <button onClick={applyChanges}
+                                class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer">
                             Apply
                         </button>
                     </div>
@@ -305,7 +430,8 @@ function ControlRow({ctrl, value, available, onChange}: {
                     onClick={() => onChange(ctrl.key, isOn ? 0 : 1)}
                     class={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${isOn ? 'bg-blue-600' : 'bg-zinc-600'}`}
                 >
-                    <span class={`inline-block h-4 w-4 rounded-full bg-white transition-transform ${isOn ? 'translate-x-6' : 'translate-x-1'}`}/>
+                    <span
+                        class={`inline-block h-4 w-4 rounded-full bg-white transition-transform ${isOn ? 'translate-x-6' : 'translate-x-1'}`}/>
                 </button>
             </div>
         );
@@ -374,7 +500,10 @@ function ControlRow({ctrl, value, available, onChange}: {
             </div>
             <input
                 type="number" value={currentValue}
-                onInput={(e) => { const v = parseFloat((e.target as HTMLInputElement).value); if (!isNaN(v)) onChange(ctrl.key, v); }}
+                onInput={(e) => {
+                    const v = parseFloat((e.target as HTMLInputElement).value);
+                    if (!isNaN(v)) onChange(ctrl.key, v);
+                }}
                 class="w-24 px-2 py-1 text-sm font-mono text-right bg-zinc-200 dark:bg-zinc-700 border border-zinc-400 dark:border-zinc-600 rounded"
             />
         </div>

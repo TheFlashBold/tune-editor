@@ -51,6 +51,8 @@ export const stage1: WizardDef = {
     id: 'stage1',
     name: 'Stage 1',
     description: '**Use on stock files only** \nBasic Stage 1 modifications — rev limiter, speed limiter, torque increase',
+    product: 'tune_editor_stage_1',
+    productId: 'price_1TKHZ5QBLhZeM8j4u0ZHH6LY',
     requiredParams: ['ip_tq_pow_max_mt[0][0]', 'ip_tq_pow_max_at[0][0]', 'c_tia_thr_tcha_max', 'c_tq_pow_max_bas_fil_rst', 'c_tqi_pow_max_req_clu_dft', 'c_prs_im_sp_lim', 'c_prs_im_sp_max'],
     controls: [
         {
@@ -89,14 +91,14 @@ export const stage1: WizardDef = {
         {
             key: 'torque_pct',
             label: 'Torque Limit Increase',
-            description: 'Increases torque limit',
+            description: '25% matches the typical OEM safety margin. Going higher only helps if the engine can actually produce more — it won\'t add power beyond what the turbo and fueling can deliver.',
             control: 'slider',
             min: 0,
             max: 35,
             step: 5,
             unit: '%',
             group: 'Torque',
-            default: 25
+            default: 20
         },
         {
             key: 'timing_add',

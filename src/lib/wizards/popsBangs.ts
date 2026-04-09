@@ -41,6 +41,8 @@ export const popsBangs: WizardDef = {
     id: 'pops-bangs',
     name: 'Pops & Bangs',
     description: 'Configure impulse combustion (exhaust crackle/pops on overrun and gear shifts)',
+    product: 'tune_editor_pops_and_bangs',
+    productId: 'price_1TKHTNQBLhZeM8j41zEyANuZ',
     requiredParams: ['lc_imp_comb', 'ip_iga_imp_comb_sof_act[0]', 'ip_t_act_imp_comb_eng[0]'],
     controls: [
         // ── Enable ──

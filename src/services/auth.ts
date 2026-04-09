@@ -30,6 +30,10 @@ export class AuthService extends BaseService {
         return BaseService.postJSON("auth/login", {}, {username, password});
     }
 
+    static async register(email: string, password: string): Promise<LoginState> {
+        return BaseService.postJSON("auth/register", {}, {email, password});
+    }
+
     static async self(): Promise<UserData> {
         return BaseService.getJSON("auth/self");
     }

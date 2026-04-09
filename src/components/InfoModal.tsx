@@ -20,11 +20,12 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
-        version: '1.19.1',
+        version: '1.19.2',
         date: '09.04.2026',
         changes: [
             'Added many new SCB, SCG, SC8 definitions',
-            'Added tuning wizards for stage 1, pops & bangs, fine knock retard'
+            'Added tuning wizards for stage 1, pops & bangs, fine knock retard',
+            'Definition fixes'
         ]
     },
     {

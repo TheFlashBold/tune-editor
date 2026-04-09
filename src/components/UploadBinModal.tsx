@@ -53,7 +53,7 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
 
         try {
             const blob = new Blob([info.data.buffer as ArrayBuffer]);
-            await TuningService.uploadBin(blob, {
+            await TuningService.submitBin(blob, {
                 name: [prefix, name].filter(Boolean).join(" "),
                 notes,
                 version: APP_VERSION,

@@ -12392,10 +12392,8 @@
       "factor": 0.0030517578125,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Light-Off"
+        "Other"
       ],
-      "customName": "Wastegate PWM Light-Off Max",
       "columnDir": true
     },
     {
@@ -12410,10 +12408,8 @@
       "factor": 0.0030517578125,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Light-Off"
+        "Other"
       ],
-      "customName": "Wastegate PWM Light-Off Min",
       "columnDir": true
     },
     {
@@ -77474,10 +77470,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Duration"
+        "Other"
       ],
-      "customName": "Max Time After Start Initialization Mode",
       "columnDir": true
     },
     {
@@ -77508,10 +77502,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Duration"
+        "Other"
       ],
-      "customName": "Delay After Engine Start",
       "columnDir": true
     },
     {
@@ -77542,10 +77534,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Duration"
+        "Other"
       ],
-      "customName": "Time Constant Deactivate After Start",
       "columnDir": true
     },
     {
@@ -81597,10 +81587,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Light-Off"
+        "Other"
       ],
-      "customName": "Max RPM Cam Light-Off Enable",
       "columnDir": true
     },
     {
@@ -81663,10 +81651,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Light-Off"
+        "Other"
       ],
-      "customName": "Max Speed Cam Light-Off Enable",
       "columnDir": true
     },
     {
@@ -101729,10 +101715,8 @@
       "factor": 0.17361104753185322,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Light-Off Duration"
+        "Other"
       ],
-      "customName": "Light-Off End Air Mass MT",
       "columnDir": true,
       "cols": 8,
       "rows": 6,
@@ -101772,10 +101756,8 @@
       "factor": 0.17361104753185322,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Light-Off Duration"
+        "Other"
       ],
-      "customName": "Light-Off End Air Mass AT",
       "columnDir": true,
       "cols": 8,
       "rows": 6,
@@ -102008,10 +101990,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Light-Off Duration"
+        "Other"
       ],
-      "customName": "Light-Off Time Threshold",
       "columnDir": true,
       "cols": 8,
       "rows": 5,
@@ -102051,10 +102031,8 @@
       "factor": 0.03125,
       "offset": -1024.0,
       "categories": [
-        "Startup Roar",
-        "Light-Off Duration"
+        "Other"
       ],
-      "customName": "Torque Threshold Disable Light-Off",
       "columnDir": true,
       "cols": 6,
       "rows": 1,
@@ -130552,10 +130530,8 @@
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Startup Roar",
-        "Spark"
+        "Other"
       ],
-      "customName": "Start Spark Ambient Correction",
       "columnDir": true,
       "cols": 6,
       "rows": 1,
@@ -130583,10 +130559,8 @@
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Startup Roar",
-        "Spark"
+        "Other"
       ],
-      "customName": "Start Spark Correction",
       "columnDir": true,
       "cols": 6,
       "rows": 1,
@@ -130816,10 +130790,8 @@
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Startup Roar",
-        "Spark"
+        "Other"
       ],
-      "customName": "Start Spark High Pressure",
       "columnDir": true,
       "cols": 6,
       "rows": 8,
@@ -130858,10 +130830,8 @@
       "factor": 0.37499999999999994,
       "offset": -35.62499999999999,
       "categories": [
-        "Startup Roar",
-        "Spark"
+        "Other"
       ],
-      "customName": "Start Spark Low Pressure",
       "columnDir": true,
       "cols": 6,
       "rows": 8,
@@ -130900,10 +130870,8 @@
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "Startup Roar",
-        "Spark"
+        "Other"
       ],
-      "customName": "Post Start Spark Correction",
       "columnDir": true,
       "cols": 4,
       "rows": 4,
@@ -135864,10 +135832,8 @@
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
-        "Startup Roar",
-        "Spark"
+        "Other"
       ],
-      "customName": "Start Spark Enable",
       "columnDir": true
     },
     {
@@ -164392,10 +164358,8 @@
       "factor": 0.0009765625,
       "offset": -16.0,
       "categories": [
-        "Startup Roar",
-        "Lambda"
+        "Other"
       ],
-      "customName": "Lambda After Start Adder 0",
       "columnDir": true,
       "cols": 16,
       "rows": 8,
@@ -164435,10 +164399,8 @@
       "factor": 0.0009765625,
       "offset": -16.0,
       "categories": [
-        "Startup Roar",
-        "Lambda"
+        "Other"
       ],
-      "customName": "Lambda After Start Adder 1",
       "columnDir": true,
       "cols": 16,
       "rows": 8,
@@ -165058,10 +165020,8 @@
       "factor": 6.103515625e-05,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Lambda"
+        "Other"
       ],
-      "customName": "Lambda Setpoint Cold Start",
       "columnDir": true,
       "cols": 8,
       "rows": 12,
@@ -165100,10 +165060,8 @@
       "factor": 6.103515625e-05,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Lambda"
+        "Other"
       ],
-      "customName": "Lambda Setpoint Cold Start MPLH",
       "columnDir": true,
       "cols": 8,
       "rows": 12,
@@ -165142,10 +165100,8 @@
       "factor": 6.103515625e-05,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Lambda"
+        "Other"
       ],
-      "customName": "Lambda Setpoint Cold Start Steady",
       "columnDir": true,
       "cols": 8,
       "rows": 12,
@@ -192460,11 +192416,8 @@
       "factor": 0.01,
       "offset": -327.68,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 3,
       "rows": 2,
@@ -192503,11 +192456,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 3,
       "rows": 1,
@@ -192535,11 +192485,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 3,
       "rows": 1,
@@ -192567,11 +192514,8 @@
       "factor": 0.03125,
       "offset": -1024.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 12,
       "rows": 10,
@@ -192608,11 +192552,8 @@
       "factor": 0.03125,
       "offset": -1024.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 12,
       "rows": 10,
@@ -192649,11 +192590,8 @@
       "factor": 0.03125,
       "offset": -1024.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 12,
       "rows": 10,
@@ -192690,11 +192628,8 @@
       "factor": 0.03125,
       "offset": -1024.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 12,
       "rows": 10,
@@ -192731,11 +192666,8 @@
       "factor": 0.03125,
       "offset": -1024.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 12,
       "rows": 10,
@@ -192772,11 +192704,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true
     },
     {
@@ -192791,11 +192720,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true
     },
     {
@@ -192810,11 +192736,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true
     },
     {
@@ -192829,11 +192752,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true
     },
     {
@@ -192848,11 +192768,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true
     },
     {
@@ -276925,11 +276842,8 @@
       "factor": 32.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 6,
       "rows": 8,
@@ -276968,11 +276882,8 @@
       "factor": 32.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 6,
       "rows": 8,
@@ -277011,11 +276922,8 @@
       "factor": 32.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 6,
       "rows": 8,
@@ -277054,11 +276962,8 @@
       "factor": 32.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true,
       "cols": 6,
       "rows": 8,
@@ -281709,10 +281614,8 @@
       "factor": 0.7500000000000002,
       "offset": -48.000000000000014,
       "categories": [
-        "Startup Roar",
-        "Temperature Thresholds"
+        "Other"
       ],
-      "customName": "Warmup Temperature Increment",
       "columnDir": true
     },
     {
@@ -281727,10 +281630,8 @@
       "factor": 0.7500000000000002,
       "offset": -48.000000000000014,
       "categories": [
-        "Startup Roar",
-        "Temperature Thresholds"
+        "Other"
       ],
-      "customName": "Warmup Temperature Threshold",
       "columnDir": true
     },
     {
@@ -442378,10 +442279,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Duration"
+        "Other"
       ],
-      "customName": "After Start Time Threshold Lambda",
       "columnDir": true,
       "cols": 8,
       "rows": 5,
@@ -450116,10 +450015,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Warmup Fuel"
+        "Other"
       ],
-      "customName": "Cold Start Fuel Pressure Low",
       "columnDir": true,
       "cols": 6,
       "rows": 6,
@@ -450159,10 +450056,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Warmup Fuel"
+        "Other"
       ],
-      "customName": "Cold Start MAP Factor",
       "columnDir": true,
       "cols": 6,
       "rows": 8,
@@ -450201,10 +450096,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Warmup Fuel"
+        "Other"
       ],
-      "customName": "Cold Start Fuel Adaptation",
       "columnDir": true,
       "cols": 8,
       "rows": 1,
@@ -450524,10 +450417,8 @@
       "factor": 0.02119478141451133,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Fuel Enrichment"
+        "Other"
       ],
-      "customName": "Start Fuel High 1",
       "columnDir": true,
       "cols": 6,
       "rows": 12,
@@ -450689,10 +450580,8 @@
       "factor": 0.02119478141451133,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Fuel Enrichment"
+        "Other"
       ],
-      "customName": "Start Fuel High 4 MPI",
       "columnDir": true,
       "cols": 6,
       "rows": 12,
@@ -450731,10 +450620,8 @@
       "factor": 0.02119478141451133,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Fuel Enrichment"
+        "Other"
       ],
-      "customName": "Start Fuel Low 1",
       "columnDir": true,
       "cols": 6,
       "rows": 12,
@@ -450773,10 +450660,8 @@
       "factor": 0.02119478141451133,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Fuel Enrichment"
+        "Other"
       ],
-      "customName": "Start Fuel Low 1 High",
       "columnDir": true,
       "cols": 6,
       "rows": 12,
@@ -450815,10 +450700,8 @@
       "factor": 0.02119478141451133,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Fuel Enrichment"
+        "Other"
       ],
-      "customName": "Start Fuel Low 1 MPI",
       "columnDir": true,
       "cols": 6,
       "rows": 12,
@@ -450857,10 +450740,8 @@
       "factor": 0.02119478141451133,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Fuel Enrichment"
+        "Other"
       ],
-      "customName": "Start Fuel Low 2 MPI",
       "columnDir": true,
       "cols": 6,
       "rows": 12,
@@ -450899,10 +450780,8 @@
       "factor": 0.02119478141451133,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Post Start Fuel"
+        "Other"
       ],
-      "customName": "Post Start Fuel High 1",
       "columnDir": true,
       "cols": 6,
       "rows": 6,
@@ -451130,10 +451009,8 @@
       "factor": 0.015625,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Warmup Fuel"
+        "Other"
       ],
-      "customName": "Warmup Fuel Factor",
       "columnDir": true,
       "cols": 8,
       "rows": 8,
@@ -451173,10 +451050,8 @@
       "factor": 0.015625,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Warmup Fuel"
+        "Other"
       ],
-      "customName": "Warmup Fuel Factor (Flex Fuel)",
       "columnDir": true,
       "cols": 8,
       "rows": 8,
@@ -451380,10 +451255,8 @@
       "factor": 6.103515625e-05,
       "offset": -2.0,
       "categories": [
-        "Startup Roar",
-        "Warmup Fuel"
+        "Other"
       ],
-      "customName": "Warmup Fuel Hot Start",
       "columnDir": true,
       "cols": 6,
       "rows": 6,
@@ -614094,10 +613967,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Duration"
+        "Other"
       ],
-      "customName": "After Start Engine Efficiency Time 2",
       "columnDir": true,
       "cols": 6,
       "rows": 1,
@@ -614125,10 +613996,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "Startup Roar",
-        "Duration"
+        "Other"
       ],
-      "customName": "After Start Engine Efficiency Time 1",
       "columnDir": true,
       "cols": 6,
       "rows": 1,
@@ -616652,11 +616521,8 @@
       "factor": 3.0517578125000075e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true
     },
     {
@@ -619229,11 +619095,8 @@
       "factor": 0.03125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
+        "Other"
       ],
-      "customName": "Eco Mode",
       "columnDir": true
     },
     {
