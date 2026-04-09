@@ -1,4 +1,4 @@
-import type {WizardDef, WizardApplyResult, TableCellWrite, WizardContext} from '../wizards';
+import type {WizardDef, WizardApplyResult, TableCellWrite, WizardContext, AxisWrite} from '../wizards';
 
 /** Set cells to a value where xAxis >= minX (for CURVEs/MAPs with rpm axis) */
 function fillAboveX(ctx: WizardContext, paramName: string, minX: number, value: number): TableCellWrite[] | null {
@@ -91,7 +91,7 @@ export const stage1: WizardDef = {
             label: 'Torque Limit Increase',
             description: 'Increases torque limit',
             control: 'slider',
-            min: 10,
+            min: 0,
             max: 35,
             step: 5,
             unit: '%',
@@ -257,6 +257,101 @@ export const stage1: WizardDef = {
             }
         }
 
-        return {scalars, tableFills, tableCells};
+        // ── Extend torque/airflow model if capped ──
+        const axisWrites: AxisWrite[] = [];
+
+        for (const baseName of ['ip_tqi_ref_n_m_air_vvl_cam_h', 'ip_maf_stk_sp_vvl_cam_h', 'ip_tqi_ref_n_m_air_vvl_cam_l', 'ip_maf_stk_sp_vvl_cam_l']) {
+            const paramName = `${baseName}[0][0][0]`;
+            const param = find(paramName);
+            if (!param?.yAxis) continue;
+
+            const yAxis = ctx.readAxis(param.yAxis);
+            const data = ctx.readTable(param);
+            const rows = data.length;
+            if (rows < 3) continue;
+
+            // Find first duplicated y-axis index from the end
+            let lastUniqueIdx = rows - 1;
+            while (lastUniqueIdx > 0 && Math.abs(yAxis[lastUniqueIdx] - yAxis[lastUniqueIdx - 1]) < 0.001) {
+                lastUniqueIdx--;
+            }
+            // lastUniqueIdx is now the first row that shares its value with the one above
+            // We want the row before that = the last truly unique row
+            const baseIdx = lastUniqueIdx - 1;
+            if (baseIdx < 0 || lastUniqueIdx >= rows) continue;
+
+            // Also check for duplicated table rows (from bottom up)
+            const rowsEqual = (a: number[], b: number[]) =>
+                a.length === b.length && a.every((v, i) => Math.abs(v - b[i]) < 0.001);
+
+            let lastUniqueRow = rows - 1;
+            while (lastUniqueRow > 0 && rowsEqual(data[lastUniqueRow], data[lastUniqueRow - 1])) {
+                lastUniqueRow--;
+            }
+            const rowBaseIdx = lastUniqueRow - 1;
+
+            // Nothing to extend
+            if (lastUniqueIdx >= rows - 1 && lastUniqueRow >= rows - 1) continue;
+
+            // Extrapolate y-axis breakpoints (damped — combustion doesn't scale perfectly)
+            const DAMP = 0.9;
+            // Use the last axis step as base, but check actual spacing
+            const lastAxisStep = yAxis[lastUniqueIdx] - yAxis[baseIdx];
+            const newYAxis = [...yAxis];
+
+            if (lastUniqueIdx < rows - 1 && baseIdx >= 0 && Math.abs(lastAxisStep) > 0.001) {
+                for (let i = lastUniqueIdx + 1; i < rows; i++) {
+                    const n = i - lastUniqueIdx;
+                    newYAxis[i] = newYAxis[i - 1] + lastAxisStep * Math.pow(DAMP, n - 1);
+                }
+                // Apply to all variants of this param
+                for (let p = 0; p <= 1; p++) {
+                    for (let i = 0; i <= 2; i++) {
+                        for (let j = 0; j <= 2; j++) {
+                            const name = `${baseName}[${p}][${i}][${j}]`;
+                            if (find(name)) {
+                                axisWrites.push({param: name, axis: 'y', values: newYAxis});
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Extrapolate duplicated table rows using gradient per axis unit
+            if (rowBaseIdx >= 0 && lastUniqueRow < rows - 1) {
+                const cols = data[0].length;
+                const axisSpan = yAxis[lastUniqueRow] - yAxis[rowBaseIdx];
+
+                for (let p = 0; p <= 1; p++) {
+                    for (let i = 0; i <= 2; i++) {
+                        for (let j = 0; j <= 2; j++) {
+                            const name = `${baseName}[${p}][${i}][${j}]`;
+                            const varParam = find(name);
+                            if (!varParam) continue;
+                            const varData = ctx.readTable(varParam);
+                            const cells: TableCellWrite[] = [];
+                            for (let ri = lastUniqueRow + 1; ri < rows; ri++) {
+                                // Use the new (extended) y-axis spacing for this row
+                                const newSpan = newYAxis[ri] - newYAxis[lastUniqueRow];
+                                const ratio = Math.abs(axisSpan) > 0.001 ? newSpan / axisSpan : (ri - lastUniqueRow);
+                                for (let c = 0; c < cols; c++) {
+                                    const gradient = varData[lastUniqueRow][c] - varData[rowBaseIdx][c];
+                                    cells.push({
+                                        row: ri,
+                                        col: c,
+                                        value: varData[lastUniqueRow][c] + gradient * ratio,
+                                    });
+                                }
+                            }
+                            if (cells.length > 0) {
+                                tableCells[name] = [...(tableCells[name] || []), ...cells];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return {scalars, tableFills, tableCells, axisWrites};
     },
 };

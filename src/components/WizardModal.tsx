@@ -1,7 +1,7 @@
 import {useState, useMemo, useCallback} from 'preact/hooks';
 import {Modal} from './Modal';
 import {useAppContext} from '../context/app';
-import {readParameterValue, writeParameterValue, readTableData, writeTableCell, formatValue} from '../lib/binUtils';
+import {readParameterValue, writeParameterValue, readTableData, writeTableCell, readAxisData, writeAxisValue, formatValue} from '../lib/binUtils';
 import {track} from '../lib/track';
 import {WIZARDS} from '../lib/wizards/index';
 import type {WizardDef, WizardControl, WizardContext} from '../lib/wizards';
@@ -48,6 +48,7 @@ export function WizardModal({onClose}: Props) {
                 params: ctx.definition.parameters,
                 findParam: (name) => findParam(ctx.definition!.parameters, name),
                 readTable: (param) => readTableData(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
+                readAxis: (axis) => readAxisData(ctx.bin!.data, axis, ctx.calOffset, ctx.bigEndian),
                 readScalar: (param) => readParameterValue(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
             };
             Object.assign(initial, wizard.readState(wizCtx));
@@ -92,6 +93,7 @@ export function WizardModal({onClose}: Props) {
             params: ctx.definition.parameters,
             findParam: (name) => findParam(ctx.definition!.parameters, name),
             readTable: (param) => readTableData(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
+            readAxis: (axis) => readAxisData(ctx.bin!.data, axis, ctx.calOffset, ctx.bigEndian),
             readScalar: (param) => readParameterValue(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
         };
         const result = activeWizard.apply(values, wizCtx);
@@ -128,6 +130,20 @@ export function WizardModal({onClose}: Props) {
                 if (param && (param.type === 'MAP' || param.type === 'CURVE')) {
                     for (const cell of cells) {
                         writeTableCell(ctx.bin.data, param, cell.row, cell.col, cell.value, ctx.calOffset, ctx.bigEndian);
+                    }
+                    changed = true;
+                }
+            }
+        }
+
+        // Write axis breakpoints
+        if (result.axisWrites) {
+            for (const aw of result.axisWrites) {
+                const param = findParam(ctx.definition.parameters, aw.param);
+                const axisDef = param && (aw.axis === 'x' ? param.xAxis : param.yAxis);
+                if (axisDef) {
+                    for (let i = 0; i < aw.values.length; i++) {
+                        writeAxisValue(ctx.bin.data, axisDef, i, aw.values[i], ctx.calOffset, ctx.bigEndian);
                     }
                     changed = true;
                 }

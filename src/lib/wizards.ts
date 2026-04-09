@@ -36,6 +36,12 @@ export interface TableCellWrite {
     value: number;
 }
 
+export interface AxisWrite {
+    param: string;
+    axis: 'x' | 'y';
+    values: number[];
+}
+
 export interface WizardApplyResult {
     /** param name -> scalar value */
     scalars: Record<string, number>;
@@ -43,6 +49,8 @@ export interface WizardApplyResult {
     tableFills: Record<string, number>;
     /** param name -> write specific cells only */
     tableCells?: Record<string, TableCellWrite[]>;
+    /** Axis breakpoint writes */
+    axisWrites?: AxisWrite[];
 }
 
 /** Context passed to apply() for reading current bin state */
@@ -52,6 +60,8 @@ export interface WizardContext {
     findParam: (name: string) => IDefinitionParameter | undefined;
     /** Read current scaled table data for a parameter */
     readTable: (param: IDefinitionParameter) => number[][];
+    /** Read current scaled axis data */
+    readAxis: (axis: import('../types').AxisDefinition) => number[];
     /** Read current scaled scalar value */
     readScalar: (param: IDefinitionParameter) => number;
 }
