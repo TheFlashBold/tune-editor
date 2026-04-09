@@ -20,7 +20,7 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
-        version: '1.19.2',
+        version: '1.19.3',
         date: '09.04.2026',
         changes: [
             'Added many new SCB, SCG, SC8 definitions',

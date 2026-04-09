@@ -3610,7 +3610,7 @@
         "min": -2717.04145876249,
         "max": 2716.95854123751,
         "unit": "hPa",
-        "address": 3850,
+        "address": 2080,
         "dataType": "UWORD",
         "dataOffset": 2,
         "factor": 0.08291752498664837,
@@ -7940,22 +7940,6 @@
       "min": 0.0,
       "max": 1.0,
       "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_t_deac_rvc_lih",
-      "description": "Initialisation value for delay time for deactivation of RVC powerstage because of LIH",
-      "address": 10272,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "s",
-      "min": 0.0,
-      "max": 65.535,
-      "factor": 0.001,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -20476,22 +20460,6 @@
       "columnDir": true
     },
     {
-      "name": "lc_lamb_pls_deac_fac_lam_pctl",
-      "description": "switch to deactivate the forced stimulation in the lambda pre-control path",
-      "address": 22079,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "c_t_pri_tot_min_oil_vap",
       "description": "#if NLC=1: Minimum lambda adaption priority time for oil dilution detection",
       "address": 22126,
@@ -22147,6 +22115,25 @@
       "name": "c_tq_lgrd_pow_eco_cru_down",
       "description": "Maximum allowed torque step during activation of the efficiency mode with active cruise control",
       "address": 24464,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 1023.96875,
+      "factor": 0.03125,
+      "offset": -0.0,
+      "categories": [
+        "DSG",
+        "Drive Mode",
+        "Eco"
+      ],
+      "customName": "Eco Mode",
+      "columnDir": true
+    },
+    {
+      "name": "c_tq_lgrd_pow_eco_cru_up",
+      "description": "Maximum allowed torque step during deactivation of the efficiency mode with active cruise control",
+      "address": 24466,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "Nm",
@@ -25774,6 +25761,22 @@
       "min": 0.0,
       "max": 6553.5,
       "factor": 0.1,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "c_t_deac_rvc_lih",
+      "description": "Initialisation value for delay time for deactivation of RVC powerstage because of LIH",
+      "address": 27696,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "s",
+      "min": 0.0,
+      "max": 65.535,
+      "factor": 0.001,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -46228,6 +46231,22 @@
       "columnDir": true
     },
     {
+      "name": "lc_lamb_pls_deac_fac_lam_pctl",
+      "description": "switch to deactivate the forced stimulation in the lambda pre-control path",
+      "address": 43136,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "-",
+      "min": 0.0,
+      "max": 1.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "id_fac_lamb_add_ch_fq_ad",
       "description": "Wheighting factor of LAMB_CH correction (FQA part)",
       "address": 43908,
@@ -47445,22 +47464,6 @@
       "min": 0.0,
       "max": 262.14,
       "factor": 0.004,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_fac_tps_sp_ext_adj",
-      "description": "Factor for external setpoint adjustment",
-      "address": 46016,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 1.9921875,
-      "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -49216,25 +49219,6 @@
       "categories": [
         "Other"
       ],
-      "columnDir": true
-    },
-    {
-      "name": "c_tq_lgrd_pow_eco_cru_up",
-      "description": "Maximum allowed torque step during deactivation of the efficiency mode with active cruise control",
-      "address": 47200,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "DSG",
-        "Drive Mode",
-        "Eco"
-      ],
-      "customName": "Eco Mode",
       "columnDir": true
     },
     {
@@ -51329,6 +51313,22 @@
       "min": 0.0,
       "max": 65535.0,
       "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "c_fac_tps_sp_ext_adj",
+      "description": "Factor for external setpoint adjustment",
+      "address": 49734,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "-",
+      "min": 0.0,
+      "max": 1.9921875,
+      "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
         "Other"

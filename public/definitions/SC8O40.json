@@ -7061,6 +7061,22 @@
       "columnDir": true
     },
     {
+      "name": "vpvdspumn",
+      "description": "Schwelle Einschalten BGD3PK ueber Verhaeltnis pvds/pu",
+      "address": 7136,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "-",
+      "min": 0.0,
+      "max": 3.99993896484375,
+      "factor": 6.103515625e-05,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "vpvdpuwgmn",
       "description": "Verdichterdruckverh\u00e4ltnis im KT-LDR-Bereich f\u00fcr n.i.O. Erkennung",
       "address": 7138,
@@ -7080,22 +7096,6 @@
       "name": "vpvdrpull",
       "description": "Schwelle Druckverhaeltnis fuer pvdr-Bewegungserkennung",
       "address": 7140,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "-",
-      "min": 0.0,
-      "max": 3.99993896484375,
-      "factor": 6.103515625e-05,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "vpvdspumn",
-      "description": "Schwelle Einschalten BGD3PK ueber Verhaeltnis pvds/pu",
-      "address": 7142,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "-",
@@ -12299,6 +12299,22 @@
       "columnDir": true
     },
     {
+      "name": "c_t_dly_gear_chg_apc",
+      "description": "Time Parameter for fast gear change at accelerate and go",
+      "address": 8288,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "s",
+      "min": 0.0,
+      "max": 50.0,
+      "factor": 0.02,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_t_dly_det_fuc_open",
       "description": "Wait period of fuel cap open detection",
       "address": 8288,
@@ -12372,22 +12388,6 @@
       "min": 0.0,
       "max": 25.5,
       "factor": 0.1,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_t_dly_gear_chg_apc",
-      "description": "Time Parameter for fast gear change at accelerate and go",
-      "address": 8296,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "s",
-      "min": 0.0,
-      "max": 50.0,
-      "factor": 0.02,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -21895,6 +21895,36 @@
       }
     },
     {
+      "name": "ip_vp_bpa_ad_dif[0]",
+      "description": "Voltage difference depending on exhaust temperature for the boost pressure actuator adaptation voltage value correction",
+      "address": 11232,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "V",
+      "min": -5.0,
+      "max": 4.99984741211,
+      "factor": 0.00015258789062500954,
+      "offset": -5.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true,
+      "cols": 6,
+      "rows": 1,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": -273.15,
+        "max": 1774.7875,
+        "unit": "\u00b0C",
+        "address": 10660,
+        "dataType": "UWORD",
+        "dataOffset": 2,
+        "factor": 0.0625,
+        "offset": -273.15
+      }
+    },
+    {
       "name": "ip_temp_epc_wg_add",
       "description": "PWM_WG correction of wastegate EPC temperature",
       "address": 11234,
@@ -21921,36 +21951,6 @@
         "dataType": "UWORD",
         "dataOffset": 2,
         "factor": 0.0015258789062500009
-      }
-    },
-    {
-      "name": "ip_vp_bpa_ad_dif[0]",
-      "description": "Voltage difference depending on exhaust temperature for the boost pressure actuator adaptation voltage value correction",
-      "address": 11240,
-      "type": "CURVE",
-      "dataType": "UWORD",
-      "unit": "V",
-      "min": -5.0,
-      "max": 4.99984741211,
-      "factor": 0.00015258789062500954,
-      "offset": -5.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true,
-      "cols": 6,
-      "rows": 1,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 6,
-        "min": -273.15,
-        "max": 1774.7875,
-        "unit": "\u00b0C",
-        "address": 10660,
-        "dataType": "UWORD",
-        "dataOffset": 2,
-        "factor": 0.0625,
-        "offset": -273.15
       }
     },
     {
@@ -29737,22 +29737,6 @@
       "columnDir": true
     },
     {
-      "name": "c_posn_sp_bpa_imp",
-      "description": "Special wastegate setpoint during impulse combustion",
-      "address": 14236,
-      "type": "VALUE",
-      "dataType": "SWORD",
-      "unit": "%",
-      "min": -200.0,
-      "max": 199.993896484375,
-      "factor": 0.006103515625,
-      "offset": -0.0,
-      "categories": [
-        "Impulse Combustion"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "c_posn_sp_bpa_rgl_pow_tur_min",
       "description": "Boost pressure actuator setpoint for minimum turbine power",
       "address": 14238,
@@ -30473,6 +30457,22 @@
       "columnDir": true
     },
     {
+      "name": "c_put_lpf_grd_min_put_opl_ctl",
+      "description": "Minimum pressure upstream throttle gradient for open loop boost pressure control",
+      "address": 14336,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "hPa",
+      "min": -2717.04145876249,
+      "max": 2716.95854123751,
+      "factor": 0.08291752498664837,
+      "offset": 3.318174185017168e-12,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_put_fil_stat",
       "description": "The value of PUT_FIL_STAT that limits the stationary detection limits.",
       "address": 14338,
@@ -30540,22 +30540,6 @@
       "name": "c_put_lpf_grd_max_put_opl_ctl",
       "description": "Maximum pressure upstream throttle gradient for open loop boost pressure control",
       "address": 14346,
-      "type": "VALUE",
-      "dataType": "SWORD",
-      "unit": "hPa",
-      "min": -2717.04145876249,
-      "max": 2716.95854123751,
-      "factor": 0.08291752498664837,
-      "offset": 3.318174185017168e-12,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_put_lpf_grd_min_put_opl_ctl",
-      "description": "Minimum pressure upstream throttle gradient for open loop boost pressure control",
-      "address": 14348,
       "type": "VALUE",
       "dataType": "SWORD",
       "unit": "hPa",
@@ -32889,22 +32873,6 @@
       "columnDir": true
     },
     {
-      "name": "lc_posn_sp_bpa_imp",
-      "description": "Activation switch of special wastegate setpoint during impulse combustion",
-      "address": 14585,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Impulse Combustion"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "lc_pow_tur_sp_man",
       "description": "switch for use of manual setpoint for turbine power",
       "address": 14591,
@@ -34069,6 +34037,22 @@
       "columnDir": true
     },
     {
+      "name": "c_pv_con_deacc_bls_bts_plaus",
+      "description": "Deceleration threshold for determination of constant pedal value",
+      "address": 14752,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 99.90234375,
+      "factor": 0.09765625,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_prs_brake_min_brake_act",
       "description": "Minimum brake pressure to consider the brake pedal pressed",
       "address": 14754,
@@ -34152,22 +34136,6 @@
       "name": "c_pv_con_ac_bls_bts_plaus",
       "description": "Acceleration threshold for determination of constant pedal value",
       "address": 14764,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 99.90234375,
-      "factor": 0.09765625,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_pv_con_deacc_bls_bts_plaus",
-      "description": "Deceleration threshold for determination of constant pedal value",
-      "address": 14766,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "%",
@@ -35013,6 +34981,22 @@
       "columnDir": true
     },
     {
+      "name": "lc_conf_pvs_ctl",
+      "description": "Manual configuration for acceleration pedal sensor acqusition in case that by hardware configuration was selected both modes (analog and SENT): 0-analog; 1-SENT interface",
+      "address": 14880,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "-",
+      "min": 0.0,
+      "max": 1.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_vp_thd_bls_bts",
       "description": "Pin voltage threshold to enable acquisition of BLS and BTS signals",
       "address": 14882,
@@ -35128,22 +35112,6 @@
       "name": "lc_bts_sub",
       "description": "Substitute value for LV_PIN_BTS",
       "address": 14893,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "lc_conf_pvs_ctl",
-      "description": "Manual configuration for acceleration pedal sensor acqusition in case that by hardware configuration was selected both modes (analog and SENT): 0-analog; 1-SENT interface",
-      "address": 14894,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "-",
@@ -38218,22 +38186,6 @@
       "columnDir": true
     },
     {
-      "name": "c_fac_mv_min_diag_dyn_lsl_up",
-      "description": "Average of Lambda dynamic diagnosis diagnostic value, min value.",
-      "address": 16544,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "-",
-      "min": 0.0,
-      "max": 31.9990234375,
-      "factor": 0.0009765625,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "c_fac_maf_dyw_neg_dyn_lsl_up",
       "description": "Calibratable factor for the dynamic engine load deviation",
       "address": 16550,
@@ -38269,6 +38221,22 @@
       "name": "c_fac_mv_max_diag_dyn_lsl_up",
       "description": "Average of Lambda dynamic diagnosis diagnostic value, max value",
       "address": 16554,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "-",
+      "min": 0.0,
+      "max": 31.9990234375,
+      "factor": 0.0009765625,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "c_fac_mv_min_diag_dyn_lsl_up",
+      "description": "Average of Lambda dynamic diagnosis diagnostic value, min value.",
+      "address": 16556,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "-",
@@ -42202,22 +42170,6 @@
       "columnDir": true
     },
     {
-      "name": "c_vls_down_h_res_thd_4",
-      "description": "VLS_DOWN threshold for leaving of GAP diagnosis state 4",
-      "address": 17376,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "V",
-      "min": 0.0,
-      "max": 4.99984741210938,
-      "factor": 0.00015258789062500016,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "c_vls_down_h_res_thd_1_1",
       "description": "VLS_DOWN threshold for leaving of GAP diagnosis state 1",
       "address": 17378,
@@ -42285,6 +42237,22 @@
       "name": "c_vls_down_h_res_thd_3_1",
       "description": "VLS_DOWN threshold for leaving of GAP diagnosis state 3",
       "address": 17386,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "V",
+      "min": 0.0,
+      "max": 4.99984741210938,
+      "factor": 0.00015258789062500016,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "c_vls_down_h_res_thd_4",
+      "description": "VLS_DOWN threshold for leaving of GAP diagnosis state 4",
+      "address": 17388,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "V",
@@ -52869,9 +52837,9 @@
       "columnDir": true
     },
     {
-      "name": "c_n_sp_is_bas_raw_tmp_lgrd_down",
-      "description": "Down gradient limit for raw basic idle speed setpoint",
-      "address": 22710,
+      "name": "c_n_sp_is_bas_raw_tmp_lgrd_up",
+      "description": "Up gradient limit for raw basic idle speed setpoint",
+      "address": 22688,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm/10ms",
@@ -52885,9 +52853,9 @@
       "columnDir": true
     },
     {
-      "name": "c_n_sp_is_bas_raw_tmp_lgrd_up",
-      "description": "Up gradient limit for raw basic idle speed setpoint",
-      "address": 22712,
+      "name": "c_n_sp_is_bas_raw_tmp_lgrd_down",
+      "description": "Down gradient limit for raw basic idle speed setpoint",
+      "address": 22710,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm/10ms",
@@ -55620,6 +55588,22 @@
       "columnDir": true
     },
     {
+      "name": "c_psn_max_ofs",
+      "description": "Offset angle on maximum engine position for pre-injection when crankshaft threshold is reached",
+      "address": 23168,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "\u00b0CRK",
+      "min": 0.0,
+      "max": 719.9375,
+      "factor": 0.0625,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_t_dly_eng_off_stst",
       "description": "Delay after engine stall event without crk tooth detected for detected engine off, in synchronized stop mode",
       "address": 23169,
@@ -55876,22 +55860,6 @@
       "columnDir": true
     },
     {
-      "name": "c_psn_max_ofs",
-      "description": "Offset angle on maximum engine position for pre-injection when crankshaft threshold is reached",
-      "address": 23192,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "\u00b0CRK",
-      "min": 0.0,
-      "max": 719.9375,
-      "factor": 0.0625,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "c_psn_min_ofs",
       "description": "Offset angle on minimum engine position for pre-injection when crankshaft threshold is reached",
       "address": 23194,
@@ -56050,32 +56018,6 @@
         "Other"
       ],
       "columnDir": true
-    },
-    {
-      "name": "id_n_max_stat_vvl_h_sel_psn_h",
-      "description": "Static engine speed limit for high VVL system caused by selected gear postion",
-      "address": 23520,
-      "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "rpm",
-      "min": 0.0,
-      "max": 8160.0,
-      "factor": 32.0,
-      "offset": -0.0,
-      "categories": [
-        "Limiter",
-        "RPM"
-      ],
-      "columnDir": true,
-      "cols": 8,
-      "rows": 1,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-"
-      }
     },
     {
       "name": "c_n_max_at",
@@ -64341,6 +64283,38 @@
       "columnDir": true
     },
     {
+      "name": "c_tlts_dif_toc_stuck_l[0]",
+      "description": "Tolerance difference for compare between model and signal for low temperature sensor signal stuck low diagnostics",
+      "address": 26656,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "\u00b0C",
+      "min": 0.0,
+      "max": 127.5,
+      "factor": 0.5,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "c_tlts_dif_toc_stuck_l[1]",
+      "description": "Tolerance difference for compare between model and signal for low temperature sensor signal stuck low diagnostics",
+      "address": 26657,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "\u00b0C",
+      "min": 0.0,
+      "max": 127.5,
+      "factor": 0.5,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_tlts_de_max_th",
       "description": "Maximum coolant temperature deviation of coolant thermostat diagnosis",
       "address": 26672,
@@ -64398,38 +64372,6 @@
       "min": -256.0,
       "max": 255.9921875,
       "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_tlts_dif_toc_stuck_l[0]",
-      "description": "Tolerance difference for compare between model and signal for low temperature sensor signal stuck low diagnostics",
-      "address": 26680,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "\u00b0C",
-      "min": 0.0,
-      "max": 127.5,
-      "factor": 0.5,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_tlts_dif_toc_stuck_l[1]",
-      "description": "Tolerance difference for compare between model and signal for low temperature sensor signal stuck low diagnostics",
-      "address": 26681,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "\u00b0C",
-      "min": 0.0,
-      "max": 127.5,
-      "factor": 0.5,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -64709,22 +64651,6 @@
       "columnDir": true
     },
     {
-      "name": "c_vs_min_tlts_stuck_h[0]",
-      "description": "Min. VS for calculation of enable condition higher load for TLTS_STUCK_H rationality check",
-      "address": 26720,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "km/h",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "c_vp_lts_max_diag_el[1]",
       "description": "Maximum measured sensor signal voltage for the electrical diagnosis of low temperature sensor",
       "address": 26720,
@@ -64734,22 +64660,6 @@
       "min": 0.0,
       "max": 4.99984741210938,
       "factor": 0.00015258789062500016,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_vs_min_tlts_stuck_h[1]",
-      "description": "Min. VS for calculation of enable condition higher load for TLTS_STUCK_H rationality check",
-      "address": 26721,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "km/h",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -64936,6 +64846,38 @@
       "name": "c_vs_min_thd_th",
       "description": "Threshold for minimum vehicle speed deviation of thermostat monitoring for temporary PASS check condition",
       "address": 26743,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "c_vs_min_tlts_stuck_h[0]",
+      "description": "Min. VS for calculation of enable condition higher load for TLTS_STUCK_H rationality check",
+      "address": 26744,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "c_vs_min_tlts_stuck_h[1]",
+      "description": "Min. VS for calculation of enable condition higher load for TLTS_STUCK_H rationality check",
+      "address": 26745,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "km/h",
@@ -71677,6 +71619,22 @@
       }
     },
     {
+      "name": "c_amp_dif_small_leak",
+      "description": "Ambient pressure difference for NVLD small leak diagnosis",
+      "address": 28992,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "hPa",
+      "min": 0.0,
+      "max": 5434.0,
+      "factor": 0.08291752498664837,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "ip_t_fil_prs_dif_estim_cha_mod",
       "description": "Time value, dependant on absolute value of PRS_DIF_AMP_MAP_DIAGCPS, used for filtering of estimated differential pressure when Turbo Line is checked",
       "address": 28998,
@@ -71795,22 +71753,6 @@
       "min": 1.0,
       "max": 255.0,
       "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_amp_dif_small_leak",
-      "description": "Ambient pressure difference for NVLD small leak diagnosis",
-      "address": 29016,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "hPa",
-      "min": 0.0,
-      "max": 5434.0,
-      "factor": 0.08291752498664837,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -75284,22 +75226,6 @@
       "columnDir": true
     },
     {
-      "name": "lc_err_pnd_sum_ena",
-      "description": "Logical switch to select the use of ERR_PND",
-      "address": 30816,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "c_tq_add_ch_so2p_aut_lgrd",
       "description": "Gradient limiter for torque reserve during automatically decontmination of catalyst",
       "address": 30816,
@@ -75415,6 +75341,22 @@
       "name": "lc_ch_diag_ext_man",
       "description": "Manual switch to start ignition angle efficiency monitoring - demo-mode",
       "address": 30836,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "-",
+      "min": 0.0,
+      "max": 1.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "lc_err_pnd_sum_ena",
+      "description": "Logical switch to select the use of ERR_PND",
+      "address": 30840,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "-",
@@ -78264,22 +78206,6 @@
       "columnDir": true
     },
     {
-      "name": "c_max_tco_st_ast_fq_st_ad",
-      "description": "Coolant temperature maximum for after start injection correction",
-      "address": 33375,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "\u00b0C",
-      "min": -48.0,
-      "max": 142.5,
-      "factor": 0.7500000000000002,
-      "offset": -48.000000000000014,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "c_fac_fq_st_ad_ini",
       "description": "Initialisation value for manual reset of adaptation values",
       "address": 33376,
@@ -78290,22 +78216,6 @@
       "max": 1.9921875,
       "factor": 0.0078125,
       "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_max_tco_st_rng_0",
-      "description": "Coolant temperature maximum for temperature range 0",
-      "address": 33376,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "\u00b0C",
-      "min": -48.0,
-      "max": 142.5,
-      "factor": 0.7500000000000002,
-      "offset": -48.000000000000014,
       "categories": [
         "Other"
       ],
@@ -78418,6 +78328,38 @@
       "max": 255.0,
       "factor": 1.0,
       "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "c_max_tco_st_ast_fq_st_ad",
+      "description": "Coolant temperature maximum for after start injection correction",
+      "address": 33399,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "\u00b0C",
+      "min": -48.0,
+      "max": 142.5,
+      "factor": 0.7500000000000002,
+      "offset": -48.000000000000014,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "c_max_tco_st_rng_0",
+      "description": "Coolant temperature maximum for temperature range 0",
+      "address": 33400,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "\u00b0C",
+      "min": -48.0,
+      "max": 142.5,
+      "factor": 0.7500000000000002,
+      "offset": -48.000000000000014,
       "categories": [
         "Other"
       ],
@@ -87951,22 +87893,6 @@
       }
     },
     {
-      "name": "c_cosi_ad_ini_tog",
-      "description": "Toggling calibration of new adaptive initialization",
-      "address": 37024,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 254.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "ip_t_ref_cosi_ofs_ofs",
       "description": "offset for algorthm-time starting-point-shift",
       "address": 37032,
@@ -88049,6 +87975,22 @@
       }
     },
     {
+      "name": "c_cosi_ad_ini_tog",
+      "description": "Toggling calibration of new adaptive initialization",
+      "address": 37048,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "-",
+      "min": 0.0,
+      "max": 254.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_cosi_mdl_3_2_act",
       "description": "Enable new MDL_3 (1 no runtime opt, 2 with runtime opt)",
       "address": 37049,
@@ -88122,6 +88064,22 @@
       "min": 0.0,
       "max": 0.99609375,
       "factor": 0.00390625,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "c_idx_sig_chk_cosi_ofs_nxt",
+      "description": "offset for NXT-signal check",
+      "address": 37056,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "-",
+      "min": 0.0,
+      "max": 65535.0,
+      "factor": 1.0,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -88353,22 +88311,6 @@
       "columnDir": true
     },
     {
-      "name": "c_idx_sig_chk_cosi_ofs_nxt",
-      "description": "offset for NXT-signal check",
-      "address": 37080,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "-",
-      "min": 0.0,
-      "max": 65535.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "c_idx_sig_chk_cosi_thd_nxt",
       "description": "threshold for NXT-signal check",
       "address": 37082,
@@ -88410,22 +88352,6 @@
       "min": 0.0,
       "max": 255.0,
       "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_t_cosi_end",
-      "description": "Effective burst end (including oversampling)",
-      "address": 37088,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "\u00b5s",
-      "min": 0.0,
-      "max": 6553.5,
-      "factor": 0.1,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -88705,6 +88631,22 @@
       "columnDir": true
     },
     {
+      "name": "c_t_cosi_end",
+      "description": "Effective burst end (including oversampling)",
+      "address": 37112,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "\u00b5s",
+      "min": 0.0,
+      "max": 6553.5,
+      "factor": 0.1,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_t_cosi_win_max",
       "description": "Maximal time for window-visualization",
       "address": 37114,
@@ -88762,6 +88704,22 @@
       "min": 0.0,
       "max": 1.99996948242188,
       "factor": 3.0517578125000075e-05,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "lc_state_4_cosi_ena",
+      "description": "enable state 4 (check for 2nd intersection) for MDL2",
+      "address": 37120,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "-",
+      "min": 0.0,
+      "max": 1.0,
+      "factor": 1.0,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -88948,22 +88906,6 @@
       "name": "lc_soi_burst_ena",
       "description": "burst at SOI instead of EOI",
       "address": 37143,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "lc_state_4_cosi_ena",
-      "description": "enable state 4 (check for 2nd intersection) for MDL2",
-      "address": 37144,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "-",
@@ -89453,6 +89395,22 @@
       "columnDir": true
     },
     {
+      "name": "c_cur_iv_peak_hld_hys_over_prs",
+      "description": "Hysteresis in % from absolut value, which defines the lower level of the peak current for overpressure injector current profile.",
+      "address": 37312,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 100.0,
+      "factor": 0.006103515625,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "clf_csers_inj_pls_test_cyl_on[0]",
       "description": "Calibrated bitfield enabling CSERS_INJ demo mode test pulse on chosen cylinder, bit 0 enabling cylinder 0, bit 1 enabling cylinder 1,...",
       "address": 37314,
@@ -89648,22 +89606,6 @@
       "name": "c_cur_iv_peak_hld_hys_l",
       "description": "Hysteresis in % from absolut value, which defines the lower level of the peak hold current for low pressure injector current profile.",
       "address": 37334,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 100.0,
-      "factor": 0.006103515625,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_cur_iv_peak_hld_hys_over_prs",
-      "description": "Hysteresis in % from absolut value, which defines the lower level of the peak current for overpressure injector current profile.",
-      "address": 37336,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "%",
@@ -91362,6 +91304,35 @@
       }
     },
     {
+      "name": "ip_prs_im_dif_max_prs_ctl_plaus",
+      "description": "Maximal pressure difference of (PRS_IM_SP - PRS_IM_MES)",
+      "address": 39168,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "hPa",
+      "min": -2717.04145876249,
+      "max": 2716.95854123751,
+      "factor": 0.08291752498664837,
+      "offset": -2717.0414587624905,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true,
+      "cols": 4,
+      "rows": 1,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 4,
+        "min": 0.0,
+        "max": 5434.0,
+        "unit": "hPa",
+        "address": 38510,
+        "dataType": "UWORD",
+        "dataOffset": 2,
+        "factor": 0.08291752498664837
+      }
+    },
+    {
       "name": "ip_prs_hc_vap_crcv",
       "description": "Fuel vaporization pressure for pure liquid",
       "address": 39180,
@@ -91389,35 +91360,6 @@
         "dataOffset": 2,
         "factor": 0.00390625,
         "offset": -40.0
-      }
-    },
-    {
-      "name": "ip_prs_im_dif_max_prs_ctl_plaus",
-      "description": "Maximal pressure difference of (PRS_IM_SP - PRS_IM_MES)",
-      "address": 39192,
-      "type": "CURVE",
-      "dataType": "UWORD",
-      "unit": "hPa",
-      "min": -2717.04145876249,
-      "max": 2716.95854123751,
-      "factor": 0.08291752498664837,
-      "offset": -2717.0414587624905,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true,
-      "cols": 4,
-      "rows": 1,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 5434.0,
-        "unit": "hPa",
-        "address": 38510,
-        "dataType": "UWORD",
-        "dataOffset": 2,
-        "factor": 0.08291752498664837
       }
     },
     {
@@ -92115,6 +92057,22 @@
       "columnDir": true
     },
     {
+      "name": "c_ar_ad_max_load_tps_is_h_opt",
+      "description": "Higher basic max threshold (Lambda ok) for reduced area adaptation plausibility check in IS - used in case of an irregular TPS adaption",
+      "address": 39488,
+      "type": "VALUE",
+      "dataType": "SWORD",
+      "unit": "cm^2",
+      "min": -29.2968745348287,
+      "max": 29.29598046517127,
+      "factor": 0.0008940696574349582,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_amp_min_load_tps_plaus",
       "description": "Min AMP threshold for allow LOAD-TPS plaus check (only for configuration with AMP calculation by sensor)",
       "address": 39490,
@@ -92198,22 +92156,6 @@
       "name": "c_ar_ad_max_load_tps_is_h",
       "description": "Higher basic max threshold (Lambda ok) for reduced area adaptation plausibility check in IS",
       "address": 39510,
-      "type": "VALUE",
-      "dataType": "SWORD",
-      "unit": "cm^2",
-      "min": -29.2968745348287,
-      "max": 29.29598046517127,
-      "factor": 0.0008940696574349582,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_ar_ad_max_load_tps_is_h_opt",
-      "description": "Higher basic max threshold (Lambda ok) for reduced area adaptation plausibility check in IS - used in case of an irregular TPS adaption",
-      "address": 39512,
       "type": "VALUE",
       "dataType": "SWORD",
       "unit": "cm^2",
@@ -92499,6 +92441,22 @@
       "columnDir": true
     },
     {
+      "name": "c_crlc_ar_thr_dif_i_rel_mmv",
+      "description": "Correlation constant for the moving mean value calculation of AR_THR_DIF_I_REL",
+      "address": 39553,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "-",
+      "min": 0.0,
+      "max": 0.99609375,
+      "factor": 0.00390625,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_crlc_amp_mes_bas",
       "description": "Correlation constant for AMP_MES_BAS filter",
       "address": 39568,
@@ -92508,22 +92466,6 @@
       "min": 0.0,
       "max": 1.9921875,
       "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_crlc_ar_thr_dif_i_rel_mmv",
-      "description": "Correlation constant for the moving mean value calculation of AR_THR_DIF_I_REL",
-      "address": 39577,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 0.99609375,
-      "factor": 0.00390625,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -96436,6 +96378,36 @@
       }
     },
     {
+      "name": "id_fac_lam_mv_dyw_ldc_lam_ad",
+      "description": "lambda control output window for limited dynamic conditions lambda adaptation",
+      "address": 43872,
+      "type": "CURVE",
+      "dataType": "UWORD",
+      "unit": "%",
+      "min": 0.0,
+      "max": 49.9984741,
+      "factor": 0.0015258789062500009,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true,
+      "cols": 6,
+      "rows": 1,
+      "xAxis": {
+        "type": "COM_AXIS",
+        "points": 6,
+        "min": -48.0,
+        "max": 142.5,
+        "unit": "\u00b0C",
+        "address": 43822,
+        "dataType": "UBYTE",
+        "dataOffset": 1,
+        "factor": 0.7500000000000002,
+        "offset": -48.000000000000014
+      }
+    },
+    {
       "name": "id_dly_delta_inc_fsd_stop_oil",
       "description": "Time delay map for increasing the debounce counter for oil dilution detection",
       "address": 43880,
@@ -96490,36 +96462,6 @@
         "address": 43380,
         "dataType": "UBYTE",
         "dataOffset": 1
-      }
-    },
-    {
-      "name": "id_fac_lam_mv_dyw_ldc_lam_ad",
-      "description": "lambda control output window for limited dynamic conditions lambda adaptation",
-      "address": 43896,
-      "type": "CURVE",
-      "dataType": "UWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 49.9984741,
-      "factor": 0.0015258789062500009,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true,
-      "cols": 6,
-      "rows": 1,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 6,
-        "min": -48.0,
-        "max": 142.5,
-        "unit": "\u00b0C",
-        "address": 43822,
-        "dataType": "UBYTE",
-        "dataOffset": 1,
-        "factor": 0.7500000000000002,
-        "offset": -48.000000000000014
       }
     },
     {
@@ -99914,6 +99856,22 @@
       "columnDir": true
     },
     {
+      "name": "c_fac_pri_bas_ac_mod[0]",
+      "description": "Priority factor for trim control mode",
+      "address": 45056,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "-",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_fac_mff_add_wf_not_stat_cdn",
       "description": "weighting factor for MFF_ADD_WF to trigger lambda controller non stationary condition",
       "address": 45062,
@@ -99946,137 +99904,9 @@
       "columnDir": true
     },
     {
-      "name": "c_fac_pri_bas_ac_mod[0]",
-      "description": "Priority factor for trim control mode",
-      "address": 45080,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_fac_pri_bas_ac_mod[1]",
-      "description": "Priority factor for trim control mode",
-      "address": 45081,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_fac_pri_bas_ac_mod[2]",
-      "description": "Priority factor for trim control mode",
-      "address": 45082,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
       "name": "c_fac_pri_bas_ac_mod[3]",
       "description": "Priority factor for trim control mode",
       "address": 45083,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_fac_pri_bas_ac_mod[4]",
-      "description": "Priority factor for trim control mode",
-      "address": 45084,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_fac_pri_bas_ac_mod[5]",
-      "description": "Priority factor for trim control mode",
-      "address": 45085,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_fac_pri_bas_ac_mod[6]",
-      "description": "Priority factor for trim control mode",
-      "address": 45086,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_fac_pri_bas_ac_mod[7]",
-      "description": "Priority factor for trim control mode",
-      "address": 45087,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_fac_pri_bas_ac_mod[8]",
-      "description": "Priority factor for trim control mode",
-      "address": 45088,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "-",
@@ -102026,6 +101856,22 @@
       "columnDir": true
     },
     {
+      "name": "lc_lam_ad_wup_cdn_cp_deac",
+      "description": "switch to deactivate the lambda adaptation in warm-up phase during canister purge",
+      "address": 45408,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "-",
+      "min": 0.0,
+      "max": 1.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "lc_fac_mff_mpl_ipt_sens_mdl",
       "description": "switch to enable interpolation of sensor and gas delay model between the 2 different injection modes",
       "address": 45410,
@@ -102125,22 +101971,6 @@
       "name": "lc_lam_ad_wup_ast_di",
       "description": "Switch to disable lambda adaptation in warm-up phase during after-start phase",
       "address": 45431,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "lc_lam_ad_wup_cdn_cp_deac",
-      "description": "switch to deactivate the lambda adaptation in warm-up phase during canister purge",
-      "address": 45432,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "-",
@@ -109101,49 +108931,6 @@
       "columnDir": true
     },
     {
-      "name": "c_vb_min_igk_plaus",
-      "description": "Battery voltage threshold for IGK_PLAUS diagnosis",
-      "address": 47680,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "V",
-      "min": 0.0,
-      "max": 31.875,
-      "factor": 0.125,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "ip_t_ast_eng_eff_1",
-      "description": "Map to determine the duration of the after start phase for recuperation (State 1)",
-      "address": 47680,
-      "type": "CURVE",
-      "dataType": "UWORD",
-      "unit": "s",
-      "min": 10.0,
-      "max": 6553.5,
-      "factor": 0.1,
-      "offset": -0.0,
-      "categories": [
-        "Startup Roar",
-        "Duration"
-      ],
-      "customName": "After Start Engine Efficiency Time 1",
-      "columnDir": true,
-      "cols": 6,
-      "rows": 1,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 6,
-        "min": -40.0,
-        "max": 215.0,
-        "unit": "\u00b0C"
-      }
-    },
-    {
       "name": "lc_t_rly_main_dly_diag_rst_inh",
       "description": "Logical switch to inhibit the reset of timer T_RLY_MAIN_DLY_DIAG once elapsed (0: timer can be reset, 1: timer is not reset once elapsed)",
       "address": 47681,
@@ -109297,6 +109084,22 @@
       "min": 0.0,
       "max": 655.35,
       "factor": 0.01,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
+      "name": "c_vb_min_igk_plaus",
+      "description": "Battery voltage threshold for IGK_PLAUS diagnosis",
+      "address": 47704,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "V",
+      "min": 0.0,
+      "max": 31.875,
+      "factor": 0.125,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -114190,6 +113993,22 @@
       "columnDir": true
     },
     {
+      "name": "c_mod_tqi_bol_set_hom",
+      "description": "Manual mode selection for LV_TQI_BOL_SET calculation",
+      "address": 50048,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "-",
+      "min": 0.0,
+      "max": 3.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_hys_eff_iga_min_teg",
       "description": "hysteresis in falling direction for IGA_MIN_TEG correction",
       "address": 50050,
@@ -114279,22 +114098,6 @@
       "min": 0.0,
       "max": 1.99996948242188,
       "factor": 3.0517578125000075e-05,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "c_mod_tqi_bol_set_hom",
-      "description": "Manual mode selection for LV_TQI_BOL_SET calculation",
-      "address": 50068,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 3.0,
-      "factor": 1.0,
       "offset": -0.0,
       "categories": [
         "Other"
@@ -127088,6 +126891,22 @@
       "columnDir": true
     },
     {
+      "name": "lc_tq_clc_whl_driv_req",
+      "description": "Driver wheel torque request is calculated",
+      "address": 53248,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "-",
+      "min": 0.0,
+      "max": 1.0,
+      "factor": 1.0,
+      "offset": -0.0,
+      "categories": [
+        "Other"
+      ],
+      "columnDir": true
+    },
+    {
       "name": "c_vs_icl_can_max",
       "description": "Maximal limit for vehicle speed from ICL CAN",
       "address": 53248,
@@ -127427,22 +127246,6 @@
       "name": "lc_state_tilt_qly",
       "description": "The sensor for angle of inclination is errorneous",
       "address": 53277,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "-",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "Other"
-      ],
-      "columnDir": true
-    },
-    {
-      "name": "lc_tq_clc_whl_driv_req",
-      "description": "Driver wheel torque request is calculated",
-      "address": 53278,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "-",
@@ -152122,7 +151925,7 @@
         "min": 0.0,
         "max": 199.993896484375,
         "unit": "%",
-        "address": 10504,
+        "address": 10496,
         "dataType": "UWORD",
         "dataOffset": 2,
         "factor": 0.006103515625
