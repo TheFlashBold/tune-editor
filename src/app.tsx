@@ -285,7 +285,7 @@ export function App() {
                                         {appState.allDefinitions.length} definition{appState.allDefinitions.length !== 1 ? 's' : ''} available
                                     </div>
                                     <div class="max-h-96 overflow-y-auto space-y-1">
-                                        {appState.allDefinitions.map((entry) => (
+                                        {[...appState.allDefinitions].sort((a, b) => a.name.localeCompare(b.name)).map((entry) => (
                                             <div
                                                 class="w-full text-left p-3 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:bg-zinc-600 rounded border border-zinc-400 dark:border-zinc-600 transition-colors"
                                             >
