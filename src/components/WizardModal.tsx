@@ -90,6 +90,7 @@ export function WizardModal({onClose}: Props) {
         if (!ctx.bin || !ctx.definition || !activeWizard) return;
         const wizCtx: WizardContext = {
             params: ctx.definition.parameters,
+            findParam: (name) => findParam(ctx.definition!.parameters, name),
             readTable: (param) => readTableData(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
             readScalar: (param) => readParameterValue(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
         };
