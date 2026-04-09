@@ -189,7 +189,7 @@ const KP_BPA_POS_1_DATA = [
 export const is38Upgrade: WizardDef = {
     id: 'is38-upgrade',
     name: 'IS38 Turbo Upgrade',
-    description: 'Adjusts boost pressure actuator map for IS38 turbocharger swap',
+    description: 'Adjusts your bin to work nicely with a IS38 turbocharger swap',
     requiredParams: [
         'ip_fac_bpa_sp[0]', 'ip_fac_bpa_sp[1]',
         'ip_fac_eff_cmpr', 'ip_fac_eff_cmpr_mdl',
