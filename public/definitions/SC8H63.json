@@ -1013,11 +1013,8 @@
       "factor": 0.06250007629627369,
       "offset": -273.1499999999999,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -4196,11 +4193,8 @@
       "factor": 0.0625,
       "offset": -273.125,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -7053,7 +7047,7 @@
     {
       "name": "c_t_dly_swi_neut_gear_not_act",
       "description": "Time for debouncing valid not activated neutral gear detected",
-      "address": 29470,
+      "address": 44000,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "s",

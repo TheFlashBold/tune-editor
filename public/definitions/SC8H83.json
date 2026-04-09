@@ -6411,7 +6411,7 @@
     {
       "name": "c_posn_max_fil_bpa_ctl",
       "description": "Input limitation threhold for PT1 transfer function of boost pressure actuator controller",
-      "address": 10714,
+      "address": 10752,
       "type": "VALUE",
       "dataType": "SWORD",
       "unit": "%",
@@ -6592,11 +6592,8 @@
       "factor": 1.525878906250001e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 4,
       "rows": 1,
@@ -6772,11 +6769,8 @@
       "factor": 0.00390625,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 4,
       "rows": 1,
@@ -7028,11 +7022,8 @@
       "factor": 1.0,
       "offset": -40.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -7212,11 +7203,8 @@
       "factor": 3.0517578125000075e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 6,
       "rows": 1,
@@ -7333,11 +7321,8 @@
       "factor": 0.7500000000000002,
       "offset": -48.000000000000014,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 6,
       "rows": 1,
@@ -7365,11 +7350,8 @@
       "factor": 0.7500000000000002,
       "offset": -48.000000000000014,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 6,
       "rows": 6,
@@ -7410,11 +7392,8 @@
       "factor": 1.525878906250001e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -8501,7 +8480,7 @@
     {
       "name": "c_posn_sp_bpa_ext[0]",
       "description": "External position setpoint for boost pressure actuator by calibration system",
-      "address": 10746,
+      "address": 10784,
       "type": "VALUE",
       "dataType": "SWORD",
       "unit": "%",
@@ -29749,11 +29728,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -29768,11 +29744,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -34631,11 +34604,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -35393,11 +35363,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -35412,11 +35379,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -36878,11 +36842,8 @@
       "factor": 1.525878906250001e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 8,
       "rows": 8,
@@ -37104,11 +37065,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 6,
       "rows": 1,
@@ -37553,11 +37511,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -37572,11 +37527,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -37735,11 +37687,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -38226,11 +38175,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -39213,11 +39159,8 @@
       "factor": 0.06250007629627369,
       "offset": -273.1499999999999,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -39664,11 +39607,8 @@
       "factor": 3.0517578125000075e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 6,
       "rows": 1,
@@ -40724,11 +40664,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -40743,11 +40680,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -40762,11 +40696,8 @@
       "factor": 2.0,
       "offset": -256.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -40781,11 +40712,8 @@
       "factor": 2.0,
       "offset": -256.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -40800,11 +40728,8 @@
       "factor": 2.0,
       "offset": -256.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -40819,11 +40744,8 @@
       "factor": 2.0,
       "offset": -256.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -40838,11 +40760,8 @@
       "factor": 2.0,
       "offset": -256.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -40857,11 +40776,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -40876,11 +40792,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -40895,11 +40808,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -40914,11 +40824,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -40933,11 +40840,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -42303,11 +42207,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -43786,7 +43687,6 @@
       "categories": [
         "Impulse Combustion"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 5,
       "rows": 1,
@@ -44014,7 +43914,6 @@
       "categories": [
         "Impulse Combustion"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -44031,7 +43930,6 @@
       "categories": [
         "Impulse Combustion"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -44048,7 +43946,6 @@
       "categories": [
         "Impulse Combustion"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -44065,7 +43962,6 @@
       "categories": [
         "Impulse Combustion"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -52014,11 +51910,8 @@
       "factor": 0.001953125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -52033,11 +51926,8 @@
       "factor": 0.001953125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -61282,11 +61172,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -61301,11 +61188,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -62885,11 +62769,8 @@
       "factor": 0.0078125,
       "offset": -256.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 6,
       "rows": 6,
@@ -62976,11 +62857,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -69210,11 +69088,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 6,
       "rows": 6,
@@ -69587,11 +69462,8 @@
       "factor": 0.0625,
       "offset": -273.125,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -72422,11 +72294,8 @@
       "factor": 0.0625,
       "offset": -273.125,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -72441,11 +72310,8 @@
       "factor": 0.0625,
       "offset": -273.125,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -72460,11 +72326,8 @@
       "factor": 0.0625,
       "offset": -273.125,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -72479,11 +72342,8 @@
       "factor": 0.0625,
       "offset": -273.125,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -72851,11 +72711,8 @@
       "factor": 1.525878906250001e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -72886,11 +72743,8 @@
       "factor": 0.0625,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -72905,11 +72759,8 @@
       "factor": 0.0625,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -72924,11 +72775,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -73119,11 +72967,8 @@
       "factor": 1.0,
       "offset": 1.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -73138,11 +72983,8 @@
       "factor": 1.0,
       "offset": 1.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -73157,11 +72999,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -73176,11 +73015,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -73195,11 +73031,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -73214,11 +73047,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -73233,11 +73063,8 @@
       "factor": 1.0,
       "offset": 1.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -73252,11 +73079,8 @@
       "factor": 1.0,
       "offset": 1.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -73271,11 +73095,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -73290,11 +73111,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -75823,11 +75641,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 4,
       "rows": 8,
@@ -76028,11 +75843,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 4,
       "rows": 8,
@@ -76313,11 +76125,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 4,
       "rows": 8,
@@ -76438,11 +76247,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 4,
       "rows": 8,
@@ -82886,11 +82692,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 8,
       "rows": 1,
@@ -82918,11 +82721,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 8,
       "rows": 1,
@@ -83568,11 +83368,8 @@
       "factor": 1.0,
       "offset": -40.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -84173,11 +83970,8 @@
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 10,
       "rows": 10,
@@ -84218,11 +84012,8 @@
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 10,
       "rows": 10,
@@ -84262,11 +84053,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 10,
       "rows": 10,
@@ -84305,11 +84093,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 10,
       "rows": 10,
@@ -84555,11 +84340,8 @@
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 10,
       "rows": 10,
@@ -84600,11 +84382,8 @@
       "factor": 0.37499999999999994,
       "offset": -47.99999999999999,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 10,
       "rows": 10,
@@ -84644,11 +84423,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 10,
       "rows": 10,
@@ -84687,11 +84463,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 10,
       "rows": 10,
@@ -84813,11 +84586,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -84832,11 +84602,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -84851,11 +84618,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -92976,11 +92740,8 @@
       "factor": 0.7500000000000002,
       "offset": -48.000000000000014,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 8,
       "rows": 1,
@@ -94001,7 +93762,6 @@
         "Fuel",
         "MPI"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 8,
       "rows": 4,
@@ -94114,7 +93874,6 @@
         "Fuel",
         "Mass Fuel Flow"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 12,
       "rows": 1,
@@ -94143,11 +93902,8 @@
       "factor": 0.000244140625,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 12,
       "rows": 1,
@@ -96086,11 +95842,8 @@
       "factor": 1.525878906250001e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -96105,11 +95858,8 @@
       "factor": 1.525878906250001e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -103244,11 +102994,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -110048,11 +109795,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -110067,11 +109811,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -113482,11 +113223,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -115363,11 +115101,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -115837,7 +115572,7 @@
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 35552,
+        "address": 35540,
         "dataType": "UBYTE",
         "dataOffset": 1,
         "factor": 32.0
@@ -115877,7 +115612,7 @@
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 35552,
+        "address": 35540,
         "dataType": "UBYTE",
         "dataOffset": 1,
         "factor": 32.0
@@ -115917,7 +115652,7 @@
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 35552,
+        "address": 35540,
         "dataType": "UBYTE",
         "dataOffset": 1,
         "factor": 32.0
@@ -115957,7 +115692,7 @@
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 35552,
+        "address": 35540,
         "dataType": "UBYTE",
         "dataOffset": 1,
         "factor": 32.0
@@ -123615,7 +123350,7 @@
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 35412,
+        "address": 35424,
         "dataType": "UWORD",
         "dataOffset": 2
       },
@@ -124766,7 +124501,7 @@
     {
       "name": "c_vp_tps_sp_lih_1",
       "description": "Setpoint of the limp Home position, voltage value TPS1",
-      "address": 36860,
+      "address": 36872,
       "type": "VALUE",
       "dataType": "SWORD",
       "unit": "V",
@@ -124798,7 +124533,7 @@
     {
       "name": "lc_tps_ad_bol_ena",
       "description": "Switch on of the BOL adaptation ",
-      "address": 36866,
+      "address": 36878,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "-",
@@ -126305,7 +126040,7 @@
     {
       "name": "c_vs_max_tps_ad",
       "description": "Maximum vehicle speed threshold for TPS adaptation",
-      "address": 36876,
+      "address": 36864,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "km/h",
@@ -135928,7 +135663,7 @@
     {
       "name": "lc_pat_sel_cyl_ofs",
       "description": "Manual bit to enable pattern index counter offset calculation during transition or at entry of transition only",
-      "address": 39028,
+      "address": 39040,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "-",
@@ -146406,7 +146141,7 @@
     {
       "name": "c_t_dly_swi_neut_gear_not_act",
       "description": "Time for debouncing valid not activated neutral gear detected",
-      "address": 43988,
+      "address": 44000,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "s",
@@ -150686,7 +150421,7 @@
     {
       "name": "c_ac_max_gb_nctl_mt_ena",
       "description": "Maximum vehicle acceleration for engine speed setpoint for manual gearbox",
-      "address": 43796,
+      "address": 43808,
       "type": "VALUE",
       "dataType": "SWORD",
       "unit": "m/s^2",
@@ -156914,7 +156649,7 @@
     {
       "name": "lc_err_vlft_v_rbm_bit_2",
       "description": "1 = set bit 2 of STATE_RBM_VLFT_STND(_1)_V[NC_CYL_NR] in case of LV_ERR_VLFT_STND(_1)_V[NC_CYL_NR][2], 0 = do not set",
-      "address": 39584,
+      "address": 39572,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "-",
@@ -172385,11 +172120,8 @@
       "factor": 3.0517578125000075e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 6,
       "rows": 8,
@@ -172428,11 +172160,8 @@
       "factor": 3.0517578125000075e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 4,
       "rows": 6,
@@ -173696,11 +173425,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -180203,11 +179929,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -180222,11 +179945,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -181219,11 +180939,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -181238,11 +180955,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -181529,11 +181243,8 @@
       "factor": 0.0078125,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -184713,11 +184424,8 @@
       "factor": 0.7500000000000002,
       "offset": -48.000000000000014,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -189479,7 +189187,7 @@
     {
       "name": "c_thd_tq_grd_req_tra_aj_ena",
       "description": "Torque gradient threshold for considering that engine load increases for antijerk",
-      "address": 47252,
+      "address": 47264,
       "type": "VALUE",
       "dataType": "SWORD",
       "unit": "Nm/s",
@@ -191021,11 +190729,8 @@
       "factor": 0.001,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -191072,11 +190777,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -191091,11 +190793,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -191117,7 +190816,7 @@
     {
       "name": "c_t_sig_h_ref_loil_min",
       "description": "Minimum high time for temperature signal of the thermal oil level sensor",
-      "address": 45076,
+      "address": 45088,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "ms",
@@ -191174,11 +190873,8 @@
       "factor": 3.0517578125000075e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -191193,11 +190889,8 @@
       "factor": 3.0517578125000075e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -191228,11 +190921,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -191247,11 +190937,8 @@
       "factor": 0.1,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -201556,11 +201243,8 @@
       "factor": 0.0625,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -201575,11 +201259,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -201594,11 +201275,8 @@
       "factor": 0.015625,
       "offset": -33.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -201613,11 +201291,8 @@
       "factor": 0.0625,
       "offset": -273.15,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -202217,11 +201892,8 @@
       "factor": -0.37499999999999994,
       "offset": 0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 16,
       "rows": 1,
@@ -202250,11 +201922,8 @@
       "factor": -0.37499999999999994,
       "offset": 0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 16,
       "rows": 1,
@@ -202820,11 +202489,8 @@
       "factor": 0.01,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -203070,11 +202736,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -224295,11 +223958,8 @@
       "factor": 0.00390625,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 8,
       "rows": 1,
@@ -224933,11 +224593,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -224952,11 +224609,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -227384,11 +227038,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -227403,11 +227054,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -227422,11 +227070,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -227441,11 +227086,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -239029,11 +238671,8 @@
       "factor": 0.0078125,
       "offset": -256.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 6,
       "rows": 6,
@@ -239071,11 +238710,8 @@
       "factor": 0.0078125,
       "offset": -256.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 6,
       "rows": 6,
@@ -239327,11 +238963,8 @@
       "factor": 3.0517578125000075e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 2,
       "rows": 1,
@@ -239360,11 +238993,8 @@
       "factor": 3.0517578125000075e-05,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true,
       "cols": 2,
       "rows": 1,
@@ -239697,11 +239327,8 @@
       "factor": 1.0,
       "offset": -0.0,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {

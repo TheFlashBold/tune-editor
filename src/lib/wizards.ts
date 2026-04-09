@@ -48,6 +48,8 @@ export interface WizardApplyResult {
 /** Context passed to apply() for reading current bin state */
 export interface WizardContext {
     params: IDefinitionParameter[];
+    /** Find a parameter by normalized name (case-insensitive) */
+    findParam: (name: string) => IDefinitionParameter | undefined;
     /** Read current scaled table data for a parameter */
     readTable: (param: IDefinitionParameter) => number[][];
     /** Read current scaled scalar value */
@@ -62,6 +64,8 @@ export interface WizardDef {
     requiredParams?: string[];
     controls: WizardControl[];
     presets: WizardPreset[];
+    /** Derive control values from current bin state (for controls without readFrom) */
+    readState?: (ctx: WizardContext) => Record<string, number>;
     /** Given control values and bin context, compute what to write */
     apply: (values: Record<string, number>, ctx: WizardContext) => WizardApplyResult;
 }

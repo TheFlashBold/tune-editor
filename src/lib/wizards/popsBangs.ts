@@ -134,7 +134,7 @@ export const popsBangs: WizardDef = {
             description: 'Pop duration during gear shifts (Sport)',
             control: 'slider',
             min: 0.2,
-            max: 10,
+            max: 5,
             step: 0.2,
             unit: 's',
             group: 'Intensity',
@@ -211,12 +211,78 @@ export const popsBangs: WizardDef = {
         },
     ],
     presets: [],
+    readState(ctx: WizardContext): Record<string, number> {
+        const find = ctx.findParam;
+        const scalar = (name: string) => {
+            const p = find(name);
+            return p ? ctx.readScalar(p) : undefined;
+        };
+        const state: Record<string, number> = {};
+
+        state['standstill'] = (!scalar('lc_conf_imp_comb_tip_in_inh') && scalar('c_vs_min_imp_comb') === 0) ? 1 : 0;
+
+        // Aggressiveness: infer from first iga map average
+        const igaParam = find('ip_iga_imp_comb_sof_act[0]');
+        if (igaParam) {
+            const data = ctx.readTable(igaParam);
+            const flat = data.flat();
+            const avg = flat.length > 0 ? flat.reduce((a, b) => a + b, 0) / flat.length : -16;
+            // Map average retard to nearest level
+            if (avg < -12) {
+                state['aggressiveness'] = 0;
+            } else if (avg < -19) {
+                state['aggressiveness'] = 1;
+            } else if (avg < -26) {
+                state['aggressiveness'] = 2;
+            } else {
+                state['aggressiveness'] = 3;
+            }
+        }
+
+        // Duration: infer from first engine duration map average
+        const durParam = find('ip_t_act_imp_comb_eng[0]');
+        if (durParam) {
+            const data = ctx.readTable(durParam);
+            const flat = data.slice(0, 6).flat();
+            if (flat.length > 0) state['duration'] = flat.reduce((a, b) => a + b, 0) / flat.length;
+        }
+
+        // Duration GS
+        const durGsParam = find('ip_t_act_imp_comb_gs');
+        if (durGsParam) {
+            const data = ctx.readTable(durGsParam);
+            const flat = data.slice(0, 6).flat();
+            if (flat.length > 0) {
+                state['duration_gs'] = flat.reduce((a, b) => a + b, 0) / flat.length;
+            }
+        }
+
+        // Duration GS SPT
+        const durGsSptParam = find('ip_t_act_imp_comb_gs_spt');
+        if (durGsSptParam) {
+            const data = ctx.readTable(durGsSptParam);
+            const flat = data.flat();
+            if (flat.length > 0) {
+                state['duration_gs_spt'] = flat.reduce((a, b) => a + b, 0) / flat.length;
+            }
+        }
+
+        // Duration SPT
+        const durSptParam = find('ip_t_act_imp_comb_eng_spt[0]');
+        if (durSptParam) {
+            const data = ctx.readTable(durSptParam);
+            const flat = data.slice(0, 6).flat();
+            if (flat.length > 0) state['duration_spt'] = flat.reduce((a, b) => a + b, 0) / flat.length;
+        }
+
+        return state;
+    },
     apply(values: Record<string, number>, ctx: WizardContext): WizardApplyResult {
         const v = (k: string, fallback = 0) => values[k] ?? fallback;
         const scalars: Record<string, number> = {};
         const tableFills: Record<string, number> = {};
         const tableCells: Record<string, TableCellWrite[]> = {};
-        const find = (name: string) => ctx.params.find(p => p.name.toLowerCase() === name.toLowerCase());
+        const find = ctx.findParam;
 
         // ── Master enables ──
         scalars['lc_imp_comb'] = v('master');

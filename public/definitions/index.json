@@ -253,7 +253,7 @@
       "position": 2097154,
       "expected": "SC8O40"
     },
-    "paramCount": 13688
+    "paramCount": 13681
   },
   {
     "name": "SC8 S50",
@@ -271,7 +271,7 @@
       "position": 2097154,
       "expected": "SC8V30"
     },
-    "paramCount": 543
+    "paramCount": 5665
   },
   {
     "name": "SC8 V32",
@@ -280,7 +280,7 @@
       "position": 2097154,
       "expected": "SC8V32"
     },
-    "paramCount": 543
+    "paramCount": 5600
   },
   {
     "name": "SC8 V33",
@@ -289,7 +289,7 @@
       "position": 2097154,
       "expected": "SC8V33"
     },
-    "paramCount": 543
+    "paramCount": 5563
   },
   {
     "name": "SC8 VC1",
@@ -496,7 +496,7 @@
       "position": 2097154,
       "expected": "SC8V31"
     },
-    "paramCount": 543
+    "paramCount": 5629
   },
   {
     "name": "SC8 V71",

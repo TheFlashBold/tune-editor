@@ -1013,11 +1013,8 @@
       "factor": 0.06250007629627369,
       "offset": -273.1499999999999,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -6066,11 +6063,8 @@
       "factor": 0.0625,
       "offset": -273.125,
       "categories": [
-        "DSG",
-        "Sensors",
-        "Temperature"
+        "Other"
       ],
-      "customName": "Temperature",
       "columnDir": true
     },
     {
@@ -8859,7 +8853,7 @@
     {
       "name": "c_t_clu_swi_2_not_plaus",
       "description": "Time for debouncing the implausibility of the clutch switches and setting the clutch switch 2 not plaus flag",
-      "address": 29490,
+      "address": 43968,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "s",
@@ -8923,7 +8917,7 @@
     {
       "name": "c_t_dly_swi_neut_gear_not_act",
       "description": "Time for debouncing valid not activated neutral gear detected",
-      "address": 44000,
+      "address": 29522,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "s",

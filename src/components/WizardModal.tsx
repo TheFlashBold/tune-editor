@@ -2,6 +2,7 @@ import {useState, useMemo, useCallback} from 'preact/hooks';
 import {Modal} from './Modal';
 import {useAppContext} from '../context/app';
 import {readParameterValue, writeParameterValue, readTableData, writeTableCell, formatValue} from '../lib/binUtils';
+import {track} from '../lib/track';
 import {WIZARDS} from '../lib/wizards/index';
 import type {WizardDef, WizardControl, WizardContext} from '../lib/wizards';
 import type {IDefinitionParameter} from '../types';
@@ -23,18 +24,35 @@ export function WizardModal({onClose}: Props) {
     const readInitialValues = useCallback((wizard: WizardDef) => {
         if (!ctx.bin || !ctx.definition) return {};
         const initial: Record<string, number> = {};
+
+        // First set defaults
+        for (const ctrl of wizard.controls) {
+            if (ctrl.default !== undefined) {
+                initial[ctrl.key] = ctrl.default;
+            }
+        }
+
+        // Then read direct readFrom scalars
         for (const ctrl of wizard.controls) {
             if (ctrl.readFrom) {
                 const param = findParam(ctx.definition.parameters, ctrl.readFrom);
                 if (param && param.type === 'VALUE') {
                     initial[ctrl.key] = readParameterValue(ctx.bin.data, param, ctx.calOffset, ctx.bigEndian);
-                    continue;
                 }
             }
-            if (ctrl.default !== undefined) {
-                initial[ctrl.key] = ctrl.default;
-            }
         }
+
+        // Then derive state from bin (overrides defaults for virtual controls)
+        if (wizard.readState) {
+            const wizCtx: WizardContext = {
+                params: ctx.definition.parameters,
+                findParam: (name) => findParam(ctx.definition!.parameters, name),
+                readTable: (param) => readTableData(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
+                readScalar: (param) => readParameterValue(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
+            };
+            Object.assign(initial, wizard.readState(wizCtx));
+        }
+
         return initial;
     }, [ctx.bin, ctx.definition, ctx.calOffset, ctx.bigEndian]);
 
@@ -115,7 +133,13 @@ export function WizardModal({onClose}: Props) {
             }
         }
 
-        if (changed) ctx.markModified();
+        if (changed) {
+            ctx.markModified();
+            track('Apply Wizard', {wizard: activeWizard.id, definition: ctx.definition.name});
+            for (const [key, val] of Object.entries(values)) {
+                track('Wizard Value', {wizard: activeWizard.id, key, value: val});
+            }
+        }
         onClose();
     }, [ctx.bin, ctx.definition, ctx.calOffset, ctx.bigEndian, values, activeWizard, onClose]);
 

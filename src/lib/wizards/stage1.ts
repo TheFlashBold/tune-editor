@@ -112,13 +112,46 @@ export const stage1: WizardDef = {
         },
     ],
     presets: [],
+    readState(ctx: WizardContext): Record<string, number> {
+        const find = ctx.findParam;
+        const scalar = (name: string) => {
+            const p = find(name);
+            return p ? ctx.readScalar(p) : undefined;
+        };
+        const state: Record<string, number> = {};
+
+        // Rev limit from id_n_max_stat_vvl_h (table, use average)
+        const revParam = find('id_n_max_stat_vvl_h');
+        if (revParam) {
+            const data = ctx.readTable(revParam);
+            const flat = data.flat();
+            if (flat.length > 0) state['rev_limit'] = flat.reduce((a, b) => a + b, 0) / flat.length;
+        }
+
+        // Rev limit standing: average of all gearbox type limits
+        const nMaxNames = ['c_n_max_at', 'c_n_max_cvt', 'c_n_max_dct', 'c_n_max_mt'];
+        const nMaxVals = nMaxNames.map(scalar).filter((v): v is number => v !== undefined);
+        if (nMaxVals.length > 0) state['rev_limit_standing'] = nMaxVals.reduce((a, b) => a + b, 0) / nMaxVals.length;
+
+        // Speed limit: average of all speed limit variants
+        const speedNames = [
+            'lmvlim_vmax_vlim_c_vw.vehspdl2lvl1',
+            'lmvlim_vmax_vlim_c_vw.vehspdl2lvl2',
+            'lmvlim_vmax_vlim_c_vw.vehspdl2lvl3',
+            'lmvlim_vmax_vlim_c_vw.vehspdl2notacv',
+        ];
+        const speedVals = speedNames.map(scalar).filter((v): v is number => v !== undefined);
+        if (speedVals.length > 0) state['speed_limit'] = speedVals.reduce((a, b) => a + b, 0) / speedVals.length;
+
+        return state;
+    },
     apply(values: Record<string, number>, ctx: WizardContext): WizardApplyResult {
         const v = (k: string, fallback = 0) => values[k] ?? fallback;
         const scalars: Record<string, number> = {};
         const tableCells: Record<string, TableCellWrite[]> = {};
         const tableFills: Record<string, number> = {};
 
-        const find = (name: string) => ctx.params.find(p => p.name.toLowerCase() === name.toLowerCase());
+        const find = ctx.findParam;
 
         // Scale torque limit maps
         const factor = 1 + v('torque_pct', 25) / 100;
