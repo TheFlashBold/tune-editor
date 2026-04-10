@@ -20,6 +20,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version: '1.19.4',
+        date: '10.04.2026',
+        changes: [
+            'Pops & Bangs wizard fixes'
+        ]
+    },
+    {
         version: '1.19.3',
         date: '09.04.2026',
         changes: [
