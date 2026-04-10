@@ -43,7 +43,11 @@ export const popsBangs: WizardDef = {
     description: 'Configure impulse combustion (exhaust crackle/pops on overrun and gear shifts)',
     product: 'tune_editor_pops_and_bangs',
     productId: 'price_1TKHTNQBLhZeM8j41zEyANuZ',
-    requiredParams: ['lc_imp_comb', 'ip_iga_imp_comb_sof_act[0]', 'ip_t_act_imp_comb_eng[0]'],
+    requiredParams: ['lc_imp_comb', 'id_imp_comb_act_state_cc', 'lc_iga_bol_imp_comb_ena', 'c_conf_imp_comb_gs', 'clf_conf_imp_comb_aux',
+        'lc_imp_comb_ct_gs_ena', 'lc_imp_comb_puc_ena', 'lc_conf_imp_comb_cru', 'lc_conf_imp_comb_tip_in_inh', 'c_vs_min_imp_comb',
+        'c_n_min_imp_comb', 'c_n_max_imp_comb', 'ip_iga_imp_comb_sof_act[0]', 'ip_iga_imp_comb_sof_deac[0]', 'ip_tqi_gs_fast_inc_max_imp_comb',
+        'c_tq_req_dif_tra_min_imp_comb', 'ip_t_dly_temp_cat_imp_comb', 'ip_t_max_pu_end_imp_comb', 'ip_t_act_imp_comb_gs', 'ip_t_act_imp_comb_gs_spt',
+        'c_t_dly_imp_comb_act_gs'],
     controls: [
         // ── Enable ──
         {
@@ -71,7 +75,7 @@ export const popsBangs: WizardDef = {
             group: 'Enable'
         },
         {
-            key: 'powerup',
+            key: 'pedalUp',
             label: 'Pops on throttle lift',
             description: 'Allows pops to happen when throttle is lifted after hard acceleration',
             readFrom: 'lc_imp_comb_puc_ena',
@@ -214,9 +218,8 @@ export const popsBangs: WizardDef = {
     ],
     presets: [],
     readState(ctx: WizardContext): Record<string, number> {
-        const find = ctx.findParam;
         const scalar = (name: string) => {
-            const p = find(name);
+            const p = ctx.findParam(name);
             return p ? ctx.readScalar(p) : undefined;
         };
         const state: Record<string, number> = {};
@@ -224,33 +227,36 @@ export const popsBangs: WizardDef = {
         state['standstill'] = (!scalar('lc_conf_imp_comb_tip_in_inh') && scalar('c_vs_min_imp_comb') === 0) ? 1 : 0;
 
         // Aggressiveness: infer from first iga map average
-        const igaParam = find('ip_iga_imp_comb_sof_act[0]');
+        const igaParam = ctx.findParam('ip_iga_imp_comb_sof_act[0]');
         if (igaParam) {
             const data = ctx.readTable(igaParam);
             const flat = data.flat();
             const avg = flat.length > 0 ? flat.reduce((a, b) => a + b, 0) / flat.length : -16;
+
             // Map average retard to nearest level
-            if (avg < -12) {
+            if (avg > -12) {
                 state['aggressiveness'] = 0;
-            } else if (avg < -19) {
+            } else if (avg > -19) {
                 state['aggressiveness'] = 1;
-            } else if (avg < -26) {
+            } else if (avg > -23) {
                 state['aggressiveness'] = 2;
             } else {
                 state['aggressiveness'] = 3;
             }
         }
 
-        // Duration: infer from first engine duration map average
-        const durParam = find('ip_t_act_imp_comb_eng[0]');
+        // Duration: infer from first engine duration map average ip_t_act_imp_comb_eng is simos 12
+        const durParam = ctx.findParam('ip_t_act_imp_comb_eng[0]') ?? ctx.findParam('ip_t_act_imp_comb_eng');
         if (durParam) {
             const data = ctx.readTable(durParam);
             const flat = data.slice(0, 6).flat();
-            if (flat.length > 0) state['duration'] = flat.reduce((a, b) => a + b, 0) / flat.length;
+            if (flat.length > 0) {
+                state['duration'] = flat.reduce((a, b) => a + b, 0) / flat.length;
+            }
         }
 
         // Duration GS
-        const durGsParam = find('ip_t_act_imp_comb_gs');
+        const durGsParam = ctx.findParam('ip_t_act_imp_comb_gs');
         if (durGsParam) {
             const data = ctx.readTable(durGsParam);
             const flat = data.slice(0, 6).flat();
@@ -260,7 +266,7 @@ export const popsBangs: WizardDef = {
         }
 
         // Duration GS SPT
-        const durGsSptParam = find('ip_t_act_imp_comb_gs_spt');
+        const durGsSptParam = ctx.findParam('ip_t_act_imp_comb_gs_spt');
         if (durGsSptParam) {
             const data = ctx.readTable(durGsSptParam);
             const flat = data.flat();
@@ -269,8 +275,8 @@ export const popsBangs: WizardDef = {
             }
         }
 
-        // Duration SPT
-        const durSptParam = find('ip_t_act_imp_comb_eng_spt[0]');
+        // Duration SPT ip_t_act_imp_comb_eng_spt is simos 12
+        const durSptParam = ctx.findParam('ip_t_act_imp_comb_eng_spt[0]') ?? ctx.findParam("ip_t_act_imp_comb_eng_spt");
         if (durSptParam) {
             const data = ctx.readTable(durSptParam);
             const flat = data.slice(0, 6).flat();
@@ -284,7 +290,6 @@ export const popsBangs: WizardDef = {
         const scalars: Record<string, number> = {};
         const tableFills: Record<string, number> = {};
         const tableCells: Record<string, TableCellWrite[]> = {};
-        const find = ctx.findParam;
 
         // ── Master enables ──
         scalars['lc_imp_comb'] = v('master');
@@ -293,15 +298,21 @@ export const popsBangs: WizardDef = {
         scalars['c_conf_imp_comb_gs'] = v('master') ? 2 : 0;
         scalars['clf_conf_imp_comb_aux'] = v('master') ? 63 : 0;
         scalars['lc_imp_comb_ct_gs_ena'] = v('gearshift');
-        scalars['lc_gs_tq_inc_imp_comb_ena'] = v('gearshift');
-        scalars['lc_imp_comb_puc_ena'] = v('powerup');
+        if (ctx.findParam('lc_gs_tq_inc_imp_comb_ena')) {
+            scalars['lc_gs_tq_inc_imp_comb_ena'] = v('gearshift');
+        }
+        scalars['lc_imp_comb_puc_ena'] = v('pedalUp');
         scalars['lc_conf_imp_comb_cru'] = v('master');
 
         // ── Standstill ──
         const standstill = v('standstill');
         scalars['lc_conf_imp_comb_tip_in_inh'] = standstill ? 0 : 1; // 0 = not inhibited
-        scalars['lc_imp_comb_sel_psn_n_act'] = standstill;
-        scalars['lc_imp_comb_sel_psn_p_act'] = standstill;
+        if (ctx.findParam('lc_imp_comb_sel_psn_n_act')) {
+            scalars['lc_imp_comb_sel_psn_n_act'] = standstill;
+        }
+        if (ctx.findParam('lc_imp_comb_sel_psn_p_act')) {
+            scalars['lc_imp_comb_sel_psn_p_act'] = standstill;
+        }
         scalars['c_vs_min_imp_comb'] = standstill ? 0 : 5;
 
         // ── Thresholds ──
@@ -333,7 +344,7 @@ export const popsBangs: WizardDef = {
 
         // ── Min ignition angle during gear shift — only high RPM + high load cells ──
         for (const name of ['ip_iga_add_min_gs_req', 'ip_iga_add_min_gs_req_spt']) {
-            const param = find(name);
+            const param = ctx.findParam(name);
             if (param) {
                 tableCells[name] = fillRegion(param, 2000, 300, iga);
             }
@@ -341,16 +352,24 @@ export const popsBangs: WizardDef = {
 
         // ── Duration — fill duration maps with the duration value ──
         const dur = v('duration', 2);
-        tableFills['ip_t_act_imp_comb_eng[0]'] = dur;
-        tableFills['ip_t_act_imp_comb_eng[1]'] = dur;
-        tableFills['ip_t_act_imp_comb_eng[2]'] = dur;
-        tableFills['ip_t_act_imp_comb_eng[3]'] = dur;
+        if (ctx.findParam("ip_t_act_imp_comb_eng")) {
+            tableFills['ip_t_act_imp_comb_eng'] = dur;
+        } else if (ctx.findParam("ip_t_act_imp_comb_eng[0]")) {
+            tableFills['ip_t_act_imp_comb_eng[0]'] = dur;
+            tableFills['ip_t_act_imp_comb_eng[1]'] = dur;
+            tableFills['ip_t_act_imp_comb_eng[2]'] = dur;
+            tableFills['ip_t_act_imp_comb_eng[3]'] = dur;
+        }
 
         const durSpt = v('duration_spt', 3);
-        tableFills['ip_t_act_imp_comb_eng_spt[0]'] = durSpt;
-        tableFills['ip_t_act_imp_comb_eng_spt[1]'] = durSpt;
-        tableFills['ip_t_act_imp_comb_eng_spt[2]'] = durSpt;
-        tableFills['ip_t_act_imp_comb_eng_spt[3]'] = durSpt;
+        if (ctx.findParam("ip_t_act_imp_comb_eng_spt")) {
+            tableFills['ip_t_act_imp_comb_eng_spt'] = durSpt;
+        } else if (ctx.findParam("ip_t_act_imp_comb_eng_spt[0]")) {
+            tableFills['ip_t_act_imp_comb_eng_spt[0]'] = durSpt;
+            tableFills['ip_t_act_imp_comb_eng_spt[1]'] = durSpt;
+            tableFills['ip_t_act_imp_comb_eng_spt[2]'] = durSpt;
+            tableFills['ip_t_act_imp_comb_eng_spt[3]'] = durSpt;
+        }
 
         tableFills['ip_t_max_pu_end_imp_comb'] = Math.max(dur, durSpt);
 

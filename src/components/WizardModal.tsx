@@ -278,12 +278,14 @@ export function WizardModal({onClose}: Props) {
                                                 <div class="flex items-center gap-2">
                                                     <span class="font-semibold text-base">{w.name}</span>
                                                     {!compatible && (
-                                                        <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
+                                                        <span
+                                                            class="text-[10px] px-1.5 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
                                                             incompatible
                                                         </span>
                                                     )}
                                                     {canOpen && !w.productId && (
-                                                        <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
+                                                        <span
+                                                            class="text-[10px] px-1.5 py-0.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
                                                             free
                                                         </span>
                                                     )}
