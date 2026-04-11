@@ -1,3 +1,5 @@
+const APP_VERSION = __APP_VERSION__;
+
 const DOMAIN = 'theflashbold.github.io';
 const API = 'https://signals.holzer-consulting.ch/api/event';
 const V = 33;
@@ -19,8 +21,10 @@ function send(payload: Record<string, unknown>) {
             headers: {'Content-Type': 'text/plain'},
             keepalive: true,
             body: JSON.stringify(payload),
-        }).catch(() => {});
-    } catch { /* noop */ }
+        }).catch(() => {
+        });
+    } catch { /* noop */
+    }
 }
 
 function getPageHeight() {
@@ -68,11 +72,16 @@ function onVisibilityOrFocusChange() {
 function isIgnored(): boolean {
     if (/^localhost$|^127(\.[0-9]+){0,2}\.[0-9]+$|^\[::1?\]$/.test(location.hostname) || location.protocol === 'file:') return true;
     if ((window as any)._phantom || (window as any).__nightmare || navigator.webdriver || (window as any).Cypress) return true;
-    try { if (localStorage.plausible_ignore === 'true') return true; } catch { /* noop */ }
+    try {
+        if (localStorage.plausible_ignore === 'true') return true;
+    } catch { /* noop */
+    }
     return false;
 }
 
-export function track(event: string, props?: Record<string, string | number | boolean>) {
+export function track(event: string, props: Record<string, string | number | boolean> = {}) {
+    props.appVersion = APP_VERSION;
+
     const isPageview = event === 'pageview';
 
     if (isPageview && listenersAttached) {
@@ -89,7 +98,7 @@ export function track(event: string, props?: Record<string, string | number | bo
     const payload: Record<string, unknown> = {
         n: event, u: location.href, d: DOMAIN, r: document.referrer || null, v: V,
     };
-    if (props) payload.p = props;
+    payload.p = props;
 
     if (isPageview) {
         ignorePageview = false;
