@@ -203,7 +203,7 @@ export const is38Upgrade: WizardDef = {
         'ip_fac_kp_bpa_ctl_cor_pos', 'ip_fac_kp_bpa_ctl_cor_pos_1',
     ],
     product: "tune_editor_is38_upgrade",
-    productId: "price_1TKLKiQBLhZeM8j4rSUPz5j0",
+    productId: "prod_UIxFUTsBBgrt0g",
     controls: [],
     presets: [],
     apply(_values: Record<string, number>, ctx: WizardContext): WizardApplyResult {
