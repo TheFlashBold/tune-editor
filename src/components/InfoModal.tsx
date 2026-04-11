@@ -20,10 +20,11 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
-        version: '1.19.4',
+        version: '1.19.5',
         date: '10.04.2026',
         changes: [
-            'Pops & Bangs wizard fixes'
+            'Pops & Bangs wizard fixes',
+            'Added SC1 CB6 definition'
         ]
     },
     {

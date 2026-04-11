@@ -126,9 +126,9 @@ function TreeNodeView({
                 <Fragment key={node.path}>
                     {Array.from(node.children.values())
                         .sort((a, b) => a.name.localeCompare(b.name))
-                        .map(child => (
+                        .map((child, index) => (
                             <TreeNodeView
-                                key={child.path}
+                                key={child.path + "_" + index}
                                 node={child}
                                 depth={node.name === 'Root' ? 0 : depth + 1}
                                 onSelect={onSelect}

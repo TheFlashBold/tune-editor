@@ -533,5 +533,14 @@
       "expected": "SCG920"
     },
     "paramCount": 6434
+  },
+  {
+    "name": "SC1 CB6",
+    "file": "SC1CB6.json",
+    "verification": {
+      "position": 262146,
+      "expected": "SC1CB6"
+    },
+    "paramCount": 12447
   }
 ]

@@ -42,12 +42,28 @@ export function MenuBar({
     const [showWizards, setShowWizards] = useState(false);
     const [loginState, setLoginState] = useState<LoginState | null>(() => getLoginState());
 
+    // Validate stored token on mount
+    useEffect(() => {
+        const stored = getLoginState();
+        if (!stored) return;
+        AuthService.self().then(user => {
+            const next = {...stored, user};
+            localStorage.setItem('login', JSON.stringify(next));
+            setLoginState(next);
+        }).catch(() => {
+            localStorage.removeItem('login');
+            localStorage.removeItem('login_renewed');
+            setLoginState(null);
+        });
+    }, []);
+
     const handleLogout = useCallback(() => {
         localStorage.removeItem('login');
+        localStorage.removeItem('login_renewed');
         setLoginState(null);
     }, []);
 
-    // Validate token on window focus
+    // Renew token on window focus (at most once per hour)
     useEffect(() => {
         const checkAuth = async () => {
             const stored = getLoginState();
@@ -55,13 +71,20 @@ export function MenuBar({
                 setLoginState(null);
                 return;
             }
+
+            const lastRenew = parseInt(localStorage.getItem('login_renewed') || '0', 10);
+            const hourAgo = Date.now() - 60 * 60 * 1000;
+
+            if (lastRenew > hourAgo) return;
+
             try {
-                const user = await AuthService.self();
-                const nextLoginState = {...stored, user}
-                localStorage.setItem('login', JSON.stringify(nextLoginState));
-                setLoginState(nextLoginState);
+                const renewed = await AuthService.renew();
+                localStorage.setItem('login', JSON.stringify(renewed));
+                localStorage.setItem('login_renewed', String(Date.now()));
+                setLoginState(renewed);
             } catch {
                 localStorage.removeItem('login');
+                localStorage.removeItem('login_renewed');
                 setLoginState(null);
             }
         };
