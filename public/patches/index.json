@@ -38,7 +38,19 @@
     "name": "TFB PATCH - O30",
     "file": "TFB_PATCH_-_SC8O30.btp",
     "definition": "SC8O30_TFB_Patch.json",
-    "category": "Main Patch",
+    "category": "Testing",
+    "variant": "O30"
+  },
+  {
+    "name": "TFB PASSTHROUGH - O30",
+    "file": "TFB_PASSTHROUGH_-_SC8O30.btp",
+    "category": "Testing",
+    "variant": "O30"
+  },
+  {
+    "name": "TFB PASSTHROUGH C - O30",
+    "file": "TFB_PASSTHROUGH_C_-_SC8O30.btp",
+    "category": "Testing",
     "variant": "O30"
   },
   {

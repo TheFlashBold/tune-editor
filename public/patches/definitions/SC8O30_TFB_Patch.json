@@ -5,7 +5,7 @@
   "parameters": [
     {
       "name": "Torque Request AT Type 1",
-      "description": "Maximum Torque at Clutch AT PC 0 Type 0",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2518612,
       "type": "MAP",
       "dataType": "UWORD",
@@ -19,17 +19,19 @@
         "Map Switching",
         "Map Slot 1"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 0 Type 0",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -37,14 +39,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 0 Type 0"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 2",
-      "description": "Maximum Torque at Clutch AT PC 0 Type 1",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2518972,
       "type": "MAP",
       "dataType": "UWORD",
@@ -58,17 +60,19 @@
         "Map Switching",
         "Map Slot 1"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 0 Type 1",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -76,14 +80,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 0 Type 1"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 3",
-      "description": "Maximum Torque at Clutch AT PC 0 Type 2",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2519332,
       "type": "MAP",
       "dataType": "UWORD",
@@ -97,17 +101,19 @@
         "Map Switching",
         "Map Slot 1"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 0 Type 2",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -115,14 +121,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 0 Type 2"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 1",
-      "description": "Maximum Torque at Clutch AT PC 1 Type 0",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2519692,
       "type": "MAP",
       "dataType": "UWORD",
@@ -136,17 +142,19 @@
         "Map Switching",
         "Map Slot 2"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 1 Type 0",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -154,14 +162,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 1 Type 0"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 2",
-      "description": "Maximum Torque at Clutch AT PC 1 Type 1",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2520052,
       "type": "MAP",
       "dataType": "UWORD",
@@ -175,17 +183,19 @@
         "Map Switching",
         "Map Slot 2"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 1 Type 1",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -193,14 +203,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 1 Type 1"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 3",
-      "description": "Maximum Torque at Clutch AT PC 1 Type 2",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2520412,
       "type": "MAP",
       "dataType": "UWORD",
@@ -214,17 +224,19 @@
         "Map Switching",
         "Map Slot 2"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 1 Type 2",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -232,14 +244,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 1 Type 2"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 1",
-      "description": "Maximum Torque at Clutch AT PC 2 Type 0",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2520772,
       "type": "MAP",
       "dataType": "UWORD",
@@ -253,17 +265,19 @@
         "Map Switching",
         "Map Slot 3"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 2 Type 0",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -271,14 +285,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 2 Type 0"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 2",
-      "description": "Maximum Torque at Clutch AT PC 2 Type 1",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2521132,
       "type": "MAP",
       "dataType": "UWORD",
@@ -292,17 +306,19 @@
         "Map Switching",
         "Map Slot 3"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 2 Type 1",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -310,14 +326,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 2 Type 1"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 3",
-      "description": "Maximum Torque at Clutch AT PC 2 Type 2",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2521492,
       "type": "MAP",
       "dataType": "UWORD",
@@ -331,17 +347,19 @@
         "Map Switching",
         "Map Slot 3"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 2 Type 2",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -349,14 +367,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 2 Type 2"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 1",
-      "description": "Maximum Torque at Clutch AT PC 3 Type 0",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2521852,
       "type": "MAP",
       "dataType": "UWORD",
@@ -370,17 +388,19 @@
         "Map Switching",
         "Map Slot 4"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 3 Type 0",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -388,14 +408,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 3 Type 0"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 2",
-      "description": "Maximum Torque at Clutch AT PC 3 Type 1",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2522212,
       "type": "MAP",
       "dataType": "UWORD",
@@ -409,17 +429,19 @@
         "Map Switching",
         "Map Slot 4"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 3 Type 1",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -427,14 +449,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 3 Type 1"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 3",
-      "description": "Maximum Torque at Clutch AT PC 3 Type 2",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2522572,
       "type": "MAP",
       "dataType": "UWORD",
@@ -448,17 +470,19 @@
         "Map Switching",
         "Map Slot 4"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 3 Type 2",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -466,14 +490,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 3 Type 2"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 1",
-      "description": "Maximum Torque at Clutch AT PC 4 Type 0",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2522932,
       "type": "MAP",
       "dataType": "UWORD",
@@ -487,17 +511,19 @@
         "Map Switching",
         "Map Slot 5"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 4 Type 0",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -505,14 +531,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 4 Type 0"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 2",
-      "description": "Maximum Torque at Clutch AT PC 4 Type 1",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2523292,
       "type": "MAP",
       "dataType": "UWORD",
@@ -526,17 +552,19 @@
         "Map Switching",
         "Map Slot 5"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 4 Type 1",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -544,14 +572,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 4 Type 1"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request AT Type 3",
-      "description": "Maximum Torque at Clutch AT PC 4 Type 2",
+      "description": "Maximum allowed torque at clutch AT",
       "address": 2523652,
       "type": "MAP",
       "dataType": "UWORD",
@@ -565,17 +593,19 @@
         "Map Switching",
         "Map Slot 5"
       ],
+      "customName": "Maximum Torque at Clutch AT PC 4 Type 2",
+      "columnDir": true,
       "cols": 20,
       "rows": 9,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -583,14 +613,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50918,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch AT PC 4 Type 2"
+        "address": 50917,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "Maximum Torque at Clutch MT PC 0 Type 0",
+      "description": "Maximum allowed torque at clutch MT",
       "address": 2525212,
       "type": "MAP",
       "dataType": "UWORD",
@@ -604,17 +634,19 @@
         "Map Switching",
         "Map Slot 1"
       ],
+      "customName": "Maximum Torque at Clutch MT PC 0 Type 0",
+      "columnDir": true,
       "cols": 20,
       "rows": 7,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -622,14 +654,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50967,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch MT PC 0 Type 0"
+        "address": 50966,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "Maximum Torque at Clutch MT PC 0 Type 1",
+      "description": "Maximum allowed torque at clutch MT",
       "address": 2525492,
       "type": "MAP",
       "dataType": "UWORD",
@@ -643,17 +675,19 @@
         "Map Switching",
         "Map Slot 1"
       ],
+      "customName": "Maximum Torque at Clutch MT PC 0 Type 1",
+      "columnDir": true,
       "cols": 20,
       "rows": 7,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -661,14 +695,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50967,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch MT PC 0 Type 1"
+        "address": 50966,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "Maximum Torque at Clutch MT PC 1 Type 0",
+      "description": "Maximum allowed torque at clutch MT",
       "address": 2525772,
       "type": "MAP",
       "dataType": "UWORD",
@@ -682,17 +716,19 @@
         "Map Switching",
         "Map Slot 2"
       ],
+      "customName": "Maximum Torque at Clutch MT PC 1 Type 0",
+      "columnDir": true,
       "cols": 20,
       "rows": 7,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -700,14 +736,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50967,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch MT PC 1 Type 0"
+        "address": 50966,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "Maximum Torque at Clutch MT PC 1 Type 1",
+      "description": "Maximum allowed torque at clutch MT",
       "address": 2526052,
       "type": "MAP",
       "dataType": "UWORD",
@@ -721,17 +757,19 @@
         "Map Switching",
         "Map Slot 2"
       ],
+      "customName": "Maximum Torque at Clutch MT PC 1 Type 1",
+      "columnDir": true,
       "cols": 20,
       "rows": 7,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -739,14 +777,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50967,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch MT PC 1 Type 1"
+        "address": 50966,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "Maximum Torque at Clutch MT PC 2 Type 0",
+      "description": "Maximum allowed torque at clutch MT",
       "address": 2526332,
       "type": "MAP",
       "dataType": "UWORD",
@@ -760,17 +798,19 @@
         "Map Switching",
         "Map Slot 3"
       ],
+      "customName": "Maximum Torque at Clutch MT PC 2 Type 0",
+      "columnDir": true,
       "cols": 20,
       "rows": 7,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -778,14 +818,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50967,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch MT PC 2 Type 0"
+        "address": 50966,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "Maximum Torque at Clutch MT PC 2 Type 1",
+      "description": "Maximum allowed torque at clutch MT",
       "address": 2526612,
       "type": "MAP",
       "dataType": "UWORD",
@@ -799,17 +839,19 @@
         "Map Switching",
         "Map Slot 3"
       ],
+      "customName": "Maximum Torque at Clutch MT PC 2 Type 1",
+      "columnDir": true,
       "cols": 20,
       "rows": 7,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -817,14 +859,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50967,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch MT PC 2 Type 1"
+        "address": 50966,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "Maximum Torque at Clutch MT PC 3 Type 0",
+      "description": "Maximum allowed torque at clutch MT",
       "address": 2526892,
       "type": "MAP",
       "dataType": "UWORD",
@@ -838,17 +880,19 @@
         "Map Switching",
         "Map Slot 4"
       ],
+      "customName": "Maximum Torque at Clutch MT PC 3 Type 0",
+      "columnDir": true,
       "cols": 20,
       "rows": 7,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -856,14 +900,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50967,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch MT PC 3 Type 0"
+        "address": 50966,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "Maximum Torque at Clutch MT PC 3 Type 1",
+      "description": "Maximum allowed torque at clutch MT",
       "address": 2527172,
       "type": "MAP",
       "dataType": "UWORD",
@@ -877,17 +921,19 @@
         "Map Switching",
         "Map Slot 4"
       ],
+      "customName": "Maximum Torque at Clutch MT PC 3 Type 1",
+      "columnDir": true,
       "cols": 20,
       "rows": 7,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -895,14 +941,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50967,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch MT PC 3 Type 1"
+        "address": 50966,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request MT Type 1",
-      "description": "Maximum Torque at Clutch MT PC 4 Type 0",
+      "description": "Maximum allowed torque at clutch MT",
       "address": 2527452,
       "type": "MAP",
       "dataType": "UWORD",
@@ -916,17 +962,19 @@
         "Map Switching",
         "Map Slot 5"
       ],
+      "customName": "Maximum Torque at Clutch MT PC 4 Type 0",
+      "columnDir": true,
       "cols": 20,
       "rows": 7,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -934,14 +982,14 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50967,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch MT PC 4 Type 0"
+        "address": 50966,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Torque Request MT Type 2",
-      "description": "Maximum Torque at Clutch MT PC 4 Type 1",
+      "description": "Maximum allowed torque at clutch MT",
       "address": 2527732,
       "type": "MAP",
       "dataType": "UWORD",
@@ -955,17 +1003,19 @@
         "Map Switching",
         "Map Slot 5"
       ],
+      "customName": "Maximum Torque at Clutch MT PC 4 Type 1",
+      "columnDir": true,
       "cols": 20,
       "rows": 7,
-      "columnDir": true,
       "xAxis": {
         "type": "COM_AXIS",
         "points": 20,
         "min": 0.0,
         "max": 8160.0,
         "unit": "rpm",
-        "address": 417884,
-        "dataType": "UWORD"
+        "address": 417882,
+        "dataType": "UWORD",
+        "dataOffset": 2
       },
       "yAxis": {
         "type": "COM_AXIS",
@@ -973,10 +1023,10 @@
         "min": 0.0,
         "max": 255.0,
         "unit": "-",
-        "address": 50967,
-        "dataType": "UBYTE"
-      },
-      "customName": "Maximum Torque at Clutch MT PC 4 Type 1"
+        "address": 50966,
+        "dataType": "UBYTE",
+        "dataOffset": 1
+      }
     },
     {
       "name": "Knock threshold for blink mil on knock average",
