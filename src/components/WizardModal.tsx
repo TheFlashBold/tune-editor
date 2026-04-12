@@ -55,8 +55,11 @@ export function WizardModal({onClose}: Props) {
         if (!isLoggedIn) return;
         try {
             setLoadingUnlocks(true);
-            const result = await TuningService.getUnlocks();
-            setUnlocks(result);
+            const [result] = await Promise.all([
+                TuningService.getUnlocks(),
+                new Promise(r => setTimeout(r, 300)),
+            ]);
+            setUnlocks(result as TuningUnlock[]);
         } catch {
             setUnlocks([]);
         } finally {
@@ -82,7 +85,7 @@ export function WizardModal({onClose}: Props) {
     const isUnlocked = useCallback((wizard: WizardDef): boolean => {
         if (!wizard.productId) return true;
         if (!unlocks) return false;
-        return unlocks.some(u => u.product === wizard.product && u.ref === ref);
+        return unlocks.some(u => u.product === wizard.product); //  && u.ref === ref no ref check for now
     }, [unlocks, ref]);
 
     const handleCheckout = useCallback((wizard: WizardDef) => {
@@ -250,6 +253,12 @@ export function WizardModal({onClose}: Props) {
                     <p class="text-zinc-500 text-sm">Loading...</p>
                 ) : (
                     <div class="space-y-3">
+                        <div class="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-sm text-blue-400">
+                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/>
+                            </svg>
+                            Unlock once: use on all compatible bins
+                        </div>
                         {WIZARDS.map(w => {
                             const compatible = !w.requiredParams || w.requiredParams.every(
                                 name => findParam(ctx.definition!.parameters, name)

@@ -109,6 +109,8 @@ const PRESETS: GearPreset[] = [
 export const gearRatio: WizardDef = {
     id: 'gear-ratio',
     name: 'Gear Ratios (Manual)',
+    product: 'tune_editor_gear_ratios',
+    productId: 'prod_UJy6KwYEQcWE9G',
     description: 'Modify manual transmission gear ratio detection map',
     requiredParams: ['id_gear_gr_mt', 'id_ratio_n_gb_nctl_mt[0]'],
     controls: [
