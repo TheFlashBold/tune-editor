@@ -4,1065 +4,24 @@
   "baseAddress": 0,
   "parameters": [
     {
-      "name": "Torque Request AT Type 1",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2518612,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 0 Type 0",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 2",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2518972,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 0 Type 1",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 3",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2519332,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 0 Type 2",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 1",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2519692,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 1 Type 0",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 2",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2520052,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 1 Type 1",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 3",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2520412,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 1 Type 2",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 1",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2520772,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 2 Type 0",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 2",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2521132,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 2 Type 1",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 3",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2521492,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 2 Type 2",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 1",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2521852,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 3 Type 0",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 2",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2522212,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 3 Type 1",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 3",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2522572,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 3 Type 2",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 1",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2522932,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 4 Type 0",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 2",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2523292,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 4 Type 1",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request AT Type 3",
-      "description": "Maximum allowed torque at clutch AT",
-      "address": 2523652,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ],
-      "customName": "Maximum Torque at Clutch AT PC 4 Type 2",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 9,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50917,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request MT Type 1",
-      "description": "Maximum allowed torque at clutch MT",
-      "address": 2525212,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ],
-      "customName": "Maximum Torque at Clutch MT PC 0 Type 0",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50966,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request MT Type 2",
-      "description": "Maximum allowed torque at clutch MT",
-      "address": 2525492,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ],
-      "customName": "Maximum Torque at Clutch MT PC 0 Type 1",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50966,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request MT Type 1",
-      "description": "Maximum allowed torque at clutch MT",
-      "address": 2525772,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ],
-      "customName": "Maximum Torque at Clutch MT PC 1 Type 0",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50966,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request MT Type 2",
-      "description": "Maximum allowed torque at clutch MT",
-      "address": 2526052,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ],
-      "customName": "Maximum Torque at Clutch MT PC 1 Type 1",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50966,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request MT Type 1",
-      "description": "Maximum allowed torque at clutch MT",
-      "address": 2526332,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ],
-      "customName": "Maximum Torque at Clutch MT PC 2 Type 0",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50966,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request MT Type 2",
-      "description": "Maximum allowed torque at clutch MT",
-      "address": 2526612,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ],
-      "customName": "Maximum Torque at Clutch MT PC 2 Type 1",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50966,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request MT Type 1",
-      "description": "Maximum allowed torque at clutch MT",
-      "address": 2526892,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ],
-      "customName": "Maximum Torque at Clutch MT PC 3 Type 0",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50966,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request MT Type 2",
-      "description": "Maximum allowed torque at clutch MT",
-      "address": 2527172,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ],
-      "customName": "Maximum Torque at Clutch MT PC 3 Type 1",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50966,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request MT Type 1",
-      "description": "Maximum allowed torque at clutch MT",
-      "address": 2527452,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ],
-      "customName": "Maximum Torque at Clutch MT PC 4 Type 0",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50966,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Torque Request MT Type 2",
-      "description": "Maximum allowed torque at clutch MT",
-      "address": 2527732,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "Nm",
-      "min": 0.0,
-      "max": 1023.96875,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ],
-      "customName": "Maximum Torque at Clutch MT PC 4 Type 1",
-      "columnDir": true,
-      "cols": 20,
-      "rows": 7,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 8160.0,
-        "unit": "rpm",
-        "address": 417882,
-        "dataType": "UWORD",
-        "dataOffset": 2
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 7,
-        "min": 0.0,
-        "max": 255.0,
-        "unit": "-",
-        "address": 50966,
-        "dataType": "UBYTE",
-        "dataOffset": 1
-      }
-    },
-    {
-      "name": "Knock threshold for blink mil on knock average",
-      "description": "Knock threshold for blink mil on knock average",
+      "name": "Knock average threshold for MIL blink",
+      "description": "Knock retard average threshold \u2014 MIL blinks when knock exceeds this (0 = disabled)",
       "address": 2604272,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "degree",
+      "unit": "\u00b0",
       "min": -48.0,
-      "max": 47.619999,
-      "factor": 0.37593984962406013,
-      "offset": -48.1203007518797,
+      "max": 47.625,
+      "factor": 0.375,
+      "offset": -48.0,
       "categories": [
         "TFB Patch",
         "Knock"
       ]
     },
     {
-      "name": "Knock threshold for blink mil on knock individual cylinder",
-      "description": "Knock threshold for blink mil on knock individual cylinder",
-      "address": 2604314,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "degree",
-      "min": -48.0,
-      "max": 47.619999,
-      "factor": 0.37593984962406013,
-      "offset": -48.1203007518797,
-      "categories": [
-        "TFB Patch",
-        "Knock"
-      ]
-    },
-    {
-      "name": "Additional blink time for blink mil on knock (ms)",
-      "description": "Additional blink time for blink mil on knock (ms) \u2014 0 is disabled",
+      "name": "MIL blink duration on knock",
+      "description": "Additional MIL blink time on knock detection (ms) \u2014 0 is disabled",
       "address": 2604273,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -1070,3378 +29,866 @@
       "min": 0.0,
       "max": 2550.0,
       "factor": 10.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
         "Knock"
       ]
     },
     {
-      "name": "Minimum engagement RPM",
-      "description": "Minimum engagement RPM",
-      "address": 2604274,
+      "name": "Knock per-cylinder threshold for MIL blink",
+      "description": "Per-cylinder knock retard threshold \u2014 MIL blinks when any cylinder exceeds this",
+      "address": 2604314,
       "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "rpm",
-      "min": 0.0,
-      "max": 8160.0,
-      "factor": 1.0,
-      "offset": -0.0,
+      "dataType": "UBYTE",
+      "unit": "\u00b0",
+      "min": -48.0,
+      "max": 47.625,
+      "factor": 0.375,
+      "offset": -48.0,
       "categories": [
         "TFB Patch",
-        "RAL"
+        "Knock"
       ]
     },
     {
-      "name": "Maximum engagement RPM",
-      "description": "Maximum engagement RPM",
-      "address": 2604276,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "rpm",
-      "min": 0.0,
-      "max": 8160.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ]
-    },
-    {
-      "name": "Maximum engagement cycles",
-      "description": "Maximum engagement cycles",
-      "address": 2604278,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "sparks",
-      "min": 0.0,
-      "max": 65535.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ]
-    },
-    {
-      "name": "Rev soft limit above engagement point",
-      "description": "Rev soft limit above engagement point \u2014 At this point the engine cuts fuel and spark to 1 cylinder every 4",
+      "name": "Rev soft limit offset",
+      "description": "Soft cut: 1 of 4 cylinders. RPM offset above engagement point.",
       "address": 2604280,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
-      "max": 8160.0,
+      "max": 65535.0,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "RAL"
+        "Rev Limiter"
       ]
     },
     {
-      "name": "Rev medium limit above engagement point",
-      "description": "Rev medium limit above engagement point \u2014 At this point the engine cuts fuel and spark to 1 cylinder every 3",
+      "name": "Rev medium limit offset",
+      "description": "Medium cut: 1 of 3 cylinders. RPM offset above engagement point.",
       "address": 2604282,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
-      "max": 8160.0,
+      "max": 65535.0,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "RAL"
+        "Rev Limiter"
       ]
     },
     {
-      "name": "Rev hard limit above engagement point",
-      "description": "Rev hard limit above engagement point \u2014 At this point the engine cuts fuel and spark to 2 cylinder every 4",
+      "name": "Rev hard limit offset",
+      "description": "Hard cut: 2 of 4 cylinders. RPM offset above engagement point.",
       "address": 2604284,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
-      "max": 8160.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ]
-    },
-    {
-      "name": "PUT modifier to prevent overboost",
-      "description": "PUT modifier to prevent overboost",
-      "address": 2604286,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kpa",
-      "min": -2716.949951,
-      "max": 2716.949951,
-      "factor": 0.008329156492802806,
-      "offset": -272.92979995616236,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ]
-    },
-    {
-      "name": "Ramp in cycles",
-      "description": "Ramp in cycles",
-      "address": 2604288,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "rev",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ]
-    },
-    {
-      "name": "Ramp out cycles",
-      "description": "Ramp out cycles",
-      "address": 2604289,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "rev",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ]
-    },
-    {
-      "name": "Maximum acceleration allowed to enable RAL",
-      "description": "Maximum acceleration allowed to enable RAL",
-      "address": 2604290,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "ms2",
-      "min": 0.0,
-      "max": 3.0,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ]
-    },
-    {
-      "name": "RPM filtering amount",
-      "description": "RPM filtering amount",
-      "address": 2604291,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 32.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ]
-    },
-    {
-      "name": "Minimum oil temperature",
-      "description": "Minimum oil temperature",
-      "address": 2604292,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "\u00b0C",
-      "min": -40.0,
-      "max": 215.0,
-      "factor": 1.0,
-      "offset": -40.0,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ]
-    },
-    {
-      "name": "Minimum coolant temperature",
-      "description": "Minimum coolant temperature",
-      "address": 2604293,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "\u00b0C",
-      "min": -48.0,
-      "max": 142.5,
-      "factor": 0.7518796992481203,
-      "offset": -48.1203007518797,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ]
-    },
-    {
-      "name": "RAL engagement button",
-      "description": "RAL engagement button \u2014 0: set 1: resume",
-      "address": 2604294,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ],
-      "enumLabels": {
-        "0": "Cruise Cancel",
-        "1": "Cruise Resume"
-      }
-    },
-    {
-      "name": "EGT ignition table",
-      "description": "EGT ignition table",
-      "address": 2607628,
-      "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "degree",
-      "min": -35.619999,
-      "max": 60.0,
-      "factor": 0.37499953125058594,
-      "offset": -35.624955468805666,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ],
-      "cols": 4,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 4,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2607620,
-        "dataType": "UWORD",
-        "factor": 0.03125,
-        "offset": -273.0
-      }
-    },
-    {
-      "name": "Disable clutch start (MT)",
-      "description": "Disable clutch start (MT)",
-      "address": 2604295,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Misc"
-      ],
-      "enumLabels": {
-        "0": "Clutch required (stock)",
-        "1": "Clutchless start"
-      }
-    },
-    {
-      "name": "WG table ambient temperature compensation",
-      "description": "WG table ambient temperature compensation \u2014 1.00 = 100%|X: x",
-      "address": 2607686,
-      "type": "CURVE",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": -1.0,
-      "max": 1.0,
-      "factor": 6.103515625e-05,
-      "offset": -2.0,
-      "categories": [
-        "TFB Patch",
-        "Misc"
-      ],
-      "cols": 6,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 6,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2607680,
-        "dataType": "UBYTE",
-        "factor": 0.7518796992481203,
-        "offset": -48.1203007518797
-      }
-    },
-    {
-      "name": "WG temperature axis",
-      "description": "WG temperature axis",
-      "address": 2607680,
-      "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "\u00b0C",
-      "min": -48.0,
-      "max": 143.25,
-      "factor": 0.7518796992481203,
-      "offset": -48.1203007518797,
-      "categories": [
-        "TFB Patch",
-        "Misc"
-      ],
-      "cols": 6,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 6,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "WG temperature axis header",
-      "description": "WG temperature axis header \u2014 must be 6",
-      "address": 2607679,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 6.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Misc"
-      ]
-    },
-    {
-      "name": "UI button",
-      "description": "UI button \u2014 0: Cruise Cancel(off) 1: Cruise Resume 2: Variable speed setpoint 3: Pedals",
-      "address": 2604296,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 3.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching"
-      ],
-      "enumLabels": {
-        "0": "Cruise Cancel",
-        "1": "Cruise Resume",
-        "2": "Cruise Set/Decel",
-        "3": "Pedals"
-      }
-    },
-    {
-      "name": "Timeout",
-      "description": "Timeout",
-      "address": 2604297,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 2550.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "TFB Patch",
-        "NLS"
-      ]
-    },
-    {
-      "name": "Minimum engagement RPM",
-      "description": "Minimum engagement RPM",
-      "address": 2604298,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "rpm",
-      "min": 2000.0,
-      "max": 7000.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "NLS"
-      ]
-    },
-    {
-      "name": "Minimum pedal",
-      "description": "Minimum pedal",
-      "address": 2604300,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "%",
-      "min": 0.0,
-      "max": 100.0,
-      "factor": 0.09765625,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "NLS"
-      ]
-    },
-    {
-      "name": "Target RPM",
-      "description": "Target RPM",
-      "address": 2604302,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "rpm",
-      "min": 0.0,
-      "max": 8160.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "TFB Patch",
-        "NLS"
-      ]
-    },
-    {
-      "name": "Timing during PU",
-      "description": "Timing during PU",
-      "address": 2604304,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "degree",
-      "min": -35.630001,
-      "max": 59.990002,
-      "factor": 0.37499999999999994,
-      "offset": -35.62499999999999,
-      "categories": [
-        "TFB Patch",
-        "NLS"
-      ]
-    },
-    {
-      "name": "Timing during RPM limiter and rampout",
-      "description": "Timing during RPM limiter and rampout",
-      "address": 2604305,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "degree",
-      "min": -35.630001,
-      "max": 59.990002,
-      "factor": 0.37499999999999994,
-      "offset": -35.62499999999999,
-      "categories": [
-        "TFB Patch",
-        "LC"
-      ]
-    },
-    {
-      "name": "Target TQ",
-      "description": "Target TQ",
-      "address": 2604306,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "nm",
-      "min": 0.0,
-      "max": 600.0,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "LC"
-      ]
-    },
-    {
-      "name": "Ramp out cycles",
-      "description": "Ramp out cycles",
-      "address": 2604308,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "rev",
-      "min": 0.0,
       "max": 65535.0,
       "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "LC"
-      ]
-    },
-    {
-      "name": "Target RPM",
-      "description": "Target RPM",
-      "address": 2604310,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "rpm",
-      "min": 0.0,
-      "max": 8160.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "LC"
-      ]
-    },
-    {
-      "name": "Minimum oil temperature",
-      "description": "Minimum oil temperature",
-      "address": 2604312,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "\u00b0C",
-      "min": -40.0,
-      "max": 215.0,
-      "factor": 1.0,
-      "offset": -40.0,
-      "categories": [
-        "TFB Patch",
-        "LC"
-      ]
-    },
-    {
-      "name": "Minimum coolant temperature",
-      "description": "Minimum coolant temperature",
-      "address": 2604313,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "\u00b0C",
-      "min": -48.0,
-      "max": 142.5,
-      "factor": 0.7518796992481203,
-      "offset": -48.1203007518797,
-      "categories": [
-        "TFB Patch",
-        "LC"
-      ]
-    },
-    {
-      "name": "Release RPM limiter speed",
-      "description": "Release RPM limiter speed",
-      "address": 2604316,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kph",
-      "min": 1.0,
-      "max": 20.0,
-      "factor": 0.01,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "LC"
-      ]
-    },
-    {
-      "name": "Slip target straight",
-      "description": "Slip target straight \u2014 Slip target while steering wheel is straight",
-      "address": 2607652,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 32.0,
-      "factor": 0.01,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "Slip wheel angle multiplier",
-      "description": "Slip wheel angle multiplier \u2014 Slip target multiplier calculated based on wheel angle and speed",
-      "address": 2607654,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": 0.0,
-      "max": 2.18,
-      "factor": 1.0,
-      "offset": 0.0,
-      "formula": {
-        "a": 0.0,
-        "b": 6622.0,
-        "c": 1.0,
-        "d": 1.0
-      },
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "Threshold increase on sustained slip",
-      "description": "Threshold increase on sustained slip \u2014 Slip threshold is increased as wheel spin is sustained",
-      "address": 2607666,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 2.55,
-      "factor": 0.01,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "Maximum allowed PID value (kph slip)",
-      "description": "Maximum allowed PID value (kph slip) \u2014 PID will be clamped if it reaches this value",
-      "address": 2607656,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 100.0,
-      "factor": 0.01,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "Maximum allowed I value (kph slip)",
-      "description": "Maximum allowed I value (kph slip) \u2014 I will be clamped if it reaches this value",
-      "address": 2607658,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 100.0,
-      "factor": 0.01,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "PID filter amount",
-      "description": "PID filter amount \u2014 How much smoothing to apply to PID value",
-      "address": 2607660,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 64.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "PID I weight",
-      "description": "PID I weight \u2014 How quickly 'I' will rise/fall on sustained error",
-      "address": 2607661,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 4.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "formula": {
-        "a": 0.0,
-        "b": 32.0,
-        "c": 1.0,
-        "d": 1.0
-      },
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "PID D weight",
-      "description": "PID D weight \u2014 How much to resist change due to 'P' error",
-      "address": 2607662,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 4.0,
-      "factor": 0.125,
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "TC"
+        "Rev Limiter"
       ]
     },
     {
-      "name": "Slip ignition weight",
-      "description": "Slip ignition weight \u2014 How much ignition intervention per kph of slip",
-      "address": 2607663,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "kph",
-      "min": 0.1,
-      "max": 10.0,
-      "factor": 1.0,
-      "offset": 0.0,
-      "formula": {
-        "a": 0.0,
-        "b": 100.0,
-        "c": 1.0,
-        "d": 2.667
-      },
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "Slip WG weight",
-      "description": "Slip WG weight \u2014 How much WG intervention per kph of slip",
-      "address": 2607664,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 38.93,
-      "factor": 0.15267175572519084,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "Minimum timing",
-      "description": "Minimum timing",
-      "address": 2607665,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "degree",
-      "min": -35.0,
-      "max": 0.0,
-      "factor": 0.3750093752343809,
-      "offset": -35.62589064726618,
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "SCC duration",
-      "description": "SCC duration \u2014 Amount of time to run SCC after P drops below threshold",
-      "address": 2607667,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "ms",
-      "min": 0.0,
-      "max": 2550.0,
-      "factor": 10.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "SCC Threshold",
-      "description": "SCC Threshold \u2014 SCC will start when value of P reaches this value",
-      "address": 2607668,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 20.0,
-      "factor": 0.01,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "TC"
-      ]
-    },
-    {
-      "name": "RPM limiter",
-      "description": "RPM limiter",
+      "name": "RPM limit slot 0",
+      "description": "RPM limit for map slot 0 \u2014 0 = disabled",
       "address": 2604320,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
-      "max": 8160.0,
+      "max": 65535.0,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
+        "Rev Limiter"
       ]
     },
     {
-      "name": "RPM limiter",
-      "description": "RPM limiter",
+      "name": "RPM limit slot 1",
+      "description": "RPM limit for map slot 1 \u2014 0 = disabled",
       "address": 2604322,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
-      "max": 8160.0,
+      "max": 65535.0,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
+        "Rev Limiter"
       ]
     },
     {
-      "name": "RPM limiter",
-      "description": "RPM limiter",
+      "name": "RPM limit slot 2",
+      "description": "RPM limit for map slot 2 \u2014 0 = disabled",
       "address": 2604324,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
-      "max": 8160.0,
+      "max": 65535.0,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
+        "Rev Limiter"
       ]
     },
     {
-      "name": "RPM limiter",
-      "description": "RPM limiter",
+      "name": "RPM limit slot 3",
+      "description": "RPM limit for map slot 3 \u2014 0 = disabled",
       "address": 2604326,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
-      "max": 8160.0,
+      "max": 65535.0,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
+        "Rev Limiter"
       ]
     },
     {
-      "name": "RPM limiter",
-      "description": "RPM limiter",
+      "name": "RPM limit slot 4",
+      "description": "RPM limit for map slot 4 \u2014 0 = disabled",
       "address": 2604328,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
       "min": 0.0,
-      "max": 8160.0,
+      "max": 65535.0,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
+        "Rev Limiter"
       ]
     },
     {
-      "name": "Speed limiter",
-      "description": "Speed limiter",
-      "address": 2604330,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 655.340027,
-      "factor": 0.01,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
-    },
-    {
-      "name": "Speed limiter",
-      "description": "Speed limiter",
-      "address": 2604332,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 655.340027,
-      "factor": 0.01,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Speed limiter",
-      "description": "Speed limiter",
-      "address": 2604334,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 655.340027,
-      "factor": 0.01,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Speed limiter",
-      "description": "Speed limiter",
-      "address": 2604336,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 655.340027,
-      "factor": 0.01,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Speed limiter",
-      "description": "Speed limiter",
-      "address": 2604338,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "kph",
-      "min": 0.0,
-      "max": 655.340027,
-      "factor": 0.01,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Pops enable",
-      "description": "Pops enable",
-      "address": 2604340,
+      "name": "Anti-lag timing retard",
+      "description": "Ignition retard during anti-lag (0x5F=0\u00b0, lower=more retard). Default -25\u00b0",
+      "address": 2607696,
       "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
-    },
-    {
-      "name": "Pops enable",
-      "description": "Pops enable",
-      "address": 2604341,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Pops enable",
-      "description": "Pops enable",
-      "address": 2604342,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Pops enable",
-      "description": "Pops enable",
-      "address": 2604343,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Pops enable",
-      "description": "Pops enable",
-      "address": 2604344,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Lambda modifier",
-      "description": "Lambda modifier",
-      "address": 2604346,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": -31.99,
-      "max": 31.99,
-      "factor": 0.000976562500038148,
-      "offset": -32.00000000125004,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ],
-      "cols": 12,
-      "rows": 8,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2142681,
-        "dataType": "UBYTE",
-        "factor": 32.0
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2441254,
-        "dataType": "UWORD",
-        "factor": 0.02119478141451133
-      }
-    },
-    {
-      "name": "Lambda modifier",
-      "description": "Lambda modifier",
-      "address": 2604538,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": -31.99,
-      "max": 31.99,
-      "factor": 0.000976562500038148,
-      "offset": -32.00000000125004,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ],
-      "cols": 12,
-      "rows": 8,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2142681,
-        "dataType": "UBYTE",
-        "factor": 32.0
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2441254,
-        "dataType": "UWORD",
-        "factor": 0.02119478141451133
-      }
-    },
-    {
-      "name": "Lambda modifier",
-      "description": "Lambda modifier",
-      "address": 2604730,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": -31.99,
-      "max": 31.99,
-      "factor": 0.000976562500038148,
-      "offset": -32.00000000125004,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ],
-      "cols": 12,
-      "rows": 8,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2142681,
-        "dataType": "UBYTE",
-        "factor": 32.0
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2441254,
-        "dataType": "UWORD",
-        "factor": 0.02119478141451133
-      }
-    },
-    {
-      "name": "Lambda modifier",
-      "description": "Lambda modifier",
-      "address": 2604922,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": -31.99,
-      "max": 31.99,
-      "factor": 0.000976562500038148,
-      "offset": -32.00000000125004,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ],
-      "cols": 12,
-      "rows": 8,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2142681,
-        "dataType": "UBYTE",
-        "factor": 32.0
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2441254,
-        "dataType": "UWORD",
-        "factor": 0.02119478141451133
-      }
-    },
-    {
-      "name": "Lambda modifier",
-      "description": "Lambda modifier",
-      "address": 2605114,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": -31.99,
-      "max": 31.99,
-      "factor": 0.000976562500038148,
-      "offset": -32.00000000125004,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ],
-      "cols": 12,
-      "rows": 8,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2142681,
-        "dataType": "UBYTE",
-        "factor": 32.0
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2441254,
-        "dataType": "UWORD",
-        "factor": 0.02119478141451133
-      }
-    },
-    {
-      "name": "Spark modifier",
-      "description": "Spark modifier",
-      "address": 2605306,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "degree",
-      "min": -35.619999,
+      "unit": "\u00b0",
+      "min": -35.625,
       "max": 60.0,
-      "factor": 0.37499999999999994,
-      "offset": -35.62499999999999,
+      "factor": 0.375,
+      "offset": -35.625,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ],
-      "cols": 16,
-      "rows": 16,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345444,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345286,
-        "dataType": "UWORD",
-        "factor": 0.04238956282902266
-      }
+        "Anti-Lag"
+      ]
     },
     {
-      "name": "Spark modifier",
-      "description": "Spark modifier",
-      "address": 2605562,
-      "type": "MAP",
+      "name": "RPM limit timing retard",
+      "description": "Ignition retard during RPM limiting. Default -25\u00b0",
+      "address": 2607697,
+      "type": "VALUE",
       "dataType": "UBYTE",
-      "unit": "degree",
-      "min": -35.619999,
+      "unit": "\u00b0",
+      "min": -35.625,
       "max": 60.0,
-      "factor": 0.37499999999999994,
-      "offset": -35.62499999999999,
+      "factor": 0.375,
+      "offset": -35.625,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ],
-      "cols": 16,
-      "rows": 16,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345444,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345286,
-        "dataType": "UWORD",
-        "factor": 0.04238956282902266
-      }
+        "Anti-Lag"
+      ]
     },
     {
-      "name": "Spark modifier",
-      "description": "Spark modifier",
-      "address": 2605818,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "degree",
-      "min": -35.619999,
-      "max": 60.0,
-      "factor": 0.37499999999999994,
-      "offset": -35.62499999999999,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ],
-      "cols": 16,
-      "rows": 16,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345444,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345286,
-        "dataType": "UWORD",
-        "factor": 0.04238956282902266
-      }
-    },
-    {
-      "name": "Spark modifier",
-      "description": "Spark modifier",
-      "address": 2606074,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "degree",
-      "min": -35.619999,
-      "max": 60.0,
-      "factor": 0.37499999999999994,
-      "offset": -35.62499999999999,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ],
-      "cols": 16,
-      "rows": 16,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345444,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345286,
-        "dataType": "UWORD",
-        "factor": 0.04238956282902266
-      }
-    },
-    {
-      "name": "Spark modifier",
-      "description": "Spark modifier",
-      "address": 2606330,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "degree",
-      "min": -35.619999,
-      "max": 60.0,
-      "factor": 0.37499999999999994,
-      "offset": -35.62499999999999,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ],
-      "cols": 16,
-      "rows": 16,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345444,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345286,
-        "dataType": "UWORD",
-        "factor": 0.04238956282902266
-      }
-    },
-    {
-      "name": "PUT setpoint",
-      "description": "PUT setpoint",
-      "address": 2606586,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "hpa",
-      "min": 0.0,
-      "max": 5434.0,
-      "factor": 0.08291752498664837,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ],
-      "cols": 12,
-      "rows": 8,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2607548,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2148070,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "PUT setpoint",
-      "description": "PUT setpoint",
-      "address": 2606778,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "hpa",
-      "min": 0.0,
-      "max": 5434.0,
-      "factor": 0.08291752498664837,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ],
-      "cols": 12,
-      "rows": 8,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2607548,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2148070,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "PUT setpoint",
-      "description": "PUT setpoint",
-      "address": 2606970,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "hpa",
-      "min": 0.0,
-      "max": 5434.0,
-      "factor": 0.08291752498664837,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ],
-      "cols": 12,
-      "rows": 8,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2607548,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2148070,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "PUT setpoint",
-      "description": "PUT setpoint",
-      "address": 2607162,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "hpa",
-      "min": 0.0,
-      "max": 5434.0,
-      "factor": 0.08291752498664837,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ],
-      "cols": 12,
-      "rows": 8,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2607548,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2148070,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "PUT setpoint",
-      "description": "PUT setpoint",
-      "address": 2607354,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "hpa",
-      "min": 0.0,
-      "max": 5434.0,
-      "factor": 0.08291752498664837,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ],
-      "cols": 12,
-      "rows": 8,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2607548,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2148070,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Enable flex fuel spark modifier",
-      "description": "Enable flex fuel spark modifier",
+      "name": "Anti-lag enable slot 0",
+      "description": "Enable anti-lag for slot 0 (0=off, 1=on)",
       "address": 2607572,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
-      "min": 0.0,
-      "max": 1.0,
+      "min": 0,
+      "max": 1,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
+        "Per-Slot Config"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
     },
     {
-      "name": "Enable flex fuel spark modifier",
-      "description": "Enable flex fuel spark modifier",
-      "address": 2607578,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Enable flex fuel spark modifier",
-      "description": "Enable flex fuel spark modifier",
-      "address": 2607584,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Enable flex fuel spark modifier",
-      "description": "Enable flex fuel spark modifier",
-      "address": 2607590,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Enable flex fuel spark modifier",
-      "description": "Enable flex fuel spark modifier",
-      "address": 2607596,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Enable flex fuel PUT modifier",
-      "description": "Enable flex fuel PUT modifier",
+      "name": "TC disable slot 0",
+      "description": "Disable OEM traction control for slot 0 (0=TC on, 1=TC off)",
       "address": 2607573,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
-      "min": 0.0,
-      "max": 1.0,
+      "min": 0,
+      "max": 1,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
+        "Per-Slot Config"
+      ],
+      "enumLabels": {
+        "0": "TC enabled",
+        "1": "TC disabled"
+      }
     },
     {
-      "name": "Enable flex fuel PUT modifier",
-      "description": "Enable flex fuel PUT modifier",
+      "name": "Anti-lag enable slot 1",
+      "description": "Enable anti-lag for slot 1 (0=off, 1=on)",
+      "address": 2607578,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Per-Slot Config"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "TC disable slot 1",
+      "description": "Disable OEM traction control for slot 1 (0=TC on, 1=TC off)",
       "address": 2607579,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
-      "min": 0.0,
-      "max": 1.0,
+      "min": 0,
+      "max": 1,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
+        "Per-Slot Config"
+      ],
+      "enumLabels": {
+        "0": "TC enabled",
+        "1": "TC disabled"
+      }
     },
     {
-      "name": "Enable flex fuel PUT modifier",
-      "description": "Enable flex fuel PUT modifier",
+      "name": "Anti-lag enable slot 2",
+      "description": "Enable anti-lag for slot 2 (0=off, 1=on)",
+      "address": 2607584,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Per-Slot Config"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "TC disable slot 2",
+      "description": "Disable OEM traction control for slot 2 (0=TC on, 1=TC off)",
       "address": 2607585,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
-      "min": 0.0,
-      "max": 1.0,
+      "min": 0,
+      "max": 1,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
+        "Per-Slot Config"
+      ],
+      "enumLabels": {
+        "0": "TC enabled",
+        "1": "TC disabled"
+      }
     },
     {
-      "name": "Enable flex fuel PUT modifier",
-      "description": "Enable flex fuel PUT modifier",
+      "name": "Anti-lag enable slot 3",
+      "description": "Enable anti-lag for slot 3 (0=off, 1=on)",
+      "address": 2607590,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Per-Slot Config"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "TC disable slot 3",
+      "description": "Disable OEM traction control for slot 3 (0=TC on, 1=TC off)",
       "address": 2607591,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
-      "min": 0.0,
-      "max": 1.0,
+      "min": 0,
+      "max": 1,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
+        "Per-Slot Config"
+      ],
+      "enumLabels": {
+        "0": "TC enabled",
+        "1": "TC disabled"
+      }
     },
     {
-      "name": "Enable flex fuel PUT modifier",
-      "description": "Enable flex fuel PUT modifier",
+      "name": "Anti-lag enable slot 4",
+      "description": "Enable anti-lag for slot 4 (0=off, 1=on)",
+      "address": 2607596,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Per-Slot Config"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "TC disable slot 4",
+      "description": "Disable OEM traction control for slot 4 (0=TC on, 1=TC off)",
       "address": 2607597,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
-      "min": 0.0,
-      "max": 1.0,
+      "min": 0,
+      "max": 1,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Enable flex fuel lambda modifier",
-      "description": "Enable flex fuel lambda modifier",
-      "address": 2607574,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
-    },
-    {
-      "name": "Enable flex fuel lambda modifier",
-      "description": "Enable flex fuel lambda modifier",
-      "address": 2607580,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Enable flex fuel lambda modifier",
-      "description": "Enable flex fuel lambda modifier",
-      "address": 2607586,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Enable flex fuel lambda modifier",
-      "description": "Enable flex fuel lambda modifier",
-      "address": 2607592,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Enable flex fuel lambda modifier",
-      "description": "Enable flex fuel lambda modifier",
-      "address": 2607598,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Enable flex fuel TQ modifier",
-      "description": "Enable flex fuel TQ modifier",
-      "address": 2607575,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
-    },
-    {
-      "name": "Enable flex fuel TQ modifier",
-      "description": "Enable flex fuel TQ modifier",
-      "address": 2607581,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Enable flex fuel TQ modifier",
-      "description": "Enable flex fuel TQ modifier",
-      "address": 2607587,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Enable flex fuel TQ modifier",
-      "description": "Enable flex fuel TQ modifier",
-      "address": 2607593,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Enable flex fuel TQ modifier",
-      "description": "Enable flex fuel TQ modifier",
-      "address": 2607599,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Enable flex fuel IAT modifier",
-      "description": "Enable flex fuel IAT modifier",
-      "address": 2607576,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
-    },
-    {
-      "name": "Enable flex fuel IAT modifier",
-      "description": "Enable flex fuel IAT modifier",
-      "address": 2607582,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Enable flex fuel IAT modifier",
-      "description": "Enable flex fuel IAT modifier",
-      "address": 2607588,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Enable flex fuel IAT modifier",
-      "description": "Enable flex fuel IAT modifier",
-      "address": 2607594,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Enable flex fuel IAT modifier",
-      "description": "Enable flex fuel IAT modifier",
-      "address": 2607600,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Enable flex fuel MPI modifier",
-      "description": "Enable flex fuel MPI modifier",
-      "address": 2607577,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
-    },
-    {
-      "name": "Enable flex fuel MPI modifier",
-      "description": "Enable flex fuel MPI modifier",
-      "address": 2607583,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Enable flex fuel MPI modifier",
-      "description": "Enable flex fuel MPI modifier",
-      "address": 2607589,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Enable flex fuel MPI modifier",
-      "description": "Enable flex fuel MPI modifier",
-      "address": 2607595,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Enable flex fuel MPI modifier",
-      "description": "Enable flex fuel MPI modifier",
-      "address": 2607601,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Enable RAL",
-      "description": "Enable RAL",
-      "address": 2607612,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
-    },
-    {
-      "name": "Enable RAL",
-      "description": "Enable RAL",
-      "address": 2607613,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Enable RAL",
-      "description": "Enable RAL",
-      "address": 2607614,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Enable RAL",
-      "description": "Enable RAL",
-      "address": 2607615,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Enable RAL",
-      "description": "Enable RAL",
-      "address": 2607616,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Enable NLS",
-      "description": "Enable NLS",
-      "address": 2607632,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
-    },
-    {
-      "name": "Enable NLS",
-      "description": "Enable NLS",
-      "address": 2607633,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Enable NLS",
-      "description": "Enable NLS",
-      "address": 2607634,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Enable NLS",
-      "description": "Enable NLS",
-      "address": 2607635,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Enable NLS",
-      "description": "Enable NLS",
-      "address": 2607636,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Enable LC",
-      "description": "Enable LC",
-      "address": 2607637,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
-    },
-    {
-      "name": "Enable LC",
-      "description": "Enable LC",
-      "address": 2607638,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Enable LC",
-      "description": "Enable LC",
-      "address": 2607639,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Enable LC",
-      "description": "Enable LC",
-      "address": 2607640,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Enable LC",
-      "description": "Enable LC",
-      "address": 2607641,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Disable OEM TC",
-      "description": "Disable OEM TC",
-      "address": 2607642,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
+        "Per-Slot Config"
       ],
       "enumLabels": {
-        "0": "OEM TC active",
-        "1": "OEM TC disabled"
+        "0": "TC enabled",
+        "1": "TC disabled"
       }
     },
     {
-      "name": "Disable OEM TC",
-      "description": "Disable OEM TC",
-      "address": 2607643,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ],
-      "enumLabels": {
-        "0": "OEM TC active",
-        "1": "OEM TC disabled"
-      }
-    },
-    {
-      "name": "Disable OEM TC",
-      "description": "Disable OEM TC",
-      "address": 2607644,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ],
-      "enumLabels": {
-        "0": "OEM TC active",
-        "1": "OEM TC disabled"
-      }
-    },
-    {
-      "name": "Disable OEM TC",
-      "description": "Disable OEM TC",
-      "address": 2607645,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ],
-      "enumLabels": {
-        "0": "OEM TC active",
-        "1": "OEM TC disabled"
-      }
-    },
-    {
-      "name": "Disable OEM TC",
-      "description": "Disable OEM TC",
-      "address": 2607646,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ],
-      "enumLabels": {
-        "0": "OEM TC active",
-        "1": "OEM TC disabled"
-      }
-    },
-    {
-      "name": "Enable SL TC",
-      "description": "Enable SL TC",
-      "address": 2607647,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
-    },
-    {
-      "name": "Enable SL TC",
-      "description": "Enable SL TC",
-      "address": 2607648,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Enable SL TC",
-      "description": "Enable SL TC",
-      "address": 2607649,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Enable SL TC",
-      "description": "Enable SL TC",
-      "address": 2607650,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Enable SL TC",
-      "description": "Enable SL TC",
-      "address": 2607651,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Manual AFU",
-      "description": "Manual AFU \u2014 This does not set manual AFU active, this only adjusts the value",
-      "address": 2607674,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ]
-    },
-    {
-      "name": "Manual AFU",
-      "description": "Manual AFU \u2014 This does not set manual AFU active, this only adjusts the value",
-      "address": 2607675,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ]
-    },
-    {
-      "name": "Manual AFU",
-      "description": "Manual AFU \u2014 This does not set manual AFU active, this only adjusts the value",
-      "address": 2607676,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Manual AFU",
-      "description": "Manual AFU \u2014 This does not set manual AFU active, this only adjusts the value",
-      "address": 2607677,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Manual AFU",
-      "description": "Manual AFU \u2014 This does not set manual AFU active, this only adjusts the value",
-      "address": 2607678,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Weight",
-      "description": "Weight",
-      "address": 2613744,
-      "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 2.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Flex Fuel",
-        "Spark"
-      ],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2613728,
-        "dataType": "UBYTE",
-        "factor": 0.0078125
-      }
-    },
-    {
-      "name": "Weight",
-      "description": "Weight",
-      "address": 2613736,
-      "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 2.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Flex Fuel",
-        "PUT"
-      ],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2613728,
-        "dataType": "UBYTE",
-        "factor": 0.0078125
-      }
-    },
-    {
-      "name": "Weight",
-      "description": "Weight",
-      "address": 2613752,
-      "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 2.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Flex Fuel",
-        "Lambda"
-      ],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2613728,
-        "dataType": "UBYTE",
-        "factor": 0.0078125
-      }
-    },
-    {
-      "name": "Weight",
-      "description": "Weight",
-      "address": 2613760,
-      "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 2.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Flex Fuel",
-        "TQ"
-      ],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2613728,
-        "dataType": "UBYTE",
-        "factor": 0.0078125
-      }
-    },
-    {
-      "name": "Weight",
-      "description": "Weight",
-      "address": 2613776,
-      "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 2.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Flex Fuel",
-        "IAT"
-      ],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2613728,
-        "dataType": "UBYTE",
-        "factor": 0.0078125
-      }
-    },
-    {
-      "name": "Weight",
-      "description": "Weight",
-      "address": 2613768,
-      "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 2.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Flex Fuel",
-        "MPI"
-      ],
-      "cols": 8,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2613728,
-        "dataType": "UBYTE",
-        "factor": 0.0078125
-      }
-    },
-    {
-      "name": "Modifier",
-      "description": "Modifier",
-      "address": 2613816,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": -1.0,
-      "max": 1.0,
-      "factor": 0.0078125,
-      "offset": -1.0,
-      "categories": [
-        "TFB Patch",
-        "Flex Fuel",
-        "MPI"
-      ],
-      "cols": 8,
-      "rows": 10,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2319374,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 10,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2318196,
-        "dataType": "UWORD",
-        "factor": 0.04238956282902266
-      }
-    },
-    {
-      "name": "Modifier",
-      "description": "Modifier",
-      "address": 2613896,
+      "name": "Lambda correction slot 0",
+      "description": "Lambda correction map slot 0 \u2014 0x8000 = no correction",
+      "address": 2604346,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "",
-      "min": 0.0,
-      "max": 1023.969971,
-      "factor": 0.03125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Flex Fuel",
-        "TQ"
-      ],
-      "cols": 20,
-      "rows": 9,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 20,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2515036,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 9,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2148070,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "Modifier",
-      "description": "Modifier",
-      "address": 2614256,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": -31.99,
-      "max": 31.99,
-      "factor": 0.000976562500038148,
-      "offset": -32.00000000125004,
-      "categories": [
-        "TFB Patch",
-        "Flex Fuel",
-        "Lambda"
-      ],
+      "min": 0,
+      "max": 65535,
+      "factor": 1.0,
+      "offset": 0.0,
       "cols": 12,
       "rows": 8,
-      "columnDir": true,
       "xAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2142681,
-        "dataType": "UBYTE",
-        "factor": 32.0
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2441254,
-        "dataType": "UWORD",
-        "factor": 0.02119478141451133
-      }
-    },
-    {
-      "name": "Modifier",
-      "description": "Modifier",
-      "address": 2614448,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "degree",
-      "min": -48.0,
-      "max": 47.619999,
-      "factor": 0.37499999999999994,
-      "offset": -35.62499999999999,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
       "categories": [
         "TFB Patch",
-        "Flex Fuel",
-        "Spark"
-      ],
-      "cols": 16,
-      "rows": 16,
-      "columnDir": true,
-      "xAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345444,
-        "dataType": "UWORD"
-      },
-      "yAxis": {
-        "type": "COM_AXIS",
-        "points": 16,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2345286,
-        "dataType": "UWORD",
-        "factor": 0.04238956282902266
-      }
+        "Lambda"
+      ]
     },
     {
-      "name": "Modifier",
-      "description": "Modifier",
-      "address": 2614704,
+      "name": "Lambda correction slot 1",
+      "description": "Lambda correction map slot 1 \u2014 0x8000 = no correction",
+      "address": 2604538,
       "type": "MAP",
       "dataType": "UWORD",
-      "unit": "hpa",
-      "min": -2717.0,
-      "max": 2717.0,
-      "factor": 0.08291752498664837,
-      "offset": -2717.0414587624937,
-      "categories": [
-        "TFB Patch",
-        "Flex Fuel",
-        "PUT"
-      ],
+      "unit": "",
+      "min": 0,
+      "max": 65535,
+      "factor": 1.0,
+      "offset": 0.0,
       "cols": 12,
       "rows": 8,
-      "columnDir": true,
       "xAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 12,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2607548,
-        "dataType": "UWORD"
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
       },
       "yAxis": {
-        "type": "COM_AXIS",
+        "type": "FIX_AXIS",
         "points": 8,
-        "min": 0.0,
-        "max": 0.0,
-        "unit": "",
-        "address": 2148070,
-        "dataType": "UBYTE"
-      }
-    },
-    {
-      "name": "PUT SP RPM Axis",
-      "description": "PUT SP RPM Axis",
-      "address": 2607548,
-      "type": "CURVE",
-      "dataType": "UWORD",
-      "unit": "rpm",
-      "min": 0.0,
-      "max": 8160.0,
-      "factor": 1.0,
-      "offset": -0.0,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
       "categories": [
         "TFB Patch",
-        "Map Switching"
-      ],
+        "Lambda"
+      ]
+    },
+    {
+      "name": "Lambda correction slot 2",
+      "description": "Lambda correction map slot 2 \u2014 0x8000 = no correction",
+      "address": 2604730,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0,
+      "max": 65535,
+      "factor": 1.0,
+      "offset": 0.0,
       "cols": 12,
+      "rows": 8,
       "xAxis": {
         "type": "FIX_AXIS",
         "points": 12,
         "min": 0,
         "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "PUT SP RPM Axis Header",
-      "description": "PUT SP RPM Axis Header \u2014 must be 12",
-      "address": 2607546,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": 0.0,
-      "max": 8160.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching"
-      ]
-    },
-    {
-      "name": "EGT ignition axis",
-      "description": "EGT ignition axis",
-      "address": 2607620,
-      "type": "CURVE",
-      "dataType": "UWORD",
-      "unit": "\u00b0C",
-      "min": 0.0,
-      "max": 1775.0,
-      "factor": 0.03125,
-      "offset": -273.0,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ],
-      "cols": 4,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 4,
-        "min": 0,
-        "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "EGT ignition axis Header",
-      "description": "EGT ignition axis Header \u2014 must be 4",
-      "address": 2607618,
-      "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": 0.0,
-      "max": 1775.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "RAL"
-      ]
-    },
-    {
-      "name": "Flex fuel weight axis",
-      "description": "Flex fuel weight axis",
-      "address": 2613728,
-      "type": "CURVE",
-      "dataType": "UBYTE",
-      "unit": "e",
-      "min": 0.0,
-      "max": 2.0,
-      "factor": 0.0078125,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Flex Fuel"
-      ],
-      "cols": 8,
-      "xAxis": {
+        "unit": "rpm"
+      },
+      "yAxis": {
         "type": "FIX_AXIS",
         "points": 8,
         "min": 0,
         "max": 0,
-        "unit": ""
-      }
-    },
-    {
-      "name": "Flex fuel weight axis Header",
-      "description": "Flex fuel weight axis Header \u2014 must be 8",
-      "address": 2613727,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 8.0,
-      "factor": 1.0,
-      "offset": -0.0,
+        "unit": "%"
+      },
       "categories": [
         "TFB Patch",
-        "Flex Fuel"
+        "Lambda"
       ]
     },
     {
-      "name": "Gauge settings (bitmask)",
-      "description": "Gauge settings (bitmask)",
-      "address": 2614896,
-      "type": "VALUE",
-      "dataType": "UBYTE",
+      "name": "Lambda correction slot 3",
+      "description": "Lambda correction map slot 3 \u2014 0x8000 = no correction",
+      "address": 2604922,
+      "type": "MAP",
+      "dataType": "UWORD",
       "unit": "",
-      "min": 0.0,
-      "max": 255.0,
+      "min": 0,
+      "max": 65535,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
+      "cols": 12,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 12,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
+        "Lambda"
       ]
     },
     {
-      "name": "Gauge settings (bitmask)",
-      "description": "Gauge settings (bitmask)",
-      "address": 2614897,
-      "type": "VALUE",
-      "dataType": "UBYTE",
+      "name": "Lambda correction slot 4",
+      "description": "Lambda correction map slot 4 \u2014 0x8000 = no correction",
+      "address": 2605114,
+      "type": "MAP",
+      "dataType": "UWORD",
       "unit": "",
-      "min": 0.0,
-      "max": 255.0,
+      "min": 0,
+      "max": 65535,
       "factor": 1.0,
-      "offset": -0.0,
+      "offset": 0.0,
+      "cols": 12,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 12,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
       "categories": [
         "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
+        "Lambda"
       ]
     },
     {
-      "name": "Gauge settings (bitmask)",
-      "description": "Gauge settings (bitmask)",
-      "address": 2614898,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ]
-    },
-    {
-      "name": "Gauge settings (bitmask)",
-      "description": "Gauge settings (bitmask)",
-      "address": 2614899,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ]
-    },
-    {
-      "name": "Gauge settings (bitmask)",
-      "description": "Gauge settings (bitmask)",
-      "address": 2614900,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 255.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ]
-    },
-    {
-      "name": "Rotational idle enable",
-      "description": "Enable rotational idle retard for this map slot (retards one cylinder at a time at idle)",
-      "address": 2607602,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 1"
-      ],
-      "enumLabels": {
-        "0": "Disabled",
-        "1": "Enabled"
-      }
-    },
-    {
-      "name": "Rotational idle enable",
-      "description": "Enable rotational idle retard for this map slot (retards one cylinder at a time at idle)",
-      "address": 2607603,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 2"
-      ],
-      "enumLabels": {
-        "0": "Disabled",
-        "1": "Enabled"
-      }
-    },
-    {
-      "name": "Rotational idle enable",
-      "description": "Enable rotational idle retard for this map slot (retards one cylinder at a time at idle)",
-      "address": 2607604,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 3"
-      ],
-      "enumLabels": {
-        "0": "Disabled",
-        "1": "Enabled"
-      }
-    },
-    {
-      "name": "Rotational idle enable",
-      "description": "Enable rotational idle retard for this map slot (retards one cylinder at a time at idle)",
-      "address": 2607605,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 4"
-      ],
-      "enumLabels": {
-        "0": "Disabled",
-        "1": "Enabled"
-      }
-    },
-    {
-      "name": "Rotational idle enable",
-      "description": "Enable rotational idle retard for this map slot (retards one cylinder at a time at idle)",
-      "address": 2607606,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0.0,
-      "max": 1.0,
-      "factor": 1.0,
-      "offset": -0.0,
-      "categories": [
-        "TFB Patch",
-        "Map Switching",
-        "Map Slot 5"
-      ],
-      "enumLabels": {
-        "0": "Disabled",
-        "1": "Enabled"
-      }
-    },
-    {
-      "name": "Rotational idle retard amount",
-      "description": "Ignition retard per cylinder rotation at idle (degrees). 1 raw unit = 0.375 degrees.",
-      "address": 2607607,
-      "type": "VALUE",
+      "name": "Spark correction slot 0",
+      "description": "Spark correction map slot 0 \u2014 0x5F (95) = no correction",
+      "address": 2605306,
+      "type": "MAP",
       "dataType": "UBYTE",
       "unit": "\u00b0",
-      "min": 0.0,
-      "max": 95.625,
+      "min": -35.625,
+      "max": 60.0,
       "factor": 0.375,
-      "offset": -0.0,
+      "offset": -35.625,
+      "cols": 16,
+      "rows": 16,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
       "categories": [
         "TFB Patch",
-        "Rotational Idle"
+        "Spark"
       ]
     },
     {
-      "name": "Rotational idle RPM threshold",
-      "description": "Maximum RPM for rotational idle retard to be active",
-      "address": 2607608,
-      "type": "VALUE",
+      "name": "Spark correction slot 1",
+      "description": "Spark correction map slot 1 \u2014 0x5F (95) = no correction",
+      "address": 2605562,
+      "type": "MAP",
       "dataType": "UBYTE",
-      "unit": "rpm",
-      "min": 0.0,
-      "max": 8160.0,
-      "factor": 32.0,
-      "offset": -0.0,
+      "unit": "\u00b0",
+      "min": -35.625,
+      "max": 60.0,
+      "factor": 0.375,
+      "offset": -35.625,
+      "cols": 16,
+      "rows": 16,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
       "categories": [
         "TFB Patch",
-        "Rotational Idle"
+        "Spark"
+      ]
+    },
+    {
+      "name": "Spark correction slot 2",
+      "description": "Spark correction map slot 2 \u2014 0x5F (95) = no correction",
+      "address": 2605818,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "\u00b0",
+      "min": -35.625,
+      "max": 60.0,
+      "factor": 0.375,
+      "offset": -35.625,
+      "cols": 16,
+      "rows": 16,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Spark"
+      ]
+    },
+    {
+      "name": "Spark correction slot 3",
+      "description": "Spark correction map slot 3 \u2014 0x5F (95) = no correction",
+      "address": 2606074,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "\u00b0",
+      "min": -35.625,
+      "max": 60.0,
+      "factor": 0.375,
+      "offset": -35.625,
+      "cols": 16,
+      "rows": 16,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Spark"
+      ]
+    },
+    {
+      "name": "Spark correction slot 4",
+      "description": "Spark correction map slot 4 \u2014 0x5F (95) = no correction",
+      "address": 2606330,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "\u00b0",
+      "min": -35.625,
+      "max": 60.0,
+      "factor": 0.375,
+      "offset": -35.625,
+      "cols": 16,
+      "rows": 16,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Spark"
+      ]
+    },
+    {
+      "name": "Max charge pressure slot 0",
+      "description": "ip_pq_cha_max override slot 0 \u2014 pressure quotient. 0 = stock wins (override only increases).",
+      "address": 2606586,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0,
+      "max": 16.0,
+      "factor": 0.000244140625,
+      "offset": 0.0,
+      "cols": 8,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Boost Limit"
+      ]
+    },
+    {
+      "name": "Max charge pressure slot 1",
+      "description": "ip_pq_cha_max override slot 1 \u2014 pressure quotient. 0 = stock wins (override only increases).",
+      "address": 2606714,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0,
+      "max": 16.0,
+      "factor": 0.000244140625,
+      "offset": 0.0,
+      "cols": 8,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Boost Limit"
+      ]
+    },
+    {
+      "name": "Max charge pressure slot 2",
+      "description": "ip_pq_cha_max override slot 2 \u2014 pressure quotient. 0 = stock wins (override only increases).",
+      "address": 2606842,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0,
+      "max": 16.0,
+      "factor": 0.000244140625,
+      "offset": 0.0,
+      "cols": 8,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Boost Limit"
+      ]
+    },
+    {
+      "name": "Max charge pressure slot 3",
+      "description": "ip_pq_cha_max override slot 3 \u2014 pressure quotient. 0 = stock wins (override only increases).",
+      "address": 2606970,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0,
+      "max": 16.0,
+      "factor": 0.000244140625,
+      "offset": 0.0,
+      "cols": 8,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Boost Limit"
+      ]
+    },
+    {
+      "name": "Max charge pressure slot 4",
+      "description": "ip_pq_cha_max override slot 4 \u2014 pressure quotient. 0 = stock wins (override only increases).",
+      "address": 2607098,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0,
+      "max": 16.0,
+      "factor": 0.000244140625,
+      "offset": 0.0,
+      "cols": 8,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Boost Limit"
       ]
     }
   ]

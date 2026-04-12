@@ -201,7 +201,9 @@ export class XDFParser {
 
         // Endianness
         const defaults = header.querySelector('DEFAULTS');
-        if (defaults) this.bigEndian = defaults.getAttribute('lsbfirst') === '0';
+        if (defaults) {
+            this.bigEndian = defaults.getAttribute('lsbfirst') === '0';
+        }
 
         // Categories
         this.categoryMap.clear();

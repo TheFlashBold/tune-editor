@@ -42,18 +42,6 @@
     "variant": "O30"
   },
   {
-    "name": "TFB PASSTHROUGH - O30",
-    "file": "TFB_PASSTHROUGH_-_SC8O30.btp",
-    "category": "Testing",
-    "variant": "O30"
-  },
-  {
-    "name": "TFB PASSTHROUGH C - O30",
-    "file": "TFB_PASSTHROUGH_C_-_SC8O30.btp",
-    "category": "Testing",
-    "variant": "O30"
-  },
-  {
     "name": "SL PATCH v29.34 - V30",
     "file": "SL_PATCH.29.34_-_V30.btp",
     "definition": "V30_Switch_Patch.29.33.V2.json",
