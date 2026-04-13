@@ -94,6 +94,15 @@
     "paramCount": 224
   },
   {
+    "name": "DQ250 F96M",
+    "file": "F49M.json",
+    "verification": {
+      "position": 0,
+      "expected": "F96M"
+    },
+    "paramCount": 188
+  },
+  {
     "name": "SC1 CC5",
     "file": "SC1CC5.json",
     "verification": {

@@ -4,24 +4,8 @@
   "baseAddress": 0,
   "parameters": [
     {
-      "name": "Knock average threshold for MIL blink",
-      "description": "Knock retard average threshold \u2014 MIL blinks when knock exceeds this (0 = disabled)",
-      "address": 2604272,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "\u00b0",
-      "min": -48.0,
-      "max": 47.625,
-      "factor": 0.375,
-      "offset": -48.0,
-      "categories": [
-        "TFB Patch",
-        "Knock"
-      ]
-    },
-    {
-      "name": "MIL blink duration on knock",
-      "description": "Additional MIL blink time on knock detection (ms) \u2014 0 is disabled",
+      "name": "Additional MIL blink time on knock detection (ms) \u2014 0 is disabled",
+      "description": "MIL blink duration on knock",
       "address": 2604273,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -36,8 +20,24 @@
       ]
     },
     {
-      "name": "Knock per-cylinder threshold for MIL blink",
-      "description": "Per-cylinder knock retard threshold \u2014 MIL blinks when any cylinder exceeds this",
+      "name": "Knock retard average threshold \u2014 MIL blinks when knock exceeds this (0 = disabled)",
+      "description": "Knock average threshold for MIL blink",
+      "address": 2604272,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "\u00b0",
+      "min": -48.0,
+      "max": 47.625,
+      "factor": 0.375,
+      "offset": -48.0,
+      "categories": [
+        "TFB Patch",
+        "Knock"
+      ]
+    },
+    {
+      "name": "Per-cylinder knock retard threshold \u2014 MIL blinks when any cylinder exceeds this",
+      "description": "Knock per-cylinder threshold for MIL blink",
       "address": 2604314,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -52,8 +52,8 @@
       ]
     },
     {
-      "name": "Rev soft limit offset",
-      "description": "Soft cut: 1 of 4 cylinders. RPM offset above engagement point.",
+      "name": "Soft: 1 of 4 cylinders. RPM offset above target. Used by LC + RAL.",
+      "description": "Soft cut offset",
       "address": 2604280,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -64,12 +64,12 @@
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Rev Limiter"
+        "Cylinder Cut Offsets"
       ]
     },
     {
-      "name": "Rev medium limit offset",
-      "description": "Medium cut: 1 of 3 cylinders. RPM offset above engagement point.",
+      "name": "Medium: 1 of 3 cylinders. Additional RPM offset. Used by LC + RAL.",
+      "description": "Medium cut offset",
       "address": 2604282,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -80,12 +80,12 @@
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Rev Limiter"
+        "Cylinder Cut Offsets"
       ]
     },
     {
-      "name": "Rev hard limit offset",
-      "description": "Hard cut: 2 of 4 cylinders. RPM offset above engagement point.",
+      "name": "Hard: 2 of 4 cylinders. Additional RPM offset. Used by LC + RAL.",
+      "description": "Hard cut offset",
       "address": 2604284,
       "type": "VALUE",
       "dataType": "UWORD",
@@ -96,13 +96,13 @@
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Rev Limiter"
+        "Cylinder Cut Offsets"
       ]
     },
     {
-      "name": "RPM limit slot 0",
-      "description": "RPM limit for map slot 0 \u2014 0 = disabled",
-      "address": 2604320,
+      "name": "Global LC RPM hold target",
+      "description": "Launch control RPM target",
+      "address": 2604310,
       "type": "VALUE",
       "dataType": "UWORD",
       "unit": "rpm",
@@ -112,76 +112,108 @@
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Rev Limiter"
+        "Launch Control"
       ]
     },
     {
-      "name": "RPM limit slot 1",
-      "description": "RPM limit for map slot 1 \u2014 0 = disabled",
-      "address": 2604322,
+      "name": "Torque cap during launch control",
+      "description": "Target TQ",
+      "address": 2604306,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "rpm",
+      "unit": "Nm",
+      "min": 0.0,
+      "max": 2047.96875,
+      "factor": 0.03125,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Launch Control"
+      ]
+    },
+    {
+      "name": "Ramp out duration after LC disengage",
+      "description": "Ramp out cycles",
+      "address": 2604308,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rev",
       "min": 0.0,
       "max": 65535.0,
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Rev Limiter"
+        "Launch Control"
       ]
     },
     {
-      "name": "RPM limit slot 2",
-      "description": "RPM limit for map slot 2 \u2014 0 = disabled",
-      "address": 2604324,
+      "name": "Vehicle speed at which LC RPM limiter releases",
+      "description": "Release RPM limiter speed",
+      "address": 2604316,
       "type": "VALUE",
       "dataType": "UWORD",
-      "unit": "rpm",
+      "unit": "kph",
       "min": 0.0,
-      "max": 65535.0,
-      "factor": 1.0,
+      "max": 655.35,
+      "factor": 0.01,
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Rev Limiter"
+        "Launch Control"
       ]
     },
     {
-      "name": "RPM limit slot 3",
-      "description": "RPM limit for map slot 3 \u2014 0 = disabled",
-      "address": 2604326,
+      "name": "Minimum oil temperature to allow LC engagement",
+      "description": "Minimum oil temperature",
+      "address": 2604312,
       "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "rpm",
-      "min": 0.0,
-      "max": 65535.0,
+      "dataType": "UBYTE",
+      "unit": "\u00b0C",
+      "min": -40.0,
+      "max": 215.0,
       "factor": 1.0,
-      "offset": 0.0,
+      "offset": -40.0,
       "categories": [
         "TFB Patch",
-        "Rev Limiter"
+        "Launch Control"
       ]
     },
     {
-      "name": "RPM limit slot 4",
-      "description": "RPM limit for map slot 4 \u2014 0 = disabled",
-      "address": 2604328,
+      "name": "Minimum coolant temperature to allow LC engagement",
+      "description": "Minimum coolant temperature",
+      "address": 2604313,
       "type": "VALUE",
-      "dataType": "UWORD",
-      "unit": "rpm",
-      "min": 0.0,
-      "max": 65535.0,
-      "factor": 1.0,
-      "offset": 0.0,
+      "dataType": "UBYTE",
+      "unit": "\u00b0C",
+      "min": -48.12,
+      "max": 143.60932330827066,
+      "factor": 0.7518796992481203,
+      "offset": -48.12,
       "categories": [
         "TFB Patch",
-        "Rev Limiter"
+        "Launch Control"
       ]
     },
     {
-      "name": "Anti-lag timing retard",
-      "description": "Ignition retard during anti-lag (0x5F=0\u00b0, lower=more retard). Default -25\u00b0",
+      "name": "Ignition timing applied during LC RPM limiting and ramp-out",
+      "description": "Timing during RPM limiter and rampout",
+      "address": 2604305,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "\u00b0",
+      "min": -35.625,
+      "max": 60.0,
+      "factor": 0.375,
+      "offset": -35.625,
+      "categories": [
+        "TFB Patch",
+        "Launch Control"
+      ]
+    },
+    {
+      "name": "Ignition retard during RAL (0x5F=0\u00b0, lower=more retard). Default -25\u00b0",
+      "description": "Timing retard",
       "address": 2607696,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -192,28 +224,156 @@
       "offset": -35.625,
       "categories": [
         "TFB Patch",
-        "Anti-Lag"
+        "Rolling Anti-Lag"
       ]
     },
     {
-      "name": "RPM limit timing retard",
-      "description": "Ignition retard during RPM limiting. Default -25\u00b0",
-      "address": 2607697,
+      "name": "Minimum RPM to allow RAL \u2014 0 = no minimum",
+      "description": "Min engagement RPM",
+      "address": 2604274,
       "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "\u00b0",
-      "min": -35.625,
-      "max": 60.0,
-      "factor": 0.375,
-      "offset": -35.625,
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0.0,
+      "max": 65535.0,
+      "factor": 1.0,
+      "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Anti-Lag"
+        "Rolling Anti-Lag"
       ]
     },
     {
-      "name": "Anti-lag enable slot 0",
-      "description": "Enable anti-lag for slot 0 (0=off, 1=on)",
+      "name": "Maximum RPM to allow RAL \u2014 0 = no maximum",
+      "description": "Max engagement RPM",
+      "address": 2604276,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0.0,
+      "max": 65535.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Rolling Anti-Lag"
+      ]
+    },
+    {
+      "name": "Maximum number of ignition cycles RAL stays active",
+      "description": "Max engagement cycles",
+      "address": 2604290,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "sparks",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Rolling Anti-Lag"
+      ]
+    },
+    {
+      "name": "Ramp in duration on RAL engage",
+      "description": "Ramp in cycles",
+      "address": 2604288,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "rev",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Rolling Anti-Lag"
+      ]
+    },
+    {
+      "name": "Ramp out duration on RAL disengage",
+      "description": "Ramp out cycles",
+      "address": 2604289,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "rev",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Rolling Anti-Lag"
+      ]
+    },
+    {
+      "name": "Exponential moving average filter strength (0-64). Higher = smoother",
+      "description": "RPM filter amount",
+      "address": 2604291,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0.0,
+      "max": 255.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Rolling Anti-Lag"
+      ]
+    },
+    {
+      "name": "PUT correction during RAL to prevent overboost",
+      "description": "PUT modifier to prevent overboost",
+      "address": 2604286,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "kPa",
+      "min": 0.0,
+      "max": 65535.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Rolling Anti-Lag"
+      ]
+    },
+    {
+      "name": "Minimum oil temperature to allow RAL",
+      "description": "Min oil temperature",
+      "address": 2604292,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "\u00b0C",
+      "min": -40.0,
+      "max": 215.0,
+      "factor": 1.0,
+      "offset": -40.0,
+      "categories": [
+        "TFB Patch",
+        "Rolling Anti-Lag"
+      ]
+    },
+    {
+      "name": "Minimum coolant temperature to allow RAL",
+      "description": "Min coolant temperature",
+      "address": 2604293,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "\u00b0C",
+      "min": -48.12,
+      "max": 143.60932330827066,
+      "factor": 0.7518796992481203,
+      "offset": -48.12,
+      "categories": [
+        "TFB Patch",
+        "Rolling Anti-Lag"
+      ]
+    },
+    {
+      "name": "Enable rolling anti-lag",
+      "description": "Rolling anti-lag",
       "address": 2607572,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -224,7 +384,8 @@
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Per-Slot Config"
+        "Maps",
+        "Slot 1"
       ],
       "enumLabels": {
         "0": "Disabled",
@@ -232,8 +393,8 @@
       }
     },
     {
-      "name": "TC disable slot 0",
-      "description": "Disable OEM traction control for slot 0 (0=TC on, 1=TC off)",
+      "name": "Disable OEM traction control",
+      "description": "TC disable",
       "address": 2607573,
       "type": "VALUE",
       "dataType": "UBYTE",
@@ -244,7 +405,8 @@
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Per-Slot Config"
+        "Maps",
+        "Slot 1"
       ],
       "enumLabels": {
         "0": "TC enabled",
@@ -252,9 +414,9 @@
       }
     },
     {
-      "name": "Anti-lag enable slot 1",
-      "description": "Enable anti-lag for slot 1 (0=off, 1=on)",
-      "address": 2607578,
+      "name": "Enable launch control",
+      "description": "Launch control",
+      "address": 2607574,
       "type": "VALUE",
       "dataType": "UBYTE",
       "unit": "",
@@ -264,7 +426,8 @@
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Per-Slot Config"
+        "Maps",
+        "Slot 1"
       ],
       "enumLabels": {
         "0": "Disabled",
@@ -272,155 +435,49 @@
       }
     },
     {
-      "name": "TC disable slot 1",
-      "description": "Disable OEM traction control for slot 1 (0=TC on, 1=TC off)",
-      "address": 2607579,
+      "name": "RPM limit \u2014 0 = disabled",
+      "description": "RPM limit",
+      "address": 2604320,
       "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0,
-      "max": 1,
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0.0,
+      "max": 65535.0,
       "factor": 1.0,
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Per-Slot Config"
-      ],
-      "enumLabels": {
-        "0": "TC enabled",
-        "1": "TC disabled"
-      }
+        "Maps",
+        "Slot 1"
+      ]
     },
     {
-      "name": "Anti-lag enable slot 2",
-      "description": "Enable anti-lag for slot 2 (0=off, 1=on)",
-      "address": 2607584,
+      "name": "Max vehicle speed \u2014 0 = no override",
+      "description": "Speed limit",
+      "address": 2604330,
       "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0,
-      "max": 1,
-      "factor": 1.0,
+      "dataType": "UWORD",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 511.9921875,
+      "factor": 0.0078125,
       "offset": 0.0,
       "categories": [
         "TFB Patch",
-        "Per-Slot Config"
-      ],
-      "enumLabels": {
-        "0": "Disabled",
-        "1": "Enabled"
-      }
+        "Maps",
+        "Slot 1"
+      ]
     },
     {
-      "name": "TC disable slot 2",
-      "description": "Disable OEM traction control for slot 2 (0=TC on, 1=TC off)",
-      "address": 2607585,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0,
-      "max": 1,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "TFB Patch",
-        "Per-Slot Config"
-      ],
-      "enumLabels": {
-        "0": "TC enabled",
-        "1": "TC disabled"
-      }
-    },
-    {
-      "name": "Anti-lag enable slot 3",
-      "description": "Enable anti-lag for slot 3 (0=off, 1=on)",
-      "address": 2607590,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0,
-      "max": 1,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "TFB Patch",
-        "Per-Slot Config"
-      ],
-      "enumLabels": {
-        "0": "Disabled",
-        "1": "Enabled"
-      }
-    },
-    {
-      "name": "TC disable slot 3",
-      "description": "Disable OEM traction control for slot 3 (0=TC on, 1=TC off)",
-      "address": 2607591,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0,
-      "max": 1,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "TFB Patch",
-        "Per-Slot Config"
-      ],
-      "enumLabels": {
-        "0": "TC enabled",
-        "1": "TC disabled"
-      }
-    },
-    {
-      "name": "Anti-lag enable slot 4",
-      "description": "Enable anti-lag for slot 4 (0=off, 1=on)",
-      "address": 2607596,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0,
-      "max": 1,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "TFB Patch",
-        "Per-Slot Config"
-      ],
-      "enumLabels": {
-        "0": "Disabled",
-        "1": "Enabled"
-      }
-    },
-    {
-      "name": "TC disable slot 4",
-      "description": "Disable OEM traction control for slot 4 (0=TC on, 1=TC off)",
-      "address": 2607597,
-      "type": "VALUE",
-      "dataType": "UBYTE",
-      "unit": "",
-      "min": 0,
-      "max": 1,
-      "factor": 1.0,
-      "offset": 0.0,
-      "categories": [
-        "TFB Patch",
-        "Per-Slot Config"
-      ],
-      "enumLabels": {
-        "0": "TC enabled",
-        "1": "TC disabled"
-      }
-    },
-    {
-      "name": "Lambda correction slot 0",
-      "description": "Lambda correction map slot 0 \u2014 0x8000 = no correction",
+      "name": "Lambda correction \u2014 1.0 = no correction",
+      "description": "Lambda correction",
       "address": 2604346,
       "type": "MAP",
       "dataType": "UWORD",
       "unit": "",
-      "min": 0,
-      "max": 65535,
-      "factor": 1.0,
+      "min": 0.0,
+      "max": 2.0,
+      "factor": 3.0517578125e-05,
       "offset": 0.0,
       "cols": 12,
       "rows": 8,
@@ -440,140 +497,13 @@
       },
       "categories": [
         "TFB Patch",
-        "Lambda"
+        "Maps",
+        "Slot 1"
       ]
     },
     {
-      "name": "Lambda correction slot 1",
-      "description": "Lambda correction map slot 1 \u2014 0x8000 = no correction",
-      "address": 2604538,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": 0,
-      "max": 65535,
-      "factor": 1.0,
-      "offset": 0.0,
-      "cols": 12,
-      "rows": 8,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 12,
-        "min": 0,
-        "max": 0,
-        "unit": "rpm"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 8,
-        "min": 0,
-        "max": 0,
-        "unit": "%"
-      },
-      "categories": [
-        "TFB Patch",
-        "Lambda"
-      ]
-    },
-    {
-      "name": "Lambda correction slot 2",
-      "description": "Lambda correction map slot 2 \u2014 0x8000 = no correction",
-      "address": 2604730,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": 0,
-      "max": 65535,
-      "factor": 1.0,
-      "offset": 0.0,
-      "cols": 12,
-      "rows": 8,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 12,
-        "min": 0,
-        "max": 0,
-        "unit": "rpm"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 8,
-        "min": 0,
-        "max": 0,
-        "unit": "%"
-      },
-      "categories": [
-        "TFB Patch",
-        "Lambda"
-      ]
-    },
-    {
-      "name": "Lambda correction slot 3",
-      "description": "Lambda correction map slot 3 \u2014 0x8000 = no correction",
-      "address": 2604922,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": 0,
-      "max": 65535,
-      "factor": 1.0,
-      "offset": 0.0,
-      "cols": 12,
-      "rows": 8,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 12,
-        "min": 0,
-        "max": 0,
-        "unit": "rpm"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 8,
-        "min": 0,
-        "max": 0,
-        "unit": "%"
-      },
-      "categories": [
-        "TFB Patch",
-        "Lambda"
-      ]
-    },
-    {
-      "name": "Lambda correction slot 4",
-      "description": "Lambda correction map slot 4 \u2014 0x8000 = no correction",
-      "address": 2605114,
-      "type": "MAP",
-      "dataType": "UWORD",
-      "unit": "",
-      "min": 0,
-      "max": 65535,
-      "factor": 1.0,
-      "offset": 0.0,
-      "cols": 12,
-      "rows": 8,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 12,
-        "min": 0,
-        "max": 0,
-        "unit": "rpm"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 8,
-        "min": 0,
-        "max": 0,
-        "unit": "%"
-      },
-      "categories": [
-        "TFB Patch",
-        "Lambda"
-      ]
-    },
-    {
-      "name": "Spark correction slot 0",
-      "description": "Spark correction map slot 0 \u2014 0x5F (95) = no correction",
+      "name": "Spark correction \u2014 0x5F (95) = no correction",
+      "description": "Spark correction",
       "address": 2605306,
       "type": "MAP",
       "dataType": "UBYTE",
@@ -600,140 +530,13 @@
       },
       "categories": [
         "TFB Patch",
-        "Spark"
+        "Maps",
+        "Slot 1"
       ]
     },
     {
-      "name": "Spark correction slot 1",
-      "description": "Spark correction map slot 1 \u2014 0x5F (95) = no correction",
-      "address": 2605562,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "\u00b0",
-      "min": -35.625,
-      "max": 60.0,
-      "factor": 0.375,
-      "offset": -35.625,
-      "cols": 16,
-      "rows": 16,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 16,
-        "min": 0,
-        "max": 0,
-        "unit": "rpm"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 16,
-        "min": 0,
-        "max": 0,
-        "unit": "%"
-      },
-      "categories": [
-        "TFB Patch",
-        "Spark"
-      ]
-    },
-    {
-      "name": "Spark correction slot 2",
-      "description": "Spark correction map slot 2 \u2014 0x5F (95) = no correction",
-      "address": 2605818,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "\u00b0",
-      "min": -35.625,
-      "max": 60.0,
-      "factor": 0.375,
-      "offset": -35.625,
-      "cols": 16,
-      "rows": 16,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 16,
-        "min": 0,
-        "max": 0,
-        "unit": "rpm"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 16,
-        "min": 0,
-        "max": 0,
-        "unit": "%"
-      },
-      "categories": [
-        "TFB Patch",
-        "Spark"
-      ]
-    },
-    {
-      "name": "Spark correction slot 3",
-      "description": "Spark correction map slot 3 \u2014 0x5F (95) = no correction",
-      "address": 2606074,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "\u00b0",
-      "min": -35.625,
-      "max": 60.0,
-      "factor": 0.375,
-      "offset": -35.625,
-      "cols": 16,
-      "rows": 16,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 16,
-        "min": 0,
-        "max": 0,
-        "unit": "rpm"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 16,
-        "min": 0,
-        "max": 0,
-        "unit": "%"
-      },
-      "categories": [
-        "TFB Patch",
-        "Spark"
-      ]
-    },
-    {
-      "name": "Spark correction slot 4",
-      "description": "Spark correction map slot 4 \u2014 0x5F (95) = no correction",
-      "address": 2606330,
-      "type": "MAP",
-      "dataType": "UBYTE",
-      "unit": "\u00b0",
-      "min": -35.625,
-      "max": 60.0,
-      "factor": 0.375,
-      "offset": -35.625,
-      "cols": 16,
-      "rows": 16,
-      "xAxis": {
-        "type": "FIX_AXIS",
-        "points": 16,
-        "min": 0,
-        "max": 0,
-        "unit": "rpm"
-      },
-      "yAxis": {
-        "type": "FIX_AXIS",
-        "points": 16,
-        "min": 0,
-        "max": 0,
-        "unit": "%"
-      },
-      "categories": [
-        "TFB Patch",
-        "Spark"
-      ]
-    },
-    {
-      "name": "Max charge pressure slot 0",
-      "description": "ip_pq_cha_max override slot 0 \u2014 pressure quotient. 0 = stock wins (override only increases).",
+      "name": "ip_pq_cha_max override \u2014 0 = stock wins (override only increases)",
+      "description": "Max charge pressure",
       "address": 2606586,
       "type": "MAP",
       "dataType": "UWORD",
@@ -760,12 +563,176 @@
       },
       "categories": [
         "TFB Patch",
-        "Boost Limit"
+        "Maps",
+        "Slot 1"
       ]
     },
     {
-      "name": "Max charge pressure slot 1",
-      "description": "ip_pq_cha_max override slot 1 \u2014 pressure quotient. 0 = stock wins (override only increases).",
+      "name": "Enable rolling anti-lag",
+      "description": "Rolling anti-lag",
+      "address": 2607578,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 2"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "Disable OEM traction control",
+      "description": "TC disable",
+      "address": 2607579,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 2"
+      ],
+      "enumLabels": {
+        "0": "TC enabled",
+        "1": "TC disabled"
+      }
+    },
+    {
+      "name": "Enable launch control",
+      "description": "Launch control",
+      "address": 2607580,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 2"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "RPM limit \u2014 0 = disabled",
+      "description": "RPM limit",
+      "address": 2604322,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0.0,
+      "max": 65535.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 2"
+      ]
+    },
+    {
+      "name": "Max vehicle speed \u2014 0 = no override",
+      "description": "Speed limit",
+      "address": 2604332,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 511.9921875,
+      "factor": 0.0078125,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 2"
+      ]
+    },
+    {
+      "name": "Lambda correction \u2014 1.0 = no correction",
+      "description": "Lambda correction",
+      "address": 2604538,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 2.0,
+      "factor": 3.0517578125e-05,
+      "offset": 0.0,
+      "cols": 12,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 12,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 2"
+      ]
+    },
+    {
+      "name": "Spark correction \u2014 0x5F (95) = no correction",
+      "description": "Spark correction",
+      "address": 2605562,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "\u00b0",
+      "min": -35.625,
+      "max": 60.0,
+      "factor": 0.375,
+      "offset": -35.625,
+      "cols": 16,
+      "rows": 16,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 2"
+      ]
+    },
+    {
+      "name": "ip_pq_cha_max override \u2014 0 = stock wins (override only increases)",
+      "description": "Max charge pressure",
       "address": 2606714,
       "type": "MAP",
       "dataType": "UWORD",
@@ -792,12 +759,176 @@
       },
       "categories": [
         "TFB Patch",
-        "Boost Limit"
+        "Maps",
+        "Slot 2"
       ]
     },
     {
-      "name": "Max charge pressure slot 2",
-      "description": "ip_pq_cha_max override slot 2 \u2014 pressure quotient. 0 = stock wins (override only increases).",
+      "name": "Enable rolling anti-lag",
+      "description": "Rolling anti-lag",
+      "address": 2607584,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 3"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "Disable OEM traction control",
+      "description": "TC disable",
+      "address": 2607585,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 3"
+      ],
+      "enumLabels": {
+        "0": "TC enabled",
+        "1": "TC disabled"
+      }
+    },
+    {
+      "name": "Enable launch control",
+      "description": "Launch control",
+      "address": 2607586,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 3"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "RPM limit \u2014 0 = disabled",
+      "description": "RPM limit",
+      "address": 2604324,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0.0,
+      "max": 65535.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 3"
+      ]
+    },
+    {
+      "name": "Max vehicle speed \u2014 0 = no override",
+      "description": "Speed limit",
+      "address": 2604334,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 511.9921875,
+      "factor": 0.0078125,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 3"
+      ]
+    },
+    {
+      "name": "Lambda correction \u2014 1.0 = no correction",
+      "description": "Lambda correction",
+      "address": 2604730,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 2.0,
+      "factor": 3.0517578125e-05,
+      "offset": 0.0,
+      "cols": 12,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 12,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 3"
+      ]
+    },
+    {
+      "name": "Spark correction \u2014 0x5F (95) = no correction",
+      "description": "Spark correction",
+      "address": 2605818,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "\u00b0",
+      "min": -35.625,
+      "max": 60.0,
+      "factor": 0.375,
+      "offset": -35.625,
+      "cols": 16,
+      "rows": 16,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 3"
+      ]
+    },
+    {
+      "name": "ip_pq_cha_max override \u2014 0 = stock wins (override only increases)",
+      "description": "Max charge pressure",
       "address": 2606842,
       "type": "MAP",
       "dataType": "UWORD",
@@ -824,12 +955,176 @@
       },
       "categories": [
         "TFB Patch",
-        "Boost Limit"
+        "Maps",
+        "Slot 3"
       ]
     },
     {
-      "name": "Max charge pressure slot 3",
-      "description": "ip_pq_cha_max override slot 3 \u2014 pressure quotient. 0 = stock wins (override only increases).",
+      "name": "Enable rolling anti-lag",
+      "description": "Rolling anti-lag",
+      "address": 2607590,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 4"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "Disable OEM traction control",
+      "description": "TC disable",
+      "address": 2607591,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 4"
+      ],
+      "enumLabels": {
+        "0": "TC enabled",
+        "1": "TC disabled"
+      }
+    },
+    {
+      "name": "Enable launch control",
+      "description": "Launch control",
+      "address": 2607592,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 4"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "RPM limit \u2014 0 = disabled",
+      "description": "RPM limit",
+      "address": 2604326,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0.0,
+      "max": 65535.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 4"
+      ]
+    },
+    {
+      "name": "Max vehicle speed \u2014 0 = no override",
+      "description": "Speed limit",
+      "address": 2604336,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 511.9921875,
+      "factor": 0.0078125,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 4"
+      ]
+    },
+    {
+      "name": "Lambda correction \u2014 1.0 = no correction",
+      "description": "Lambda correction",
+      "address": 2604922,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 2.0,
+      "factor": 3.0517578125e-05,
+      "offset": 0.0,
+      "cols": 12,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 12,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 4"
+      ]
+    },
+    {
+      "name": "Spark correction \u2014 0x5F (95) = no correction",
+      "description": "Spark correction",
+      "address": 2606074,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "\u00b0",
+      "min": -35.625,
+      "max": 60.0,
+      "factor": 0.375,
+      "offset": -35.625,
+      "cols": 16,
+      "rows": 16,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 4"
+      ]
+    },
+    {
+      "name": "ip_pq_cha_max override \u2014 0 = stock wins (override only increases)",
+      "description": "Max charge pressure",
       "address": 2606970,
       "type": "MAP",
       "dataType": "UWORD",
@@ -856,12 +1151,176 @@
       },
       "categories": [
         "TFB Patch",
-        "Boost Limit"
+        "Maps",
+        "Slot 4"
       ]
     },
     {
-      "name": "Max charge pressure slot 4",
-      "description": "ip_pq_cha_max override slot 4 \u2014 pressure quotient. 0 = stock wins (override only increases).",
+      "name": "Enable rolling anti-lag",
+      "description": "Rolling anti-lag",
+      "address": 2607596,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 5"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "Disable OEM traction control",
+      "description": "TC disable",
+      "address": 2607597,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 5"
+      ],
+      "enumLabels": {
+        "0": "TC enabled",
+        "1": "TC disabled"
+      }
+    },
+    {
+      "name": "Enable launch control",
+      "description": "Launch control",
+      "address": 2607598,
+      "type": "VALUE",
+      "dataType": "UBYTE",
+      "unit": "",
+      "min": 0,
+      "max": 1,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 5"
+      ],
+      "enumLabels": {
+        "0": "Disabled",
+        "1": "Enabled"
+      }
+    },
+    {
+      "name": "RPM limit \u2014 0 = disabled",
+      "description": "RPM limit",
+      "address": 2604328,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "rpm",
+      "min": 0.0,
+      "max": 65535.0,
+      "factor": 1.0,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 5"
+      ]
+    },
+    {
+      "name": "Max vehicle speed \u2014 0 = no override",
+      "description": "Speed limit",
+      "address": 2604338,
+      "type": "VALUE",
+      "dataType": "UWORD",
+      "unit": "km/h",
+      "min": 0.0,
+      "max": 511.9921875,
+      "factor": 0.0078125,
+      "offset": 0.0,
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 5"
+      ]
+    },
+    {
+      "name": "Lambda correction \u2014 1.0 = no correction",
+      "description": "Lambda correction",
+      "address": 2605114,
+      "type": "MAP",
+      "dataType": "UWORD",
+      "unit": "",
+      "min": 0.0,
+      "max": 2.0,
+      "factor": 3.0517578125e-05,
+      "offset": 0.0,
+      "cols": 12,
+      "rows": 8,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 12,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 8,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 5"
+      ]
+    },
+    {
+      "name": "Spark correction \u2014 0x5F (95) = no correction",
+      "description": "Spark correction",
+      "address": 2606330,
+      "type": "MAP",
+      "dataType": "UBYTE",
+      "unit": "\u00b0",
+      "min": -35.625,
+      "max": 60.0,
+      "factor": 0.375,
+      "offset": -35.625,
+      "cols": 16,
+      "rows": 16,
+      "xAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "rpm"
+      },
+      "yAxis": {
+        "type": "FIX_AXIS",
+        "points": 16,
+        "min": 0,
+        "max": 0,
+        "unit": "%"
+      },
+      "categories": [
+        "TFB Patch",
+        "Maps",
+        "Slot 5"
+      ]
+    },
+    {
+      "name": "ip_pq_cha_max override \u2014 0 = stock wins (override only increases)",
+      "description": "Max charge pressure",
       "address": 2607098,
       "type": "MAP",
       "dataType": "UWORD",
@@ -888,7 +1347,8 @@
       },
       "categories": [
         "TFB Patch",
-        "Boost Limit"
+        "Maps",
+        "Slot 5"
       ]
     }
   ]

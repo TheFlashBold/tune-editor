@@ -20,14 +20,16 @@ function fillAboveX(ctx: WizardContext, paramName: string, minX: number, value: 
 }
 
 /** Add a fixed offset to all cells, reading current values */
-function offsetTable(ctx: WizardContext, paramName: string, offset: number): TableCellWrite[] | null {
+function offsetTable(ctx: WizardContext, paramName: string, offset: number, maxValue?: number): TableCellWrite[] | null {
     const param = ctx.params.find(p => p.name.toLowerCase() === paramName.toLowerCase());
     if (!param || (param.type !== 'MAP' && param.type !== 'CURVE')) return null;
     const data = ctx.readTable(param);
     const cells: TableCellWrite[] = [];
     for (let r = 0; r < data.length; r++) {
         for (let c = 0; c < data[r].length; c++) {
-            cells.push({row: r, col: c, value: data[r][c] + offset});
+            const value = data[r][c] + offset;
+            if (maxValue !== undefined && value > maxValue) continue;
+            cells.push({row: r, col: c, value});
         }
     }
     return cells;
@@ -110,7 +112,7 @@ export const stage1: WizardDef = {
             step: 0.25,
             unit: '°',
             group: 'Ignition',
-            default: 0
+            default: 3
         },
     ],
     presets: [],
@@ -250,7 +252,7 @@ export const stage1: WizardDef = {
                         for (const prefix of ['ip_iga_bas_ivvt_vvl_port_h', 'ip_iga_bas_ivvt_vvl_port_l']) {
                             const name = `${prefix}[${p}][${i}][${j}]`;
                             if (find(name)) {
-                                const cells = offsetTable(ctx, name, timingAdd);
+                                const cells = offsetTable(ctx, name, timingAdd, 40);
                                 if (cells) tableCells[name] = cells;
                             }
                         }
