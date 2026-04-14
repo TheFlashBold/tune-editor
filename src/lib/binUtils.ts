@@ -170,7 +170,7 @@ export function readEPK(data: Uint8Array): [string, number] | [] {
     }
 
     for (const offset of CAL_OFFSETS) {
-        if (data.length > (offset + 0x2000)) {
+        if (data.length > (offset + 0x2000) && readStringSafe(data, offset, 3, 3) === "CAS") {
             const epk = readStringSafe(data, offset + 0x02, 6, 6);
             if (epk) {
                 return [epk, offset + 0x02];
