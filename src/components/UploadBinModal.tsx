@@ -91,6 +91,9 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                 <p class="text-sm text-zinc-600 dark:text-zinc-400">
                     No definition found for this binary. Submit it so we can add support.
                 </p>
+                <div class="rounded-lg border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/30 px-3 py-2 text-sm text-amber-800 dark:text-amber-200">
+                    Do not upload encrypted VR bins!
+                </div>
                 {upgradeInfo && (
                     <div class="rounded-lg border border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/30 p-3 space-y-1">
                         <div class="flex items-center gap-2 text-blue-700 dark:text-blue-300 font-medium text-sm">
