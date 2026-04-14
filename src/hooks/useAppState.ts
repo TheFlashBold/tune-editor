@@ -19,6 +19,7 @@ import {
     type DefinitionIndexEntry,
 } from '../lib/definitionLoader';
 import {mergeDefinitions} from '../components/PatchManager';
+import {TuningService} from '../services/tuning';
 import {s19ToBinary, isS19File, hexToBinary, isHexFile} from '../lib/s19Parser';
 import type {IAppContext} from '../context/app';
 
@@ -89,15 +90,7 @@ export function useAppState(): IAppContext {
 
     const detectPatches = useCallback(async (data: Uint8Array, currentDef: Definition | null) => {
         try {
-            const response = await fetch('./patches/index.json');
-            if (!response.ok) return;
-            const patchIndex: {
-                name: string;
-                file: string;
-                definition?: string;
-                category?: string;
-                variant?: string;
-            }[] = await response.json();
+            const patchIndex = await TuningService.getPatchIndex();
 
             // Extract ECU info from loaded definition for variant filtering
             const epk = currentDef?.verification?.expected ?? currentDef?.name;
@@ -112,9 +105,7 @@ export function useAppState(): IAppContext {
             const results: PatchCheckResult[] = [];
             for (const entry of filtered) {
                 try {
-                    const btpResponse = await fetch(`./patches/${entry.file}`);
-                    if (!btpResponse.ok) continue;
-                    const btpData = new Uint8Array(await btpResponse.arrayBuffer());
+                    const btpData = new Uint8Array(await TuningService.getPatch(entry.file));
                     const crcValid = verifyCrc32(btpData);
                     const {header, blocks} = parseBtp(btpData);
 
@@ -138,7 +129,6 @@ export function useAppState(): IAppContext {
 
             setPatchResults(results);
 
-            // Track detected patches
             const applied = results.filter(r => r.status === 'applied');
             const ready = results.filter(r => r.status === 'ready');
             if (applied.length > 0 || ready.length > 0) {
@@ -150,13 +140,12 @@ export function useAppState(): IAppContext {
                 });
             }
 
-            // Auto-load definitions for applied patches
             const appliedWithDef = results.filter(r => r.status === 'applied' && r.definition);
             if (appliedWithDef.length > 0 && currentDef) {
                 let mergedDef = currentDef;
                 for (const applied of appliedWithDef) {
                     try {
-                        const patchDef = await fetch(`./patches/definitions/${applied.definition}`).then(r => r.json()) as Definition;
+                        const patchDef = await TuningService.getPatchDefinition(applied.definition!);
                         mergedDef = mergeDefinitions(mergedDef, patchDef, applied.name);
                     } catch {
                         // Skip individual definition load failures

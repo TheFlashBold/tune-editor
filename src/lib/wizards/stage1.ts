@@ -55,6 +55,8 @@ export const stage1: WizardDef = {
     description: '**Use on stock files only** \nBasic Stage 1 modifications — rev limiter, speed limiter, torque increase',
     product: 'tune_editor_stage_1',
     productId: 'prod_UItLl9NJyMXPNQ',
+    price: '69€',
+    categories: ['simos 12/18'],
     requiredParams: ['ip_tq_pow_max_mt[0][0]', 'ip_tq_pow_max_at[0][0]', 'c_tia_thr_tcha_max', 'c_tq_pow_max_bas_fil_rst', 'c_tqi_pow_max_req_clu_dft', 'c_prs_im_sp_lim', 'c_prs_im_sp_max'],
     controls: [
         {

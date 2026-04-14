@@ -59,12 +59,12 @@ function countAllParameters(node: TreeNode): number {
     return count;
 }
 
-function buildTree(parameters: IDefinitionParameter[]): TreeNode {
-    const root: TreeNode = {name: 'Root', path: '', children: new Map(), parameters: []};
+function buildTree(parameters: IDefinitionParameter[], pathPrefix = ''): TreeNode {
+    const root: TreeNode = {name: 'Root', path: pathPrefix, children: new Map(), parameters: []};
 
     for (const param of parameters) {
         let node = root;
-        let path = '';
+        let path = pathPrefix;
 
         for (const cat of param.categories) {
             path = path ? `${path}/${cat}` : cat;
@@ -183,37 +183,48 @@ export function CategoryTree({parameters, onSelect, selectedParam}: Props) {
         return () => clearTimeout(id);
     }, [filter]);
 
-    const tree = useMemo(() => {
-        if (!debouncedFilter) return buildTree(parameters);
+    const filteredParameters = useMemo(() => {
+        if (!debouncedFilter) return parameters;
 
-        const filtered = parameters.filter(p =>
+        return parameters.filter((p) =>
             matchScore(p.name, debouncedFilter) > 0 ||
             matchScore(p.description, debouncedFilter) > 0 ||
-            (p.customName && matchScore(p.customName, debouncedFilter) > 0)
+            (p.customName && matchScore(p.customName, debouncedFilter) > 0) ||
+            (p.categories && p.categories.find((c) => matchScore(c, debouncedFilter) > 0))
         );
-
-        return buildTree(filtered);
     }, [parameters, debouncedFilter]);
+
+    const {patchTree, mainTree, hasPatchSection} = useMemo(() => {
+        const patchParams = filteredParameters
+            .filter(p => p.categories[0] === 'Patch')
+            .map(p => ({...p, categories: p.categories.slice(1)}));
+        const mainParams = filteredParameters.filter(p => p.categories[0] !== 'Patch');
+
+        return {
+            patchTree: buildTree(patchParams, 'patch'),
+            mainTree: buildTree(mainParams),
+            hasPatchSection: patchParams.length > 0,
+        };
+    }, [filteredParameters]);
 
     // Collect all visible parameters in tree order (sorted: folders first, then params)
     const visibleParams = useMemo(() => {
         const result: IDefinitionParameter[] = [];
         const collect = (node: TreeNode, isRoot: boolean) => {
             if (!isRoot && !expanded.has(node.path)) return;
-            // Sort children alphabetically
             const sortedChildren = Array.from(node.children.values())
                 .sort((a, b) => a.name.localeCompare(b.name));
             for (const child of sortedChildren) {
                 collect(child, false);
             }
-            // Sort parameters alphabetically by display name
             const sortedParams = [...node.parameters]
                 .sort((a, b) => (a.customName || a.description || a.name).localeCompare(b.customName || b.description || b.name));
             result.push(...sortedParams);
         };
-        collect(tree, true);
+        if (hasPatchSection) collect(patchTree, true);
+        collect(mainTree, true);
         return result;
-    }, [tree, expanded]);
+    }, [patchTree, mainTree, hasPatchSection, expanded]);
 
     const toggleNode = (path: string) => {
         setExpanded(prev => {
@@ -233,7 +244,8 @@ export function CategoryTree({parameters, onSelect, selectedParam}: Props) {
             if (node.path) allPaths.add(node.path);
             node.children.forEach(collect);
         };
-        collect(tree);
+        if (hasPatchSection) collect(patchTree);
+        collect(mainTree);
         setExpanded(allPaths);
     };
 
@@ -299,8 +311,27 @@ export function CategoryTree({parameters, onSelect, selectedParam}: Props) {
                 </button>
             </div>
             <div ref={scrollContainerRef} class="flex-1 overflow-y-auto py-2 text-sm">
+                {hasPatchSection && (
+                    <>
+                        <div class="px-2 pb-2">
+                            <div class="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">Patch Parameters</div>
+                        </div>
+                        <TreeNodeView
+                            node={patchTree}
+                            depth={0}
+                            onSelect={onSelect}
+                            selectedParam={selectedParam}
+                            expanded={expanded}
+                            onToggle={toggleNode}
+                        />
+                        <div class="mx-2 my-3 border-t border-zinc-300 dark:border-zinc-700" />
+                    </>
+                )}
+                <div class="px-2 pb-2">
+                    <div class="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">Parameters</div>
+                </div>
                 <TreeNodeView
-                    node={tree}
+                    node={mainTree}
                     depth={0}
                     onSelect={onSelect}
                     selectedParam={selectedParam}

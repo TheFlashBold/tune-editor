@@ -1,4 +1,7 @@
 import {BaseService} from "./base";
+import {DefinitionIndexEntry} from "../lib/definitionLoader.ts";
+import type {Definition} from "../types";
+import {PatchIndexEntry} from "../components/PatchManager.tsx";
 
 export interface TuningUploadOptions {
     name: string;
@@ -30,6 +33,64 @@ export interface TuningFileEntry {
 }
 
 export class TuningService extends BaseService {
+
+    private static isLocalhost(): boolean {
+        return typeof window !== 'undefined' && (
+            window.location.hostname === 'localhost' ||
+            window.location.hostname === '127.0.0.1'
+        );
+    }
+
+    static async getDefinitionsIndex(): Promise<DefinitionIndexEntry[]> {
+        if (this.isLocalhost()) {
+            const response = await fetch('./definitions/index.json');
+            if (!response.ok) throw new Error('Failed to load definition index');
+            return response.json();
+        }
+        return BaseService.getJSON('tuning/definitions');
+    }
+
+    static async getDefinition(file: string): Promise<Definition> {
+        const normalizedFile = file.endsWith('.json') ? file : `${file}.json`;
+        if (this.isLocalhost()) {
+            const response = await fetch(`./definitions/${normalizedFile}`);
+            if (!response.ok) throw new Error(`Failed to load definition: ${normalizedFile}`);
+            return response.json();
+        }
+        return BaseService.getJSON(`tuning/definitions/${encodeURIComponent(normalizedFile.slice(0, -5))}`);
+    }
+
+    static async getPatchIndex(): Promise<PatchIndexEntry[]> {
+        if (this.isLocalhost()) {
+            const response = await fetch('./patches/index.json');
+            if (!response.ok) throw new Error('Failed to load patch index');
+            return response.json();
+        }
+        return BaseService.getJSON('tuning/patches');
+    }
+
+    static async getPatch(file: string): Promise<ArrayBuffer> {
+        const normalizedFile = file.endsWith('.btp') ? file : `${file}.btp`;
+        if (this.isLocalhost()) {
+            const response = await fetch(`./patches/${normalizedFile}`);
+            if (!response.ok) throw new Error(`Failed to load patch: ${normalizedFile}`);
+            return response.arrayBuffer();
+        }
+        const res = await BaseService.request(`tuning/patches/${encodeURIComponent(normalizedFile.slice(0, -4))}`, {}, {
+            headers: {}
+        });
+        return res.arrayBuffer();
+    }
+
+    static async getPatchDefinition(file: string): Promise<Definition> {
+        const normalizedFile = file.endsWith('.json') ? file : `${file}.json`;
+        if (this.isLocalhost()) {
+            const response = await fetch(`./patches/definitions/${normalizedFile}`);
+            if (!response.ok) throw new Error(`Failed to load patch definition: ${normalizedFile}`);
+            return response.json();
+        }
+        return BaseService.getJSON(`tuning/patchDefinitions/${encodeURIComponent(normalizedFile.slice(0, -5))}`);
+    }
 
     static async getUnlocks(): Promise<TuningUnlock[]> {
         return BaseService.getJSON("tuning/unlocks");

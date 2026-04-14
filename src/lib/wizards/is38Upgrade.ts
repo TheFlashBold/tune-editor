@@ -204,6 +204,8 @@ export const is38Upgrade: WizardDef = {
     ],
     product: "tune_editor_is38_upgrade",
     productId: "prod_UIxFUTsBBgrt0g",
+    price: "99€",
+    categories: ['simos 12/18'],
     controls: [],
     presets: [],
     apply(_values: Record<string, number>, ctx: WizardContext): WizardApplyResult {

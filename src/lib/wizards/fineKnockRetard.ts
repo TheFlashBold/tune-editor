@@ -4,6 +4,7 @@ export const fineKnockRetard: WizardDef = {
     id: 'fineKnockRetard',
     name: 'Fine Knock Retard',
     description: 'Modifies knock retard to be more fine grained',
+    categories: ['simos 12/18'],
     requiredParams: ['ip_iga_dec_knk', 'ip_fac_iga_dec_knk'],
     controls: [],
     presets: [],

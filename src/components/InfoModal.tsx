@@ -20,6 +20,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version:'1.20.0',
+        date: '14.04.2026',
+        changes: [
+            'Clean up & restructure'
+        ]
+    },
+    {
         version: '1.19.5',
         date: '10.04.2026',
         changes: [

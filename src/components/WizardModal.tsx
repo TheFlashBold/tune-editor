@@ -26,6 +26,9 @@ interface Props {
     onClose: () => void;
 }
 
+const PREMIUM_PRODUCT_ID = 'prod_UKhla3Ezu7aakL';
+const PREMIUM_REF = 'tune_editor_premium';
+
 function findParam(params: IDefinitionParameter[], name: string): IDefinitionParameter | undefined {
     const lower = name.toLowerCase();
     return params.find(p => p.name.toLowerCase() === lower);
@@ -45,6 +48,7 @@ export function WizardModal({onClose}: Props) {
     const [unlocks, setUnlocks] = useState<TuningUnlock[] | null>(null);
     const [loadingUnlocks, setLoadingUnlocks] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
+    const [showSubscription, setShowSubscription] = useState(false);
     const [loginState, setLoginState] = useState(() => getLoginState());
     const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -71,6 +75,10 @@ export function WizardModal({onClose}: Props) {
         fetchUnlocks();
     }, [fetchUnlocks]);
 
+    useEffect(() => {
+        track('Open Wizard List', {definition: ctx.definition?.name});
+    }, []);
+
     // Poll unlocks while wizard modal is open (to detect checkout completion)
     useEffect(() => {
         if (!isLoggedIn) return;
@@ -84,15 +92,21 @@ export function WizardModal({onClose}: Props) {
 
     const isUnlocked = useCallback((wizard: WizardDef): boolean => {
         if (!wizard.productId) return true;
-        if (!unlocks) return false;
-        return unlocks.some(u => u.product === wizard.product); //  && u.ref === ref no ref check for now
+        if (!wizard.product || !unlocks) return false;
+        return unlocks.some(u => u.ref === PREMIUM_REF || (u.product === wizard.product && (u.ref === ref || u.ref === 'all')));
     }, [unlocks, ref]);
 
-    const handleCheckout = useCallback((wizard: WizardDef) => {
+    const handleWizardCheckout = useCallback((wizard: WizardDef) => {
         if (!wizard.productId || !loginState?.token) return;
         const url = TuningService.getCheckoutUrl(wizard.productId, ref, loginState.token);
         window.open(url, '_blank');
     }, [ref, loginState]);
+
+    const handlePremiumCheckout = useCallback(() => {
+        if (!loginState?.token) return;
+        const url = TuningService.getCheckoutUrl(PREMIUM_PRODUCT_ID, PREMIUM_REF, loginState.token);
+        window.open(url, '_blank');
+    }, [loginState]);
 
     const readInitialValues = useCallback((wizard: WizardDef) => {
         if (!ctx.bin || !ctx.definition) return {};
@@ -130,7 +144,8 @@ export function WizardModal({onClose}: Props) {
     const openWizard = useCallback((wizard: WizardDef) => {
         setActiveWizard(wizard);
         setValues(readInitialValues(wizard));
-    }, [readInitialValues]);
+        track('Open Wizard', {wizard: wizard.id, definition: ctx.definition?.name});
+    }, [readInitialValues, ctx.definition]);
 
     const availableControls = useMemo(() => {
         if (!activeWizard || !ctx.definition) return new Set<string>();
@@ -253,18 +268,12 @@ export function WizardModal({onClose}: Props) {
                     <p class="text-zinc-500 text-sm">Loading...</p>
                 ) : (
                     <div class="space-y-3">
-                        <div class="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-sm text-blue-400">
-                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd"/>
-                            </svg>
-                            Unlock once: use on all compatible bins
-                        </div>
                         {WIZARDS.map(w => {
                             const compatible = !w.requiredParams || w.requiredParams.every(
                                 name => findParam(ctx.definition!.parameters, name)
                             );
                             const unlocked = isUnlocked(w);
-                            const canOpen = compatible && unlocked;
+                            const canOpen = compatible;
                             const needsPurchase = compatible && !unlocked && !!w.productId;
                             return (
                                 <div
@@ -298,18 +307,28 @@ export function WizardModal({onClose}: Props) {
                                                             free
                                                         </span>
                                                     )}
+                                                    {canOpen && unlocked && w.productId && (
+                                                        <span
+                                                            class="text-[10px] px-1.5 py-0.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
+                                                            unlocked
+                                                        </span>
+                                                    )}
                                                 </div>
+                                                {w.categories && w.categories.length > 0 && (
+                                                    <div class="flex flex-wrap gap-1 mt-1">
+                                                        {w.categories.map(category => (
+                                                            <span
+                                                                key={category}
+                                                                class="text-[10px] px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-600"
+                                                            >
+                                                                {category}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
                                                 <p class="text-xs text-zinc-500 mt-1 leading-relaxed">{w.description}</p>
                                             </div>
                                             <div class="shrink-0">
-                                                {needsPurchase && (
-                                                    <button
-                                                        onClick={() => handleCheckout(w)}
-                                                        class="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400 shadow-sm shadow-blue-500/25 cursor-pointer transition-all active:scale-95"
-                                                    >
-                                                        Unlock
-                                                    </button>
-                                                )}
                                                 {canOpen && (
                                                     <button
                                                         onClick={() => openWizard(w)}
@@ -341,71 +360,137 @@ export function WizardModal({onClose}: Props) {
         return map;
     }, [activeWizard]);
 
+    const activeUnlocked = isUnlocked(activeWizard);
+
     return (
-        <Modal
-            title={activeWizard.name}
-            titleRight={
-                <button onClick={() => setActiveWizard(null)}
-                        class="text-sm text-blue-500 hover:text-blue-400 cursor-pointer">
-                    Back
-                </button>
-            }
-            onClose={onClose}
-            width="lg"
-            footer={
-                <div class="flex justify-between items-center">
-                    <div class="flex gap-2">
-                        <button onClick={onClose}
+        <>
+            <Modal
+                title={activeWizard.name}
+                onClose={onClose}
+                width="lg"
+                footer={
+                    <div class="flex justify-between items-center gap-2 flex-wrap">
+                        <button onClick={() => setActiveWizard(null)}
                                 class="px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer">
-                            Cancel
+                            Back
                         </button>
-                        <button onClick={applyChanges}
-                                class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer">
-                            Apply
-                        </button>
-                    </div>
-                </div>
-            }
-        >
-            <div class="space-y-6">
-                <p class="text-sm text-zinc-500">{activeWizard.description}</p>
-
-                {activeWizard.presets.length > 0 && (
-                    <div>
-                        <div class="text-xs font-medium text-zinc-500 uppercase mb-2">Presets</div>
-                        <div class="flex flex-wrap gap-2">
-                            {activeWizard.presets.map(preset => (
-                                <button
-                                    key={preset.name}
-                                    onClick={() => applyPreset(preset.values)}
-                                    class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer"
-                                    title={preset.description}
-                                >
-                                    {preset.name}
+                        <div class="flex gap-2 flex-wrap">
+                            {!activeUnlocked && activeWizard.productId && (
+                                <button onClick={() => handleWizardCheckout(activeWizard)}
+                                        class="px-4 py-2 text-sm rounded bg-zinc-700 text-white hover:bg-zinc-600 cursor-pointer">
+                                    {activeWizard.price ? `Unlock this bin (${activeWizard.price})` : 'Unlock this bin'}
                                 </button>
-                            ))}
+                            )}
+                            {!activeUnlocked && (
+                                <button onClick={() => setShowSubscription(true)}
+                                        class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer">
+                                    Subscribe
+                                </button>
+                            )}
+                            {activeUnlocked && (
+                                <button onClick={applyChanges}
+                                        class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer">
+                                    Apply
+                                </button>
+                            )}
                         </div>
                     </div>
-                )}
+                }
+            >
+                <div class="space-y-6">
+                    <p class="text-sm text-zinc-500">{activeWizard.description}</p>
 
-                {Array.from(groups.entries()).map(([groupName, controls]) => (
-                    <div key={groupName}>
-                        <div class="text-xs font-medium text-zinc-500 uppercase mb-2">{groupName}</div>
+                    {activeWizard.presets.length > 0 && (
+                        <div>
+                            <div class="text-xs font-medium text-zinc-500 uppercase mb-2">Presets</div>
+                            <div class="flex flex-wrap gap-2">
+                                {activeWizard.presets.map(preset => (
+                                    <button
+                                        key={preset.name}
+                                        onClick={() => applyPreset(preset.values)}
+                                        class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer"
+                                        title={preset.description}
+                                    >
+                                        {preset.name}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {Array.from(groups.entries()).map(([groupName, controls]) => (
+                        <div key={groupName}>
+                            <div class="text-xs font-medium text-zinc-500 uppercase mb-2">{groupName}</div>
+                            <div class="space-y-3">
+                                {controls.map(ctrl => (
+                                    <ControlRow
+                                        key={ctrl.key}
+                                        ctrl={ctrl}
+                                        value={values[ctrl.key]}
+                                        available={availableControls.has(ctrl.key)}
+                                        onChange={handleValueChange}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </Modal>
+
+            {showSubscription && (
+                <Modal
+                    title="Tune Editor Premium"
+                    onClose={() => setShowSubscription(false)}
+                    width="md"
+                    footer={
+                        <div class="flex justify-between items-center gap-2 flex-wrap">
+                            <button
+                                onClick={() => setShowSubscription(false)}
+                                class="px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer"
+                            >
+                                Close
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setShowSubscription(false);
+                                    handlePremiumCheckout();
+                                }}
+                                class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer"
+                            >
+                                Subscribe
+                            </button>
+                        </div>
+                    }
+                >
+                    <div class="space-y-4">
+                        <p class="text-sm text-zinc-500">Unlock the full tuning toolkit with Tune Editor Premium.</p>
                         <div class="space-y-3">
-                            {controls.map(ctrl => (
-                                <ControlRow
-                                    key={ctrl.key}
-                                    ctrl={ctrl}
-                                    value={values[ctrl.key]}
-                                    available={availableControls.has(ctrl.key)}
-                                    onChange={handleValueChange}
-                                />
-                            ))}
+                            <div class="flex gap-3 items-start px-3 py-3 rounded-lg bg-zinc-200/60 dark:bg-zinc-700/40">
+                                <div class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">✓</div>
+                                <div>
+                                    <div class="text-sm font-medium">All wizards unlocked</div>
+                                    <div class="text-xs text-zinc-500">Use every compatible wizard without buying them one by one.</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 items-start px-3 py-3 rounded-lg bg-zinc-200/60 dark:bg-zinc-700/40">
+                                <div class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">✓</div>
+                                <div>
+                                    <div class="text-sm font-medium">Premium support</div>
+                                    <div class="text-xs text-zinc-500">Get priority help when you need guidance or run into issues.</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 items-start px-3 py-3 rounded-lg bg-zinc-200/60 dark:bg-zinc-700/40">
+                                <div class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">+</div>
+                                <div>
+                                    <div class="text-sm font-medium">Upcoming features included</div>
+                                    <div class="text-xs text-zinc-500">Get access to future premium features as they are added.</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                ))}
-            </div>
-        </Modal>
+                </Modal>
+            )}
+        </>
     );
 }
 

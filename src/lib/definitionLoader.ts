@@ -1,4 +1,5 @@
 import type {Definition, DefinitionVerification} from '../types';
+import {TuningService} from '../services/tuning';
 
 export interface DefinitionIndexEntry {
     name: string;
@@ -12,12 +13,7 @@ let definitionIndex: DefinitionIndexEntry[] | null = null;
 export async function loadDefinitionIndex(): Promise<DefinitionIndexEntry[]> {
     if (definitionIndex) return definitionIndex;
 
-    const response = await fetch('./definitions/index.json');
-    if (!response.ok) {
-        throw new Error('Failed to load definition index');
-    }
-
-    definitionIndex = await response.json();
+    definitionIndex = await TuningService.getDefinitionsIndex();
     return definitionIndex!;
 }
 
@@ -33,12 +29,7 @@ export async function findMatchingDefinition(
 
 
 export async function loadDefinition(filename: string): Promise<Definition> {
-    const response = await fetch(`./definitions/${filename}`);
-    if (!response.ok) {
-        throw new Error(`Failed to load definition: ${filename}`);
-    }
-
-    return response.json();
+    return TuningService.getDefinition(filename);
 }
 
 export async function getAllDefinitions(): Promise<DefinitionIndexEntry[]> {

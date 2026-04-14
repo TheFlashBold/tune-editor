@@ -4,6 +4,7 @@ import {track} from '../lib/track';
 import type {Definition, IDefinitionParameter} from '../types';
 import {parseBtp, verifyCrc32, checkPatchBlockAware, applyPatch, removePatch, parseEcuInfo, getCalFileOffset} from '../lib/btpParser';
 import type {PatchCheckResult, PatchStatus} from '../lib/btpParser';
+import {TuningService} from '../services/tuning';
 
 interface PatchIndexEntry {
     name: string;
@@ -208,7 +209,7 @@ export function PatchManager({
                     let mergedDef = definition;
                     for (const applied of newlyApplied) {
                         try {
-                            const patchDef = await fetch(`./patches/definitions/${applied.definition}`).then(r => r.json()) as Definition;
+                            const patchDef = await TuningService.getPatchDefinition(applied.definition!);
                             mergedDef = mergeDefinitions(mergedDef, patchDef, applied.name);
                         } catch (err) {
                             console.error(`Failed to load patch definition ${applied.definition}:`, err);

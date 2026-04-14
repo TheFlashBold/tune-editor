@@ -111,6 +111,8 @@ export const gearRatio: WizardDef = {
     name: 'Gear Ratios (Manual)',
     product: 'tune_editor_gear_ratios',
     productId: 'prod_UJy6KwYEQcWE9G',
+    price: '9€',
+    categories: ['simos 12/18'],
     description: 'Modify manual transmission gear ratio detection map',
     requiredParams: ['id_gear_gr_mt', 'id_ratio_n_gb_nctl_mt[0]'],
     controls: [
