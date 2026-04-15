@@ -170,6 +170,15 @@ export function MenuBar({
         setShowMobileMenu(false);
     };
 
+    const handleShowDefinitions = useCallback(async () => {
+        try {
+            const defs = await loadDefinitionIndex();
+            onShowDefinitions(defs);
+        } catch (err) {
+            console.error('Failed to load definitions:', err);
+        }
+    }, [onShowDefinitions]);
+
     // Status badges (shared between desktop and mobile)
     const statusBadges = (
         <>
@@ -301,14 +310,7 @@ export function MenuBar({
                         className="text-nowrap px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
                     Log Viewer
                 </button>
-                <button onClick={async () => {
-                    try {
-                        const defs = await loadDefinitionIndex();
-                        onShowDefinitions(defs);
-                    } catch (err) {
-                        console.error('Failed to load definitions:', err);
-                    }
-                }}
+                <button onClick={handleShowDefinitions}
                         className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Definitions
                 </button>
                 <button onClick={onShowPatchManager} disabled={!ctx.bin}
@@ -428,13 +430,7 @@ export function MenuBar({
                                 className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">Log
                             Viewer
                         </button>
-                        <button onClick={mobileAction(async () => {
-                            try {
-                                const defs = await loadDefinitionIndex();
-                                onShowDefinitions(defs);
-                            } catch {
-                            }
-                        })}
+                        <button onClick={mobileAction(handleShowDefinitions)}
                                 className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">Definitions
                         </button>
                         <button onClick={mobileAction(onShowPatchManager)} disabled={!ctx.bin}

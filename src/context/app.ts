@@ -33,6 +33,7 @@ export interface IAppContext {
 
     // Patches
     patchResults: PatchCheckResult[];
+    loadingPatches: boolean;
 
     // Definition picker state
     definitionMatches: { entry: DefinitionIndexEntry; mode: BinaryMode }[];

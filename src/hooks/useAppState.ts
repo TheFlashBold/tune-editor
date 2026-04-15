@@ -56,6 +56,7 @@ export function useAppState(): IAppContext {
     const [detectedMode, setDetectedMode] = useState<BinaryMode | null>(null);
     const [calOffset, setCalOffset] = useState<number>(0);
     const [patchResults, setPatchResults] = useState<PatchCheckResult[]>([]);
+    const [loadingPatches, setLoadingPatches] = useState(false);
     const [definitionMatches, setDefinitionMatches] = useState<{ entry: DefinitionIndexEntry; mode: BinaryMode }[]>([]);
     const [allDefinitions, setAllDefinitions] = useState<DefinitionIndexEntry[]>([]);
     const [customDefinition, setCustomDefinition] = useState(false);
@@ -89,6 +90,7 @@ export function useAppState(): IAppContext {
     }, []);
 
     const detectPatches = useCallback(async (data: Uint8Array, currentDef: Definition | null) => {
+        setLoadingPatches(true);
         try {
             const patchIndex = await TuningService.getPatchIndex();
 
@@ -155,6 +157,8 @@ export function useAppState(): IAppContext {
             }
         } catch {
             // Patch index not available, silently skip
+        } finally {
+            setLoadingPatches(false);
         }
     }, []);
 
@@ -563,6 +567,7 @@ export function useAppState(): IAppContext {
         bigEndian,
         modified,
         patchResults,
+        loadingPatches,
         definitionMatches,
         allDefinitions,
         setAllDefinitions,
