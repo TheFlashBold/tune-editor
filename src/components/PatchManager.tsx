@@ -17,6 +17,7 @@ interface PatchIndexEntry {
 interface Props {
     binData: Uint8Array;
     patchResults: PatchCheckResult[];
+    loadingPatches: boolean;
     calFileOffset: number | null;
     onClose: () => void;
     onModify: () => void;
@@ -109,6 +110,7 @@ export {type PatchCheckResult, type PatchIndexEntry};
 export function PatchManager({
                                  binData,
                                  patchResults,
+                                 loadingPatches,
                                  calFileOffset,
                                  onClose,
                                  onModify,
@@ -368,7 +370,7 @@ export function PatchManager({
 
                 {patchResults.length === 0 && (
                     <div class="text-center py-4 text-zinc-500 text-sm">
-                        No compatible bundled patches found for this binary.
+                        {loadingPatches ? 'Loading bundled patches...' : 'No compatible bundled patches found for this binary.'}
                     </div>
                 )}
 

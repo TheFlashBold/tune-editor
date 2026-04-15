@@ -278,6 +278,7 @@ export function App() {
                     <PatchManager
                         binData={appState.bin.data}
                         patchResults={appState.patchResults}
+                        loadingPatches={appState.loadingPatches}
                         calFileOffset={calFileOffset}
                         onClose={() => setShowPatchManager(false)}
                         onModify={appState.markModified}
