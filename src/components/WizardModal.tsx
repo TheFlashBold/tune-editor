@@ -480,6 +480,13 @@ export function WizardModal({onClose}: Props) {
                                 </div>
                             </div>
                             <div class="flex gap-3 items-start px-3 py-3 rounded-lg bg-zinc-200/60 dark:bg-zinc-700/40">
+                                <div class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">✓</div>
+                                <div>
+                                    <div class="text-sm font-medium">Premium simos.app flashing features</div>
+                                    <div class="text-xs text-zinc-500">Upload more logs and soon flash your bins edited in Tune Editor directly form the cloud</div>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 items-start px-3 py-3 rounded-lg bg-zinc-200/60 dark:bg-zinc-700/40">
                                 <div class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shrink-0">+</div>
                                 <div>
                                     <div class="text-sm font-medium">Upcoming features included</div>
