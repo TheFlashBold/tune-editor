@@ -95,14 +95,14 @@ export const stage1: WizardDef = {
         {
             key: 'torque_pct',
             label: 'Torque Limit Increase',
-            description: '25% matches the typical OEM safety margin. Going higher only helps if the engine can actually produce more — it won\'t add power beyond what the turbo and fueling can deliver.',
+            description: 'Going higher then 30% only helps if the engine can actually produce more — it won\'t add power beyond what the turbo and fueling can deliver.',
             control: 'slider',
             min: 0,
-            max: 35,
+            max: 50,
             step: 5,
             unit: '%',
             group: 'Torque',
-            default: 20
+            default: 30
         },
         {
             key: 'timing_add',
@@ -190,13 +190,13 @@ export const stage1: WizardDef = {
         }
 
         // Scale turbo speed limit +15%
-        const tcha = scaleTable(ctx, 'c_n_tcha_max', 1.15);
+        const tcha = scaleTable(ctx, 'c_n_tcha_max', 1.10);
         if (tcha) {
             tableCells['c_n_tcha_max'] = tcha;
         }
 
         // Charge air temp threshold
-        scalars['c_tia_thr_tcha_max'] = 220;
+        scalars['c_tia_thr_tcha_max'] = 210;
 
         // Max reference torque monitor
         if (find('ip_tqi_ref_max_mon')) scalars['ip_tqi_ref_max_mon'] = 1024;
