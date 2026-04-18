@@ -196,8 +196,9 @@ export function useAppState(): IAppContext {
                 loadedDef = def;
                 track('Definition Matched', {name: def.name, mode: isCal ? 'cal' : 'full', boxCode, epk});
             } else {
-                track('No Definition Match', {size: data.length, epk, boxCode});
-                setUnknownBin({data, name: displayName, epk, boxCode});
+                const autoSubmit = Boolean(boxCode) && /^[sS][A-Z0-9]{5}$/.test(epk);
+                track('No Definition Match', {size: data.length, epk, boxCode, autoSubmit});
+                setUnknownBin({data, name: displayName, epk, boxCode, autoSubmit});
             }
         } catch (err) {
             console.error('Definition auto-detect failed:', err);

@@ -9,6 +9,7 @@ export interface UnknownBinInfo {
     name: string;
     epk: string;
     boxCode: string;
+    autoSubmit?: boolean;
 }
 
 export interface IAppContext {

@@ -20,6 +20,8 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
     const [upgradeInfo, setUpgradeInfo] = useState<IBinUpgrade | null>(null);
     const [notes, setNotes] = useState('');
     const abortRef = useRef<AbortController | null>(null);
+    const autoUploadStartedRef = useRef(false);
+    const autoSubmit = Boolean(info.autoSubmit);
 
     useEffect(() => {
         if (!info.boxCode) {
@@ -42,7 +44,11 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
         }
     }, [info])
 
-    const handleUpload = async () => {
+    const handleUpload = async (automatic: boolean = false) => {
+        if (uploading) {
+            return;
+        }
+
         setUploading(true);
         setError(null);
         setProgress(0);
@@ -61,7 +67,13 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                 signal: abortRef.current.signal,
             });
             setDone(true);
-            track('Upload Unknown BIN', {name, epk: info.epk, boxCode: info.boxCode, size: info.data.length, version: APP_VERSION});
+            track(automatic ? 'Auto Upload Unknown BIN' : 'Upload Unknown BIN', {
+                name,
+                epk: info.epk,
+                boxCode: info.boxCode,
+                size: info.data.length,
+                version: APP_VERSION,
+            });
         } catch (err) {
             if (err instanceof TuningRateLimitedException) {
                 setError(`Rate limited. Try again in ${err.retryAfterSeconds} seconds.`);
@@ -75,6 +87,21 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
             abortRef.current = null;
         }
     };
+
+    useEffect(() => {
+        if (!autoSubmit || autoUploadStartedRef.current) {
+            return;
+        }
+
+        autoUploadStartedRef.current = true;
+        track('Auto Upload Unknown BIN Queued', {
+            epk: info.epk,
+            boxCode: info.boxCode,
+            size: info.data.length,
+            version: APP_VERSION,
+        });
+        void handleUpload(true);
+    }, [autoSubmit, info]);
 
     const handleCancel = () => {
         if (abortRef.current) {
@@ -94,6 +121,11 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                 <div class="rounded-lg border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/30 px-3 py-2 text-sm text-amber-800 dark:text-amber-200">
                     Do not upload encrypted or slave bins!
                 </div>
+                {autoSubmit && !done && (
+                    <div class="rounded-lg border border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/30 px-3 py-2 text-sm text-blue-800 dark:text-blue-200">
+                        This BIN matches the auto-submit rules and is being uploaded in the background.
+                    </div>
+                )}
                 {upgradeInfo && (
                     <div class="rounded-lg border border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/30 p-3 space-y-1">
                         <div class="flex items-center gap-2 text-blue-700 dark:text-blue-300 font-medium text-sm">
@@ -135,7 +167,8 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                     placeholder="Additional info (ECU type, vehicle, etc.)"
                     value={notes}
                     onInput={(e) => setNotes((e.target as HTMLTextAreaElement).value)}
-                    class="w-full px-3 py-2 text-sm rounded border border-zinc-300 dark:border-zinc-600 bg-transparent resize-none"
+                    disabled={uploading || done}
+                    class="w-full px-3 py-2 text-sm rounded border border-zinc-300 dark:border-zinc-600 bg-transparent resize-none disabled:opacity-60"
                     rows={2} maxLength={100}
                 />
 
@@ -178,11 +211,11 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                             Skip
                         </button>
                         <button
-                            onClick={handleUpload}
+                            onClick={() => void handleUpload(false)}
                             disabled={uploading}
                             class="flex-1 py-2 rounded font-medium bg-blue-600 text-white hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {uploading ? 'Uploading...' : 'Upload'}
+                            {uploading ? 'Uploading...' : (autoSubmit && error ? 'Retry Upload' : 'Upload')}
                         </button>
                     </div>
                 )}
