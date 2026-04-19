@@ -20,6 +20,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version:'1.21.0',
+        date: '19.04.2026',
+        changes: [
+            '2D & 3D table datapoint drag edit'
+        ]
+    },
+    {
         version:'1.20.0',
         date: '14.04.2026',
         changes: [
