@@ -1,7 +1,7 @@
 import {useMemo, useCallback} from 'preact/hooks';
 import {useAppContext} from '../context/app';
 import {ValueEditor} from './ValueEditor';
-import type {ParamInfo, ScalarData, TableData, BulkChange} from './ValueEditor';
+import type {ScalarData, TableData, BulkChange} from './ValueEditor';
 import type {IDefinitionParameter} from '../types';
 import {
     readParameterValue,
@@ -11,26 +11,6 @@ import {
     readAxisData,
     writeAxisValue,
 } from '../lib/binUtils';
-
-/** Convert IDefinitionParameter to display-only ParamInfo */
-function toParamInfo(p: IDefinitionParameter): ParamInfo {
-    return {
-        name: p.name,
-        customName: p.customName,
-        description: p.description,
-        type: p.type,
-        dataType: p.dataType,
-        unit: p.unit,
-        min: p.min,
-        max: p.max,
-        rows: p.rows,
-        cols: p.cols,
-        bitLabels: p.bitLabels,
-        enumLabels: p.enumLabels,
-        xAxis: p.xAxis ? {unit: p.xAxis.unit, labels: p.xAxis.labels, editable: !!p.xAxis.address} : undefined,
-        yAxis: p.yAxis ? {unit: p.yAxis.unit, labels: p.yAxis.labels, editable: !!p.yAxis.address} : undefined,
-    };
-}
 
 function readScalar(
     binData: Uint8Array,
@@ -107,11 +87,6 @@ export function MainArea() {
             bigEndian: ccDef.bigEndian ?? false,
         };
     }, [ctx.crossCompareBin, ctx.selectedParam]);
-
-    const paramInfo = useMemo(
-        () => ctx.selectedParam ? toParamInfo(ctx.selectedParam) : null,
-        [ctx.selectedParam]
-    );
 
     const scalarData = useMemo(() => {
         if (!ctx.bin || !ctx.selectedParam || ctx.selectedParam.type !== 'VALUE') return undefined;
@@ -236,7 +211,7 @@ export function MainArea() {
                 </div>
             )}
 
-            {ctx.bin && ctx.selectedParam && paramInfo && (
+            {ctx.bin && ctx.selectedParam && (
                 <>
                     {/* Mobile back button */}
                     <button
@@ -249,7 +224,7 @@ export function MainArea() {
                         Parameters
                     </button>
                     <ValueEditor
-                        param={paramInfo}
+                        param={ctx.selectedParam}
                         scalar={scalarData}
                         table={tableData}
                         onScalarChange={handleScalarChange}

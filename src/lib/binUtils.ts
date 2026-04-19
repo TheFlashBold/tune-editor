@@ -281,6 +281,25 @@ export function readValue(data: Uint8Array, address: number, dataType: DataType,
     }
 }
 
+export function normalizeRawValue(value: number, dataType: DataType): number {
+    switch (dataType) {
+        case 'UBYTE':
+            return Math.max(0, Math.min(255, Math.round(value)));
+        case 'SBYTE':
+            return Math.max(-128, Math.min(127, Math.round(value)));
+        case 'UWORD':
+            return Math.max(0, Math.min(65535, Math.round(value)));
+        case 'SWORD':
+            return Math.max(-32768, Math.min(32767, Math.round(value)));
+        case 'ULONG':
+            return Math.max(0, Math.min(0xFFFFFFFF, Math.round(value)));
+        case 'SLONG':
+            return Math.max(-2147483648, Math.min(2147483647, Math.round(value)));
+        case 'FLOAT32':
+            return value;
+    }
+}
+
 export function writeValue(data: Uint8Array, address: number, dataType: DataType, value: number, calOffset: number = 0, bigEndian: boolean = false): void {
     const offset = addressToOffset(address, calOffset);
     if (offset < 0 || offset >= data.length) return;
@@ -288,28 +307,29 @@ export function writeValue(data: Uint8Array, address: number, dataType: DataType
     const info = DATA_TYPE_INFO[dataType];
     const view = new DataView(data.buffer, data.byteOffset + offset, info.size);
     const littleEndian = !bigEndian;
+    const normalized = normalizeRawValue(value, dataType);
 
     switch (dataType) {
         case 'UBYTE':
-            view.setUint8(0, Math.max(0, Math.min(255, value)));
+            view.setUint8(0, normalized);
             break;
         case 'SBYTE':
-            view.setInt8(0, Math.max(-128, Math.min(127, value)));
+            view.setInt8(0, normalized);
             break;
         case 'UWORD':
-            view.setUint16(0, Math.max(0, Math.min(65535, value)), littleEndian);
+            view.setUint16(0, normalized, littleEndian);
             break;
         case 'SWORD':
-            view.setInt16(0, Math.max(-32768, Math.min(32767, value)), littleEndian);
+            view.setInt16(0, normalized, littleEndian);
             break;
         case 'ULONG':
-            view.setUint32(0, value >>> 0, littleEndian);
+            view.setUint32(0, normalized >>> 0, littleEndian);
             break;
         case 'SLONG':
-            view.setInt32(0, value, littleEndian);
+            view.setInt32(0, normalized, littleEndian);
             break;
         case 'FLOAT32':
-            view.setFloat32(0, value, littleEndian);
+            view.setFloat32(0, normalized, littleEndian);
             break;
     }
 }
@@ -332,6 +352,12 @@ export function reverseConversion(phys: number, factor: number, offset: number, 
         return (formula.b - phys * formula.c) / denom;
     }
     return (phys - offset) / factor;
+}
+
+export function quantizePhysicalValue(phys: number, dataType: DataType, factor: number, offset: number, formula?: import('../types').RationalFormula): number {
+    const raw = reverseConversion(phys, factor, offset, formula);
+    const normalizedRaw = normalizeRawValue(raw, dataType);
+    return applyConversion(normalizedRaw, factor, offset, formula);
 }
 
 export function readParameterValue(data: Uint8Array, param: IDefinitionParameter, calOffset: number = 0, bigEndian: boolean = false): number {

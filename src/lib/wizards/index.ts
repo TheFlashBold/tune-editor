@@ -7,10 +7,10 @@ import {gearRatio} from './gearRatio';
 import {oilPressure} from './oilPressure';
 
 export const WIZARDS: WizardDef[] = [
+    fineKnockRetard,
+    oilPressure,
     popsBangs,
     stage1,
-    fineKnockRetard,
     is38Upgrade,
     gearRatio,
-    oilPressure,
 ];

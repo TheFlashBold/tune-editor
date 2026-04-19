@@ -1,28 +1,12 @@
 import {useState, useEffect, useMemo, useRef, useCallback} from 'preact/hooks';
 import {track} from '../lib/track';
+import type {IDefinitionParameter} from '../types';
 import {
     formatValue,
     getConsistentDecimals,
     formatValueConsistent,
+    quantizePhysicalValue,
 } from '../lib/binUtils';
-
-/** Display-only parameter metadata (no address/binary info) */
-export interface ParamInfo {
-    name: string;
-    customName?: string;
-    description: string;
-    type: 'VALUE' | 'CURVE' | 'MAP';
-    dataType: string;
-    unit: string;
-    min: number;
-    max: number;
-    rows?: number;
-    cols?: number;
-    bitLabels?: Record<string, string>;
-    enumLabels?: Record<string, string>;
-    xAxis?: { unit: string; labels?: string[]; editable: boolean };
-    yAxis?: { unit: string; labels?: string[]; editable: boolean };
-}
 
 export interface ScalarData {
     value: number;
@@ -46,7 +30,7 @@ export type BulkChange = {
 };
 
 interface IValueEditorProps {
-    param: ParamInfo;
+    param: IDefinitionParameter;
     scalar?: ScalarData;
     table?: TableData;
     onScalarChange?: (value: number) => void;
@@ -382,6 +366,8 @@ interface CurveGraphProps {
     compareXData?: number[] | null;
     xUnit: string;
     yUnit: string;
+    onPointChange?: (index: number, value: number) => void;
+    onPointCommit?: (index: number, value: number) => void;
 }
 
 function CurveGraph({
@@ -392,10 +378,16 @@ function CurveGraph({
                         compareYData,
                         compareXData,
                         xUnit,
-                        yUnit
+                        yUnit,
+                        onPointChange,
+                        onPointCommit,
                     }: CurveGraphProps) {
     const [showOriginal, setShowOriginal] = useState(true);
     const [showCompare, setShowCompare] = useState(true);
+    const [dragIndex, setDragIndex] = useState<number | null>(null);
+    const svgRef = useRef<SVGSVGElement>(null);
+    const dragRangeRef = useRef<{ min: number; max: number } | null>(null);
+    const lastDraggedValueRef = useRef<number | null>(null);
     const width = 1200;
     const height = 500;
     const padding = {top: 20, right: 30, bottom: 50, left: 60};
@@ -445,10 +437,65 @@ function CurveGraph({
     const yTicks = 5;
     const xStep = (xMax - xMin) / xTicks;
     const yStep = (yMaxPadded - yMinPadded) / yTicks;
+    const pointDecimals = Math.min(6, Math.max(yDecimals, 2));
+
+    const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
+    const updateDraggedPoint = useCallback((clientY: number) => {
+        if (dragIndex === null || !svgRef.current || !onPointChange) return;
+
+        const rect = svgRef.current.getBoundingClientRect();
+        if (rect.height <= 0) return;
+
+        const svgY = ((clientY - rect.top) / rect.height) * height;
+        const clampedSvgY = clamp(svgY, padding.top, height - padding.bottom);
+        const range = dragRangeRef.current ?? {min: yMinPadded, max: yMaxPadded};
+        const nextValue = Number((range.min + ((padding.top + plotHeight - clampedSvgY) / plotHeight) * (range.max - range.min)).toFixed(pointDecimals));
+        lastDraggedValueRef.current = nextValue;
+        onPointChange(dragIndex, nextValue);
+    }, [dragIndex, onPointChange, height, plotHeight, pointDecimals, yMinPadded, yMaxPadded]);
+
+    useEffect(() => {
+        if (dragIndex === null) return;
+
+        const handleMouseMove = (e: MouseEvent) => {
+            e.preventDefault();
+            updateDraggedPoint(e.clientY);
+        };
+
+        const handleTouchMove = (e: TouchEvent) => {
+            if (e.touches.length !== 1) return;
+            e.preventDefault();
+            updateDraggedPoint(e.touches[0].clientY);
+        };
+
+        const stopDragging = () => {
+            if (dragIndex !== null && onPointCommit && lastDraggedValueRef.current !== null) {
+                onPointCommit(dragIndex, lastDraggedValueRef.current);
+            }
+            setDragIndex(null);
+            dragRangeRef.current = null;
+            lastDraggedValueRef.current = null;
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', stopDragging);
+        window.addEventListener('touchmove', handleTouchMove, {passive: false});
+        window.addEventListener('touchend', stopDragging);
+        window.addEventListener('touchcancel', stopDragging);
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', stopDragging);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', stopDragging);
+            window.removeEventListener('touchcancel', stopDragging);
+        };
+    }, [dragIndex, onPointCommit, updateDraggedPoint]);
 
     return (
         <div class="mt-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg p-4">
-            <svg viewBox={`0 0 ${width} ${height}`} class="w-full font-mono text-xs"
+            <svg ref={svgRef} viewBox={`0 0 ${width} ${height}`} class="w-full font-mono text-xs"
                  preserveAspectRatio="xMidYMid meet">
                 {/* Grid */}
                 <g class="text-zinc-600">
@@ -533,9 +580,58 @@ function CurveGraph({
                 <path d={generatePath(yData, xData)} fill="none" stroke="#3b82f6" stroke-width="2"/>
                 {yData.map((y, i) => {
                     const x = xData[i] ?? i;
-                    return <circle key={`c${i}`} cx={scaleX(x)} cy={scaleY(y)} r="4" fill="#3b82f6"/>;
+                    const px = scaleX(x);
+                    const py = scaleY(y);
+                    const isDraggingPoint = dragIndex === i;
+
+                    return (
+                        <g key={`c${i}`}>
+                            <circle
+                                cx={px}
+                                cy={py}
+                                r="10"
+                                fill="transparent"
+                                style={{cursor: onPointChange ? (isDraggingPoint ? 'grabbing' : 'ns-resize') : 'default'}}
+                                onMouseDown={(e) => {
+                                    if (!onPointChange) return;
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    dragRangeRef.current = {min: yMinPadded, max: yMaxPadded};
+                                    lastDraggedValueRef.current = y;
+                                    setDragIndex(i);
+                                }}
+                                onTouchStart={(e) => {
+                                    if (!onPointChange || e.touches.length !== 1) return;
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    dragRangeRef.current = {min: yMinPadded, max: yMaxPadded};
+                                    lastDraggedValueRef.current = y;
+                                    setDragIndex(i);
+                                    updateDraggedPoint(e.touches[0].clientY);
+                                }}
+                            />
+                            <circle
+                                cx={px}
+                                cy={py}
+                                r={isDraggingPoint ? "6" : "4"}
+                                fill="#3b82f6"
+                                stroke={isDraggingPoint ? "#ffffff" : "none"}
+                                stroke-width={isDraggingPoint ? "2" : "0"}
+                                style={{
+                                    cursor: onPointChange ? (isDraggingPoint ? 'grabbing' : 'ns-resize') : 'default',
+                                    pointerEvents: 'none'
+                                }}
+                            />
+                        </g>
+                    );
                 })}
             </svg>
+
+            {onPointChange && (
+                <div class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+                    Drag blue data points up or down to edit values.
+                </div>
+            )}
 
             {(originalYData || compareYData) && (
                 <div class="flex gap-4 mt-2 text-xs text-zinc-600 dark:text-zinc-400">
@@ -1467,8 +1563,8 @@ function TableEditor({
             try {
                 const text = await navigator.clipboard.readText();
                 const values = text.trim().split(/[\t\n]/).map(v => parseFloat(v.trim()));
-                if (!param.xAxis?.editable && axisSelection.axis === 'x') return;
-                if (!param.yAxis?.editable && axisSelection.axis === 'y') return;
+                if (!param.xAxis?.address && axisSelection.axis === 'x') return;
+                if (!param.yAxis?.address && axisSelection.axis === 'y') return;
                 const axisData = axisSelection.axis === 'x' ? xAxisData : yAxisData;
                 const setAxisData = axisSelection.axis === 'x' ? setXAxisData : setYAxisData;
                 const newAxisData = [...axisData];
@@ -1519,12 +1615,35 @@ function TableEditor({
         }
     };
 
+    const handleCurvePointPreview = useCallback((index: number, value: number) => {
+        const quantizedValue = quantizePhysicalValue(value, param.dataType, param.factor, param.offset, param.formula);
+
+        setTableData(prev => {
+            if (!prev[0] || index < 0 || index >= prev[0].length) return prev;
+            if (Math.abs(prev[0][index] - quantizedValue) <= 0.0001) return prev;
+
+            const next = prev.map(row => [...row]);
+            next[0][index] = quantizedValue;
+            return next;
+        });
+    }, [param.dataType, param.factor, param.offset, param.formula]);
+
+    const handleCurvePointCommit = useCallback((index: number, value: number) => {
+        if (!table.cells[0] || index < 0 || index >= table.cells[0].length) return;
+
+        const quantizedValue = quantizePhysicalValue(value, param.dataType, param.factor, param.offset, param.formula);
+        if (Math.abs(table.cells[0][index] - quantizedValue) <= 0.0001) return;
+
+        onCellChange?.(0, index, quantizedValue);
+        trackEdit();
+    }, [table.cells, onCellChange, trackEdit, param.dataType, param.factor, param.offset, param.formula]);
+
     const modifySelection = (operation: 'add' | 'multiply' | 'set', value: number) => {
         if (isNaN(value)) return;
 
         if (axisSelection) {
-            if (!param.xAxis?.editable && axisSelection.axis === 'x') return;
-            if (!param.yAxis?.editable && axisSelection.axis === 'y') return;
+            if (!param.xAxis?.address && axisSelection.axis === 'x') return;
+            if (!param.yAxis?.address && axisSelection.axis === 'y') return;
 
             const axisData = axisSelection.axis === 'x' ? xAxisData : yAxisData;
             const setAxisData = axisSelection.axis === 'x' ? setXAxisData : setYAxisData;
@@ -1794,7 +1913,7 @@ function TableEditor({
                                 const isCellSelected = isAxisSelected('x', i);
                                 const displayValue = showCompare && compareXAxis ? compareXAxis[i]
                                     : showOriginal && originalXAxis ? originalXAxis[i] : val;
-                                const canEdit = param.xAxis?.editable;
+                                const canEdit = !!param.xAxis?.address;
                                 return (
                                     <th
                                         key={i}
@@ -1856,7 +1975,7 @@ function TableEditor({
                                 const isCellSelected = isAxisSelected('y', rowIdx);
                                 const displayValue = showCompare && compareYAxis ? compareYAxis[rowIdx]
                                     : showOriginal && originalYAxis ? originalYAxis[rowIdx] : yAxisData[rowIdx];
-                                const canEdit = param.yAxis?.editable;
+                                const canEdit = !!param.yAxis?.address;
                                 return (
                                     <td
                                         class={`p-1.5 border border-zinc-300 dark:border-zinc-700 font-medium text-right select-none ${
@@ -1956,6 +2075,8 @@ function TableEditor({
                     compareXData={compareXAxis}
                     xUnit={param.xAxis?.unit || 'X'}
                     yUnit={param.unit || 'Y'}
+                    onPointChange={handleCurvePointPreview}
+                    onPointCommit={handleCurvePointCommit}
                 />
             )}
 
