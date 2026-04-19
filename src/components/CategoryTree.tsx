@@ -49,6 +49,8 @@ interface Props {
     parameters: IDefinitionParameter[];
     onSelect: (param: IDefinitionParameter) => void;
     selectedParam: IDefinitionParameter | null;
+    originalDiffAddresses?: Set<number>;
+    crossCompareDiffAddresses?: Set<number>;
 }
 
 function countAllParameters(node: TreeNode): number {
@@ -87,6 +89,8 @@ function TreeNodeView({
                           selectedParam,
                           expanded,
                           onToggle,
+                          originalDiffAddresses,
+                          crossCompareDiffAddresses,
                       }: {
     node: TreeNode;
     depth: number;
@@ -94,6 +98,8 @@ function TreeNodeView({
     selectedParam: IDefinitionParameter | null;
     expanded: Set<string>;
     onToggle: (path: string) => void;
+    originalDiffAddresses?: Set<number>;
+    crossCompareDiffAddresses?: Set<number>;
 }) {
     const isExpanded = expanded.has(node.path);
     const hasChildren = node.children.size > 0 || node.parameters.length > 0;
@@ -135,6 +141,8 @@ function TreeNodeView({
                                 selectedParam={selectedParam}
                                 expanded={expanded}
                                 onToggle={onToggle}
+                                originalDiffAddresses={originalDiffAddresses}
+                                crossCompareDiffAddresses={crossCompareDiffAddresses}
                             />
                         ))}
 
@@ -144,6 +152,8 @@ function TreeNodeView({
                             // Use address as unique identifier (name + description can be duplicated)
                             const paramId = `${param.address}`;
                             const isSelected = selectedParam?.address === param.address;
+                            const showOriginalMarker = originalDiffAddresses?.has(param.address) ?? false;
+                            const showCrossCompareMarker = crossCompareDiffAddresses?.has(param.address) ?? false;
                             return (
                                 <div
                                     key={paramId}
@@ -161,8 +171,23 @@ function TreeNodeView({
                                         }`}>
                                         {param.type[0]}
                                     </span>
-                                    <span class="truncate" title={param.name}>
-                                        {param.customName || param.description || param.name}
+                                    <span class="min-w-0 flex flex-1 items-center gap-0.5" title={param.name}>
+                                        <span class="truncate min-w-0">{param.customName || param.description || param.name}</span>
+                                        <div class="grow" />
+                                        <span class="flex items-center gap-1.5 shrink-0">
+                                            {showOriginalMarker && (
+                                                <span
+                                                    class={`inline-block w-2 h-2 rounded-full shrink-0 ${isSelected ? 'bg-white/90' : 'bg-blue-500'}`}
+                                                    title="Original loaded"
+                                                />
+                                            )}
+                                            {showCrossCompareMarker && (
+                                                <span
+                                                    class={`inline-block w-2 h-2 rounded-full shrink-0 ${isSelected ? 'bg-cyan-200' : 'bg-teal-400'}`}
+                                                    title="Cross-compare loaded"
+                                                />
+                                            )}
+                                        </span>
                                     </span>
                                 </div>
                             );
@@ -173,7 +198,7 @@ function TreeNodeView({
     );
 }
 
-export function CategoryTree({parameters, onSelect, selectedParam}: Props) {
+export function CategoryTree({parameters, onSelect, selectedParam, originalDiffAddresses, crossCompareDiffAddresses}: Props) {
     const [expanded, setExpanded] = useState<Set<string>>(new Set());
     const [filter, setFilter] = useState('');
     const [debouncedFilter, setDebouncedFilter] = useState('');
@@ -323,6 +348,8 @@ export function CategoryTree({parameters, onSelect, selectedParam}: Props) {
                             selectedParam={selectedParam}
                             expanded={expanded}
                             onToggle={toggleNode}
+                            originalDiffAddresses={originalDiffAddresses}
+                            crossCompareDiffAddresses={crossCompareDiffAddresses}
                         />
                         <div class="mx-2 my-3 border-t border-zinc-300 dark:border-zinc-700" />
                     </>
@@ -337,6 +364,8 @@ export function CategoryTree({parameters, onSelect, selectedParam}: Props) {
                     selectedParam={selectedParam}
                     expanded={expanded}
                     onToggle={toggleNode}
+                    originalDiffAddresses={originalDiffAddresses}
+                    crossCompareDiffAddresses={crossCompareDiffAddresses}
                 />
             </div>
         </div>

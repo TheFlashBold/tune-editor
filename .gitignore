@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+mcp
+
+public/patches/*.btp
+public/patches/*.json
+public/patches/definitions/*.json
+public/definitions/*.json

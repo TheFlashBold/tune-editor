@@ -1,8 +1,11 @@
+import {useMemo} from 'preact/hooks';
 import {useAppContext} from '../context/app';
 import {CategoryTree} from './CategoryTree';
 
 export function Sidebar() {
     const ctx = useAppContext();
+    const originalDiffAddresses = useMemo(() => new Set(ctx.changes.map(change => change.param.address)), [ctx.changes]);
+    const crossCompareDiffAddresses = useMemo(() => new Set(ctx.crossCompareDiffs.map(change => change.param.address)), [ctx.crossCompareDiffs]);
 
     return (
         <aside className={`w-full sm:w-80 flex flex-col bg-zinc-100 dark:bg-zinc-800 border-r border-zinc-300 dark:border-zinc-700 ${ctx.selectedParam ? 'hidden sm:flex' : 'flex'}`}>
@@ -16,6 +19,8 @@ export function Sidebar() {
                         parameters={ctx.definition.parameters}
                         onSelect={ctx.setSelectedParam}
                         selectedParam={ctx.selectedParam}
+                        originalDiffAddresses={originalDiffAddresses}
+                        crossCompareDiffAddresses={crossCompareDiffAddresses}
                     />
                 </>
             ) : (
