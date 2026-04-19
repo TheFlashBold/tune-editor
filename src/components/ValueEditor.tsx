@@ -675,6 +675,10 @@ interface SurfaceGraphProps {
     xUnit: string;
     yUnit: string;
     zUnit: string;
+    onPointChange?: (row: number, col: number, value: number) => void;
+    onPointCommit?: (row: number, col: number, value: number) => void;
+    onPointHover?: (row: number, col: number) => void;
+    onPointLeave?: () => void;
 }
 
 const VERT_SRC = `
@@ -729,21 +733,30 @@ function SurfaceGraph({
                           compareYData,
                           xUnit,
                           yUnit,
-                          zUnit
+                          zUnit,
+                          onPointChange,
+                          onPointCommit,
+                          onPointHover,
+                          onPointLeave,
                       }: SurfaceGraphProps) {
     const [showOriginal, setShowOriginal] = useState(true);
     const [showCompare, setShowCompare] = useState(true);
     const [rotation, setRotation] = useState(45);
     const [tilt, setTilt] = useState(-20);
     const [isDragging, setIsDragging] = useState(false);
+    const [dragPoint, setDragPoint] = useState<{ row: number; col: number } | null>(null);
     const dragStart = useRef<{ x: number; y: number; rotation: number; tilt: number } | null>(null);
+    const dragPointRef = useRef<{ row: number; col: number; yAtZeroPct: number; yAtOnePct: number; zMin: number; zMax: number } | null>(null);
+    const lastDraggedPointValueRef = useRef<number | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const viewportRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const glRef = useRef<WebGL2RenderingContext | null>(null);
     const programRef = useRef<WebGLProgram | null>(null);
     const bufRef = useRef<WebGLBuffer | null>(null);
 
     const handleMouseDown = (e: MouseEvent) => {
+        if (dragPointRef.current) return;
         setIsDragging(true);
         dragStart.current = {x: e.clientX, y: e.clientY, rotation, tilt};
         e.preventDefault();
@@ -763,7 +776,7 @@ function SurfaceGraph({
     };
 
     const handleTouchStart = (e: TouchEvent) => {
-        if (e.touches.length !== 1) return;
+        if (dragPointRef.current || e.touches.length !== 1) return;
         const t = e.touches[0];
         setIsDragging(true);
         dragStart.current = {x: t.clientX, y: t.clientY, rotation, tilt};
@@ -799,6 +812,64 @@ function SurfaceGraph({
             };
         }
     }, [isDragging]);
+
+    useEffect(() => {
+        if (!dragPoint) return;
+
+        const updateDraggedPoint = (clientY: number) => {
+            const dragInfo = dragPointRef.current;
+            const viewport = viewportRef.current;
+            if (!dragInfo || !viewport || !onPointChange) return;
+
+            const rect = viewport.getBoundingClientRect();
+            if (rect.height <= 0) return;
+
+            const yPct = ((clientY - rect.top) / rect.height) * 100;
+            const denom = dragInfo.yAtOnePct - dragInfo.yAtZeroPct;
+            if (Math.abs(denom) < 0.0001) return;
+
+            const normalizedZ = Math.max(0, Math.min(1, (yPct - dragInfo.yAtZeroPct) / denom));
+            const value = dragInfo.zMin + normalizedZ * (dragInfo.zMax - dragInfo.zMin);
+            lastDraggedPointValueRef.current = value;
+            onPointChange(dragInfo.row, dragInfo.col, value);
+        };
+
+        const stopDraggingPoint = () => {
+            const dragInfo = dragPointRef.current;
+            if (dragInfo && onPointCommit && lastDraggedPointValueRef.current !== null) {
+                onPointCommit(dragInfo.row, dragInfo.col, lastDraggedPointValueRef.current);
+            }
+            dragPointRef.current = null;
+            lastDraggedPointValueRef.current = null;
+            setDragPoint(null);
+            onPointLeave?.();
+        };
+
+        const handlePointMouseMove = (e: MouseEvent) => {
+            e.preventDefault();
+            updateDraggedPoint(e.clientY);
+        };
+
+        const handlePointTouchMove = (e: TouchEvent) => {
+            if (e.touches.length !== 1) return;
+            e.preventDefault();
+            updateDraggedPoint(e.touches[0].clientY);
+        };
+
+        window.addEventListener('mousemove', handlePointMouseMove);
+        window.addEventListener('mouseup', stopDraggingPoint);
+        window.addEventListener('touchmove', handlePointTouchMove, {passive: false});
+        window.addEventListener('touchend', stopDraggingPoint);
+        window.addEventListener('touchcancel', stopDraggingPoint);
+
+        return () => {
+            window.removeEventListener('mousemove', handlePointMouseMove);
+            window.removeEventListener('mouseup', stopDraggingPoint);
+            window.removeEventListener('touchmove', handlePointTouchMove);
+            window.removeEventListener('touchend', stopDraggingPoint);
+            window.removeEventListener('touchcancel', stopDraggingPoint);
+        };
+    }, [dragPoint, onPointChange, onPointCommit, onPointLeave]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -1096,6 +1167,19 @@ function SurfaceGraph({
         return {xPct: (px / w) * 100, yPct: (py / h) * 100};
     };
 
+    const currentPoints = zData.flatMap((row, rowIdx) => row.map((val, colIdx) => {
+        const nx = norm(xData[colIdx] ?? colIdx, axXMin, axXMax) - 0.5;
+        const ny = norm(yData[rowIdx] ?? rowIdx, axYMin, axYMax) - 0.5;
+        return {
+            row: rowIdx,
+            col: colIdx,
+            value: val,
+            pos: projScreen(nx, ny, norm(val, zMin, zMax)),
+            yAtZeroPct: projScreen(nx, ny, 0).yPct,
+            yAtOnePct: projScreen(nx, ny, 1).yPct,
+        };
+    }));
+
     const xTicks = xData.map((val) => {
         const t = norm(val, axXMin, axXMax);
         return {val, pos: projScreen(-0.5 + t, -0.63, 0)};
@@ -1120,7 +1204,7 @@ function SurfaceGraph({
 
     return (
         <div ref={containerRef} class="mt-4 bg-zinc-100 dark:bg-zinc-800 rounded-lg p-4">
-            <div class="relative" style={{
+            <div ref={viewportRef} class="relative" style={{
                 aspectRatio: `${cols / rows >= 1 ? Math.min(cols / rows, 2) : 1} / ${cols / rows < 1 ? 1 / Math.max(cols / rows, 0.5) : 1}`,
                 maxHeight: '70vh'
             }}>
@@ -1131,6 +1215,72 @@ function SurfaceGraph({
                     onMouseDown={handleMouseDown}
                     onTouchStart={handleTouchStart}
                 />
+                <div class="absolute inset-0 pointer-events-none">
+                    {currentPoints.map((point) => {
+                        const isDraggingPoint = dragPoint?.row === point.row && dragPoint?.col === point.col;
+                        return (
+                            <div
+                                key={`pt-${point.row}-${point.col}`}
+                                class="absolute pointer-events-none"
+                                style={{
+                                    left: `${point.pos.xPct}%`,
+                                    top: `${point.pos.yPct}%`,
+                                    transform: 'translate(-50%, -50%)',
+                                }}
+                            >
+                                <div
+                                    class="w-5 h-5 -m-2.5 rounded-full pointer-events-auto"
+                                    style={{cursor: isDraggingPoint ? 'grabbing' : 'ns-resize'}}
+                                    onMouseEnter={() => onPointHover?.(point.row, point.col)}
+                                    onMouseLeave={() => {
+                                        if (!dragPointRef.current) onPointLeave?.();
+                                    }}
+                                    onMouseDown={(e) => {
+                                        if (!onPointChange) return;
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        onPointHover?.(point.row, point.col);
+                                        dragPointRef.current = {
+                                            row: point.row,
+                                            col: point.col,
+                                            yAtZeroPct: point.yAtZeroPct,
+                                            yAtOnePct: point.yAtOnePct,
+                                            zMin,
+                                            zMax,
+                                        };
+                                        lastDraggedPointValueRef.current = point.value;
+                                        setDragPoint({row: point.row, col: point.col});
+                                    }}
+                                    onTouchStart={(e) => {
+                                        if (!onPointChange || e.touches.length !== 1) return;
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        onPointHover?.(point.row, point.col);
+                                        dragPointRef.current = {
+                                            row: point.row,
+                                            col: point.col,
+                                            yAtZeroPct: point.yAtZeroPct,
+                                            yAtOnePct: point.yAtOnePct,
+                                            zMin,
+                                            zMax,
+                                        };
+                                        lastDraggedPointValueRef.current = point.value;
+                                        setDragPoint({row: point.row, col: point.col});
+                                    }}
+                                >
+                                    <div
+                                        class="w-2 h-2 rounded-full bg-blue-500"
+                                        style={{
+                                            transform: 'translate(6px, 6px)',
+                                            boxShadow: isDraggingPoint ? '0 0 0 2px rgba(255,255,255,0.9)' : 'none',
+                                            pointerEvents: 'none'
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
                 <div class="absolute inset-0 pointer-events-none font-mono" style={{fontSize: '9px'}}>
                     {xTicks.map((tick, i) => (
                         <span key={`xt${i}`} class="absolute text-zinc-400"
@@ -1190,6 +1340,12 @@ function SurfaceGraph({
                     </span>
                 </div>
             </div>
+
+            {onPointChange && (
+                <div class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+                    Drag blue data points up or down to edit values.
+                </div>
+            )}
 
             <div class="flex items-center gap-2 mt-2 text-xs text-zinc-600 dark:text-zinc-400">
                 <span>{formatValue(zMin, 1)}</span>
@@ -1262,6 +1418,7 @@ function TableEditor({
     const [showCompareTable, setShowCompareTable] = useState(false);
     const [xAxisData, setXAxisData] = useState<number[]>(table.xAxis);
     const [yAxisData, setYAxisData] = useState<number[]>(table.yAxis);
+    const [hoveredSurfacePoint, setHoveredSurfacePoint] = useState<{ row: number; col: number } | null>(null);
 
     // Selection state
     const [selection, setSelection] = useState<Selection | null>(null);
@@ -1635,6 +1792,29 @@ function TableEditor({
         if (Math.abs(table.cells[0][index] - quantizedValue) <= 0.0001) return;
 
         onCellChange?.(0, index, quantizedValue);
+        trackEdit();
+    }, [table.cells, onCellChange, trackEdit, param.dataType, param.factor, param.offset, param.formula]);
+
+    const handleSurfacePointPreview = useCallback((row: number, col: number, value: number) => {
+        const quantizedValue = quantizePhysicalValue(value, param.dataType, param.factor, param.offset, param.formula);
+
+        setTableData(prev => {
+            if (!prev[row] || col < 0 || col >= prev[row].length) return prev;
+            if (Math.abs(prev[row][col] - quantizedValue) <= 0.0001) return prev;
+
+            const next = prev.map(r => [...r]);
+            next[row][col] = quantizedValue;
+            return next;
+        });
+    }, [param.dataType, param.factor, param.offset, param.formula]);
+
+    const handleSurfacePointCommit = useCallback((row: number, col: number, value: number) => {
+        if (!table.cells[row] || col < 0 || col >= table.cells[row].length) return;
+
+        const quantizedValue = quantizePhysicalValue(value, param.dataType, param.factor, param.offset, param.formula);
+        if (Math.abs(table.cells[row][col] - quantizedValue) <= 0.0001) return;
+
+        onCellChange?.(row, col, quantizedValue);
         trackEdit();
     }, [table.cells, onCellChange, trackEdit, param.dataType, param.factor, param.offset, param.formula]);
 
@@ -2012,6 +2192,7 @@ function TableEditor({
                                 const isChanged = cellChanged(rowIdx, colIdx);
                                 const isCmpDiff = cellCompareDiff(rowIdx, colIdx);
                                 const isCellSelected = isSelected(rowIdx, colIdx);
+                                const isSurfaceHovered = hoveredSurfacePoint?.row === rowIdx && hoveredSurfacePoint?.col === colIdx;
                                 const displayValue = showCompare && compareTableData?.[rowIdx]?.[colIdx] !== undefined
                                     ? compareTableData[rowIdx][colIdx]
                                     : showOriginal && originalTableData?.[rowIdx]?.[colIdx] !== undefined
@@ -2035,7 +2216,7 @@ function TableEditor({
                                                     : isChanged && !showOriginal && !showCompare
                                                         ? `color-mix(in srgb, ${bgColor} 50%, #b45309 50%)`
                                                         : isCellSelected ? `color-mix(in srgb, ${bgColor} 70%, #3b82f6 30%)` : bgColor,
-                                            outline: isCellSelected ? '2px solid #3b82f6' : undefined,
+                                            outline: isCellSelected || isSurfaceHovered ? '2px solid #3b82f6' : undefined,
                                             outlineOffset: '-2px',
                                         }}
                                         onMouseDown={(e) => handleCellMouseDown(rowIdx, colIdx, e)}
@@ -2095,6 +2276,10 @@ function TableEditor({
                     xUnit={param.xAxis?.unit || 'X'}
                     yUnit={param.yAxis?.unit || 'Y'}
                     zUnit={param.unit || 'Z'}
+                    onPointChange={handleSurfacePointPreview}
+                    onPointCommit={handleSurfacePointCommit}
+                    onPointHover={(row, col) => setHoveredSurfacePoint({row, col})}
+                    onPointLeave={() => setHoveredSurfacePoint(null)}
                 />
             )}
         </div>
