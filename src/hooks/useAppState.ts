@@ -170,7 +170,7 @@ export function useAppState(): IAppContext {
         const [epk, epkAddress] = readEPK(data);
         const version = readVersion(data);
 
-        console.log(boxCode, epk, version)
+        console.log(JSON.stringify(boxCode), boxCode, epk, version)
 
         setBinData(data);
         setBinFileName(displayName);
@@ -186,7 +186,8 @@ export function useAppState(): IAppContext {
                 const isCal = readString(data, 0, 3) === 'CAS';
 
                 // there are DQ250 versions with -0x10000 offset. should be 0x4FFBE
-                const dsgOffset = epkAddress === 0x3FFE0 ? -0x10000 : 0;
+                let dsgOffset = epkAddress === 0x3FFE0 ? -0x10000 : 0;
+                dsgOffset = epkAddress === 0x1FFE0 ? -0x30000 : dsgOffset;
 
                 setDefinition(def);
                 setCustomDefinition(false);

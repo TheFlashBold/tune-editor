@@ -76,13 +76,13 @@ function readStringSafe(data: Uint8Array, index: number, maxLength: number, minL
 
     for (let i = 0; i < maxLength; i++) {
         const byte = data[index + i];
-        if (byte === 0 || byte < 0x20 || byte > 0x7e) {
+        if (byte === undefined || byte === 0 || byte < 0x20 || byte > 0x7e) {
             break;
         }
         bytes.push(byte);
     }
 
-    const string = String.fromCharCode(...bytes).trim();
+    const string = String.fromCharCode(...bytes).trim().replaceAll(" ", "");
     if (!minLength || string.length >= minLength) {
         return string;
     }
@@ -129,6 +129,14 @@ export function readBoxCode(data: Uint8Array): string {
     // VL381
     if (data.length > (0x60004 + 10)) {
         const boxCode = readStringSafe(data, 0x16C004, 10, 9);
+        if (boxCode) {
+            return boxCode;
+        }
+    }
+
+    // DQ250 MQB
+    if (data.length > (0x1FFBA + 10)) {
+        const boxCode = readStringSafe(data, 0x1FFB0, 10, 10);
         if (boxCode) {
             return boxCode;
         }
@@ -182,6 +190,14 @@ export function readEPK(data: Uint8Array): [string, number] | [] {
         const epk = readStringSafe(data, 0x16C00E, 2, 2);
         if (epk) {
             return [epk, 0x16C00E];
+        }
+    }
+
+    // DQ250 MQB
+    if (data.length > (0x1FFDF + 5)) {
+        const epk = readStringSafe(data, 0x1FFDF, 5, 4);
+        if (epk) {
+            return [epk, 0x1FFE0];
         }
     }
 

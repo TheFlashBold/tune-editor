@@ -20,6 +20,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version:'1.22.0',
+        date: '22.04.2026',
+        changes: [
+            'Fixed DQ250 bins with -0x30000 offset'
+        ]
+    },
+    {
         version:'1.21.0',
         date: '19.04.2026',
         changes: [

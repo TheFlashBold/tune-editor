@@ -21,6 +21,7 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
     const [notes, setNotes] = useState('');
     const abortRef = useRef<AbortController | null>(null);
     const autoUploadStartedRef = useRef(false);
+    const mountedRef = useRef(true);
     const autoSubmit = Boolean(info.autoSubmit);
 
     useEffect(() => {
@@ -44,6 +45,13 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
         }
     }, [info])
 
+    useEffect(() => {
+        mountedRef.current = true;
+        return () => {
+            mountedRef.current = false;
+        };
+    }, []);
+
     const handleUpload = async (automatic: boolean = false) => {
         if (uploading) {
             return;
@@ -66,7 +74,9 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                 onProgress: (pct) => setProgress(Math.round(pct)),
                 signal: abortRef.current.signal,
             });
-            setDone(true);
+            if (mountedRef.current) {
+                setDone(true);
+            }
             track(automatic ? 'Auto Upload Unknown BIN' : 'Upload Unknown BIN', {
                 name,
                 epk: info.epk,
@@ -75,15 +85,19 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                 version: APP_VERSION,
             });
         } catch (err) {
-            if (err instanceof TuningRateLimitedException) {
-                setError(`Rate limited. Try again in ${err.retryAfterSeconds} seconds.`);
-            } else if ((err as Error).message !== 'Network error') {
-                setError((err as Error).message);
-            } else {
-                setError('Upload failed. Check your connection.');
+            if (mountedRef.current) {
+                if (err instanceof TuningRateLimitedException) {
+                    setError(`Rate limited. Try again in ${err.retryAfterSeconds} seconds.`);
+                } else if ((err as Error).message !== 'Network error') {
+                    setError((err as Error).message);
+                } else {
+                    setError('Upload failed. Check your connection.');
+                }
             }
         } finally {
-            setUploading(false);
+            if (mountedRef.current) {
+                setUploading(false);
+            }
             abortRef.current = null;
         }
     };
@@ -104,9 +118,6 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
     }, [autoSubmit, info]);
 
     const handleCancel = () => {
-        if (abortRef.current) {
-            abortRef.current.abort();
-        }
         onClose();
     };
 
