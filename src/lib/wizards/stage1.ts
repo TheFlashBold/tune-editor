@@ -1,4 +1,5 @@
 import type {WizardDef, WizardApplyResult, TableCellWrite, WizardContext, AxisWrite} from '../wizards';
+import {TuningService} from '../../services/tuning';
 
 /** Set cells to a value where xAxis >= minX (for CURVEs/MAPs with rpm axis) */
 function fillAboveX(ctx: WizardContext, paramName: string, minX: number, value: number): TableCellWrite[] | null {
@@ -35,11 +36,87 @@ function offsetTable(ctx: WizardContext, paramName: string, offset: number, maxV
     return cells;
 }
 
-/** Scale all cells of a table by a percentage factor, reading current values */
-function scaleTable(ctx: WizardContext, paramName: string, factor: number): TableCellWrite[] | null {
+/**
+ * Add a sloped offset: 0% at (minX, minY), full `offset` at (maxX, maxY),
+ * linearly interpolated as the average of normalized x and y positions.
+ * `baseData`/`baseXAxis`/`baseYAxis` are the values the slope is computed on
+ * (typically original/stock values fetched from the server); when omitted, the
+ * current bin values are used.
+ */
+function offsetTableSloped(
+    ctx: WizardContext,
+    paramName: string,
+    offset: number,
+    maxValue?: number,
+    baseData?: number[][],
+    baseXAxis?: number[],
+    baseYAxis?: number[],
+): TableCellWrite[] | null {
     const param = ctx.params.find(p => p.name.toLowerCase() === paramName.toLowerCase());
     if (!param || (param.type !== 'MAP' && param.type !== 'CURVE')) return null;
-    const data = ctx.readTable(param);
+    const data = baseData ?? ctx.readTable(param);
+    const rows = data.length;
+    const cols = rows > 0 ? data[0].length : 0;
+    if (rows === 0 || cols === 0) return null;
+
+    const xAxisVals = baseXAxis ?? (param.xAxis ? ctx.readAxis(param.xAxis) : []);
+    const yAxisVals = baseYAxis ?? (param.yAxis ? ctx.readAxis(param.yAxis) : []);
+
+    const normFromAxis = (axisVals: number[], length: number): number[] => {
+        if (axisVals.length === length && length > 1) {
+            const lo = Math.min(...axisVals);
+            const hi = Math.max(...axisVals);
+            if (hi > lo) return axisVals.map(v => Math.max(0, Math.min(1, (v - lo) / (hi - lo))));
+        }
+        return Array.from({length}, (_, i) => length <= 1 ? 1 : i / (length - 1));
+    };
+
+    const fxs = normFromAxis(xAxisVals, cols);
+    const fys = normFromAxis(yAxisVals, rows);
+
+    const cells: TableCellWrite[] = [];
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            const factor = (fxs[c] + fys[r]) / 2;
+            const value = data[r][c] + offset * factor;
+            if (maxValue !== undefined && value > maxValue) continue;
+            cells.push({row: r, col: c, value});
+        }
+    }
+    return cells;
+}
+
+/**
+ * Try to fetch original (stock) map data from the tuning backend; returns null on any failure.
+ */
+async function fetchOriginalTable(
+    paramName: string,
+    ctx: WizardContext,
+): Promise<{ data: number[][]; xAxis?: number[]; yAxis?: number[] } | null> {
+    if (!ctx.boxCode || !ctx.version) return null;
+    try {
+        const orig = await TuningService.getOriginalMapData(paramName, ctx.boxCode, ctx.version);
+        if (orig.type !== 'table' && orig.type !== 'curve') return null;
+        return {
+            data: orig.data,
+            xAxis: orig.xAxis?.values,
+            yAxis: orig.yAxis?.values,
+        };
+    } catch {
+        return null;
+    }
+}
+
+/** Scale all cells of a table by a percentage factor, reading current values (or `baseData` when given). */
+function scaleTable(
+    ctx: WizardContext,
+    paramName: string,
+    factor: number,
+    baseData?: number[][],
+): TableCellWrite[] | null {
+    const param = ctx.params.find(p => p.name.toLowerCase() === paramName.toLowerCase());
+    if (!param || (param.type !== 'MAP' && param.type !== 'CURVE')) return null;
+    const data = baseData ?? ctx.readTable(param);
     const cells: TableCellWrite[] = [];
     for (let r = 0; r < data.length; r++) {
         for (let c = 0; c < data[r].length; c++) {
@@ -52,7 +129,7 @@ function scaleTable(ctx: WizardContext, paramName: string, factor: number): Tabl
 export const stage1: WizardDef = {
     id: 'stage1',
     name: 'Stage 1',
-    description: '**Use on stock files only** \nBasic Stage 1 modifications — rev limiter, speed limiter, torque increase',
+    description: 'Basic Stage 1 modifications — rev limiter, speed limiter, torque increase, timing advance',
     product: 'tune_editor_stage_1',
     productId: 'prod_UItLl9NJyMXPNQ',
     price: '69€',
@@ -107,7 +184,7 @@ export const stage1: WizardDef = {
         {
             key: 'timing_add',
             label: 'Additional Timing',
-            description: 'Added to all ignition base maps',
+            description: 'Added to all ignition base maps. 0-3 should be fine, adding more requires better fuel.',
             control: 'slider',
             min: 0,
             max: 7,
@@ -151,7 +228,7 @@ export const stage1: WizardDef = {
 
         return state;
     },
-    apply(values: Record<string, number>, ctx: WizardContext): WizardApplyResult {
+    async apply(values: Record<string, number>, ctx: WizardContext): Promise<WizardApplyResult> {
         const v = (k: string, fallback = 0) => values[k] ?? fallback;
         const scalars: Record<string, number> = {};
         const tableCells: Record<string, TableCellWrite[]> = {};
@@ -159,38 +236,33 @@ export const stage1: WizardDef = {
 
         const find = ctx.findParam;
 
-        // Scale torque limit maps
+        // Scale torque limit maps — scale from stock (original) so re-running the
+        // wizard doesn't compound. Falls back to current bin values on fetch failure.
         const factor = 1 + v('torque_pct', 25) / 100;
-        for (const name of [
-            'ip_tq_pow_max_mt[0][0]',
-            'ip_tq_pow_max_mt[0][1]',
-            'ip_tq_pow_max_mt[1][0]',
-            'ip_tq_pow_max_mt[1][1]',
-            'ip_tq_pow_max_mt[2][0]',
-            'ip_tq_pow_max_mt[2][1]',
-            'ip_tq_pow_max_mt[3][0]',
-            'ip_tq_pow_max_mt[3][1]',
-            'ip_tq_pow_max_mt[4][0]',
-            'ip_tq_pow_max_mt[4][1]',
-            'ip_tq_pow_max_at[0][0]',
-            'ip_tq_pow_max_at[0][1]',
-            'ip_tq_pow_max_at[1][0]',
-            'ip_tq_pow_max_at[1][1]',
-            'ip_tq_pow_max_at[2][0]',
-            'ip_tq_pow_max_at[2][1]',
-            'ip_tq_pow_max_at[3][0]',
-            'ip_tq_pow_max_at[3][1]',
-            'ip_tq_pow_max_at[4][0]',
-            'ip_tq_pow_max_at[4][1]'
-        ]) {
-            const cells = scaleTable(ctx, name, factor);
-            if (cells) {
-                tableCells[name] = cells;
-            }
+        const torqueMapNames = [
+            'ip_tq_pow_max_mt[0][0]', 'ip_tq_pow_max_mt[0][1]',
+            'ip_tq_pow_max_mt[1][0]', 'ip_tq_pow_max_mt[1][1]',
+            'ip_tq_pow_max_mt[2][0]', 'ip_tq_pow_max_mt[2][1]',
+            'ip_tq_pow_max_mt[3][0]', 'ip_tq_pow_max_mt[3][1]',
+            'ip_tq_pow_max_mt[4][0]', 'ip_tq_pow_max_mt[4][1]',
+            'ip_tq_pow_max_at[0][0]', 'ip_tq_pow_max_at[0][1]',
+            'ip_tq_pow_max_at[1][0]', 'ip_tq_pow_max_at[1][1]',
+            'ip_tq_pow_max_at[2][0]', 'ip_tq_pow_max_at[2][1]',
+            'ip_tq_pow_max_at[3][0]', 'ip_tq_pow_max_at[3][1]',
+            'ip_tq_pow_max_at[4][0]', 'ip_tq_pow_max_at[4][1]',
+        ].filter(name => find(name));
+
+        const torqueOriginals = await Promise.all(
+            torqueMapNames.map(name => fetchOriginalTable(name, ctx).then(o => ({name, orig: o})))
+        );
+        for (const {name, orig} of torqueOriginals) {
+            const cells = scaleTable(ctx, name, factor, orig?.data);
+            if (cells) tableCells[name] = cells;
         }
 
-        // Scale turbo speed limit +15%
-        const tcha = scaleTable(ctx, 'c_n_tcha_max', 1.10);
+        // Scale turbo speed limit +10% — scale from stock when available.
+        const tchaOrig = await fetchOriginalTable('c_n_tcha_max', ctx);
+        const tcha = scaleTable(ctx, 'c_n_tcha_max', 1.10, tchaOrig?.data);
         if (tcha) {
             tableCells['c_n_tcha_max'] = tcha;
         }
@@ -245,21 +317,32 @@ export const stage1: WizardDef = {
             }
         }
 
-        // Additional timing on ignition base maps
+        // Additional timing on ignition base maps — sloped from 0% at (0 rpm, 0 airmass)
+        // to full timingAdd at the map's top-right corner. Apply on stock (original)
+        // values if we can fetch them, so re-applying the wizard doesn't stack offsets.
         const timingAdd = v('timing_add', 0);
         if (timingAdd > 0) {
+            const targets: string[] = [];
             for (let p = 0; p <= 1; p++) {
                 for (let i = 0; i <= 2; i++) {
                     for (let j = 0; j <= 2; j++) {
                         for (const prefix of ['ip_iga_bas_ivvt_vvl_port_h', 'ip_iga_bas_ivvt_vvl_port_l']) {
                             const name = `${prefix}[${p}][${i}][${j}]`;
-                            if (find(name)) {
-                                const cells = offsetTable(ctx, name, timingAdd, 40);
-                                if (cells) tableCells[name] = cells;
-                            }
+                            if (find(name)) targets.push(name);
                         }
                     }
                 }
+            }
+
+            const originals = await Promise.all(
+                targets.map(name => fetchOriginalTable(name, ctx).then(o => ({name, orig: o})))
+            );
+
+            for (const {name, orig} of originals) {
+                const cells = orig
+                    ? offsetTableSloped(ctx, name, timingAdd, 40, orig.data, orig.xAxis, orig.yAxis)
+                    : offsetTableSloped(ctx, name, timingAdd, 40);
+                if (cells) tableCells[name] = cells;
             }
         }
 

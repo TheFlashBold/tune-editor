@@ -1,6 +1,10 @@
 import {useState, useEffect, useMemo, useRef, useCallback} from 'preact/hooks';
 import {track} from '../lib/track';
 import type {IDefinitionParameter} from '../types';
+import {LogOverlay} from './LogOverlay';
+import {useLogContext} from '../context/log';
+import {resolveParamValues, fractionalIndex} from '../lib/logMapping';
+import {interpolateRow} from '../lib/csvLog';
 import {
     formatValue,
     getConsistentDecimals,
@@ -368,6 +372,7 @@ interface CurveGraphProps {
     yUnit: string;
     onPointChange?: (index: number, value: number) => void;
     onPointCommit?: (index: number, value: number) => void;
+    logX?: number | null;
 }
 
 function CurveGraph({
@@ -381,6 +386,7 @@ function CurveGraph({
                         yUnit,
                         onPointChange,
                         onPointCommit,
+                        logX,
                     }: CurveGraphProps) {
     const [showOriginal, setShowOriginal] = useState(true);
     const [showCompare, setShowCompare] = useState(true);
@@ -625,6 +631,47 @@ function CurveGraph({
                         </g>
                     );
                 })}
+
+                {/* Live log marker */}
+                {(() => {
+                    if (typeof logX !== 'number' || !isFinite(logX)) return null;
+                    if (xData.length === 0 || yData.length === 0) return null;
+                    const fc = fractionalIndex(xData, logX);
+                    if (fc === null) return null;
+                    const c0 = Math.max(0, Math.min(yData.length - 1, Math.floor(fc)));
+                    const c1 = Math.max(0, Math.min(yData.length - 1, c0 + 1));
+                    const v0 = yData[c0];
+                    const v1 = yData[c1];
+                    if (v0 === undefined || v1 === undefined) return null;
+                    const t = fc - c0;
+                    const yInterp = (1 - t) * v0 + t * v1;
+                    const px = scaleX(logX);
+                    const py = scaleY(yInterp);
+                    if (!isFinite(px) || !isFinite(py)) return null;
+                    const baseR = 24;
+                    return (
+                        <g pointerEvents="none">
+                            <defs>
+                                <radialGradient id="curve-log-fade" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stopColor="#b91c1c" stopOpacity="0.95"/>
+                                    <stop offset="40%" stopColor="#b91c1c" stopOpacity="0.55"/>
+                                    <stop offset="100%" stopColor="#b91c1c" stopOpacity="0"/>
+                                </radialGradient>
+                            </defs>
+                            <line x1={px} x2={px} y1={padding.top} y2={height - padding.bottom}
+                                  stroke="#b91c1c" strokeWidth="2" strokeDasharray="4,4" opacity="0.85"/>
+                            <circle cx={px} cy={py} r={baseR * 1.3} fill="url(#curve-log-fade)">
+                                <animate attributeName="r"
+                                         values={`${baseR};${baseR * 1.45};${baseR}`}
+                                         dur="1.6s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" values="0.85;0.35;0.85" dur="1.6s"
+                                         repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx={px} cy={py} r={Math.max(4, baseR * 0.35)}
+                                    fill="#b91c1c" stroke="#fff" strokeWidth="2"/>
+                        </g>
+                    );
+                })()}
             </svg>
 
             {onPointChange && (
@@ -679,6 +726,8 @@ interface SurfaceGraphProps {
     onPointCommit?: (row: number, col: number, value: number) => void;
     onPointHover?: (row: number, col: number) => void;
     onPointLeave?: () => void;
+    logX?: number | null;
+    logY?: number | null;
 }
 
 const VERT_SRC = `
@@ -738,6 +787,8 @@ function SurfaceGraph({
                           onPointCommit,
                           onPointHover,
                           onPointLeave,
+                          logX,
+                          logY,
                       }: SurfaceGraphProps) {
     const [showOriginal, setShowOriginal] = useState(true);
     const [showCompare, setShowCompare] = useState(true);
@@ -1215,6 +1266,89 @@ function SurfaceGraph({
                     onMouseDown={handleMouseDown}
                     onTouchStart={handleTouchStart}
                 />
+                {/* Live log marker (z=0 plane + vertical to surface height) */}
+                {(() => {
+                    if (typeof logX !== 'number' || typeof logY !== 'number') return null;
+                    if (!isFinite(logX) || !isFinite(logY)) return null;
+                    if (xData.length === 0 || yData.length === 0 || zData.length === 0) return null;
+
+                    // Clamp normalized coords to the surface footprint [-0.5, 0.5]
+                    // so the marker can never drift off the plotted area.
+                    const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+                    const nxRaw = norm(logX, axXMin, axXMax) - 0.5;
+                    const nyRaw = norm(logY, axYMin, axYMax) - 0.5;
+                    if (!isFinite(nxRaw) || !isFinite(nyRaw)) return null;
+                    const nx = clamp(nxRaw, -0.5, 0.5);
+                    const ny = clamp(nyRaw, -0.5, 0.5);
+
+                    const base = projScreen(nx, ny, 0);
+
+                    // Estimate z at operating point via bilinear interp of zData (clamped)
+                    const fxRaw = (nx + 0.5) * (xData.length - 1);
+                    const fyRaw = (ny + 0.5) * (yData.length - 1);
+                    const fx = isFinite(fxRaw) ? fxRaw : 0;
+                    const fy = isFinite(fyRaw) ? fyRaw : 0;
+                    const c0 = Math.max(0, Math.min(xData.length - 1, Math.floor(fx)));
+                    const c1 = Math.max(0, Math.min(xData.length - 1, c0 + 1));
+                    const r0 = Math.max(0, Math.min(yData.length - 1, Math.floor(fy)));
+                    const r1 = Math.max(0, Math.min(yData.length - 1, r0 + 1));
+                    const row0 = zData[r0];
+                    const row1 = zData[r1];
+                    if (!row0 || !row1 || row0[c0] === undefined || row0[c1] === undefined
+                        || row1[c0] === undefined || row1[c1] === undefined) return null;
+                    const tx = fx - c0;
+                    const ty = fy - r0;
+                    const zInterp = (1 - ty) * ((1 - tx) * row0[c0] + tx * row0[c1])
+                        + ty * ((1 - tx) * row1[c0] + tx * row1[c1]);
+                    const top = projScreen(nx, ny, norm(zInterp, zMin, zMax));
+                    if (!isFinite(base.xPct) || !isFinite(top.xPct)) return null;
+                    return (
+                        <div class="absolute inset-0 pointer-events-none" style={{zIndex: 4}}>
+                            <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+                                <line
+                                    x1={base.xPct} y1={base.yPct}
+                                    x2={top.xPct} y2={top.yPct}
+                                    stroke="#b91c1c" strokeWidth="0.4" strokeDasharray="1,1" opacity="0.8"
+                                    vectorEffect="non-scaling-stroke"
+                                />
+                            </svg>
+                            <div
+                                class="absolute"
+                                style={{
+                                    left: `${base.xPct}%`,
+                                    top: `${base.yPct}%`,
+                                    transform: 'translate(-50%, -50%)',
+                                }}
+                            >
+                                <div
+                                    class="rounded-full"
+                                    style={{
+                                        width: '44px', height: '44px', margin: '-22px',
+                                        background: 'radial-gradient(circle, rgba(185,28,28,0.55) 0%, rgba(185,28,28,0.15) 60%, transparent 100%)',
+                                        animation: 'log-pulse 1.6s ease-in-out infinite',
+                                    }}
+                                />
+                            </div>
+                            <div
+                                class="absolute"
+                                style={{
+                                    left: `${top.xPct}%`,
+                                    top: `${top.yPct}%`,
+                                    transform: 'translate(-50%, -50%)',
+                                }}
+                            >
+                                <div
+                                    class="rounded-full border-2 border-white"
+                                    style={{
+                                        width: '14px', height: '14px', margin: '-7px',
+                                        background: '#b91c1c',
+                                        boxShadow: '0 0 8px rgba(185,28,28,0.8)',
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    );
+                })()}
                 <div class="absolute inset-0 pointer-events-none">
                     {currentPoints.map((point) => {
                         const isDraggingPoint = dragPoint?.row === point.row && dragPoint?.col === point.col;
@@ -1419,6 +1553,16 @@ function TableEditor({
     const [xAxisData, setXAxisData] = useState<number[]>(table.xAxis);
     const [yAxisData, setYAxisData] = useState<number[]>(table.yAxis);
     const [hoveredSurfacePoint, setHoveredSurfacePoint] = useState<{ row: number; col: number } | null>(null);
+
+    // Live log marker values (mapped from the current, possibly interpolated, log row)
+    const {log: liveLog, index: liveIndex} = useLogContext();
+    const logMarker = useMemo(() => {
+        if (!liveLog || liveLog.rows.length === 0) return {x: null, y: null};
+        const row = interpolateRow(liveLog.rows, liveIndex);
+        if (!row) return {x: null, y: null};
+        const {x, y} = resolveParamValues(param, liveLog.headers, row);
+        return {x, y};
+    }, [liveLog, liveIndex, param]);
 
     // Selection state
     const [selection, setSelection] = useState<Selection | null>(null);
@@ -2056,6 +2200,7 @@ function TableEditor({
             </div>
 
             <div ref={tableContainerRef} class="overflow-auto max-h-[calc(100vh-200px)]">
+                <div class="relative inline-block">
                 <table class="border-collapse font-mono text-xs table-fixed">
                     <colgroup>
                         {yAxisData.length > 0 && <col class="w-12"/>}
@@ -2205,6 +2350,7 @@ function TableEditor({
                                 return (
                                     <td
                                         key={colIdx}
+                                        data-log-cell={`${rowIdx},${colIdx}`}
                                         class={`p-1.5 border border-zinc-400 dark:border-zinc-600 text-right cursor-pointer hover:brightness-110 min-w-16 select-none ${
                                             highlightCompare ? 'text-white font-bold'
                                                 : isChanged && !showOriginal && !showCompare ? 'text-white font-bold' : 'text-zinc-900'
@@ -2243,6 +2389,8 @@ function TableEditor({
                     ))}
                     </tbody>
                 </table>
+                <LogOverlay param={param} xAxisData={xAxisData} yAxisData={yAxisData}/>
+                </div>
             </div>
 
             {/* 2D Graph for CURVE type */}
@@ -2258,6 +2406,7 @@ function TableEditor({
                     yUnit={param.unit || 'Y'}
                     onPointChange={handleCurvePointPreview}
                     onPointCommit={handleCurvePointCommit}
+                    logX={logMarker.x}
                 />
             )}
 
@@ -2280,6 +2429,8 @@ function TableEditor({
                     onPointCommit={handleSurfacePointCommit}
                     onPointHover={(row, col) => setHoveredSurfacePoint({row, col})}
                     onPointLeave={() => setHoveredSurfacePoint(null)}
+                    logX={logMarker.x}
+                    logY={logMarker.y}
                 />
             )}
         </div>

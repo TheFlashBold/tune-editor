@@ -19,7 +19,7 @@ import {getLoginState} from '../services/base';
 import {TuningService} from '../services/tuning';
 import type {TuningUnlock} from '../services/tuning';
 import {WIZARDS} from '../lib/wizards/index';
-import type {WizardDef, WizardControl, WizardContext} from '../lib/wizards';
+import type {WizardDef, WizardControl, WizardContext, WizardApplyResult} from '../lib/wizards';
 import type {IDefinitionParameter} from '../types';
 
 interface Props {
@@ -49,6 +49,7 @@ export function WizardModal({onClose}: Props) {
     const [loadingUnlocks, setLoadingUnlocks] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
     const [showSubscription, setShowSubscription] = useState(false);
+    const [applying, setApplying] = useState(false);
     const [loginState, setLoginState] = useState(() => getLoginState());
     const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -128,12 +129,15 @@ export function WizardModal({onClose}: Props) {
         }
 
         if (wizard.readState) {
+            const [epk] = readEPK(ctx.bin.data) || [''];
             const wizCtx: WizardContext = {
                 params: ctx.definition.parameters,
                 findParam: (name) => findParam(ctx.definition!.parameters, name),
                 readTable: (param) => readTableData(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
                 readAxis: (axis) => readAxisData(ctx.bin!.data, axis, ctx.calOffset, ctx.bigEndian),
                 readScalar: (param) => readParameterValue(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
+                boxCode: readBoxCode(ctx.bin.data),
+                version: readVersion(ctx.bin.data) || epk || '',
             };
             Object.assign(initial, wizard.readState(wizCtx));
         }
@@ -170,16 +174,30 @@ export function WizardModal({onClose}: Props) {
         setValues(prev => ({...prev, ...presetValues}));
     }, []);
 
-    const applyChanges = useCallback(() => {
+    const applyChanges = useCallback(async () => {
         if (!ctx.bin || !ctx.definition || !activeWizard) return;
+        if (applying) return;
+        setApplying(true);
+        const minDelay = new Promise<void>(resolve => setTimeout(resolve, 250));
+        const [epk] = readEPK(ctx.bin.data) || [''];
         const wizCtx: WizardContext = {
             params: ctx.definition.parameters,
             findParam: (name) => findParam(ctx.definition!.parameters, name),
             readTable: (param) => readTableData(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
             readAxis: (axis) => readAxisData(ctx.bin!.data, axis, ctx.calOffset, ctx.bigEndian),
             readScalar: (param) => readParameterValue(ctx.bin!.data, param, ctx.calOffset, ctx.bigEndian),
+            boxCode: readBoxCode(ctx.bin.data),
+            version: readVersion(ctx.bin.data) || epk || '',
         };
-        const result = activeWizard.apply(values, wizCtx);
+        let result: WizardApplyResult;
+        try {
+            result = await activeWizard.apply(values, wizCtx);
+        } catch (err) {
+            console.error('Wizard apply failed:', err);
+            await minDelay;
+            setApplying(false);
+            return;
+        }
         let changed = false;
 
         for (const [name, value] of Object.entries(result.scalars)) {
@@ -236,8 +254,10 @@ export function WizardModal({onClose}: Props) {
                 track('Wizard Value', {wizard: activeWizard.id, key, value: val});
             }
         }
+        await minDelay;
+        setApplying(false);
         onClose();
-    }, [ctx.bin, ctx.definition, ctx.calOffset, ctx.bigEndian, values, activeWizard, onClose]);
+    }, [ctx.bin, ctx.definition, ctx.calOffset, ctx.bigEndian, values, activeWizard, onClose, applying]);
 
     // ── Wizard list ──
     if (!activeWizard) {
@@ -389,8 +409,15 @@ export function WizardModal({onClose}: Props) {
                             )}
                             {activeUnlocked && (
                                 <button onClick={applyChanges}
-                                        class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer">
-                                    Apply
+                                        disabled={applying}
+                                        class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer disabled:opacity-70 disabled:cursor-wait flex items-center gap-2">
+                                    {applying && (
+                                        <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                                            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.25" strokeWidth="4"/>
+                                            <path d="M12 2 a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/>
+                                        </svg>
+                                    )}
+                                    {applying ? 'Applying…' : 'Apply'}
                                 </button>
                             )}
                         </div>

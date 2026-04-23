@@ -13,7 +13,11 @@ import {MainArea} from './components/MainArea';
 import {ChangesModal} from './components/ChangesModal';
 import {CrossCompareModal} from './components/CrossCompareModal';
 import {AppContext} from './context/app';
+import {LogContext} from './context/log';
 import {useAppState} from './hooks/useAppState';
+import {useLogState} from './hooks/useLogState';
+import {parseCSV} from './lib/csvLog';
+import {LogTimeline} from './components/LogTimeline';
 import {loadDefinition} from './lib/definitionLoader';
 import {isS19File, isHexFile} from './lib/s19Parser';
 import {XDFParser} from './lib/xdfParser';
@@ -39,6 +43,7 @@ function classifyFile(name: string): 'json' | 'bin' | 'csv' | 'xdf' | 'ols' | nu
 
 export function App() {
     const appState = useAppState();
+    const logState = useLogState();
 
     // Load log from URL parameter ?log=<id>
     useEffect(() => {
@@ -57,6 +62,7 @@ export function App() {
             .then(text => {
                 setLogViewerData(text);
                 setShowLogViewer(true);
+                logState.setLog(parseCSV(text), `log:${logId}`);
                 track('Load Log URL', {id: logId, size: text.length});
             })
             .catch(err => console.error('Failed to load log:', err));
@@ -126,6 +132,7 @@ export function App() {
             const pids = firstHeader.split(',').filter(s => s.trim()).length;
             track('Load Log File', {count: text.length, pids});
 
+            logState.setLog(parseCSV(text), file.name);
             setLogViewerData(text);
             setShowLogViewer(true);
         }
@@ -160,6 +167,7 @@ export function App() {
 
     return (
         <AppContext.Provider value={appState}>
+            <LogContext.Provider value={logState}>
             <div
                 class="flex flex-col h-screen bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100"
                 onDragOver={preventDefaults}
@@ -195,6 +203,7 @@ export function App() {
                     <Sidebar/>
                     <MainArea/>
                 </div>
+                {appState.bin && logState.log && <LogTimeline/>}
 
                 {/* A2L Converter Modal */}
                 {showConverter && (
@@ -305,6 +314,7 @@ export function App() {
                 {/* What's New Dialog */}
                 <InfoModal/>
             </div>
+            </LogContext.Provider>
         </AppContext.Provider>
     );
 }

@@ -64,6 +64,10 @@ export interface WizardContext {
     readAxis: (axis: import('../types').AxisDefinition) => number[];
     /** Read current scaled scalar value */
     readScalar: (param: IDefinitionParameter) => number;
+    /** Box code identifying this bin, for backend lookups */
+    boxCode: string;
+    /** Version string identifying this bin, for backend lookups */
+    version: string;
 }
 
 export interface WizardDef {
@@ -83,6 +87,6 @@ export interface WizardDef {
     presets: WizardPreset[];
     /** Derive control values from current bin state (for controls without readFrom) */
     readState?: (ctx: WizardContext) => Record<string, number>;
-    /** Given control values and bin context, compute what to write */
-    apply: (values: Record<string, number>, ctx: WizardContext) => WizardApplyResult;
+    /** Given control values and bin context, compute what to write. May be async. */
+    apply: (values: Record<string, number>, ctx: WizardContext) => WizardApplyResult | Promise<WizardApplyResult>;
 }

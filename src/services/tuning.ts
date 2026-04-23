@@ -32,6 +32,27 @@ export interface TuningFileEntry {
     meta: Record<string, any>;
 }
 
+export interface OriginalMapAxisData {
+    unit: string;
+    values: number[];
+}
+
+export type OriginalMapData = {
+    type: "scalar";
+    name: string;
+    description: string;
+    unit: string;
+    value: number;
+} | {
+    type: "curve" | "table";
+    name: string;
+    description: string;
+    unit: string;
+    data: number[][];
+    xAxis?: OriginalMapAxisData;
+    yAxis?: OriginalMapAxisData;
+};
+
 export class TuningService extends BaseService {
 
     private static isLocalhost(): boolean {
@@ -90,6 +111,10 @@ export class TuningService extends BaseService {
             return response.json();
         }
         return BaseService.getJSON(`tuning/patchDefinitions/${encodeURIComponent(normalizedFile.slice(0, -5))}`);
+    }
+
+    static async getOriginalMapData(map: string, boxCode: string, version: string): Promise<OriginalMapData> {
+        return BaseService.getJSON("tuning/originalMap", {map, boxCode, version});
     }
 
     static async getUnlocks(): Promise<TuningUnlock[]> {
