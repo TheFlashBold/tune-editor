@@ -288,7 +288,20 @@ export function WizardModal({onClose}: Props) {
                     <p class="text-zinc-500 text-sm">Loading...</p>
                 ) : (
                     <div class="space-y-3">
-                        {WIZARDS.map(w => {
+                        {[...WIZARDS].sort((a, b) => {
+                            const rank = (w: WizardDef): number => {
+                                const compat = !w.requiredParams || w.requiredParams.every(
+                                    name => findParam(ctx.definition!.parameters, name)
+                                );
+                                if (!compat) return 3;            // incompatible last
+                                if (!w.productId) return 0;       // free first
+                                if (isUnlocked(w)) return 1;      // unlocked next
+                                return 2;                          // locked / needs purchase
+                            };
+                            const rankDiff = rank(a) - rank(b);
+                            if (rankDiff !== 0) return rankDiff;
+                            return a.name.localeCompare(b.name);
+                        }).map(w => {
                             const compatible = !w.requiredParams || w.requiredParams.every(
                                 name => findParam(ctx.definition!.parameters, name)
                             );

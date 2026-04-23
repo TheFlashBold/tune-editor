@@ -20,6 +20,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version:'1.23.0',
+        date: '23.04.2026',
+        changes: [
+            'Added free anti-tramp wizard'
+        ]
+    },
+    {
         version:'1.22.0',
         date: '22.04.2026',
         changes: [
