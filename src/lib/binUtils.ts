@@ -158,6 +158,14 @@ export function readBoxCode(data: Uint8Array): string {
         }
     }
 
+    // MED 17.1.62 RS3
+    if (data.length > (0x3E0E78 + 10)) {
+        const boxCode = readStringSafe(data, 0x3E0E78, 10, 10);
+        if (boxCode) {
+            return boxCode;
+        }
+    }
+
     // Bosch MED/EDC: HW part number (10-digit) near CBOOT header
     for (const offset of [0x401a, 0x1401a, 0x1C948E]) {
         if (data.length > (offset + 12)) {
@@ -217,6 +225,14 @@ export function readEPK(data: Uint8Array): [string, number] | [] {
         }
     }
 
+    // MED 17.1.62 RS3
+    if (data.length > (0x3FFE17 + 20)) {
+        const epk = readStringSafe(data, 0x3FFE17, 20, 20);
+        if (epk) {
+            return [epk, 0x3FFE17];
+        }
+    }
+
     // Bosch MED/EDC: "CB " EPK in CBOOT header, or ECU type string
     for (const region of [{start: 0x4090, len: 40}, {start: 0x14090, len: 40}]) {
         if (data.length > (region.start + region.len)) {
@@ -245,17 +261,25 @@ export function readEPK(data: Uint8Array): [string, number] | [] {
 export function readVersion(data: Uint8Array): string {
     for (const offset of CAL_OFFSETS) {
         if (data.length > (offset + 0x2000)) {
-            const epk = readStringSafe(data, offset + 0x80, 4, 4);
-            if (epk) {
-                return epk;
+            const version = readStringSafe(data, offset + 0x80, 4, 4);
+            if (version) {
+                return version;
             }
         }
     }
 
     if (CAL_SIZES.includes(data.length)) {
-        const epk = readStringSafe(data, 0x80, 4, 4);
-        if (epk) {
-            return epk;
+        const version = readStringSafe(data, 0x80, 4, 4);
+        if (version) {
+            return version;
+        }
+    }
+
+    // MED 17.1.62 RS3
+    if (data.length > (0x3E0E85 + 4)) {
+        const version = readStringSafe(data, 0x3E0E85, 4, 4);
+        if (version) {
+            return version;
         }
     }
 }

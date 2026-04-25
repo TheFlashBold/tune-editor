@@ -20,6 +20,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version:'1.24.0',
+        date: '25.04.2026',
+        changes: [
+            'Added MED 17.1.62 (RS3/TTRS DAZA) MY17E2, MY17G1, MY17H5, MY17I0, MY19A1'
+        ]
+    },
+    {
         version:'1.23.0',
         date: '23.04.2026',
         changes: [
