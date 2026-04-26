@@ -41,7 +41,6 @@ export function UploadBinModal({info, onClose}: UploadBinModalProps) {
                 toBoxCode: upgrade.to.label,
                 toEPK: upgrade.to.epk,
             });
-            // @TODO: suggest simos.app with upgrade bin flashing
         }
     }, [info])
 
