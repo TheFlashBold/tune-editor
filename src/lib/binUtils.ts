@@ -177,6 +177,19 @@ export function readBoxCode(data: Uint8Array): string {
     }
 }
 
+/**
+ * Detect whether a bin file is a CAL-only block (no full ECU image).
+ * Used to decide whether parameter addresses are file-relative (CAL) or need
+ * the definition's baseAddress added (full bin).
+ */
+export function isCalOnly(data: Uint8Array): boolean {
+    // Simos: CAS header at offset 0
+    if (readStringSafe(data, 0, 3, 3) === 'CAS') return true;
+    // MS42 / MS43 CAL-only block: 0x10000 bytes with ".DAT" at 0x48
+    if (data.length === 0x10000 && readStringSafe(data, 0x48, 4, 4) === '.DAT') return true;
+    return false;
+}
+
 export function readEPK(data: Uint8Array): [string, number] | [] {
     if (readStringSafe(data, 0, 3, 3) === "CAS") {
         const epk = readStringSafe(data, 0x02, 6, 6);
@@ -242,6 +255,31 @@ export function readEPK(data: Uint8Array): [string, number] | [] {
             }
         }
     }
+
+    // Siemens MS42 (BMW): full bin = 0x80000, CAL @ 0x48000, ".DAT" marker @ 0x48048
+    if (data.length === 0x80000 && readStringSafe(data, 0x48048, 4, 4) === ".DAT") {
+        const epk = readStringSafe(data, 0x48008, 6, 6);
+        if (epk) {
+            return [epk, 0x48008];
+        }
+    }
+
+    // Siemens MS43 (BMW): full bin = 0x80000, CAL @ 0x70000, ".DAT" marker @ 0x70048
+    if (data.length === 0x80000 && readStringSafe(data, 0x70048, 4, 4) === ".DAT") {
+        const epk = readStringSafe(data, 0x70008, 6, 6);
+        if (epk) {
+            return [epk, 0x70008];
+        }
+    }
+
+    // MS42 / MS43 CAL-only block (0x10000 bytes), ".DAT" marker @ 0x48
+    if (data.length === 0x10000 && readStringSafe(data, 0x48, 4, 4) === ".DAT") {
+        const epk = readStringSafe(data, 0x8, 6, 6);
+        if (epk) {
+            return [epk, 0x8];
+        }
+    }
+
 
     // Bosch: EDC17/MED17 type string
     // 31/1/EDC17_C41/11/P_746//CK5/// 0x300A64 0x4683C

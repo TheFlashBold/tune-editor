@@ -10,7 +10,7 @@ import {
     readTableData,
     readAxisData,
     addressToOffset,
-    readBoxCode, readEPK, readString, readVersion,
+    isCalOnly, readBoxCode, readEPK, readVersion,
 } from '../lib/binUtils';
 import {
     loadDefinitionIndex,
@@ -183,7 +183,7 @@ export function useAppState(): IAppContext {
             const match = epk ? await findMatchingDefinition(epk) : null;
             if (match) {
                 const def = await loadDefinition(match.file);
-                const isCal = readString(data, 0, 3) === 'CAS';
+                const isCal = isCalOnly(data);
 
                 // there are DQ250 versions with -0x10000 offset. should be 0x4FFBE
                 let dsgOffset = epkAddress === 0x3FFE0 ? -0x10000 : 0;
@@ -234,7 +234,7 @@ export function useAppState(): IAppContext {
         const match = ccEpk ? await findMatchingDefinition(ccEpk) : null;
         if (match) {
             const def = await loadDefinition(match.file);
-            const isCal = readString(data, 0, 3) === 'CAS';
+            const isCal = isCalOnly(data);
             newBin.definition = def;
             newBin.calOffset = isCal ? 0 : (def.baseAddress ?? 0);
         }
@@ -253,7 +253,7 @@ export function useAppState(): IAppContext {
             setDetectedMode(null);
             return;
         }
-        const isCal = readString(binData, 0, 3) === 'CAS';
+        const isCal = isCalOnly(binData);
         setCalOffset(isCal ? 0 : (def.baseAddress ?? 0));
         setDetectedMode(isCal ? 'cal' : 'full');
     }, [binData]);

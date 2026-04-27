@@ -20,6 +20,13 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version:'1.26.0',
+        date: '27.04.2026',
+        changes: [
+            'Added MS42 & MS43 definitions'
+        ]
+    },
+    {
         version:'1.25.0',
         date: '26.04.2026',
         changes: [
