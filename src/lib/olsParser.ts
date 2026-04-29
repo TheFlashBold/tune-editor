@@ -230,7 +230,15 @@ export function parseOLS(buffer: ArrayBuffer, filename: string): OLSFile {
 function extractBinaryVersions(data: DataView, buf: Uint8Array, _version: number): OLSBinaryVersion[] {
     const versions: OLSBinaryVersion[] = [];
 
-    // Try v597+ format: scan for 0x42007899 marker
+    // The 0x42007899 class marker identifies the binary version record. Empirically
+    // present in every WinOLS-produced .ols from v100 onward (not v597+ specific).
+    //
+    // Layout:
+    //   [version_index:4] [blob_offset:4] [blob_size:4] [0x42007899:4]
+    //   [version_count:4] [name_len:4] [name] [desc_len:4] [desc]
+    //
+    // Derived records (additional version slots) follow with a 0xFFFFFFFF sentinel
+    // in place of the marker block. Slot i lives at blob_offset + i * blob_size.
     const markerBytes = new Uint8Array([0x99, 0x78, 0x00, 0x42]); // LE
     const scanStart = 0x100;
     const scanEnd = Math.min(0x2000, buf.length - 28);
@@ -254,7 +262,7 @@ function extractBinaryVersions(data: DataView, buf: Uint8Array, _version: number
         if (versionIndex < 20 &&
             versionCount > 0 && versionCount <= 20 &&
             versionIndex < versionCount &&
-            blobSize >= 0x100000 && blobSize <= 0x1000000 &&
+            blobSize >= 0x10000 && blobSize <= 0x10000000 &&
             blobOffset + versionCount * blobSize <= buf.length + 4 &&
             nameLen > 0 && nameLen < 50 &&
             recStart + 24 + nameLen <= buf.length) {
@@ -324,61 +332,6 @@ function extractBinaryVersions(data: DataView, buf: Uint8Array, _version: number
 
         if (!baseFound) {
             markerPos = findBytes(buf, markerBytes, markerPos + 4, scanEnd);
-        }
-    }
-
-    // Fallback: old format (pre-v597)
-    if (!baseFound) {
-        let oPos = 0x400;
-        const oldScanEnd = Math.min(0x2000, buf.length - 28);
-
-        while (oPos < oldScanEnd) {
-            const val = readU32(data, oPos);
-
-            // Root folder marker (0x003fffff)
-            if (val === 0x003fffff) {
-                const nl = readU32(data, oPos + 4);
-                if (nl > 0 && nl < 50 && oPos + 8 + nl <= buf.length) {
-                    const n = decodeCP1252(buf.subarray(oPos + 8, oPos + 8 + nl)).trim();
-                    if (isPrintable(n) && n.length > 0) {
-                        // Root folder, no blob data
-                        oPos += 8 + nl;
-                        continue;
-                    }
-                }
-            }
-
-            // Version with parent ID (small integer 1-10)
-            if (val > 0 && val <= 10) {
-                const nl = readU32(data, oPos + 4);
-                if (nl > 0 && nl < 50 && oPos + 8 + nl <= buf.length) {
-                    const n = decodeCP1252(buf.subarray(oPos + 8, oPos + 8 + nl)).trim();
-                    if (isPrintable(n) && n.length > 0 && oPos >= 16) {
-                        const bo = readU32(data, oPos - 12);
-                        const bs = readU32(data, oPos - 8);
-                        if (bo > 0 && bo < buf.length && bs > 0 && bs < 0x10000000) {
-                            let desc = '';
-                            const dp = oPos + 8 + nl;
-                            if (dp + 4 <= buf.length) {
-                                const dl = readU32(data, dp);
-                                if (dl > 0 && dl < 500 && dp + 4 + dl <= buf.length) {
-                                    desc = decodeCP1252(buf.subarray(dp + 4, dp + 4 + dl)).trim();
-                                }
-                            }
-
-                            versions.push({
-                                name: n, description: desc,
-                                blobOffset: bo, blobSize: bs,
-                                versionIndex: 0, versionCount: 0,
-                                epk: '', epkOffset: 0,
-                            });
-                            oPos += 8 + nl;
-                            continue;
-                        }
-                    }
-                }
-            }
-            oPos++;
         }
     }
 
@@ -554,11 +507,19 @@ class SeqReader {
         const id = this.readString();
         const factor = this.readF64();
         const offset = this.readF64();
-        this.readU32(); // type_code
-        this.readU32(); this.readU32(); this.readU32();
-        let dataFormat = this.readU32();
-        if (dataFormat !== 2 && dataFormat !== 10 && dataFormat !== 16) dataFormat = 10;
-        const dataType: DataType = dataFormat === 2 ? 'UBYTE' : dataFormat === 16 ? 'ULONG' : 'UWORD';
+        this.readU32(); // type_code (axis+0x64)
+        const axisAddress = this.readU32(); // axis+0x70 — breakpoint data address
+        // axis+0x74 = type_kind: 1=UBYTE, 3=UWORD, 5=ULONG, 7=FLOAT32 (same encoding
+        // as param data_type). axis+0x7c (data_format) is empirically always 0xa and
+        // not informative — we ignore it.
+        const typeKind = this.readU32();
+        this.readU32(); // byte width — redundant with type_kind
+        this.readU32(); // data_format
+        const dataType: DataType =
+            typeKind === 1 ? 'UBYTE'
+                : typeKind === 5 ? 'ULONG'
+                : typeKind === 7 ? 'FLOAT32'
+                : 'UWORD';
         this.readBool(); this.readBool();
         if (this.has(264)) this.readF64();
         if (this.has(241)) this.readU32();
@@ -573,7 +534,7 @@ class SeqReader {
         if (this.has(372)) { const n = this.readU32(); for (let i = 0; i < n; i++) this.readMLS(); }
         if (this.has(440)) this.readI32();
         if (this.has(805)) { this.readU32(); this.readU32(); this.readU32(); this.readU32(); }
-        return {points: 0, address: 0, offset, unit: '', factor, id, description, dataSource, dataType};
+        return {points: 0, address: axisAddress, offset, unit: '', factor, id, description, dataSource, dataType};
     }
 
     // --- Full map record ---
@@ -585,10 +546,17 @@ class SeqReader {
 
         const description = this.readMLS();
         const typeCode = this.readU32();
-        this.readU32(); this.readU32(); this.readU32();
-        let rawDs = this.readU32();
-        if (rawDs !== 2 && rawDs !== 10 && rawDs !== 16) rawDs = 10;
-        const dataType: DataType = rawDs === 2 ? 'UBYTE' : rawDs === 16 ? 'ULONG' : 'UWORD';
+        this.readU32();
+        // 3rd u32 is the value-type code: 1=byte, 3=word, 5=long, 7=float32.
+        // OLS does not record signedness — consumers overlay that from sister A2L if needed.
+        const typeKind = this.readU32();
+        this.readU32(); // byte width — derivable from typeKind
+        this.readU32(); // legacy field, observed always 0x0a in v303/v357/v479
+        const dataType: DataType =
+            typeKind === 1 ? 'UBYTE'
+                : typeKind === 5 ? 'ULONG'
+                : typeKind === 7 ? 'FLOAT32'
+                : 'UWORD';
 
         let name = '';
         let folderId = 0;
@@ -665,13 +633,9 @@ class SeqReader {
             xAxis = axis2; xAxis.points = cols;
         }
 
-        // OLS data_offset points 2 entries before actual cell data
-        const typeSize = rawDs === 2 ? 1 : rawDs === 16 ? 4 : 2;
-        const adjustedOffset = unitDesc.dataOffset > 0 ? unitDesc.dataOffset + 2 * typeSize : 0;
-
         return {
             name, description, paramType, dataType,
-            cols, rows, dataOffset: adjustedOffset,
+            cols, rows, dataOffset: unitDesc.dataOffset,
             xAxis, yAxis,
             unit: unitDesc.unit, factor: unitDesc.factor, offset: unitDesc.offset,
             folderId, typeCode,
@@ -756,8 +720,15 @@ function extractFolderEntries(data: DataView, buf: Uint8Array): OLSFolderEntry[]
 export function extractBinary(buffer: ArrayBuffer, version: OLSBinaryVersion): Uint8Array {
     const buf = new Uint8Array(buffer);
     if (version.blobOffset === 0 || version.blobSize === 0) return new Uint8Array(0);
+    // WinOLS prefixes every binary blob with a 4-byte checksum/marker
+    // (typically 0x98728833 = "33 88 72 98" LE) consumed by COlsFile_VerifyChecksum
+    // before any blob bytes are exposed. Param data_offset values are relative to
+    // the post-marker data, so strip the marker here.
+    const MARKER_LEN = 4;
+    const start = version.blobOffset + MARKER_LEN;
     const end = Math.min(version.blobOffset + version.blobSize, buf.length);
-    return buf.slice(version.blobOffset, end);
+    if (start >= end) return new Uint8Array(0);
+    return buf.slice(start, end);
 }
 
 // ---- Address mapping ----
