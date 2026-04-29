@@ -20,6 +20,14 @@ const tips: string[] = [
 
 const changelog: ChangelogEntry[] = [
     {
+        version:'1.27.0',
+        date: '29.04.2026',
+        changes: [
+            'Added SC8 H51 definition',
+            "OLS parsing fixes"
+        ]
+    },
+    {
         version:'1.26.0',
         date: '27.04.2026',
         changes: [
