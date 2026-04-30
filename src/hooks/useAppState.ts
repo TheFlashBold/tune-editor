@@ -16,7 +16,7 @@ import {
     loadDefinitionIndex,
     loadDefinition,
     findMatchingDefinition,
-    type DefinitionIndexEntry,
+    type DefinitionIndexEntry, findMatchingDefinitionByData,
 } from '../lib/definitionLoader';
 import {mergeDefinitions} from '../components/PatchManager';
 import {TuningService} from '../services/tuning';
@@ -180,7 +180,11 @@ export function useAppState(): IAppContext {
         // Auto-detect definition by EPK
         let loadedDef: Definition | null = null;
         try {
-            const match = epk ? await findMatchingDefinition(epk) : null;
+            // check definition supplied epk + position first
+            let match = await findMatchingDefinitionByData(data);
+            if (!match && epk) {
+                match = await findMatchingDefinition(epk)
+            }
             if (match) {
                 const def = await loadDefinition(match.file);
                 const isCal = isCalOnly(data);

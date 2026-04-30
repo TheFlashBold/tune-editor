@@ -184,9 +184,15 @@ export function readBoxCode(data: Uint8Array): string {
  */
 export function isCalOnly(data: Uint8Array): boolean {
     // Simos: CAS header at offset 0
-    if (readStringSafe(data, 0, 3, 3) === 'CAS') return true;
+    if (readStringSafe(data, 0, 3, 3) === 'CAS') {
+        return true;
+    }
+
     // MS42 / MS43 CAL-only block: 0x10000 bytes with ".DAT" at 0x48
-    if (data.length === 0x10000 && readStringSafe(data, 0x48, 4, 4) === '.DAT') return true;
+    if (data.length === 0x10000 && readStringSafe(data, 0x48, 4, 4) === '.DAT') {
+        return true;
+    }
+
     return false;
 }
 
@@ -246,16 +252,6 @@ export function readEPK(data: Uint8Array): [string, number] | [] {
         }
     }
 
-    // Bosch MED/EDC: "CB " EPK in CBOOT header, or ECU type string
-    for (const region of [{start: 0x4090, len: 40}, {start: 0x14090, len: 40}]) {
-        if (data.length > (region.start + region.len)) {
-            const s = readStringSafe(data, region.start, region.len, 6);
-            if (s?.startsWith('CB ')) {
-                return [s, region.start];
-            }
-        }
-    }
-
     // Siemens MS42 (BMW): full bin = 0x80000, CAL @ 0x48000, ".DAT" marker @ 0x48048
     if (data.length === 0x80000 && readStringSafe(data, 0x48048, 4, 4) === ".DAT") {
         const epk = readStringSafe(data, 0x48008, 6, 6);
@@ -280,6 +276,45 @@ export function readEPK(data: Uint8Array): [string, number] | [] {
         }
     }
 
+    // MEVD 17.2.x
+    if ([0x400000, 0xA00000].includes(data.length)) {
+        const FULL_EPK = readStringSafe(data, 0x1FFB0C, 48, 12);
+    }
+
+
+    // MEVD 17.2.3
+    if (data.length > 0x1FFB38 + 20) {
+        const epk = readStringSafe(data, 0x1FFB38, 20, 20);
+        if (epk) {
+            return [epk, 0x1FFB38];
+        }
+    }
+
+    // MEVD 17.2.3
+    if (data.length > 0x1FFB1B + 20) {
+        const epk = readStringSafe(data, 0x1FFB1B, 20, 20);
+        if (epk) {
+            return [epk, 0x1FFB1B];
+        }
+    }
+
+    // MEVD 17.2.4
+    if (data.length > 0x1FFB1A + 18) {
+        const epk = readStringSafe(data, 0x1FFB1A, 18, 18);
+        if (epk) {
+            return [epk, 0x1FFB1A];
+        }
+    }
+
+    // Bosch MED/EDC: "CB " EPK in CBOOT header, or ECU type string
+    for (const region of [{start: 0x4090, len: 40}, {start: 0x14090, len: 40}]) {
+        if (data.length > (region.start + region.len)) {
+            const s = readStringSafe(data, region.start, region.len, 6);
+            if (s?.startsWith('CB ')) {
+                return [s, region.start];
+            }
+        }
+    }
 
     // Bosch: EDC17/MED17 type string
     // 31/1/EDC17_C41/11/P_746//CK5/// 0x300A64 0x4683C
