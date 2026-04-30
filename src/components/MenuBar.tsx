@@ -8,6 +8,9 @@ import type {LoginState} from "../services/auth.ts";
 import {LoginModal} from "./LoginModal.tsx";
 import {Modal} from "./Modal.tsx";
 import {WizardModal} from "./WizardModal.tsx";
+import {TuningService, TuningFileEntry, TuningUnlock} from "../services/tuning.ts";
+
+const CLOUD_UNLOCK_PRODUCTS = ['tune_editor_premium', 'simos_app_unlock'];
 
 const APP_VERSION = __APP_VERSION__;
 
@@ -39,8 +42,18 @@ export function MenuBar({
     const [showAbout, setShowAbout] = useState(false);
     const [showSaveDialog, setShowSaveDialog] = useState(false);
     const [saveFileName, setSaveFileName] = useState('');
+    const [showCloudSaveDialog, setShowCloudSaveDialog] = useState(false);
+    const [cloudSaveName, setCloudSaveName] = useState('');
+    const [uploading, setUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [uploadError, setUploadError] = useState<string | null>(null);
     const [showWizards, setShowWizards] = useState(false);
     const [loginState, setLoginState] = useState<LoginState | null>(() => getLoginState());
+    const [cloudBins, setCloudBins] = useState<TuningFileEntry[]>([]);
+    const [cloudBinsLoading, setCloudBinsLoading] = useState(false);
+    const [cloudBinError, setCloudBinError] = useState<string | null>(null);
+    const [unlocks, setUnlocks] = useState<TuningUnlock[] | null>(null);
+    const cloudUnlocked = !!unlocks?.some(u => CLOUD_UNLOCK_PRODUCTS.includes(u.product));
 
     // Validate stored token on mount
     useEffect(() => {
@@ -61,7 +74,60 @@ export function MenuBar({
         localStorage.removeItem('login');
         localStorage.removeItem('login_renewed');
         setLoginState(null);
+        setCloudBins([]);
+        setCloudBinError(null);
+        setUnlocks(null);
     }, []);
+
+    useEffect(() => {
+        if (!loginState) {
+            setUnlocks(null);
+            return;
+        }
+        let cancelled = false;
+        TuningService.getUnlocks().then(entries => {
+            if (cancelled) return;
+            setUnlocks(entries);
+        }).catch(() => {
+            if (cancelled) return;
+            setUnlocks([]);
+        });
+        return () => { cancelled = true; };
+    }, [loginState]);
+
+    useEffect(() => {
+        if (!loginState || !cloudUnlocked) {
+            setCloudBins([]);
+            setCloudBinError(null);
+            return;
+        }
+        let cancelled = false;
+        setCloudBinsLoading(true);
+        setCloudBinError(null);
+        TuningService.listBins().then(entries => {
+            if (cancelled) return;
+            setCloudBins(entries);
+        }).catch(err => {
+            if (cancelled) return;
+            setCloudBinError(err instanceof Error ? err.message : String(err));
+        }).finally(() => {
+            if (!cancelled) setCloudBinsLoading(false);
+        });
+        return () => { cancelled = true; };
+    }, [loginState, cloudUnlocked]);
+
+    const handleOpenCloudBin = useCallback(async (entry: TuningFileEntry) => {
+        try {
+            const buffer = await TuningService.getBin(entry.id);
+            const file = new File([buffer], entry.name, {type: 'application/octet-stream'});
+            await ctx.loadBin(file);
+            setShowFileMenu(false);
+            setShowMobileMenu(false);
+        } catch (err) {
+            console.error('Failed to load cloud bin:', err);
+            alert(`Failed to load bin: ${err instanceof Error ? err.message : String(err)}`);
+        }
+    }, [ctx]);
 
     // Renew token on window focus (at most once per hour)
     useEffect(() => {
@@ -158,6 +224,58 @@ export function MenuBar({
         ctx.saveBin(saveFileName);
         setShowSaveDialog(false);
     }, [ctx, saveFileName]);
+
+    const handleSaveToCloud = useCallback(() => {
+        const base = ctx.binFileName?.replace(/\.[^.]+$/, '') ?? 'bin';
+        setCloudSaveName(`${base}.bin`);
+        setUploadProgress(0);
+        setUploadError(null);
+        setShowCloudSaveDialog(true);
+        setShowFileMenu(false);
+        setShowMobileMenu(false);
+    }, [ctx.binFileName]);
+
+    const refreshCloudBins = useCallback(async () => {
+        try {
+            const entries = await TuningService.listBins();
+            setCloudBins(entries);
+        } catch (err) {
+            console.error('Failed to refresh cloud bins:', err);
+        }
+    }, []);
+
+    const handleCloudSaveConfirm = useCallback(async () => {
+        if (!ctx.bin) return;
+        let name = cloudSaveName.trim();
+        if (!name) {
+            setUploadError('Filename is required');
+            return;
+        }
+        if (!name.endsWith('.bin')) name += '.bin';
+
+        setUploading(true);
+        setUploadProgress(0);
+        setUploadError(null);
+        try {
+            const blob = new Blob([ctx.bin.data.buffer as ArrayBuffer], {type: 'application/octet-stream'});
+            const result = await TuningService.uploadBin(blob, {
+                name,
+                onProgress: (percent) => setUploadProgress(percent),
+            });
+            setCloudBins(prev => {
+                const existingMeta = prev.find(b => b.id === result.id || b.name === result.name)?.meta ?? {};
+                const filtered = prev.filter(b => b.id !== result.id && b.name !== result.name);
+                return [{id: result.id, name: result.name, meta: existingMeta}, ...filtered];
+            });
+            ctx.markSaved();
+            void refreshCloudBins();
+            setShowCloudSaveDialog(false);
+        } catch (err) {
+            setUploadError(err instanceof Error ? err.message : String(err));
+        } finally {
+            setUploading(false);
+        }
+    }, [ctx, cloudSaveName, refreshCloudBins]);
 
     const handleExportBtp = useCallback(() => {
         ctx.exportBtp();
@@ -292,10 +410,47 @@ export function MenuBar({
                                         className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent">
                                     Save BIN
                                 </button>
+                                {cloudUnlocked && (
+                                    <button onClick={handleSaveToCloud} disabled={!ctx.bin}
+                                            className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent">
+                                        Save to Cloud...
+                                    </button>
+                                )}
                                 <button onClick={handleExportBtp} disabled={!ctx.bin || !ctx.originalBin}
                                         className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent">
                                     Export Changes as BTP Patch
                                 </button>
+                                {cloudUnlocked && (
+                                    <>
+                                        <div className="border-t border-zinc-400 dark:border-zinc-600 my-1"/>
+                                        <div className="px-3 py-1 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
+                                            Cloud Bins
+                                        </div>
+                                        {cloudBinsLoading && (
+                                            <div className="px-3 py-2 text-xs text-zinc-500">Loading…</div>
+                                        )}
+                                        {cloudBinError && (
+                                            <div className="px-3 py-2 text-xs text-red-500">{cloudBinError}</div>
+                                        )}
+                                        {!cloudBinsLoading && !cloudBinError && cloudBins.length === 0 && (
+                                            <div className="px-3 py-2 text-xs text-zinc-500">No bins uploaded</div>
+                                        )}
+                                        {cloudBins.length > 0 && (
+                                            <div className="max-h-64 overflow-y-auto">
+                                                {cloudBins.map(entry => (
+                                                    <button
+                                                        key={entry.id}
+                                                        onClick={() => handleOpenCloudBin(entry)}
+                                                        className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer truncate"
+                                                        title={entry.name}
+                                                    >
+                                                        {entry.name}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </>
+                                )}
                             </div>
                         </>
                     )}
@@ -414,10 +569,44 @@ export function MenuBar({
                                 className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 active:bg-zinc-300 dark:active:bg-zinc-600">
                             Save BIN
                         </button>
+                        {cloudUnlocked && (
+                            <button onClick={handleSaveToCloud} disabled={!ctx.bin}
+                                    className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 active:bg-zinc-300 dark:active:bg-zinc-600">
+                                Save to Cloud...
+                            </button>
+                        )}
                         <button onClick={handleExportBtp} disabled={!ctx.bin || !ctx.originalBin}
                                 className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 active:bg-zinc-300 dark:active:bg-zinc-600">
                             Export Changes as BTP Patch
                         </button>
+
+                        {cloudUnlocked && (
+                            <>
+                                <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
+                                <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wide px-4 pt-3 pb-1">
+                                    Cloud Bins
+                                </div>
+                                {cloudBinsLoading && (
+                                    <div className="px-4 py-2 text-xs text-zinc-500">Loading…</div>
+                                )}
+                                {cloudBinError && (
+                                    <div className="px-4 py-2 text-xs text-red-500">{cloudBinError}</div>
+                                )}
+                                {!cloudBinsLoading && !cloudBinError && cloudBins.length === 0 && (
+                                    <div className="px-4 py-2 text-xs text-zinc-500">No bins uploaded</div>
+                                )}
+                                {cloudBins.map(entry => (
+                                    <button
+                                        key={entry.id}
+                                        onClick={() => handleOpenCloudBin(entry)}
+                                        className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600 truncate"
+                                        title={entry.name}
+                                    >
+                                        {entry.name}
+                                    </button>
+                                ))}
+                            </>
+                        )}
 
                         <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
                         <button onClick={mobileAction(() => setShowWizards(true))} disabled={!ctx.bin || !ctx.definition}
@@ -525,6 +714,83 @@ export function MenuBar({
                     </div>
                 </Modal>
             )}
+
+            {/* Save to Cloud Dialog */}
+            {showCloudSaveDialog && (() => {
+                const trimmed = cloudSaveName.trim();
+                const normalized = trimmed.endsWith('.bin') ? trimmed : trimmed ? `${trimmed}.bin` : '';
+                const willOverwrite = normalized !== '' && cloudBins.some(b => b.name === normalized);
+                return (
+                    <Modal title="Save to Cloud" onClose={() => !uploading && setShowCloudSaveDialog(false)} width="sm"
+                        footer={
+                            <div class="flex justify-end gap-2">
+                                <button
+                                    onClick={() => setShowCloudSaveDialog(false)}
+                                    disabled={uploading}
+                                    class="px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer disabled:opacity-50"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleCloudSaveConfirm}
+                                    disabled={uploading || !trimmed}
+                                    class={`px-4 py-2 text-sm rounded text-white cursor-pointer disabled:opacity-50 ${willOverwrite ? 'bg-amber-600 hover:bg-amber-700' : 'bg-blue-600 hover:bg-blue-700'}`}
+                                >
+                                    {uploading ? `Uploading ${uploadProgress.toFixed(0)}%` : (willOverwrite ? 'Overwrite' : 'Upload')}
+                                </button>
+                            </div>
+                        }
+                    >
+                        <div class="space-y-3">
+                            <div class="space-y-1">
+                                <label class="block text-sm font-medium">Filename</label>
+                                <input
+                                    type="text"
+                                    value={cloudSaveName}
+                                    onInput={(e) => setCloudSaveName((e.target as HTMLInputElement).value)}
+                                    onKeyDown={(e) => { if (e.key === 'Enter' && !uploading) handleCloudSaveConfirm(); }}
+                                    disabled={uploading}
+                                    class="w-full px-3 py-2 text-sm rounded border border-zinc-400 dark:border-zinc-600 bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono disabled:opacity-50"
+                                    autoFocus
+                                />
+                                {willOverwrite && (
+                                    <div class="text-xs text-amber-600 dark:text-amber-400">
+                                        A bin named <span class="font-mono">{normalized}</span> already exists — uploading will overwrite it.
+                                    </div>
+                                )}
+                            </div>
+                            {cloudBins.length > 0 && (
+                                <div class="space-y-1">
+                                    <div class="text-xs font-medium text-zinc-500 uppercase tracking-wide">Or overwrite existing</div>
+                                    <div class="max-h-40 overflow-y-auto border border-zinc-300 dark:border-zinc-700 rounded">
+                                        {cloudBins.map(entry => (
+                                            <button
+                                                key={entry.id}
+                                                onClick={() => setCloudSaveName(entry.name)}
+                                                disabled={uploading}
+                                                class={`w-full text-left px-3 py-1.5 text-sm font-mono hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer disabled:opacity-50 ${entry.name === normalized ? 'bg-amber-50 dark:bg-amber-900/20' : ''}`}
+                                                title={entry.name}
+                                            >
+                                                {entry.name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                            {uploading && (
+                                <div class="space-y-1">
+                                    <div class="h-2 bg-zinc-200 dark:bg-zinc-700 rounded overflow-hidden">
+                                        <div class="h-full bg-blue-500 transition-all" style={{width: `${uploadProgress}%`}}/>
+                                    </div>
+                                </div>
+                            )}
+                            {uploadError && (
+                                <div class="text-xs text-red-500">{uploadError}</div>
+                            )}
+                        </div>
+                    </Modal>
+                );
+            })()}
 
             {/* About Modal */}
             {showAbout && (

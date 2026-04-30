@@ -16,9 +16,17 @@ const tips: string[] = [
     'Use load original to diff two bins',
     'Use the cross-compare feature to diff two bins with different definitions, matched by name',
     'XDF files are automatically converted — no need to convert to JSON first',
+    'Store and work on your bins in the cloud with Tune Editor Subscription or simos.app Unlock'
 ];
 
 const changelog: ChangelogEntry[] = [
+    {
+        version:'1.28.0',
+        date: '30.04.2026',
+        changes: [
+            '.bin Cloud storage is available for simos.app Unlock and Tune Editor Subscription users',
+        ]
+    },
     {
         version:'1.27.0',
         date: '29.04.2026',

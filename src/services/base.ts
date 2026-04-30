@@ -1,7 +1,7 @@
 import {GenericObject} from "../types";
 import {LoginState} from "./auth";
 
-function getCurrentLocalStorage<T>(key: string, defaultValue: T): T {
+export function getCurrentLocalStorage<T>(key: string, defaultValue: T): T {
     try {
         const item = localStorage.getItem(key);
         return item ? JSON.parse(item) : defaultValue;

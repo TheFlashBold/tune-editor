@@ -55,6 +55,7 @@ export interface IAppContext {
     binFileName: string | null;
     exportBtp: () => void;
     markModified: () => void;
+    markSaved: () => void;
     loadDefinitionJson: (file: File) => Promise<void>;
     setDefinition: (def: Definition | null) => void;
     setExternalDefinition: (def: Definition | null) => void;

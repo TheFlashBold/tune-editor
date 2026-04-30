@@ -85,6 +85,10 @@ export function useAppState(): IAppContext {
         setModRevision(r => r + 1);
     }, []);
 
+    const markSaved = useCallback(() => {
+        setModified(false);
+    }, []);
+
     const clearDefinitionMatches = useCallback(() => {
         setDefinitionMatches([]);
     }, []);
@@ -588,6 +592,7 @@ export function useAppState(): IAppContext {
         binFileName,
         exportBtp,
         markModified,
+        markSaved,
         loadDefinitionJson,
         setDefinition,
         setExternalDefinition,

@@ -1,7 +1,8 @@
-import {BaseService} from "./base";
+import {BaseService, getCurrentLocalStorage} from "./base";
 import {DefinitionIndexEntry} from "../lib/definitionLoader.ts";
 import type {Definition} from "../types";
 import {PatchIndexEntry} from "../components/PatchManager.tsx";
+import {LoginState} from "./auth.ts";
 
 export interface TuningUploadOptions {
     name: string;
@@ -129,6 +130,13 @@ export class TuningService extends BaseService {
         return BaseService.getJSON("tuning/bins");
     }
 
+    static async getBin(id: string): Promise<ArrayBuffer> {
+        const res = await BaseService.request("tuning/bin", {id}, {
+            headers: {}
+        });
+        return res.arrayBuffer();
+    }
+
     static async listLogs(): Promise<TuningFileEntry[]> {
         return BaseService.getJSON("tuning/logs");
     }
@@ -140,12 +148,15 @@ export class TuningService extends BaseService {
             throw new Error("Only .bin files are allowed");
         }
 
+        const AuthToken = getCurrentLocalStorage<LoginState | null>("login", null)?.token ?? "";
+
         return new Promise<TuningUploadResult>((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             const totalBytes = data.size;
 
             xhr.open("POST", BaseService.buildRequestUrl("tuning/uploadBin", {name}));
             xhr.setRequestHeader("Content-Type", "application/octet-stream");
+            xhr.setRequestHeader("Authorization", `Bearer ${AuthToken}`);
 
             xhr.upload.onprogress = (event) => {
                 if (event.lengthComputable) {
