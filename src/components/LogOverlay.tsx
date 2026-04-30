@@ -90,6 +90,74 @@ export function LogOverlay({param, xAxisData, yAxisData}: LogOverlayProps) {
         };
     }, [param.name, xAxisData.length, yAxisData.length]);
 
+    // Precompute the full trail once per geometry/log change: the entire SVG `d`
+    // string plus a cumulative arc-length per row. Cursor scrubbing then only
+    // updates `stroke-dashoffset`, which is cheap (no path re-emit, no diff).
+    const trail = useMemo<{d: string; cumLen: Float64Array; totalLen: number} | null>(() => {
+        if (!log || log.rows.length === 0 || cellRects.size === 0) return null;
+        if (xAxisData.length === 0 || yAxisData.length === 0) return null;
+        const cols = Math.max(1, xAxisData.length);
+        const rows = Math.max(1, yAxisData.length);
+
+        const parts: string[] = [];
+        const cumLen = new Float64Array(log.rows.length);
+        let pen = false;
+        let prevX = 0, prevY = 0;
+        let runningLen = 0;
+
+        for (let i = 0; i < log.rows.length; i++) {
+            const row = log.rows[i];
+            const {x, y} = resolveParamValues(param, log.headers, row);
+            if (x === null || y === null) { pen = false; cumLen[i] = runningLen; continue; }
+            const fc = fractionalIndex(xAxisData, x);
+            const fr = fractionalIndex(yAxisData, y);
+            if (fc === null || fr === null) { pen = false; cumLen[i] = runningLen; continue; }
+            const fcC = Math.max(0, Math.min(fc, cols - 1));
+            const frC = Math.max(0, Math.min(fr, rows - 1));
+            const cFloor = Math.floor(fcC);
+            const cCeil = Math.min(cols - 1, cFloor + 1);
+            const cT = fcC - cFloor;
+            const rFloor = Math.floor(frC);
+            const rCeil = Math.min(rows - 1, rFloor + 1);
+            const rT = frC - rFloor;
+            const tl = cellRects.get(`${rFloor},${cFloor}`);
+            const tr = cellRects.get(`${rFloor},${cCeil}`);
+            const bl = cellRects.get(`${rCeil},${cFloor}`);
+            const br = cellRects.get(`${rCeil},${cCeil}`);
+            if (!tl || !tr || !bl || !br) { pen = false; cumLen[i] = runningLen; continue; }
+            const cx = (1 - cT) * (1 - rT) * (tl.left + tl.width / 2)
+                + cT * (1 - rT) * (tr.left + tr.width / 2)
+                + (1 - cT) * rT * (bl.left + bl.width / 2)
+                + cT * rT * (br.left + br.width / 2);
+            const cy = (1 - cT) * (1 - rT) * (tl.top + tl.height / 2)
+                + cT * (1 - rT) * (tr.top + tr.height / 2)
+                + (1 - cT) * rT * (bl.top + bl.height / 2)
+                + cT * rT * (br.top + br.height / 2);
+
+            if (pen) {
+                runningLen += Math.hypot(cx - prevX, cy - prevY);
+                parts.push('L' + cx.toFixed(1) + ' ' + cy.toFixed(1));
+            } else {
+                parts.push('M' + cx.toFixed(1) + ' ' + cy.toFixed(1));
+                pen = true;
+            }
+            prevX = cx;
+            prevY = cy;
+            cumLen[i] = runningLen;
+        }
+
+        if (parts.length === 0 || runningLen === 0) return null;
+        return {d: parts.join(' '), cumLen, totalLen: runningLen};
+    }, [log, cellRects, param, xAxisData, yAxisData]);
+
+    // Cheap per-frame: how much of the precomputed trail to reveal.
+    const trailDashOffset = useMemo<number | null>(() => {
+        if (!trail) return null;
+        const i = Math.min(trail.cumLen.length - 1, Math.max(0, Math.floor(index)));
+        const len = trail.cumLen[i] ?? 0;
+        return Math.max(0, trail.totalLen - len);
+    }, [trail, index]);
+
     const circle = useMemo(() => {
         if (!log || log.rows.length === 0 || cellRects.size === 0) return null;
         const row = interpolateRow(log.rows, index);
@@ -165,7 +233,7 @@ export function LogOverlay({param, xAxisData, yAxisData}: LogOverlayProps) {
             class="absolute inset-0 pointer-events-none"
             style={{zIndex: 5}}
         >
-            {circle && (
+            {(circle || trail) && (
                 <svg
                     class="absolute inset-0"
                     width={overlaySize.width}
@@ -179,6 +247,19 @@ export function LogOverlay({param, xAxisData, yAxisData}: LogOverlayProps) {
                             <stop offset="100%" stopColor="#b91c1c" stopOpacity="0"/>
                         </radialGradient>
                     </defs>
+                    {trail && trailDashOffset !== null && (
+                        <path
+                            d={trail.d}
+                            fill="none"
+                            stroke="#b91c1c"
+                            strokeOpacity={0.55}
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeDasharray={trail.totalLen}
+                            strokeDashoffset={trailDashOffset}
+                        />
+                    )}
                     {circle.band === 'v' ? (
                         <rect
                             x={circle.cx - circle.radius}

@@ -1,10 +1,29 @@
 import {useState, useEffect, useMemo, useRef, useCallback} from 'preact/hooks';
+import type {ComponentChildren} from 'preact';
 import {track} from '../lib/track';
 import type {IDefinitionParameter} from '../types';
 import {LogOverlay} from './LogOverlay';
 import {useLogContext} from '../context/log';
 import {resolveParamValues, fractionalIndex} from '../lib/logMapping';
 import {interpolateRow} from '../lib/csvLog';
+
+// Isolates the live log-cursor subscription so the heavy ValueEditor body does
+// not re-render on every playback tick. Only this leaf re-renders, then passes
+// the resolved (x, y) marker into its children render-prop.
+function LiveLogMarker({param, children}: {
+    param: IDefinitionParameter;
+    children: (marker: {x: number | null; y: number | null}) => ComponentChildren;
+}) {
+    const {log: liveLog, index: liveIndex} = useLogContext();
+    const marker = useMemo(() => {
+        if (!liveLog || liveLog.rows.length === 0) return {x: null, y: null};
+        const row = interpolateRow(liveLog.rows, liveIndex);
+        if (!row) return {x: null, y: null};
+        const {x, y} = resolveParamValues(param, liveLog.headers, row);
+        return {x, y};
+    }, [liveLog, liveIndex, param]);
+    return <>{children(marker)}</>;
+}
 import {
     formatValue,
     getConsistentDecimals,
@@ -1554,16 +1573,6 @@ function TableEditor({
     const [yAxisData, setYAxisData] = useState<number[]>(table.yAxis);
     const [hoveredSurfacePoint, setHoveredSurfacePoint] = useState<{ row: number; col: number } | null>(null);
 
-    // Live log marker values (mapped from the current, possibly interpolated, log row)
-    const {log: liveLog, index: liveIndex} = useLogContext();
-    const logMarker = useMemo(() => {
-        if (!liveLog || liveLog.rows.length === 0) return {x: null, y: null};
-        const row = interpolateRow(liveLog.rows, liveIndex);
-        if (!row) return {x: null, y: null};
-        const {x, y} = resolveParamValues(param, liveLog.headers, row);
-        return {x, y};
-    }, [liveLog, liveIndex, param]);
-
     // Selection state
     const [selection, setSelection] = useState<Selection | null>(null);
     const [isSelecting, setIsSelecting] = useState(false);
@@ -2395,43 +2404,51 @@ function TableEditor({
 
             {/* 2D Graph for CURVE type */}
             {param.type === 'CURVE' && tableData.length > 0 && tableData[0] && (
-                <CurveGraph
-                    xData={xAxisData.length > 0 ? xAxisData : Array.from({length: tableData[0].length}, (_, i) => i)}
-                    yData={tableData[0]}
-                    originalYData={originalTableData ? originalTableData[0] : null}
-                    originalXData={originalXAxis}
-                    compareYData={compareTableData ? compareTableData[0] : null}
-                    compareXData={compareXAxis}
-                    xUnit={param.xAxis?.unit || 'X'}
-                    yUnit={param.unit || 'Y'}
-                    onPointChange={handleCurvePointPreview}
-                    onPointCommit={handleCurvePointCommit}
-                    logX={logMarker.x}
-                />
+                <LiveLogMarker param={param}>
+                    {(marker) => (
+                        <CurveGraph
+                            xData={xAxisData.length > 0 ? xAxisData : Array.from({length: tableData[0].length}, (_, i) => i)}
+                            yData={tableData[0]}
+                            originalYData={originalTableData ? originalTableData[0] : null}
+                            originalXData={originalXAxis}
+                            compareYData={compareTableData ? compareTableData[0] : null}
+                            compareXData={compareXAxis}
+                            xUnit={param.xAxis?.unit || 'X'}
+                            yUnit={param.unit || 'Y'}
+                            onPointChange={handleCurvePointPreview}
+                            onPointCommit={handleCurvePointCommit}
+                            logX={marker.x}
+                        />
+                    )}
+                </LiveLogMarker>
             )}
 
             {/* 3D Graph for MAP type */}
             {param.type === 'MAP' && tableData.length > 0 && tableData[0] && (
-                <SurfaceGraph
-                    xData={xAxisData.length > 0 ? xAxisData : Array.from({length: tableData[0].length}, (_, i) => i)}
-                    yData={yAxisData.length > 0 ? yAxisData : Array.from({length: tableData.length}, (_, i) => i)}
-                    zData={tableData}
-                    originalZData={originalTableData}
-                    originalXData={originalXAxis}
-                    originalYData={originalYAxis}
-                    compareZData={compareTableData}
-                    compareXData={compareXAxis}
-                    compareYData={compareYAxis}
-                    xUnit={param.xAxis?.unit || 'X'}
-                    yUnit={param.yAxis?.unit || 'Y'}
-                    zUnit={param.unit || 'Z'}
-                    onPointChange={handleSurfacePointPreview}
-                    onPointCommit={handleSurfacePointCommit}
-                    onPointHover={(row, col) => setHoveredSurfacePoint({row, col})}
-                    onPointLeave={() => setHoveredSurfacePoint(null)}
-                    logX={logMarker.x}
-                    logY={logMarker.y}
-                />
+                <LiveLogMarker param={param}>
+                    {(marker) => (
+                        <SurfaceGraph
+                            xData={xAxisData.length > 0 ? xAxisData : Array.from({length: tableData[0].length}, (_, i) => i)}
+                            yData={yAxisData.length > 0 ? yAxisData : Array.from({length: tableData.length}, (_, i) => i)}
+                            zData={tableData}
+                            originalZData={originalTableData}
+                            originalXData={originalXAxis}
+                            originalYData={originalYAxis}
+                            compareZData={compareTableData}
+                            compareXData={compareXAxis}
+                            compareYData={compareYAxis}
+                            xUnit={param.xAxis?.unit || 'X'}
+                            yUnit={param.yAxis?.unit || 'Y'}
+                            zUnit={param.unit || 'Z'}
+                            onPointChange={handleSurfacePointPreview}
+                            onPointCommit={handleSurfacePointCommit}
+                            onPointHover={(row, col) => setHoveredSurfacePoint({row, col})}
+                            onPointLeave={() => setHoveredSurfacePoint(null)}
+                            logX={marker.x}
+                            logY={marker.y}
+                        />
+                    )}
+                </LiveLogMarker>
             )}
         </div>
     );
