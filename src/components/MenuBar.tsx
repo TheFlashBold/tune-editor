@@ -54,6 +54,7 @@ export function MenuBar({
     const [cloudBinError, setCloudBinError] = useState<string | null>(null);
     const [unlocks, setUnlocks] = useState<TuningUnlock[] | null>(null);
     const cloudUnlocked = !!unlocks?.some(u => CLOUD_UNLOCK_PRODUCTS.includes(u.product));
+    const [downloadingBin, setDownloadingBin] = useState<{name: string; loaded: number; total: number} | null>(null);
 
     // Validate stored token on mount
     useEffect(() => {
@@ -117,15 +118,20 @@ export function MenuBar({
     }, [loginState, cloudUnlocked]);
 
     const handleOpenCloudBin = useCallback(async (entry: TuningFileEntry) => {
+        setShowFileMenu(false);
+        setShowMobileMenu(false);
+        setDownloadingBin({name: entry.name, loaded: 0, total: 0});
         try {
-            const buffer = await TuningService.getBin(entry.id);
+            const buffer = await TuningService.getBin(entry.id, (loaded, total) => {
+                setDownloadingBin({name: entry.name, loaded, total});
+            });
             const file = new File([buffer], entry.name, {type: 'application/octet-stream'});
             await ctx.loadBin(file);
-            setShowFileMenu(false);
-            setShowMobileMenu(false);
         } catch (err) {
             console.error('Failed to load cloud bin:', err);
             alert(`Failed to load bin: ${err instanceof Error ? err.message : String(err)}`);
+        } finally {
+            setDownloadingBin(null);
         }
     }, [ctx]);
 
@@ -786,6 +792,39 @@ export function MenuBar({
                             )}
                             {uploadError && (
                                 <div class="text-xs text-red-500">{uploadError}</div>
+                            )}
+                        </div>
+                    </Modal>
+                );
+            })()}
+
+            {/* Cloud Bin Download Progress */}
+            {downloadingBin && (() => {
+                const {name, loaded, total} = downloadingBin;
+                const percent = total > 0 ? (loaded / total) * 100 : 0;
+                const fmt = (n: number) => n >= 1024 * 1024 ? `${(n / (1024 * 1024)).toFixed(2)} MB` : `${(n / 1024).toFixed(0)} KB`;
+                return (
+                    <Modal title="Loading from Cloud" onClose={() => {/* not cancelable */}} width="sm">
+                        <div class="space-y-3 py-2">
+                            <div class="text-sm font-mono truncate" title={name}>{name}</div>
+                            {total > 0 ? (
+                                <>
+                                    <div class="h-2 bg-zinc-200 dark:bg-zinc-700 rounded overflow-hidden">
+                                        <div class="h-full bg-blue-500 transition-all" style={{width: `${percent}%`}}/>
+                                    </div>
+                                    <div class="flex justify-between text-xs text-zinc-500">
+                                        <span>{fmt(loaded)} / {fmt(total)}</span>
+                                        <span>{percent.toFixed(0)}%</span>
+                                    </div>
+                                </>
+                            ) : (
+                                <div class="flex items-center gap-2 text-sm text-zinc-500">
+                                    <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
+                                        <path d="M4 12a8 8 0 018-8" stroke="currentColor" stroke-width="4" stroke-linecap="round" class="opacity-75"/>
+                                    </svg>
+                                    <span>{loaded > 0 ? `${fmt(loaded)} downloaded` : 'Connecting…'}</span>
+                                </div>
                             )}
                         </div>
                     </Modal>
