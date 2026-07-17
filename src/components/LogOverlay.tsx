@@ -3,6 +3,7 @@ import {useLogContext} from '../context/log';
 import {resolveParamValues, fractionalIndex} from '../lib/logMapping';
 import {interpolateRow} from '../lib/csvLog';
 import type {IDefinitionParameter} from '../types';
+import {paramId} from '../lib/paramIdentity';
 
 interface LogOverlayProps {
     param: IDefinitionParameter;
@@ -25,6 +26,8 @@ interface CellRect {
 export function LogOverlay({param, xAxisData, yAxisData}: LogOverlayProps) {
     const {log, index} = useLogContext();
     const rootRef = useRef<HTMLDivElement>(null);
+    const technicalId = paramId(param);
+    const gradientId = `log-fade-${technicalId.replace(/[^a-zA-Z0-9_-]/g, '-')}`;
 
     // Keyed by "r,c"
     const [cellRects, setCellRects] = useState<Map<string, CellRect>>(new Map());
@@ -33,7 +36,7 @@ export function LogOverlay({param, xAxisData, yAxisData}: LogOverlayProps) {
     // Drop stale geometry immediately whenever the parameter or axis dimensions change.
     useEffect(() => {
         setCellRects(new Map());
-    }, [param.name, xAxisData.length, yAxisData.length, param.rows, param.cols]);
+    }, [technicalId, xAxisData.length, yAxisData.length, param.rows, param.cols]);
 
     // Measure cell positions relative to the overlay root.
     useEffect(() => {
@@ -88,7 +91,7 @@ export function LogOverlay({param, xAxisData, yAxisData}: LogOverlayProps) {
             window.removeEventListener('resize', onScroll);
             scrollListeners.forEach(el => el.removeEventListener('scroll', onScroll));
         };
-    }, [param.name, xAxisData.length, yAxisData.length]);
+    }, [technicalId, xAxisData.length, yAxisData.length]);
 
     // Precompute the full trail once per geometry/log change: the entire SVG `d`
     // string plus a cumulative arc-length per row. Cursor scrubbing then only
@@ -241,7 +244,7 @@ export function LogOverlay({param, xAxisData, yAxisData}: LogOverlayProps) {
                     style={{overflow: 'visible'}}
                 >
                     <defs>
-                        <radialGradient id={`log-fade-${param.name}`} cx="50%" cy="50%" r="50%">
+                        <radialGradient id={gradientId} cx="50%" cy="50%" r="50%">
                             <stop offset="0%" stopColor="#b91c1c" stopOpacity="0.95"/>
                             <stop offset="40%" stopColor="#b91c1c" stopOpacity="0.55"/>
                             <stop offset="100%" stopColor="#b91c1c" stopOpacity="0"/>
@@ -266,7 +269,7 @@ export function LogOverlay({param, xAxisData, yAxisData}: LogOverlayProps) {
                             y={0}
                             width={circle.radius * 2}
                             height={overlaySize.height}
-                            fill={`url(#log-fade-${param.name})`}
+                            fill={`url(#${gradientId})`}
                             opacity={0.7}
                         />
                     ) : circle.band === 'h' ? (
@@ -275,7 +278,7 @@ export function LogOverlay({param, xAxisData, yAxisData}: LogOverlayProps) {
                             y={circle.cy - circle.radius}
                             width={overlaySize.width}
                             height={circle.radius * 2}
-                            fill={`url(#log-fade-${param.name})`}
+                            fill={`url(#${gradientId})`}
                             opacity={0.7}
                         />
                     ) : (
@@ -284,7 +287,7 @@ export function LogOverlay({param, xAxisData, yAxisData}: LogOverlayProps) {
                                 cx={circle.cx}
                                 cy={circle.cy}
                                 r={circle.radius * 1.3}
-                                fill={`url(#log-fade-${param.name})`}
+                                fill={`url(#${gradientId})`}
                             >
                                 <animate attributeName="r"
                                          values={`${circle.radius};${circle.radius * 1.45};${circle.radius}`}

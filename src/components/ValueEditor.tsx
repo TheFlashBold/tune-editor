@@ -6,6 +6,7 @@ import {LogOverlay} from './LogOverlay';
 import {useLogContext} from '../context/log';
 import {resolveParamValues, fractionalIndex} from '../lib/logMapping';
 import {interpolateRow} from '../lib/csvLog';
+import {paramDisplayName, paramId} from '../lib/paramIdentity';
 
 // Isolates the live log-cursor subscription so the heavy ValueEditor body does
 // not re-render on every playback tick. Only this leaf re-renders, then passes
@@ -69,15 +70,15 @@ export function ValueEditor(props: IValueEditorProps) {
 
     useEffect(() => {
         tracked.current = false;
-    }, [param.name]);
+    }, [param.id, param.name]);
 
     const trackEdit = useCallback(() => {
         if (!tracked.current) {
             tracked.current = true;
             const type = param.type === 'VALUE' ? 'Scalar' : param.type === 'CURVE' ? '1D' : '2D';
-            track('Edit Parameter', {type, name: param.name});
+            track('Edit Parameter', {type, name: paramId(param)});
         }
-    }, [param.type, param.name]);
+    }, [param.type, param.id, param.name]);
 
     if (param.type === 'VALUE' && props.scalar) {
         return <ScalarEditor {...props} scalar={props.scalar} trackEdit={trackEdit}/>;
@@ -115,10 +116,12 @@ function ScalarEditor({
     const hasCompareDiff = compareValue !== null && Math.abs(compareValue - value) > 0.0001;
     const showOriginal = showOriginalVal;
     const showCompare = showCompareVal;
-    const isBitmask = !!param.bitLabels || (param.dataType === 'UBYTE' && (/bitmask/i.test(param.name) || /bitmask/i.test(param.description)));
+    const technicalId = paramId(param);
+    const labelText = `${technicalId} ${param.name} ${param.description || ''} ${param.customName || ''}`;
+    const isBitmask = !!param.bitLabels || (param.dataType === 'UBYTE' && /bitmask/i.test(labelText));
     const isEnum = !!param.enumLabels;
     const isToggle = !isEnum && param.dataType === 'UBYTE' && param.min === 0 && param.max === 1 && !isBitmask
-        && /\b(enable|disable|activation switch)\b/i.test(param.description || param.customName || param.name);
+        && /\b(enable|disable|activation switch)\b/i.test(labelText);
 
     useEffect(() => {
         setValue(scalar.value);
@@ -160,9 +163,9 @@ function ScalarEditor({
                 <div class="flex items-start justify-between mb-4">
                     <div>
                         <h2 class="text-lg font-semibold">
-                            {param.customName || param.description || param.name}
+                            {paramDisplayName(param)}
                         </h2>
-                        <code class="text-xs text-zinc-500">{param.name}</code>
+                        <code class="text-xs text-zinc-500">{paramId(param)}</code>
                     </div>
                     {(originalValue !== null || compareValue !== null) && (
                         <div class="flex gap-x-2">
@@ -171,7 +174,7 @@ function ScalarEditor({
                                     onClick={() => {
                                         onRevert();
                                         setValue(originalValue!);
-                                        track('Revert Parameter', {type: 'Scalar', name: param.name});
+                                        track('Revert Parameter', {type: 'Scalar', name: paramId(param)});
                                     }}
                                     class="px-3 py-1.5 text-sm rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-600"
                                 >
@@ -2084,9 +2087,9 @@ function TableEditor({
                 <div class="flex items-start justify-between mb-4">
                     <div>
                         <h2 class="text-lg font-semibold">
-                            {param.customName || param.description || param.name}
+                            {paramDisplayName(param)}
                         </h2>
-                        <code class="text-xs text-zinc-500">{param.name}</code>
+                        <code class="text-xs text-zinc-500">{paramId(param)}</code>
                     </div>
                     <div class="flex gap-x-2">
                         {hasChanged && onRevert &&
@@ -2098,7 +2101,7 @@ function TableEditor({
                                     if (originalXAxis) setXAxisData([...originalXAxis]);
                                     if (originalYAxis) setYAxisData([...originalYAxis]);
                                     const type = param.type === 'CURVE' ? '1D' : '2D';
-                                    track('Revert Parameter', {type, name: param.name});
+                                    track('Revert Parameter', {type, name: paramId(param)});
                                 }}>
                                 Revert
                             </button>}

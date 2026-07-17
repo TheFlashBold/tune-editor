@@ -1,6 +1,7 @@
 import {useState, useMemo, useEffect, useCallback, useRef} from 'preact/hooks';
 import type {IDefinitionParameter} from '../types';
 import {Fragment} from "preact";
+import {paramDisplayName, paramId, paramSortLabel} from '../lib/paramIdentity';
 
 /**
  * Score how well `text` matches `pattern`. Higher = better match.
@@ -147,17 +148,16 @@ function TreeNodeView({
                         ))}
 
                     {[...node.parameters]
-                        .sort((a, b) => (a.customName || a.description || a.name).localeCompare(b.customName || b.description || b.name))
+                        .sort((a, b) => paramSortLabel(a).localeCompare(paramSortLabel(b)))
                         .map(param => {
-                            // Use address as unique identifier (name + description can be duplicated)
-                            const paramId = `${param.address}`;
-                            const isSelected = selectedParam?.address === param.address;
+                            const technicalId = paramId(param);
+                            const isSelected = selectedParam ? paramId(selectedParam) === technicalId : false;
                             const showOriginalMarker = originalDiffAddresses?.has(param.address) ?? false;
                             const showCrossCompareMarker = crossCompareDiffAddresses?.has(param.address) ?? false;
                             return (
                                 <div
-                                    key={paramId}
-                                    data-param={paramId}
+                                    key={technicalId}
+                                    data-param={technicalId}
                                     class={`flex items-center gap-1.5 px-2 py-1 cursor-pointer pl-6 ${
                                         isSelected ? 'bg-blue-500 text-white' : 'hover:bg-zinc-200 dark:hover:bg-zinc-700'
                                     }`}
@@ -171,8 +171,8 @@ function TreeNodeView({
                                         }`}>
                                         {param.type[0]}
                                     </span>
-                                    <span class="min-w-0 flex flex-1 items-center gap-0.5" title={param.name}>
-                                        <span class="truncate min-w-0">{param.customName || param.description || param.name}</span>
+                                    <span class="min-w-0 flex flex-1 items-center gap-0.5" title={technicalId}>
+                                        <span class="truncate min-w-0">{paramDisplayName(param)}</span>
                                         <div class="grow" />
                                         <span class="flex items-center gap-1.5 shrink-0">
                                             {showOriginalMarker && (
@@ -212,6 +212,7 @@ export function CategoryTree({parameters, onSelect, selectedParam, originalDiffA
         if (!debouncedFilter) return parameters;
 
         return parameters.filter((p) =>
+            matchScore(p.id || '', debouncedFilter) > 0 ||
             matchScore(p.name, debouncedFilter) > 0 ||
             matchScore(p.description, debouncedFilter) > 0 ||
             (p.customName && matchScore(p.customName, debouncedFilter) > 0) ||
@@ -243,7 +244,7 @@ export function CategoryTree({parameters, onSelect, selectedParam, originalDiffA
                 collect(child, false);
             }
             const sortedParams = [...node.parameters]
-                .sort((a, b) => (a.customName || a.description || a.name).localeCompare(b.customName || b.description || b.name));
+                .sort((a, b) => paramSortLabel(a).localeCompare(paramSortLabel(b)));
             result.push(...sortedParams);
         };
         if (hasPatchSection) collect(patchTree, true);
@@ -281,7 +282,7 @@ export function CategoryTree({parameters, onSelect, selectedParam, originalDiffA
 
         e.preventDefault();
         const currentIdx = selectedParam
-            ? visibleParams.findIndex(p => p.address === selectedParam.address)
+            ? visibleParams.findIndex(p => paramId(p) === paramId(selectedParam))
             : -1;
 
         let nextIdx: number;
@@ -304,9 +305,8 @@ export function CategoryTree({parameters, onSelect, selectedParam, originalDiffA
     // Scroll selected parameter into view
     useEffect(() => {
         if (!selectedParam || !scrollContainerRef.current) return;
-        // Find element by address (unique identifier)
         const elements = scrollContainerRef.current.querySelectorAll('[data-param]');
-        const el = Array.from(elements).find(e => e.getAttribute('data-param') === String(selectedParam.address));
+        const el = Array.from(elements).find(e => e.getAttribute('data-param') === paramId(selectedParam));
         el?.scrollIntoView({block: 'nearest', behavior: 'smooth'});
     }, [selectedParam]);
 

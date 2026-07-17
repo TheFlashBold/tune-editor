@@ -1,4 +1,5 @@
 import type {IDefinitionParameter} from '../types';
+import {paramId} from './paramIdentity';
 
 /**
  * A log row keyed by CSV header. `transform` receives this so it can reference
@@ -225,14 +226,15 @@ export function resolveParamValues(
 ): LogValues {
     const out: LogValues = {x: null, y: null, value: null};
     const rowRecord = buildRowRecord(headers, row);
+    const technicalId = paramId(param);
     if (param.xAxis) {
-        out.x = lookupValue({unit: param.xAxis.unit, name: 'x', paramName: param.name}, headers, row, rowRecord);
+        out.x = lookupValue({unit: param.xAxis.unit, name: 'x', paramName: technicalId}, headers, row, rowRecord);
     }
     if (param.yAxis) {
-        out.y = lookupValue({unit: param.yAxis.unit, name: 'y', paramName: param.name}, headers, row, rowRecord);
+        out.y = lookupValue({unit: param.yAxis.unit, name: 'y', paramName: technicalId}, headers, row, rowRecord);
     }
     if (param.type === 'VALUE') {
-        out.value = lookupValue({unit: param.unit, paramName: param.name}, headers, row, rowRecord);
+        out.value = lookupValue({unit: param.unit, paramName: technicalId}, headers, row, rowRecord);
     }
     return out;
 }

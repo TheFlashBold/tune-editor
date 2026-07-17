@@ -292,7 +292,8 @@ export class A2LParser {
       const { factor, offset, unit } = this.getConversion(char.compuMethod);
 
       const param: IDefinitionParameter = {
-        name: char.name,
+        id: char.name,
+        name: char.description || char.name,
         description: char.description,
         address: char.address,
         type: char.type === 'VAL_BLK' ? 'CURVE' : char.type,

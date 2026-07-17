@@ -3,7 +3,7 @@ import {TuningService} from '../../services/tuning';
 
 /** Set cells to a value where xAxis >= minX (for CURVEs/MAPs with rpm axis) */
 function fillAboveX(ctx: WizardContext, paramName: string, minX: number, value: number): TableCellWrite[] | null {
-    const param = ctx.params.find(p => p.name.toLowerCase() === paramName.toLowerCase());
+    const param = ctx.findParam(paramName);
     if (!param || (param.type !== 'MAP' && param.type !== 'CURVE')) return null;
     const rows = param.rows || 1;
     const cols = param.cols || 1;
@@ -22,7 +22,7 @@ function fillAboveX(ctx: WizardContext, paramName: string, minX: number, value: 
 
 /** Add a fixed offset to all cells, reading current values */
 function offsetTable(ctx: WizardContext, paramName: string, offset: number, maxValue?: number): TableCellWrite[] | null {
-    const param = ctx.params.find(p => p.name.toLowerCase() === paramName.toLowerCase());
+    const param = ctx.findParam(paramName);
     if (!param || (param.type !== 'MAP' && param.type !== 'CURVE')) return null;
     const data = ctx.readTable(param);
     const cells: TableCellWrite[] = [];
@@ -52,7 +52,7 @@ function offsetTableSloped(
     baseXAxis?: number[],
     baseYAxis?: number[],
 ): TableCellWrite[] | null {
-    const param = ctx.params.find(p => p.name.toLowerCase() === paramName.toLowerCase());
+    const param = ctx.findParam(paramName);
     if (!param || (param.type !== 'MAP' && param.type !== 'CURVE')) return null;
     const data = baseData ?? ctx.readTable(param);
     const rows = data.length;
@@ -114,7 +114,7 @@ function scaleTable(
     factor: number,
     baseData?: number[][],
 ): TableCellWrite[] | null {
-    const param = ctx.params.find(p => p.name.toLowerCase() === paramName.toLowerCase());
+    const param = ctx.findParam(paramName);
     if (!param || (param.type !== 'MAP' && param.type !== 'CURVE')) return null;
     const data = baseData ?? ctx.readTable(param);
     const cells: TableCellWrite[] = [];

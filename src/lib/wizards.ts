@@ -1,6 +1,6 @@
 /**
  * Wizard system — version-independent tuning presets as code.
- * Each wizard references parameters by normalized name.
+ * Each wizard references parameters by technical id. Legacy definitions fall back to `name`.
  * Logic lives in TypeScript, not JSON.
  */
 
@@ -20,7 +20,7 @@ export interface WizardControl {
     unit?: string;
     group?: string;
     default?: number;
-    /** If set, read initial value from this param */
+    /** If set, read initial value from this param id */
     readFrom?: string;
 }
 
@@ -43,11 +43,11 @@ export interface AxisWrite {
 }
 
 export interface WizardApplyResult {
-    /** param name -> scalar value */
+    /** param id -> scalar value */
     scalars: Record<string, number>;
-    /** param name -> fill all cells with this value */
+    /** param id -> fill all cells with this value */
     tableFills: Record<string, number>;
-    /** param name -> write specific cells only */
+    /** param id -> write specific cells only */
     tableCells?: Record<string, TableCellWrite[]>;
     /** Axis breakpoint writes */
     axisWrites?: AxisWrite[];
@@ -56,8 +56,8 @@ export interface WizardApplyResult {
 /** Context passed to apply() for reading current bin state */
 export interface WizardContext {
     params: IDefinitionParameter[];
-    /** Find a parameter by normalized name (case-insensitive) */
-    findParam: (name: string) => IDefinitionParameter | undefined;
+    /** Find a parameter by technical id (case-insensitive; legacy name fallback) */
+    findParam: (id: string) => IDefinitionParameter | undefined;
     /** Read current scaled table data for a parameter */
     readTable: (param: IDefinitionParameter) => number[][];
     /** Read current scaled axis data */
@@ -81,7 +81,7 @@ export interface WizardDef {
     price?: string;
     /** Optional categories shown in the wizard list */
     categories?: string[];
-    /** Parameter names that must exist in the definition for this wizard to work */
+    /** Parameter ids that must exist in the definition for this wizard to work */
     requiredParams?: string[];
     controls: WizardControl[];
     presets: WizardPreset[];
