@@ -5,7 +5,6 @@ import type {Definition, IDefinitionParameter} from '../types';
 import {parseBtp, verifyCrc32, checkPatchBlockAware, applyPatch, removePatch, parseEcuInfo, getCalFileOffset} from '../lib/btpParser';
 import type {PatchCheckResult, PatchStatus} from '../lib/btpParser';
 import {TuningService} from '../services/tuning';
-import {paramId} from '../lib/paramIdentity';
 
 interface PatchIndexEntry {
     name: string;
@@ -72,7 +71,7 @@ function PatchRow({result, selected, onToggle}: {
 }
 
 export function mergeDefinitions(baseDef: Definition, patchDef: Definition, _patchName?: string): Definition {
-    const existingIds = new Set(baseDef.parameters.map(p => paramId(p).toLowerCase()));
+    const existingNames = new Set(baseDef.parameters.map(p => p.name));
 
     // Rebase patch addresses: patch defs may use absolute file offsets (baseAddress=0)
     // while base def uses CAL-relative addresses with baseAddress as calOffset
@@ -87,13 +86,10 @@ export function mergeDefinitions(baseDef: Definition, patchDef: Definition, _pat
     const patchParams: IDefinitionParameter[] = patchDef.parameters.map(p => {
         // Prefix categories with "Patch"
         const categories = ['Patch', ...p.categories];
-        // Handle technical id collisions.
-        const sourceId = paramId(p);
-        const hasCollision = existingIds.has(sourceId.toLowerCase());
-        const id = hasCollision ? `${sourceId}__patch` : p.id;
-        const name = hasCollision ? `${p.name} (Patch)` : p.name;
+        // Handle name collision
+        const name = existingNames.has(p.name) ? `${p.name} (Patch)` : p.name;
         const address = rebase ? p.address - rebase : p.address;
-        return {...p, id, name, categories, address, xAxis: rebaseAxis(p.xAxis), yAxis: rebaseAxis(p.yAxis)};
+        return {...p, name, categories, address, xAxis: rebaseAxis(p.xAxis), yAxis: rebaseAxis(p.yAxis)};
     });
 
     return {

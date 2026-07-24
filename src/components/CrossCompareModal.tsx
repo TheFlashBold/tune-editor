@@ -1,6 +1,5 @@
 import {useAppContext} from '../context/app';
 import {formatValue} from '../lib/binUtils';
-import {paramDisplayName, paramId} from '../lib/paramIdentity';
 
 interface CrossCompareModalProps {
     onClose: () => void;
@@ -42,7 +41,7 @@ export function CrossCompareModal({onClose}: CrossCompareModalProps) {
                                             yAxis
                                         }) => (
                                 <div
-                                    key={paramId(param)}
+                                    key={param.name}
                                     className="p-3 bg-zinc-200 dark:bg-zinc-700 rounded"
                                 >
                                     <div
@@ -58,7 +57,7 @@ export function CrossCompareModal({onClose}: CrossCompareModalProps) {
                                         </span>
                                         <div className="flex flex-col">
                                             <span className="font-medium">
-                                                {paramDisplayName(param)}
+                                                {param.customName || param.name}
                                             </span>
                                             {param.description && (
                                                 <span className="text-xs text-zinc-500">{param.description}</span>

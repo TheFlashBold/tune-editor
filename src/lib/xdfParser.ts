@@ -277,13 +277,11 @@ export class XDFParser {
         const firstLine = (descLines[0] || '').trim();
         const isA2lId = firstLine && !firstLine.includes(' ') && (firstLine.includes('_') || firstLine.includes('['));
 
-        let id: string | undefined;
         let name: string;
         let description: string;
         if (isA2lId) {
-            id = firstLine;
-            name = title && title !== firstLine ? title : firstLine;
-            description = descLines.slice(1).join(' ').trim();
+            name = firstLine;
+            description = title !== firstLine ? title : '';
         } else {
             name = title;
             description = xdfDesc && xdfDesc !== title ? `${title} — ${xdfDesc}` : title;
@@ -316,7 +314,6 @@ export class XDFParser {
         const categories = this.resolveCategories(element);
 
         const param: IDefinitionParameter = {
-            id,
             name,
             description,
             address: zAxisData.address,
@@ -391,9 +388,8 @@ export class XDFParser {
         const firstLine = (descLines[0] || '').trim();
         const isA2lId = firstLine && !firstLine.includes(' ') && (firstLine.includes('_') || firstLine.includes('['));
 
-        const id = isA2lId ? firstLine : undefined;
-        const name = isA2lId ? (title && title !== firstLine ? title : firstLine) : title;
-        const description = isA2lId ? descLines.slice(1).join(' ').trim() : (xdfDesc && xdfDesc !== title ? `${title} — ${xdfDesc}` : title);
+        const name = isA2lId ? firstLine : title;
+        const description = isA2lId ? (title !== firstLine ? title : '') : (xdfDesc && xdfDesc !== title ? `${title} — ${xdfDesc}` : title);
 
         const embed = element.querySelector('EMBEDDEDDATA') || element.querySelector('embeddedData');
         if (!embed) return null;
@@ -417,7 +413,6 @@ export class XDFParser {
         const categories = this.resolveCategories(element);
 
         return {
-            id,
             name,
             description,
             address: address,

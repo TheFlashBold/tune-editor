@@ -18,7 +18,7 @@ export const fineKnockRetard: WizardDef = {
 
         // ip_fac_iga_dec_knk: fill every row with the multiplier pattern
         const cells: TableCellWrite[] = [];
-        const param = ctx.findParam('ip_fac_iga_dec_knk');
+        const param = ctx.params.find(p => p.name.toLowerCase() === 'ip_fac_iga_dec_knk');
         if (param) {
             const rows = param.rows || 1;
             const cols = param.cols || knockEnergyMultiplier.length;

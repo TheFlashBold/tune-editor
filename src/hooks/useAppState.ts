@@ -22,7 +22,6 @@ import {mergeDefinitions} from '../components/PatchManager';
 import {TuningService} from '../services/tuning';
 import {s19ToBinary, isS19File, hexToBinary, isHexFile} from '../lib/s19Parser';
 import type {IAppContext} from '../context/app';
-import {paramId} from '../lib/paramIdentity';
 
 async function parseFileData(file: File): Promise<{ data: Uint8Array; displayName: string }> {
     let data: Uint8Array;
@@ -473,14 +472,14 @@ export function useAppState(): IAppContext {
         const ccCalOffset = crossCompareBin.calOffset ?? 0;
         const ccBigEndian = ccDef.bigEndian ?? false;
 
-        // Build lookup of cross-compare params by technical id.
+        // Build lookup of cross-compare params by lowercase name
         const ccParamMap = new Map<string, IDefinitionParameter>();
         for (const p of ccDef.parameters) {
-            ccParamMap.set(paramId(p).toLowerCase(), p);
+            ccParamMap.set(p.name.toLowerCase(), p);
         }
 
         for (const param of definition.parameters) {
-            const ccParam = ccParamMap.get(paramId(param).toLowerCase());
+            const ccParam = ccParamMap.get(param.name.toLowerCase());
             if (!ccParam) continue;
 
             // For tables, dimensions must match

@@ -35,8 +35,6 @@ export interface AxisDefinition {
 }
 
 export interface IDefinitionParameter {
-    /** Technical calibration identifier. New definitions keep the ECU/A2L id here. */
-    id?: string;
     name: string;
     description: string;
     address: number;

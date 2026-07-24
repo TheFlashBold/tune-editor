@@ -21,7 +21,6 @@ import type {TuningUnlock} from '../services/tuning';
 import {WIZARDS} from '../lib/wizards/index';
 import type {WizardDef, WizardControl, WizardContext, WizardApplyResult} from '../lib/wizards';
 import type {IDefinitionParameter} from '../types';
-import {paramMatchesId} from '../lib/paramIdentity';
 
 interface Props {
     onClose: () => void;
@@ -31,7 +30,8 @@ const PREMIUM_PRODUCT_ID = 'prod_UKhla3Ezu7aakL';
 const PREMIUM_REF = 'tune_editor_premium';
 
 function findParam(params: IDefinitionParameter[], name: string): IDefinitionParameter | undefined {
-    return params.find(p => paramMatchesId(p, name));
+    const lower = name.toLowerCase();
+    return params.find(p => p.name.toLowerCase() === lower);
 }
 
 function buildRef(binData: Uint8Array): string {

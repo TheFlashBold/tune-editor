@@ -1,7 +1,6 @@
 import {useAppContext} from '../context/app';
 import {formatValue, writeParameterValue, writeTableCell, writeAxisValue} from '../lib/binUtils';
 import {track} from "../lib/track.ts";
-import {paramDisplayName, paramId} from '../lib/paramIdentity';
 
 interface ChangesModalProps {
     onClose: () => void;
@@ -39,7 +38,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                               yAxis
                                           }) => (
                                 <div
-                                    key={paramId(param)}
+                                    key={param.name}
                                     className="p-3 bg-zinc-200 dark:bg-zinc-700 rounded"
                                 >
                                     <div
@@ -55,7 +54,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                         </span>
                                         <div className="flex flex-col">
                                             <span className="font-medium">
-                                                {paramDisplayName(param)}
+                                                {param.customName || param.name}
                                             </span>
                                             {param.description && (
                                                 <span className="text-xs text-zinc-500">{param.description}</span>
@@ -76,7 +75,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                     if (!ctx.bin) return;
                                                     writeParameterValue(ctx.bin.data, param, originalValue as number, ctx.calOffset, ctx.bigEndian);
                                                     ctx.markModified();
-                                                    track('Revert Parameter', {type: param.type, name: paramId(param)});
+                                                    track('Revert Parameter', {type: param.type, name: param.name});
                                                 }}
                                                 className="ml-auto px-3 py-1 text-xs font-medium rounded bg-red-600/80 text-white hover:bg-red-500 cursor-pointer"
                                             >
@@ -228,7 +227,7 @@ export function ChangesModal({onClose}: ChangesModalProps) {
                                                             }
                                                         }
                                                         ctx.markModified();
-                                                        track('Revert Parameter', {type: param.type, name: paramId(param)});
+                                                        track('Revert Parameter', {type: param.type, name: param.name});
                                                     }}
                                                     className="px-3 py-1 text-xs font-medium rounded bg-red-600/80 text-white hover:bg-red-500 cursor-pointer"
                                                 >

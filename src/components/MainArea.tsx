@@ -11,7 +11,6 @@ import {
     readAxisData,
     writeAxisValue,
 } from '../lib/binUtils';
-import {paramId} from '../lib/paramIdentity';
 
 function readScalar(
     binData: Uint8Array,
@@ -74,8 +73,8 @@ export function MainArea() {
     const ccInfo = useMemo(() => {
         if (!ctx.crossCompareBin?.definition || !ctx.selectedParam) return null;
         const ccDef = ctx.crossCompareBin.definition;
-        const selectedId = paramId(ctx.selectedParam).toLowerCase();
-        const ccParam = ccDef.parameters.find(p => paramId(p).toLowerCase() === selectedId);
+        const selectedName = ctx.selectedParam.name.toLowerCase();
+        const ccParam = ccDef.parameters.find(p => p.name.toLowerCase() === selectedName);
         if (!ccParam) return null;
         if (ctx.selectedParam.type !== 'VALUE') {
             if ((ccParam.rows || 1) !== (ctx.selectedParam.rows || 1) ||
