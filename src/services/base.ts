@@ -39,7 +39,15 @@ export class BaseService {
     static buildRequestUrl(path: string, queryParams: GenericObject = {}): string {
         const searchParams = buildSearchParams(queryParams);
 
-        let base = "https://simos.app/api/";
+        const usesLegacyTuningAssets =
+            path === "tuning/definitions" ||
+            path.startsWith("tuning/definitions/") ||
+            path === "tuning/patches" ||
+            path.startsWith("tuning/patches/") ||
+            path.startsWith("tuning/patchDefinitions/");
+        const base = usesLegacyTuningAssets
+            ? "https://old.simos.app/api/"
+            : "https://simos.app/api/";
 
         return `${base}${path}?${searchParams.toString()}`;
     }
