@@ -3,8 +3,7 @@ import {track} from '../lib/track';
 import {DATA_TYPE_INFO, ILoadedBin} from '../types';
 import type {Definition, IDefinitionParameter, BinaryMode, CellDiff, AxisDiff, ParamDiff} from '../types';
 import type {PatchCheckResult} from '../lib/btpParser';
-import type {UnknownBinInfo} from '../context/app';
-import {parseBtp, verifyCrc32, checkPatchBlockAware, buildBtp, parseEcuInfo, getCalFileOffset} from '../lib/btpParser';
+import {buildBtp} from '../lib/btpParser';
 import {
     readParameterValue,
     readTableData,
@@ -12,14 +11,6 @@ import {
     addressToOffset,
     isCalOnly, readBoxCode, readEPK, readVersion,
 } from '../lib/binUtils';
-import {
-    loadDefinitionIndex,
-    loadDefinition,
-    findMatchingDefinition,
-    type DefinitionIndexEntry, findMatchingDefinitionByData,
-} from '../lib/definitionLoader';
-import {mergeDefinitions} from '../components/PatchManager';
-import {TuningService} from '../services/tuning';
 import {s19ToBinary, isS19File, hexToBinary, isHexFile} from '../lib/s19Parser';
 import type {IAppContext} from '../context/app';
 
@@ -56,13 +47,7 @@ export function useAppState(): IAppContext {
     const [detectedMode, setDetectedMode] = useState<BinaryMode | null>(null);
     const [calOffset, setCalOffset] = useState<number>(0);
     const [patchResults, setPatchResults] = useState<PatchCheckResult[]>([]);
-    const [loadingPatches, setLoadingPatches] = useState(false);
-    const [definitionMatches, setDefinitionMatches] = useState<{ entry: DefinitionIndexEntry; mode: BinaryMode }[]>([]);
-    const [allDefinitions, setAllDefinitions] = useState<DefinitionIndexEntry[]>([]);
     const [customDefinition, setCustomDefinition] = useState(false);
-    const [unknownBin, setUnknownBin] = useState<UnknownBinInfo | null>(null);
-
-    const clearUnknownBin = useCallback(() => setUnknownBin(null), []);
 
     // Derived
     const bigEndian = definition?.bigEndian ?? false;
@@ -89,83 +74,6 @@ export function useAppState(): IAppContext {
         setModified(false);
     }, []);
 
-    const clearDefinitionMatches = useCallback(() => {
-        setDefinitionMatches([]);
-    }, []);
-
-    const detectPatches = useCallback(async (data: Uint8Array, currentDef: Definition | null) => {
-        setLoadingPatches(true);
-        try {
-            const patchIndex = await TuningService.getPatchIndex();
-
-            // Extract ECU info from loaded definition for variant filtering
-            const epk = currentDef?.verification?.expected ?? currentDef?.name;
-            const binEcuInfo = epk ? parseEcuInfo(epk) : null;
-            const calFileOffset = binEcuInfo ? getCalFileOffset(binEcuInfo.ecuFamily) : null;
-
-            // Pre-filter by variant from index — only load matching BTPs
-            const filtered = binEcuInfo
-                ? patchIndex.filter(e => !e.variant || e.variant === binEcuInfo.variant)
-                : patchIndex;
-
-            const results: PatchCheckResult[] = [];
-            for (const entry of filtered) {
-                try {
-                    const btpData = new Uint8Array(await TuningService.getPatch(entry.file));
-                    const crcValid = verifyCrc32(btpData);
-                    const {header, blocks} = parseBtp(btpData);
-
-                    if (header.fileSize !== data.length) continue;
-
-                    const status = checkPatchBlockAware(blocks, data, calFileOffset);
-                    results.push({
-                        name: entry.name,
-                        file: entry.file,
-                        status,
-                        definition: entry.definition,
-                        category: entry.category,
-                        blocks,
-                        header,
-                        crcValid,
-                    });
-                } catch {
-                    // Skip individual patch load failures
-                }
-            }
-
-            setPatchResults(results);
-
-            const applied = results.filter(r => r.status === 'applied');
-            const ready = results.filter(r => r.status === 'ready');
-            if (applied.length > 0 || ready.length > 0) {
-                track('Detect Patches', {
-                    applied: applied.map(p => p.name).join(', '),
-                    ready: ready.map(p => p.name).join(', '),
-                    appliedCount: applied.length,
-                    readyCount: ready.length,
-                });
-            }
-
-            const appliedWithDef = results.filter(r => r.status === 'applied' && r.definition);
-            if (appliedWithDef.length > 0 && currentDef) {
-                let mergedDef = currentDef;
-                for (const applied of appliedWithDef) {
-                    try {
-                        const patchDef = await TuningService.getPatchDefinition(applied.definition!);
-                        mergedDef = mergeDefinitions(mergedDef, patchDef, applied.name);
-                    } catch {
-                        // Skip individual definition load failures
-                    }
-                }
-                setDefinition(mergedDef);
-            }
-        } catch {
-            // Patch index not available, silently skip
-        } finally {
-            setLoadingPatches(false);
-        }
-    }, []);
-
     const loadBin = useCallback(async (file: File) => {
         const {data, displayName} = await parseFileData(file);
         const fileType = isS19File(file.name) ? 's19' : isHexFile(file.name) ? 'hex' : 'bin';
@@ -179,50 +87,34 @@ export function useAppState(): IAppContext {
         setBinData(data);
         setBinFileName(displayName);
         setModified(false);
+        setPatchResults([]);
         track('Load BIN', {size: data.length, type: fileType, boxCode, epk, version});
 
-        // Auto-detect definition by EPK
-        let loadedDef: Definition | null = null;
-        try {
-            // check definition supplied epk + position first
-            let match = await findMatchingDefinitionByData(data);
-            if (!match && epk) {
-                match = await findMatchingDefinition(epk)
-            }
-            if (match) {
-                const def = await loadDefinition(match.file);
-                const isCal = isCalOnly(data);
-
-                // there are DQ250 versions with -0x10000 offset. should be 0x4FFBE
-                let dsgOffset = epkAddress === 0x3FFE0 ? -0x10000 : 0;
-                dsgOffset = epkAddress === 0x1FFE0 ? -0x30000 : dsgOffset;
-
-                setDefinition(def);
-                setCustomDefinition(false);
-                setDetectedMode(isCal ? 'cal' : 'full');
-                setCalOffset(isCal ? 0 : ((def.baseAddress ?? 0) + dsgOffset));
-                setSelectedParam(null);
-                loadedDef = def;
-                track('Definition Matched', {name: def.name, mode: isCal ? 'cal' : 'full', boxCode, epk});
-            } else {
-                const autoSubmit = Boolean(boxCode) && Boolean(epk);
-                track('No Definition Match', {size: data.length, epk, boxCode, autoSubmit});
-                setUnknownBin({data, name: displayName, epk, boxCode, autoSubmit});
-            }
-        } catch (err) {
-            console.error('Definition auto-detect failed:', err);
+        if (definition) {
+            const isCal = isCalOnly(data);
+            // Some DQ250 full binaries place CAL 0x10000/0x30000 bytes earlier.
+            let dsgOffset = epkAddress === 0x3FFE0 ? -0x10000 : 0;
+            dsgOffset = epkAddress === 0x1FFE0 ? -0x30000 : dsgOffset;
+            setDetectedMode(isCal ? 'cal' : 'full');
+            setCalOffset(isCal ? 0 : ((definition.baseAddress ?? 0) + dsgOffset));
+        } else {
+            setDetectedMode(null);
+            setCalOffset(0);
         }
-
-        // Auto-detect patches
-        detectPatches(data, loadedDef);
-    }, [detectPatches]);
+    }, [definition]);
 
     const loadBinData = useCallback((data: Uint8Array, name: string) => {
         setBinData(data);
         setBinFileName(name);
         setModified(false);
+        setPatchResults([]);
+        if (definition) {
+            const isCal = isCalOnly(data);
+            setDetectedMode(isCal ? 'cal' : 'full');
+            setCalOffset(isCal ? 0 : (definition.baseAddress ?? 0));
+        }
         track('Load BIN', {size: data.length, type: 'ols'});
-    }, []);
+    }, [definition]);
 
     const loadOriginalBin = useCallback(async (file: File) => {
         const buffer = await file.arrayBuffer();
@@ -238,18 +130,15 @@ export function useAppState(): IAppContext {
             data,
         };
 
-        const [ccEpk, offset] = readEPK(data);
-        const match = ccEpk ? await findMatchingDefinition(ccEpk) : null;
-        if (match) {
-            const def = await loadDefinition(match.file);
+        if (definition) {
             const isCal = isCalOnly(data);
-            newBin.definition = def;
-            newBin.calOffset = isCal ? 0 : (def.baseAddress ?? 0);
+            newBin.definition = definition;
+            newBin.calOffset = isCal ? 0 : (definition.baseAddress ?? 0);
         }
 
         setCrossCompareBin(newBin);
         track('Load Cross-Compare', {definition: newBin.definition?.name ?? ''});
-    }, []);
+    }, [definition]);
 
     // Set definition from external source (XDF drop, JSON drop, converter, browser)
     // Recalculates calOffset based on loaded bin
@@ -368,17 +257,6 @@ export function useAppState(): IAppContext {
         URL.revokeObjectURL(url);
         track('Export BTP', {blocks: blockCount});
     }, [binData, originalBinData, definition, binFileName, getParamByteRanges]);
-
-    const searchDefinitions = useCallback(async () => {
-        if (!binData) return {
-            matches: [] as DefinitionIndexEntry[],
-            all: [] as DefinitionIndexEntry[]
-        };
-        const all = await loadDefinitionIndex();
-        const [epk, address] = readEPK(binData);
-        const match = epk ? await findMatchingDefinition(epk) : null;
-        return {matches: match ? [match] : [], all};
-    }, [binData]);
 
     // Calculate differences between original and current BIN
     const changes = useMemo((): ParamDiff[] => {
@@ -577,11 +455,6 @@ export function useAppState(): IAppContext {
         bigEndian,
         modified,
         patchResults,
-        loadingPatches,
-        definitionMatches,
-        allDefinitions,
-        setAllDefinitions,
-        clearDefinitionMatches,
         changes,
         crossCompareDiffs,
         loadBin,
@@ -596,11 +469,7 @@ export function useAppState(): IAppContext {
         loadDefinitionJson,
         setDefinition,
         setExternalDefinition,
-        searchDefinitions,
         setSelectedParam,
         setPatchResults,
-        detectPatches,
-        unknownBin,
-        clearUnknownBin,
     };
 }

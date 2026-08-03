@@ -15,6 +15,84 @@ function fixFloat(s: string): number {
 
 const NUM = '[\\d.\\-+eE]+';
 
+// Keep these in sync with tools/parse_xdf.py. Some generated XDFs use named
+// array indices in their technical IDs while A2L/JSON definitions use numbers.
+const ARRAY_INDEX_MAP: Record<string, string> = {
+    stnd: '0', lft_1: '1',
+    mt: '0', atc: '1', cvt: '2', dct: '3',
+    tq_cmb_sng: '0', tq_cmb_opp_2: '1', tq_cmb_opp_2_s_1: '2',
+    tq_cmb_opp_3: '3', tq_cmb_mpi: '4', tq_cmb_ch_sng: '5',
+    tq_cmb_ch_mpl: '6', tq_cmb_ch_sa: '7',
+    pow_0: '0', pow_1: '1', pow_2: '2', pow_3: '3', pow_4: '4',
+    pow_ef_0: '0', pow_ef_1: '1', pow_ef_2: '2',
+};
+
+for (let i = 1; i <= 32; i++) {
+    ARRAY_INDEX_MAP[`case_${i}`] = String(i - 1);
+    ARRAY_INDEX_MAP[`case_req_opp_${i}`] = String(i - 1);
+}
+
+const PARAM_FACTOR_OVERRIDES: Record<string, number> = {
+    c_prs_im_sp_max: 0.01,
+    c_prs_im_sp_lim: 0.01,
+    c_m_air_cyl_sp_max: 1_000_000,
+};
+
+const DSG_TERM_MAP: Array<[RegExp, string]> = [
+    [/Hochschaltkennfeld/gi, 'Upshift map'],
+    [/R.?ckschaltkennfeld/gi, 'Downshift map'],
+    [/Schaltzeiten/gi, 'Shift times'],
+    [/Stalldrehzahl/gi, 'Stall speed'],
+    [/Momentenreduktion/gi, 'Torque reduction'],
+    [/Hauptdruck/gi, 'Main pressure'],
+    [/Kupplung/gi, 'Clutch'],
+];
+
+function normalizeArrayIndices(name: string): string {
+    return name
+        .replace(/^DATA_LMVLim\./i, '')
+        .replace(/\[([A-Za-z][A-Za-z0-9_]*)]/g, (_match, label: string) =>
+            `[${ARRAY_INDEX_MAP[label.toLowerCase()] ?? label}]`)
+        .toLowerCase();
+}
+
+function isTechnicalId(line: string): boolean {
+    const value = line.trim();
+    return value.length > 0 && !value.includes(' ') && (value.includes('_') || value.includes('['));
+}
+
+function extractXdfIdentity(title: string, xdfDescription: string): { id: string; description: string } {
+    const descriptionLines = xdfDescription
+        ? xdfDescription.split(/\r?\n/).map(line => line.trim()).filter(Boolean)
+        : [];
+    const technicalLine = descriptionLines.find(isTechnicalId) || '';
+
+    if (technicalLine) {
+        return {
+            id: normalizeArrayIndices(technicalLine),
+            description: descriptionLines.filter(line => line !== technicalLine).join('\n'),
+        };
+    }
+
+    return {
+        id: normalizeArrayIndices(title),
+        description: xdfDescription && xdfDescription !== title ? xdfDescription : '',
+    };
+}
+
+function translateDsgTerms(description: string): string {
+    return DSG_TERM_MAP.reduce(
+        (translated, [pattern, replacement]) => translated.replace(pattern, replacement),
+        description,
+    );
+}
+
+function parseInteger(value: string | null, fallback: number): number {
+    if (!value) return fallback;
+    const parsed = parseInt(value, /^[-+]?0x/i.test(value) ? 16 : 10);
+    return Number.isNaN(parsed) ? fallback : parsed;
+}
+
 function parseMathEquation(equation: string): { factor: number; offset: number; formula?: RationalFormula } {
     equation = equation.trim();
 
@@ -103,10 +181,27 @@ interface ParsedAxis {
     labels?: string[];
 }
 
+function parseAxisLabels(axisEl: Element): string[] | undefined {
+    const labels: string[] = [];
+
+    for (const labelEl of Array.from(axisEl.children)) {
+        if (labelEl.tagName.toUpperCase() !== 'LABEL') continue;
+
+        const indexStr = labelEl.getAttribute('index') || '';
+        const index = parseInt(indexStr, indexStr.startsWith('0x') || indexStr.startsWith('0X') ? 16 : 10);
+        if (!Number.isInteger(index) || index < 0) continue;
+
+        labels[index] = labelEl.getAttribute('value') ?? '';
+    }
+
+    return labels.length > 0 ? labels : undefined;
+}
+
 function parseAxisElement(axisEl: Element): ParsedAxis | null {
     const embed = axisEl.querySelector('EMBEDDEDDATA') || axisEl.querySelector('embeddedData');
     const indexCountEl = axisEl.querySelector('indexcount');
     const points = parseInt(indexCountEl?.textContent || '1', 10);
+    const labels = parseAxisLabels(axisEl);
 
     // No embedded data or no address/typeflags → non-embedded axis
     if (!embed || (!embed.getAttribute('mmedaddress') && !embed.getAttribute('mmedtypeflags'))) {
@@ -121,7 +216,8 @@ function parseAxisElement(axisEl: Element): ParsedAxis | null {
             min: 0,
             max: 0,
             embedded: false,
-            points
+            points,
+            labels
         };
     }
 
@@ -129,9 +225,6 @@ function parseAxisElement(axisEl: Element): ParsedAxis | null {
 
     // 0xFFFFFFFF is a sentinel for "no address" (e.g., DSG y-axis placeholders)
     if (address === 0xFFFFFFFF) {
-        const labels = Array.from(axisEl.querySelectorAll('LABEL'))
-            .sort((a, b) => parseInt(a.getAttribute('index') || '0') - parseInt(b.getAttribute('index') || '0'))
-            .map(l => l.getAttribute('value') || '');
         return {
             address: 0,
             dataType: 'UWORD',
@@ -144,7 +237,7 @@ function parseAxisElement(axisEl: Element): ParsedAxis | null {
             max: 0,
             embedded: false,
             points,
-            labels: labels.length > 0 ? labels : undefined
+            labels
         };
     }
 
@@ -169,6 +262,7 @@ function parseAxisElement(axisEl: Element): ParsedAxis | null {
         cols, rows, unit, factor, offset, formula, min, max,
         embedded: true,
         points: cols > 1 ? cols : points,
+        labels,
     };
 }
 
@@ -223,16 +317,29 @@ export class XDFParser {
         if (!this.xmlDoc) throw new Error('No XDF file parsed');
 
         const parameters: IDefinitionParameter[] = [];
+        const seen = new Set<string>();
+        const seenIds = new Set<string>();
 
-        for (const table of this.xmlDoc.querySelectorAll('XDFTABLE')) {
-            const param = this.parseTable(table);
-            if (param) parameters.push(param);
-        }
+        // Preserve the source order and parse constants the same way as the CLI
+        // parser. XDFs can freely interleave XDFTABLE and XDFCONSTANT elements.
+        for (const element of Array.from(this.xmlDoc.documentElement.children)) {
+            const tagName = element.tagName.toUpperCase();
+            const param = tagName === 'XDFTABLE'
+                ? this.parseTable(element)
+                : tagName === 'XDFCONSTANT'
+                    ? this.parseConstant(element)
+                    : null;
+            if (!param) continue;
 
-        // XDFCONSTANT → VALUE parameters
-        for (const constant of this.xmlDoc.querySelectorAll('XDFCONSTANT')) {
-            const param = this.parseConstant(constant);
-            if (param) parameters.push(param);
+            const key = `${param.id || param.name}\u0000${param.address}`;
+            if (seen.has(key)) continue;
+            seen.add(key);
+
+            if (param.id) {
+                if (seenIds.has(param.id)) param.id = `${param.id}_0x${param.address.toString(16)}`;
+                seenIds.add(param.id);
+            }
+            parameters.push(param);
         }
 
         const def: Definition = {
@@ -383,41 +490,43 @@ export class XDFParser {
     private parseConstant(element: Element): IDefinitionParameter | null {
         const title = element.querySelector('title')?.textContent || '';
         const xdfDesc = element.querySelector('description')?.textContent || '';
-
-        const descLines = xdfDesc.split(/[\r\n]+/);
-        const firstLine = (descLines[0] || '').trim();
-        const isA2lId = firstLine && !firstLine.includes(' ') && (firstLine.includes('_') || firstLine.includes('['));
-
-        const name = isA2lId ? firstLine : title;
-        const description = isA2lId ? (title !== firstLine ? title : '') : (xdfDesc && xdfDesc !== title ? `${title} — ${xdfDesc}` : title);
+        const {id, description: extractedDescription} = extractXdfIdentity(title, xdfDesc);
+        const name = title.trim() || id;
+        if (!name) return null;
+        const description = translateDsgTerms(extractedDescription);
 
         const embed = element.querySelector('EMBEDDEDDATA') || element.querySelector('embeddedData');
-        if (!embed) return null;
+        if (!embed || !embed.hasAttribute('mmedaddress')) return null;
         const address = parseAddress(embed.getAttribute('mmedaddress'));
         if (address === null) return null;
 
-        const sizeBits = parseInt(embed.getAttribute('mmedelementsizebits') || '8', 10);
-        const typeFlags = parseInt(embed.getAttribute('mmedtypeflags') || '0', 16);
+        const sizeBits = parseInteger(embed.getAttribute('mmedelementsizebits'), 16);
+        const typeFlags = parseInteger(embed.getAttribute('mmedtypeflags'), 0);
+        const dataType = getDataType(sizeBits, typeFlags);
 
         const mathEl = element.querySelector('MATH');
         const {
-            factor,
+            factor: parsedFactor,
             offset,
             formula
         } = mathEl ? parseMathEquation(mathEl.getAttribute('equation') || 'X') : {factor: 1, offset: 0};
+        const factor = PARAM_FACTOR_OVERRIDES[id] ?? parsedFactor;
 
         const unit = element.querySelector('units')?.textContent || '';
-        const min = parseFloat(element.querySelector('min')?.textContent || '0');
-        const max = parseFloat(element.querySelector('max')?.textContent || '65535');
+        const minText = element.querySelector('min')?.textContent;
+        const maxText = element.querySelector('max')?.textContent;
+        const min = minText ? parseFloat(minText) : 0;
+        const max = maxText ? parseFloat(maxText) : dataType === 'UBYTE' ? 255 : 65535;
 
         const categories = this.resolveCategories(element);
 
         return {
+            id,
             name,
             description,
             address: address,
             type: 'VALUE',
-            dataType: getDataType(sizeBits, typeFlags),
+            dataType,
             unit, min, max, factor, offset, formula,
             categories: categories.length > 0 ? categories : ['Uncategorized'],
         };

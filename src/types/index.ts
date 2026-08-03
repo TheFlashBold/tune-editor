@@ -35,6 +35,8 @@ export interface AxisDefinition {
 }
 
 export interface IDefinitionParameter {
+    /** Stable technical identifier supplied by formats such as XDF. */
+    id?: string;
     name: string;
     description: string;
     address: number;

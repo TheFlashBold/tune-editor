@@ -18,14 +18,12 @@ import {useAppState} from './hooks/useAppState';
 import {useLogState} from './hooks/useLogState';
 import {parseCSV} from './lib/csvLog';
 import {LogTimeline} from './components/LogTimeline';
-import {loadDefinition} from './lib/definitionLoader';
 import {isS19File, isHexFile} from './lib/s19Parser';
 import {XDFParser} from './lib/xdfParser';
 import {parseOLS, extractBinary, olsToDefinition} from './lib/olsParser';
 import type {OLSFile, OLSBinaryVersion} from './lib/olsParser';
 import {OLSPickerModal} from './components/OLSPickerModal';
-import {InfoModal} from './components/InfoModal.tsx';
-import {UploadBinModal} from './components/UploadBinModal';
+import {DeprecationModal} from './components/DeprecationModal.tsx';
 import './app.css';
 
 const BIN_EXTENSIONS = ['.bin', '.ori', '.mod'];
@@ -80,10 +78,9 @@ export function App() {
     }, [appState.modified]);
 
     // Modal visibility flags
-    const [showConverter, setShowConverter] = useState(false);
-    const [showXdfConverter, setShowXdfConverter] = useState(false);
+    const [showA2lLoader, setShowA2lLoader] = useState(false);
+    const [showXdfLoader, setShowXdfLoader] = useState(false);
     const [showLogViewer, setShowLogViewer] = useState(false);
-    const [showDefinitions, setShowDefinitions] = useState(false);
     const [showChanges, setShowChanges] = useState(false);
     const [showCrossCompare, setShowCrossCompare] = useState(false);
     const [showPatchManager, setShowPatchManager] = useState(false);
@@ -93,8 +90,8 @@ export function App() {
     const handleDefinitionLoad = useCallback((def: Definition) => {
         appState.setExternalDefinition(def);
         appState.setSelectedParam(null);
-        setShowConverter(false);
-        setShowXdfConverter(false);
+        setShowA2lLoader(false);
+        setShowXdfLoader(false);
         track('Load Definition', {name: 'Custom'});
     }, [appState]);
 
@@ -174,8 +171,8 @@ export function App() {
                 onDrop={handleGlobalDrop}
             >
                 <MenuBar
-                    onShowConverter={() => setShowConverter(true)}
-                    onShowXdfConverter={() => setShowXdfConverter(true)}
+                    onShowA2lLoader={() => setShowA2lLoader(true)}
+                    onShowXdfLoader={() => setShowXdfLoader(true)}
                     onShowLogViewer={() => {
                         setShowLogViewer(true);
                         track('Open Log Viewer');
@@ -191,10 +188,6 @@ export function App() {
                             console.error('Failed to parse OLS:', err);
                         }
                     }}
-                    onShowDefinitions={(defs) => {
-                        appState.setAllDefinitions(defs);
-                        setShowDefinitions(true);
-                    }}
                     onShowPatchManager={() => setShowPatchManager(true)}
                     onShowChanges={() => setShowChanges(true)}
                     onShowCrossCompare={() => setShowCrossCompare(true)}
@@ -205,16 +198,16 @@ export function App() {
                 </div>
                 {appState.bin && logState.log && <LogTimeline/>}
 
-                {/* A2L Converter Modal */}
-                {showConverter && (
-                    <Modal title="A2L to JSON Converter" onClose={() => setShowConverter(false)} width="lg">
+                {/* A2L definition loader */}
+                {showA2lLoader && (
+                    <Modal title="Load A2L definition" onClose={() => setShowA2lLoader(false)} width="lg">
                         <FileLoader onDefinitionLoad={handleDefinitionLoad}/>
                     </Modal>
                 )}
 
-                {/* XDF Converter Modal */}
-                {showXdfConverter && (
-                    <Modal title="XDF to JSON Converter" onClose={() => setShowXdfConverter(false)} width="lg">
+                {/* XDF definition loader */}
+                {showXdfLoader && (
+                    <Modal title="Load XDF definition" onClose={() => setShowXdfLoader(false)} width="lg">
                         <XdfLoader onDefinitionLoad={handleDefinitionLoad}/>
                     </Modal>
                 )}
@@ -240,60 +233,15 @@ export function App() {
                     <CrossCompareModal onClose={() => setShowCrossCompare(false)}/>
                 )}
 
-                {/* Definitions Browser Modal */}
-                {showDefinitions && (
-                    <Modal title="Definitions" onClose={() => setShowDefinitions(false)} width="lg">
-                        <div class="space-y-4">
-                            {appState.allDefinitions.length === 0 ? (
-                                <div class="text-center py-4 text-zinc-500">
-                                    No definitions available.
-                                </div>
-                            ) : (
-                                <div>
-                                    <div class="text-sm text-zinc-600 dark:text-zinc-400 mb-3">
-                                        {appState.allDefinitions.length} definition{appState.allDefinitions.length !== 1 ? 's' : ''} available
-                                    </div>
-                                    <div class="max-h-96 overflow-y-auto space-y-1">
-                                        {[...appState.allDefinitions].sort((a, b) => a.name.localeCompare(b.name)).map((entry) => (
-                                            <div
-                                                class="w-full text-left p-3 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:bg-zinc-600 rounded border border-zinc-400 dark:border-zinc-600 transition-colors"
-                                            >
-                                                <div class="flex items-center justify-between">
-                                                    <div>
-                                                        <div class="font-medium">{entry.name}</div>
-                                                        <div class="text-xs text-zinc-600 dark:text-zinc-400 mt-1">
-                                                            {entry.paramCount} parameters
-                                                            {entry.verification?.expected && ` · ${entry.verification.expected}`}
-                                                        </div>
-                                                    </div>
-                                                    {entry.verification?.position !== undefined && (
-                                                        <div class="text-xs text-zinc-500">
-                                                            CAL @
-                                                            0x{entry.verification.position.toString(16).toUpperCase()}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </Modal>
-                )}
-
-                {/* Patch Manager Modal */}
+                {/* Manual BTP patch manager */}
                 {showPatchManager && appState.bin && (
                     <PatchManager
                         binData={appState.bin.data}
                         patchResults={appState.patchResults}
-                        loadingPatches={appState.loadingPatches}
                         calFileOffset={calFileOffset}
                         onClose={() => setShowPatchManager(false)}
                         onModify={appState.markModified}
                         onPatchResultsChange={appState.setPatchResults}
-                        definition={appState.definition}
-                        onDefinitionUpdate={appState.setDefinition}
                     />
                 )}
                 {/* OLS Picker Modal */}
@@ -304,15 +252,8 @@ export function App() {
                         onClose={() => setOlsData(null)}
                     />
                 )}
-                {/* Upload Unknown BIN Modal */}
-                {appState.unknownBin && (
-                    <UploadBinModal
-                        info={appState.unknownBin}
-                        onClose={() => appState.clearUnknownBin()}
-                    />
-                )}
-                {/* What's New Dialog */}
-                <InfoModal/>
+                {/* Shown once per browser session. */}
+                <DeprecationModal/>
             </div>
             </LogContext.Provider>
         </AppContext.Provider>

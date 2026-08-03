@@ -1,5 +1,5 @@
-import {GenericObject} from "../types";
-import {LoginState} from "./auth";
+import type {GenericObject} from '../types';
+import type {LoginState} from './auth';
 
 export function getCurrentLocalStorage<T>(key: string, defaultValue: T): T {
     try {
@@ -11,96 +11,61 @@ export function getCurrentLocalStorage<T>(key: string, defaultValue: T): T {
 }
 
 export function getLoginState(): LoginState | null {
-    return getCurrentLocalStorage<LoginState | null>("login", null);
+    return getCurrentLocalStorage<LoginState | null>('login', null);
 }
 
-export function buildSearchParams(queryParams: GenericObject = {}) {
+function buildSearchParams(queryParams: GenericObject = {}): URLSearchParams {
     const searchParams = new URLSearchParams();
-
-    function appendParam(key: string, val: any) {
-        if (val == null) {
-            return;
-        }
-        searchParams.append(key, val);
-    }
-
-    Object.entries(queryParams).forEach(([key, val]) => {
-        if (Array.isArray(val)) {
-            val.forEach((item) => appendParam(key, item));
-        } else {
-            appendParam(key, val);
-        }
+    Object.entries(queryParams).forEach(([key, value]) => {
+        if (value == null) return;
+        if (Array.isArray(value)) value.forEach(item => searchParams.append(key, String(item)));
+        else searchParams.append(key, String(value));
     });
-
     return searchParams;
 }
 
 export class BaseService {
     static buildRequestUrl(path: string, queryParams: GenericObject = {}): string {
         const searchParams = buildSearchParams(queryParams);
-
-        const usesLegacyTuningAssets =
-            path === "tuning/definitions" ||
-            path.startsWith("tuning/definitions/") ||
-            path === "tuning/patches" ||
-            path.startsWith("tuning/patches/") ||
-            path.startsWith("tuning/patchDefinitions/");
-        const base = usesLegacyTuningAssets
-            ? "https://old.simos.app/api/"
-            : "https://simos.app/api/";
-
-        return `${base}${path}?${searchParams.toString()}`;
+        return `https://simos.app/api/${path}?${searchParams.toString()}`;
     }
 
     static async request(path: string, queryParams: GenericObject = {}, init: RequestInit = {}): Promise<Response> {
-        const url = BaseService.buildRequestUrl(path, queryParams);
-        const authToken = getCurrentLocalStorage<LoginState | null>("login", null)?.token;
-
-        const res = await fetch(url, {
+        const authToken = getLoginState()?.token;
+        const response = await fetch(BaseService.buildRequestUrl(path, queryParams), {
             ...init,
             headers: {
                 ...(authToken && {Authorization: `Bearer ${authToken}`}),
-                "Content-Type": "application/json",
-            }
+                'Content-Type': 'application/json',
+                ...init.headers,
+            },
         });
-
-        await BaseService.handleErrorResponse(res);
-
-        return res;
+        await BaseService.handleErrorResponse(response);
+        return response;
     }
 
     static async getJSON<T>(path: string, queryParams: GenericObject = {}, init: RequestInit = {}): Promise<T> {
-        const res = await BaseService.request(path, queryParams, init);
-
-        if (res.headers.get("content-type")?.includes("application/json")) {
-            return res.json();
-        }
-
-        return null as T
+        const response = await BaseService.request(path, queryParams, init);
+        return response.json() as Promise<T>;
     }
 
     static async postJSON<T>(path: string, queryParams: GenericObject = {}, body: GenericObject = {}): Promise<T> {
-        return BaseService.getJSON(path, queryParams, {
-            method: "POST",
-            body: JSON.stringify(body)
-        });
+        return BaseService.getJSON(path, queryParams, {method: 'POST', body: JSON.stringify(body)});
     }
 
-    static async handleErrorResponse(res: Response) {
-        if (res.ok) return;
-
-        let errorMessage = "";
-        if (res.headers.get("content-type")?.includes("application/json")) {
-            try {
-                const {error} = await res.json() as { error: string };
-                errorMessage = error;
-            } catch (e) {
-                errorMessage = await res.text() ?? res.status.toString();
+    private static async handleErrorResponse(response: Response): Promise<void> {
+        if (response.ok) return;
+        let message = response.statusText || `HTTP ${response.status}`;
+        try {
+            if (response.headers.get('content-type')?.includes('application/json')) {
+                const payload = await response.json() as {error?: string};
+                message = payload.error || message;
+            } else {
+                message = await response.text() || message;
             }
-        } else {
-            errorMessage = await res.text();
+        } catch {
+            // Keep the HTTP status text when the error response cannot be decoded.
         }
-
-        throw new Error(errorMessage);
+        throw new Error(message);
     }
 }

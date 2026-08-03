@@ -9,26 +9,14 @@ interface Props {
 export function XdfLoader({onDefinitionLoad}: Props) {
     const xdfRef = useRef<HTMLInputElement>(null);
 
-    const handleConvert = async () => {
+    const handleLoad = async () => {
         const file = xdfRef.current?.files?.[0];
         if (!file) return;
 
         const parser = new XDFParser();
         await parser.parseXDF(file);
         const definition = parser.generateDefinition();
-        const stats = parser.getStats();
-
         onDefinitionLoad(definition);
-
-        // Auto-download JSON
-        const json = JSON.stringify(definition, null, 2);
-        const blob = new Blob([json], {type: 'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = definition.name + '.json';
-        a.click();
-        URL.revokeObjectURL(url);
 
         if (xdfRef.current) xdfRef.current.value = '';
     };
@@ -36,7 +24,7 @@ export function XdfLoader({onDefinitionLoad}: Props) {
     return (
         <div class="space-y-4">
             <p class="text-sm text-zinc-600 dark:text-zinc-400">
-                Load an XDF file to convert it to a definition. Categories are read from the XDF directly.
+                Load an XDF definition directly into the editor. Categories are read from the XDF.
             </p>
             <div class="flex flex-wrap gap-3 items-end">
                 <label class="flex flex-col gap-1 text-xs text-zinc-600 dark:text-zinc-400">
@@ -50,10 +38,10 @@ export function XdfLoader({onDefinitionLoad}: Props) {
                 </label>
             </div>
             <button
-                onClick={handleConvert}
+                onClick={handleLoad}
                 class="px-4 py-2 bg-green-600 text-white rounded font-medium hover:bg-green-500 cursor-pointer"
             >
-                Convert & Download JSON
+                Load XDF definition
             </button>
         </div>
     );

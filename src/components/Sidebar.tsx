@@ -28,7 +28,7 @@ export function Sidebar() {
                     className="flex-1 flex flex-col justify-center items-center p-4 text-zinc-500 text-sm text-center cursor-pointer hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50 transition-colors">
                     <p>No definition loaded</p>
                     <p className="mt-2">Click or drop Definition</p>
-                    <p className="mt-1 text-xs">or use A2L Converter</p>
+                    <p className="mt-1 text-xs">or load an A2L/XDF file</p>
                     <input
                         type="file"
                         accept=".json"

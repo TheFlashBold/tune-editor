@@ -10,7 +10,7 @@ export function FileLoader({ onDefinitionLoad }: Props) {
   const a2lRef = useRef<HTMLInputElement>(null);
   const csvRef = useRef<HTMLInputElement>(null);
 
-  const handleA2LConvert = async () => {
+  const handleA2LLoad = async () => {
     const a2lFile = a2lRef.current?.files?.[0];
     const csvFile = csvRef.current?.files?.[0];
 
@@ -27,20 +27,11 @@ export function FileLoader({ onDefinitionLoad }: Props) {
     }
 
     await parser.parseA2L(a2lFile);
-    const stats = parser.getStats();
-
     const definition = parser.generateDefinition(a2lFile.name.replace('.a2l', ''));
-
     onDefinitionLoad(definition);
 
-    const json = JSON.stringify(definition, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = definition.name + '.json';
-    a.click();
-    URL.revokeObjectURL(url);
+    if (a2lRef.current) a2lRef.current.value = '';
+    if (csvRef.current) csvRef.current.value = '';
   };
 
   return (
@@ -66,10 +57,10 @@ export function FileLoader({ onDefinitionLoad }: Props) {
         </label>
       </div>
       <button
-        onClick={handleA2LConvert}
+        onClick={handleA2LLoad}
         class="px-4 py-2 bg-blue-500 text-white rounded font-medium hover:bg-blue-400"
       >
-        Convert & Download JSON
+        Load A2L definition
       </button>
     </div>
   );

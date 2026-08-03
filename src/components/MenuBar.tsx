@@ -1,171 +1,50 @@
-import {loadDefinitionIndex} from "../lib/definitionLoader.ts";
-import {parseEcuInfo} from "../lib/btpParser.ts";
-import {useAppContext} from "../context/app.ts";
-import {useState, useRef, useCallback, useEffect} from "preact/hooks";
-import {getLoginState} from "../services/base.ts";
-import {AuthService} from "../services/auth.ts";
-import type {LoginState} from "../services/auth.ts";
-import {LoginModal} from "./LoginModal.tsx";
-import {Modal} from "./Modal.tsx";
-import {WizardModal} from "./WizardModal.tsx";
-import {TuningService, TuningFileEntry, TuningUnlock} from "../services/tuning.ts";
-
-const CLOUD_UNLOCK_PRODUCTS = ['tune_editor_premium', 'simos_app_unlock'];
+import {useCallback, useEffect, useRef, useState} from 'preact/hooks';
+import {parseEcuInfo} from '../lib/btpParser';
+import {useAppContext} from '../context/app';
+import {Modal} from './Modal';
+import {LoginModal} from './LoginModal';
+import {AuthService} from '../services/auth';
+import type {LoginState} from '../services/auth';
+import {getLoginState} from '../services/base';
+import {TuningService} from '../services/tuning';
+import type {TuningFileEntry} from '../services/tuning';
+import {track} from '../lib/track';
 
 const APP_VERSION = __APP_VERSION__;
+const MANAGED_EDITOR_URL = 'https://simos.app/editor?utm_source=legacy-editor&utm_medium=in-app&utm_campaign=legacyeditor-august-2026';
 
 interface MenuBarProps {
-    onShowConverter: () => void;
-    onShowXdfConverter: () => void;
+    onShowA2lLoader: () => void;
+    onShowXdfLoader: () => void;
     onShowLogViewer: () => void;
     onOpenOLS: (file: File) => void;
-    onShowDefinitions: (defs: any[]) => void;
     onShowPatchManager: () => void;
     onShowChanges: () => void;
     onShowCrossCompare: () => void;
 }
 
 export function MenuBar({
-                            onShowConverter,
-                            onShowXdfConverter,
-                            onShowLogViewer,
-                            onOpenOLS,
-                            onShowDefinitions,
-                            onShowPatchManager,
-                            onShowChanges,
-                            onShowCrossCompare,
-                        }: MenuBarProps) {
+    onShowA2lLoader,
+    onShowXdfLoader,
+    onShowLogViewer,
+    onOpenOLS,
+    onShowPatchManager,
+    onShowChanges,
+    onShowCrossCompare,
+}: MenuBarProps) {
     const ctx = useAppContext();
     const [showFileMenu, setShowFileMenu] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
-    const [showLogin, setShowLogin] = useState(false);
     const [showAbout, setShowAbout] = useState(false);
     const [showSaveDialog, setShowSaveDialog] = useState(false);
     const [saveFileName, setSaveFileName] = useState('');
-    const [showCloudSaveDialog, setShowCloudSaveDialog] = useState(false);
-    const [cloudSaveName, setCloudSaveName] = useState('');
-    const [uploading, setUploading] = useState(false);
-    const [uploadProgress, setUploadProgress] = useState(0);
-    const [uploadError, setUploadError] = useState<string | null>(null);
-    const [showWizards, setShowWizards] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
+    const [showCloudBins, setShowCloudBins] = useState(false);
     const [loginState, setLoginState] = useState<LoginState | null>(() => getLoginState());
     const [cloudBins, setCloudBins] = useState<TuningFileEntry[]>([]);
     const [cloudBinsLoading, setCloudBinsLoading] = useState(false);
     const [cloudBinError, setCloudBinError] = useState<string | null>(null);
-    const [unlocks, setUnlocks] = useState<TuningUnlock[] | null>(null);
-    const cloudUnlocked = !!unlocks?.some(u => CLOUD_UNLOCK_PRODUCTS.includes(u.product));
     const [downloadingBin, setDownloadingBin] = useState<{name: string; loaded: number; total: number} | null>(null);
-
-    // Validate stored token on mount
-    useEffect(() => {
-        const stored = getLoginState();
-        if (!stored) return;
-        AuthService.self().then(user => {
-            const next = {...stored, user};
-            localStorage.setItem('login', JSON.stringify(next));
-            setLoginState(next);
-        }).catch(() => {
-            localStorage.removeItem('login');
-            localStorage.removeItem('login_renewed');
-            setLoginState(null);
-        });
-    }, []);
-
-    const handleLogout = useCallback(() => {
-        localStorage.removeItem('login');
-        localStorage.removeItem('login_renewed');
-        setLoginState(null);
-        setCloudBins([]);
-        setCloudBinError(null);
-        setUnlocks(null);
-    }, []);
-
-    useEffect(() => {
-        if (!loginState) {
-            setUnlocks(null);
-            return;
-        }
-        let cancelled = false;
-        TuningService.getUnlocks().then(entries => {
-            if (cancelled) return;
-            setUnlocks(entries);
-        }).catch(() => {
-            if (cancelled) return;
-            setUnlocks([]);
-        });
-        return () => { cancelled = true; };
-    }, [loginState]);
-
-    useEffect(() => {
-        if (!loginState || !cloudUnlocked) {
-            setCloudBins([]);
-            setCloudBinError(null);
-            return;
-        }
-        let cancelled = false;
-        setCloudBinsLoading(true);
-        setCloudBinError(null);
-        TuningService.listBins().then(entries => {
-            if (cancelled) return;
-            setCloudBins(entries);
-        }).catch(err => {
-            if (cancelled) return;
-            setCloudBinError(err instanceof Error ? err.message : String(err));
-        }).finally(() => {
-            if (!cancelled) setCloudBinsLoading(false);
-        });
-        return () => { cancelled = true; };
-    }, [loginState, cloudUnlocked]);
-
-    const handleOpenCloudBin = useCallback(async (entry: TuningFileEntry) => {
-        setShowFileMenu(false);
-        setShowMobileMenu(false);
-        setDownloadingBin({name: entry.name, loaded: 0, total: 0});
-        try {
-            const buffer = await TuningService.getBin(entry.id, (loaded, total) => {
-                setDownloadingBin({name: entry.name, loaded, total});
-            });
-            const file = new File([buffer], entry.name, {type: 'application/octet-stream'});
-            await ctx.loadBin(file);
-        } catch (err) {
-            console.error('Failed to load cloud bin:', err);
-            alert(`Failed to load bin: ${err instanceof Error ? err.message : String(err)}`);
-        } finally {
-            setDownloadingBin(null);
-        }
-    }, [ctx]);
-
-    // Renew token on window focus (at most once per hour)
-    useEffect(() => {
-        const checkAuth = async () => {
-            const stored = getLoginState();
-            if (!stored) {
-                setLoginState(null);
-                return;
-            }
-
-            const lastRenew = parseInt(localStorage.getItem('login_renewed') || '0', 10);
-            const hourAgo = Date.now() - 60 * 60 * 1000;
-
-            if (lastRenew > hourAgo) return;
-
-            try {
-                const renewed = await AuthService.renew();
-                localStorage.setItem('login', JSON.stringify(renewed));
-                localStorage.setItem('login_renewed', String(Date.now()));
-                setLoginState(renewed);
-            } catch {
-                localStorage.removeItem('login');
-                localStorage.removeItem('login_renewed');
-                setLoginState(null);
-            }
-        };
-        window.addEventListener('focus', checkAuth);
-        return () => window.removeEventListener('focus', checkAuth);
-    }, []);
-
-    const ecuInfo = ctx.definition?.verification?.expected ? parseEcuInfo(ctx.definition.verification.expected) : null;
-    const appliedPatchCount = ctx.patchResults.filter(r => r.status === 'applied').length;
 
     const jsonInputRef = useRef<HTMLInputElement>(null);
     const binInputRef = useRef<HTMLInputElement>(null);
@@ -173,537 +52,389 @@ export function MenuBar({
     const crossCompareBinInputRef = useRef<HTMLInputElement>(null);
     const olsInputRef = useRef<HTMLInputElement>(null);
 
-    const handleOpenOLS = useCallback(() => {
-        const file = olsInputRef.current?.files?.[0];
-        if (!file) return;
-        onOpenOLS(file);
+    useEffect(() => {
+        const stored = getLoginState();
+        if (!stored) return;
+        AuthService.self().then(user => {
+            const refreshed = {...stored, user};
+            localStorage.setItem('login', JSON.stringify(refreshed));
+            setLoginState(refreshed);
+        }).catch(() => {
+            localStorage.removeItem('login');
+            localStorage.removeItem('login_renewed');
+            setLoginState(null);
+        });
+    }, []);
+
+    useEffect(() => {
+        if (!loginState) {
+            setCloudBins([]);
+            setCloudBinError(null);
+            return;
+        }
+
+        let cancelled = false;
+        setCloudBinsLoading(true);
+        setCloudBinError(null);
+        TuningService.listBins().then(entries => {
+            if (!cancelled) setCloudBins(entries);
+        }).catch(error => {
+            if (!cancelled) setCloudBinError((error as Error).message || 'Failed to load Cloud Bins');
+        }).finally(() => {
+            if (!cancelled) setCloudBinsLoading(false);
+        });
+        return () => { cancelled = true; };
+    }, [loginState]);
+
+    const closeMenus = useCallback(() => {
         setShowFileMenu(false);
         setShowMobileMenu(false);
-        if (olsInputRef.current) olsInputRef.current.value = '';
-    }, [onOpenOLS]);
+    }, []);
 
     const handleOpenJson = useCallback(async () => {
         const file = jsonInputRef.current?.files?.[0];
         if (!file) return;
         await ctx.loadDefinitionJson(file);
-        setShowFileMenu(false);
-        setShowMobileMenu(false);
+        closeMenus();
         if (jsonInputRef.current) jsonInputRef.current.value = '';
-    }, [ctx]);
+    }, [closeMenus, ctx]);
 
     const handleOpenBin = useCallback(async () => {
         const file = binInputRef.current?.files?.[0];
         if (!file) return;
         await ctx.loadBin(file);
-        setShowFileMenu(false);
-        setShowMobileMenu(false);
+        closeMenus();
         if (binInputRef.current) binInputRef.current.value = '';
-    }, [ctx]);
+    }, [closeMenus, ctx]);
 
     const handleOpenOriginalBin = useCallback(async () => {
         const file = originalBinInputRef.current?.files?.[0];
         if (!file) return;
         await ctx.loadOriginalBin(file);
-        setShowFileMenu(false);
-        setShowMobileMenu(false);
+        closeMenus();
         if (originalBinInputRef.current) originalBinInputRef.current.value = '';
-    }, [ctx]);
+    }, [closeMenus, ctx]);
 
     const handleOpenCrossCompareBin = useCallback(async () => {
         const file = crossCompareBinInputRef.current?.files?.[0];
         if (!file) return;
         await ctx.loadCrossCompareBin(file);
-        setShowFileMenu(false);
-        setShowMobileMenu(false);
+        closeMenus();
         if (crossCompareBinInputRef.current) crossCompareBinInputRef.current.value = '';
-    }, [ctx]);
+    }, [closeMenus, ctx]);
+
+    const handleOpenOLS = useCallback(() => {
+        const file = olsInputRef.current?.files?.[0];
+        if (!file) return;
+        onOpenOLS(file);
+        closeMenus();
+        if (olsInputRef.current) olsInputRef.current.value = '';
+    }, [closeMenus, onOpenOLS]);
 
     const handleSaveBin = useCallback(() => {
-        const defaultName = ctx.binFileName?.replace(/\.[^.]+$/, '_mod.bin') ?? 'output.bin';
-        setSaveFileName(defaultName);
+        setSaveFileName(ctx.binFileName?.replace(/\.[^.]+$/, '_mod.bin') ?? 'output.bin');
         setShowSaveDialog(true);
-        setShowFileMenu(false);
-        setShowMobileMenu(false);
-    }, [ctx]);
+        closeMenus();
+    }, [closeMenus, ctx.binFileName]);
 
     const handleSaveConfirm = useCallback(() => {
         ctx.saveBin(saveFileName);
         setShowSaveDialog(false);
     }, [ctx, saveFileName]);
 
-    const handleSaveToCloud = useCallback(() => {
-        const base = ctx.binFileName?.replace(/\.[^.]+$/, '') ?? 'bin';
-        setCloudSaveName(`${base}.bin`);
-        setUploadProgress(0);
-        setUploadError(null);
-        setShowCloudSaveDialog(true);
-        setShowFileMenu(false);
-        setShowMobileMenu(false);
-    }, [ctx.binFileName]);
-
-    const refreshCloudBins = useCallback(async () => {
-        try {
-            const entries = await TuningService.listBins();
-            setCloudBins(entries);
-        } catch (err) {
-            console.error('Failed to refresh cloud bins:', err);
-        }
-    }, []);
-
-    const handleCloudSaveConfirm = useCallback(async () => {
-        if (!ctx.bin) return;
-        let name = cloudSaveName.trim();
-        if (!name) {
-            setUploadError('Filename is required');
-            return;
-        }
-        if (!name.endsWith('.bin')) name += '.bin';
-
-        setUploading(true);
-        setUploadProgress(0);
-        setUploadError(null);
-        try {
-            const blob = new Blob([ctx.bin.data.buffer as ArrayBuffer], {type: 'application/octet-stream'});
-            const result = await TuningService.uploadBin(blob, {
-                name,
-                onProgress: (percent) => setUploadProgress(percent),
-            });
-            setCloudBins(prev => {
-                const existingMeta = prev.find(b => b.id === result.id || b.name === result.name)?.meta ?? {};
-                const filtered = prev.filter(b => b.id !== result.id && b.name !== result.name);
-                return [{id: result.id, name: result.name, meta: existingMeta}, ...filtered];
-            });
-            ctx.markSaved();
-            void refreshCloudBins();
-            setShowCloudSaveDialog(false);
-        } catch (err) {
-            setUploadError(err instanceof Error ? err.message : String(err));
-        } finally {
-            setUploading(false);
-        }
-    }, [ctx, cloudSaveName, refreshCloudBins]);
-
     const handleExportBtp = useCallback(() => {
         ctx.exportBtp();
-        setShowFileMenu(false);
-        setShowMobileMenu(false);
+        closeMenus();
+    }, [closeMenus, ctx]);
+
+    const handleCloudBins = useCallback(() => {
+        closeMenus();
+        if (loginState) setShowCloudBins(true);
+        else setShowLogin(true);
+    }, [closeMenus, loginState]);
+
+    const handleLogout = useCallback(() => {
+        localStorage.removeItem('login');
+        localStorage.removeItem('login_renewed');
+        setLoginState(null);
+        setCloudBins([]);
+        setShowCloudBins(false);
+        closeMenus();
+    }, [closeMenus]);
+
+    const handleOpenCloudBin = useCallback(async (entry: TuningFileEntry) => {
+        setDownloadingBin({name: entry.name, loaded: 0, total: 0});
+        setCloudBinError(null);
+        try {
+            const data = await TuningService.getBin(entry.id, (loaded, total) => {
+                setDownloadingBin({name: entry.name, loaded, total});
+            });
+            await ctx.loadBin(new File([data], entry.name, {type: 'application/octet-stream'}));
+            setShowCloudBins(false);
+            track('Download Cloud Bin in Legacy Editor', {id: entry.id, name: entry.name});
+        } catch (error) {
+            setCloudBinError((error as Error).message || 'Failed to download Cloud Bin');
+        } finally {
+            setDownloadingBin(null);
+        }
     }, [ctx]);
 
-    const mobileAction = (fn: () => void) => () => {
-        fn();
+    const mobileAction = (action: () => void) => () => {
+        action();
         setShowMobileMenu(false);
     };
 
-    const handleShowDefinitions = useCallback(async () => {
-        try {
-            const defs = await loadDefinitionIndex();
-            onShowDefinitions(defs);
-        } catch (err) {
-            console.error('Failed to load definitions:', err);
-        }
-    }, [onShowDefinitions]);
+    const ecuInfo = ctx.definition?.verification?.expected
+        ? parseEcuInfo(ctx.definition.verification.expected)
+        : null;
+    const appliedPatchCount = ctx.patchResults.filter(result => result.status === 'applied').length;
 
-    // Status badges (shared between desktop and mobile)
-    const statusBadges = (
+    const fileActions = (
         <>
-            {ctx.bin && (
-                <div className="flex items-center gap-1.5 flex-wrap">
-                    <span
-                        className="text-wrap break-all font-mono text-xs text-zinc-600 dark:text-zinc-400 truncate max-w-60 sm:max-w-none sm:text-sm">{ctx.bin.name}</span>
-                    {ctx.detectedMode && (
-                        <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${
-                            ctx.detectedMode === 'cal' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' : 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300'
-                        }`}>
-                            {ctx.detectedMode === 'cal' ? 'CAL' : 'Full'}
-                        </span>
-                    )}
-                    {ctx.detectedMode && ecuInfo && (
-                        <span
-                            className="hidden sm:inline px-2 py-0.5 rounded text-xs font-medium bg-zinc-200 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-400">
-                            {ecuInfo.ecuFamily}
-                        </span>
-                    )}
-                    {ctx.detectedMode && ecuInfo && (
-                        <span
-                            className="hidden sm:inline px-2 py-0.5 rounded text-xs font-medium bg-zinc-300 text-zinc-800 dark:bg-zinc-600 dark:text-zinc-200">
-                            {ecuInfo.variant}
-                        </span>
-                    )}
-                    {ctx.detectedMode && !ecuInfo && ctx.definition?.verification?.expected && (
-                        <span
-                            className="px-1.5 py-0.5 rounded text-xs font-medium bg-zinc-200 text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300">
-                            {ctx.definition.verification.expected}
-                        </span>
-                    )}
-                    {appliedPatchCount > 0 && (
-                        <span
-                            className="hidden sm:inline px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300">
-                            {appliedPatchCount} Patches
-                        </span>
-                    )}
-                    {ctx.bin.modified && (
-                        <span className="px-1.5 py-0.5 bg-amber-500 text-black rounded text-xs font-semibold">
-                            Modified
-                        </span>
-                    )}
-                </div>
-            )}
+            <label class="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
+                Open local definition…
+                <input type="file" accept=".json" ref={jsonInputRef} onChange={handleOpenJson} class="hidden"/>
+            </label>
+            <label class="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
+                Open BIN/S19/HEX…
+                <input
+                    type="file"
+                    accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex"
+                    ref={binInputRef}
+                    onChange={handleOpenBin}
+                    class="hidden"
+                />
+            </label>
+            <label class="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
+                Open OLS…
+                <input type="file" accept=".ols" ref={olsInputRef} onChange={handleOpenOLS} class="hidden"/>
+            </label>
+            <div class="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
+            <label class="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
+                Open original BIN…
+                <input type="file" accept=".bin,.ori,.mod" ref={originalBinInputRef} onChange={handleOpenOriginalBin} class="hidden"/>
+            </label>
+            <label class="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
+                Open comparison BIN…
+                <input type="file" accept=".bin,.ori,.mod" ref={crossCompareBinInputRef} onChange={handleOpenCrossCompareBin} class="hidden"/>
+            </label>
+            <div class="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
+            <button
+                onClick={handleSaveBin}
+                disabled={!ctx.bin}
+                class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500"
+            >
+                Save BIN…
+            </button>
+            <button
+                onClick={handleExportBtp}
+                disabled={!ctx.bin || !ctx.originalBin || !ctx.definition}
+                class="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500"
+            >
+                Export changes as BTP…
+            </button>
         </>
     );
 
+    const statusBadges = ctx.bin && (
+        <div class="flex items-center gap-1.5 flex-wrap min-w-0">
+            <span class="font-mono text-xs text-zinc-600 dark:text-zinc-400 truncate max-w-60 sm:text-sm">{ctx.bin.name}</span>
+            {ctx.detectedMode && (
+                <span class={`px-1.5 py-0.5 rounded text-xs font-medium ${
+                    ctx.detectedMode === 'cal'
+                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                        : 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300'
+                }`}>
+                    {ctx.detectedMode === 'cal' ? 'CAL' : 'Full'}
+                </span>
+            )}
+            {ctx.detectedMode && ecuInfo && (
+                <span class="hidden sm:inline px-2 py-0.5 rounded text-xs bg-zinc-200 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+                    {ecuInfo.ecuFamily} · {ecuInfo.variant}
+                </span>
+            )}
+            {appliedPatchCount > 0 && (
+                <span class="hidden sm:inline px-2 py-0.5 rounded text-xs bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300">
+                    {appliedPatchCount} manual BTP
+                </span>
+            )}
+            {ctx.bin.modified && (
+                <span class="px-1.5 py-0.5 bg-amber-500 text-black rounded text-xs font-semibold">Modified</span>
+            )}
+        </div>
+    );
+
     return (
-        <header
-            className="flex items-center gap-1 px-1 py-1 bg-zinc-100 dark:bg-zinc-800 border-b border-zinc-300 dark:border-zinc-700">
-            {/* Hamburger button (mobile only) */}
+        <header class="flex items-center gap-1 px-1 py-1 bg-zinc-100 dark:bg-zinc-800 border-b border-zinc-300 dark:border-zinc-700">
             <button
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
-                className="sm:hidden px-2 py-1 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
+                class="sm:hidden px-2 py-1 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer"
                 aria-label="Menu"
             >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
             </button>
 
-            {/* Desktop menu items */}
-            <div className="hidden sm:flex items-center flex-wrap gap-1">
-                {/* File Menu */}
-                <div className="relative">
+            <div class="hidden sm:flex items-center flex-wrap gap-1">
+                <div class="relative">
                     <button
                         onClick={() => setShowFileMenu(!showFileMenu)}
-                        className={`px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer ${showFileMenu ? 'bg-zinc-200 dark:bg-zinc-700' : ''}`}
+                        class={`px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer ${showFileMenu ? 'bg-zinc-200 dark:bg-zinc-700' : ''}`}
                     >
                         File
                     </button>
                     {showFileMenu && (
                         <>
-                            <div className="fixed inset-0 z-10" onClick={() => setShowFileMenu(false)}/>
-                            <div
-                                className="absolute left-0 top-full mt-1 w-48 bg-zinc-100 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-600 rounded shadow-lg z-20">
-                                <label
-                                    className="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
-                                    Open Definition...
-                                    <input type="file" accept=".json" ref={jsonInputRef} onChange={handleOpenJson}
-                                           className="hidden"/>
-                                </label>
-                                <label
-                                    className="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
-                                    Open BIN/S19/HEX...
-                                    <input type="file" accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex"
-                                           ref={binInputRef} onChange={handleOpenBin} className="hidden"/>
-                                </label>
-                                <label
-                                    className="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
-                                    Open Original BIN...
-                                    <input type="file" accept=".bin,.ori,.mod" ref={originalBinInputRef}
-                                           onChange={handleOpenOriginalBin} className="hidden"/>
-                                </label>
-                                <label
-                                    className="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
-                                    Open Crosscompare BIN...
-                                    <input type="file" accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex"
-                                           ref={crossCompareBinInputRef} onChange={handleOpenCrossCompareBin}
-                                           className="hidden"/>
-                                </label>
-                                <label
-                                    className="block px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
-                                    Open OLS Project...
-                                    <input type="file" accept=".ols" ref={olsInputRef} onChange={handleOpenOLS}
-                                           className="hidden"/>
-                                </label>
-                                <div className="border-t border-zinc-400 dark:border-zinc-600 my-1"/>
-                                <button onClick={handleSaveBin} disabled={!ctx.bin}
-                                        className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent">
-                                    Save BIN
-                                </button>
-                                {cloudUnlocked && (
-                                    <button onClick={handleSaveToCloud} disabled={!ctx.bin}
-                                            className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent">
-                                        Save to Cloud...
-                                    </button>
-                                )}
-                                <button onClick={handleExportBtp} disabled={!ctx.bin || !ctx.originalBin}
-                                        className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent">
-                                    Export Changes as BTP Patch
-                                </button>
-                                {cloudUnlocked && (
-                                    <>
-                                        <div className="border-t border-zinc-400 dark:border-zinc-600 my-1"/>
-                                        <div className="px-3 py-1 text-xs font-semibold text-zinc-500 uppercase tracking-wide">
-                                            Cloud Bins
-                                        </div>
-                                        {cloudBinsLoading && (
-                                            <div className="px-3 py-2 text-xs text-zinc-500">Loading…</div>
-                                        )}
-                                        {cloudBinError && (
-                                            <div className="px-3 py-2 text-xs text-red-500">{cloudBinError}</div>
-                                        )}
-                                        {!cloudBinsLoading && !cloudBinError && cloudBins.length === 0 && (
-                                            <div className="px-3 py-2 text-xs text-zinc-500">No bins uploaded</div>
-                                        )}
-                                        {cloudBins.length > 0 && (
-                                            <div className="max-h-64 overflow-y-auto">
-                                                {cloudBins.map(entry => (
-                                                    <button
-                                                        key={entry.id}
-                                                        onClick={() => handleOpenCloudBin(entry)}
-                                                        className="w-full text-left px-3 py-2 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer truncate"
-                                                        title={entry.name}
-                                                    >
-                                                        {entry.name}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </>
-                                )}
+                            <div class="fixed inset-0 z-10" onClick={() => setShowFileMenu(false)}/>
+                            <div class="absolute left-0 top-full mt-1 w-56 bg-zinc-100 dark:bg-zinc-800 border border-zinc-400 dark:border-zinc-600 rounded shadow-lg z-20">
+                                {fileActions}
                             </div>
                         </>
                     )}
                 </div>
-
-                <button onClick={() => setShowWizards(true)}
-                        className="text-nowrap px-3 py-1 text-sm rounded text-blue-500 dark:text-blue-400 hover:bg-blue-500/10 cursor-pointer disabled:text-zinc-500 disabled:hover:bg-transparent"
-                        disabled={!ctx.bin || !ctx.definition}>
-                    Wizards
-                </button>
-                <button onClick={onShowLogViewer}
-                        className="text-nowrap px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
-                    Log Viewer
-                </button>
-                <button onClick={handleShowDefinitions}
-                        className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Definitions
-                </button>
-                <button onClick={onShowPatchManager} disabled={!ctx.bin}
-                        className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500">
-                    Patches{appliedPatchCount > 0 && <span className="ml-1 text-green-400">({appliedPatchCount})</span>}
+                <button onClick={onShowA2lLoader} class="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Load A2L</button>
+                <button onClick={onShowXdfLoader} class="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Load XDF</button>
+                <button onClick={onShowLogViewer} class="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">Log Viewer</button>
+                <button
+                    onClick={onShowPatchManager}
+                    disabled={!ctx.bin}
+                    class="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500"
+                >
+                    Manual BTP{appliedPatchCount > 0 ? ` (${appliedPatchCount})` : ''}
                 </button>
                 {ctx.originalBin && ctx.bin && (
-                    <button onClick={onShowChanges}
-                            className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
+                    <button onClick={onShowChanges} class="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
                         Changes ({ctx.changes.length})
                     </button>
                 )}
                 {ctx.crossCompareBin && ctx.bin && (
-                    <button onClick={onShowCrossCompare}
-                            className="text-nowrap px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
-                        Cross-Compare ({ctx.crossCompareDiffs.length})
+                    <button onClick={onShowCrossCompare} class="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
+                        Compare ({ctx.crossCompareDiffs.length})
                     </button>
                 )}
-                <a href="https://simos.app/" target="_blank" rel="noopener noreferrer"
-                   className="text-nowrap px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
-                    Get the iOS Logging App
-                </a>
-                <button onClick={() => setShowAbout(true)}
-                        className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">
-                    About
+                <button onClick={() => setShowAbout(true)} class="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer">About</button>
+                <button
+                    onClick={handleCloudBins}
+                    class="px-3 py-1 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer"
+                >
+                    Cloud Bins
                 </button>
-            </div>
-
-            {/* Spacer */}
-            <div className="flex-1"/>
-
-            {/* Login / User */}
-            <div className="hidden sm:flex items-center">
-                {loginState ? (
+                {loginState && (
                     <button
                         onClick={handleLogout}
-                        className="px-3 py-1 text-sm rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-500 cursor-pointer"
-                        title="Logout"
+                        class="px-2 py-1 text-xs rounded text-zinc-500 hover:bg-zinc-200 hover:text-zinc-900 dark:hover:bg-zinc-700 dark:hover:text-zinc-100 cursor-pointer"
+                        title={`Logged in as ${loginState.user.fullName || loginState.user.login}`}
                     >
-                        {loginState.user.login}
-                    </button>
-                ) : (
-                    <button
-                        onClick={() => setShowLogin(true)}
-                        className="px-3 py-1 text-sm rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer"
-                    >
-                        Login
+                        Logout
                     </button>
                 )}
             </div>
-            {ctx.originalBin && (
-                <div className="hidden sm:flex items-center gap-2 mr-2">
-                    <span className="text-xs text-zinc-500">Original:</span>
-                    <span className="font-mono text-sm text-zinc-600 dark:text-zinc-400 break-all">{ctx.originalBin.name}</span>
-                </div>
-            )}
-            {statusBadges}
 
-            {/* Mobile dropdown menu */}
+            <div class="flex-1 min-w-0 flex justify-end">{statusBadges}</div>
+
             {showMobileMenu && (
                 <>
-                    <div className="fixed inset-0 z-30 sm:hidden" onClick={() => setShowMobileMenu(false)}/>
-                    <div
-                        className="fixed left-0 top-[41px] right-0 z-40 sm:hidden bg-zinc-100 dark:bg-zinc-800 border-b border-zinc-400 dark:border-zinc-600 shadow-lg max-h-[80vh] overflow-y-auto"
-                        style={{paddingBottom: 'env(safe-area-inset-bottom, 0px)'}}>
-                        <div
-                            className="text-xs font-semibold text-zinc-500 uppercase tracking-wide px-4 pt-3 pb-1">File
+                    <div class="fixed inset-0 z-20 bg-black/30 sm:hidden" onClick={() => setShowMobileMenu(false)}/>
+                    <div class="fixed left-0 top-0 bottom-0 z-30 w-72 max-w-[85vw] overflow-y-auto bg-zinc-100 dark:bg-zinc-800 border-r border-zinc-300 dark:border-zinc-700 shadow-xl sm:hidden">
+                        <div class="flex items-center justify-between px-4 py-3 border-b border-zinc-300 dark:border-zinc-700">
+                            <span class="font-semibold">Tune Editor</span>
+                            <button onClick={() => setShowMobileMenu(false)} class="p-1 text-xl">×</button>
                         </div>
-                        <label
-                            className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
-                            Open Definition...
-                            <input type="file" accept=".json" ref={jsonInputRef} onChange={handleOpenJson}
-                                   className="hidden"/>
-                        </label>
-                        <label
-                            className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
-                            Open BIN/S19/HEX...
-                            <input type="file" accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex" ref={binInputRef}
-                                   onChange={handleOpenBin} className="hidden"/>
-                        </label>
-                        <label
-                            className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
-                            Open Original BIN...
-                            <input type="file" accept=".bin,.ori,.mod" ref={originalBinInputRef}
-                                   onChange={handleOpenOriginalBin} className="hidden"/>
-                        </label>
-                        <label
-                            className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
-                            Open Crosscompare BIN...
-                            <input type="file" accept=".bin,.ori,.mod,.s19,.srec,.mot,.hex,.ihex"
-                                   ref={crossCompareBinInputRef} onChange={handleOpenCrossCompareBin}
-                                   className="hidden"/>
-                        </label>
-                        <label
-                            className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
-                            Open OLS Project...
-                            <input type="file" accept=".ols" ref={olsInputRef} onChange={handleOpenOLS}
-                                   className="hidden"/>
-                        </label>
-                        <button onClick={handleSaveBin} disabled={!ctx.bin}
-                                className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 active:bg-zinc-300 dark:active:bg-zinc-600">
-                            Save BIN
-                        </button>
-                        {cloudUnlocked && (
-                            <button onClick={handleSaveToCloud} disabled={!ctx.bin}
-                                    className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 active:bg-zinc-300 dark:active:bg-zinc-600">
-                                Save to Cloud...
-                            </button>
-                        )}
-                        <button onClick={handleExportBtp} disabled={!ctx.bin || !ctx.originalBin}
-                                className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 active:bg-zinc-300 dark:active:bg-zinc-600">
-                            Export Changes as BTP Patch
-                        </button>
-
-                        {cloudUnlocked && (
-                            <>
-                                <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
-                                <div className="text-xs font-semibold text-zinc-500 uppercase tracking-wide px-4 pt-3 pb-1">
-                                    Cloud Bins
-                                </div>
-                                {cloudBinsLoading && (
-                                    <div className="px-4 py-2 text-xs text-zinc-500">Loading…</div>
-                                )}
-                                {cloudBinError && (
-                                    <div className="px-4 py-2 text-xs text-red-500">{cloudBinError}</div>
-                                )}
-                                {!cloudBinsLoading && !cloudBinError && cloudBins.length === 0 && (
-                                    <div className="px-4 py-2 text-xs text-zinc-500">No bins uploaded</div>
-                                )}
-                                {cloudBins.map(entry => (
-                                    <button
-                                        key={entry.id}
-                                        onClick={() => handleOpenCloudBin(entry)}
-                                        className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600 truncate"
-                                        title={entry.name}
-                                    >
-                                        {entry.name}
-                                    </button>
-                                ))}
-                            </>
-                        )}
-
-                        <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
-                        <button onClick={mobileAction(() => setShowWizards(true))} disabled={!ctx.bin || !ctx.definition}
-                                className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 active:bg-zinc-300 dark:active:bg-zinc-600">
-                            Wizards
-                        </button>
-
-                        <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
-                        <button onClick={mobileAction(onShowLogViewer)}
-                                className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">Log
-                            Viewer
-                        </button>
-                        <button onClick={mobileAction(handleShowDefinitions)}
-                                className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">Definitions
-                        </button>
-                        <button onClick={mobileAction(onShowPatchManager)} disabled={!ctx.bin}
-                                className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer disabled:text-zinc-500 active:bg-zinc-300 dark:active:bg-zinc-600">
-                            Patches{appliedPatchCount > 0 &&
-                            <span className="ml-1 text-green-400">({appliedPatchCount})</span>}
+                        <div class="py-1">{fileActions}</div>
+                        <div class="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
+                        <button onClick={mobileAction(onShowA2lLoader)} class="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700">Load A2L definition</button>
+                        <button onClick={mobileAction(onShowXdfLoader)} class="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700">Load XDF definition</button>
+                        <button onClick={mobileAction(onShowLogViewer)} class="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700">Log Viewer</button>
+                        <button
+                            onClick={mobileAction(onShowPatchManager)}
+                            disabled={!ctx.bin}
+                            class="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 disabled:text-zinc-500"
+                        >
+                            Manual BTP patches{appliedPatchCount > 0 ? ` (${appliedPatchCount})` : ''}
                         </button>
                         {ctx.originalBin && ctx.bin && (
-                            <button onClick={mobileAction(onShowChanges)}
-                                    className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
+                            <button onClick={mobileAction(onShowChanges)} class="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700">
                                 Changes ({ctx.changes.length})
                             </button>
                         )}
                         {ctx.crossCompareBin && ctx.bin && (
-                            <button onClick={mobileAction(onShowCrossCompare)}
-                                    className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
-                                Cross-Compare ({ctx.crossCompareDiffs.length})
+                            <button onClick={mobileAction(onShowCrossCompare)} class="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700">
+                                Compare ({ctx.crossCompareDiffs.length})
                             </button>
                         )}
-                        <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
-                        <a href="https://simos.app/" target="_blank" rel="noopener noreferrer"
-                           className="block px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
-                            Get the iOS Logging App
-                        </a>
-                        <button onClick={mobileAction(() => setShowAbout(true))}
-                                className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
-                            About
+                        <div class="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
+                        <button onClick={mobileAction(handleCloudBins)} class="w-full text-left px-4 py-3 text-sm font-medium text-blue-600 hover:bg-zinc-200 dark:text-blue-400 dark:hover:bg-zinc-700">
+                            {loginState ? 'Open existing Cloud Bins' : 'Login for Cloud Bins'}
                         </button>
-                        <div className="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
-                        {loginState ? (
-                            <div className="flex items-center justify-between px-4 py-3">
-                                <span
-                                    className="text-sm text-zinc-600 dark:text-zinc-400">{loginState.user.fullName || loginState.user.login}</span>
-                                <button onClick={mobileAction(handleLogout)}
-                                        className="px-3 py-1 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer">
-                                    Logout
-                                </button>
-                            </div>
-                        ) : (
-                            <button onClick={mobileAction(() => setShowLogin(true))}
-                                    className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer active:bg-zinc-300 dark:active:bg-zinc-600">
-                                Login / Register
+                        {loginState && (
+                            <button onClick={mobileAction(handleLogout)} class="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700">
+                                Logout {loginState.user.fullName || loginState.user.login}
                             </button>
                         )}
+                        <div class="border-t border-zinc-300 dark:border-zinc-700 my-1"/>
+                        <button onClick={mobileAction(() => setShowAbout(true))} class="w-full text-left px-4 py-3 text-sm hover:bg-zinc-200 dark:hover:bg-zinc-700">About</button>
                     </div>
                 </>
             )}
 
-            {/* Wizards Modal */}
-            {showWizards && (
-                <WizardModal onClose={() => setShowWizards(false)}/>
-            )}
-
-            {/* Login Modal */}
             {showLogin && (
                 <LoginModal
                     onClose={() => setShowLogin(false)}
-                    onLogin={(state) => setLoginState(state)}
+                    onLogin={state => {
+                        setLoginState(state);
+                        setShowCloudBins(true);
+                    }}
                 />
             )}
 
-            {/* Save BIN Dialog */}
+            {showCloudBins && loginState && (
+                <Modal title="Existing Cloud Bins" onClose={() => !downloadingBin && setShowCloudBins(false)} width="lg">
+                    <div class="space-y-3">
+                        <div class="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-200">
+                            Cloud access is read-only in the Legacy Editor. Load an existing BIN, edit it locally, then download the result.
+                        </div>
+                        {cloudBinsLoading && <div class="py-6 text-center text-sm text-zinc-500">Loading Cloud Bins…</div>}
+                        {cloudBinError && <div class="rounded bg-red-500/10 px-3 py-2 text-sm text-red-500">{cloudBinError}</div>}
+                        {!cloudBinsLoading && !cloudBinError && cloudBins.length === 0 && (
+                            <div class="py-6 text-center text-sm text-zinc-500">No existing Cloud Bins found.</div>
+                        )}
+                        {cloudBins.length > 0 && (
+                            <div class="max-h-96 space-y-1 overflow-y-auto">
+                                {cloudBins.map(entry => {
+                                    const isDownloading = downloadingBin?.name === entry.name;
+                                    const percent = isDownloading && downloadingBin.total > 0
+                                        ? Math.round((downloadingBin.loaded / downloadingBin.total) * 100)
+                                        : null;
+                                    return (
+                                        <button
+                                            key={entry.id}
+                                            onClick={() => void handleOpenCloudBin(entry)}
+                                            disabled={!!downloadingBin}
+                                            class="flex w-full items-center justify-between gap-3 rounded border border-zinc-300 bg-zinc-100 px-3 py-2.5 text-left hover:bg-zinc-200 disabled:cursor-wait disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700"
+                                        >
+                                            <span class="truncate font-mono text-sm" title={entry.name}>{entry.name}</span>
+                                            <span class="shrink-0 text-xs font-medium text-blue-600 dark:text-blue-400">
+                                                {isDownloading ? (percent == null ? 'Loading…' : `${percent}%`) : 'Load'}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
+                </Modal>
+            )}
+
             {showSaveDialog && (
-                <Modal title="Save BIN" onClose={() => setShowSaveDialog(false)} width="sm"
+                <Modal
+                    title="Save BIN"
+                    onClose={() => setShowSaveDialog(false)}
+                    width="sm"
                     footer={
                         <div class="flex justify-end gap-2">
-                            <button
-                                onClick={() => setShowSaveDialog(false)}
-                                class="px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleSaveConfirm}
-                                class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
-                            >
-                                Save
-                            </button>
+                            <button onClick={() => setShowSaveDialog(false)} class="px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600">Cancel</button>
+                            <button onClick={handleSaveConfirm} class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700">Save</button>
                         </div>
                     }
                 >
@@ -712,8 +443,8 @@ export function MenuBar({
                         <input
                             type="text"
                             value={saveFileName}
-                            onInput={(e) => setSaveFileName((e.target as HTMLInputElement).value)}
-                            onKeyDown={(e) => { if (e.key === 'Enter') handleSaveConfirm(); }}
+                            onInput={event => setSaveFileName((event.target as HTMLInputElement).value)}
+                            onKeyDown={event => { if (event.key === 'Enter') handleSaveConfirm(); }}
                             class="w-full px-3 py-2 text-sm rounded border border-zinc-400 dark:border-zinc-600 bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
                             autoFocus
                         />
@@ -721,157 +452,24 @@ export function MenuBar({
                 </Modal>
             )}
 
-            {/* Save to Cloud Dialog */}
-            {showCloudSaveDialog && (() => {
-                const trimmed = cloudSaveName.trim();
-                const normalized = trimmed.endsWith('.bin') ? trimmed : trimmed ? `${trimmed}.bin` : '';
-                const willOverwrite = normalized !== '' && cloudBins.some(b => b.name === normalized);
-                return (
-                    <Modal title="Save to Cloud" onClose={() => !uploading && setShowCloudSaveDialog(false)} width="sm"
-                        footer={
-                            <div class="flex justify-end gap-2">
-                                <button
-                                    onClick={() => setShowCloudSaveDialog(false)}
-                                    disabled={uploading}
-                                    class="px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 cursor-pointer disabled:opacity-50"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={handleCloudSaveConfirm}
-                                    disabled={uploading || !trimmed}
-                                    class={`px-4 py-2 text-sm rounded text-white cursor-pointer disabled:opacity-50 ${willOverwrite ? 'bg-amber-600 hover:bg-amber-700' : 'bg-blue-600 hover:bg-blue-700'}`}
-                                >
-                                    {uploading ? `Uploading ${uploadProgress.toFixed(0)}%` : (willOverwrite ? 'Overwrite' : 'Upload')}
-                                </button>
-                            </div>
-                        }
-                    >
-                        <div class="space-y-3">
-                            <div class="space-y-1">
-                                <label class="block text-sm font-medium">Filename</label>
-                                <input
-                                    type="text"
-                                    value={cloudSaveName}
-                                    onInput={(e) => setCloudSaveName((e.target as HTMLInputElement).value)}
-                                    onKeyDown={(e) => { if (e.key === 'Enter' && !uploading) handleCloudSaveConfirm(); }}
-                                    disabled={uploading}
-                                    class="w-full px-3 py-2 text-sm rounded border border-zinc-400 dark:border-zinc-600 bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono disabled:opacity-50"
-                                    autoFocus
-                                />
-                                {willOverwrite && (
-                                    <div class="text-xs text-amber-600 dark:text-amber-400">
-                                        A bin named <span class="font-mono">{normalized}</span> already exists — uploading will overwrite it.
-                                    </div>
-                                )}
-                            </div>
-                            {cloudBins.length > 0 && (
-                                <div class="space-y-1">
-                                    <div class="text-xs font-medium text-zinc-500 uppercase tracking-wide">Or overwrite existing</div>
-                                    <div class="max-h-40 overflow-y-auto border border-zinc-300 dark:border-zinc-700 rounded">
-                                        {cloudBins.map(entry => (
-                                            <button
-                                                key={entry.id}
-                                                onClick={() => setCloudSaveName(entry.name)}
-                                                disabled={uploading}
-                                                class={`w-full text-left px-3 py-1.5 text-sm font-mono hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer disabled:opacity-50 ${entry.name === normalized ? 'bg-amber-50 dark:bg-amber-900/20' : ''}`}
-                                                title={entry.name}
-                                            >
-                                                {entry.name}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                            {uploading && (
-                                <div class="space-y-1">
-                                    <div class="h-2 bg-zinc-200 dark:bg-zinc-700 rounded overflow-hidden">
-                                        <div class="h-full bg-blue-500 transition-all" style={{width: `${uploadProgress}%`}}/>
-                                    </div>
-                                </div>
-                            )}
-                            {uploadError && (
-                                <div class="text-xs text-red-500">{uploadError}</div>
-                            )}
-                        </div>
-                    </Modal>
-                );
-            })()}
-
-            {/* Cloud Bin Download Progress */}
-            {downloadingBin && (() => {
-                const {name, loaded, total} = downloadingBin;
-                const percent = total > 0 ? (loaded / total) * 100 : 0;
-                const fmt = (n: number) => n >= 1024 * 1024 ? `${(n / (1024 * 1024)).toFixed(2)} MB` : `${(n / 1024).toFixed(0)} KB`;
-                return (
-                    <Modal title="Loading from Cloud" onClose={() => {/* not cancelable */}} width="sm">
-                        <div class="space-y-3 py-2">
-                            <div class="text-sm font-mono truncate" title={name}>{name}</div>
-                            {total > 0 ? (
-                                <>
-                                    <div class="h-2 bg-zinc-200 dark:bg-zinc-700 rounded overflow-hidden">
-                                        <div class="h-full bg-blue-500 transition-all" style={{width: `${percent}%`}}/>
-                                    </div>
-                                    <div class="flex justify-between text-xs text-zinc-500">
-                                        <span>{fmt(loaded)} / {fmt(total)}</span>
-                                        <span>{percent.toFixed(0)}%</span>
-                                    </div>
-                                </>
-                            ) : (
-                                <div class="flex items-center gap-2 text-sm text-zinc-500">
-                                    <svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
-                                        <path d="M4 12a8 8 0 018-8" stroke="currentColor" stroke-width="4" stroke-linecap="round" class="opacity-75"/>
-                                    </svg>
-                                    <span>{loaded > 0 ? `${fmt(loaded)} downloaded` : 'Connecting…'}</span>
-                                </div>
-                            )}
-                        </div>
-                    </Modal>
-                );
-            })()}
-
-            {/* About Modal */}
             {showAbout && (
                 <Modal title="About" onClose={() => setShowAbout(false)} width="sm">
-                    <div class="flex flex-col items-center gap-4 py-4">
+                    <div class="flex flex-col items-center gap-4 py-4 text-center">
                         <img src="logo.svg" alt="Tune Editor" class="w-16 h-16"/>
-                        <div class="text-center">
+                        <div>
                             <div class="text-lg font-semibold">Tune Editor</div>
-                            <div class="text-sm text-zinc-500">v{APP_VERSION}</div>
+                            <div class="text-sm text-zinc-500">v{APP_VERSION} · deprecated legacy editor</div>
                         </div>
-                        <div class="flex gap-2">
-                            <a
-                                href="https://github.com/theFlashBold/tune-editor"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="flex items-center gap-2 px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors"
-                            >
-                                <svg class="w-5 h-5" viewBox="0 0 16 16" fill="currentColor">
-                                    <path
-                                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                                </svg>
-                                GitHub
-                            </a>
-                            <a
-                                href="https://github.com/TheFlashBold/tune-editor/issues/new"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="flex items-center gap-2 px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors"
-                            >
-                                Create Issue
-                            </a>
-                            <a
-                                href="https://ko-fi.com/theflashbold"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="flex items-center gap-2 px-4 py-2 text-sm rounded bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-300 dark:hover:bg-zinc-600 transition-colors"
-                            >
-                                Support me
-                            </a>
-                        </div>
-                        <div class="text-xs text-zinc-400 dark:text-zinc-500 text-center pt-2">
-                            Built with Preact, TypeScript, Tailwind CSS, Vite & WebGL
+                        <a
+                            href={MANAGED_EDITOR_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="px-4 py-2 text-sm rounded bg-blue-600 text-white hover:bg-blue-700"
+                        >
+                            Go to new Editor — 33% off
+                        </a>
+                        <div class="text-xs text-zinc-500">
+                            August offer: use code <code class="font-semibold text-zinc-700 dark:text-zinc-300">LEGACYEDITOR</code>
                         </div>
                     </div>
                 </Modal>

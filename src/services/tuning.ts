@@ -1,257 +1,42 @@
-import {BaseService, getCurrentLocalStorage} from "./base";
-import {DefinitionIndexEntry} from "../lib/definitionLoader.ts";
-import type {Definition} from "../types";
-import {PatchIndexEntry} from "../components/PatchManager.tsx";
-import {LoginState} from "./auth.ts";
-
-export interface TuningUploadOptions {
-    name: string;
-    notes?: string;
-    version?: string;
-    onProgress?: (progress: number, bytes: number) => void;
-    signal?: AbortSignal;
-}
-
-export interface TuningUploadResult {
-    id: string;
-    name: string;
-}
-
-export interface TuningRateLimitError {
-    error: string;
-    retryAfterSeconds: number;
-}
-
-export interface TuningUnlock {
-    ref: string;
-    product: string;
-}
+import {BaseService} from './base';
 
 export interface TuningFileEntry {
     id: string;
     name: string;
-    meta: Record<string, any>;
+    meta: Record<string, unknown>;
 }
-
-export interface OriginalMapAxisData {
-    unit: string;
-    values: number[];
-}
-
-export type OriginalMapData = {
-    type: "scalar";
-    name: string;
-    description: string;
-    unit: string;
-    value: number;
-} | {
-    type: "curve" | "table";
-    name: string;
-    description: string;
-    unit: string;
-    data: number[][];
-    xAxis?: OriginalMapAxisData;
-    yAxis?: OriginalMapAxisData;
-};
 
 export class TuningService extends BaseService {
-
-    private static isLocalhost(): boolean {
-        return typeof window !== 'undefined' && (
-            window.location.hostname === 'localhost' ||
-            window.location.hostname === '127.0.0.1'
-        );
-    }
-
-    static async getDefinitionsIndex(): Promise<DefinitionIndexEntry[]> {
-        if (this.isLocalhost()) {
-            const response = await fetch('./definitions/index.json');
-            if (!response.ok) throw new Error('Failed to load definition index');
-            return response.json();
-        }
-        return BaseService.getJSON('tuning/definitions');
-    }
-
-    static async getDefinition(file: string): Promise<Definition> {
-        const normalizedFile = file.endsWith('.json') ? file : `${file}.json`;
-        if (this.isLocalhost()) {
-            const response = await fetch(`./definitions/${normalizedFile}`);
-            if (!response.ok) throw new Error(`Failed to load definition: ${normalizedFile}`);
-            return response.json();
-        }
-        return BaseService.getJSON(`tuning/definitions/${encodeURIComponent(normalizedFile.slice(0, -5))}`);
-    }
-
-    static async getPatchIndex(): Promise<PatchIndexEntry[]> {
-        if (this.isLocalhost()) {
-            const response = await fetch('./patches/index.json');
-            if (!response.ok) throw new Error('Failed to load patch index');
-            return response.json();
-        }
-        return BaseService.getJSON('tuning/patches');
-    }
-
-    static async getPatch(file: string): Promise<ArrayBuffer> {
-        const normalizedFile = file.endsWith('.btp') ? file : `${file}.btp`;
-        if (this.isLocalhost()) {
-            const response = await fetch(`./patches/${normalizedFile}`);
-            if (!response.ok) throw new Error(`Failed to load patch: ${normalizedFile}`);
-            return response.arrayBuffer();
-        }
-        const res = await BaseService.request(`tuning/patches/${encodeURIComponent(normalizedFile.slice(0, -4))}`, {}, {
-            headers: {}
-        });
-        return res.arrayBuffer();
-    }
-
-    static async getPatchDefinition(file: string): Promise<Definition> {
-        const normalizedFile = file.endsWith('.json') ? file : `${file}.json`;
-        if (this.isLocalhost()) {
-            const response = await fetch(`./patches/definitions/${normalizedFile}`);
-            if (!response.ok) throw new Error(`Failed to load patch definition: ${normalizedFile}`);
-            return response.json();
-        }
-        return BaseService.getJSON(`tuning/patchDefinitions/${encodeURIComponent(normalizedFile.slice(0, -5))}`);
-    }
-
-    static async getOriginalMapData(map: string, boxCode: string, version: string): Promise<OriginalMapData> {
-        return BaseService.getJSON("tuning/originalMap", {map, boxCode, version});
-    }
-
-    static async getUnlocks(): Promise<TuningUnlock[]> {
-        return BaseService.getJSON("tuning/unlocks");
-    }
-
-    static getCheckoutUrl(product: string, ref: string, token: string): string {
-        return BaseService.buildRequestUrl("payment/checkout", {token, product, ref});
-    }
-
-    static async listBins(): Promise<TuningFileEntry[]> {
-        return BaseService.getJSON("tuning/bins");
+    static listBins(): Promise<TuningFileEntry[]> {
+        return BaseService.getJSON('tuning/bins');
     }
 
     static async getBin(id: string, onProgress?: (loaded: number, total: number) => void): Promise<ArrayBuffer> {
-        const res = await BaseService.request("tuning/bin", {id}, {
-            headers: {}
-        });
+        const response = await BaseService.request('tuning/bin', {id}, {headers: {}});
+        const total = Number.parseInt(response.headers.get('content-length') ?? '0', 10);
 
-        const total = parseInt(res.headers.get("content-length") ?? "0", 10);
+        if (!onProgress || !response.body) return response.arrayBuffer();
 
-        if (!onProgress || !res.body) {
-            return res.arrayBuffer();
-        }
-
-        const reader = res.body.getReader();
+        const reader = response.body.getReader();
         const chunks: Uint8Array[] = [];
         let loaded = 0;
         onProgress(0, total);
+
         while (true) {
             const {done, value} = await reader.read();
             if (done) break;
-            if (value) {
-                chunks.push(value);
-                loaded += value.length;
-                onProgress(loaded, total);
-            }
+            if (!value) continue;
+            chunks.push(value);
+            loaded += value.length;
+            onProgress(loaded, total);
         }
 
-        const buffer = new Uint8Array(loaded);
+        const result = new Uint8Array(loaded);
         let offset = 0;
-        for (const chunk of chunks) {
-            buffer.set(chunk, offset);
+        chunks.forEach(chunk => {
+            result.set(chunk, offset);
             offset += chunk.length;
-        }
-        return buffer.buffer;
-    }
-
-    static async listLogs(): Promise<TuningFileEntry[]> {
-        return BaseService.getJSON("tuning/logs");
-    }
-
-    static async uploadBin(data: Blob, options: TuningUploadOptions): Promise<TuningUploadResult> {
-        const {name, onProgress, signal} = options;
-
-        if (!name.endsWith(".bin")) {
-            throw new Error("Only .bin files are allowed");
-        }
-
-        const AuthToken = getCurrentLocalStorage<LoginState | null>("login", null)?.token ?? "";
-
-        return new Promise<TuningUploadResult>((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            const totalBytes = data.size;
-
-            xhr.open("POST", BaseService.buildRequestUrl("tuning/uploadBin", {name}));
-            xhr.setRequestHeader("Content-Type", "application/octet-stream");
-            xhr.setRequestHeader("Authorization", `Bearer ${AuthToken}`);
-
-            xhr.upload.onprogress = (event) => {
-                if (event.lengthComputable) {
-                    const percent = (event.loaded / totalBytes) * 100;
-                    onProgress?.(percent, event.loaded);
-                }
-            };
-
-            xhr.onload = () => {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    resolve(JSON.parse(xhr.responseText));
-                } else {
-                    reject(new Error(xhr.responseText || `Upload failed (${xhr.status})`));
-                }
-            };
-
-            xhr.onerror = () => reject(new Error("Network error"));
-            signal?.addEventListener("abort", () => xhr.abort());
-            xhr.send(data);
         });
-    }
-
-    static async submitBin(data: Blob, options: TuningUploadOptions): Promise<TuningUploadResult> {
-        const {name, onProgress, signal} = options;
-
-        if (!name.endsWith(".bin")) {
-            throw new Error("Only .bin files are allowed");
-        }
-
-        return new Promise<TuningUploadResult>((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            const totalBytes = data.size;
-
-            xhr.open("POST", BaseService.buildRequestUrl("tuning/submitBin", {name}));
-            xhr.setRequestHeader("Content-Type", "application/octet-stream");
-
-            xhr.upload.onprogress = (event) => {
-                if (event.lengthComputable) {
-                    const percent = (event.loaded / totalBytes) * 100;
-                    onProgress?.(percent, event.loaded);
-                }
-            };
-
-            xhr.onload = () => {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    resolve(JSON.parse(xhr.responseText));
-                } else if (xhr.status === 429) {
-                    const body = JSON.parse(xhr.responseText) as TuningRateLimitError;
-                    reject(new TuningRateLimitedException(body.retryAfterSeconds));
-                } else {
-                    reject(new Error(xhr.responseText || `Upload failed (${xhr.status})`));
-                }
-            };
-
-            xhr.onerror = () => reject(new Error("Network error"));
-
-            signal?.addEventListener("abort", () => xhr.abort());
-
-            xhr.send(data);
-        });
-    }
-}
-
-export class TuningRateLimitedException extends Error {
-    retryAfterSeconds: number;
-
-    constructor(retryAfterSeconds: number) {
-        super(`Rate limited. Try again in ${retryAfterSeconds} seconds.`);
-        this.retryAfterSeconds = retryAfterSeconds;
+        return result.buffer;
     }
 }

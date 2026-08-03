@@ -2,25 +2,12 @@ import {createContext} from "preact";
 import {useContext} from "preact/hooks";
 import type {Definition, IDefinitionParameter, ILoadedBin, BinaryMode, ParamDiff} from "../types";
 import type {PatchCheckResult} from "../lib/btpParser";
-import type {DefinitionIndexEntry} from "../lib/definitionLoader";
-
-export interface UnknownBinInfo {
-    data: Uint8Array;
-    name: string;
-    epk: string;
-    boxCode: string;
-    autoSubmit?: boolean;
-}
 
 export interface IAppContext {
     // Binary
     bin: ILoadedBin | null;
     originalBin: ILoadedBin | null;
     crossCompareBin: ILoadedBin | null;
-
-    // Unknown bin (no definition found)
-    unknownBin: UnknownBinInfo | null;
-    clearUnknownBin: () => void;
 
     // Definition
     definition: Definition | null;
@@ -34,13 +21,6 @@ export interface IAppContext {
 
     // Patches
     patchResults: PatchCheckResult[];
-    loadingPatches: boolean;
-
-    // Definition picker state
-    definitionMatches: { entry: DefinitionIndexEntry; mode: BinaryMode }[];
-    allDefinitions: DefinitionIndexEntry[];
-    setAllDefinitions: (defs: DefinitionIndexEntry[]) => void;
-    clearDefinitionMatches: () => void;
 
     // Computed
     changes: ParamDiff[];
@@ -59,13 +39,8 @@ export interface IAppContext {
     loadDefinitionJson: (file: File) => Promise<void>;
     setDefinition: (def: Definition | null) => void;
     setExternalDefinition: (def: Definition | null) => void;
-    searchDefinitions: () => Promise<{
-        matches: DefinitionIndexEntry[];
-        all: DefinitionIndexEntry[];
-    }>;
     setSelectedParam: (param: IDefinitionParameter | null) => void;
     setPatchResults: (results: PatchCheckResult[]) => void;
-    detectPatches: (data: Uint8Array, def: Definition | null) => Promise<void>;
 }
 
 export const AppContext = createContext<IAppContext | null>(null);
